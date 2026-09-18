@@ -1,0 +1,274 @@
+/* Interface du chapitre 1. Palette : gris ardoise + accents neon cyan/rouge. */
+
+:root {
+  --bg: #101116;
+  --panel: rgba(18, 20, 26, 0.88);
+  --panel-border: #2c2f3a;
+  --text: #e8eaf0;
+  --muted: #8c93a5;
+  --accent: #4cc9f0;
+  --blue: #3fa9ff;
+  --red: #ff5a52;
+  --font: 'Segoe UI', 'Inter', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  overflow: hidden;
+}
+
+#app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: 260px 1fr 320px;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 12px;
+  padding: 12px;
+}
+
+.hud > * {
+  pointer-events: auto;
+}
+
+.hud-top {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hud-banner {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.hud-order {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.order-chip {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  color: var(--text);
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.order-chip.team-blue {
+  border-color: var(--blue);
+}
+
+.order-chip.team-red {
+  border-color: var(--red);
+}
+
+.order-chip.is-current {
+  background: var(--accent);
+  color: #07131a;
+  font-weight: 600;
+}
+
+.order-chip.is-down {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.hud-sheet {
+  grid-column: 1;
+  grid-row: 2;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 12px;
+  align-self: start;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.hud-sheet h2 {
+  margin: 0 0 2px;
+  font-size: 18px;
+}
+
+.hud-sheet .role {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.hud-sheet h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 14px 0 6px;
+}
+
+.hud-sheet ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.hud-sheet .stats li {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+}
+
+.hud-sheet .stats strong {
+  color: var(--text);
+}
+
+.hud-sheet .shots button {
+  width: 100%;
+  text-align: left;
+  background: rgba(76, 201, 240, 0.12);
+  border: 1px solid rgba(76, 201, 240, 0.4);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.hud-sheet .shots button:hover {
+  background: rgba(76, 201, 240, 0.25);
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.hud-log {
+  grid-column: 3;
+  grid-row: 2;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.log-line {
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+
+.log-check {
+  color: #cfd5e4;
+}
+
+.log-result {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.log-system {
+  color: #6f7689;
+  font-style: italic;
+}
+
+.hud-actions {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hud-actions button {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.hud-actions button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.hud-actions button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.hud-footer {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.hud-banner button {
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #07131a;
+  font-weight: 600;
+}
+
+@media (max-width: 1100px) {
+  .hud {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto auto;
+  }
+
+  .hud-sheet,
+  .hud-log {
+    grid-column: 1;
+  }
+
+  .hud-log {
+    grid-row: 3;
+    max-height: 30vh;
+  }
+}
