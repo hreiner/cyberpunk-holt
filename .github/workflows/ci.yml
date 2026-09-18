@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Typecheck, lint, tests, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dependances
+        run: npm ci
+
+      - name: Verifier le projet
+        run: npm run verify
+
+      - name: Simulation d equilibrage (indicatif)
+        run: npx tsx scripts/simulate.ts 200 ci
+        continue-on-error: true
