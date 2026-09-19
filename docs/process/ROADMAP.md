@@ -114,7 +114,7 @@ Références : [`08-EXPLORATION.md`](../design/08-EXPLORATION.md),
 
 | Lot | Contenu | Dépend de | État |
 |---|---|---|---|
-| 3.1 | **Moteur narratif, extensions** : alias `equipier1`/`equipier2`, gabarits `{equipier1}`, `startNode` choisi par l'appelant, réflexion facultative avec coût (`insight.cost`), état `awaitingLuck` + `spendLuck` / `acceptRoll`, API de debug | — | à faire |
+| 3.1 | **Moteur narratif, extensions** : alias `equipier1`/`equipier2`, gabarits `{equipier1}`, `startNode` choisi par l'appelant, réflexion facultative avec coût (`insight.cost`), état `awaitingLuck` + `spendLuck` / `acceptRoll`, API de debug | — | fait |
 | 3.2 | **Le tirage** : équipes dans le `RunState`, choix d'Abigail, affinités et étiquettes, fin de `DEFAULT_BLUE`/`DEFAULT_RED` hors tests, parcours hors champ et notation sur les vraies équipes, écran de tirage, simulateur d'équilibre sur les six compositions | 3.1 | à faire |
 | 3.3 | **L'examen vivant** : concentration, Chance au dé (« dépenser N Chance ? »), triche et vigilance du surveillant, contenu `ch1.exam`, étiquettes `tricheur` / `pris-a-tricher` lues au bal | 3.1 | à faire |
 | 3.4 | **Coéquipiers variables dans le contenu** : fourgon, salles, conversations, bal réécrits avec les alias et des variantes par cadet ; dispute Zachary/Grover ; le test « aucun cul-de-sac » tire aussi les compositions | 3.2 | à faire |

@@ -903,6 +903,34 @@ canvas {
   font-style: italic;
 }
 
+/* -- Invite de Chance (ADR 0015 §2) : jet rate de peu par Franklyn, rattrapable -- */
+/* -- "Il manque N — dépenser N Chance ?" avec ses deux issues, entre la carte -- */
+/* -- de resultat (deja affichee en echec) et les choix, verrouilles pendant ce -- */
+/* -- temps (voir NarrativeView.renderLuckPrompt). Lot 3.1 : bloc minimal, la   -- */
+/* -- polish visuelle (icone de Chance, compteur) est pour le lot 3.3.          -- */
+.narrative-luck {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.narrative-luck-text {
+  margin: 0;
+  color: var(--bone);
+  font-size: var(--fs-sm);
+}
+
+.narrative-luck-actions {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+
 /* -- Carte de resultat : reussite/echec, DANS le flux du panneau, jamais en -- */
 /* surcouche par-dessus le texte (correctif de la revue visuelle : le joueur  */
 /* doit pouvoir lire le noeud ET voir le jet en meme temps). Un petit bloc,   */

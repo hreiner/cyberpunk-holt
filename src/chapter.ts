@@ -191,6 +191,8 @@ export class ChapterApp {
       onChoose: (index) => this.chooseOption(index),
       onAdvance: () => this.advance(),
       onRollInsight: () => this.rollInsight(),
+      onSpendLuck: (n) => this.spendLuck(n),
+      onAcceptRoll: () => this.acceptRoll(),
       playRoll: (roll, label) => this.dice.playRoll(roll, label),
       cancelRoll: () => this.dice.cancel(),
     });
@@ -320,6 +322,40 @@ export class ChapterApp {
     }
     if (this.activeHub) {
       const outcome = this.activeHub.runner.rollInsight();
+      this.renderHubDialogue();
+      return outcome;
+    }
+    return { ok: false, reason: 'Aucun dialogue en cours.' };
+  }
+
+  /**
+   * Depense `n` points de Chance sur le jet en attente du dialogue ou de la
+   * conversation de hub en cours (ADR 0015 §2, `DialogueRunner.spendLuck`) :
+   * meme garde-fou et meme forme de retour que `rollInsight`.
+   */
+  spendLuck(n: number): NarrativeOutcome {
+    if (this.activeDialogue) {
+      const outcome = this.activeDialogue.spendLuck(n);
+      this.renderDialogue();
+      return outcome;
+    }
+    if (this.activeHub) {
+      const outcome = this.activeHub.runner.spendLuck(n);
+      this.renderHubDialogue();
+      return outcome;
+    }
+    return { ok: false, reason: 'Aucun dialogue en cours.' };
+  }
+
+  /** Accepte l'echec du jet en attente de Chance (ADR 0015 §2, `DialogueRunner.acceptRoll`). */
+  acceptRoll(): NarrativeOutcome {
+    if (this.activeDialogue) {
+      const outcome = this.activeDialogue.acceptRoll();
+      this.renderDialogue();
+      return outcome;
+    }
+    if (this.activeHub) {
+      const outcome = this.activeHub.runner.acceptRoll();
       this.renderHubDialogue();
       return outcome;
     }

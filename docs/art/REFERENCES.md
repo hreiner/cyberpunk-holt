@@ -1,99 +1,175 @@
 # Références visuelles
 
-Dix images de référence ont été produites pour le chapitre 1. **Les fichiers ne sont pas
-dans ce dépôt** : ce document en conserve la description écrite, pour que le contenu reste
-exploitable même sans les images.
+Les images de référence du projet sont dans
+[`Reference_pictures/`](Reference_pictures/). Ce document les **indexe** : ce que montre
+chaque image, ce qu'elle fixe (et ne fixe pas), et à quoi elle sert. Il est écrit pour les
+agents qui produisent les illustrations du jeu
+([`image-generation/ORCHESTRATOR.md`](image-generation/ORCHESTRATOR.md)) comme pour ceux qui
+écrivent du contenu : la description suffit quand l'image n'est pas lisible.
 
-Quand les fichiers sont disponibles, les déposer dans :
+**Règle** : une référence fixe **l'identité** (visage, coiffure, uniforme, architecture,
+palette de décor). Elle ne fixe **pas le style de rendu** : les références sont
+photoréalistes, les illustrations du jeu suivent la
+[bible de style](image-generation/STYLE-BIBLE.md).
 
-```
-public/assets/references/
-  roster/      trombinoscope-cadets.png, organigramme-adultes.png
-  friends/     abigail.png, grover.png, john.png, letitia.png, zacharie.png
-  locations/   badlands-window-view.png, tactical-training-site-exterior.png, container-yard.png
-```
+| Fichier | Sujet | Sert de référence pour |
+|---|---|---|
+| [`Frankly.png`](Reference_pictures/Frankly.png) | Franklyn, portrait | portrait de Franklyn, silhouette 3D |
+| [`abigail.png`](Reference_pictures/abigail.png) | Abigail, portrait | portrait d'Abigail |
+| [`letitia.png`](Reference_pictures/letitia.png) | Letitia, portrait en pied | portrait de Letitia, uniforme de cérémonie |
+| [`john.png`](Reference_pictures/john.png) | John, portrait en pied | portrait de John |
+| [`grover.png`](Reference_pictures/grover.png) | Grover, portrait en pied | portrait de Grover, chemise et cravate |
+| [`zacharie.png`](Reference_pictures/zacharie.png) | Zachary, portrait | portrait de Zachary |
+| [`cadets.png`](Reference_pictures/cadets.png) | trombinoscope des trente cadets | figurants, banque de noms, cohérence de l'uniforme |
+| [`instructeurs.png`](Reference_pictures/instructeurs.png) | organigramme des adultes | portraits du personnel |
+| [`mcherson.png`](Reference_pictures/mcherson.png) | Mac Pherson, le directeur | portrait du directeur |
+| [`holtacademy.png`](Reference_pictures/holtacademy.png) | plan général de l'académie | carte de l'académie, décors intérieurs, écran titre |
+| [`badlands.png`](Reference_pictures/badlands.png) | vue de la vitre du fourgon | décor du trajet |
+| [`zoneexercicetactique.png`](Reference_pictures/zoneexercicetactique.png) | extérieur du centre d'examen | décor du parking, carte du centre d'examen |
+| [`vueexercicetactique.png`](Reference_pictures/vueexercicetactique.png) | cour de containers, au sol | décor de la cour, palette des containers |
+| [`mapexercicetactique.png`](Reference_pictures/mapexercicetactique.png) | cour de containers, plan quadrillé | carte tactique, disposition des containers |
+
+**Défauts à ignorer** : `grover.png`, `john.png`, `letitia.png` et `zacharie.png` portent en
+haut à gauche des lettres géantes coupées (restes d'un titre) ; `letitia.png` porte une
+infobulle « Enregistré dans ce PC » sur le front. Ce sont des artefacts de capture, pas des
+éléments du personnage.
 
 ---
 
-## Trombinoscope — les trente cadets
+## L'uniforme commun des cadets
 
-« HOLT Academy — Trombinoscope des élèves — Cadets NCPD ». Grille 5 × 6 de trente portraits,
-chaque cadet à dix-sept ans en uniforme sombre NCPD, nom imprimé sous la photo.
+Toutes les références de cadets le confirment : **uniforme NCPD noir bleuté**, bandes
+nominatives grises cousues sur la poitrine, écussons d'épaule en écu (« NCPD / HOLT
+ACADEMY », emblème à trois flèches ou étoile orange), épaulettes. Variantes selon le cadet :
+blouson zippé à col montant (Franklyn, Abigail, John), vareuse à col mao avec barrettes
+(Zachary), chemise et cravate noire (Grover), veste de cérémonie à revers avec galons
+d'épaule (Letitia). Ceinture « NCPD » à boucle rectangulaire. **Aucune** couleur vive sur
+l'uniforme : la couleur de chaque personnage vient de l'éclairage et du fond, pas du tissu.
 
-**La promotion au complet :**
+## Les six cadets
+
+### Franklyn — `Frankly.png`
+
+Dix-sept ans. Cheveux châtain foncé courts, légèrement en bataille, frange courte. Taches de
+rousseur, yeux gris-noisette, sourcils froncés, bouche serrée : **sérieux, sur la
+défensive**. Peau claire. Blouson zippé à col montant, épaulettes renforcées en plaques,
+bande « FRANKLYN », bande « HOLT ACADEMY — CADET - NCPD ». Fond noir, lumière de studio
+dure, par la gauche.
+
+À ajouter dans le jeu (apprenti netrunner) : un **port neural discret** derrière l'oreille
+gauche — absent de la référence, à garder petit.
+
+### Abigail — `abigail.png`
+
+Longs cheveux noirs, **raie au milieu et tresses serrées** tombant sur les épaules, mèches
+libres sur le front. Peau claire, taches de rousseur, yeux bruns. Regard dur, menton bas :
+**méfiante, refermée**. Blouson zippé, bande « ABIGAIL ».
+
+### Letitia — `letitia.png`
+
+Cheveux **châtain clair bouclés**, relevés en chignon lâche, boucles qui s'échappent. Peau
+métissée chaude, **grand sourire ouvert** : la plus chaleureuse. Veste de cérémonie à revers,
+cravate, **galons d'épaule** (responsable de promotion), écusson doré à lauriers « POLICE
+CADET ».
+
+### John — `john.png`
+
+Cheveux **blond platine rasés**, yeux bleu pâle, peau très claire. Regard intense et buté :
+**le plus endurci**. Blouson zippé à col chemise, écusson HOLT à étoile orange sur la
+poitrine, pantalon à passepoil clair.
+
+### Grover — `grover.png`
+
+Cheveux **noirs raides mi-longs**, frange en bataille. Traits est-asiatiques métissés,
+expression neutre et attentive : **l'observateur**. Chemise d'uniforme, **cravate noire**,
+bande « NCPD » bleue, ceinture NCPD.
+
+### Zachary — `zacharie.png`
+
+**Coupe au bol noire et brillante**, frange droite. Peau brune chaude, **immense sourire
+sincère**, yeux plissés de rire. Vareuse à col mao, barrettes au col. Son badge porte
+« ZACHARIE » ; le jeu l'appelle Zachary.
+
+## Le trombinoscope — `cadets.png`
+
+« HOLT Academy — Trombinoscope des élèves — Cadets NCPD ». Grille 6 × 5 de trente portraits
+en uniforme, fond noir, nom sous chaque photo :
 
 Abigail · Abraham · Betty · Calvin · Dwight · Edith · Eleanor · **Franklyn** · Gerald ·
 Geneva · George · Grace · **Grover** · Harry · Herbert · Hillary · Jacqueline · James ·
 **John** · Julia · **Letitia** · Lou · Martha · Nancy · Ronald · Rosalynn · Sarah ·
-Theodore · Woodrow · **Zachary** (« Zacharie » sur son propre badge).
+Theodore · Woodrow · **Zachary**.
 
-Les six en gras sont les personnages joués. Les vingt-quatre autres forment une **banque de
-noms** pour les dialogues incidents, les entrées de dossier et le décor.
+Les six en gras sont les personnages joués. Les vingt-quatre autres sont les **figurants**
+(cantine, examen, couloirs) et une banque de noms. Theodore (lunettes rondes, moustache
+fine) fait partie du trio de Grover.
 
-## Organigramme — le personnel
+## Le personnel — `instructeurs.png` et `mcherson.png`
 
-« HOLT Academy — Organigramme des adultes », charte NCPD. Hiérarchie :
+« HOLT Academy — Organigramme des adultes », charte NCPD bleu électrique.
 
-| Niveau | Noms |
-|---|---|
-| **Superviseur** | **Mac Pherson** — buriné, barbu, le directeur ; c'est lui qui prononce le discours de la scène 2 |
-| **Instructeurs** | Murphy · Wobbler (blouse blanche, profil scientifique) · Cadé (cheveux verts, lunettes, allure cybernétique) · **Smith** (cheveux roux, mentor de Franklyn) · Sampler |
-| **Surveillants généraux** | Pedro · Keith · Paula · ~~**Stud**~~ |
-| **Gardes en patrouille** | Ignacio · Mennio |
+| Niveau | Personne | Apparence |
+|---|---|---|
+| Superviseur | **Mac Pherson** — le directeur | la cinquantaine, visage buriné, cheveux auburn mi-longs en désordre, barbe grisonnante, yeux bleus ; blouson de cuir NCPD, **liserés LED bleus au col**, deux étoiles aux épaulettes, insigne doré |
+| Instructeur | Murphy | la quarantaine, cheveux courts grisonnants, mâchoire carrée, regard sévère |
+| Instructeur | Wobbler | cheveux blancs, lunettes, **blouse blanche** : le scientifique |
+| Instructrice | Cadé | **mèche verte**, lunettes, implants visibles sur la tempe : la cybernétique |
+| Instructrice | **Smith** | cheveux roux tirés, lunettes, léger sourire ; **mentor de Franklyn** |
+| Instructrice | Sampler | cheveux bruns tirés, visage fermé |
+| Surveillants généraux | Pedro, **Keith** (lunettes, soigné), Paula (blonde, queue de cheval) | — |
+| Ancien surveillant | ~~Stud~~ | barré en rouge, « RENVOYÉ — CONDUITE INACCEPTABLE » : accroche narrative |
+| Gardes | Ignacio, Mennio | carrures massives |
 
-**Stud** est barré en rouge, mention « RENVOYÉ — CONDUITE INACCEPTABLE ». Un membre du
-personnel révoqué avant le début de l'histoire : accroche narrative toute prête.
+`mcherson.png` est le portrait détaillé du directeur, devant une enseigne néon « NCPD —
+HOLT ACADEMY » bleue, avec des touches de rouge en arrière-plan.
 
-> **À décider (epic 2)** : lequel de ces adultes accompagne les cadets à l'examen pratique
-> et lance les remarques radio. Smith est le mentor de Franklyn, ce qui en fait un candidat
-> naturel — mais un instructeur plus froid créerait un meilleur contraste.
+## L'académie — `holtacademy.png`
 
-## Les cinq amis — portraits doubles
+« HOLT Academy — plan général », 12 hectares dans les Badlands, en Californie. Plan
+d'architecte sur fond de terre sombre, enceinte rouge et blanche, végétation rase.
 
-Chaque image associe un portrait d'enfance (9-10 ans) et un portrait à dix-sept ans en
-uniforme. Utile pour tenir une apparence cohérente et pour d'éventuels flashbacks.
+- **Au nord, au centre** : l'entrée principale (portail nord), puis l'**Administration**.
+- **Colonne centrale** du nord au sud : Interface (accès réservé 13-17 ans), Infirmerie &
+  labo biomédical, Armurerie, Archives & serveurs, Local technique & énergie, puis la sortie
+  de service (porte technique) au sud.
+- **À l'est, en violet** : la **zone première génération (13-17 ans)**, celle de Franklyn :
+  Dortoirs au nord, cour intérieure et Cantine au milieu, Salles d'entraînement au sud,
+  **Garage** au sud-est avec la sortie garage (porte est). **Héliport** à l'est, hors de
+  l'enceinte intérieure.
+- **À l'ouest, en vert** : la zone seconde génération (6-12 ans), en miroir : Dortoirs,
+  Cantine, cour avec bassin rond, Salles d'entraînement. Hors carte jouable au chapitre 1.
 
-| Cadet | Description |
-|---|---|
-| **Abigail** | Tresses serrées aux deux âges. Enfant : sourire timide, mains jointes, combinaison unie. À 17 ans : même coiffure mais stricte, expression fermée et sur ses gardes, uniforme complet avec badge et écussons. Se lit comme dure et refermée. |
-| **Grover** | Cheveux noirs raides, légèrement en bataille. Expression neutre et attentive aux deux âges. À 17 ans : uniforme de cérémonie sombre avec cravate, badge « GROVER ». Réservé, observateur. |
-| **John** | Cheveux blond platine ras, yeux bleu pâle. Regard intense et un peu buté aux deux âges — visiblement le plus endurci du groupe, même enfant. À 17 ans : blouson zippé NCPD sombre, badge « JOHN ». |
-| **Letitia** | Cheveux bouclés châtain clair, texturés, aux deux âges. L'expression la plus chaleureuse des cinq : grand sourire ouvert enfant comme adolescente. Son uniforme porte des galons d'épaule supplémentaires — à interpréter comme un rôle de responsable de promotion. |
-| **Zacharie** | Coupe au bol sombre, peau brune chaude, grand sourire sincère aux deux âges. Avec Letitia, l'autre visage chaleureux du groupe. À 17 ans : blouson sombre, badge « ZACHARIE ». |
+La carte jouable ([`../design/09-MAPS-CHAPTER-1.md`](../design/09-MAPS-CHAPTER-1.md)) couvre
+la colonne centrale et la zone première génération.
 
-**Lecture d'ensemble** : Letitia et Zacharie forment le duo chaleureux, John le tranchant,
-Abigail la méfiante, Grover l'observateur silencieux. C'est le point de départ de l'écriture
-du hub de dialogue.
+## Les lieux de l'examen pratique
 
-## Les lieux du chapitre 1
+### `badlands.png` — la vitre du fourgon
 
-### Vue de la fenêtre du fourgon — `badlands-window-view.png`
+Vue subjective à travers une vitre de fourgon aux coins arrondis, cadre noir. Désert ocre
+caillouteux, **campement de pillards** à mi-distance (jeeps, tente, drapeau noir à tête de
+mort, antenne), **silhouette brumeuse de Night City** à l'horizon, ciel bleu-gris poussiéreux.
 
-Plan subjectif à travers la vitre du fourgon de police : désert rocheux et craquelé, un petit
-campement de pillards à mi-distance (jeeps, tente, drapeau noir à tête de mort), et la
-silhouette brumeuse de Night City à l'horizon.
+### `zoneexercicetactique.png` — le centre d'examen
 
-Sert la scène 6, et permet d'installer la menace des gangs des Badlands **sans combat**.
+Plan large d'un complexe industriel délabré : grillage et barbelés, portail ouvert, quais
+**01** et **02** à rideaux métalliques, chariot élévateur jaune, fûts et caisses, blocs de
+béton rayés jaune et noir, escalier extérieur, silo « K3 ». Graffitis : « NO FUTURE JUST
+WORK », « FIX BUILD DRIVE », « CHROME WORKS HARDER ». Panneau « TACTICAL TRAINING SITE —
+AUTHORIZED PERSONNEL ONLY — A SAFER NIGHT CITY TOGETHER ». Au fond, Night City en plein
+jour : tours, cheminées fumantes, voie aérienne, publicités « NIGHT CITY WORKS TODAY »,
+« BETTER PEOPLE BRIGHTER TOMORROW », tour « 07 ».
 
-### Extérieur du site d'entraînement — `tactical-training-site-exterior.png`
+### `vueexercicetactique.png` — la cour, au sol
 
-Plan large d'un complexe industriel délabré en périphérie de Night City : c'est le « centre
-d'examen désaffecté » du scénario. Grillage, quais de chargement numérotés (01, 02),
-chariots élévateurs, fûts empilés, graffitis — « NO FUTURE JUST WORK », « FIX BUILD DRIVE »,
-« CHROMEWORKS HARDER ». Signalétique : « TACTICAL TRAINING SITE — AUTHORIZED PERSONNEL
-ONLY » et « A SAFER NIGHT CITY TOGETHER ». Au fond, Night City, ses cheminées et ses
-panneaux publicitaires : « NIGHT CITY WORKS TODAY », « BETTER PEOPLE BRIGHTER TOMORROW ».
+Allée de béton mouillé entre des **containers rouillés** jaune, vert, jaune moutarde, rouge,
+bleu (« AXTU 473088 »). Flaques, détritus, cartons, fût vert, caisse rouge, palettes.
+Marquage au sol « HONEST STAN'S SELF-STORAGE ». Fond : raffinerie, cheminées, silos
+« KAZU », portique de grue. Lumière de fin d'après-midi rasante, ombres longues.
 
-Ces textes sont d'excellents accessoires de décor à réutiliser tels quels.
+### `mapexercicetactique.png` — la cour, en plan
 
-### Cour de containers — `container-yard.png`
-
-Plan au sol dans le même complexe : une rangée de containers maritimes usés aux couleurs
-vives (jaune, vert, rouge, bleu), certains marqués « KAZU », « SELF-STORAGE » peint sur le
-béton fissuré, flaques, détritus, un crochet de grue au-dessus. Cheminées et silhouette de
-Night City en fond.
-
-**C'est la référence directe du terrain de l'affrontement final** : les rangées de containers
-donnent les couloirs, les lignes de vue et les couverts de la carte
-[`src/data/yard-map.ts`](../../src/data/yard-map.ts). La palette de containers du rendu s'en
-inspire (voir [`ART-DIRECTION.md`](ART-DIRECTION.md)).
+Photo d'une carte de jeu de rôle quadrillée (lettres A-O, chiffres 1-22) : containers vus de
+dessus (blanc rouillé, bleu clair, orange, turquoise, jaune, bleu, rouge), éboulis de
+cartons, fûts, caisses, marquage « HONEST STAN'S SELF-STORAGE ». Donne l'**échelle et la
+disposition** de la cour tactique ([`../../src/data/yard-map.ts`](../../src/data/yard-map.ts)).

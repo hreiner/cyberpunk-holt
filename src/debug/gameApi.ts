@@ -96,6 +96,20 @@ export interface GameDebugApi {
    * choix `best` fraichement reveles.
    */
   rollInsight(): NarrativeOutcome;
+  /**
+   * Depense `n` points de Chance sur le jet en attente (`node().pendingRoll`,
+   * ADR 0015 §2) : `n` doit couvrir au moins `pendingRoll.missingBy` sans
+   * depasser `pendingRoll.luckAvailable`. Resout l'issue differee en reussite,
+   * deduit la Chance de `runState().luck`, et pose une entree de dossier
+   * (`ch1.chance`). Refuse explicitement si rien n'est en attente. Appeler
+   * `node()` ensuite pour lire le noeud a jour.
+   */
+  spendLuck(n: number): NarrativeOutcome;
+  /**
+   * Accepte l'echec du jet en attente (`node().pendingRoll`, ADR 0015 §2) sans
+   * depenser de Chance. Refuse explicitement si rien n'est en attente.
+   */
+  acceptRoll(): NarrativeOutcome;
   advance(): PresentedNode | null;
   hub(): HubEntry[] | null;
   pickHub(dialogueId: string): PresentedNode | null;
@@ -210,6 +224,10 @@ export function installDebugApi(chapter: ChapterApp): GameDebugApi {
     choose: (index: number) => chapter.chooseOption(index),
 
     rollInsight: () => chapter.rollInsight(),
+
+    spendLuck: (n: number) => chapter.spendLuck(n),
+
+    acceptRoll: () => chapter.acceptRoll(),
 
     advance() {
       chapter.advance();

@@ -9,8 +9,16 @@
  */
 
 import type { TeamId, TeamState } from '@/tactical/types';
-import { defaultTeamState } from '@/tactical/combat';
-import type { TeamEffect } from './types';
+import { DEFAULT_BLUE, DEFAULT_RED, defaultTeamState } from '@/tactical/combat';
+import type { CharacterId } from '@/rules/character';
+
+/**
+ * `TeamEffect` (types.ts) avec `gassed` DEJA RESOLU (alias d'equipe converti
+ * en `CharacterId`, ADR 0014 §7) : `applyTeamEffect` ne connait jamais les
+ * alias, seul `src/narrative/effects.ts` fait cette resolution avant d'appeler
+ * cette fonction (voir `resolveTeamEffectAliases`).
+ */
+export type ResolvedTeamEffect = { healkits: number } | { extraTaser: true } | { gassed: CharacterId };
 
 /** Scene de depart du chapitre 1, cf. CHAPTER_1_SCENES dans sceneRouter.ts. */
 const INITIAL_SCENE_ID = 'ch1.intro';
@@ -18,11 +26,40 @@ const INITIAL_SCENE_ID = 'ch1.intro';
 /** Le tempo est un compteur invisible, jamais negatif (cf. ADR 0011). */
 const MIN_TEMPO = 0;
 
+/** Chance de Franklyn pour tout le chapitre (ADR 0015 §2), jamais negative. */
+export const INITIAL_LUCK = 3;
+const MIN_LUCK = 0;
+
+/**
+ * Composition des deux equipes du tirage (ADR 0014), distincte de
+ * `RunState.teams` (qui porte l'etat MATERIEL -- kits de soin, taser
+ * supplementaire, gazes -- pas la liste des cadets). Nom different
+ * deliberement pour ne rien casser : voir le rapport de la tache pour la
+ * justification. Tant que le lot 3.2 (le vrai tirage) n'est pas fait, cette
+ * composition vaut l'equivalent de `DEFAULT_BLUE`/`DEFAULT_RED` -- tout
+ * contenu existant qui n'utilise aucun alias d'equipe continue de fonctionner
+ * a l'identique.
+ */
+export interface TeamRoster {
+  blue: CharacterId[];
+  red: CharacterId[];
+  /** Capitaine adverse -- alias `rivale` (ADR 0014 : toujours Abigail au chapitre 1). */
+  redCaptain: CharacterId;
+}
+
+function defaultRoster(): TeamRoster {
+  return { blue: [...DEFAULT_BLUE], red: [...DEFAULT_RED], redCaptain: 'abigail' };
+}
+
 export interface RunState {
   sceneId: string;
   flags: Record<string, string | number | boolean>;
   tempo: number;
   teams: { blue: TeamState; red: TeamState };
+  /** Composition des equipes (ADR 0014 §7) -- voir `TeamRoster`. */
+  roster: TeamRoster;
+  /** Chance restante de Franklyn pour le chapitre (ADR 0015 §2). */
+  luck: number;
   /** Identifiants des repliques radio deja entendues. */
   heardRadio: string[];
   seed: string;
@@ -34,6 +71,8 @@ export function createRunState(seed: string): RunState {
     flags: {},
     tempo: 0,
     teams: { blue: defaultTeamState(), red: defaultTeamState() },
+    roster: defaultRoster(),
+    luck: INITIAL_LUCK,
     heardRadio: [],
     seed,
   };
@@ -54,6 +93,8 @@ export function migrateRunState(raw: unknown, seed: string): RunState {
       blue: mergeTeamState(candidate.teams?.blue),
       red: mergeTeamState(candidate.teams?.red),
     },
+    roster: mergeRoster(candidate.roster),
+    luck: typeof candidate.luck === 'number' ? Math.max(MIN_LUCK, candidate.luck) : base.luck,
     heardRadio: Array.isArray(candidate.heardRadio)
       ? candidate.heardRadio.filter((id): id is string => typeof id === 'string')
       : base.heardRadio,
@@ -65,6 +106,22 @@ function mergeTeamState(raw: unknown): TeamState {
   const base = defaultTeamState();
   if (!raw || typeof raw !== 'object') return base;
   return { ...base, ...(raw as Partial<TeamState>) };
+}
+
+/** Migration tolerante du roster : une liste absente ou vide retombe sur le defaut, jamais un roster vide. */
+function mergeRoster(raw: unknown): TeamRoster {
+  const base = defaultRoster();
+  if (!raw || typeof raw !== 'object') return base;
+  const candidate = raw as Partial<TeamRoster>;
+  return {
+    blue: isNonEmptyIdArray(candidate.blue) ? candidate.blue : base.blue,
+    red: isNonEmptyIdArray(candidate.red) ? candidate.red : base.red,
+    redCaptain: typeof candidate.redCaptain === 'string' ? (candidate.redCaptain as CharacterId) : base.redCaptain,
+  };
+}
+
+function isNonEmptyIdArray(value: unknown): value is CharacterId[] {
+  return Array.isArray(value) && value.length > 0 && value.every((id) => typeof id === 'string');
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -91,7 +148,7 @@ export function addTempo(run: RunState, delta: number): RunState {
 }
 
 /** Applique un effet de materiel d'equipe. `team` designe l'equipe visee (celle du joueur en pratique). */
-export function applyTeamEffect(run: RunState, team: TeamId, effect: TeamEffect): RunState {
+export function applyTeamEffect(run: RunState, team: TeamId, effect: ResolvedTeamEffect): RunState {
   const current = run.teams[team];
   let next: TeamState = current;
 

@@ -13,3 +13,6 @@ Thumbs.db
 !.vscode/settings.json
 /tmp/
 *.log
+
+# Masters des illustrations (lourds, hors dépôt) — voir docs/art/image-generation/ORCHESTRATOR.md
+art-masters/

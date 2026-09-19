@@ -11,6 +11,16 @@ import { CHARACTER_IDS, getCharacter } from '@/rules/character';
 
 export type SpeakerId = CharacterId | 'narrateur' | 'directeur' | 'instructeur' | 'otage' | 'radio';
 
+/**
+ * Alias de locuteur/jet resolus a l'execution depuis `RunState.roster` (ADR
+ * 0014 §7, lot 3.1) : `equipier1`/`equipier2` (coequipiers de Franklyn, dans
+ * l'ordre du tirage) et `rivale` (capitaine adverse, Abigail au chapitre 1).
+ * Voir src/narrative/aliases.ts pour la resolution. Jamais dans les donnees
+ * PRESENTEES (`PresentedNode.lines[].who`, `PresentedRoll.who`) : toujours un
+ * `CharacterId` deja resolu a ce stade, pour que les portraits fonctionnent.
+ */
+export type TeamAlias = 'equipier1' | 'equipier2' | 'rivale';
+
 export interface DialogueFile {
   /** Ex. "ch1.hub.john". */
   id: string;
@@ -18,6 +28,13 @@ export interface DialogueFile {
   speaker?: SpeakerId;
   /** Cle d'un noeud. */
   start: string;
+  /**
+   * Noeuds accessibles UNIQUEMENT comme point d'entree alternatif (ex.
+   * `startNode` d'une entite d'exploration, lot 3.5+) : le validateur ne les
+   * signale pas "inatteignable depuis start" tant qu'ils le sont depuis l'une
+   * de ces entrees (voir validate.ts).
+   */
+  entries?: string[];
   nodes: Record<string, DialogueNode>;
 }
 
@@ -41,7 +58,7 @@ export interface DialogueNode {
 }
 
 export interface DialogueLine {
-  who: SpeakerId;
+  who: SpeakerId | TeamAlias;
   text: string;
 }
 
@@ -77,8 +94,8 @@ export interface CheckSpec {
   attribute?: Attribute;
   /** "FACILE" | "NORMALE" | ... — jamais un nombre. */
   dv: DifficultyName;
-  /** Cadet qui lance le jet. Par defaut le candidat (Franklyn). */
-  who?: CharacterId;
+  /** Cadet qui lance le jet (un alias d'equipe resout vers un coequipier). Par defaut le candidat (Franklyn). */
+  who?: CharacterId | TeamAlias;
 }
 
 /**
@@ -95,6 +112,21 @@ export interface InsightSpec extends CheckSpec {
   failureText?: string;
   successEffects?: Effect[];
   failureEffects?: Effect[];
+  /**
+   * Reflexion FACULTATIVE (ADR 0015 §1, ex. l'examen ecrit revu) : le noeud
+   * n'est PAS bloque, `choose()` fonctionne directement tant que le jet n'est
+   * pas tire (`PresentedInsight.status === 'available'`). Absent : comportement
+   * mandatory inchange (ADR 0012), `choose()` refuse tant que `rollInsight()`
+   * n'a pas ete appele.
+   */
+  optional?: true;
+  /**
+   * Cout en compteur de `RunState.flags` (ex. concentration de l'examen),
+   * consomme par `rollInsight()` -- qui refuse alors avec
+   * `{ ok: false, reason: "Plus de concentration." }` si insuffisant. N'a de
+   * sens qu'avec `optional: true` (verifie par le validateur).
+   */
+  cost?: { counter: string; amount: number };
 }
 
 export type Condition =
@@ -106,7 +138,7 @@ export type Condition =
   | { any: Condition[] };
 
 export type Effect =
-  | { affinity: { who: CharacterId; delta: number } } // borne a [-3, +3]
+  | { affinity: { who: CharacterId | TeamAlias; delta: number } } // borne a [-3, +3]
   | { tag: string } // etiquette de dossier
   | { entry: { key: string; label: string; value: string } }
   | { flag: string; value: string | number | boolean } // drapeau de partie (volatil)
@@ -118,7 +150,7 @@ export type Effect =
 export type TeamEffect =
   | { healkits: number } // delta
   | { extraTaser: true }
-  | { gassed: CharacterId };
+  | { gassed: CharacterId | TeamAlias };
 
 /**
  * Libelles francais affichables pour chaque locuteur. Les cadets prennent

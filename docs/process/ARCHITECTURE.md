@@ -95,11 +95,12 @@ Voir l'[ADR 0011](adr/0011-moteur-narratif-etat-de-partie-et-radio.md) et
 
 | Fichier | Rôle |
 |---|---|
-| `types.ts` | contrat exact du format de dialogue (`DialogueFile`, `Effect`, `Condition`, ...) |
-| `runState.ts` | `RunState` : mémoire mécanique de la traversée (drapeaux, tempo, `TeamState`, scène courante) |
+| `types.ts` | contrat exact du format de dialogue (`DialogueFile`, `Effect`, `Condition`, `TeamAlias`, ...) |
+| `runState.ts` | `RunState` : mémoire mécanique de la traversée (drapeaux, tempo, `TeamState` matériel, `roster` composition d'équipe ADR 0014 §7, `luck` Chance ADR 0015 §2, scène courante) |
+| `aliases.ts` | résolution des alias `equipier1`/`equipier2`/`rivale` (ADR 0014 §7, lot 3.1) et des gabarits `{equipier1}`... dans les textes |
 | `conditions.ts` / `effects.ts` | évaluation des `Condition`, application des `Effect` (purs) |
 | `odds.ts` | chance de réussite d'un jet, calculée analytiquement (aucun tirage) |
-| `dialogueRunner.ts` | parcours d'un graphe de dialogue : fonction quasi pure de `(graphe, RunState, Dossier, Rng)` |
+| `dialogueRunner.ts` | parcours d'un graphe de dialogue : fonction quasi pure de `(graphe, RunState, Dossier, Rng)` ; porte aussi l'état `awaitingLuck` (ADR 0015 §2, lot 3.1) |
 | `radio.ts` | répliques de l'instructeur, couche parallèle aux graphes, déclenchées par seuil de tempo |
 | `sceneRouter.ts` | enchaînement linéaire et reprenable des neuf scènes du chapitre 1 |
 | `validate.ts` | attrape à la compilation ce que le typage ne voit pas (`to` pendant, DV numérique, ...) |

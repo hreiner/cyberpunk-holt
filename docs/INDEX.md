@@ -38,7 +38,8 @@ aucune conversation à retrouver.
 | [`art/ART-DIRECTION.md`](art/ART-DIRECTION.md) | direction artistique, palette, contraintes de lisibilité |
 | [`art/UI-DESIGN-SYSTEM.md`](art/UI-DESIGN-SYSTEM.md) | design system de l'interface HTML/CSS (« Encre rouge ») : jetons, typographie, formes, portraits, écrans |
 | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md) | de la référence au GLB dans le jeu, et comment remplacer les capsules |
-| [`art/REFERENCES.md`](art/REFERENCES.md) | description écrite de toutes les références visuelles existantes |
+| [`art/REFERENCES.md`](art/REFERENCES.md) | index et description des images de référence (`art/Reference_pictures/`) |
+| [`art/image-generation/ORCHESTRATOR.md`](art/image-generation/ORCHESTRATOR.md) | production des illustrations : orchestrateur, bible de style, manifeste, fiches par image |
 
 ## Process
 

@@ -2,6 +2,7 @@
 
 export type {
   SpeakerId,
+  TeamAlias,
   DialogueFile,
   DialogueNode,
   DialogueLine,
@@ -14,7 +15,7 @@ export type {
 } from './types';
 export { SPEAKER_LABELS } from './types';
 
-export type { RunState } from './runState';
+export type { RunState, TeamRoster } from './runState';
 export {
   createRunState,
   migrateRunState,
@@ -23,11 +24,13 @@ export {
   bumpCounter,
   addTempo,
   applyTeamEffect,
+  INITIAL_LUCK,
 } from './runState';
 
 export { evaluateCondition, evaluateAll } from './conditions';
-export { applyEffect, applyEffects } from './effects';
+export { applyEffect, applyEffects, NARRATIVE_CHAPTER } from './effects';
 export { successChance } from './odds';
+export { isTeamAlias, resolveTeamAlias, resolveSpeakerAlias, resolveWhoAlias, applyTemplates } from './aliases';
 
 export type {
   NarrativeContext,
@@ -35,9 +38,11 @@ export type {
   PresentedCheck,
   PresentedChoice,
   PresentedInsight,
+  PresentedLine,
   PresentedNode,
   PresentedRoll,
   PresentedRollModifier,
+  DialogueRunnerOptions,
 } from './dialogueRunner';
 export { DialogueRunner } from './dialogueRunner';
 

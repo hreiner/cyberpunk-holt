@@ -47,12 +47,14 @@ silence.
 |---|---|---|
 | `scene()` | `{ id, kind, title, finished }` | scène courante du chapitre |
 | `goToScene(id)` | scène | saute à une scène du chapitre (`ch1.intro`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, ...) ; construit le `TacticalSetup` depuis le `RunState` si la cible est la scène tactique |
-| `runState()` | `RunState` | drapeaux, tempo, `TeamState` des deux équipes, repliques radio déjà entendues, graine |
+| `runState()` | `RunState` | drapeaux, tempo, `TeamState` des deux équipes (matériel), `roster` (composition des équipes, ADR 0014 §7 — distinct de `teams`), `luck` (Chance restante de Franklyn, ADR 0015 §2), répliques radio déjà entendues, graine |
 | `dossier()` | `Dossier` | étiquettes, affinités, entrées, note pratique une fois posée |
 | `node()` | noeud présenté, ou `null` | le noeud de dialogue affiché (scène `dialogue`, ou conversation du hub en cours) ; `null` en scène tactique ou sur la liste du hub |
 | `choose(index)` | `{ ok, reason? }` | sélectionne le choix `index` du noeud courant ; appeler `node()` ensuite pour lire le noeud à jour |
-| `rollInsight()` | `{ ok, reason? }` | résout le jet de réflexion du noeud courant (`node().insight`, ADR 0012) ; seul moment où le `Rng` du dialogue est consommé pour ce jet, déterministe, synchrone, aucune animation côté debug ; refuse explicitement si le noeud n'a pas d'`insight` ou si le jet a déjà été résolu ; appeler `node()` ensuite pour lire `insight.status`/`insight.roll` à jour et les choix `best` fraîchement révélés |
-| `advance()` | noeud, ou `null` | avance un noeud sans choix ; sur un noeud terminal, termine la scène narrative en cours |
+| `rollInsight()` | `{ ok, reason? }` | résout le jet de réflexion du noeud courant (`node().insight`, ADR 0012 ; facultatif avec coût, ADR 0015 §1) ; seul moment où le `Rng` du dialogue est consommé pour ce jet, déterministe, synchrone, aucune animation côté debug ; refuse explicitement si le noeud n'a pas d'`insight`, si le jet a déjà été résolu, si un jet de Chance est en attente, ou (jet facultatif) si le compteur de `cost` est insuffisant (`{ ok: false, reason: "Plus de concentration." }`) ; appeler `node()` ensuite pour lire `insight.status`/`insight.roll` à jour et les choix `best` fraîchement révélés |
+| `spendLuck(n)` | `{ ok, reason? }` | dépense `n` points de Chance sur le jet en attente (`node().pendingRoll`, ADR 0015 §2) : `n` doit couvrir au moins `pendingRoll.missingBy` sans dépasser `pendingRoll.luckAvailable` ; transforme l'échec en réussite (le total du jet augmente de `n`), déduit `n` de `runState().luck`, pose une entrée de dossier (`ch1.chance`, jamais une étiquette) puis résout enfin la navigation/l'issue différée ; refuse si rien n'est en attente ou si `n` est hors bornes ; appeler `node()` ensuite |
+| `acceptRoll()` | `{ ok, reason? }` | accepte l'échec du jet en attente (`node().pendingRoll`, ADR 0015 §2) sans dépenser de Chance ; refuse si rien n'est en attente ; appeler `node()` ensuite |
+| `advance()` | noeud, ou `null` | avance un noeud sans choix ; sur un noeud terminal, termine la scène narrative en cours ; ne fait rien tant qu'un jet de Chance est en attente (voir `spendLuck`/`acceptRoll`) |
 
 > **`choose(index)` : `index` est l'index D'ORIGINE dans `node().choices`, jamais sa position
 > dans cette liste.** Un choix caché par une condition fausse « saute » son numéro : sur un
@@ -79,7 +81,8 @@ silence.
 
 | `hub()` | `HubEntry[]`, ou `null` | liste des cinq conversations du hub (`null` hors de la liste du hub) |
 | `node().lastCheck` | `PresentedRoll`, ou `null` | detail structure du dernier jet resolu (chaine de des, modificateurs nommes, total vs DV) -- ajoute par la refonte UI de l'ecran de dialogue (lot 2.11), pour le tampon RÉUSSI/ÉCHEC. `node().lastRoll` (texte) reste inchange a cote. |
-| `node().insight` | `PresentedInsight`, ou absent | jet de réflexion du noeud courant (examen écrit, ADR 0012) : `{ skillLabel, dvLabel, chancePercent, status: 'pending'\|'success'\|'failure', roll?, successText?, failureText? }`. Absent si le noeud n'a pas d'`insight`. `roll` a la même forme que `lastCheck` (`PresentedRoll`) une fois le jet résolu. |
+| `node().insight` | `PresentedInsight`, ou absent | jet de réflexion du noeud courant (examen écrit, ADR 0012 ; facultatif avec coût, ADR 0015 §1) : `{ skillLabel, dvLabel, chancePercent, status: 'pending'\|'available'\|'success'\|'failure', optional?, cost?, affordable?, roll?, successText?, failureText? }`. Absent si le noeud n'a pas d'`insight`. `status: 'available'` (au lieu de `'pending'`) et `optional: true` signalent un jet FACULTATIF (`insight.optional` des données) : `choose()` fonctionne directement sans avoir appelé `rollInsight()`. `cost`/`affordable` n'apparaissent que si `insight.cost` est défini dans les données ; `affordable` dit si le compteur suffit MAINTENANT. `roll` a la même forme que `lastCheck` (`PresentedRoll`) une fois le jet résolu — il peut être présent alors que `status` reste `'pending'`/`'available'` : c'est le cas d'un jet en attente de Chance, voir `node().pendingRoll` ci-dessous. |
+| `node().pendingRoll` | `{ roll, missingBy, luckAvailable }`, ou absent | jet de Franklyn (jamais un coéquipier) raté de peu et rattrapable à la Chance (ADR 0015 §2) : tant que ce champ est présent, la navigation vers `onSuccess`/`onFailure` (ou le statut de l'`insight`) reste EN ATTENTE — `choose()`, `advance()` et `rollInsight()` refusent d'agir (`advance()` ne fait rien, les deux autres renvoient `{ ok: false, reason }`). `roll` porte la chaîne de dés complète (`dieFaces`) pour que le dé 3D la rejoue avant d'afficher l'invite « Il manque N — dépenser N Chance ? ». Se résout via `spendLuck(n)` ou `acceptRoll()`. |
 | `pickHub(dialogueId)` | noeud | démarre la conversation d'un cadet depuis la liste du hub |
 | `leaveHub()` | scène | quitte le hub, passe à la scène suivante |
 | `radio()` | `RadioCue[]` | répliques radio actuellement dues, sans les marquer entendues (lecture pure) |
@@ -188,6 +191,16 @@ while (node && !node.finished) {
 }
 __game.advance();               // rend la main : passe a la scene suivante
 __game.scene();                 // { id: 'ch1.discours', kind: 'dialogue', ... }
+```
+
+Résoudre un jet de Chance en attente (ADR 0015 §2), en dépensant systématiquement le minimum nécessaire :
+
+```js
+let node = __game.node();
+if (node.pendingRoll) {
+  __game.spendLuck(node.pendingRoll.missingBy);   // ou __game.acceptRoll() pour laisser l'echec
+  node = __game.node();                           // pendingRoll a disparu, l'issue est resolue
+}
 ```
 
 Sauter directement au combat final avec l'état du `RunState` :

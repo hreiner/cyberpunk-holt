@@ -21,6 +21,11 @@ const KNOWN_SPEAKERS: string[] = [
   'otage',
   'radio',
 ];
+/** Alias d'equipe (ADR 0014 §7, lot 3.1) : valides comme locuteur de replique et comme `who` de jet/effet, jamais comme `DialogueFile.speaker`. */
+const KNOWN_TEAM_ALIASES: string[] = ['equipier1', 'equipier2', 'rivale'];
+/** Gabarits reconnus dans les textes (`{equipier1}`...) -- voir aliases.ts. */
+const KNOWN_TEMPLATES: string[] = ['equipier1', 'equipier2', 'rivale', 'franklyn'];
+const TEMPLATE_PATTERN = /\{([a-zA-Z0-9_]+)\}/g;
 const KNOWN_SKILLS: string[] = [...SKILLS];
 const KNOWN_ATTRIBUTES: string[] = [...ATTRIBUTES];
 const KNOWN_DV: string[] = Object.keys(DV);
@@ -54,6 +59,24 @@ export function validateDialogue(file: unknown): string[] {
     errors.push(`${id} : le locuteur principal "${String(file.speaker)}" est inconnu.`);
   }
 
+  /**
+   * Points d'entree alternatifs (`startNode` d'une entite d'exploration, lot
+   * 3.5+) : un noeud qui n'est atteignable QUE depuis l'un d'eux ne doit pas
+   * etre signale "inatteignable depuis start" (voir plus bas).
+   */
+  const entries = asArray(file.entries).filter((e): e is string => typeof e === 'string');
+  if (file.entries !== undefined) {
+    if (!Array.isArray(file.entries)) {
+      errors.push(`${id} : le champ "entries" doit etre un tableau de noeuds.`);
+    } else {
+      for (const entry of file.entries) {
+        if (typeof entry !== 'string' || !nodeIds.includes(entry)) {
+          errors.push(`${id} : "entries" reference un noeud inexistant ("${String(entry)}").`);
+        }
+      }
+    }
+  }
+
   for (const nodeId of nodeIds) {
     const node = nodes[nodeId];
     if (!isRecord(node)) {
@@ -65,6 +88,9 @@ export function validateDialogue(file: unknown): string[] {
 
   if (typeof start === 'string' && nodeIds.includes(start)) {
     const reachable = reachableFrom(start, nodes);
+    for (const entry of entries) {
+      if (nodeIds.includes(entry)) for (const n of reachableFrom(entry, nodes)) reachable.add(n);
+    }
     for (const nodeId of nodeIds) {
       if (!reachable.has(nodeId)) {
         errors.push(`${id}#${nodeId} : noeud inatteignable depuis "start".`);
@@ -88,11 +114,14 @@ function validateNode(
     errors.push(`${prefix} : "to" pointe vers un noeud inexistant ("${node.to}").`);
   }
 
+  validateTemplates(prefix, 'la narration', node.text, errors);
+
   for (const line of asArray(node.lines)) {
     if (!isRecord(line)) continue;
-    if (!isKnownSpeaker(line.who)) {
+    if (!isKnownSpeaker(line.who) && !isTeamAlias(line.who)) {
       errors.push(`${prefix} : locuteur inconnu "${String(line.who)}" dans une replique.`);
     }
+    validateTemplates(prefix, 'une replique', line.text, errors);
   }
 
   for (const effect of asArray(node.effects)) validateEffect(prefix, effect, errors);
@@ -122,12 +151,32 @@ function validateInsight(prefix: string, insight: unknown, errors: string[]): vo
   validateCheckSpec(`${prefix} (insight)`, insight, errors);
   if (insight.successText !== undefined && typeof insight.successText !== 'string') {
     errors.push(`${prefix} : "insight.successText" doit etre une chaine.`);
+  } else {
+    validateTemplates(prefix, 'insight.successText', insight.successText, errors);
   }
   if (insight.failureText !== undefined && typeof insight.failureText !== 'string') {
     errors.push(`${prefix} : "insight.failureText" doit etre une chaine.`);
+  } else {
+    validateTemplates(prefix, 'insight.failureText', insight.failureText, errors);
   }
   for (const effect of asArray(insight.successEffects)) validateEffect(`${prefix} (insight)`, effect, errors);
   for (const effect of asArray(insight.failureEffects)) validateEffect(`${prefix} (insight)`, effect, errors);
+
+  // Reflexion facultative avec cout (ADR 0015 §1, lot 3.1).
+  if (insight.optional !== undefined && insight.optional !== true) {
+    errors.push(`${prefix} : "insight.optional" doit valoir true.`);
+  }
+  if (insight.cost !== undefined) {
+    if (
+      !isRecord(insight.cost) ||
+      typeof insight.cost.counter !== 'string' ||
+      typeof insight.cost.amount !== 'number'
+    ) {
+      errors.push(`${prefix} : "insight.cost" invalide (attend { counter: string, amount: number }).`);
+    } else if (insight.optional !== true) {
+      errors.push(`${prefix} : "insight.cost" n'a de sens qu'avec "insight.optional": true.`);
+    }
+  }
 }
 
 function validateChoice(
@@ -146,6 +195,8 @@ function validateChoice(
 
   if (typeof choice.text !== 'string' || choice.text.trim() === '') {
     errors.push(`${label} : le choix n'a pas de texte.`);
+  } else {
+    validateTemplates(label, 'le texte du choix', choice.text, errors);
   }
 
   if (typeof choice.to === 'string' && !nodeIds.includes(choice.to)) {
@@ -198,7 +249,7 @@ function validateCheckSpec(label: string, spec: Record<string, unknown>, errors:
     errors.push(`${label} : DV inconnue "${String(spec.dv)}".`);
   }
 
-  if (spec.who !== undefined && !isCharacterId(spec.who)) {
+  if (spec.who !== undefined && !isCharacterId(spec.who) && !isTeamAlias(spec.who)) {
     errors.push(`${label} : personnage inconnu "${String(spec.who)}" pour le jet.`);
   }
 }
@@ -206,7 +257,12 @@ function validateCheckSpec(label: string, spec: Record<string, unknown>, errors:
 function validateEffect(prefix: string, effect: unknown, errors: string[]): void {
   if (!isRecord(effect)) return;
 
-  if ('affinity' in effect && isRecord(effect.affinity) && !isCharacterId(effect.affinity.who)) {
+  if (
+    'affinity' in effect &&
+    isRecord(effect.affinity) &&
+    !isCharacterId(effect.affinity.who) &&
+    !isTeamAlias(effect.affinity.who)
+  ) {
     errors.push(`${prefix} : personnage inconnu "${String(effect.affinity.who)}" dans un effet d'affinite.`);
   }
 
@@ -214,7 +270,8 @@ function validateEffect(prefix: string, effect: unknown, errors: string[]): void
     'team' in effect &&
     isRecord(effect.team) &&
     'gassed' in effect.team &&
-    !isCharacterId(effect.team.gassed)
+    !isCharacterId(effect.team.gassed) &&
+    !isTeamAlias(effect.team.gassed)
   ) {
     errors.push(`${prefix} : personnage inconnu "${String(effect.team.gassed)}" dans un effet d'equipe.`);
   }
@@ -257,6 +314,22 @@ function isKnownSpeaker(value: unknown): value is SpeakerId {
 
 function isCharacterId(value: unknown): value is CharacterId {
   return typeof value === 'string' && (CHARACTER_IDS as string[]).includes(value);
+}
+
+/** Alias d'equipe (ADR 0014 §7) : valide comme `who` de jet/effet et comme locuteur de replique. */
+function isTeamAlias(value: unknown): boolean {
+  return typeof value === 'string' && KNOWN_TEAM_ALIASES.includes(value);
+}
+
+/** Signale tout gabarit `{...}` du texte qui n'est pas dans la liste reconnue (aliases.ts) : donnee anomale (lot 3.1). */
+function validateTemplates(prefix: string, label: string, text: unknown, errors: string[]): void {
+  if (typeof text !== 'string') return;
+  for (const match of text.matchAll(TEMPLATE_PATTERN)) {
+    const name = match[1];
+    if (name !== undefined && !KNOWN_TEMPLATES.includes(name)) {
+      errors.push(`${prefix} : gabarit inconnu "{${name}}" dans ${label}.`);
+    }
+  }
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

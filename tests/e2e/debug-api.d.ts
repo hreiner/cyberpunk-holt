@@ -92,14 +92,21 @@ export interface E2EPresentedRoll {
   total: number;
   success: boolean;
   margin: number;
+  /** Points de Chance depenses sur ce jet (ADR 0015 §2). Absent hors Chance. */
+  luckSpent?: number;
 }
 
-/** Jet de "reflexion" du noeud courant (examen ecrit, ADR 0012). Voir `PresentedInsight`. */
+/** Jet de "reflexion" du noeud courant (examen ecrit, ADR 0012 ; facultatif avec cout, ADR 0015 §1). Voir `PresentedInsight`. */
 export interface E2EPresentedInsight {
   skillLabel: string;
   dvLabel: string;
   chancePercent: number;
-  status: 'pending' | 'success' | 'failure';
+  status: 'pending' | 'available' | 'success' | 'failure';
+  /** Vrai si ce jet est facultatif (ADR 0015 §1). */
+  optional?: boolean;
+  cost?: { counter: string; amount: number };
+  /** Vrai si le compteur de `cost` suffit actuellement. */
+  affordable?: boolean;
   roll?: E2EPresentedRoll;
   successText?: string;
   failureText?: string;
@@ -117,6 +124,8 @@ export interface E2EPresentedNode {
   lastCheck: E2EPresentedRoll | null;
   /** Absent si le noeud courant n'a pas de `insight` (ADR 0012). */
   insight?: E2EPresentedInsight;
+  /** Jet de Franklyn rate de peu et rattrapable a la Chance (ADR 0015 §2) : voir `spendLuck`/`acceptRoll`. */
+  pendingRoll?: { roll: E2EPresentedRoll; missingBy: number; luckAvailable: number };
   finished: boolean;
 }
 
@@ -126,11 +135,21 @@ export interface E2ETeamState {
   gassedMembers: string[];
 }
 
+export interface E2ETeamRoster {
+  blue: string[];
+  red: string[];
+  redCaptain: string;
+}
+
 export interface E2ERunState {
   sceneId: string;
   flags: Record<string, string | number | boolean>;
   tempo: number;
   teams: { blue: E2ETeamState; red: E2ETeamState };
+  /** Composition des equipes (ADR 0014 §7) -- distinct de `teams` (materiel). */
+  roster: E2ETeamRoster;
+  /** Chance restante de Franklyn pour le chapitre (ADR 0015 §2). */
+  luck: number;
   heardRadio: string[];
   seed: string;
 }
@@ -202,6 +221,10 @@ export interface E2EGameApi {
   choose(index: number): { ok: boolean; reason?: string };
   /** Voir `GameDebugApi.rollInsight` dans src/debug/gameApi.ts (ADR 0012). */
   rollInsight(): { ok: boolean; reason?: string };
+  /** Voir `GameDebugApi.spendLuck` dans src/debug/gameApi.ts (ADR 0015 §2). */
+  spendLuck(n: number): { ok: boolean; reason?: string };
+  /** Voir `GameDebugApi.acceptRoll` dans src/debug/gameApi.ts (ADR 0015 §2). */
+  acceptRoll(): { ok: boolean; reason?: string };
   advance(): E2EPresentedNode | null;
   hub(): E2EHubEntry[] | null;
   pickHub(dialogueId: string): E2EPresentedNode | null;

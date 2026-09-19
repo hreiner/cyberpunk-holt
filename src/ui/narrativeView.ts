@@ -22,6 +22,10 @@ export interface NarrativeViewCallbacks {
   onAdvance(): void;
   /** Resout le jet de reflexion du noeud courant (ADR 0012) -- voir `ChapterApp.rollInsight`. */
   onRollInsight(): void;
+  /** Depense `n` points de Chance sur le jet en attente (ADR 0015 §2) -- voir `ChapterApp.spendLuck`. */
+  onSpendLuck(n: number): void;
+  /** Accepte l'echec du jet en attente, sans depenser de Chance (ADR 0015 §2) -- voir `ChapterApp.acceptRoll`. */
+  onAcceptRoll(): void;
   /**
    * Met en scene `roll` (deja tire par le Rng) avec le de 3D -- voir
    * `src/render/diceAdapter.ts`. `src/ui` ne connait que cette interface,
@@ -127,6 +131,7 @@ export class NarrativeView {
   private readonly linesEl: HTMLElement;
   private readonly offscreenEl: HTMLElement;
   private readonly stampEl: HTMLElement;
+  private readonly luckEl: HTMLElement;
   private readonly insightEl: HTMLElement;
   private readonly choicesEl: HTMLElement;
   private readonly advanceEl: HTMLButtonElement;
@@ -179,6 +184,7 @@ export class NarrativeView {
           <div class="narrative-lines" data-testid="lines"></div>
           <div class="narrative-offscreen" data-testid="offscreen-log" hidden></div>
           <div class="narrative-rollcard" data-testid="roll" hidden></div>
+          <div class="narrative-luck" data-testid="luck" hidden></div>
           <div class="narrative-insight" data-testid="insight" hidden></div>
           <div class="narrative-choices" data-testid="choices"></div>
           <button type="button" class="narrative-advance btn btn--primary" data-testid="advance" hidden></button>
@@ -197,6 +203,7 @@ export class NarrativeView {
     this.linesEl = this.q('[data-testid="lines"]');
     this.offscreenEl = this.q('[data-testid="offscreen-log"]');
     this.stampEl = this.q('[data-testid="roll"]');
+    this.luckEl = this.q('[data-testid="luck"]');
     this.insightEl = this.q('[data-testid="insight"]');
     this.choicesEl = this.q('[data-testid="choices"]');
     this.advanceEl = this.q('[data-testid="advance"]') as HTMLButtonElement;
@@ -257,7 +264,46 @@ export class NarrativeView {
     const insight = this.renderInsight(node, token);
     const revealBest = Boolean(insight.reveal) || !node.insight;
     this.renderRollCard(insight.reveal ? insight.reveal.roll : relevantCheck, insight.reveal?.text);
-    this.renderChoices(node.choices, insight.locked, revealBest);
+    const luckLocked = this.renderLuckPrompt(node);
+    this.renderChoices(node.choices, insight.locked || luckLocked, revealBest);
+  }
+
+  /**
+   * Invite "Il manque N — dépenser N Chance ?" (ADR 0015 §2) : affichee des
+   * que `node.pendingRoll` est present ET que son jet a fini d'etre revele
+   * (meme mise en scene que le reste, voir `ensureRevealed` plus haut -- le
+   * de rejoue la chaine `pendingRoll.roll.dieFaces` avant que cette invite
+   * n'apparaisse). Deux boutons, styles avec les jetons existants : "Dépenser
+   * N Chance" (desactive si la Chance disponible ne suffit pas -- filet, ce
+   * cas ne devrait pas arriver, le moteur ne propose que des marges
+   * couvertes) et "Accepter l'échec". Renvoie `true` tant que l'invite est
+   * affichee, pour verrouiller les choix (ADR 0015 §2 : aucune autre reponse
+   * ne doit etre selectionnable pendant qu'une decision de Chance est en jeu).
+   */
+  private renderLuckPrompt(node: PresentedNode): boolean {
+    const pending = node.pendingRoll;
+    if (!pending) {
+      this.luckEl.hidden = true;
+      this.luckEl.innerHTML = '';
+      return false;
+    }
+
+    this.luckEl.hidden = false;
+    this.luckEl.innerHTML = `
+      <p class="narrative-luck-text">Il manque ${pending.missingBy} — dépenser ${pending.missingBy} Chance ?</p>
+      <div class="narrative-luck-actions">
+        <button type="button" class="btn btn--primary" data-testid="luck-spend">Dépenser ${pending.missingBy} Chance</button>
+        <button type="button" class="btn" data-testid="luck-accept">Accepter l'échec</button>
+      </div>
+    `;
+    const spendBtn = this.luckEl.querySelector('[data-testid="luck-spend"]') as HTMLButtonElement;
+    const acceptBtn = this.luckEl.querySelector('[data-testid="luck-accept"]') as HTMLButtonElement;
+    spendBtn.disabled = pending.missingBy > pending.luckAvailable;
+    spendBtn.addEventListener('click', () => this.callbacks.onSpendLuck(pending.missingBy));
+    acceptBtn.addEventListener('click', () => this.callbacks.onAcceptRoll());
+    if (!spendBtn.disabled) spendBtn.focus();
+    else acceptBtn.focus();
+    return true;
   }
 
   /**
@@ -426,14 +472,28 @@ export class NarrativeView {
   }
 
   /**
-   * Bloc du jet de reflexion d'un noeud `insight` (examen ecrit, ADR 0012) :
-   * question deja affichee par `renderNarration`, ce bloc ajoute la puce
-   * (competence, DV, chance) + le bouton "Lancer le dé", avec juste a cote
-   * (meme bloc, pas au bas du panneau -- correctif de revue visuelle) le
-   * rappel "Réfléchissez d'abord..." tant qu'aucun jet n'a ete tire ; une
-   * fois resolu, il s'efface -- le verdict vit dans la carte de resultat
-   * (`renderRollCard`), pas ici (mise en scene commune aux deux mecanismes
-   * de jet).
+   * Bloc du jet de reflexion d'un noeud `insight` (examen ecrit, ADR 0012 ;
+   * facultatif avec cout, ADR 0015 §1) : question deja affichee par
+   * `renderNarration`, ce bloc ajoute la puce (competence, DV, chance) + le
+   * bouton de jet, avec juste a cote (meme bloc, pas au bas du panneau --
+   * correctif de revue visuelle) le rappel "Réfléchissez d'abord..." tant
+   * qu'aucun jet n'a ete tire ; une fois resolu, il s'efface -- le verdict vit
+   * dans la carte de resultat (`renderRollCard`), pas ici (mise en scene
+   * commune aux deux mecanismes de jet).
+   *
+   * Mandatory (`optional` absent) : bouton "Lancer le dé", reponses
+   * verrouillees tant qu'il n'a pas ete clique (statut `pending`).
+   * Facultatif (`optional: true`, ADR 0015 §1) : bouton "Réfléchir (N
+   * concentration)", desactive si `affordable` est faux, reponses JAMAIS
+   * verrouillees (statut `available`) -- le joueur peut repondre sans lancer
+   * le de.
+   *
+   * Des qu'un jet a ete tire (`insight.roll` present), la mise en scene et le
+   * verrouillage suivent le meme chemin que le cas mandatory resolu, MEME si
+   * `status` reste `pending`/`available` -- c'est le cas d'un jet en attente
+   * de Chance (ADR 0015 §2, `PresentedNode.pendingRoll`) : le de doit rejouer
+   * l'echec avant que l'invite "dépenser N Chance ?" (`renderLuckPrompt`)
+   * n'apparaisse.
    */
   private renderInsight(
     node: PresentedNode,
@@ -445,7 +505,12 @@ export class NarrativeView {
       return { locked: false, reveal: null };
     }
 
-    if (insight.status === 'pending') {
+    if (!insight.roll && (insight.status === 'pending' || insight.status === 'available')) {
+      const disabled = insight.optional === true && insight.affordable === false;
+      const label = insight.optional ? `Réfléchir (${insight.cost?.amount ?? 1} concentration)` : 'Lancer le dé';
+      const hint = insight.optional
+        ? ''
+        : `<span class="narrative-insight-hint">Réfléchissez d'abord : lancez le dé.</span>`;
       this.insightEl.hidden = false;
       this.insightEl.innerHTML = `
         <span class="chip-check">
@@ -453,13 +518,14 @@ export class NarrativeView {
           <span class="chip-check__dv">DV ${dvName(insight.dvLabel)}</span>
           <span class="chip-check__pct">${insight.chancePercent}%</span>
         </span>
-        <button type="button" class="btn btn--primary" data-testid="insight-roll">Lancer le dé</button>
-        <span class="narrative-insight-hint">Réfléchissez d'abord : lancez le dé.</span>
+        <button type="button" class="btn btn--primary" data-testid="insight-roll" ${disabled ? 'disabled' : ''}>${label}</button>
+        ${hint}
       `;
       const btn = this.insightEl.querySelector('[data-testid="insight-roll"]') as HTMLButtonElement;
       btn.addEventListener('click', () => this.callbacks.onRollInsight());
-      btn.focus();
-      return { locked: true, reveal: null };
+      if (!disabled && !insight.optional) btn.focus();
+      // Facultatif : jamais verrouille, le joueur peut repondre sans lancer le de.
+      return { locked: !insight.optional, reveal: null };
     }
 
     const roll = insight.roll ?? null;

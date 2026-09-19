@@ -45,11 +45,14 @@ d'interaction atteignable depuis chaque point d'apparition**, identifiants uniqu
 
 ## L'académie HOLT
 
-**Référence : le plan du MJ** (plan d'architecte néon, bleu nuit et violet, « Zone première
-génération — 13-17 ans »). La promotion de Franklyn est la **première génération** de
-l'académie ; son aile occupe tout le plan. Le secteur de la seconde génération est hors carte,
-à l'ouest, derrière une porte condamnée (`door` verrouillée, réplique brève : « Secteur de la
-seconde génération. Accès réservé. »).
+**Référence : le plan du MJ**, [`holtacademy.png`](../art/Reference_pictures/holtacademy.png)
+(plan général complet, décrit dans [`../art/REFERENCES.md`](../art/REFERENCES.md#lacadémie--holtacademypng)).
+L'académie a trois parties : l'aile seconde génération (6-12 ans) à l'ouest, la **colonne
+centrale** des services, et l'aile **première génération (13-17 ans)** à l'est — celle de
+Franklyn. **La carte jouable couvre la colonne centrale et l'aile est.** L'aile ouest est
+hors carte, derrière une porte condamnée (`door` verrouillée, réplique brève : « Secteur de
+la seconde génération. Accès réservé. »). Dans le schéma ci-dessous, « colonne ouest »
+désigne donc la colonne centrale du plan général.
 
 Schéma de principe (1 caractère ≈ 4 m ; nord en haut). L'agent qui dessine la carte à 1 m
 **respecte la topologie et les proportions**, pas ce tracé caractère par caractère.

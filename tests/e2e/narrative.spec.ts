@@ -32,6 +32,16 @@ import type { E2EDossier, E2EPresentedNode, E2ERunState, E2ESceneSnapshot } from
  * ADR 0012 (examen ecrit) : un noeud avec `insight` refuse tout `choose()`
  * tant que son jet de reflexion n'est pas resolu -- l'auto-joueur appelle
  * `rollInsight()` en premier des qu'il en voit un en attente.
+ *
+ * ADR 0015 §2 (Chance) : un jet de Franklyn rate de peu et rattrapable
+ * (`node.pendingRoll`) suspend la navigation jusqu'a `spendLuck()`/
+ * `acceptRoll()` -- l'auto-joueur accepte systematiquement l'echec
+ * (`acceptRoll()`), le plus simple pour un parcours reproductible qui ne
+ * cherche pas a economiser la Chance. ADR 0015 §1 (reflexion facultative,
+ * `insight.optional`) : un jet non tire (`status: 'pending'` OU
+ * `'available'` avec `affordable !== false`) est tire comme avant ; un jet
+ * facultatif non finançable est simplement saute, les reponses restant
+ * disponibles (`choose()` fonctionne directement, voir dialogueRunner.ts).
  */
 async function traverseDialogue(page: Page): Promise<E2EPresentedNode | null> {
   return page.evaluate(() => {
@@ -39,9 +49,21 @@ async function traverseDialogue(page: Page): Promise<E2EPresentedNode | null> {
     let node = api.node();
     // Le plus long dialogue du chapitre (ch1.bal) tient sur 22 noeuds : large marge.
     for (let i = 0; i < 100 && node && !node.finished; i++) {
-      if (node.insight && node.insight.status === 'pending') api.rollInsight();
-      node = api.node();
-      const first = node?.choices[0];
+      if (node.pendingRoll) {
+        api.acceptRoll();
+        node = api.node();
+        continue;
+      }
+      if (
+        node.insight &&
+        (node.insight.status === 'pending' ||
+          (node.insight.status === 'available' && node.insight.affordable !== false))
+      ) {
+        api.rollInsight();
+        node = api.node();
+        continue;
+      }
+      const first = node.choices[0];
       if (first) api.choose(first.index);
       else api.advance();
       node = api.node();
