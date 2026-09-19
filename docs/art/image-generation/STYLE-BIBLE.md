@@ -95,6 +95,7 @@ Toutes les fiches de portrait partagent ce cadrage, pour qu'ils s'alignent dans 
 | Instructeur de l'examen pratique | cyan radio `#45d4e6` | froid, professionnel |
 | Surveillant de l'examen écrit | gris `#9a9a9a` | neutre (et deux variantes) |
 | L'otage (un policier qui joue le rôle) | gris `#9a9a9a` | paniqué, joué un peu trop fort |
+| Smith, instructrice, mentor de Franklyn | cuivre `#c97b4a` | attentive, un demi-sourire complice |
 
 ## Les décors de scène
 
