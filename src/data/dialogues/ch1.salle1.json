@@ -1,0 +1,90 @@
+{
+  "id": "ch1.salle1",
+  "speaker": "otage",
+  "start": "arrivee",
+  "nodes": {
+    "arrivee": {
+      "text": "La porte du premier module d'examen résiste, verrouillée par un panneau électronique. De la fumée s'infiltre par les grilles d'aération, et un bruit de course résonne plus loin dans le bâtiment.",
+      "lines": [{ "who": "zachary", "text": "On n'a pas toute la journée. Ouvre-moi ça." }],
+      "choices": [
+        {
+          "text": "[Piratage] Pirater le panneau de verrouillage.",
+          "check": { "skill": "piratage", "dv": "NORMALE" },
+          "onSuccess": "porte-ouverte",
+          "onFailure": "porte-recalcitrante"
+        }
+      ]
+    },
+    "porte-recalcitrante": {
+      "text": "Le panneau clignote et refuse la commande. John s'impatiente, arrache la plaque à mains nues et force le mécanisme le temps de trouver une meilleure prise.",
+      "lines": [{ "who": "john", "text": "Laisse, je m'en occupe." }],
+      "effects": [{ "tempo": 1 }],
+      "to": "porte-ouverte"
+    },
+    "porte-ouverte": {
+      "text": "Le battant cède dans un grincement. Au-delà, la fumée s'épaissit ; quelque chose court entre les silhouettes des poteaux, avec un grondement sourd.",
+      "lines": [{ "who": "zachary", "text": "Là. Quelque chose bouge." }],
+      "choices": [
+        {
+          "text": "[Perception] Repérer ce qui approche dans la fumée.",
+          "check": { "skill": "perception", "dv": "NORMALE" },
+          "onSuccess": "chien-identifie",
+          "onFailure": "silhouettes-confuses"
+        }
+      ]
+    },
+    "chien-identifie": {
+      "text": "Un chien dressé fonce droit sur une silhouette aux mains liées, brassard orange au bras — un civil qui joue l'otage pour l'exercice. Le reste de la salle est vide de menace.",
+      "lines": [{ "who": "john", "text": "C'est un des leurs. Je le tiens." }],
+      "choices": [
+        {
+          "text": "[Armes de poing] Abattre le chien avant qu'il n'atteigne l'otage.",
+          "check": { "skill": "armesDePoing", "dv": "DIFFICILE", "who": "john" },
+          "onSuccess": "chien-abattu",
+          "onFailure": "chien-manque"
+        },
+        {
+          "text": "Laisser filer et avancer vers la sortie.",
+          "to": "otage-ignore"
+        }
+      ]
+    },
+    "chien-abattu": {
+      "text": "Le tir claque, net. Le chien s'écroule à trois pas de sa cible. L'otage, encore tremblant, se relève et fouille sa veste avec des gestes trop rapides.",
+      "lines": [{ "who": "otage", "text": "Merci— attendez, prenez ça, j'en ai un deuxième, prenez-le !" }],
+      "effects": [
+        { "tag": "sauveteur" },
+        { "flag": "ch1.salle1.otage-sauve", "value": true },
+        { "team": { "healkits": 1 } }
+      ],
+      "to": "sortie"
+    },
+    "chien-manque": {
+      "text": "Le tir part trop tôt et siffle au-dessus de l'échine du chien, qui bifurque dans un couloir latéral en entraînant l'otage avec lui. Le silence retombe, incertain.",
+      "to": "sortie"
+    },
+    "otage-ignore": {
+      "text": "L'équipe choisit de ne pas s'en mêler. Le chien et sa proie disparaissent derrière une porte battante ; un cri étouffé, puis plus rien.",
+      "to": "sortie"
+    },
+    "silhouettes-confuses": {
+      "text": "Dans cette fumée, impossible de distinguer qui est qui : deux formes se confondent, l'une poursuivant l'autre.",
+      "lines": [{ "who": "zachary", "text": "On tire ou on fonce ?" }],
+      "choices": [
+        { "text": "Tirer dans le tas, quitte à se tromper.", "to": "otage-blesse" },
+        { "text": "Ne pas tirer, foncer vers la sortie.", "to": "otage-manque" }
+      ]
+    },
+    "otage-blesse": {
+      "text": "Le coup part au jugé et touche le capteur du gilet de l'otage. L'exercice l'enregistre comme une erreur de tir ; le chien, lui, s'égaille sans encombre.",
+      "to": "sortie"
+    },
+    "otage-manque": {
+      "text": "L'équipe fonce sans attendre de savoir ce qu'il advient du chien ou de sa proie. Le bruit de course s'éteint derrière eux.",
+      "to": "sortie"
+    },
+    "sortie": {
+      "text": "Au bout du couloir, une deuxième porte porte le numéro 2, déjà entrouverte par le souffle des grilles d'aération. Le module suivant attend."
+    }
+  }
+}

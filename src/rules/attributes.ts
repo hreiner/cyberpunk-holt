@@ -37,15 +37,15 @@ export type Skill = (typeof SKILLS)[number];
 
 export const SKILL_LABELS: Record<Skill, string> = {
   perception: 'Perception',
-  education: 'Education',
+  education: 'Éducation',
   piratage: 'Piratage',
-  electronique: 'Electronique',
+  electronique: 'Électronique',
   armesDePoing: 'Armes de poing',
-  corpsACorps: 'Corps a corps',
+  corpsACorps: 'Corps à corps',
   esquive: 'Esquive',
-  discretion: 'Discretion',
-  athletisme: 'Athletisme',
-  resistance: 'Resistance',
+  discretion: 'Discrétion',
+  athletisme: 'Athlétisme',
+  resistance: 'Résistance',
   premiersSoins: 'Premiers soins',
   persuasion: 'Persuasion',
   tactique: 'Tactique',
@@ -77,6 +77,20 @@ export const DV = {
   EXCEPTIONNELLE: 21,
 } as const;
 export type DifficultyName = keyof typeof DV;
+
+/**
+ * Libelles francais affiches au joueur pour chaque DV nommee (puce de jet,
+ * carte de resultat) -- `DifficultyName` (ex. `TRES_DIFFICILE`) reste la cle
+ * technique utilisee par les donnees et l'API de debug, jamais affichee
+ * telle quelle a l'ecran.
+ */
+export const DIFFICULTY_LABELS: Record<DifficultyName, string> = {
+  FACILE: 'Facile',
+  NORMALE: 'Normale',
+  DIFFICILE: 'Difficile',
+  TRES_DIFFICILE: 'Très difficile',
+  EXCEPTIONNELLE: 'Exceptionnelle',
+};
 
 export type AttributeBlock = Record<Attribute, number>;
 export type SkillBlock = Record<Skill, number>;

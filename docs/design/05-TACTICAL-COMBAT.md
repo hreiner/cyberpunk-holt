@@ -138,7 +138,7 @@ L'état importé du parcours intérieur (scène 7) est porté par `TeamState` :
 |---|---|
 | `healkits` | nombre de réanimations possibles |
 | `extraTaser` | l'armoire de la salle 2 a été forcée : un second cadet reçoit un taser |
-| `gassedMember` | ce cadet a subi le gaz de la salle 3 : −2 aux jets, −1 MOUV |
+| `gassedMembers` | ces cadets ont subi le gaz de la salle 3 (liste, plusieurs possibles) : −2 aux jets, −1 MOUV chacun |
 
 ---
 

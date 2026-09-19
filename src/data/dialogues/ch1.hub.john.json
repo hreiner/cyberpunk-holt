@@ -1,0 +1,92 @@
+{
+  "id": "ch1.hub.john",
+  "speaker": "john",
+  "start": "ouverture",
+  "nodes": {
+    "ouverture": {
+      "text": "John est assis sur le pare-chocs du fourgon, à retendre les sangles de son gilet. Il ne lève pas les yeux.",
+      "choices": [
+        { "text": "Ça va ?", "to": "ca-va" },
+        { "text": "T'as l'air ailleurs.", "to": "ailleurs" },
+        {
+          "text": "[Persuasion] Insister un peu, pour une fois.",
+          "check": { "skill": "persuasion", "dv": "DIFFICILE" },
+          "onSuccess": "ouverture-reussie",
+          "onFailure": "mur",
+          "successEffects": [{ "flag": "ch1.hub.john.aplomb", "value": true }]
+        }
+      ]
+    },
+    "ca-va": {
+      "text": "John hausse les épaules et referme une sangle d'un coup sec.",
+      "lines": [{ "who": "john", "text": "Ça va." }],
+      "to": "isolement"
+    },
+    "ailleurs": {
+      "text": "John s'arrête un instant, sangle à la main, puis reprend son geste.",
+      "lines": [{ "who": "john", "text": "Un peu. Ça passe." }],
+      "to": "isolement"
+    },
+    "ouverture-reussie": {
+      "text": "John pose enfin les yeux sur Franklyn, presque prêt à parler pour de bon.",
+      "lines": [
+        {
+          "who": "john",
+          "text": "Ils m'ont convoqué en salle d'interface, cette semaine. Contrôle annuel, ils ont dit."
+        },
+        { "who": "john", "text": "J'ai pas de port. Pourquoi ils convoquent quelqu'un qui a pas de port ?" }
+      ],
+      "choices": [
+        {
+          "text": "C'est bizarre, en effet.",
+          "to": "isolement",
+          "effects": [{ "affinity": { "who": "john", "delta": 1 } }]
+        },
+        { "text": "Aucune idée. Les procédures, sûrement.", "to": "isolement" }
+      ]
+    },
+    "mur": {
+      "text": "John se referme, hausse les épaules, et retourne à ses sangles sans un mot de plus.",
+      "to": "isolement"
+    },
+    "isolement": {
+      "text": "John finit d'ajuster son gilet et regarde ses mains, dans ce silence qu'il a toujours eu.",
+      "lines": [
+        {
+          "who": "john",
+          "text": "Trente cadets, vingt-neuf ports. J'ai arrêté de compter les regards, il y a longtemps."
+        },
+        { "who": "john", "text": "T'es le seul qui n'a jamais posé la question." }
+      ],
+      "choices": [
+        {
+          "text": "Je n'ai pas eu besoin de la poser.",
+          "to": "proximite",
+          "effects": [{ "affinity": { "who": "john", "delta": 1 } }, { "tag": "solitaire" }]
+        },
+        {
+          "text": "On se couvre, comme toujours.",
+          "conditions": [{ "affinity": "john", "atLeast": 2 }],
+          "to": "loyal"
+        },
+        { "text": "Chacun porte ce qu'il porte.", "to": "distance" }
+      ]
+    },
+    "proximite": {
+      "text": "John hoche la tête, presque un sourire, puis se lève et attrape son arme.",
+      "lines": [{ "who": "john", "text": "Ouais. C'est pour ça que tu montes avec nous." }],
+      "to": "cloture"
+    },
+    "loyal": {
+      "text": "John acquiesce sans un mot de plus, comme si la phrase suffisait à tout dire.",
+      "to": "cloture"
+    },
+    "distance": {
+      "text": "John hausse les épaules, se lève, attrape son arme sans insister.",
+      "to": "cloture"
+    },
+    "cloture": {
+      "text": "Il grimpe dans le fourgon et se cale contre la paroi, les yeux fermés, comme s'il comptait déjà les kilomètres."
+    }
+  }
+}

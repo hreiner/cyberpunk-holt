@@ -1,0 +1,139 @@
+{
+  "id": "ch1.salle3",
+  "start": "arrivee",
+  "nodes": {
+    "arrivee": {
+      "text": "La porte se referme derrière eux avec un claquement pneumatique et se verrouille aussitôt. Un chuintement monte des bouches d'aération : un gaz irritant, âcre, commence à envahir la pièce. Au centre, un terminal encore allumé ; en face, la sortie.",
+      "lines": [
+        {
+          "who": "zachary",
+          "text": "On sort, ou on regarde ce que raconte cette machine ?"
+        }
+      ],
+      "choices": [
+        {
+          "text": "Foncer vers la sortie sans s'attarder.",
+          "to": "sortie-rapide"
+        },
+        {
+          "text": "[Résistance] Rester malgré les vapeurs pour fouiller le terminal.",
+          "check": {
+            "skill": "resistance",
+            "dv": "DIFFICILE",
+            "who": "zachary"
+          },
+          "effects": [
+            {
+              "tempo": 2
+            }
+          ],
+          "onSuccess": "zacharie-tient",
+          "onFailure": "zacharie-gaze"
+        }
+      ]
+    },
+    "sortie-rapide": {
+      "text": "L'équipe traverse sans un regard pour l'écran, les yeux déjà rivés sur la sortie. Ils respirent l'air libre avant même d'avoir toussé.",
+      "effects": [
+        {
+          "tag": "prudent"
+        }
+      ]
+    },
+    "zacharie-tient": {
+      "text": "Zacharie serre les dents, les yeux rouges, mais tient debout.",
+      "to": "epreuve-john"
+    },
+    "zacharie-gaze": {
+      "text": "Une quinte de toux plie Zacharie en deux ; il s'effondre contre le mur, hors d'état de continuer sans assistance.",
+      "effects": [
+        {
+          "team": {
+            "gassed": "zachary"
+          }
+        },
+        {
+          "tag": "imprudent-salle-3"
+        }
+      ],
+      "to": "epreuve-john"
+    },
+    "epreuve-john": {
+      "text": "Le gaz monte encore. John couvre son visage d'un bras et avance vers le terminal.",
+      "choices": [
+        {
+          "text": "[Résistance] John encaisse et continue.",
+          "check": {
+            "skill": "resistance",
+            "dv": "DIFFICILE",
+            "who": "john"
+          },
+          "onSuccess": "john-tient",
+          "onFailure": "john-gaze"
+        }
+      ]
+    },
+    "john-tient": {
+      "text": "John force le passage à travers les vapeurs sans un mot de plainte.",
+      "to": "epreuve-franklyn"
+    },
+    "john-gaze": {
+      "text": "John suffoque et se plie contre une console, les yeux larmoyants, incapable d'aller plus loin.",
+      "effects": [
+        {
+          "team": {
+            "gassed": "john"
+          }
+        },
+        {
+          "tag": "imprudent-salle-3"
+        }
+      ],
+      "to": "epreuve-franklyn"
+    },
+    "epreuve-franklyn": {
+      "text": "Franklyn sent sa gorge se serrer ; encore quelques pas jusqu'au terminal.",
+      "choices": [
+        {
+          "text": "[Résistance] Tenir jusqu'au terminal.",
+          "check": {
+            "skill": "resistance",
+            "dv": "DIFFICILE"
+          },
+          "onSuccess": "franklyn-tient",
+          "onFailure": "franklyn-gaze"
+        }
+      ]
+    },
+    "franklyn-tient": {
+      "text": "Franklyn atteint le clavier, les larmes aux yeux mais la main sûre.",
+      "to": "video-recuperee"
+    },
+    "franklyn-gaze": {
+      "text": "Franklyn s'écroule à un pas du terminal, la vue brouillée par les vapeurs. Il faudra que quelqu'un d'autre termine.",
+      "effects": [
+        {
+          "team": {
+            "gassed": "franklyn"
+          }
+        },
+        {
+          "tag": "imprudent-salle-3"
+        }
+      ],
+      "to": "video-recuperee"
+    },
+    "video-recuperee": {
+      "text": "Sur l'écran, les caméras de sécurité rejouent le passage de l'équipe adverse, salle après salle. Franklyn regarde jusqu'au bout, puis la sortie.",
+      "effects": [
+        {
+          "tag": "renseignement"
+        },
+        {
+          "flag": "ch1.salle3.video-vue",
+          "value": true
+        }
+      ]
+    }
+  }
+}

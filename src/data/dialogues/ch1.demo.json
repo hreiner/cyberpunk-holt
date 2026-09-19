@@ -1,0 +1,31 @@
+{
+  "id": "ch1.demo",
+  "speaker": "instructeur",
+  "start": "ouverture",
+  "nodes": {
+    "ouverture": {
+      "text": "L'instructeur verifie sa liste avant l'appel.",
+      "lines": [{ "who": "instructeur", "text": "Pret pour l'exercice, cadet ?" }],
+      "choices": [
+        {
+          "text": "Oui, instructeur.",
+          "to": "confiant"
+        },
+        {
+          "text": "[Resistance] Respirer un grand coup avant de repondre.",
+          "check": { "skill": "resistance", "dv": "FACILE" },
+          "onSuccess": "confiant",
+          "onFailure": "hesitant"
+        }
+      ]
+    },
+    "confiant": {
+      "text": "Le cadet repond sans trembler.",
+      "lines": [{ "who": "instructeur", "text": "Bien. En place." }]
+    },
+    "hesitant": {
+      "text": "La voix du cadet part un peu de travers.",
+      "lines": [{ "who": "instructeur", "text": "Ca ira. Respirez, et en place." }]
+    }
+  }
+}

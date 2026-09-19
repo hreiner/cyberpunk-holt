@@ -1,0 +1,289 @@
+/**
+ * Jetons et classes de base du design system « Encre rouge ».
+ * Contraignant : docs/art/UI-DESIGN-SYSTEM.md. Toute couleur/police/forme
+ * utilisee ailleurs dans src/ui/ doit passer par ces variables, jamais une
+ * valeur en dur (voir AGENTS.md, regle 5 -- et sa reformulation ici pour le CSS).
+ *
+ * Polices auto-hebergees via @fontsource (le jeu doit tourner hors ligne) :
+ * on n'importe que les graisses utilisees par le document (section
+ * "Typographie").
+ */
+
+/* Big Shoulders Display : titrage (700, 800). */
+@import '@fontsource/big-shoulders-display/700';
+@import '@fontsource/big-shoulders-display/800';
+
+/* Big Shoulders Stencil Display : tampons uniquement (800). */
+@import '@fontsource/big-shoulders-stencil-display/800';
+
+/* Barlow Semi Condensed : texte courant (400, 400 italique, 600). */
+@import '@fontsource/barlow-semi-condensed/400';
+@import '@fontsource/barlow-semi-condensed/400-italic';
+@import '@fontsource/barlow-semi-condensed/600';
+
+:root {
+  /* Fonds -- noir d'encre teinte de rouge : le ciel des Badlands a la nuit tombee */
+  --ink: #140d0e; /* fond de page */
+  --ink-2: #1e1415; /* panneaux */
+  --ink-3: #2b1c1d; /* panneaux surelevees, survol */
+  --rule: #4a3031; /* filets, bordures */
+
+  /* Texte -- blanc os, comme un papier imprime, jamais un blanc pur */
+  --bone: #efe4d4; /* texte principal */
+  --bone-dim: #b4a693; /* narration, texte secondaire */
+  --bone-faint: #7d7064; /* indications, desactive */
+
+  /* Signal */
+  --red: #e2262f; /* le rouge RED : titres, tampons, action principale */
+  --red-deep: #8c1219; /* ombre de reperage, presse */
+  --tape: #f2c230; /* ruban de police : jets de competence, chances, des */
+  --comm: #45d4e6; /* canal radio de l'instructeur, et seulement lui */
+
+  /* Equipes -- inchangees, heritees de la scene 3D */
+  --team-blue: #3fa9ff;
+  --team-red: #ff5a52;
+
+  /* Verdicts */
+  --ok: #7fd08a; /* reussite, usage general -- le tampon "REUSSI" utilise --tape, voir .stamp--ok */
+  --ko: var(--red);
+
+  /* Polices */
+  --font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
+  --font-stamp: 'Big Shoulders Stencil Display', var(--font-display);
+  --font-text: 'Barlow Semi Condensed', 'Segoe UI', sans-serif;
+
+  /* Echelle (base 17px, rapport ~1.25) */
+  --fs-xs: 0.8125rem; /* 13 -- raccourcis clavier, mentions legales */
+  --fs-sm: 0.9375rem; /* 15 -- HUD, metadonnees */
+  --fs-md: 1.0625rem; /* 17 -- texte courant, repliques */
+  --fs-lg: 1.375rem; /* 22 -- noms de personnages */
+  --fs-xl: 2rem; /* 32 -- titres de scene */
+  --fs-2xl: 3.5rem; /* 56 -- ecran titre, tampons */
+  --lh-text: 1.55;
+  --lh-tight: 1.05;
+
+  /* Formes : coins coupes, pas arrondis (voir section "Formes") */
+  --cut: 14px;
+  --cut-sm: 7px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-text);
+}
+
+/* ------------------------------------------------------------------------ */
+/* .panel -- surface de base : coins coupes, fond encre, jamais arrondie.   */
+/* ------------------------------------------------------------------------ */
+
+.panel {
+  background: var(--ink-2);
+  color: var(--bone);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  clip-path: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%,
+    0 var(--cut)
+  );
+}
+
+/**
+ * Ombre de repérage : un double du panneau en --red-deep, decale de 4px 4px,
+ * suit le clip-path via drop-shadow (contrairement a box-shadow). Reservee
+ * aux elements de premier plan (portrait actif, carte survolee, tampons) --
+ * jamais posee par defaut sur .panel.
+ */
+.panel--lifted {
+  filter: drop-shadow(4px 4px 0 var(--red-deep));
+}
+
+/* ------------------------------------------------------------------------ */
+/* Boutons                                                                  */
+/* ------------------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--ink-3);
+  color: var(--bone);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  clip-path: polygon(
+    var(--cut-sm) 0,
+    100% 0,
+    100% calc(100% - var(--cut-sm)),
+    calc(100% - var(--cut-sm)) 100%,
+    0 100%,
+    0 var(--cut-sm)
+  );
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  padding: 8px 18px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--ink-2);
+  border-color: var(--bone-faint);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/** Action principale d'un ecran : le rouge est rare, reserve a ce role. */
+.btn--primary {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--bone);
+}
+
+.btn--primary:hover {
+  background: var(--red-deep);
+  border-color: var(--red-deep);
+}
+
+/* ------------------------------------------------------------------------ */
+/* .stamp -- l'element memorable : un jet, une mention, un titre de scene   */
+/* qui tombe sur l'ecran comme un tampon encreur.                          */
+/* ------------------------------------------------------------------------ */
+
+@keyframes stamp-impact {
+  from {
+    opacity: 0;
+    transform: scale(1.6) rotate(-9deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(-6deg);
+  }
+}
+
+.stamp {
+  display: inline-block;
+  font-family: var(--font-stamp);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transform: rotate(-6deg);
+  animation: stamp-impact 180ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
+/** RÉUSSI : --tape (le jaune du jet), pas --ok -- voir la note sur --ok plus haut. */
+.stamp--ok {
+  color: var(--tape);
+}
+
+/** ÉCHEC : --red. */
+.stamp--ko {
+  color: var(--ko);
+}
+
+/* ------------------------------------------------------------------------ */
+/* .portrait -- conteneur commun a src/ui/portraits.ts (thumb/card/hero).   */
+/* Taille reelle posee en ligne par `portraitElement` ; ces regles ne       */
+/* fixent que l'habillage commun.                                          */
+/* ------------------------------------------------------------------------ */
+
+.portrait {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  flex: none;
+  background: var(--ink-2);
+  border-radius: 0;
+}
+
+.portrait img,
+.portrait .portrait-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ------------------------------------------------------------------------ */
+/* .halftone -- trame de points, a faible opacite. Fonds de scene et        */
+/* portraits provisoires (voir aussi src/ui/portraits.ts, qui genere sa     */
+/* propre trame en SVG pour le placeholder).                                */
+/* ------------------------------------------------------------------------ */
+
+.halftone {
+  position: relative;
+}
+
+.halftone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--red) 1px, transparent 1.6px);
+  background-size: 10px 10px;
+  opacity: 0.08;
+}
+
+/* ------------------------------------------------------------------------ */
+/* .chip-check -- puce "il y a un jet" : competence, DV, chance de reussite.*/
+/* Uniquement le jaune --tape signifie ca (voir section "Couleurs").        */
+/* ------------------------------------------------------------------------ */
+
+.chip-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--tape);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  padding: 2px 10px;
+  border-radius: 0;
+  clip-path: polygon(
+    var(--cut-sm) 0,
+    100% 0,
+    100% calc(100% - var(--cut-sm)),
+    calc(100% - var(--cut-sm)) 100%,
+    0 100%,
+    0 var(--cut-sm)
+  );
+}
+
+/* ------------------------------------------------------------------------ */
+/* Focus clavier -- visible partout, jamais l'outline navigateur par defaut.*/
+/* ------------------------------------------------------------------------ */
+
+:focus-visible {
+  outline: 2px solid var(--tape);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Mouvement reduit -- un seul moment orchestre par ecran, desactivable.    */
+/* ------------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

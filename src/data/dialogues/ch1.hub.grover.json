@@ -1,0 +1,113 @@
+{
+  "id": "ch1.hub.grover",
+  "speaker": "grover",
+  "start": "ouverture",
+  "nodes": {
+    "ouverture": {
+      "text": "Grover vérifie une dernière fois la liste du matériel, cochant chaque ligne avec un soin presque excessif. Il lève les yeux en sentant Franklyn approcher.",
+      "lines": [
+        {
+          "who": "grover",
+          "text": "Ta bande a encore chahuté dans le dortoir hier soir. Ça s'entendait jusqu'au bâtiment B."
+        }
+      ],
+      "choices": [
+        { "text": "Ce n'était rien de grave.", "to": "defense" },
+        {
+          "text": "Tu as raison, c'était de trop.",
+          "to": "concession",
+          "effects": [{ "affinity": { "who": "grover", "delta": 1 } }, { "tag": "loyal-academie" }]
+        },
+        {
+          "text": "[Éducation] Lui rappeler que le règlement HOLT n'interdit pas de rire.",
+          "check": { "skill": "education", "dv": "NORMALE" },
+          "onSuccess": "jet-succes",
+          "onFailure": "jet-echec",
+          "successEffects": [{ "flag": "ch1.hub.grover.conseil", "value": true }]
+        }
+      ]
+    },
+    "defense": {
+      "text": "Grover pince les lèvres, pas convaincu, mais laisse tomber plutôt que d'insister.",
+      "lines": [{ "who": "grover", "text": "Si tu le dis." }],
+      "to": "capitaine"
+    },
+    "concession": {
+      "text": "Grover semble presque surpris d'obtenir si facilement raison. Il hoche la tête, satisfait.",
+      "to": "capitaine"
+    },
+    "jet-succes": {
+      "text": "Grover s'arrête, la liste à la main, et pour une fois ne trouve pas de réplique toute prête.",
+      "lines": [
+        { "who": "grover", "text": "...Techniquement, tu n'as pas tort." },
+        {
+          "who": "grover",
+          "text": "Je préfère qu'on parle trop fort à minuit plutôt que pas du tout. Retiens ça pour tout à l'heure, ça peut servir."
+        }
+      ],
+      "to": "capitaine"
+    },
+    "jet-echec": {
+      "text": "Grover n'est pas d'humeur à se laisser convaincre par un article de règlement récité de travers.",
+      "lines": [
+        {
+          "who": "grover",
+          "text": "Le règlement, le règlement... Retiens surtout qu'on nous regarde, aujourd'hui."
+        }
+      ],
+      "to": "capitaine"
+    },
+    "capitaine": {
+      "text": "Grover range enfin sa liste et regarde vers Letitia, en discussion avec Zachary un peu plus loin.",
+      "lines": [
+        {
+          "who": "grover",
+          "text": "Je capitaine l'équipe rouge. Letitia est dedans. Théodore reste ici, cette fois."
+        },
+        {
+          "who": "grover",
+          "text": "Si ça se passe mal pour elle là-bas, c'est moi qui devrai lui expliquer pourquoi."
+        }
+      ],
+      "choices": [
+        {
+          "text": "Tu t'en fais trop. Elle sait se débrouiller.",
+          "to": "rassure",
+          "effects": [{ "affinity": { "who": "grover", "delta": 1 } }]
+        },
+        {
+          "text": "C'est toi qui devrais peut-être moins t'en faire, pour une fois.",
+          "to": "seche",
+          "effects": [{ "affinity": { "who": "grover", "delta": -1 } }]
+        },
+        {
+          "text": "On n'a jamais été proches, mais je comprends.",
+          "conditions": [{ "affinity": "grover", "atMost": -1 }],
+          "to": "distance-reconnue"
+        }
+      ]
+    },
+    "rassure": {
+      "text": "Grover esquisse un demi-sourire, rare chez lui.",
+      "lines": [{ "who": "grover", "text": "Sans doute. Merci." }],
+      "to": "cloture"
+    },
+    "seche": {
+      "text": "Grover se raidit, referme la sangle de son sac d'un geste sec, sans répondre.",
+      "to": "cloture"
+    },
+    "distance-reconnue": {
+      "text": "Grover regarde Franklyn un instant, presque surpris qu'il se donne la peine de comprendre.",
+      "lines": [
+        {
+          "who": "grover",
+          "text": "On n'a jamais eu grand-chose à se dire, toi et moi. Ça n'empêche pas d'écouter, j'imagine."
+        }
+      ],
+      "to": "cloture"
+    },
+    "cloture": {
+      "text": "Il rejoint son équipe sans un regard de plus, déjà concentré sur autre chose."
+    }
+  }
+}

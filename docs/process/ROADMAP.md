@@ -44,23 +44,24 @@ Reportés, sans bloquer la clôture :
 
 ## Epic 2 — contenu narratif du chapitre 1
 
-**État : non démarré.** Spécifications complètes dans
+**État : quasi clos.** Les neuf scènes du chapitre 1 s'enchaînent de bout en bout,
+`npm run verify` est vert. Spécifications complètes dans
 [`../design/03-CHAPTER-1.md`](../design/03-CHAPTER-1.md).
 
-| Lot | Contenu |
-|---|---|
-| 2.1 | Routeur de scènes : enchaîner les scènes, passer l'état, sauvegarder entre elles |
-| 2.2 | Moteur de dialogue selon [`07-DIALOGUE-FORMAT.md`](../design/07-DIALOGUE-FORMAT.md), plus l'interface associée |
-| 2.3 | Scènes 1 et 2 : introduction et discours du directeur |
-| 2.4 | Scène 3 : examen écrit, entrées au dossier |
-| 2.5 | Scènes 4 et 5 : tirage des équipes et hub de dialogue, affinités |
-| 2.6 | Scène 6 : trajet en fourgon |
-| 2.7 | Scène 7 : les trois salles, objets, dilemmes, état d'équipe |
-| 2.8 | Résolution hors champ de l'équipe adverse, remarques radio, minuteur invisible |
-| 2.9 | Branchement de l'état du parcours sur la phase tactique |
-| 2.10 | Scène 9 : bal de promo, conséquences, note complète |
-| 2.11 | Portraits 2D, ambiance sonore, musique |
-| 2.12 | Export du dossier pour le chapitre 2 |
+| Lot | Contenu | État |
+|---|---|---|
+| 2.1 | Routeur de scènes : enchaîner les scènes, passer l'état, sauvegarder entre elles | fait |
+| 2.2 | Moteur de dialogue selon [`07-DIALOGUE-FORMAT.md`](../design/07-DIALOGUE-FORMAT.md), plus l'interface associée | fait |
+| 2.3 | Scènes 1 et 2 : introduction et discours du directeur | fait |
+| 2.4 | Scène 3 : examen écrit, entrées au dossier | fait |
+| 2.5 | Scènes 4 et 5 : tirage des équipes et hub de dialogue, affinités | fait |
+| 2.6 | Scène 6 : trajet en fourgon | fait |
+| 2.7 | Scène 7 : les trois salles, objets, dilemmes, état d'équipe | fait |
+| 2.8 | Résolution hors champ de l'équipe adverse, remarques radio, minuteur invisible | fait |
+| 2.9 | Branchement de l'état du parcours sur la phase tactique | fait |
+| 2.10 | Scène 9 : bal de promo, conséquences, note complète | fait |
+| 2.11 | Portraits 2D, ambiance sonore, musique | à faire |
+| 2.12 | Export du dossier pour le chapitre 2 | à faire |
 
 ### Dépendances entre lots
 
@@ -71,7 +72,29 @@ Reportés, sans bloquer la clôture :
 ```
 
 Le lot 2.9 est celui qui referme la boucle : à partir de là, une partie complète du
-chapitre 1 se joue d'un bout à l'autre.
+chapitre 1 se joue d'un bout à l'autre. C'est chose faite.
+
+### Clôture de l'epic 2
+
+- [x] Neuf scènes enchaînées, sauvegarde et reprise entre chacune.
+- [x] Parcours intérieur (scène 7) : trois salles, dilemmes, état d'équipe réellement
+      transmis à l'affrontement final — y compris le parcours hors champ de l'équipe
+      adverse (`resolveOffscreenRun`), désormais effectivement appelé et dont le
+      résultat conditionne la vidéo de la salle 3 et l'équipe rouge du combat.
+- [x] Notation complète : combat + parcours intérieur, sur les seules actions du joueur.
+
+Reportés, sans bloquer la clôture :
+
+- [ ] **2.11 — Portraits 2D, ambiance sonore, musique.** Rien de commencé ; la vue
+      narrative (`NarrativeView`) reste volontairement du texte pur pour l'instant
+      (voir son commentaire d'en-tête, « première passe d'UX »).
+- [ ] **2.12 — Export du dossier pour le chapitre 2.** `exportDossier()` existe déjà
+      dans [`src/core/save.ts`](../../src/core/save.ts) (JSON lisible, prêt à être relu
+      par le chapitre 2) mais n'est appelée nulle part : aucun bouton, aucune commande
+      ne la déclenche pour le joueur. Reste à l'exposer (écran de fin de chapitre,
+      ou export manuel depuis le débrief du bal).
+- [ ] Capture de référence Playwright à valider sur la machine de développement, comme
+      pour l'epic 1 (`npx playwright install` puis `npm run test:e2e`).
 
 ---
 

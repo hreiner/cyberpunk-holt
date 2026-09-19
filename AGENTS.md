@@ -23,9 +23,9 @@ Lecture obligatoire avant de coder : [`docs/INDEX.md`](docs/INDEX.md).
 
 | | |
 |---|---|
-| **Epic en cours** | Epic 1 — socle technique + phase tactique finale |
-| **Epic suivant** | Epic 2 — contenu narratif du chapitre 1 |
-| **État** | Epic 1 jouable de bout en bout avec des personnages « capsules » |
+| **Epic en cours** | Epic 2 — contenu narratif du chapitre 1 |
+| **Epic suivant** | rien de planifié — voir « Après le chapitre 1 » dans la feuille de route |
+| **État** | Epic 1 clos. Epic 2 quasi clos : les neuf scènes du chapitre 1 s'enchaînent de bout en bout ; restent les portraits/musique (2.11) et l'export du dossier au joueur (2.12) |
 | **Détail** | [`docs/process/ROADMAP.md`](docs/process/ROADMAP.md) |
 
 ## 3. Les huit règles à ne pas enfreindre

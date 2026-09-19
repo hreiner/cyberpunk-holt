@@ -78,8 +78,8 @@ export function estimateShot(combat: TacticalCombat, shooter: Unit, target: Unit
   };
 
   if (!shooter.items.includes('taser')) return { ...base, reason: 'pas de taser' };
-  if (target.status !== 'active') return { ...base, reason: 'cible neutralisee' };
-  if (dist > TASER_MAX_RANGE) return { ...base, reason: 'hors de portee' };
+  if (target.status !== 'active') return { ...base, reason: 'cible neutralisée' };
+  if (dist > TASER_MAX_RANGE) return { ...base, reason: 'hors de portée' };
   if (!hasLineOfSight(combat.map, shooter.pos, target.pos)) return { ...base, reason: 'pas de ligne de vue' };
 
   const sheet = getCharacter(shooter.id);

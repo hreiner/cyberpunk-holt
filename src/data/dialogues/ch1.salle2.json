@@ -1,0 +1,78 @@
+{
+  "id": "ch1.salle2",
+  "start": "arrivee",
+  "nodes": {
+    "arrivee": {
+      "text": "La deuxième salle s'ouvre sur une armoire blindée à triple combinaison, et sur une porte close droit en face. Le vacarme du parcours voisin filtre à travers les murs.",
+      "lines": [{ "who": "zachary", "text": "L'armoire ou la porte, il faut choisir." }],
+      "choices": [
+        {
+          "text": "[Piratage] Forcer le verrou de l'armoire sécurisée.",
+          "check": { "skill": "piratage", "dv": "DIFFICILE" },
+          "effects": [{ "tempo": 2 }],
+          "onSuccess": "armoire-ouverte",
+          "onFailure": "armoire-resistante"
+        },
+        {
+          "text": "Laisser l'armoire, foncer vers la porte.",
+          "to": "armoire-ignoree"
+        }
+      ]
+    },
+    "armoire-ouverte": {
+      "text": "Le verrou cède. À l'intérieur, un second pistolet taser, encore dans son emballage réglementaire. Franklyn le glisse dans son holster sans un mot.",
+      "effects": [
+        { "tag": "curieux" },
+        { "flag": "ch1.salle2.armoire-forcee", "value": true },
+        { "team": { "extraTaser": true } }
+      ],
+      "to": "porte"
+    },
+    "armoire-resistante": {
+      "text": "Le mécanisme tient bon malgré les efforts ; la combinaison reste hors de portée. Il faut lâcher l'affaire et rejoindre la porte.",
+      "to": "porte"
+    },
+    "armoire-ignoree": {
+      "text": "L'équipe laisse l'armoire fermée et se dirige droit vers la porte, sans un regard en arrière.",
+      "to": "porte"
+    },
+    "porte": {
+      "text": "La porte est verrouillée par un boîtier électronique standard, semblable à celui de la première salle.",
+      "choices": [
+        {
+          "text": "[Piratage] Ouvrir la porte.",
+          "check": { "skill": "piratage", "dv": "NORMALE" },
+          "onSuccess": "porte-franchie",
+          "onFailure": "porte-resistante"
+        }
+      ]
+    },
+    "porte-resistante": {
+      "text": "Le boîtier refuse la commande et se bloque. Il va falloir passer en force, ou trouver un autre biais.",
+      "lines": [{ "who": "john", "text": "Poussez-vous." }],
+      "effects": [{ "tempo": 1 }],
+      "choices": [
+        {
+          "text": "[Athlétisme] Enfoncer la porte d'un coup d'épaule.",
+          "check": { "skill": "athletisme", "dv": "NORMALE", "who": "zachary" },
+          "onSuccess": "porte-franchie",
+          "onFailure": "porte-forcee-a-la-dure"
+        },
+        {
+          "text": "[Électronique] Court-circuiter la gâche électrique.",
+          "check": { "skill": "electronique", "dv": "NORMALE" },
+          "onSuccess": "porte-franchie",
+          "onFailure": "porte-forcee-a-la-dure"
+        }
+      ]
+    },
+    "porte-forcee-a-la-dure": {
+      "text": "Rien n'y fait proprement ; il faut s'y mettre à plusieurs et arracher le battant de ses gonds, dans un vacarme métallique.",
+      "effects": [{ "tempo": 1 }],
+      "to": "porte-franchie"
+    },
+    "porte-franchie": {
+      "text": "Le passage s'ouvre sur un couloir plus étroit, l'air déjà chargé d'une odeur âcre. Le module suivant se fait sentir avant même d'y être entré."
+    }
+  }
+}

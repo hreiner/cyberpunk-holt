@@ -1,0 +1,146 @@
+/**
+ * Test end-to-end du branchement narratif (lot 2.9 / ADR 0011).
+ *
+ * Meme principe que tactical.spec.ts : on ne clique pas dans la vue, on
+ * pilote `window.__game` (voir docs/process/DEBUG_API.md) et on verifie
+ * l'etat. Deux specs, sobres : le premier couvre les quatre points demandes
+ * par la tache originale (la scene 1 s'enchaine et enrichit le dossier,
+ * l'examen pose ses six entrees, l'affrontement final demarre avec le
+ * `TeamState` du `RunState`) ; le second couvre le defaut 2 du rapport de
+ * cloture epic 2 (le dossier ne doit pas survivre a une nouvelle partie sur
+ * une autre graine -- trop couple au DOM/localStorage pour un test unitaire,
+ * voir `isResumingRun` dans src/chapter.ts).
+ */
+
+import { expect, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import type { E2EDossier, E2EPresentedNode, E2ERunState, E2ESceneSnapshot } from './debug-api';
+
+/**
+ * Traverse le dialogue courant en choisissant toujours le premier choix
+ * REELLEMENT propose (ou "Continuer" quand il n'y en a pas). S'arrete des
+ * qu'un noeud terminal est atteint, SANS quitter la scene : voir
+ * `advanceToNextScene`.
+ *
+ * Piege corrige (defaut 1 du rapport de cloture epic 2) : `choice.index` est
+ * l'index D'ORIGINE dans `node.choices`, pas sa position dans cette liste
+ * presentee -- un choix cache par une condition "saute" son numero. Passer
+ * `0` en dur bouclait en silence des qu'un noeud filtrait son premier choix
+ * (ex. ch1.fourgon / "reactions"). `choose()` ne renvoie plus le noeud
+ * suivant (voir docs/process/DEBUG_API.md) : on relit `node()` a part.
+ *
+ * ADR 0012 (examen ecrit) : un noeud avec `insight` refuse tout `choose()`
+ * tant que son jet de reflexion n'est pas resolu -- l'auto-joueur appelle
+ * `rollInsight()` en premier des qu'il en voit un en attente.
+ */
+async function traverseDialogue(page: Page): Promise<E2EPresentedNode | null> {
+  return page.evaluate(() => {
+    const api = window.__game;
+    let node = api.node();
+    // Le plus long dialogue du chapitre (ch1.bal) tient sur 22 noeuds : large marge.
+    for (let i = 0; i < 100 && node && !node.finished; i++) {
+      if (node.insight && node.insight.status === 'pending') api.rollInsight();
+      node = api.node();
+      const first = node?.choices[0];
+      if (first) api.choose(first.index);
+      else api.advance();
+      node = api.node();
+    }
+    return node;
+  });
+}
+
+/** Sur un noeud terminal, un dernier "Continuer" rend la main au chapitre (voir chapter.ts). */
+async function advanceToNextScene(page: Page): Promise<E2ESceneSnapshot> {
+  return page.evaluate(() => {
+    window.__game.advance();
+    return window.__game.scene();
+  });
+}
+
+async function boot(page: Page, scene: string, seed = 'e2e-narrative'): Promise<void> {
+  await page.goto(`/?seed=${seed}&ai=0&scene=${scene}`);
+  await page.waitForFunction(() => '__game' in window);
+}
+
+test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({ page }) => {
+  await boot(page, 'ch1.intro');
+
+  /* --- 1. La scene 1 (reveil) s'enchaine jusqu'a son noeud terminal --- */
+  const introEnd = await traverseDialogue(page);
+  expect(introEnd?.finished).toBe(true);
+
+  const introDossier = await page.evaluate(() => window.__game.dossier());
+  // "Aller aider John" (premier choix de dortoir) ne pose qu'une affinite, pas
+  // d'etiquette : on verifie que le dossier a bien bouge au sens large plutot
+  // que d'exiger specifiquement une etiquette qu'aucun premier choix ne pose ici.
+  expect(dossierSize(introDossier)).toBeGreaterThan(0);
+
+  const afterIntro = await advanceToNextScene(page);
+  expect(afterIntro.id).toBe('ch1.discours');
+
+  /* --- 2. L'examen : six questions, six entrees de dossier --- */
+  const examScene = await page.evaluate(() => {
+    window.__game.goToScene('ch1.exam');
+    return window.__game.scene();
+  });
+  expect(examScene.id).toBe('ch1.exam');
+  expect(examScene.kind).toBe('dialogue');
+
+  const examEnd = await traverseDialogue(page);
+  expect(examEnd?.finished).toBe(true);
+
+  const examDossier = await page.evaluate(() => window.__game.dossier());
+  const examEntries = examDossier.entries.filter((e) => e.key.startsWith('ch1.exam.question'));
+  expect(examEntries).toHaveLength(6);
+
+  /* --- 3. Le parcours interieur alimente le RunState.teams avant l'affrontement --- */
+  await page.evaluate(() => window.__game.goToScene('ch1.salle1'));
+  await traverseDialogue(page);
+  await advanceToNextScene(page); // fusionne et sauvegarde le RunState (jamais au milieu d'un dialogue)
+
+  const runBeforeCombat: E2ERunState = await page.evaluate(() => window.__game.runState());
+
+  /* --- 4. Le combat demarre avec le TeamState issu du RunState, pas un defaut cache --- */
+  const combatScene = await page.evaluate(() => {
+    window.__game.goToScene('ch1.affrontement');
+    return window.__game.scene();
+  });
+  expect(combatScene.id).toBe('ch1.affrontement');
+  expect(combatScene.kind).toBe('tactical');
+
+  const combatState = await page.evaluate(() => window.__game.state());
+  expect(combatState.phase).toBe('playing');
+  expect(combatState.units).toHaveLength(6);
+  // Preuve du branchement : les kits de soin du combat sont ceux du RunState
+  // construit par le parcours interieur, pas `defaultTeamState()` recalcule a la volee.
+  expect(combatState.healkits.blue).toBe(runBeforeCombat.teams.blue.healkits);
+});
+
+test(
+  'deux parties sur des graines differentes ne cumulent pas leurs etiquettes ' +
+    '(defaut 2 du rapport de cloture epic 2)',
+  async ({ page }) => {
+    await boot(page, 'ch1.intro', 'e2e-dossier-a');
+    await traverseDialogue(page);
+    await advanceToNextScene(page); // persiste dossier + RunState de la partie A (jamais au milieu d'un dialogue)
+
+    const dossierA = await page.evaluate(() => window.__game.dossier());
+    expect(dossierSize(dossierA)).toBeGreaterThan(0);
+
+    // Nouvelle partie, graine differente, SANS `?scene=` (flot normal d'un
+    // joueur qui relance depuis le debut, pas un saut de dev), SANS vider le
+    // localStorage entre les deux `page.goto` : reproduction exacte du
+    // defaut 2.
+    await page.goto('/?seed=e2e-dossier-b&ai=0');
+    await page.waitForFunction(() => '__game' in window);
+
+    const dossierB = await page.evaluate(() => window.__game.dossier());
+    expect(dossierSize(dossierB)).toBe(0);
+    for (const tag of dossierA.tags) expect(dossierB.tags).not.toContain(tag);
+  },
+);
+
+function dossierSize(d: E2EDossier): number {
+  return d.tags.length + d.entries.length + Object.keys(d.affinities).length;
+}

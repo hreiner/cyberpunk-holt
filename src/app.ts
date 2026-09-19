@@ -11,6 +11,7 @@ import { createRng, randomSeedLabel } from '@/core/rng';
 import { loadSession, saveSession } from '@/core/save';
 import { getCharacter } from '@/rules/character';
 import type { CharacterId } from '@/rules/character';
+import type { ScoreInput } from '@/rules/scoring';
 import { Sfx } from '@/audio/sfx';
 import { ITEM_COLORS } from '@/data/items';
 import { decideAction, playAiTurn } from '@/tactical/ai';
@@ -27,11 +28,42 @@ import { RigAnimator } from '@/render/rigAnimator';
 import { TEAM_COLORS, YardView, cellToWorld, worldToCell } from '@/render/yardView';
 import { Hud, type HudActionId } from '@/ui/hud';
 
+/**
+ * Ce que `GameApp` sait dire de l'issue d'un combat, sans rien connaitre du
+ * parcours interieur (otage, armoire, gaz) : c'est a l'appelant (`chapter.ts`)
+ * de completer ces champs a partir du `RunState` avant de noter l'exercice.
+ * Voir `src/rules/scoring.ts` et docs/design/06-SCORING-DOSSIER.md.
+ */
+export type TacticalOutcome = Omit<
+  ScoreInput,
+  'hostageSaved' | 'cabinetOpened' | 'room3VideoWatched' | 'gassedCount'
+>;
+
+/** Resume d'un combat termine, reutilisable par le debug (`window.__game.score()`). */
+export function combatOutcome(combat: TacticalCombat, playerTeam: TeamId): TacticalOutcome {
+  const opponent: TeamId = playerTeam === 'blue' ? 'red' : 'blue';
+  const state = combat.state;
+  return {
+    winner: state.winner,
+    playerTeam,
+    rounds: Math.min(state.round, state.roundLimit),
+    roundLimit: state.roundLimit,
+    alliesStanding: combat.activeUnitsOf(playerTeam).length,
+    alliesTotal: combat.unitsOf(playerTeam).length,
+    enemiesDown: combat.unitsOf(opponent).length - combat.activeUnitsOf(opponent).length,
+    enemiesTotal: combat.unitsOf(opponent).length,
+  };
+}
+
 export interface GameOptions {
   seed?: string;
   playerTeam?: TeamId;
   /** Delai entre deux actions de l'IA, en ms. 0 en test. */
   aiDelayMs?: number;
+  /** Configuration tactique fournie de l'exterieur (le chapitre construit le TacticalSetup a partir du RunState). */
+  setup?: TacticalSetup;
+  /** Appele une fois, des que le combat se termine (voir `refresh()`). */
+  onFinished?(outcome: TacticalOutcome): void;
 }
 
 /** Attente entre deux verifications de fin de deplacement, avant un tour IA. */
@@ -77,15 +109,19 @@ export class GameApp {
   private pendingMode: 'placeMine' | 'run' | null = null;
   private aiTimer: ReturnType<typeof setTimeout> | null = null;
   private disposed = false;
+  private readonly onFinished?: (outcome: TacticalOutcome) => void;
+  /** Garantit un seul appel a `onFinished` par combat (voir `buildScene`, qui le reinitialise). */
+  private finishedNotified = false;
 
   constructor(container: HTMLElement, options: GameOptions = {}) {
     this.container = container;
     this.playerTeam = options.playerTeam ?? 'blue';
     this.aiDelayMs = options.aiDelayMs ?? 450;
+    this.onFinished = options.onFinished;
 
     const session = loadSession();
     const seed = options.seed ?? session.lastSeed ?? '';
-    const setup = defaultSetup(seed || randomSeedLabel());
+    const setup = options.setup ?? defaultSetup(seed || randomSeedLabel());
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -156,6 +192,7 @@ export class GameApp {
     this.effects?.dispose();
     this.queue.clear();
     this.eventCursor = this.combat.state.events.length;
+    this.finishedNotified = false;
 
     this.view = new YardView(this.combat.map, createRng(`${this.combat.state.seed}::decor`));
     this.effects = new EffectsLayer();
@@ -538,6 +575,12 @@ export class GameApp {
     this.syncRigs();
     this.updateOverlay();
     this.hud.render(this.combat, this.playerTeam, this.pendingMode);
+    // Notifie la fin de combat une seule fois : `refresh()` est le point de passage
+    // commun a toutes les facons de terminer un combat (clic joueur, IA, debug API).
+    if (this.combat.state.phase === 'finished' && !this.finishedNotified) {
+      this.finishedNotified = true;
+      this.onFinished?.(combatOutcome(this.combat, this.playerTeam));
+    }
   }
 
   private loop = (now = performance.now()): void => {

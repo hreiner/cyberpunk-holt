@@ -67,11 +67,16 @@ raisonnable si Mixamo déçoit : le contrat `CharacterRig` absorbe ce choix auss
 
 ## Portraits 2D
 
-Les visages vivent **uniquement** dans les dialogues, sous forme de portraits 2D générés.
-Un portrait par cadet, cadrage buste, fond neutre, à partir des descriptions de
-[`REFERENCES.md`](REFERENCES.md) pour rester cohérent avec les références existantes.
+Les visages vivent **uniquement** dans les dialogues, sous forme de portraits 2D. Le
+registre et les placeholders SVG déterministes sont décrits dans
+[`UI-DESIGN-SYSTEM.md`](UI-DESIGN-SYSTEM.md) (section « Portraits »),
+implémentés dans [`src/ui/portraits.ts`](../../src/ui/portraits.ts).
 
-Destination : `public/assets/ui/portraits/<id>.png`.
+**Remplacer un placeholder** : déposer `public/assets/portraits/<id>.webp` (3:4, 600 × 800,
+fond non transparent, cadrage buste, à partir des descriptions de
+[`REFERENCES.md`](REFERENCES.md) pour rester cohérent avec les références existantes), puis
+renseigner `src` dans l'entrée correspondante de `portraits.ts`. Aucun autre code ne change :
+`portraitElement()` bascule automatiquement du placeholder généré vers l'`<img>`.
 
 ## Décors
 

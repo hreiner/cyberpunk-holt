@@ -26,13 +26,14 @@ aucune conversation à retrouver.
 | [`design/04-CHARACTERS.md`](design/04-CHARACTERS.md) | les six cadets : fiches, traits, secrets, relations |
 | [`design/05-TACTICAL-COMBAT.md`](design/05-TACTICAL-COMBAT.md) | spécification du combat tour par tour et de l'IA |
 | [`design/06-SCORING-DOSSIER.md`](design/06-SCORING-DOSSIER.md) | barème de l'examen et dossier du candidat |
-| [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md) | format des dialogues, à implémenter en epic 2 |
+| [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md) | format des dialogues : graphe, conditions, effets, radio, validation |
 
 ## Art
 
 | Document | Contenu |
 |---|---|
 | [`art/ART-DIRECTION.md`](art/ART-DIRECTION.md) | direction artistique, palette, contraintes de lisibilité |
+| [`art/UI-DESIGN-SYSTEM.md`](art/UI-DESIGN-SYSTEM.md) | design system de l'interface HTML/CSS (« Encre rouge ») : jetons, typographie, formes, portraits, écrans |
 | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md) | de la référence au GLB dans le jeu, et comment remplacer les capsules |
 | [`art/REFERENCES.md`](art/REFERENCES.md) | description écrite de toutes les références visuelles existantes |
 
@@ -61,3 +62,5 @@ aucune conversation à retrouver.
 | [0008](process/adr/0008-joueur-controle-trois-cadets.md) | Le joueur contrôle les trois cadets de son équipe |
 | [0009](process/adr/0009-animation-des-deplacements-et-equipement-visible.md) | Déplacements animés côté rendu, matériel visible (équipe du joueur seulement) |
 | [0010](process/adr/0010-evenements-de-combat-et-bruitages-synthetises.md) | Événements de combat pour le rendu (tirs, chutes), bruitages synthétisés |
+| [0011](process/adr/0011-moteur-narratif-etat-de-partie-et-radio.md) | Moteur narratif : dossier / état de partie séparés, radio en couche parallèle, routeur de scènes |
+| [0012](process/adr/0012-examen-ecrit-jet-de-reflexion-et-mise-en-scene.md) | Examen écrit : jet de réflexion, meilleure réponse et mise en scène du dé |

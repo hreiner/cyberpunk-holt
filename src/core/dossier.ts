@@ -9,9 +9,11 @@
  */
 
 import type { CharacterId } from '@/rules/character';
-import type { ExerciseScore } from '@/rules/scoring';
+import type { ExerciseScore, WrittenScore } from '@/rules/scoring';
+import { writtenScoreTags } from '@/rules/scoring';
 
-export const DOSSIER_VERSION = 1;
+/** v2 (ADR 0012) : ajoute `writtenScore`. `migrateDossier` accepte un dossier v1 sans ce champ. */
+export const DOSSIER_VERSION = 2;
 
 export interface DossierEntry {
   /** Identifiant stable, ex: `ch1.exam.question3`. */
@@ -33,6 +35,8 @@ export interface Dossier {
   entries: DossierEntry[];
   /** Note de l'examen pratique, une fois l'exercice termine. */
   practicalScore: ExerciseScore | null;
+  /** Note de l'examen ecrit (scene 3, ADR 0012), une fois la copie terminee. */
+  writtenScore: WrittenScore | null;
   updatedAt: string;
 }
 
@@ -44,6 +48,7 @@ export function createDossier(candidate: CharacterId = 'franklyn'): Dossier {
     affinities: {},
     entries: [],
     practicalScore: null,
+    writtenScore: null,
     updatedAt: new Date(0).toISOString(),
   };
 }
@@ -69,6 +74,10 @@ export function setPracticalScore(dossier: Dossier, score: ExerciseScore): Dossi
   return touch(addTags({ ...dossier, practicalScore: score }, score.tags));
 }
 
+export function setWrittenScore(dossier: Dossier, score: WrittenScore): Dossier {
+  return touch(addTags({ ...dossier, writtenScore: score }, writtenScoreTags(score)));
+}
+
 function touch(d: Dossier): Dossier {
   return { ...d, updatedAt: new Date().toISOString() };
 }
@@ -86,5 +95,7 @@ export function migrateDossier(raw: unknown): Dossier {
     entries: candidate.entries ?? [],
     affinities: candidate.affinities ?? {},
     practicalScore: candidate.practicalScore ?? null,
+    // Absent sur tout dossier v1 (avant l'ADR 0012) : jamais un dossier illisible pour autant.
+    writtenScore: candidate.writtenScore ?? null,
   };
 }

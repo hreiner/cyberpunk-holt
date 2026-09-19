@@ -1,0 +1,55 @@
+{
+  "id": "ch1.intro",
+  "start": "reveil",
+  "nodes": {
+    "reveil": {
+      "text": "La sonnerie n'a pas encore retenti que Franklyn a déjà les yeux ouverts, fixés sur le plafond en béton brut du dortoir 3. Dernier jour avant la remise des diplômes.",
+      "to": "dortoir"
+    },
+    "dortoir": {
+      "text": "Autour de lui, dix-neuf autres lits superposés grincent l'un après l'autre. L'air sent le savon industriel et l'appréhension rentrée. Deux silhouettes bougent déjà : John, raide, son paquetage plié au carré ; Zachary, trois lits plus loin, qui commente déjà la journée à voix haute pour tout le dortoir.",
+      "lines": [
+        { "who": "john", "text": "Debout. On n'est pas en avance." },
+        { "who": "zachary", "text": "Aujourd'hui, les gars ! Aujourd'hui on part en stage !" }
+      ],
+      "choices": [
+        {
+          "text": "Aller aider John à finir son paquetage sans un mot.",
+          "to": "avec-john",
+          "effects": [{ "affinity": { "who": "john", "delta": 1 } }]
+        },
+        {
+          "text": "Répondre à Zachary aussi fort que lui.",
+          "to": "avec-zachary",
+          "effects": [{ "affinity": { "who": "zachary", "delta": 1 } }]
+        },
+        {
+          "text": "Rester sur son lit un instant de plus, en silence.",
+          "to": "silence",
+          "effects": [{ "tag": "reserve" }]
+        }
+      ]
+    },
+    "avec-john": {
+      "text": "Franklyn replie la couverture au carré sans qu'on le lui demande. John ne dit rien, mais il ralentit d'un cran, comme s'il attendait ça.",
+      "lines": [{ "who": "john", "text": "Toujours aussi carré, toi. Ça va aller." }],
+      "to": "habillage"
+    },
+    "avec-zachary": {
+      "text": "Franklyn répond du tac au tac. Trois lits plus loin, Zachary éclate de rire et manque de renverser sa gamelle d'eau.",
+      "lines": [{ "who": "zachary", "text": "Voilà l'esprit ! On va tous se souvenir de ce jour !" }],
+      "to": "habillage"
+    },
+    "silence": {
+      "text": "Franklyn laisse le dortoir s'agiter autour de lui quelques secondes de plus avant de se lever. Personne ne remarque rien — c'est très bien comme ça.",
+      "to": "habillage"
+    },
+    "habillage": {
+      "text": "L'uniforme est repassé depuis la veille, les bottes cirées. Dans le miroir piqué de rouille, Franklyn se trouve plus pâle que d'habitude. Aujourd'hui, tout se joue.",
+      "to": "cour"
+    },
+    "cour": {
+      "text": "Dehors, le soleil des Badlands écrase déjà la cour de béton. Trente cadets convergent en rangs vers l'amphithéâtre, pour le discours du directeur."
+    }
+  }
+}

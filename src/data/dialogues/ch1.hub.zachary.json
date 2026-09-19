@@ -1,0 +1,107 @@
+{
+  "id": "ch1.hub.zachary",
+  "speaker": "zachary",
+  "start": "ouverture",
+  "nodes": {
+    "ouverture": {
+      "text": "Près du fourgon, Zachary charge son paquetage avec deux fois plus d'énergie que nécessaire. Il repère Franklyn et lui fait signe.",
+      "lines": [{ "who": "zachary", "text": "Alors, prêt à sortir de ce trou ?" }],
+      "choices": [
+        {
+          "text": "Toujours prêt.",
+          "to": "reponse-confiant",
+          "effects": [{ "affinity": { "who": "zachary", "delta": 1 } }]
+        },
+        {
+          "text": "Un peu nerveux, pour être honnête.",
+          "to": "reponse-timide"
+        },
+        {
+          "text": "[Tactique] Lui demander comment il compte ouvrir le combat.",
+          "check": { "skill": "tactique", "dv": "NORMALE" },
+          "onSuccess": "jet-tactique-succes",
+          "onFailure": "jet-tactique-echec",
+          "successEffects": [{ "flag": "ch1.hub.zachary.plan", "value": true }]
+        }
+      ]
+    },
+    "reponse-confiant": {
+      "text": "Zachary éclate de rire et lui écrase l'épaule.",
+      "lines": [
+        { "who": "zachary", "text": "Voilà ce que j'aime entendre. On va leur montrer ce que vaut la bande." }
+      ],
+      "to": "ambition"
+    },
+    "reponse-timide": {
+      "text": "Zachary hausse un sourcil, presque surpris, puis sourit.",
+      "lines": [
+        { "who": "zachary", "text": "Nerveux, toi ? T'as eu le meilleur temps à l'écrit. Détends-toi." }
+      ],
+      "to": "ambition"
+    },
+    "jet-tactique-succes": {
+      "text": "Zachary se penche, sérieux une seconde, et trace un mouvement dans l'air du plat de la main.",
+      "lines": [
+        {
+          "who": "zachary",
+          "text": "On fonce par la gauche, on prend l'espace avant qu'ils comprennent qu'on est déjà dessus. Ça marche toujours."
+        }
+      ],
+      "to": "ambition"
+    },
+    "jet-tactique-echec": {
+      "text": "Zachary fait un geste vague, plus concentré sur son paquetage que sur la question.",
+      "lines": [
+        {
+          "who": "zachary",
+          "text": "On improvisera. C'est jamais le plan qui compte, c'est qui fonce le premier."
+        }
+      ],
+      "to": "ambition"
+    },
+    "ambition": {
+      "text": "Zachary referme son sac d'un coup sec et regarde vers le désert, au-delà du grillage.",
+      "lines": [
+        {
+          "who": "zachary",
+          "text": "Tu sais ce que j'ai demandé, pour l'affectation ? Unité d'intervention. La plus exposée de la liste."
+        },
+        { "who": "zachary", "text": "Grover a dit que j'étais fou. Il a sûrement raison." }
+      ],
+      "choices": [
+        {
+          "text": "Tu ne devrais pas viser aussi haut si vite.",
+          "to": "friction",
+          "effects": [{ "affinity": { "who": "zachary", "delta": -1 } }]
+        },
+        {
+          "text": "Ça te ressemble bien.",
+          "to": "soutien",
+          "effects": [{ "affinity": { "who": "zachary", "delta": 1 } }, { "tag": "loyal-bande" }]
+        },
+        {
+          "text": "Sois prudent, au moins pour une fois.",
+          "conditions": [{ "tag": "pragmatique" }],
+          "to": "prudence"
+        }
+      ]
+    },
+    "friction": {
+      "text": "Le sourire de Zachary se referme d'un coup. Il hausse les épaules et se détourne vers le fourgon, sans un mot de plus.",
+      "to": "cloture"
+    },
+    "soutien": {
+      "text": "Zachary sourit, plus large encore, et donne un coup de poing amical dans l'épaule de Franklyn.",
+      "lines": [{ "who": "zachary", "text": "Voilà. Toi au moins, tu comprends." }],
+      "to": "cloture"
+    },
+    "prudence": {
+      "text": "Zachary s'arrête, surpris que Franklyn ose le lui dire en face. Il finit par hocher la tête, presque sérieux.",
+      "lines": [{ "who": "zachary", "text": "Ouais... peut-être. Pour une fois." }],
+      "to": "cloture"
+    },
+    "cloture": {
+      "text": "Il attrape son paquetage et grimpe dans le fourgon en sifflotant, déjà ailleurs."
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "id": "ch1.hub.abigail",
+  "speaker": "abigail",
+  "start": "ouverture",
+  "nodes": {
+    "ouverture": {
+      "text": "Abigail est agenouillée près du matériel médical, à vérifier le contenu d'un kit de soin avec une attention presque maniaque.",
+      "lines": [
+        { "who": "abigail", "text": "Tu sais qu'on est censés se taser tout à l'heure, toi et moi ?" }
+      ],
+      "choices": [
+        { "text": "Bizarre, hein.", "to": "bizarre" },
+        {
+          "text": "Ça ne change rien entre nous.",
+          "to": "rassure",
+          "effects": [{ "affinity": { "who": "abigail", "delta": 1 } }]
+        },
+        {
+          "text": "[Électronique] Lui demander comment elle a retapé ce vieux matériel.",
+          "check": { "skill": "electronique", "dv": "DIFFICILE" },
+          "onSuccess": "jet-succes",
+          "onFailure": "jet-echec",
+          "successEffects": [{ "flag": "ch1.hub.abigail.kit", "value": true }]
+        }
+      ]
+    },
+    "bizarre": {
+      "text": "Abigail hausse les épaules et referme le kit d'un clic sec.",
+      "lines": [{ "who": "abigail", "text": "Bizarre, ouais. Mais c'est le tirage." }],
+      "to": "equipe-rouge"
+    },
+    "rassure": {
+      "text": "Abigail lève les yeux un instant, presque touchée, avant de se reconcentrer sur le kit.",
+      "to": "equipe-rouge"
+    },
+    "jet-succes": {
+      "text": "Abigail montre, sans lever la tête, les soudures propres sous le boîtier.",
+      "lines": [
+        {
+          "who": "abigail",
+          "text": "Le capteur d'origine est mort depuis un an. J'ai recâblé sur celui d'un vieux détecteur de fumée. Ça tient, si tu sais où appuyer."
+        },
+        {
+          "who": "abigail",
+          "text": "Retiens ça : un kit qui clignote deux fois avant de charger, c'est qu'il force. Attends la troisième."
+        }
+      ],
+      "to": "equipe-rouge"
+    },
+    "jet-echec": {
+      "text": "Abigail referme le boîtier avant que Franklyn ait pu voir grand-chose.",
+      "lines": [{ "who": "abigail", "text": "Secret de métier. Demande-moi après le bal, si tu es sage." }],
+      "to": "equipe-rouge"
+    },
+    "equipe-rouge": {
+      "text": "Abigail range le kit dans son sac et regarde, un instant, vers Zachary qui rigole avec John de l'autre côté du quai.",
+      "lines": [
+        {
+          "who": "abigail",
+          "text": "Toute la bande d'un côté, moi de l'autre. Grover et Letitia, très bien, mais c'est pas pareil."
+        },
+        {
+          "who": "abigail",
+          "text": "Je vais devoir vous tirer dessus tout à l'heure. Pour de faux, mais quand même."
+        }
+      ],
+      "choices": [
+        {
+          "text": "On sera toujours la bande, après.",
+          "to": "soutien",
+          "effects": [{ "affinity": { "who": "abigail", "delta": 1 } }]
+        },
+        { "text": "C'est un exercice. Rien de plus.", "to": "froide" },
+        {
+          "text": "Tire bien quand même. Je préfère perdre proprement.",
+          "conditions": [{ "affinity": "abigail", "atLeast": 2 }],
+          "to": "complicite"
+        }
+      ]
+    },
+    "soutien": {
+      "text": "Abigail hoche la tête, sérieuse, et referme la fermeture éclair de son sac.",
+      "lines": [{ "who": "abigail", "text": "J'y compte bien." }],
+      "to": "cloture"
+    },
+    "froide": {
+      "text": "Abigail se contente d'un hochement de tête, déjà repartie dans ses vérifications.",
+      "to": "cloture"
+    },
+    "complicite": {
+      "text": "Abigail laisse échapper un vrai rire, bref, et referme son sac.",
+      "lines": [{ "who": "abigail", "text": "T'inquiète. Je vise toujours bien." }],
+      "to": "cloture"
+    },
+    "cloture": {
+      "text": "Elle se relève, ajuste la lanière de son sac médical sur l'épaule, et rejoint son équipe sans se retourner."
+    }
+  }
+}

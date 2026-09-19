@@ -48,8 +48,45 @@ chapitre 2, une option de dialogue qui s'ouvre.
 | `renseignement` | vidéo de la salle 3 exploitée |
 | `imprudent-salle-3` | au moins un cadet gazé |
 
-Les étiquettes de l'examen écrit (scène 3) suivront la même convention, préfixées par le
-thème de la question.
+### Vocabulaire des étiquettes du chapitre 1
+
+Liste **fermée**. Une scène n'invente pas d'étiquette : elle pioche ici. C'est ce qui permet
+au bal, et plus tard au chapitre 2, de réagir sans connaître le détail de chaque scène.
+
+| Famille | Étiquettes | Posées par |
+|---|---|---|
+| Tempérament | `cynique`, `distrait`, `reserve`, `direct`, `rebelle`, `bluffeur` | scènes 1, 2, 3 |
+| Doctrine | `legaliste`, `pragmatique`, `idealiste`, `corporatiste` | scène 3 |
+| Savoir | `technicien` | scène 3 |
+| Écrit | `copie-brillante`, `copie-faible` | note écrite (`writtenScore`), scène 3 |
+| Loyauté | `loyal-academie`, `loyal-bande`, `solitaire` | scènes 1, 3, 5 |
+| Parcours | `sauveteur`, `curieux`, `renseignement`, `imprudent-salle-3`, `prudent` | scène 7 |
+| Exercice | `vainqueur-exercice`, `defaite-exercice`, `protecteur`, `equipe-decimee`, `offensif`, `rapide`, `lent` | `scoreExercise`, scène 8 |
+
+Ajouter une étiquette est possible, mais c'est **modifier ce tableau dans le même commit** —
+sinon le bal ne saura pas y réagir.
+
+**Une étiquette qui n'est jamais lue est un coût sans recette.** Une étiquette posée par une
+scène doit être lue quelque part : au bal, ou explicitement réservée au chapitre 2. Les seules
+réservées aujourd'hui sont `loyal-bande` et `solitaire`, qui portent sur la bande de Franklyn
+et ne se paient qu'après le stage.
+
+## La note écrite
+
+Poste séparé du barème de l'affrontement (20 points) : la copie de l'examen écrit
+(scène 3) est notée sur **six**, une question = un point si la **meilleure réponse
+institutionnelle** est choisie ([`07-DIALOGUE-FORMAT.md`](07-DIALOGUE-FORMAT.md),
+[ADR 0012](../process/adr/0012-examen-ecrit-jet-de-reflexion-et-mise-en-scene.md)). Cette
+meilleure réponse n'est indiquée au joueur que si son **jet de réflexion** (compétence
+propre à chaque question) réussit ; ratée, aucune indication — le joueur répond alors à
+l'instinct, sans savoir s'il touche juste. Le choix effectivement fait continue, lui, à
+poser une étiquette de **doctrine** (`legaliste`, `pragmatique`, `cynique`…), indépendamment
+de sa justesse institutionnelle : la note mesure le jugement de l'institution, la doctrine
+reste la personnalité du joueur.
+
+`writtenScore.correct` sur `writtenScore.total` (6) pose deux étiquettes selon le résultat :
+`copie-brillante` (≥ 5/6) ou `copie-faible` (≤ 2/6) — un score intermédiaire ne pose rien.
+Ces deux étiquettes sont lues au bal ([`ch1.bal.json`](../../src/data/dialogues/ch1.bal.json)).
 
 ## Le dossier du candidat
 
@@ -64,6 +101,7 @@ interface Dossier {
   affinities: Partial<Record<CharacterId, number>>;  // −3 à +3
   entries: DossierEntry[];         // réponses, choix, événements notables
   practicalScore: ExerciseScore | null;
+  writtenScore: { correct: number; total: number } | null;  // note de l'examen écrit
   updatedAt: string;
 }
 ```
@@ -87,3 +125,23 @@ remplace l'entrée.
 
 - `localStorage`, clé `holt.dossier.v1`.
 - Exportable en JSON lisible via `exportDossier()` — c'est ce fichier que lira le chapitre 2.
+
+### Reprise contre nouvelle partie
+
+**Le dossier traverse les CHAPITRES, pas les PARTIES.** Une reprise (le joueur recharge une
+partie en cours) conserve le dossier et le `RunState` ; une nouvelle partie du chapitre 1
+repart d'un dossier **vierge** (`createDossier()`), même si le `localStorage` contient encore
+le dossier d'une partie précédente jouée sur une autre graine.
+
+Sans cette règle, relancer une partie sur une nouvelle graine sans vider le stockage fait
+hériter les étiquettes, affinités et doctrines de la partie précédente : deux parties
+complètes cumulées donnent un dossier incohérent (`prudent` et `imprudent-salle-3`
+simultanément, plusieurs doctrines contradictoires), et une scène comme le bal réagit à un
+Franklyn qui n'a jamais existé — mélange de deux parties.
+
+`ChapterApp` (`src/chapter.ts`, `isResumingRun`) tranche à l'ouverture : c'est une reprise si
+et seulement si une sauvegarde de session contient un `RunState` en cours dont la graine
+correspond **exactement** à la partie demandée, et que le démarrage n'est pas un saut explicite
+vers une scène (`?scene=`, outil de dev/test — voir `docs/process/DEBUG_API.md`). Dans tous les
+autres cas (graine différente, pas de `RunState`, ou démarrage via `?scene=`), le dossier et le
+`RunState` repartent neufs.

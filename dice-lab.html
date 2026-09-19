@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOLT Academy — Dice Lab (dev only)</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--ink, #140d0e);
+        color: var(--bone, #efe4d4);
+        font-family: var(--font-text, 'Barlow Semi Condensed', sans-serif);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 24px;
+        box-sizing: border-box;
+      }
+      h1 {
+        font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+        font-size: 1.6rem;
+        margin: 0;
+      }
+      #dice-lab-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .lab-btn {
+        background: var(--ink-3, #2b1c1d);
+        color: var(--bone, #efe4d4);
+        border: 1px solid var(--rule, #4a3031);
+        font-family: var(--font-display, sans-serif);
+        font-weight: 700;
+        padding: 8px 16px;
+        cursor: pointer;
+      }
+      .lab-btn:hover {
+        border-color: var(--tape, #f2c230);
+      }
+      .lab-btn:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+      #dice-lab-controls {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        font-size: 0.9rem;
+      }
+      #dice-lab-host {
+        position: relative;
+        flex: 1;
+        min-height: 320px;
+        border: 1px dashed var(--rule, #4a3031);
+      }
+      #dice-lab-log {
+        max-height: 160px;
+        overflow-y: auto;
+        font-size: 0.8rem;
+        color: var(--bone-dim, #b4a693);
+        border-top: 1px solid var(--rule, #4a3031);
+        padding-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Dice Lab — harnais dev de DiceRoller</h1>
+    <p>Ne fait pas partie du build de production. Sert a verifier visuellement src/render/dice3d.ts.</p>
+    <div id="dice-lab-controls">
+      <label><input type="checkbox" id="manual-toggle" checked /> Mode manuel</label>
+      <label><input type="checkbox" id="reduced-toggle" /> Forcer mouvement reduit</label>
+      <button type="button" id="skip-btn" class="lab-btn">Skip (debug)</button>
+    </div>
+    <div id="dice-lab-buttons"></div>
+    <div id="dice-lab-host"></div>
+    <div id="dice-lab-log"></div>
+    <script type="module" src="/src/dev/diceLab.ts"></script>
+  </body>
+</html>

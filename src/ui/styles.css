@@ -1,16 +1,17 @@
-/* Interface du chapitre 1. Palette : gris ardoise + accents neon cyan/rouge. */
-
-:root {
-  --bg: #101116;
-  --panel: rgba(18, 20, 26, 0.88);
-  --panel-border: #2c2f3a;
-  --text: #e8eaf0;
-  --muted: #8c93a5;
-  --accent: #4cc9f0;
-  --blue: #3fa9ff;
-  --red: #ff5a52;
-  --font: 'Segoe UI', 'Inter', system-ui, sans-serif;
-}
+/**
+ * Interface du chapitre 1 -- styles des ecrans (HUD tactique + narratif).
+ * N'utilise que les jetons de `src/ui/theme.css` (voir docs/art/UI-DESIGN-SYSTEM.md,
+ * regle "aucune couleur en dur"). Importe APRES theme.css dans main.ts.
+ *
+ * HUD tactique (section "HUD tactique" du document) : meme mise en page et
+ * memes `data-testid` que l'ancienne version -- seuls les jetons, polices,
+ * formes et ombres changent, plus les deux ajouts autorises (portrait `card`
+ * de la fiche active, vignettes `thumb` de la bande d'initiative). `--comm`
+ * est desormais reserve aux seules repliques radio (aucun usage generique de
+ * survol/etat actif ici) ; `.icon-taser` reste --tape (declenche un jet),
+ * `.icon-mine` reste --red (danger), `.icon-hackingTool` n'a plus de teinte
+ * dediee (aucun jeton ne correspond a "piratage").
+ */
 
 * {
   box-sizing: border-box;
@@ -20,9 +21,9 @@ html,
 body {
   margin: 0;
   height: 100%;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font);
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-text);
   overflow: hidden;
 }
 
@@ -47,6 +48,7 @@ canvas {
   grid-template-rows: auto 1fr auto auto;
   gap: 12px;
   padding: 12px;
+  font-family: var(--font-text);
 }
 
 .hud > * {
@@ -62,14 +64,17 @@ canvas {
 }
 
 .hud-banner {
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 8px;
   padding: 8px 14px;
   display: flex;
   gap: 16px;
   align-items: center;
-  font-size: 14px;
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-banner strong {
+  font-family: var(--font-display);
+  font-weight: 700;
 }
 
 .hud-order {
@@ -78,66 +83,80 @@ canvas {
   flex-wrap: wrap;
 }
 
+/* Vignette `thumb` + nom, plutot que la puce de couleur pleine d'origine
+   (docs/art/UI-DESIGN-SYSTEM.md, "HUD tactique" : "la bande d'initiative
+   gagne ses vignettes thumb"). Les couleurs d'equipe restent prioritaires
+   (bordure), regle de lisibilite d'ART-DIRECTION.md. */
 .order-chip {
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 999px;
-  color: var(--text);
-  padding: 6px 12px;
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--ink-2);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  clip-path: polygon(
+    var(--cut-sm) 0,
+    100% 0,
+    100% calc(100% - var(--cut-sm)),
+    calc(100% - var(--cut-sm)) 100%,
+    0 100%,
+    0 var(--cut-sm)
+  );
+  color: var(--bone);
+  padding: 4px 10px 4px 4px;
+  font-family: var(--font-text);
+  font-size: var(--fs-xs);
   cursor: pointer;
 }
 
 .order-chip.team-blue {
-  border-color: var(--blue);
+  border-color: var(--team-blue);
 }
 
 .order-chip.team-red {
-  border-color: var(--red);
+  border-color: var(--team-red);
 }
 
-.order-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.order-chip-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
 }
 
-.order-chip .swatch {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+.order-chip-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  white-space: nowrap;
 }
 
 .order-chip .chip-items {
   display: inline-flex;
   gap: 2px;
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 .icon-taser {
-  color: #ffd400;
-}
-
-.icon-hackingTool {
-  color: #4cc9f0;
+  color: var(--tape);
 }
 
 .icon-mine {
-  color: #ff8a1f;
+  color: var(--red);
 }
 
 .hud-banner .kit {
-  font-size: 12px;
-  color: var(--muted);
+  font-size: var(--fs-xs);
+  color: var(--bone-dim);
 }
 
 .hud-banner .kit.team-blue {
-  color: var(--blue);
+  color: var(--team-blue);
 }
 
 .hud-banner .kit.team-red {
-  color: var(--red);
+  color: var(--team-red);
 }
 
 .hud-camera {
@@ -145,33 +164,50 @@ canvas {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 8px;
+  background: var(--ink-2);
+  border: 1px solid var(--rule);
+  clip-path: polygon(
+    var(--cut-sm) 0,
+    100% 0,
+    100% calc(100% - var(--cut-sm)),
+    calc(100% - var(--cut-sm)) 100%,
+    0 100%,
+    0 var(--cut-sm)
+  );
   padding: 4px 8px;
-  font-size: 12px;
-  color: var(--muted);
+  font-size: var(--fs-xs);
+  color: var(--bone-dim);
 }
 
 .hud-camera button {
   background: transparent;
-  border: 1px solid var(--panel-border);
-  color: var(--text);
-  border-radius: 6px;
+  border: 1px solid var(--rule);
+  color: var(--bone);
+  border-radius: 0;
   width: 30px;
   height: 28px;
-  font-size: 16px;
+  font-size: var(--fs-md);
   cursor: pointer;
 }
 
 .hud-camera button:hover {
-  border-color: var(--accent);
+  border-color: var(--bone-faint);
 }
 
+/*
+ * Etat actif : jetons du document (--bone plein + ombre de reperage
+ * --red-deep), plus un soulignement --tape (docs : "l'etat 'actif' doit
+ * utiliser le design system... et jamais --comm, reserve a la radio").
+ */
 .order-chip.is-current {
-  background: var(--accent);
-  color: #07131a;
-  font-weight: 600;
+  background: var(--bone);
+  border-color: var(--bone);
+  color: var(--ink);
+  filter: drop-shadow(3px 3px 0 var(--red-deep));
+}
+
+.order-chip.is-current .order-chip-name {
+  border-bottom: 2px solid var(--tape);
 }
 
 .order-chip.is-down {
@@ -182,31 +218,55 @@ canvas {
 .hud-sheet {
   grid-column: 1;
   grid-row: 2;
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 8px;
   padding: 12px;
   align-self: start;
   max-height: 100%;
   overflow-y: auto;
 }
 
+.hud-sheet-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* Portrait `card` compact (docs : "la fiche du cadet actif gagne son
+   portrait card") -- retaille depuis 160x213 pour tenir a cote du nom dans
+   le panneau lateral de 260px. */
+.hud-sheet-portrait .portrait {
+  width: 96px !important;
+  height: 128px !important;
+  filter: drop-shadow(3px 3px 0 var(--red-deep));
+}
+
+.hud-sheet-heading {
+  min-width: 0;
+}
+
 .hud-sheet h2 {
-  margin: 0 0 2px;
-  font-size: 18px;
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-lg);
+  border-bottom: 3px solid var(--rule);
+  display: inline-block;
+  padding-bottom: 2px;
 }
 
 .hud-sheet .role {
-  margin: 0 0 10px;
-  color: var(--muted);
-  font-size: 12px;
+  margin: 0;
+  color: var(--bone-dim);
+  font-size: var(--fs-xs);
 }
 
+/* Capitales reservees aux tampons (regle "Ce qu'on s'interdit") : plus de
+   petite etiquette en capitales espacees au-dessus des blocs. */
 .hud-sheet h3 {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  color: var(--bone-dim);
   margin: 14px 0 6px;
 }
 
@@ -216,68 +276,95 @@ canvas {
   padding: 0;
   display: grid;
   gap: 4px;
-  font-size: 13px;
+  font-size: var(--fs-sm);
 }
 
 .hud-sheet .stats li {
   display: flex;
   justify-content: space-between;
-  color: var(--muted);
+  color: var(--bone-dim);
+  font-variant-numeric: tabular-nums;
 }
 
 .hud-sheet .stats strong {
-  color: var(--text);
+  color: var(--bone);
 }
 
-.hud-sheet .shots button {
+/* Cible tirable : c'est un jet (--tape), meme puce que `.chip-check` du
+   dialogue (docs : "le jaune tape signifie 'il y a un jet'"). */
+.shot-btn {
+  display: block;
   width: 100%;
   text-align: left;
-  background: rgba(76, 201, 240, 0.12);
-  border: 1px solid rgba(76, 201, 240, 0.4);
-  color: var(--text);
-  border-radius: 6px;
-  padding: 6px 8px;
-  font-size: 12px;
+  background: transparent;
+  border: none;
+  padding: 0;
   cursor: pointer;
 }
 
-.hud-sheet .shots button:hover {
-  background: rgba(76, 201, 240, 0.25);
+.shot-btn .chip-check {
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 2px;
+}
+
+.shot-btn:hover .chip-check,
+.shot-btn:focus-visible .chip-check {
+  background: var(--tape);
+  filter: brightness(1.08);
 }
 
 .muted {
-  color: var(--muted);
-  font-size: 12px;
+  color: var(--bone-dim);
+  font-size: var(--fs-xs);
 }
 
 .hud-log {
   grid-column: 3;
   grid-row: 2;
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 8px;
   padding: 10px;
   overflow-y: auto;
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: var(--fs-xs);
+  line-height: var(--lh-text);
 }
 
 .log-line {
-  margin: 0 0 4px;
-  color: var(--muted);
+  margin: 0 0 6px;
+  color: var(--bone-dim);
 }
 
 .log-check {
-  color: #cfd5e4;
+  color: var(--bone);
+}
+
+/* Verdict RÉUSSI/ÉCHEC : mini-tampon (`.stamp`/`.stamp--ok`/`.stamp--ko` de
+   theme.css), chaine de des en --tape, modificateurs nommes lisibles (docs :
+   "le journal de combat est mise en scene"). */
+.log-verdict {
+  font-size: var(--fs-sm);
+  margin-right: 8px;
+}
+
+.log-check-dice {
+  color: var(--tape);
+  font-weight: 600;
+  margin-right: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.log-check-detail {
+  color: var(--bone-dim);
+  font-variant-numeric: tabular-nums;
 }
 
 .log-result {
-  color: var(--accent);
-  font-weight: 600;
+  color: var(--bone);
+  font-weight: 700;
 }
 
 .log-system {
-  color: #6f7689;
+  color: var(--bone-faint);
   font-style: italic;
 }
 
@@ -290,42 +377,12 @@ canvas {
   justify-content: center;
 }
 
-.hud-actions button {
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  color: var(--text);
-  border-radius: 6px;
-  padding: 8px 14px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.hud-actions button:hover:not(:disabled) {
-  border-color: var(--accent);
-}
-
-.hud-actions button:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
 .hud-footer {
   grid-column: 1 / -1;
   grid-row: 4;
   text-align: center;
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.hud-banner button {
-  background: var(--accent);
-  border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 13px;
-  cursor: pointer;
-  color: #07131a;
-  font-weight: 600;
+  font-size: var(--fs-xs);
+  color: var(--bone-dim);
 }
 
 @media (max-width: 1100px) {
@@ -342,5 +399,1095 @@ canvas {
   .hud-log {
     grid-row: 3;
     max-height: 30vh;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Chapitre : conteneurs des scenes narrative / tactique (src/chapter.ts) */
+/* ---------------------------------------------------------------------- */
+
+.chapter-host {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Vue de dialogue (src/ui/narrativeView.ts). Refonte "Encre rouge"        */
+/* (docs/art/UI-DESIGN-SYSTEM.md, "Écrans > Dialogue" / "Transition de     */
+/* scène" / "Mouvement") : panneau ancre en bas, decor de scene en haut,   */
+/* portrait hero, tampon de jet. La liste du hub vit desormais dans son    */
+/* propre ecran (`.hub-screen`, src/ui/hubView.ts, plus bas).              */
+/* ---------------------------------------------------------------------- */
+
+.narrative,
+.hub-screen,
+.title-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Filet de securite : quoi qu'il arrive a la taille du decor (ex. la regle
+     responsive `.narrative-backdrop { height: 120px }` plus bas, pensee pour
+     le panneau ancre en bas), un ecran plein cadre ne laisse jamais voir
+     l'hote precedent par transparence. */
+  background: var(--ink);
+}
+
+/*
+ * L'ecran titre est le seul de ces trois a se poser PAR-DESSUS un autre host
+ * deja visible (`narrativeHost`, voir main.ts/TitleView) : sans z-index
+ * explicite, des elements positionnes de NarrativeView portant leur propre
+ * z-index (`.narrative-hero-frame` = 5, `.narrative-radio-stack` = 20,
+ * `.narrative-scene-card` = 30 -- aucun des deux hosts ne cree son propre
+ * contexte d'empilement) se comparent au niveau racine et peuvent crever
+ * l'overlay malgre l'ordre du DOM. Au-dessus de tout le reste de ce fichier.
+ */
+.title-screen {
+  z-index: 50;
+}
+
+/*
+ * Plusieurs elements de cette vue declarent `display: flex` (meme
+ * specificite qu'un attribut) pour leur etat VISIBLE -- sans cette regle,
+ * cette declaration l'emporte sur la regle native `[hidden] { display: none }`
+ * une fois `element.hidden = true` pose depuis narrativeView.ts (meme
+ * specificite, mais regle d'auteur postee apres celle du navigateur dans la
+ * cascade). Une seule regle, plus specifique, au lieu de traquer chaque
+ * `[hidden]` individuellement.
+ */
+.narrative [hidden] {
+  display: none !important;
+}
+
+/* -- Decor de scene : la moitie haute de l'ecran, jamais le panneau. --     */
+/* Le rouge est rare (regle "Couleurs") : un ciel tres sombre, la bande      */
+/* rouge reduite a un mince liseret d'horizon, jamais une bande saturee sur  */
+/* toute la moitie haute. Variantes par zone (academie/fourgon/interieur/bal)*/
+/* -- optionnelles, toujours via les jetons existants, jamais une couleur   */
+/* en dur -- poussees par `data-zone` sur `.narrative` (narrativeView.ts).  */
+
+.narrative-backdrop {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 120px;
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink) 72%, var(--red-deep) 96%, var(--ink-2) 100%);
+  overflow: hidden;
+}
+
+/*
+ * `.scene-shell` : selecteur de zone partage par les trois ecrans plein
+ * cadre qui reutilisent ce decor (NarrativeView, HubView, TitleView -- voir
+ * src/ui/sceneChrome.ts). `.narrative` le porte en plus de sa propre classe
+ * pour ne rien casser des regles ci-dessus qui le ciblent directement.
+ */
+.scene-shell[data-zone='interior'] .narrative-backdrop {
+  /* Parcours interieur : un peu plus tendu, le liseret d'horizon remonte legerement. */
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink) 66%, var(--red-deep) 94%, var(--ink-3) 100%);
+}
+
+.scene-shell[data-zone='transit'] .narrative-backdrop {
+  /* Le trajet en fourgon : poussiere des Badlands, pas de rouge -- juste les filets/panneaux. */
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink-3) 74%, var(--rule) 96%, var(--ink-2) 100%);
+}
+
+.scene-shell[data-zone='bal'] .narrative-backdrop {
+  /* Le bal : une pointe de chaleur en plus, toujours mineure. */
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink) 68%, var(--red-deep) 95%, var(--ink-3) 100%);
+}
+
+.narrative-backdrop.halftone::before {
+  /* Trame a faible opacite (regle "Formes") : la valeur par defaut de .halftone
+     (8%) reste trop presente sur un ciel aussi sombre. */
+  opacity: 0.045;
+}
+
+/* Toits en dents de scie, silhouette d'horizon (placeholder art, voir
+   `buildSkylinePath` dans narrativeView.ts) : plat, encre, jamais de degrade. */
+.narrative-skyline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 15%;
+  min-height: 34px;
+  max-height: 64px;
+  fill: var(--ink);
+  opacity: 0.92;
+}
+
+.narrative-scene-tag {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  max-width: 68ch;
+}
+
+/* Titre de scene en une seule ligne (pas de sur-titre en petites capitales,
+   interdit par "Ce qu'on s'interdit") : "Salle 1" en --bone-dim, casse
+   normale, suivi du nom en --bone. */
+.narrative-scene-name {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(var(--fs-lg), 4vw, var(--fs-xl));
+  line-height: var(--lh-tight);
+  text-shadow: 2px 2px 0 rgb(from var(--ink) r g b / 60%);
+}
+
+.narrative-scene-room {
+  color: var(--bone-dim);
+  font-weight: 700;
+}
+
+/* -- Radio : pile en haut a droite, 3 max, cyan seulement. -- */
+
+.narrative-radio-stack {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(320px, calc(100vw - 32px));
+}
+
+.narrative-radio-cue {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  background: var(--ink-2);
+  border-color: var(--comm);
+  cursor: pointer;
+  animation: radio-in 160ms ease-out both;
+}
+
+@keyframes radio-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.narrative-radio-body {
+  min-width: 0;
+}
+
+.narrative-radio-body .radio-tag {
+  display: block;
+  color: var(--comm);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+}
+
+.narrative-radio-body p {
+  margin: 2px 0 0;
+  color: var(--bone);
+  font-size: var(--fs-sm);
+}
+
+/* -- Panneau : ancre en bas, le portrait hero chevauche son bord haut. -- */
+
+.narrative-panel-wrap {
+  position: relative;
+  flex: none;
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 16px 16px;
+  box-sizing: border-box;
+}
+
+/*
+ * Carte "hero" propre (correctif revue visuelle : un rectangle sombre
+ * apparaissait au-dessus du portrait, et l'ombre de reperage se lisait comme
+ * une barre verticale epaisse a droite / autour de la plaque du nom).
+ * Cause : `top:-40px; bottom:16px` donnait au cadre une hauteur arbitraire,
+ * differente du ratio reel du portrait (260x347) -- la vignette SVG
+ * (`preserveAspectRatio="xMidYMid meet"`) se retrouvait alors "en lettrebox",
+ * laissant voir son propre fond tramé sombre au-dessus/en dessous de la
+ * silhouette. Fixer `aspect-ratio` sur le conteneur du portrait au lieu de
+ * l'etirer sur toute la hauteur disponible resout le lettrebox ; coller la
+ * plaque de nom juste en dessous (pas de marge) fait que l'ombre de
+ * reperage, posee UNE fois sur tout le cadre, suit un seul bloc opaque
+ * continu au lieu de deux rectangles separes par un interstice.
+ */
+.narrative-hero-frame {
+  position: absolute;
+  left: 24px;
+  top: -40px;
+  width: 168px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  filter: drop-shadow(4px 4px 0 var(--red-deep));
+}
+
+.narrative-hero-portraits {
+  position: relative;
+  flex: none;
+  width: 100%;
+  /* Meme ratio que SIZES.hero (260x347, voir src/ui/portraits.ts) : le
+     portrait remplit tout le cadre, image flush en haut, sans lettrebox. */
+  aspect-ratio: 260 / 347;
+}
+
+.narrative-hero-portraits .portrait {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.narrative-hero-portrait {
+  opacity: 1;
+  transition: opacity 160ms ease-out;
+}
+
+.narrative-hero-portrait.is-entering {
+  opacity: 0;
+}
+
+.narrative-hero-name {
+  flex: none;
+  margin: 0;
+  padding-bottom: 2px;
+  background: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-md);
+  border-bottom: 3px solid var(--rule);
+  text-align: center;
+}
+
+.narrative-panel {
+  position: relative;
+  padding: 20px 24px 20px 212px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: min(56vh, 560px);
+  overflow-y: auto;
+}
+
+.narrative-text {
+  margin: 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--rule);
+  color: var(--bone-dim);
+  font-style: italic;
+  line-height: var(--lh-text);
+  max-width: 68ch;
+}
+
+.narrative-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.narrative-line {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  animation: line-in 140ms ease-out both;
+  animation-delay: var(--line-delay, 0ms);
+}
+
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.narrative-line .portrait {
+  margin-top: 2px;
+}
+
+/* Ligne suivante du meme locuteur : pas de vignette, texte aligne sous celui
+   d'au-dessus -- un filet vertical de la couleur du personnage tient lieu
+   d'attache visuelle a la place du portrait (voir renderNarration). */
+.narrative-line--continued {
+  margin-top: -4px;
+}
+
+.narrative-line-spacer {
+  flex: none;
+  width: 52px;
+  display: flex;
+  justify-content: center;
+}
+
+.narrative-line-spacer::before {
+  content: '';
+  width: 2px;
+  align-self: stretch;
+  background: var(--speaker-color, var(--rule));
+  opacity: 0.5;
+}
+
+.narrative-line-body {
+  flex: 1;
+  min-width: 0;
+  line-height: var(--lh-text);
+}
+
+.narrative-line-name {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-md);
+  border-bottom: 3px solid var(--rule);
+  padding-bottom: 1px;
+  margin-right: 6px;
+}
+
+.narrative-line-text {
+  color: var(--bone);
+}
+
+/* -- Choix : liste numerotee, le numero est le raccourci clavier. -- */
+
+.narrative-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid var(--rule);
+  padding-top: 10px;
+}
+
+.narrative-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-left: 3px solid transparent;
+  color: var(--bone);
+  border-radius: 0;
+  padding: 8px 8px 8px 10px;
+  font-family: var(--font-text);
+  font-size: var(--fs-md);
+  cursor: pointer;
+  animation: line-in 140ms ease-out both;
+  animation-delay: var(--line-delay, 0ms);
+}
+
+.narrative-choice:hover,
+.narrative-choice:focus-visible {
+  background: var(--ink-3);
+  border-left-color: var(--red);
+  outline: none;
+}
+
+.narrative-choice .choice-number {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--rule);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  color: var(--bone-dim);
+}
+
+.narrative-choice .choice-text {
+  flex: 1;
+}
+
+.narrative-choice .chip-check {
+  flex: none;
+}
+
+.chip-check__skill {
+  font-weight: 700;
+}
+
+.chip-check__dv {
+  opacity: 0.85;
+}
+
+.chip-check__pct {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-md);
+  font-variant-numeric: tabular-nums;
+}
+
+.narrative-advance {
+  align-self: flex-end;
+}
+
+/* Un vrai `disabled` (voir NarrativeView.renderChoices) : le jet de
+   reflexion de l'examen ecrit n'a pas encore ete tire, ou sa mise en scene
+   n'est pas terminee -- le joueur doit pouvoir LIRE les trois reponses avant
+   de lancer le de (correctif de revue visuelle : une opacite reduite les
+   rendait quasi invisibles, surtout pendant leur animation d'entree). Texte
+   secondaire (`--bone-dim`, contraste conserve) plutot qu'estompe, aucun
+   survol, curseur "interdit", et l'animation d'entree est sautee (voir
+   `renderChoices`, qui ne pose `--line-delay` que sur les choix actifs). */
+.narrative-choice:disabled {
+  animation: none;
+  opacity: 1;
+  color: var(--bone-dim);
+  cursor: not-allowed;
+}
+
+.narrative-choice:disabled:hover,
+.narrative-choice:disabled:focus-visible {
+  background: transparent;
+  border-left-color: transparent;
+}
+
+/* Reponse attendue de l'institution, revelee apres un jet de reflexion
+   reussi (ADR 0012) : filet tape a gauche, jamais de rouge (reserve a
+   l'echec/l'action principale). Prioritaire sur le survol/focus (qui
+   passerait sinon le filet en rouge) : la marque reste stable une fois
+   affichee. */
+.narrative-choice--best,
+.narrative-choice--best:hover,
+.narrative-choice--best:focus-visible {
+  border-left-color: var(--tape);
+}
+
+.choice-best-label {
+  flex: none;
+  color: var(--tape);
+  font-size: var(--fs-xs);
+  text-decoration: underline;
+  text-decoration-color: var(--tape);
+  text-underline-offset: 3px;
+}
+
+/* -- Jet de reflexion (examen ecrit, ADR 0012) : la puce de jet + le bouton -- */
+/* "Lancer le dé", entre la carte de resultat et les choix.                    */
+
+.narrative-insight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Rappel juste a cote du bouton "Lancer le dé" (correctif de revue visuelle :
+   il vivait auparavant tout en bas du panneau, loin de l'action qu'il
+   explique). Meme registre que `.muted` : lisible, jamais criard. */
+.narrative-insight-hint {
+  margin: 0;
+  color: var(--bone-dim);
+  font-size: var(--fs-xs);
+  font-style: italic;
+}
+
+/* -- Carte de resultat : reussite/echec, DANS le flux du panneau, jamais en -- */
+/* surcouche par-dessus le texte (correctif de la revue visuelle : le joueur  */
+/* doit pouvoir lire le noeud ET voir le jet en meme temps). Un petit bloc,   */
+/* entre le fil/recompense et les choix -- pas le grand tampon plein ecran.  */
+
+.narrative-rollcard {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 0;
+}
+
+.narrative-rollcard-inner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.narrative-rollcard-stamp {
+  flex: none;
+  font-size: var(--fs-xl);
+}
+
+.narrative-rollcard-text {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+/* Ligne de verdict de l'examen ecrit (successText/failureText, ADR 0012) :
+   au-dessus du detail chiffre, en texte courant -- pas un tampon, la carte
+   en porte deja un (narrative-rollcard-stamp). */
+.narrative-rollcard-verdict {
+  margin: 0 0 4px;
+  color: var(--bone);
+  font-size: var(--fs-sm);
+}
+
+.narrative-rollcard-detail {
+  margin: 0;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--lh-text);
+}
+
+.rollcard-dice {
+  color: var(--tape);
+  font-weight: 600;
+}
+
+/* Recompense du dilemme de la salle 3 (defaut 1, rapport de cloture epic 2) :
+   accent cyan plutot que rouge pour ne pas se lire comme un avertissement. */
+.narrative-offscreen {
+  background: rgb(from var(--comm) r g b / 8%);
+  border: 1px solid rgb(from var(--comm) r g b / 35%);
+  border-radius: 0;
+  padding: 8px 12px;
+  font-size: var(--fs-sm);
+}
+
+.narrative-offscreen p {
+  margin: 2px 0 0;
+  color: var(--bone);
+}
+
+.narrative-offscreen .offscreen-tag {
+  color: var(--comm);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+}
+
+/* -- Carte de titre de scene, entre deux scenes. -- */
+
+.narrative-scene-card {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink) 72%, var(--red-deep) 96%, var(--ink-2) 100%);
+  cursor: pointer;
+}
+
+.narrative-scene-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--red) 1px, transparent 1.6px);
+  background-size: 10px 10px;
+  opacity: 0.045;
+}
+
+.scene-card-inner {
+  position: relative;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.scene-card-count {
+  margin: 0 0 8px;
+  color: var(--bone-dim);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  font-variant-numeric: tabular-nums;
+}
+
+.scene-card-title {
+  margin: 0 0 18px;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(var(--fs-xl), 6vw, var(--fs-2xl));
+  line-height: var(--lh-tight);
+}
+
+.scene-card-stamp {
+  color: var(--red);
+  font-size: var(--fs-xl);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hub (src/ui/hubView.ts) : parade d'identification de police devant un   */
+/* mur a graduations (docs/art/UI-DESIGN-SYSTEM.md, "Hub — l'alignement"). */
+/* Ecran plein cadre a part entiere, reutilise le decor de `.scene-shell`. */
+/* ---------------------------------------------------------------------- */
+
+/* Un ciel plus court que le decor de dialogue (correctif revue visuelle : a
+   1280x720, un ciel a 30vh + une parade ancree tout en bas laissait une
+   bande vide entre le titre et les cartes) : la parade se centre dans la
+   moitie basse restante plutot que de coller au bouton "Rejoindre le
+   fourgon", elle occupe ainsi confortablement le centre-bas de l'ecran. */
+.hub-screen .narrative-backdrop {
+  flex: none;
+  height: 18vh;
+  min-height: 120px;
+}
+
+.hub-subtitle {
+  margin: 4px 0 0;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+}
+
+.hub-lineup-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 12px 24px;
+  overflow: hidden;
+}
+
+/* Mur a graduations : filets tous les 10cm, cotes 150-200 a gauche (regle
+   "Formes" : filets 1px --rule, jamais une texture decorative). */
+.hub-heightchart {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hub-chart-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid rgb(from var(--bone) r g b / 18%);
+}
+
+.hub-chart-rule span {
+  position: absolute;
+  left: 8px;
+  top: -9px;
+  font-family: var(--font-text);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--bone-faint);
+}
+
+.hub-lineup {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hub-cadet-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--bone);
+  cursor: pointer;
+  transition: transform 120ms ease-out;
+}
+
+/* Survol/focus : le portrait avance d'un pas (docs : "translation 6px + ombre
+   de reperage"). */
+.hub-cadet-btn:hover,
+.hub-cadet-btn:focus-visible {
+  transform: translateY(-6px);
+  outline: none;
+}
+
+.hub-cadet-btn:hover .portrait,
+.hub-cadet-btn:focus-visible .portrait {
+  filter: drop-shadow(4px 4px 0 var(--red-deep));
+}
+
+.hub-cadet-btn:focus-visible .portrait {
+  outline: 2px solid var(--tape);
+  outline-offset: 2px;
+}
+
+.hub-cadet-btn.is-done .portrait {
+  opacity: 0.85;
+}
+
+/* Tampon "VU" : un cadet deja vu cette partie. */
+.hub-cadet-vu {
+  position: absolute;
+  top: 6px;
+  right: -6px;
+  font-size: var(--fs-sm);
+  z-index: 1;
+}
+
+.hub-cadet-number {
+  position: absolute;
+  top: 6px;
+  left: -6px;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  border: 1px solid var(--rule);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  color: var(--bone-dim);
+}
+
+.hub-cadet-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-sm);
+}
+
+.hub-leave {
+  align-self: flex-end;
+  margin: 0 24px 24px auto;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Ecran titre (src/ui/titleView.ts, docs/art/UI-DESIGN-SYSTEM.md,         */
+/* "Écran titre") : "HOLT Academy" tres grand sur le ciel tramé.           */
+/* ---------------------------------------------------------------------- */
+
+/* Le titre se lit directement SUR le ciel (docs : "sur le ciel rouge
+   tramé"), pas en dessous : le decor devient un fond plein cadre et le
+   contenu se pose par-dessus plutot que de se partager la hauteur. */
+.title-screen .narrative-backdrop {
+  position: absolute;
+  inset: 0;
+  flex: none;
+  /* Specificite superieure a la regle responsive `.narrative-backdrop { height:
+     120px }` (pensee pour le panneau de dialogue ancre en bas, pas pour ce
+     decor plein cadre) : le ciel reste plein cadre a toute largeur, y compris
+     375px -- "sur le ciel rouge tramé", jamais un bandeau court. */
+  height: 100%;
+}
+
+.title-content {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+  padding: 24px;
+}
+
+.title-name {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(var(--fs-2xl), 12vw, 7rem);
+  line-height: var(--lh-tight);
+  text-shadow: 3px 3px 0 rgb(from var(--ink) r g b / 70%);
+}
+
+.title-subtitle {
+  margin: 0;
+  color: var(--bone-dim);
+  font-size: var(--fs-lg);
+}
+
+.title-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Bilan de l'exercice et fin de chapitre (src/ui/reportView.ts,           */
+/* docs/art/UI-DESIGN-SYSTEM.md, "Bilan de l'exercice") : un                */
+/* procès-verbal -- feuille --ink-2, tableau en chiffres tabulaires,        */
+/* mention tamponnee en travers.                                           */
+/* ---------------------------------------------------------------------- */
+
+.report-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--ink);
+  overflow-y: auto;
+}
+
+.report-sheet {
+  width: 100%;
+  max-width: 640px;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.report-head {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 12px;
+}
+
+.report-kicker {
+  margin: 0 0 4px;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+}
+
+.report-head h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-xl);
+  line-height: var(--lh-tight);
+}
+
+/* Note de l'examen ecrit (scene 3, ADR 0012) : au-dessus du tableau du
+   bareme pratique, chiffres tabulaires comme le reste du procès-verbal. */
+.report-written {
+  margin: 0;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+}
+
+.report-written-count {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.report-table th,
+.report-table td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.report-table thead th {
+  color: var(--bone-dim);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+}
+
+.report-table tbody td:first-child {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.report-table tbody td:nth-child(2) {
+  color: var(--bone-dim);
+}
+
+.report-points {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.report-table tfoot td {
+  border-bottom: none;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-md);
+}
+
+.report-mention {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.report-mention-stamp {
+  font-size: var(--fs-2xl);
+}
+
+.report-notes h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-md);
+}
+
+.report-notes ul {
+  margin: 0;
+  padding: 0 0 0 18px;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-text);
+}
+
+.report-notes li + li {
+  margin-top: 4px;
+}
+
+.report-empty {
+  color: var(--bone-dim);
+  font-style: italic;
+}
+
+.report-sheet .btn {
+  align-self: flex-end;
+}
+
+/* -- Responsive : 375px -> 1920px. Le hero passe en bandeau au-dessus du -- */
+/* panneau des que la largeur ne peut plus l'accueillir en chevauchement.  */
+
+@media (max-width: 700px) {
+  /* Le decor se reduit a un bandeau court : le panneau doit rester visible
+     sans defiler la page (le defilement, si besoin, reste interne au
+     panneau -- voir `.narrative-panel` ci-dessous). */
+  .narrative-backdrop {
+    flex: none;
+    height: 120px;
+    min-height: 0;
+  }
+
+  .narrative-panel-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 8px 12px 12px;
+    overflow-y: auto;
+  }
+
+  .narrative-hero-frame {
+    position: static;
+    width: 84px;
+    height: 112px;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    filter: none;
+  }
+
+  .narrative-hero-portraits {
+    width: 64px;
+    height: 85px;
+    flex: none;
+  }
+
+  .narrative-hero-name {
+    background: transparent;
+    border-bottom: none;
+    text-align: left;
+    font-size: var(--fs-sm);
+  }
+
+  .narrative-panel {
+    padding: 16px;
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .narrative-scene-name {
+    font-size: var(--fs-lg);
+  }
+
+  .narrative-radio-stack {
+    top: 8px;
+    right: 8px;
+    left: 8px;
+    width: auto;
+  }
+
+  /* Hub : cinq cartes `160x213` ne tiennent pas sur une largeur de 375px
+     (regle "Formes" : les cartes elles-memes ne changent pas de taille
+     ailleurs, donc `transform: scale()` plutot que retailler le portrait) --
+     le mur se reduit a un bandeau court, la parade defile verticalement. */
+  .hub-screen .narrative-backdrop {
+    height: 96px;
+    min-height: 0;
+  }
+
+  /* `flex: 0 1 auto` (plutot que le `flex: 1 1 auto` herite) : le mur a
+     graduations (`.hub-heightchart`, position absolue inset:0 DANS ce
+     conteneur) doit s'arreter avec les cartes, pas courir jusqu'en bas d'un
+     conteneur etire sur toute la hauteur restante de l'ecran (correctif
+     revue visuelle -- les cotes ne correspondaient plus aux cartes). */
+  .hub-lineup-wrap {
+    flex: 0 1 auto;
+    align-items: flex-start;
+    padding: 12px 12px 88px;
+    overflow-y: auto;
+  }
+
+  .hub-lineup {
+    gap: 4px 8px;
+  }
+
+  /* `portraitElement` pose `width`/`height` en ligne (voir portraits.ts) :
+     seul `!important` peut les retailler ici. Meme ratio 3:4 que `card`. */
+  .hub-cadet-btn .portrait {
+    width: 104px !important;
+    height: 139px !important;
+  }
+
+  .hub-leave {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    margin: 0;
+    z-index: 1;
+  }
+
+  /* Ecran titre : le sous-titre et les actions gardent leur place, seul le
+     tres grand titre se redimensionne (deja fait par le `clamp()` de
+     `.title-name`) -- rien d'autre a corriger ici. */
+
+  /* Bilan / cloture : feuille pleine largeur, sans marge laterale genereuse. */
+  .report-sheet {
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .narrative-hero-portrait.is-entering {
+    opacity: 1;
   }
 }

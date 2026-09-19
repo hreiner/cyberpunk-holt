@@ -1,0 +1,50 @@
+{
+  "id": "ch1.discours",
+  "speaker": "directeur",
+  "start": "entree",
+  "nodes": {
+    "entree": {
+      "text": "L'amphithéâtre sent la peinture fraîche. Le directeur attend, debout sur l'estrade, les mains croisées dans le dos, jusqu'à ce que le silence soit total.",
+      "lines": [{ "who": "directeur", "text": "Asseyez-vous. Aujourd'hui, on ne répète pas deux fois." }],
+      "to": "salle"
+    },
+    "salle": {
+      "text": "Trente cadets s'installent en rangs serrés. Franklyn reconnaît les nuques familières autour de lui — dix-sept ans de dortoirs communs, et une seule journée qui reste avant de les quitter.",
+      "to": "discours"
+    },
+    "discours": {
+      "text": "La voix du directeur porte sans micro, habituée à porter. Trente ans de service avant de venir diriger HOLT, et ça s'entend.",
+      "lines": [
+        {
+          "who": "directeur",
+          "text": "Vous êtes la première promotion de cette académie à partir en stage réel. Pas un exercice de plus : une évaluation qui compte, sur le terrain, devant des instructeurs qui ne vous connaissent pas."
+        },
+        {
+          "who": "directeur",
+          "text": "On nous regarde. Si vous réussissez, d'autres promotions suivront la même voie. Si vous échouez, on referme le dossier et on revient à l'ancien programme."
+        }
+      ],
+      "choices": [
+        {
+          "text": "Écouter chaque mot, droit sur son banc.",
+          "to": "cloture",
+          "effects": [{ "tag": "loyal-academie" }]
+        },
+        {
+          "text": "Se dire que ce discours a déjà été répété devant un miroir.",
+          "to": "cloture",
+          "effects": [{ "tag": "cynique" }]
+        },
+        {
+          "text": "Laisser son regard dériver vers la fenêtre et la ligne des Badlands.",
+          "to": "cloture",
+          "effects": [{ "tag": "distrait" }]
+        }
+      ]
+    },
+    "cloture": {
+      "text": "Le directeur referme son dossier d'un geste sec.",
+      "lines": [{ "who": "directeur", "text": "Examen écrit dans dix minutes. Ne me décevez pas." }]
+    }
+  }
+}

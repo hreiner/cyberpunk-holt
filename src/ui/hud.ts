@@ -4,15 +4,23 @@
  * Choix assume : aucune interface dessinee dans le canvas. Le DOM est plus
  * rapide a iterer, accessible, et se teste directement avec Playwright via des
  * `data-testid`. Voir docs/process/ARCHITECTURE.md.
+ *
+ * Reskin "Encre rouge" (docs/art/UI-DESIGN-SYSTEM.md, "HUD tactique") : meme
+ * mise en page et memes `data-testid` qu'avant, jetons/polices/formes du
+ * design system a la place des valeurs en dur. `--comm` reste reserve aux
+ * repliques radio de l'instructeur (docs, section "Couleurs") : plus aucun
+ * usage generique de ce cyan ici (survol, etat actif...).
  */
 
 import { CARRIED_ITEMS, ITEM_ICONS } from '@/data/items';
 import { getCharacter } from '@/rules/character';
 import type { CharacterId } from '@/rules/character';
+import type { CheckResult, D10Result, RollModifier } from '@/rules/dice';
 import { ITEM_LABELS } from '@/tactical/combat';
 import type { TacticalCombat } from '@/tactical/combat';
 import { estimateShot } from '@/tactical/queries';
 import type { CombatState, ItemId, Unit } from '@/tactical/types';
+import { portraitElement } from '@/ui/portraits';
 
 export type HudActionId =
   'shoot' | 'melee' | 'heal' | 'spot' | 'encourage' | 'pickup' | 'placeMine' | 'run' | 'endTurn';
@@ -44,17 +52,17 @@ export class Hud {
     this.root.className = 'hud';
     this.root.innerHTML = `
       <header class="hud-top">
-        <div class="hud-banner" data-testid="banner"></div>
+        <div class="hud-banner panel" data-testid="banner"></div>
         <div class="hud-order" data-testid="order"></div>
-        <div class="hud-camera" aria-label="Camera">
-          <button data-testid="camera-left" title="Pivoter la camera (A)">⟲</button>
-          <span>Camera</span>
-          <button data-testid="camera-right" title="Pivoter la camera (E)">⟳</button>
+        <div class="hud-camera" aria-label="Caméra">
+          <button data-testid="camera-left" title="Pivoter la caméra (A)">⟲</button>
+          <span>Caméra</span>
+          <button data-testid="camera-right" title="Pivoter la caméra (E)">⟳</button>
           <button data-testid="sound" title="Couper le son">🔊</button>
         </div>
       </header>
-      <aside class="hud-sheet" data-testid="sheet"></aside>
-      <section class="hud-log" data-testid="log"></section>
+      <aside class="hud-sheet panel" data-testid="sheet"></aside>
+      <section class="hud-log panel" data-testid="log"></section>
       <footer class="hud-actions" data-testid="actions"></footer>
       <div class="hud-footer" data-testid="footer"></div>
     `;
@@ -90,29 +98,34 @@ export class Hud {
     this.renderSheet(combat, playerTeam);
     this.renderActions(combat, playerTeam, pendingMode);
     this.renderLog(state);
-    this.footer.textContent = `Graine : ${state.seed} — clic : deplacer · maj+clic : courir · A/E : pivoter la camera (un cadet cache derriere un container reste visible en silhouette)`;
+    this.footer.textContent = `Graine : ${state.seed} — clic : déplacer · maj+clic : courir · A/E : pivoter la caméra (un cadet caché derrière un conteneur reste visible en silhouette)`;
   }
 
   private renderBanner(state: CombatState, playerTeam: 'blue' | 'red'): void {
     if (state.phase === 'finished') {
       const won = state.winner === playerTeam;
-      const label = state.winner === 'draw' ? 'Match nul' : won ? 'Exercice reussi' : 'Exercice manque';
-      this.banner.innerHTML = `<strong>${label}</strong> <button data-testid="restart">Rejouer</button>`;
+      const label = state.winner === 'draw' ? 'Match nul' : won ? 'Exercice réussi' : 'Exercice manqué';
+      this.banner.innerHTML = `<strong>${label}</strong> <button class="btn btn--primary" data-testid="restart">Rejouer</button>`;
       const btn = this.banner.querySelector('[data-testid="restart"]');
       btn?.addEventListener('click', () => this.callbacks.onRestart());
       return;
     }
     const current = getCharacter(state.order[state.turnIndex] as CharacterId).name;
     const kits = (team: 'blue' | 'red', label: string) =>
-      `<span class="kit team-${team}" title="Kits de soin de l'equipe ${label}">${ITEM_ICONS.healkit} ${label} ×${state.teams[team].healkits}</span>`;
+      `<span class="kit team-${team}" title="Kits de soin de l'équipe ${label}">${ITEM_ICONS.healkit} ${label} ×${state.teams[team].healkits}</span>`;
     this.banner.innerHTML = `<span>Round ${state.round}/${state.roundLimit}</span><span>Au tour de <strong>${current}</strong></span>${kits(playerTeam, playerTeam === 'blue' ? 'bleue' : 'rouge')}`;
   }
 
+  /** Bande d'initiative : une vignette `thumb` par cadet, plus le cadre d'equipe et l'etat actif/neutralise. */
   private renderOrder(combat: TacticalCombat, playerTeam: 'blue' | 'red'): void {
     const state = combat.state;
     this.orderStrip.innerHTML = '';
     state.order.forEach((id, index) => {
       const unit = combat.unit(id);
+      const sheet = getCharacter(id);
+      // Le joueur ne connait que le materiel de sa propre equipe.
+      const known = unit.team === playerTeam;
+
       const chip = document.createElement('button');
       chip.className = [
         'order-chip',
@@ -123,16 +136,26 @@ export class Hud {
         .filter(Boolean)
         .join(' ');
       chip.dataset.testid = `order-${id}`;
-      const sheet = getCharacter(id);
-      // Le joueur ne connait que le materiel de sa propre equipe.
-      const known = unit.team === playerTeam;
-      chip.title = known ? itemsSentence(unit.items) : 'Materiel inconnu';
-      chip.innerHTML = `<i class="swatch" style="background:${sheet.placeholderColor}"></i>${sheet.name}<span class="chip-items">${known ? itemIcons(unit.items) : ''}</span>`;
+      chip.title = known ? itemsSentence(unit.items) : 'Matériel inconnu';
+
+      chip.appendChild(portraitElement(id, 'thumb'));
+      const label = document.createElement('span');
+      label.className = 'order-chip-label';
+      const name = document.createElement('span');
+      name.className = 'order-chip-name';
+      name.textContent = sheet.name;
+      const items = document.createElement('span');
+      items.className = 'chip-items';
+      items.innerHTML = known ? itemIcons(unit.items) : '';
+      label.append(name, items);
+      chip.appendChild(label);
+
       chip.addEventListener('click', () => this.callbacks.onSelectTarget(id));
       this.orderStrip.appendChild(chip);
     });
   }
 
+  /** Fiche du cadet actif : portrait `card`, PM, materiel, tirs possibles (jetons "il y a un jet" -- --tape). */
   private renderSheet(combat: TacticalCombat, playerTeam: 'blue' | 'red'): void {
     const unit = combat.currentUnit();
     const sheet = getCharacter(unit.id);
@@ -141,30 +164,37 @@ export class Hud {
     // la fiche n'en revele rien (ni objets, ni tirs possibles).
     const known = unit.team === playerTeam;
     const shots = !known
-      ? '<li class="muted">Equipement adverse inconnu</li>'
+      ? '<li class="muted">Équipement adverse inconnu</li>'
       : unit.items.includes('taser')
         ? enemies
             .map((e) => ({ e, est: estimateShot(combat, unit, e) }))
             .filter((s) => s.est.possible)
             .map(
               (s) =>
-                `<li><button data-shoot="${s.e.id}" data-testid="shoot-${s.e.id}">${getCharacter(s.e.id).name} — ${s.est.chance}% (couvert ${s.est.coverLabel}, ${s.est.distance} cases)</button></li>`,
+                `<li><button class="shot-btn" data-shoot="${s.e.id}" data-testid="shoot-${s.e.id}"><span class="chip-check"><span class="chip-check__skill">${getCharacter(s.e.id).name}</span><span class="chip-check__dv">couvert ${s.est.coverLabel} · ${s.est.distance} cases</span><span class="chip-check__pct">${s.est.chance}%</span></span></button></li>`,
             )
             .join('')
         : '<li class="muted">Pas de taser</li>';
 
     this.sheetPanel.innerHTML = `
-      <h2>${sheet.name}</h2>
-      <p class="role">${sheet.role}</p>
+      <div class="hud-sheet-head">
+        <div class="hud-sheet-portrait" data-testid="sheet-portrait"></div>
+        <div class="hud-sheet-heading">
+          <h2 style="border-bottom-color:${sheet.placeholderColor}">${sheet.name}</h2>
+          <p class="role">${sheet.role}</p>
+        </div>
+      </div>
       <ul class="stats">
         <li>PM restants <strong data-testid="mp">${unit.mp}</strong></li>
-        <li>Action <strong>${unit.actionUsed ? 'utilisee' : 'disponible'}</strong></li>
-        <li>Etat <strong>${statusLabel(unit)}</strong></li>
-        <li>Materiel <strong>${known ? unit.items.map((i) => `${ITEM_ICONS[i]} ${ITEM_LABELS[i]}`).join(', ') || 'aucun' : 'inconnu'}</strong></li>
+        <li>Action <strong>${unit.actionUsed ? 'utilisée' : 'disponible'}</strong></li>
+        <li>État <strong>${statusLabel(unit)}</strong></li>
+        <li>Matériel <strong>${known ? unit.items.map((i) => `${ITEM_ICONS[i]} ${ITEM_LABELS[i]}`).join(', ') || 'aucun' : 'inconnu'}</strong></li>
       </ul>
-      <h3>${known ? 'Tirs possibles' : 'Equipe adverse'}</h3>
+      <h3>${known ? 'Tirs possibles' : 'Équipe adverse'}</h3>
       <ul class="shots">${shots}</ul>
     `;
+
+    this.sheetPanel.querySelector('[data-testid="sheet-portrait"]')?.appendChild(portraitElement(unit.id, 'card'));
 
     this.sheetPanel.querySelectorAll('[data-shoot]').forEach((el) => {
       el.addEventListener('click', () => {
@@ -174,6 +204,7 @@ export class Hud {
     });
   }
 
+  /** Barre d'actions : classe `.btn` partagee (docs, "Formes"/"Mouvement") -- desactive clairement, focus visible via `:focus-visible` global. */
   private renderActions(
     combat: TacticalCombat,
     playerTeam: 'blue' | 'red',
@@ -187,7 +218,7 @@ export class Hud {
         label: pendingMode === 'run' ? 'Choisir la case…' : 'Courir',
         enabled: !unit.actionUsed && unit.mp > 0,
       },
-      { id: 'spot', label: 'Reperer', enabled: !unit.actionUsed },
+      { id: 'spot', label: 'Repérer', enabled: !unit.actionUsed },
       { id: 'encourage', label: 'Encourager', enabled: !unit.actionUsed },
       { id: 'heal', label: 'Ranimer', enabled: !unit.actionUsed },
       { id: 'pickup', label: 'Ramasser', enabled: !unit.actionUsed },
@@ -202,6 +233,7 @@ export class Hud {
     this.actionBar.innerHTML = '';
     for (const b of buttons) {
       const el = document.createElement('button');
+      el.className = 'btn';
       el.textContent = b.label;
       el.dataset.testid = `action-${b.id}`;
       el.disabled = !playable || !b.enabled;
@@ -210,6 +242,13 @@ export class Hud {
     }
   }
 
+  /**
+   * Journal : mise en scene (docs/art/ART-DIRECTION.md, "Interface") -- un jet
+   * resolu (`entry.check`) devient une mini-vignette RÉUSSI/ÉCHEC avec sa
+   * chaine de des en --tape et ses modificateurs nommes, plutot que la seule
+   * ligne texte brute de `formatCheck` (gardee pour les autres natures
+   * d'entrees : deplacement, systeme, resultat...).
+   */
   private renderLog(state: CombatState): void {
     if (state.log.length === this.lastLogLength) return;
     const fresh = state.log.slice(this.lastLogLength);
@@ -217,7 +256,11 @@ export class Hud {
     for (const entry of fresh) {
       const line = document.createElement('p');
       line.className = `log-line log-${entry.kind}`;
-      line.textContent = entry.text;
+      if (entry.kind === 'check' && entry.check) {
+        line.innerHTML = checkEntryMarkup(entry.check);
+      } else {
+        line.textContent = entry.text;
+      }
       this.logPanel.appendChild(line);
     }
     this.logPanel.scrollTop = this.logPanel.scrollHeight;
@@ -230,11 +273,11 @@ export class Hud {
 }
 
 function statusLabel(unit: Unit): string {
-  if (unit.status === 'neutralized') return 'neutralise';
+  if (unit.status === 'neutralized') return 'neutralisé';
   const flags: string[] = [];
-  if (unit.exposed) flags.push('a decouvert');
-  if (unit.gassed) flags.push('gaze');
-  return flags.length > 0 ? flags.join(', ') : 'operationnel';
+  if (unit.exposed) flags.push('à découvert');
+  if (unit.gassed) flags.push('gazé');
+  return flags.length > 0 ? flags.join(', ') : 'opérationnel';
 }
 
 /** Pictogrammes du materiel porte, dans un ordre stable. */
@@ -245,5 +288,39 @@ function itemIcons(items: readonly ItemId[]): string {
 }
 
 function itemsSentence(items: readonly ItemId[]): string {
-  return items.length > 0 ? `Materiel : ${items.map((i) => ITEM_LABELS[i]).join(', ')}` : 'Sans materiel';
+  return items.length > 0 ? `Matériel : ${items.map((i) => ITEM_LABELS[i]).join(', ')}` : 'Sans matériel';
+}
+
+/** Chaine de des lisible, meme convention que `narrativeView.ts` (explosion/implosion nommee). */
+function dieChainText(die: D10Result): string {
+  const [first, ...rest] = die.faces;
+  if (rest.length === 0) return `d10 ${first}`;
+  const kind = die.exploded ? 'explosion' : die.imploded ? 'implosion' : 'relance';
+  const sign = die.exploded ? '+' : '−';
+  const tail = rest.map((f) => `${sign}${f}`).join(' ');
+  return `d10 ${first} → ${kind} ${tail} = ${die.value}`;
+}
+
+function modifiersText(mods: readonly RollModifier[]): string {
+  return mods.map((m) => `${m.label} ${m.value >= 0 ? '+' : ''}${m.value}`).join(' · ');
+}
+
+/** Mini-tampon RÉUSSI/ÉCHEC + chaine de des (--tape) + modificateurs nommes + total contre DV. */
+function checkEntryMarkup(check: CheckResult): string {
+  const verdictClass = check.success ? 'stamp--ok' : 'stamp--ko';
+  const verdictText = check.success ? 'RÉUSSI' : 'ÉCHEC';
+  const mods = modifiersText(check.modifiers);
+  const detail = [
+    check.label,
+    `${check.attribute}+${check.skill}`,
+    mods,
+    `total ${check.total} contre DV ${check.dv}`,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+  return (
+    `<span class="stamp ${verdictClass} log-verdict">${verdictText}</span>` +
+    `<span class="log-check-dice">${dieChainText(check.die)}</span>` +
+    `<span class="log-check-detail">${detail}</span>`
+  );
 }

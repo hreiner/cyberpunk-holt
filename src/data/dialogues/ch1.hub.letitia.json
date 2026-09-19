@@ -1,0 +1,111 @@
+{
+  "id": "ch1.hub.letitia",
+  "speaker": "letitia",
+  "start": "ouverture",
+  "nodes": {
+    "ouverture": {
+      "text": "Letitia est perchée sur la rambarde du quai de chargement, à observer les cadets s'agiter en contrebas. Elle repère Franklyn immédiatement.",
+      "lines": [
+        { "who": "letitia", "text": "Toi, t'as cette tête. Celle qui a déjà tout planifié trois fois." }
+      ],
+      "choices": [
+        { "text": "On ne sait jamais assez à l'avance.", "to": "taquine" },
+        {
+          "text": "[Perception] Lui demander ce qu'elle a repéré, elle, depuis son perchoir.",
+          "check": { "skill": "perception", "dv": "NORMALE" },
+          "onSuccess": "reperage-succes",
+          "onFailure": "reperage-echec",
+          "successEffects": [{ "flag": "ch1.hub.letitia.reperage", "value": true }]
+        },
+        { "text": "Pas plus que toi, sûrement.", "to": "miroir" }
+      ]
+    },
+    "taquine": {
+      "text": "Letitia rit, un vrai rire, et saute de la rambarde pour marcher à côté de lui.",
+      "lines": [
+        {
+          "who": "letitia",
+          "text": "C'est bien pour ça qu'on t'a pas mis dans mon équipe. J'aurais dû tricher au tirage."
+        }
+      ],
+      "to": "galons"
+    },
+    "reperage-succes": {
+      "text": "Letitia plisse les yeux, sérieuse une seconde, et désigne le désert du menton.",
+      "lines": [
+        {
+          "who": "letitia",
+          "text": "Là-bas, à l'ouest. Une carcasse de bus, deux silhouettes qui bougent pas comme des cadets. Retiens ça."
+        }
+      ],
+      "to": "galons"
+    },
+    "reperage-echec": {
+      "text": "Letitia scrute l'horizon un moment, puis secoue la tête.",
+      "lines": [
+        { "who": "letitia", "text": "Rien de précis. Juste le sentiment que ce trajet va être long." }
+      ],
+      "to": "galons"
+    },
+    "miroir": {
+      "text": "Letitia sourit en coin, amusée par la réponse.",
+      "lines": [{ "who": "letitia", "text": "Modeste. Ça te va pas très bien, mais j'apprécie l'effort." }],
+      "to": "galons"
+    },
+    "galons": {
+      "text": "Franklyn remarque, une fois de plus, les galons supplémentaires cousus sur son uniforme — personne d'autre n'en porte.",
+      "choices": [
+        { "text": "Ces galons, personne ne m'a jamais expliqué.", "to": "esquive" },
+        {
+          "text": "Tu veux en parler, ou pas ?",
+          "conditions": [{ "affinity": "letitia", "atLeast": 1 }],
+          "to": "ouverture-partielle"
+        },
+        {
+          "text": "On dit que tu les as perdus, pas gagnés.",
+          "to": "blessee",
+          "effects": [{ "affinity": { "who": "letitia", "delta": -1 } }]
+        }
+      ]
+    },
+    "esquive": {
+      "text": "Letitia se referme aussitôt, hausse les épaules, le regard ailleurs.",
+      "lines": [{ "who": "letitia", "text": "Vieille histoire. Laisse tomber." }],
+      "to": "conduits"
+    },
+    "ouverture-partielle": {
+      "text": "Letitia hésite, puis baisse un peu la garde.",
+      "lines": [
+        { "who": "letitia", "text": "On me les a retirés. Y a pas plus à dire, pour l'instant." },
+        { "who": "letitia", "text": "Un jour, peut-être, je te raconterai le reste." }
+      ],
+      "to": "conduits"
+    },
+    "blessee": {
+      "text": "Le sourire de Letitia disparaît d'un coup. Elle ne répond rien, se détourne, remonte sur la rambarde.",
+      "to": "cloture-froide"
+    },
+    "conduits": {
+      "text": "Un silence s'installe, celui qu'ils partagent depuis ce jour dans les conduits, sous la salle d'interface. Aucun des deux ne l'a jamais rouvert.",
+      "lines": [{ "who": "letitia", "text": "Tu te souviens de ce que je cherchais, ce jour-là ?" }],
+      "choices": [
+        { "text": "Non. Et je n'ai jamais demandé.", "to": "silence-partage" },
+        {
+          "text": "Je crois. Mais ce n'est pas à moi de le dire.",
+          "to": "silence-partage",
+          "effects": [{ "affinity": { "who": "letitia", "delta": 1 } }]
+        }
+      ]
+    },
+    "silence-partage": {
+      "text": "Letitia hoche la tête, presque soulagée, et le silence reprend sa place, plus léger qu'avant.",
+      "to": "cloture"
+    },
+    "cloture-froide": {
+      "text": "Letitia se hisse sur la rambarde sans un mot de plus et regarde ailleurs jusqu'à ce que le reste du groupe embarque."
+    },
+    "cloture": {
+      "text": "Elle saute de la rambarde une dernière fois et part vers le fourgon en sifflotant, comme si de rien n'était."
+    }
+  }
+}

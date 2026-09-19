@@ -22,6 +22,9 @@
     "simulate": "tsx scripts/simulate.ts"
   },
   "dependencies": {
+    "@fontsource/barlow-semi-condensed": "^5.3.0",
+    "@fontsource/big-shoulders-display": "^5.3.0",
+    "@fontsource/big-shoulders-stencil-display": "^5.3.0",
     "three": "^0.180.0"
   },
   "devDependencies": {

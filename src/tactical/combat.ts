@@ -74,7 +74,7 @@ export const DEFAULT_BLUE: CharacterId[] = ['zachary', 'john', 'franklyn'];
 export const DEFAULT_RED: CharacterId[] = ['grover', 'letitia', 'abigail'];
 
 export function defaultTeamState(): TeamState {
-  return { healkits: 1, extraTaser: false, gassedMember: null };
+  return { healkits: 1, extraTaser: false, gassedMembers: [] };
 }
 
 export function defaultSetup(seed = 'holt-demo'): TacticalSetup {
@@ -165,7 +165,7 @@ export class TacticalCombat {
         const sheet = getCharacter(id);
         const spawn = spawns[index % spawns.length] as Vec2;
         const items = [...((loadout[id] ?? []) as ItemId[])];
-        const gassed = teamState.gassedMember === id;
+        const gassed = teamState.gassedMembers.includes(id);
         const initiative = sheet.attributes.REF + this.rng.die(10) + (hasTrait(sheet, 'fonceur') ? 1 : 0);
         units[id] = {
           id,
@@ -301,9 +301,9 @@ export class TacticalCombat {
   /* -------------------------------- actions -------------------------------- */
 
   perform(action: Action): ActionOutcome {
-    if (this.state_.phase !== 'playing') return fail("L'exercice est termine.");
+    if (this.state_.phase !== 'playing') return fail("L'exercice est terminé.");
     const actor = this.currentUnit();
-    if (actor.status !== 'active') return fail('Cette unite est neutralisee.');
+    if (actor.status !== 'active') return fail('Cette unité est neutralisée.');
 
     switch (action.type) {
       case 'move':
@@ -340,7 +340,7 @@ export class TacticalCombat {
 
     const reach = computeReach(this.map, actor.pos, budget, this.occupiedCells(actor.id));
     const path = pathTo(reach, to);
-    if (!path || path.length === 0) return fail('Case hors de portee de deplacement.');
+    if (!path || path.length === 0) return fail('Case hors de portée de déplacement.');
 
     for (const step of path) {
       actor.pos = { ...step };
@@ -357,10 +357,10 @@ export class TacticalCombat {
       actor.mp = 0;
       actor.actionUsed = true;
       actor.exposed = true;
-      this.log('move', `${sheet.name} court jusqu'en (${to.x},${to.y}) et se decouvre.`, actor.id);
+      this.log('move', `${sheet.name} court jusqu'en (${to.x},${to.y}) et se découvre.`, actor.id);
     } else {
       actor.mp -= cost;
-      this.log('move', `${sheet.name} se deplace en (${to.x},${to.y}) [${cost} PM].`, actor.id);
+      this.log('move', `${sheet.name} se déplace en (${to.x},${to.y}) [${cost} PM].`, actor.id);
     }
     return { ok: true };
   }
@@ -379,20 +379,20 @@ export class TacticalCombat {
     if (!result.success) {
       this.neutralize(actor, 'la mine incapacitante');
     } else {
-      this.log('status', `${sheet.name} plonge a temps : la mine se declenche dans le vide.`, actor.id);
+      this.log('status', `${sheet.name} plonge à temps : la mine se déclenche dans le vide.`, actor.id);
     }
     return { ok: true, check: result };
   }
 
   private doShoot(actor: Unit, targetId: CharacterId): ActionOutcome {
-    if (actor.actionUsed) return fail('Action deja utilisee ce tour.');
-    if (!actor.items.includes('taser')) return fail('Cette unite ne porte pas de taser.');
+    if (actor.actionUsed) return fail('Action déjà utilisée ce tour.');
+    if (!actor.items.includes('taser')) return fail('Cette unité ne porte pas de taser.');
     const target = this.unit(targetId);
-    if (target.status !== 'active') return fail('Cible deja neutralisee.');
-    if (target.team === actor.team) return fail('On ne tire pas sur un coequipier.');
+    if (target.status !== 'active') return fail('Cible déjà neutralisée.');
+    if (target.team === actor.team) return fail('On ne tire pas sur un coéquipier.');
 
     const dist = distance(actor.pos, target.pos);
-    if (dist > TASER_MAX_RANGE) return fail('Cible hors de portee.');
+    if (dist > TASER_MAX_RANGE) return fail('Cible hors de portée.');
     if (!hasLineOfSight(this.map, actor.pos, target.pos)) return fail('Pas de ligne de vue.');
 
     const sheet = getCharacter(actor.id);
@@ -404,7 +404,7 @@ export class TacticalCombat {
     const dv = BASE_SHOT_DV + cover.value + rangePenalty - (target.exposed ? EXPOSED_BONUS : 0);
 
     const modifiers: RollModifier[] = this.commonModifiers(actor);
-    if (dist <= POINT_BLANK_RANGE) modifiers.push({ label: 'a bout portant', value: POINT_BLANK_BONUS });
+    if (dist <= POINT_BLANK_RANGE) modifiers.push({ label: 'à bout portant', value: POINT_BLANK_BONUS });
     if (hasTrait(sheet, 'sangFroidAbsolu') && !actor.firstShotDone) {
       modifiers.push({ label: 'sang-froid absolu', value: 2 });
     }
@@ -425,17 +425,17 @@ export class TacticalCombat {
     if (result.success) {
       this.neutralize(target, `le taser de ${sheet.name}`);
     } else {
-      this.log('check', `Tir manque (couvert ${cover.label}).`, actor.id);
+      this.log('check', `Tir manqué (couvert ${cover.label}).`, actor.id);
     }
     return { ok: true, check: result };
   }
 
   private doMelee(actor: Unit, targetId: CharacterId): ActionOutcome {
-    if (actor.actionUsed) return fail('Action deja utilisee ce tour.');
+    if (actor.actionUsed) return fail('Action déjà utilisée ce tour.');
     const target = this.unit(targetId);
-    if (target.status !== 'active') return fail('Cible deja neutralisee.');
-    if (target.team === actor.team) return fail('On ne frappe pas un coequipier.');
-    if (distance(actor.pos, target.pos) > 1) return fail('Cible hors de portee de corps a corps.');
+    if (target.status !== 'active') return fail('Cible déjà neutralisée.');
+    if (target.team === actor.team) return fail('On ne frappe pas un coéquipier.');
+    if (distance(actor.pos, target.pos) > 1) return fail('Cible hors de portée de corps à corps.');
 
     const sheet = getCharacter(actor.id);
     const tSheet = getCharacter(targetId);
@@ -458,22 +458,22 @@ export class TacticalCombat {
 
     this.emit({ type: 'melee', attacker: actor.id, target: targetId });
     if (attack.total > defense.total) {
-      this.neutralize(target, `le corps a corps de ${sheet.name}`);
+      this.neutralize(target, `le corps à corps de ${sheet.name}`);
     } else if (defense.total - attack.total >= 5) {
       this.log('check', `${tSheet.name} retourne la charge.`, targetId);
       this.neutralize(actor, `la contre-attaque de ${tSheet.name}`);
     } else {
-      this.log('check', `Corps a corps indecis entre ${sheet.name} et ${tSheet.name}.`, actor.id);
+      this.log('check', `Corps à corps indécis entre ${sheet.name} et ${tSheet.name}.`, actor.id);
     }
     return { ok: true, check: attack };
   }
 
   private doHeal(actor: Unit, targetId: CharacterId): ActionOutcome {
-    if (actor.actionUsed) return fail('Action deja utilisee ce tour.');
+    if (actor.actionUsed) return fail('Action déjà utilisée ce tour.');
     const target = this.unit(targetId);
-    if (target.team !== actor.team) return fail('On ne ranime que ses coequipiers.');
-    if (target.status !== 'neutralized') return fail("Cet allie n'est pas neutralise.");
-    if (distance(actor.pos, target.pos) > 1) return fail('Il faut etre au contact.');
+    if (target.team !== actor.team) return fail('On ne ranime que ses coéquipiers.');
+    if (target.status !== 'neutralized') return fail("Cet allié n'est pas neutralisé.");
+    if (distance(actor.pos, target.pos) > 1) return fail('Il faut être au contact.');
 
     const sheet = getCharacter(actor.id);
     const team = this.state_.teams[actor.team];
@@ -485,7 +485,7 @@ export class TacticalCombat {
       this.emit({ type: 'revived', unit: targetId });
       this.log(
         'status',
-        `${sheet.name} utilise le kit de soin : ${getCharacter(targetId).name} est de nouveau operationnel.`,
+        `${sheet.name} utilise le kit de soin : ${getCharacter(targetId).name} est de nouveau opérationnel.`,
         actor.id,
       );
       return { ok: true };
@@ -494,7 +494,7 @@ export class TacticalCombat {
     if (!hasTrait(sheet, 'mainsDOr')) return fail('Plus de kit de soin disponible.');
 
     const result = this.resolveCheck(actor, {
-      label: `${sheet.name} ranime ${getCharacter(targetId).name} a mains nues`,
+      label: `${sheet.name} ranime ${getCharacter(targetId).name} à mains nues`,
       attribute: sheet.attributes.TECH,
       skill: sheet.skills.premiersSoins,
       dv: FIELD_REVIVE_DV,
@@ -509,9 +509,9 @@ export class TacticalCombat {
   }
 
   private doSpot(actor: Unit, targetId: CharacterId): ActionOutcome {
-    if (actor.actionUsed) return fail('Action deja utilisee ce tour.');
+    if (actor.actionUsed) return fail('Action déjà utilisée ce tour.');
     const target = this.unit(targetId);
-    if (target.team === actor.team) return fail('On repere un adversaire, pas un allie.');
+    if (target.team === actor.team) return fail('On repère un adversaire, pas un allié.');
     if (!hasLineOfSight(this.map, actor.pos, target.pos)) return fail('Pas de ligne de vue.');
 
     const sheet = getCharacter(actor.id);
@@ -524,13 +524,13 @@ export class TacticalCombat {
         unit: ally.id,
         target: targetId,
         value,
-        label: `repere par ${sheet.name}`,
+        label: `repéré par ${sheet.name}`,
         expiresAfterRound: this.state_.round,
       });
     }
     this.log(
       'status',
-      `${sheet.name} repere ${getCharacter(targetId).name} : +${value} au prochain tir allie.`,
+      `${sheet.name} repère ${getCharacter(targetId).name} : +${value} au prochain tir allié.`,
       actor.id,
     );
     return { ok: true };
@@ -538,11 +538,11 @@ export class TacticalCombat {
 
   private doEncourage(actor: Unit, targetId: CharacterId): ActionOutcome {
     const sheet = getCharacter(actor.id);
-    if (!hasTrait(sheet, 'cohesion')) return fail('Ce cadet ne dispose pas du trait Cohesion.');
-    if (actor.cohesionUsedRound === this.state_.round) return fail('Cohesion deja utilisee ce round.');
-    if (actor.actionUsed) return fail('Action deja utilisee ce tour.');
+    if (!hasTrait(sheet, 'cohesion')) return fail('Ce cadet ne dispose pas du trait Cohésion.');
+    if (actor.cohesionUsedRound === this.state_.round) return fail('Cohésion déjà utilisée ce round.');
+    if (actor.actionUsed) return fail('Action déjà utilisée ce tour.');
     const target = this.unit(targetId);
-    if (target.team !== actor.team) return fail('On encourage un coequipier.');
+    if (target.team !== actor.team) return fail('On encourage un coéquipier.');
     if (!hasLineOfSight(this.map, actor.pos, target.pos)) return fail('Pas de ligne de vue.');
 
     actor.actionUsed = true;
@@ -550,7 +550,7 @@ export class TacticalCombat {
     this.state_.bonuses.push({
       unit: targetId,
       value: 2,
-      label: `cohesion de ${sheet.name}`,
+      label: `cohésion de ${sheet.name}`,
       expiresAfterRound: this.state_.round,
     });
     this.log(
@@ -562,9 +562,9 @@ export class TacticalCombat {
   }
 
   private doPickup(actor: Unit): ActionOutcome {
-    if (actor.actionUsed) return fail('Action deja utilisee ce tour.');
+    if (actor.actionUsed) return fail('Action déjà utilisée ce tour.');
     const item = this.state_.ground.find((g) => samePos(g.pos, actor.pos));
-    if (!item) return fail('Rien a ramasser ici.');
+    if (!item) return fail('Rien à ramasser ici.');
 
     const sheet = getCharacter(actor.id);
     actor.actionUsed = true;
@@ -572,7 +572,7 @@ export class TacticalCombat {
 
     if (item.item === 'mine' && !hasTrait(sheet, 'bricoleuse')) {
       const result = this.resolveCheck(actor, {
-        label: `${sheet.name} desamorce la mine`,
+        label: `${sheet.name} désamorce la mine`,
         attribute: sheet.attributes.TECH,
         skill: sheet.skills.electronique,
         dv: DV.NORMALE,
@@ -590,9 +590,9 @@ export class TacticalCombat {
   }
 
   private doPlaceMine(actor: Unit, at: Vec2): ActionOutcome {
-    if (actor.actionUsed) return fail('Action deja utilisee ce tour.');
-    if (!actor.items.includes('mine')) return fail('Cette unite ne porte pas de mine.');
-    if (distance(actor.pos, at) > 1) return fail('Case trop eloignee.');
+    if (actor.actionUsed) return fail('Action déjà utilisée ce tour.');
+    if (!actor.items.includes('mine')) return fail('Cette unité ne porte pas de mine.');
+    if (distance(actor.pos, at) > 1) return fail('Case trop éloignée.');
     if (!this.map.isWalkable(at)) return fail('On ne pose pas une mine dans un container.');
 
     const sheet = getCharacter(actor.id);
@@ -608,7 +608,7 @@ export class TacticalCombat {
   /** Modificateurs qui s'appliquent a tous les jets d'une unite. */
   private commonModifiers(u: Unit): RollModifier[] {
     const mods: RollModifier[] = [];
-    if (u.gassed) mods.push({ label: 'gaze en salle 3', value: -GASSED_PENALTY });
+    if (u.gassed) mods.push({ label: 'gazé en salle 3', value: -GASSED_PENALTY });
     return mods;
   }
 
@@ -650,7 +650,7 @@ export class TacticalCombat {
       }
     }
     u.items = u.items.filter((i) => i !== 'taser' && i !== 'mine');
-    this.log('result', `${sheet.name} est neutralise par ${cause}.`, u.id);
+    this.log('result', `${sheet.name} est neutralisé par ${cause}.`, u.id);
     this.checkVictory();
   }
 
@@ -677,7 +677,7 @@ export class TacticalCombat {
     this.state_.phase = 'finished';
     this.state_.winner = winner;
     const label =
-      winner === 'draw' ? 'Match nul' : `Victoire de l'equipe ${winner === 'blue' ? 'bleue' : 'rouge'}`;
+      winner === 'draw' ? 'Match nul' : `Victoire de l'équipe ${winner === 'blue' ? 'bleue' : 'rouge'}`;
     this.log('result', `${label}.`);
   }
 

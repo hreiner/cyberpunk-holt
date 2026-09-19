@@ -61,11 +61,9 @@ Non négociables, elles priment sur l'esthétique :
 
 ## Interface
 
-Entièrement en HTML/CSS au-dessus du canvas — aucun texte dessiné dans la 3D. Panneaux
-sombres translucides, bordure `#2c2f3a`, coins arrondis 8 px, typographie système.
-
-Le **journal de dés** n'est pas un log technique : c'est un élément de mise en scène. Il
-affiche la chaîne complète des dés, les modificateurs nommés et le verdict.
+Entièrement en HTML/CSS au-dessus du canvas — aucun texte dessiné dans la 3D. Design system
+contraignant : [`UI-DESIGN-SYSTEM.md`](UI-DESIGN-SYSTEM.md) (« Encre rouge »), qui remplace
+ce qui se trouvait ici : jetons de couleur, typographie, formes, portraits, écrans.
 
 ## Son
 

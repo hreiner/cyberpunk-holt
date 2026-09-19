@@ -1,0 +1,72 @@
+{
+  "id": "ch1.fourgon",
+  "start": "route",
+  "nodes": {
+    "route": {
+      "text": "Le fourgon quitte l'académie dans un nuage de poussière. Par les vitres grillagées, les Badlands défilent : carcasses de véhicules, panneaux publicitaires éventrés, un silence rompu seulement par le moteur.",
+      "choices": [
+        { "text": "Regarder dehors en silence.", "to": "silence1" },
+        {
+          "text": "[Perception] Scruter l'horizon.",
+          "check": { "skill": "perception", "dv": "NORMALE" },
+          "onSuccess": "campement",
+          "onFailure": "silence1",
+          "successEffects": [{ "flag": "ch1.fourgon.campement-repere", "value": true }]
+        }
+      ]
+    },
+    "silence1": {
+      "text": "Le fourgon cahote sur une route défoncée depuis des décennies. Personne ne parle vraiment ; chacun regarde le désert filer.",
+      "to": "reactions"
+    },
+    "campement": {
+      "text": "Au loin, entre deux dunes de gravats, Franklyn distingue des silhouettes autour d'un feu — un campement de pillards, presque invisible à l'œil nu. Personne d'autre ne semble l'avoir vu.",
+      "to": "reactions"
+    },
+    "reactions": {
+      "text": "Le fourgon longe une carcasse de bus renversée, taguée de bout en bout. Un long silence s'installe, plus lourd à mesure qu'on s'éloigne de l'académie.",
+      "choices": [
+        {
+          "text": "Plaisanter avec Zachary sur le tag.",
+          "conditions": [{ "affinity": "zachary", "atLeast": 2 }],
+          "to": "zachary-humour"
+        },
+        {
+          "text": "Chercher le regard de John.",
+          "conditions": [{ "affinity": "john", "atLeast": 2 }],
+          "to": "john-silence"
+        },
+        { "text": "Ne rien dire.", "to": "approche" }
+      ]
+    },
+    "zachary-humour": {
+      "text": "Zachary éclate de rire en lisant le tag à voix haute, et deux ou trois autres finissent par sourire malgré la tension.",
+      "lines": [{ "who": "zachary", "text": "Même les murs sont plus honnêtes que le directeur." }],
+      "to": "approche"
+    },
+    "john-silence": {
+      "text": "John croise son regard une seconde et hoche la tête — rien de plus, mais ça suffit.",
+      "to": "approche"
+    },
+    "approche": {
+      "text": "Au loin, une silhouette basse et grise émerge de la poussière : le centre d'examen désaffecté, entouré d'un grillage tordu.",
+      "choices": [
+        {
+          "text": "[Perception] Repérer un détail sur le bâtiment.",
+          "check": { "skill": "perception", "dv": "DIFFICILE" },
+          "onSuccess": "detail",
+          "onFailure": "arrivee",
+          "successEffects": [{ "flag": "ch1.fourgon.detail-batiment", "value": true }]
+        },
+        { "text": "Se concentrer sur l'exercice à venir.", "to": "arrivee" }
+      ]
+    },
+    "detail": {
+      "text": "Une aile entière du bâtiment est murée de l'intérieur — pas à cause de l'exercice, par quelque chose de bien plus ancien. Personne n'en parle dans le briefing.",
+      "to": "arrivee"
+    },
+    "arrivee": {
+      "text": "Le fourgon s'arrête dans un nuage de poussière. L'instructeur ouvre les portes d'un geste sec et désigne, sans un mot de trop, qui ira avec qui : deux équipes de trois, prêtes à entrer."
+    }
+  }
+}

@@ -7,15 +7,23 @@
  *
  * Contrat documente dans docs/process/DEBUG_API.md. Toute evolution de cette
  * API doit y etre repercutee : c'est elle que lisent les autres agents.
+ *
+ * Depuis l'epic 2 (ADR 0011), `window.__game` pilote le chapitre entier via
+ * `ChapterApp`, pas seulement la phase tactique : les methodes tactiques
+ * historiques (`newGame`, `perform`, ...) continuent d'agir sur l'instance
+ * `GameApp` courante, creee des qu'on atteint ou force la scene tactique.
  */
 
+import type { ChapterApp, HubEntry, NarrativeSceneSnapshot } from '@/chapter';
 import type { GameApp } from '@/app';
+import { combatOutcome } from '@/app';
 import { playAiTurn, playToEnd } from '@/tactical/ai';
-import { defaultSetup } from '@/tactical/combat';
 import { scoreExercise } from '@/rules/scoring';
 import type { ExerciseScore } from '@/rules/scoring';
 import type { Action, CombatState, TeamId } from '@/tactical/types';
 import type { CharacterId } from '@/rules/character';
+import type { Dossier } from '@/core/dossier';
+import type { NarrativeOutcome, PresentedNode, RadioCue, RunState } from '@/narrative';
 
 export const DEBUG_API_VERSION = 1;
 
@@ -46,6 +54,8 @@ export interface GameStateSnapshot {
 
 export interface GameDebugApi {
   readonly version: number;
+
+  /* --- tactique (historique, voir docs/process/DEBUG_API.md) --- */
   newGame(options?: {
     seed?: string;
     blue?: CharacterId[];
@@ -61,6 +71,36 @@ export interface GameDebugApi {
   log(): string[];
   score(): ExerciseScore;
   setAiDelay(ms: number): void;
+
+  /* --- narratif (ADR 0011) --- */
+  scene(): NarrativeSceneSnapshot;
+  goToScene(id: string): NarrativeSceneSnapshot;
+  runState(): RunState;
+  dossier(): Dossier;
+  node(): PresentedNode | null;
+  /**
+   * `index` est l'index D'ORIGINE dans `node().choices` (voir
+   * `PresentedChoice.index`) : toujours passer `node().choices[i].index`,
+   * jamais une position recalculee. Renvoie `{ ok, reason? }`, exactement
+   * dans l'esprit de `perform()` -- un choix indisponible ne fait jamais rien
+   * en silence. Appeler `node()` ensuite pour lire le noeud a jour.
+   */
+  choose(index: number): NarrativeOutcome;
+  /**
+   * Resout le jet de reflexion du noeud courant (`node().insight`, ADR 0012) --
+   * seul moment ou le Rng du dialogue est consomme pour ce jet, exactement
+   * comme `perform()`/`choose()` pour le reste du moteur : deterministe,
+   * synchrone, aucune animation cote debug. Refuse explicitement (`ok: false`)
+   * si le noeud n'a pas d'`insight` ou si le jet a deja ete resolu. Appeler
+   * `node()` ensuite pour lire `insight.status`/`insight.roll` a jour, et les
+   * choix `best` fraichement reveles.
+   */
+  rollInsight(): NarrativeOutcome;
+  advance(): PresentedNode | null;
+  hub(): HubEntry[] | null;
+  pickHub(dialogueId: string): PresentedNode | null;
+  leaveHub(): NarrativeSceneSnapshot;
+  radio(): RadioCue[];
 }
 
 export function snapshot(app: GameApp): GameStateSnapshot {
@@ -91,69 +131,104 @@ export function snapshot(app: GameApp): GameStateSnapshot {
   };
 }
 
-export function installDebugApi(app: GameApp): GameDebugApi {
+/** La plupart des methodes tactiques exigent qu'une scene tactique ait deja ete atteinte (ou forcee via `newGame`). */
+function requireTactical(chapter: ChapterApp): GameApp {
+  const app = chapter.tactical;
+  if (!app) {
+    throw new Error(
+      "La scene tactique n'est pas active : appelez __game.newGame() ou __game.goToScene('ch1.affrontement') d'abord.",
+    );
+  }
+  return app;
+}
+
+export function installDebugApi(chapter: ChapterApp): GameDebugApi {
   const api: GameDebugApi = {
     version: DEBUG_API_VERSION,
 
     newGame(options = {}) {
-      const setup = defaultSetup(options.seed ?? 'test');
-      if (options.blue) setup.blue = options.blue;
-      if (options.red) setup.red = options.red;
-      if (options.roundLimit) setup.roundLimit = options.roundLimit;
-      app.startWith(setup);
-      return snapshot(app);
+      chapter.debugStartTactical(options);
+      return snapshot(requireTactical(chapter));
     },
 
-    state: () => snapshot(app),
+    state: () => snapshot(requireTactical(chapter)),
 
     perform(action: Action) {
+      const app = requireTactical(chapter);
       const outcome = app.combat.perform(action);
       app.refreshFromDebug();
       return outcome.ok ? { ok: true } : { ok: false, reason: outcome.reason ?? 'refusee' };
     },
 
     endTurn() {
+      const app = requireTactical(chapter);
       app.combat.endTurn();
       app.refreshFromDebug();
       return snapshot(app);
     },
 
     aiTurn() {
+      const app = requireTactical(chapter);
       playAiTurn(app.combat);
       app.refreshFromDebug();
       return snapshot(app);
     },
 
     flushAi() {
+      const app = requireTactical(chapter);
       app.flushAi();
       return snapshot(app);
     },
 
     runToEnd(maxTurns = 200) {
+      const app = requireTactical(chapter);
       playToEnd(app.combat, maxTurns);
       app.refreshFromDebug();
       return snapshot(app);
     },
 
-    log: () => app.combat.state.log.map((l) => l.text),
+    log: () => requireTactical(chapter).combat.state.log.map((l) => l.text),
 
-    score() {
-      const s = app.combat.state;
-      const player = app.playerTeam;
-      const opponent: TeamId = player === 'blue' ? 'red' : 'blue';
-      return scoreExercise({
-        winner: s.winner,
-        playerTeam: player,
-        rounds: Math.min(s.round, s.roundLimit),
-        roundLimit: s.roundLimit,
-        alliesStanding: app.combat.activeUnitsOf(player).length,
-        alliesTotal: app.combat.unitsOf(player).length,
-        enemiesDown: app.combat.unitsOf(opponent).length - app.combat.activeUnitsOf(opponent).length,
-        enemiesTotal: app.combat.unitsOf(opponent).length,
-      });
+    score: () =>
+      scoreExercise(combatOutcome(requireTactical(chapter).combat, requireTactical(chapter).playerTeam)),
+
+    setAiDelay: (ms: number) => requireTactical(chapter).setAiDelay(ms),
+
+    scene: () => chapter.sceneSnapshot(),
+
+    goToScene(id: string) {
+      chapter.goToScene(id);
+      return chapter.sceneSnapshot();
     },
 
-    setAiDelay: (ms: number) => app.setAiDelay(ms),
+    runState: () => chapter.run,
+
+    dossier: () => chapter.dossier,
+
+    node: () => chapter.node,
+
+    choose: (index: number) => chapter.chooseOption(index),
+
+    rollInsight: () => chapter.rollInsight(),
+
+    advance() {
+      chapter.advance();
+      return chapter.node;
+    },
+
+    hub: () => chapter.hub,
+
+    pickHub(dialogueId: string) {
+      chapter.pickHub(dialogueId);
+      return chapter.node;
+    },
+
+    leaveHub() {
+      chapter.leaveHub();
+      return chapter.sceneSnapshot();
+    },
+
+    radio: () => chapter.peekRadio(),
   };
 
   (window as unknown as { __game: GameDebugApi }).__game = api;

@@ -97,8 +97,13 @@ export interface TeamState {
   healkits: number;
   /** Taser supplementaire obtenu en forcant l'armoire securisee (salle 2). */
   extraTaser: boolean;
-  /** Membre gaze en salle 3, le cas echeant. */
-  gassedMember: CharacterId | null;
+  /**
+   * Cadets gazes en salle 3 (defaut 3 du rapport de cloture epic 2) : le jet de
+   * Resistance est individuel, plusieurs cadets peuvent echouer et rester gazes
+   * pour l'affrontement final. Liste sans doublon, jamais ecrasee (voir
+   * `applyTeamEffect` dans src/narrative/runState.ts).
+   */
+  gassedMembers: CharacterId[];
 }
 
 export interface TacticalSetup {

@@ -25,7 +25,7 @@ function filesUnder(dir: string): string[] {
 }
 
 describe('separation des couches', () => {
-  const logicDirs = ['core', 'rules', 'tactical'];
+  const logicDirs = ['core', 'rules', 'tactical', 'narrative'];
 
   it("la logique de jeu n'importe jamais three.js", () => {
     for (const dir of logicDirs) {
@@ -48,10 +48,12 @@ describe('separation des couches', () => {
     }
   });
 
-  it("le module tactique ne touche pas au DOM", () => {
-    for (const file of filesUnder(join(SRC, 'tactical'))) {
-      const content = readFileSync(file, 'utf8');
-      expect(content, `${file} touche au DOM`).not.toMatch(/\b(document|window)\./);
+  it('le module tactique et le module narratif ne touchent pas au DOM', () => {
+    for (const dir of ['tactical', 'narrative']) {
+      for (const file of filesUnder(join(SRC, dir))) {
+        const content = readFileSync(file, 'utf8');
+        expect(content, `${file} touche au DOM`).not.toMatch(/\b(document|window)\./);
+      }
     }
   });
 });

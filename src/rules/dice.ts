@@ -140,6 +140,6 @@ export function formatCheck(r: CheckResult): string {
   const dice = r.die.faces.length > 1 ? `d10[${r.die.faces.join('+')}]=${r.die.value}` : `d10=${r.die.value}`;
   const mods = r.modifiers.map((m) => `${m.value >= 0 ? '+' : ''}${m.value} ${m.label}`).join(', ');
   const modsPart = mods ? ` (${mods})` : '';
-  const verdict = r.success ? 'REUSSITE' : 'ECHEC';
+  const verdict = r.success ? 'RÉUSSITE' : 'ÉCHEC';
   return `${r.label} : ${r.attribute}+${r.skill}+${dice}${modsPart} = ${r.total} vs DV ${r.dv} -> ${verdict} (marge ${r.margin >= 0 ? '+' : ''}${r.margin})`;
 }

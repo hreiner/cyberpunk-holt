@@ -1,0 +1,211 @@
+/**
+ * Habillage du lanceur de d10 3D (src/render/dice3d.ts).
+ *
+ * Autonome : ne depend d'aucune classe de src/ui/ (hors de son controle,
+ * l'autre agent travaille dessus en parallele). Utilise les jetons de
+ * src/ui/theme.css quand ils sont presents (`var(--jeton, repli)`), avec un
+ * repli correct sinon -- voir docs/art/UI-DESIGN-SYSTEM.md, section "Le de".
+ */
+
+.dice3d-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-text, 'Barlow Semi Condensed', 'Segoe UI', sans-serif);
+  color: var(--bone, #efe4d4);
+}
+
+.dice3d-overlay[hidden] {
+  display: none;
+}
+
+.dice3d-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--ink, #140d0e);
+  opacity: 0.7;
+}
+
+.dice3d-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+}
+
+.dice3d-label {
+  font-family: var(--font-display, 'Big Shoulders Display', 'Arial Narrow', sans-serif);
+  font-weight: 700;
+  font-size: var(--fs-lg, 1.375rem);
+  text-align: center;
+  color: var(--bone, #efe4d4);
+  max-width: 44ch;
+}
+
+.dice3d-canvas-wrap {
+  position: relative;
+  width: 360px;
+  height: 360px;
+  max-width: 80vw;
+  max-height: 80vw;
+}
+
+.dice3d-canvas-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -34px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--tape, #f2c230) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dice3d-canvas-wrap.dice3d-flash::after {
+  animation: dice3d-flash 520ms ease-out;
+}
+
+.dice3d-canvas-wrap.dice3d-shake {
+  animation: dice3d-shake 360ms ease-in-out;
+}
+
+.dice3d-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transition: opacity 160ms ease-out;
+}
+
+.dice3d-canvas.dice3d-fade-in {
+  opacity: 0;
+}
+
+.dice3d-result {
+  min-height: 1.5em;
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-xl, 2rem);
+  font-weight: 700;
+  color: var(--bone, #efe4d4);
+  text-align: center;
+}
+
+.dice3d-stamp {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  font-family: var(--font-stamp, 'Big Shoulders Stencil Display', 'Big Shoulders Display', sans-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--fs-lg, 1.375rem);
+  padding: 5px 16px;
+  border: 3px solid currentColor;
+  pointer-events: none;
+  animation: dice3d-stamp-impact 180ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--ink, #140d0e) 78%, transparent);
+}
+
+.dice3d-stamp[hidden] {
+  display: none;
+}
+
+.dice3d-stamp--ok {
+  color: var(--tape, #f2c230);
+}
+
+.dice3d-stamp--ko {
+  color: var(--ko, var(--red, #e2262f));
+}
+
+.dice3d-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--red, #e2262f);
+  border: 1px solid var(--red, #e2262f);
+  color: var(--bone, #efe4d4);
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-weight: 700;
+  font-size: var(--fs-md, 1.0625rem);
+  padding: 9px 24px;
+  cursor: pointer;
+  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+}
+
+.dice3d-action:hover {
+  background: var(--red-deep, #8c1219);
+  border-color: var(--red-deep, #8c1219);
+}
+
+.dice3d-action[hidden] {
+  display: none;
+}
+
+.dice3d-action:focus-visible {
+  outline: 2px solid var(--tape, #f2c230);
+  outline-offset: 2px;
+}
+
+.dice3d-hint {
+  font-size: var(--fs-xs, 0.8125rem);
+  color: var(--bone-dim, #b4a693);
+}
+
+@keyframes dice3d-stamp-impact {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.6) rotate(-9deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(-6deg);
+  }
+}
+
+@keyframes dice3d-flash {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes dice3d-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px) rotate(-1.5deg);
+  }
+  40% {
+    transform: translateX(5px) rotate(1.5deg);
+  }
+  60% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dice3d-canvas,
+  .dice3d-stamp,
+  .dice3d-canvas-wrap,
+  .dice3d-canvas-wrap::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

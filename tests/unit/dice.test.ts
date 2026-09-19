@@ -92,6 +92,6 @@ describe('check()', () => {
     const result = check(rng, { label: 'Tir', attribute: 5, skill: 4, dv: 13 });
     const line = formatCheck(result);
     expect(line).toContain('Tir');
-    expect(line).toMatch(/REUSSITE|ECHEC/);
+    expect(line).toMatch(/RÉUSSITE|ÉCHEC/);
   });
 });

@@ -1,0 +1,397 @@
+{
+  "id": "ch1.exam",
+  "speaker": "instructeur",
+  "start": "ouverture",
+  "nodes": {
+    "ouverture": {
+      "text": "La salle d'examen sent le papier neuf. Trente pupitres, trente copies, un surveillant au fond qui regarde sa montre plus que les cadets.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Vous avez quarante minutes. Répondez avec ce que vous savez, pas ce que vous croyez qu'on veut entendre."
+        }
+      ],
+      "to": "question1"
+    },
+    "question1": {
+      "text": "Premières minutes. Le surveillant lit la première question à voix haute pour toute la salle.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Question un : citez un fait, un texte ou un événement qui a marqué l'histoire de la police avant le Collapse."
+        }
+      ],
+      "insight": {
+        "skill": "education",
+        "dv": "TRES_DIFFICILE",
+        "successText": "La réponse s'impose, nette.",
+        "failureText": "Trou noir. Il faudra répondre à l'instinct.",
+        "successEffects": [{ "tag": "technicien" }],
+        "failureEffects": [{ "tag": "bluffeur" }]
+      },
+      "choices": [
+        {
+          "text": "Le code de déontologie qu'on apprend par cœur depuis l'école primaire.",
+          "to": "question2",
+          "effects": [
+            { "tag": "legaliste" },
+            {
+              "entry": {
+                "key": "ch1.exam.question1",
+                "label": "Examen — question 1 : police avant le Collapse",
+                "value": "Cite le code de déontologie appris par cœur."
+              }
+            }
+          ]
+        },
+        {
+          "text": "Les émeutes qui ont fini par forcer la privatisation des forces de l'ordre.",
+          "to": "question2",
+          "best": true,
+          "effects": [
+            { "tag": "cynique" },
+            { "counter": "ch1.exam.bonnes-reponses", "delta": 1 },
+            {
+              "entry": {
+                "key": "ch1.exam.question1",
+                "label": "Examen — question 1 : police avant le Collapse",
+                "value": "Cite les émeutes qui ont précédé la privatisation des forces de l'ordre."
+              }
+            }
+          ]
+        },
+        {
+          "text": "Rien d'autre que ce qu'on nous a enseigné ici, à HOLT.",
+          "to": "question2",
+          "effects": [
+            { "tag": "loyal-academie" },
+            {
+              "entry": {
+                "key": "ch1.exam.question1",
+                "label": "Examen — question 1 : police avant le Collapse",
+                "value": "Ne connaît que l'enseignement de l'académie."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "question2": {
+      "text": "Deuxième question, sur une fiche à part : un cas pratique.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Question deux : sur le terrain, votre enregistreur corporel refuse de démarrer au moment d'une interpellation. Que faites-vous ?"
+        }
+      ],
+      "insight": {
+        "skill": "electronique",
+        "dv": "TRES_DIFFICILE",
+        "successText": "Le circuit s'éclaire dans sa tête : la panne est évidente.",
+        "failureText": "Le schéma reste flou. Il faudra deviner.",
+        "successEffects": [{ "tag": "technicien" }]
+      },
+      "choices": [
+        {
+          "text": "On continue l'intervention sans, et on le signale dans le rapport.",
+          "to": "question3",
+          "effects": [
+            { "tag": "pragmatique" },
+            {
+              "entry": {
+                "key": "ch1.exam.question2",
+                "label": "Examen — question 2 : enregistreur en panne",
+                "value": "Continue sans caméra, le signale ensuite."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On refuse d'intervenir tant que l'appareil n'est pas réparé.",
+          "to": "question3",
+          "effects": [
+            { "tag": "legaliste" },
+            {
+              "entry": {
+                "key": "ch1.exam.question2",
+                "label": "Examen — question 2 : enregistreur en panne",
+                "value": "Refuse d'intervenir sans caméra fonctionnelle."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On demande à un collègue de filmer avec le sien.",
+          "to": "question3",
+          "best": true,
+          "effects": [
+            { "tag": "direct" },
+            { "counter": "ch1.exam.bonnes-reponses", "delta": 1 },
+            {
+              "entry": {
+                "key": "ch1.exam.question2",
+                "label": "Examen — question 2 : enregistreur en panne",
+                "value": "Fait filmer l'intervention par un collègue."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "question3": {
+      "text": "Troisième question, la plus dense de la copie.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Question trois : dans quelles conditions un agent peut-il fouiller un civil sans mandat corporatif ni consentement ?"
+        }
+      ],
+      "insight": {
+        "skill": "education",
+        "dv": "TRES_DIFFICILE",
+        "successText": "L'article lui revient mot pour mot.",
+        "failureText": "Le texte de loi se dérobe, imprécis.",
+        "successEffects": [{ "tag": "technicien" }]
+      },
+      "choices": [
+        {
+          "text": "Jamais, sauf danger immédiat pour lui ou pour autrui.",
+          "to": "question4",
+          "best": true,
+          "effects": [
+            { "tag": "legaliste" },
+            { "counter": "ch1.exam.bonnes-reponses", "delta": 1 },
+            {
+              "entry": {
+                "key": "ch1.exam.question3",
+                "label": "Examen — question 3 : fouille sans mandat",
+                "value": "Fouille interdite sauf danger immédiat."
+              }
+            }
+          ]
+        },
+        {
+          "text": "Dès qu'il y a un doute raisonnable, corpo ou pas.",
+          "to": "question4",
+          "effects": [
+            { "tag": "pragmatique" },
+            {
+              "entry": {
+                "key": "ch1.exam.question3",
+                "label": "Examen — question 3 : fouille sans mandat",
+                "value": "Le doute raisonnable suffit, peu importe le statut de la zone."
+              }
+            }
+          ]
+        },
+        {
+          "text": "Ça dépend surtout de qui tient la zone ce mois-ci.",
+          "to": "question4",
+          "effects": [
+            { "tag": "cynique" },
+            {
+              "entry": {
+                "key": "ch1.exam.question3",
+                "label": "Examen — question 3 : fouille sans mandat",
+                "value": "Répond que la règle dépend du rapport de force local."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "question4": {
+      "text": "Quatrième question, tirée d'un cas réel de la ville.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Question quatre : une corporation revendique une scène de crime avant vous et y poste sa propre sécurité. Vous faites quoi ?"
+        }
+      ],
+      "insight": {
+        "skill": "piratage",
+        "dv": "EXCEPTIONNELLE",
+        "successText": "La faille dans le mandat saute aux yeux.",
+        "failureText": "Le document semble en règle — ou pas. Impossible à dire.",
+        "successEffects": [{ "tag": "rebelle" }],
+        "failureEffects": [{ "tag": "corporatiste" }]
+      },
+      "choices": [
+        {
+          "text": "On les laisse faire. Ils ont plus de droits que nous là-dessus.",
+          "to": "question5",
+          "effects": [
+            { "tag": "cynique" },
+            {
+              "entry": {
+                "key": "ch1.exam.question4",
+                "label": "Examen — question 4 : scène de crime corpo",
+                "value": "Cède la scène, les corporations ont la priorité légale."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On sécurise le périmètre à distance et on négocie l'accès.",
+          "to": "question5",
+          "best": true,
+          "effects": [
+            { "tag": "pragmatique" },
+            { "counter": "ch1.exam.bonnes-reponses", "delta": 1 },
+            {
+              "entry": {
+                "key": "ch1.exam.question4",
+                "label": "Examen — question 4 : scène de crime corpo",
+                "value": "Sécurise le périmètre, négocie l'accès."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On refuse de céder : la loi passe avant le logo.",
+          "to": "question5",
+          "effects": [
+            { "tag": "idealiste" },
+            {
+              "entry": {
+                "key": "ch1.exam.question4",
+                "label": "Examen — question 4 : scène de crime corpo",
+                "value": "Refuse de céder la scène à la corporation."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "question5": {
+      "text": "Cinquième question, plus courte.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Question cinq : en patrouille dans les Badlands, un convoi civil s'arrête sans raison apparente devant vous. Premier réflexe ?"
+        }
+      ],
+      "insight": {
+        "skill": "perception",
+        "dv": "TRES_DIFFICILE",
+        "successText": "Un détail accroche son regard, net et précis.",
+        "failureText": "Rien ne cloche en apparence. Ou alors elle lui échappe.",
+        "successEffects": [{ "tag": "direct" }],
+        "failureEffects": [{ "tag": "distrait" }]
+      },
+      "choices": [
+        {
+          "text": "Par le livre : on demande les papiers du convoi.",
+          "to": "question6",
+          "effects": [
+            { "tag": "legaliste" },
+            {
+              "entry": {
+                "key": "ch1.exam.question5",
+                "label": "Examen — question 5 : convoi arrêté dans les Badlands",
+                "value": "Demande les papiers, procédure standard."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On se méfie d'abord, on parle ensuite.",
+          "to": "question6",
+          "best": true,
+          "effects": [
+            { "tag": "prudent" },
+            { "counter": "ch1.exam.bonnes-reponses", "delta": 1 },
+            {
+              "entry": {
+                "key": "ch1.exam.question5",
+                "label": "Examen — question 5 : convoi arrêté dans les Badlands",
+                "value": "Reste à distance et observe avant d'approcher."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On continue sa route, ce n'est pas notre secteur.",
+          "to": "question6",
+          "effects": [
+            { "tag": "pragmatique" },
+            {
+              "entry": {
+                "key": "ch1.exam.question5",
+                "label": "Examen — question 5 : convoi arrêté dans les Badlands",
+                "value": "Ignore le convoi, hors de sa juridiction."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "question6": {
+      "text": "Sixième et dernière question.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Question six : un signalement de cyberpsychose tombe en pleine intervention. Priorité ?"
+        }
+      ],
+      "insight": {
+        "skill": "tactique",
+        "dv": "TRES_DIFFICILE",
+        "successText": "La situation se lit clairement, malgré la tension.",
+        "failureText": "Le chaos brouille tout jugement.",
+        "successEffects": [{ "tag": "technicien" }],
+        "failureEffects": [{ "tag": "cynique" }]
+      },
+      "choices": [
+        {
+          "text": "Isoler la zone et attendre l'unité spécialisée.",
+          "to": "fin",
+          "best": true,
+          "effects": [
+            { "tag": "prudent" },
+            { "counter": "ch1.exam.bonnes-reponses", "delta": 1 },
+            {
+              "entry": {
+                "key": "ch1.exam.question6",
+                "label": "Examen — question 6 : signalement de cyberpsychose",
+                "value": "Isole la zone, attend les renforts spécialisés."
+              }
+            }
+          ]
+        },
+        {
+          "text": "Neutraliser vite, avant que ça dégénère.",
+          "to": "fin",
+          "effects": [
+            { "tag": "pragmatique" },
+            {
+              "entry": {
+                "key": "ch1.exam.question6",
+                "label": "Examen — question 6 : signalement de cyberpsychose",
+                "value": "Privilégie la neutralisation rapide."
+              }
+            }
+          ]
+        },
+        {
+          "text": "Essayer de parler d'abord. C'est encore quelqu'un.",
+          "to": "fin",
+          "effects": [
+            { "tag": "idealiste" },
+            {
+              "entry": {
+                "key": "ch1.exam.question6",
+                "label": "Examen — question 6 : signalement de cyberpsychose",
+                "value": "Tente le dialogue avant la force."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "fin": {
+      "text": "Franklyn repose son stylet. Six questions, aucune certitude d'avoir bien répondu — mais la copie est complète.",
+      "effects": [{ "writtenScore": { "counterKey": "ch1.exam.bonnes-reponses", "total": 6 } }]
+    }
+  }
+}

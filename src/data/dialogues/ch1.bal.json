@@ -1,0 +1,754 @@
+{
+  "id": "ch1.bal",
+  "speaker": "directeur",
+  "start": "annonce",
+  "nodes": {
+    "annonce": {
+      "text": "Les lumières de la salle des fêtes se reflètent sur les uniformes de gala. Le directeur monte sur l'estrade, une tablette à la main, et appelle les cadets un à un pour annoncer leur note d'examen pratique.",
+      "lines": [
+        { "who": "directeur", "text": "Franklyn. Approche." },
+        { "who": "directeur", "text": "Voilà ce que ton dossier retient de cette journée." }
+      ],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "defaite-exercice" }, { "tag": "equipe-decimee" }],
+          "to": "commentaire-severe"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "defaite-exercice" }, { "not": { "tag": "equipe-decimee" } }],
+          "to": "commentaire-mitige"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "vainqueur-exercice" }, { "tag": "protecteur" }],
+          "to": "commentaire-fort"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "vainqueur-exercice" },
+            { "tag": "offensif" },
+            { "not": { "tag": "protecteur" } }
+          ],
+          "to": "commentaire-fort"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "vainqueur-exercice" },
+            { "not": { "tag": "protecteur" } },
+            { "not": { "tag": "offensif" } }
+          ],
+          "to": "commentaire-mitige"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "sauveteur" },
+            { "not": { "tag": "defaite-exercice" } },
+            { "not": { "tag": "vainqueur-exercice" } }
+          ],
+          "to": "commentaire-fort"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "renseignement" },
+            { "not": { "tag": "defaite-exercice" } },
+            { "not": { "tag": "vainqueur-exercice" } }
+          ],
+          "to": "commentaire-fort"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "curieux" },
+            { "not": { "tag": "defaite-exercice" } },
+            { "not": { "tag": "vainqueur-exercice" } }
+          ],
+          "to": "commentaire-fort"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "rapide" },
+            { "not": { "tag": "defaite-exercice" } },
+            { "not": { "tag": "vainqueur-exercice" } }
+          ],
+          "to": "commentaire-fort"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "imprudent-salle-3" },
+            { "not": { "tag": "defaite-exercice" } },
+            { "not": { "tag": "vainqueur-exercice" } }
+          ],
+          "to": "commentaire-mitige"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "lent" },
+            { "not": { "tag": "defaite-exercice" } },
+            { "not": { "tag": "vainqueur-exercice" } }
+          ],
+          "to": "commentaire-mitige"
+        },
+        { "text": "Continuer.", "to": "commentaire-mitige" }
+      ]
+    },
+    "commentaire-fort": {
+      "text": "Un instructeur parcourt la fiche par-dessus l'épaule du directeur et hoche la tête, presque surpris.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Propre. Vous avez tenu le rythme sans perdre la tête, ça compte plus que vous ne le croyez."
+        }
+      ],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "john", "atLeast": 2 }],
+          "to": "john-chaleureux"
+        },
+        { "text": "Continuer.", "conditions": [{ "affinity": "john", "atMost": -1 }], "to": "john-froid" },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "john", "atLeast": 2 } },
+            { "not": { "affinity": "john", "atMost": -1 } }
+          ],
+          "to": "john-neutre"
+        }
+      ]
+    },
+    "commentaire-mitige": {
+      "text": "Le directeur referme la tablette sans commentaire appuyé ; un instructeur griffonne une remarque dans la marge.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Ni brillant, ni catastrophique. Vous avez fait ce qu'il fallait, sans plus."
+        }
+      ],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "john", "atLeast": 2 }],
+          "to": "john-chaleureux"
+        },
+        { "text": "Continuer.", "conditions": [{ "affinity": "john", "atMost": -1 }], "to": "john-froid" },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "john", "atLeast": 2 } },
+            { "not": { "affinity": "john", "atMost": -1 } }
+          ],
+          "to": "john-neutre"
+        }
+      ]
+    },
+    "commentaire-severe": {
+      "text": "Un instructeur se penche vers le directeur, le ton plus sec que pour les autres cadets.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "On en reparlera en salle de débriefing. Pour l'instant, allez profiter de la soirée."
+        }
+      ],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "john", "atLeast": 2 }],
+          "to": "john-chaleureux"
+        },
+        { "text": "Continuer.", "conditions": [{ "affinity": "john", "atMost": -1 }], "to": "john-froid" },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "john", "atLeast": 2 } },
+            { "not": { "affinity": "john", "atMost": -1 } }
+          ],
+          "to": "john-neutre"
+        }
+      ]
+    },
+    "john-chaleureux": {
+      "text": "John traverse la salle sans se soucier des regards et attrape Franklyn par l'épaule, un vrai sourire, rare chez lui.",
+      "lines": [{ "who": "john", "text": "T'as géré. Je le savais, mais content de l'avoir vu." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "abigail", "atLeast": 2 }],
+          "to": "abigail-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "abigail", "atMost": -1 }],
+          "to": "abigail-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "abigail", "atLeast": 2 } },
+            { "not": { "affinity": "abigail", "atMost": -1 } }
+          ],
+          "to": "abigail-neutre"
+        }
+      ]
+    },
+    "john-neutre": {
+      "text": "John lève un instant les yeux de son verre, adresse un signe de tête à Franklyn, puis retourne à sa conversation.",
+      "lines": [{ "who": "john", "text": "Content que ce soit fini." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "abigail", "atLeast": 2 }],
+          "to": "abigail-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "abigail", "atMost": -1 }],
+          "to": "abigail-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "abigail", "atLeast": 2 } },
+            { "not": { "affinity": "abigail", "atMost": -1 } }
+          ],
+          "to": "abigail-neutre"
+        }
+      ]
+    },
+    "john-froid": {
+      "text": "John reste appuyé contre le mur, les bras croisés, et ne fait pas un pas vers lui. Quelque chose s'est refroidi entre eux, et ni l'un ni l'autre ne le nomme.",
+      "lines": [{ "who": "john", "text": "Ouais." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "abigail", "atLeast": 2 }],
+          "to": "abigail-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "abigail", "atMost": -1 }],
+          "to": "abigail-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "abigail", "atLeast": 2 } },
+            { "not": { "affinity": "abigail", "atMost": -1 } }
+          ],
+          "to": "abigail-neutre"
+        }
+      ]
+    },
+    "abigail-chaleureux": {
+      "text": "Abigail inspecte le bras de Franklyn d'un œil de professionnelle, moitié sérieuse moitié taquine, avant de le laisser tranquille.",
+      "lines": [{ "who": "abigail", "text": "Rien de cassé. Pour une fois, je n'aurai pas à te recoudre." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "zachary", "atLeast": 2 }],
+          "to": "zachary-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "zachary", "atMost": -1 }],
+          "to": "zachary-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "zachary", "atLeast": 2 } },
+            { "not": { "affinity": "zachary", "atMost": -1 } }
+          ],
+          "to": "zachary-neutre"
+        }
+      ]
+    },
+    "abigail-neutre": {
+      "text": "Abigail demande poliment comment s'est passé le parcours, écoute la réponse d'un air appliqué, puis s'éclipse vers le buffet.",
+      "lines": [{ "who": "abigail", "text": "Tant mieux si tout le monde est debout." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "zachary", "atLeast": 2 }],
+          "to": "zachary-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "zachary", "atMost": -1 }],
+          "to": "zachary-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "zachary", "atLeast": 2 } },
+            { "not": { "affinity": "zachary", "atMost": -1 } }
+          ],
+          "to": "zachary-neutre"
+        }
+      ]
+    },
+    "abigail-froid": {
+      "text": "Abigail garde ses distances, les bras serrés contre elle. Elle pense à son outil, prêté à une condition que Franklyn n'a pas tenue, sans jamais le dire tout haut.",
+      "lines": [{ "who": "abigail", "text": "J'espère que ça valait le coup." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "zachary", "atLeast": 2 }],
+          "to": "zachary-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "zachary", "atMost": -1 }],
+          "to": "zachary-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "zachary", "atLeast": 2 } },
+            { "not": { "affinity": "zachary", "atMost": -1 } }
+          ],
+          "to": "zachary-neutre"
+        }
+      ]
+    },
+    "zachary-chaleureux": {
+      "text": "Zacharie le soulève presque de terre en le serrant contre lui, hilare, avant d'apostropher toute la bande pour qu'elle vienne voir.",
+      "lines": [{ "who": "zachary", "text": "Voilà mon binôme ! On l'a fait, les gars !" }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "letitia", "atLeast": 2 }],
+          "to": "letitia-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "letitia", "atMost": -1 }],
+          "to": "letitia-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "letitia", "atLeast": 2 } },
+            { "not": { "affinity": "letitia", "atMost": -1 } }
+          ],
+          "to": "letitia-neutre"
+        }
+      ]
+    },
+    "zachary-neutre": {
+      "text": "Zacharie lève son verre dans sa direction depuis l'autre bout de la salle, capitaine content de son équipe, sans plus s'attarder.",
+      "lines": [{ "who": "zachary", "text": "Bien joué, Franklyn." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "letitia", "atLeast": 2 }],
+          "to": "letitia-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "letitia", "atMost": -1 }],
+          "to": "letitia-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "letitia", "atLeast": 2 } },
+            { "not": { "affinity": "letitia", "atMost": -1 } }
+          ],
+          "to": "letitia-neutre"
+        }
+      ]
+    },
+    "zachary-froid": {
+      "text": "Zacharie reste avec sa bande, un sourire plus poli que sincère, et ne l'invite pas à s'approcher.",
+      "lines": [{ "who": "zachary", "text": "Content que t'en sois sorti." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "letitia", "atLeast": 2 }],
+          "to": "letitia-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "letitia", "atMost": -1 }],
+          "to": "letitia-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "letitia", "atLeast": 2 } },
+            { "not": { "affinity": "letitia", "atMost": -1 } }
+          ],
+          "to": "letitia-neutre"
+        }
+      ]
+    },
+    "letitia-chaleureux": {
+      "text": "Letitia s'assoit près de lui sans un mot, juste un regard complice qui en dit long sur ce qu'ils n'ont jamais reparlé des conduits.",
+      "lines": [{ "who": "letitia", "text": "Toujours doué pour disparaître au bon moment, toi." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "grover", "atLeast": 2 }],
+          "to": "grover-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "grover", "atMost": -1 }],
+          "to": "grover-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "grover", "atLeast": 2 } },
+            { "not": { "affinity": "grover", "atMost": -1 } }
+          ],
+          "to": "grover-neutre"
+        }
+      ]
+    },
+    "letitia-neutre": {
+      "text": "Letitia lui offre un sourire léger en passant, la conversation reste courte et facile.",
+      "lines": [{ "who": "letitia", "text": "Une journée comme les autres, alors." }],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "grover", "atLeast": 2 }],
+          "to": "grover-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "grover", "atMost": -1 }],
+          "to": "grover-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "grover", "atLeast": 2 } },
+            { "not": { "affinity": "grover", "atMost": -1 } }
+          ],
+          "to": "grover-neutre"
+        }
+      ]
+    },
+    "letitia-froid": {
+      "text": "Letitia reste avec le trio de Grover, distante, et se contente d'un signe de tête bref depuis l'autre côté de la pièce.",
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "grover", "atLeast": 2 }],
+          "to": "grover-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "affinity": "grover", "atMost": -1 }],
+          "to": "grover-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "affinity": "grover", "atLeast": 2 } },
+            { "not": { "affinity": "grover", "atMost": -1 } }
+          ],
+          "to": "grover-neutre"
+        }
+      ]
+    },
+    "grover-chaleureux": {
+      "text": "Grover vient lui-même lui serrer la main, un respect inhabituel dans la voix pour le rival de sa bande.",
+      "lines": [
+        {
+          "who": "grover",
+          "text": "J'aurais préféré gagner contre vous plutôt qu'avec vous à côté. Beau travail quand même."
+        }
+      ],
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "legaliste" }], "to": "echo-principes" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "idealiste" }, { "not": { "tag": "legaliste" } }],
+          "to": "echo-principes"
+        },
+        { "text": "Continuer.", "conditions": [{ "tag": "pragmatique" }], "to": "echo-pragmatique" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "corporatiste" }, { "not": { "tag": "pragmatique" } }],
+          "to": "echo-pragmatique"
+        },
+        { "text": "Continuer.", "to": "echo-cynique-technicien" }
+      ]
+    },
+    "grover-neutre": {
+      "text": "Grover lui adresse un salut correct, capitaine à capitaine, rien de plus.",
+      "lines": [{ "who": "grover", "text": "Bon exercice." }],
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "legaliste" }], "to": "echo-principes" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "idealiste" }, { "not": { "tag": "legaliste" } }],
+          "to": "echo-principes"
+        },
+        { "text": "Continuer.", "conditions": [{ "tag": "pragmatique" }], "to": "echo-pragmatique" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "corporatiste" }, { "not": { "tag": "pragmatique" } }],
+          "to": "echo-pragmatique"
+        },
+        { "text": "Continuer.", "to": "echo-cynique-technicien" }
+      ]
+    },
+    "grover-froid": {
+      "text": "Grover ne se détourne même pas de sa conversation avec Letitia et Théodore pour le saluer, comme d'habitude.",
+      "lines": [{ "who": "grover", "text": "Encore un jour où la bande de Zacharie a eu de la chance." }],
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "legaliste" }], "to": "echo-principes" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "idealiste" }, { "not": { "tag": "legaliste" } }],
+          "to": "echo-principes"
+        },
+        { "text": "Continuer.", "conditions": [{ "tag": "pragmatique" }], "to": "echo-pragmatique" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "corporatiste" }, { "not": { "tag": "pragmatique" } }],
+          "to": "echo-pragmatique"
+        },
+        { "text": "Continuer.", "to": "echo-cynique-technicien" }
+      ]
+    },
+    "echo-principes": {
+      "text": "L'instructeur Smith, qui garde toujours un œil sur ses copies d'examen, s'arrête près de Franklyn avec un sourire en coin. Il n'a pas oublié la réponse qu'il a lue ce matin.",
+      "lines": [
+        { "who": "instructeur", "text": "Les textes, toujours les textes. Ça tient encore, sur le papier." }
+      ],
+      "to": "echo-cynique-technicien"
+    },
+    "echo-pragmatique": {
+      "text": "Zacharie repense tout haut à la copie d'examen de Franklyn, qu'il a surprise du coin de l'œil ce matin — une réponse qui ne s'embarrassait pas de grands principes.",
+      "lines": [{ "who": "zachary", "text": "Toi, au moins, tu vises le résultat. J'aime ça." }],
+      "to": "echo-cynique-technicien"
+    },
+    "echo-cynique-technicien": {
+      "text": "Plus tard dans la soirée, la musique change et les conversations se reforment ailleurs dans la salle. D'autres lignes de la copie d'examen refont surface.",
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "cynique" }, { "tag": "technicien" }],
+          "to": "echo-double"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "cynique" }, { "not": { "tag": "technicien" } }],
+          "to": "echo-cynique-abigail"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "technicien" }, { "not": { "tag": "cynique" } }],
+          "to": "echo-technicien-smith"
+        },
+        { "text": "Continuer.", "to": "echo-copie" }
+      ]
+    },
+    "echo-double": {
+      "text": "Abigail passe un bras autour du cou de Franklyn pendant que l'instructeur Smith, non loin, referme une copie avec un petit rire.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Toujours les émeutes et jamais le manuel, vous. Et pourtant, ce diagnostic sur l'enregistreur tenait parfaitement la route."
+        },
+        {
+          "who": "abigail",
+          "text": "Cynique le matin, technicien l'après-midi. T'es un drôle de mélange, Franklyn."
+        }
+      ],
+      "to": "echo-copie"
+    },
+    "echo-cynique-abigail": {
+      "text": "Abigail le rattrape près du buffet, un sourire en coin qui n'annonce rien de tendre.",
+      "lines": [
+        {
+          "who": "abigail",
+          "text": "Paraît que t'as répondu que la loi dépend surtout de qui tient la rue ce mois-ci. Charmant, comme vision du métier."
+        },
+        {
+          "who": "abigail",
+          "text": "Remarque, t'as pas complètement tort. Ça me fait juste bizarre de te l'entendre dire tout haut."
+        }
+      ],
+      "to": "echo-copie"
+    },
+    "echo-technicien-smith": {
+      "text": "L'instructeur Smith s'attarde près de Franklyn, une copie qu'il semble connaître par cœur toujours à la main.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Une batterie mal clipsée repérée en dix secondes, un article de procédure cité sans trembler... Vous avez le réflexe, Franklyn. Ça se travaille, un réflexe pareil."
+        }
+      ],
+      "to": "echo-copie"
+    },
+    "echo-copie": {
+      "text": "Le directeur croise Franklyn près du buffet, la copie de l'examen écrit encore fraîche en tête.",
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "copie-brillante" }],
+          "to": "echo-copie-brillante"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "copie-faible" }],
+          "to": "echo-copie-faible"
+        },
+        { "text": "Continuer.", "to": "echo-comportement" }
+      ]
+    },
+    "echo-copie-brillante": {
+      "text": "Le directeur s'attarde une seconde de trop sur le nom de Franklyn, feuilletant la copie d'examen.",
+      "lines": [
+        {
+          "who": "directeur",
+          "text": "Six sur six ne s'improvise pas. On va vous garder à l'œil, cadet — dans le bon sens du terme, pour une fois."
+        }
+      ],
+      "to": "echo-comportement"
+    },
+    "echo-copie-faible": {
+      "text": "Le directeur referme la copie d'examen sans un mot, mais la moue qui suit en dit assez long.",
+      "lines": [
+        {
+          "who": "directeur",
+          "text": "Deux bonnes réponses sur six, Franklyn. Espérons que le terrain vous pardonne plus que le papier."
+        }
+      ],
+      "to": "echo-comportement"
+    },
+    "echo-comportement": {
+      "text": "La soirée continue, et d'autres souvenirs de la journée refont surface, un par un.",
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "loyal-academie" }], "to": "echo-loyal" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "prudent" }, { "not": { "tag": "loyal-academie" } }],
+          "to": "echo-prudent"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "distrait" },
+            { "not": { "tag": "loyal-academie" } },
+            { "not": { "tag": "prudent" } }
+          ],
+          "to": "echo-distrait"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "direct" },
+            { "not": { "tag": "loyal-academie" } },
+            { "not": { "tag": "prudent" } },
+            { "not": { "tag": "distrait" } }
+          ],
+          "to": "echo-direct"
+        },
+        { "text": "Continuer.", "to": "echo-menus" }
+      ]
+    },
+    "echo-loyal": {
+      "text": "Un instructeur glisse au directeur que Franklyn est de ceux qui n'ont jamais levé les yeux du discours du matin, ni contesté un mot de ce qu'on enseigne à HOLT. Le directeur hoche la tête, presque satisfait.",
+      "to": "echo-menus"
+    },
+    "echo-prudent": {
+      "text": "Un instructeur feuillette encore la fiche de Franklyn, s'arrêtant sur les mêmes lignes deux fois.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Vous avez toujours choisi la prudence : sortir vite de la salle enfumée, observer avant d'agir sur la route. Ça ne fait pas les gros titres, mais ça garde les cadets en vie."
+        }
+      ],
+      "to": "echo-menus"
+    },
+    "echo-distrait": {
+      "text": "Zacharie passe un bras autour des épaules de Franklyn, hilare.",
+      "lines": [
+        {
+          "who": "zachary",
+          "text": "Toi, pendant le discours du directeur, t'avais déjà la tête dans le désert par la fenêtre. Je t'ai vu !"
+        }
+      ],
+      "to": "echo-menus"
+    },
+    "echo-direct": {
+      "text": "John s'approche, les bras croisés, et lâche sa remarque comme on referme un dossier.",
+      "lines": [
+        {
+          "who": "john",
+          "text": "T'as pas hésité à l'écrit non plus, on dirait. Tant mieux. Réfléchir trop longtemps, ça tue plus vite qu'autre chose."
+        }
+      ],
+      "to": "echo-menus"
+    },
+    "echo-menus": {
+      "text": "Une dernière poignée de souvenirs traverse la soirée avant que la musique ne change encore.",
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "reserve" }], "to": "echo-reserve" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "rebelle" }, { "not": { "tag": "reserve" } }],
+          "to": "echo-rebelle"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "bluffeur" },
+            { "not": { "tag": "reserve" } },
+            { "not": { "tag": "rebelle" } }
+          ],
+          "to": "echo-bluffeur"
+        },
+        { "text": "Continuer.", "to": "fin" }
+      ]
+    },
+    "echo-reserve": {
+      "text": "Letitia s'assoit un instant près de lui, sans grand discours.",
+      "lines": [
+        {
+          "who": "letitia",
+          "text": "T'es resté silencieux un peu plus longtemps que les autres, ce matin, dans le dortoir. Je remarque ces choses-là, tu sais."
+        }
+      ],
+      "to": "fin"
+    },
+    "echo-rebelle": {
+      "text": "Un instructeur croise Franklyn près de la sortie et lui glisse un mot en passant.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Vérifier un mandat corpo dans la marge de votre copie, fallait oser. On en reparlera peut-être, un jour."
+        }
+      ],
+      "to": "fin"
+    },
+    "echo-bluffeur": {
+      "text": "Grover s'attarde une seconde de trop, un sourcil levé.",
+      "lines": [
+        {
+          "who": "grover",
+          "text": "Une date inventée avec autant d'aplomb, à l'écrit... Théodore et moi, on garde un œil sur toi, maintenant."
+        }
+      ],
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Dehors, le désert des Badlands s'étend, sombre, au-delà des lumières de la fête. Demain commencent les stages, et cette promotion sera la première à sortir des murs de l'académie. Franklyn regarde la nuit, sans savoir encore ce qui l'attend."
+    }
+  }
+}

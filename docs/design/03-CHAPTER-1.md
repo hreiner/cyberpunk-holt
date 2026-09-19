@@ -34,14 +34,21 @@ donc observée.
 ## Scène 3 — L'examen écrit
 
 **Un dialogue guidé, pas un QCM.** Les questions portent sur la culture générale, la
-technique et le monde cyberpunk. Le joueur peut s'aider de **jets de compétence**
-(Éducation, Perception, Piratage…) pour éclairer une réponse.
+technique et le monde cyberpunk.
 
-Règle de design centrale : **il n'y a ni bonne ni mauvaise réponse**. Chaque réponse
-alimente le *dossier du candidat* avec une étiquette qui pourra ressortir plus tard —
-au bal, au chapitre 2, dans la bouche d'un instructeur.
+Chaque question ouvre par un **jet de réflexion** (compétence propre à la question :
+Éducation pour les questions de droit, Électronique pour l'enregistreur en panne, Piratage
+pour le mandat corpo, Perception pour le convoi, Tactique pour le cas de cyberpsychose).
+Réussi, il indique LA meilleure réponse — un jugement institutionnel, ce qu'un correcteur de
+l'académie attendrait. Raté, aucune indication : Franklyn répond à l'instinct.
 
-Voir [`06-SCORING-DOSSIER.md`](06-SCORING-DOSSIER.md).
+Règle de design : la **justesse** (la meilleure réponse, qui alimente la note écrite,
+/6) et la **doctrine** (légaliste, pragmatique, cynique, idéaliste, corporatiste — la
+personnalité du joueur) sont deux axes séparés. Chaque réponse pose sa doctrine quoi qu'il
+arrive ; seule la réponse `best` compte pour la note. Voir
+[`06-SCORING-DOSSIER.md`](06-SCORING-DOSSIER.md),
+[`07-DIALOGUE-FORMAT.md`](07-DIALOGUE-FORMAT.md) et
+l'[ADR 0012](../process/adr/0012-examen-ecrit-jet-de-reflexion-et-mise-en-scene.md).
 
 ## Scène 4 — Le tirage
 
@@ -120,8 +127,9 @@ Résolue par quelques jets. Sa progression est entendue à la radio. Son résult
 état à l'affrontement final : second taser obtenu ou non, membre gazé ou non. **La vidéo de
 la salle 3 montre ce qui s'est réellement passé** — c'est la récompense du dilemme.
 
-Dans le code, cet état est porté par `TeamState` (`healkits`, `extraTaser`, `gassedMember`),
-déjà branché sur le moteur de combat.
+Dans le code, cet état est porté par `TeamState` (`healkits`, `extraTaser`, `gassedMembers`),
+déjà branché sur le moteur de combat. Plusieurs cadets d'une même équipe peuvent être gazés
+(jet de Résistance individuel par cadet) : `gassedMembers` est une liste, pas un seul cadet.
 
 ## Scène 8 — L'affrontement final
 

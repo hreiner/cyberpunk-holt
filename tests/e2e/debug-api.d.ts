@@ -40,8 +40,141 @@ export interface E2EScore {
   tags: string[];
 }
 
+/* --------------------------- narratif (ADR 0011) --------------------------- */
+
+export type E2ESceneKind = 'dialogue' | 'tactical' | 'hub' | 'debrief';
+
+export interface E2ESceneSnapshot {
+  id: string;
+  kind: E2ESceneKind;
+  title: string;
+  finished: boolean;
+}
+
+export interface E2EPresentedCheck {
+  skillLabel: string;
+  dvLabel: string;
+  chancePercent: number;
+}
+
+export interface E2EPresentedChoice {
+  index: number;
+  text: string;
+  check?: E2EPresentedCheck;
+  /** Voir `PresentedChoice.best` dans src/narrative/dialogueRunner.ts (ADR 0012). */
+  best?: boolean;
+}
+
+export interface E2EDialogueLine {
+  who: string;
+  text: string;
+}
+
+export interface E2EPresentedRollModifier {
+  label: string;
+  value: number;
+}
+
+/** Detail structure du dernier jet resolu (voir `PresentedRoll` dans src/narrative/dialogueRunner.ts). */
+export interface E2EPresentedRoll {
+  skillLabel: string;
+  skillValue: number;
+  attribute: string;
+  attributeValue: number;
+  who: string;
+  dv: number;
+  dvLabel: string;
+  dieFaces: number[];
+  dieValue: number;
+  exploded: boolean;
+  imploded: boolean;
+  modifiers: E2EPresentedRollModifier[];
+  total: number;
+  success: boolean;
+  margin: number;
+}
+
+/** Jet de "reflexion" du noeud courant (examen ecrit, ADR 0012). Voir `PresentedInsight`. */
+export interface E2EPresentedInsight {
+  skillLabel: string;
+  dvLabel: string;
+  chancePercent: number;
+  status: 'pending' | 'success' | 'failure';
+  roll?: E2EPresentedRoll;
+  successText?: string;
+  failureText?: string;
+}
+
+export interface E2EPresentedNode {
+  nodeId: string;
+  speaker?: string;
+  speakerLabel?: string;
+  text?: string;
+  lines: E2EDialogueLine[];
+  choices: E2EPresentedChoice[];
+  lastRoll: string | null;
+  /** Meme jet que `lastRoll`, sous forme structuree -- ajoute par la refonte UI dialogue (lot 2.11). */
+  lastCheck: E2EPresentedRoll | null;
+  /** Absent si le noeud courant n'a pas de `insight` (ADR 0012). */
+  insight?: E2EPresentedInsight;
+  finished: boolean;
+}
+
+export interface E2ETeamState {
+  healkits: number;
+  extraTaser: boolean;
+  gassedMembers: string[];
+}
+
+export interface E2ERunState {
+  sceneId: string;
+  flags: Record<string, string | number | boolean>;
+  tempo: number;
+  teams: { blue: E2ETeamState; red: E2ETeamState };
+  heardRadio: string[];
+  seed: string;
+}
+
+export interface E2EDossierEntry {
+  key: string;
+  label: string;
+  value: string;
+  chapter: number;
+}
+
+export interface E2EWrittenScore {
+  correct: number;
+  total: number;
+}
+
+export interface E2EDossier {
+  version: number;
+  candidate: string;
+  tags: string[];
+  affinities: Record<string, number>;
+  entries: E2EDossierEntry[];
+  practicalScore: E2EScore | null;
+  /** Note de l'examen ecrit (scene 3, ADR 0012). */
+  writtenScore: E2EWrittenScore | null;
+  updatedAt: string;
+}
+
+export interface E2EHubEntry {
+  dialogueId: string;
+  label: string;
+  done: boolean;
+}
+
+export interface E2ERadioCue {
+  id: string;
+  atTempo: number;
+  text: string;
+}
+
 export interface E2EGameApi {
   version: number;
+
+  /* --- tactique (historique) --- */
   newGame(options?: { seed?: string; roundLimit?: number }): E2EState;
   state(): E2EState;
   perform(action: unknown): { ok: boolean; reason?: string };
@@ -52,6 +185,28 @@ export interface E2EGameApi {
   log(): string[];
   score(): E2EScore;
   setAiDelay(ms: number): void;
+
+  /* --- narratif (ADR 0011) --- */
+  scene(): E2ESceneSnapshot;
+  goToScene(id: string): E2ESceneSnapshot;
+  runState(): E2ERunState;
+  dossier(): E2EDossier;
+  node(): E2EPresentedNode | null;
+  /**
+   * `index` est l'index D'ORIGINE dans `node().choices` (le champ `index` de
+   * chaque choix), pas sa position dans cette liste : passer toujours
+   * `node().choices[i].index`. Renvoie `{ ok, reason? }` -- un choix
+   * indisponible ne fait jamais rien en silence. Lire `node()` ensuite pour
+   * le noeud a jour.
+   */
+  choose(index: number): { ok: boolean; reason?: string };
+  /** Voir `GameDebugApi.rollInsight` dans src/debug/gameApi.ts (ADR 0012). */
+  rollInsight(): { ok: boolean; reason?: string };
+  advance(): E2EPresentedNode | null;
+  hub(): E2EHubEntry[] | null;
+  pickHub(dialogueId: string): E2EPresentedNode | null;
+  leaveHub(): E2ESceneSnapshot;
+  radio(): E2ERadioCue[];
 }
 
 declare global {

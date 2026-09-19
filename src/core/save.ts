@@ -13,6 +13,7 @@
 
 import type { Dossier } from './dossier';
 import { createDossier, migrateDossier } from './dossier';
+import { migrateRunState, type RunState } from '@/narrative/runState';
 
 const DOSSIER_KEY = 'holt.dossier.v1';
 const SESSION_KEY = 'holt.session.v1';
@@ -23,6 +24,8 @@ export interface SessionSave {
   debugOverlay: boolean;
   /** Vrai si le joueur a coupe le son. */
   soundMuted: boolean;
+  /** Etat de la traversee en cours (epic 2). Optionnel : retrocompatible avec les sauvegardes sans RunState. */
+  run?: RunState;
 }
 
 function storage(): Storage | null {
@@ -68,7 +71,16 @@ export function loadSession(): SessionSave {
   if (!s) return fallback;
   try {
     const raw = s.getItem(SESSION_KEY);
-    return raw ? { ...fallback, ...(JSON.parse(raw) as Partial<SessionSave>) } : fallback;
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw) as Partial<SessionSave>;
+    const merged: SessionSave = { ...fallback, ...parsed };
+    // Un RunState corrompu ou d'une ancienne forme ne doit jamais empecher de
+    // charger la session (meme principe que migrateDossier).
+    if (parsed.run !== undefined) {
+      const seed = typeof parsed.run.seed === 'string' ? parsed.run.seed : merged.lastSeed;
+      merged.run = migrateRunState(parsed.run, seed);
+    }
+    return merged;
   } catch {
     return fallback;
   }
