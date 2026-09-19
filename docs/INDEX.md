@@ -11,6 +11,7 @@ aucune conversation à retrouver.
 | comprendre le jeu | [`design/00-VISION.md`](design/00-VISION.md) puis [`design/01-SETTING.md`](design/01-SETTING.md) |
 | coder sur le combat | [`design/05-TACTICAL-COMBAT.md`](design/05-TACTICAL-COMBAT.md) |
 | coder sur le narratif (epic 2) | [`design/03-CHAPTER-1.md`](design/03-CHAPTER-1.md) puis [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md) |
+| coder sur l'exploration (epic 3) | [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md) puis [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md) |
 | comprendre la structure du code | [`process/ARCHITECTURE.md`](process/ARCHITECTURE.md) |
 | savoir ce qui reste à faire | [`process/ROADMAP.md`](process/ROADMAP.md) |
 | brancher des modèles 3D | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md) |
@@ -27,6 +28,8 @@ aucune conversation à retrouver.
 | [`design/05-TACTICAL-COMBAT.md`](design/05-TACTICAL-COMBAT.md) | spécification du combat tour par tour et de l'IA |
 | [`design/06-SCORING-DOSSIER.md`](design/06-SCORING-DOSSIER.md) | barème de l'examen et dossier du candidat |
 | [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md) | format des dialogues : graphe, conditions, effets, radio, validation |
+| [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md) | le mode exploration : contrôles, caméra, entités, objectifs, passage au combat |
+| [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md) | format des cartes, l'académie HOLT (plan du MJ), le centre d'examen |
 
 ## Art
 
@@ -42,7 +45,7 @@ aucune conversation à retrouver.
 | Document | Contenu |
 |---|---|
 | [`process/ARCHITECTURE.md`](process/ARCHITECTURE.md) | couches, dépendances, invariants |
-| [`process/ROADMAP.md`](process/ROADMAP.md) | les deux epics, découpés en lots livrables |
+| [`process/ROADMAP.md`](process/ROADMAP.md) | les trois epics, découpés en lots livrables |
 | [`process/CONVENTIONS.md`](process/CONVENTIONS.md) | style de code, nommage, commits, langue |
 | [`process/TESTING.md`](process/TESTING.md) | stratégie de test et quoi tester où |
 | [`process/DEBUG_API.md`](process/DEBUG_API.md) | contrat de `window.__game` |
@@ -64,3 +67,6 @@ aucune conversation à retrouver.
 | [0010](process/adr/0010-evenements-de-combat-et-bruitages-synthetises.md) | Événements de combat pour le rendu (tirs, chutes), bruitages synthétisés |
 | [0011](process/adr/0011-moteur-narratif-etat-de-partie-et-radio.md) | Moteur narratif : dossier / état de partie séparés, radio en couche parallèle, routeur de scènes |
 | [0012](process/adr/0012-examen-ecrit-jet-de-reflexion-et-mise-en-scene.md) | Examen écrit : jet de réflexion, meilleure réponse et mise en scène du dé |
+| [0013](process/adr/0013-exploration-temps-reel-sur-grille.md) | Exploration en temps réel sur la grille, sans moteur physique (remplace 0007) |
+| [0014](process/adr/0014-tirage-franklyn-capitaine-equipes-dynamiques.md) | Le tirage : Franklyn capitaine, équipes composées par le joueur |
+| [0015](process/adr/0015-concentration-chance-et-triche.md) | Concentration, Chance et triche à l'examen |

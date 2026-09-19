@@ -1,6 +1,6 @@
 # Feuille de route
 
-Le chapitre 1 est découpé en **deux epics**, menés l'un après l'autre.
+Le chapitre 1 est découpé en **trois epics**, menés l'un après l'autre.
 
 L'ordre est délibéré : l'epic 1 traite d'abord le système le plus risqué (le combat
 tactique) et pose les fondations dont tout le reste dépend. L'epic 2 remplit le chapitre de
@@ -98,12 +98,41 @@ Reportés, sans bloquer la clôture :
 
 ---
 
+## Epic 3 — le chapitre 1 devient un CRPG
+
+**Objectif** : on vit la journée au lieu de la lire. Franklyn se déplace dans l'académie
+HOLT (d'après le plan du MJ) puis dans le centre d'examen ; les scènes se déclenchent sur
+place ; il **choisit ses coéquipiers** au tirage ; l'examen écrit devient un moment de
+décisions et de paris.
+
+Références : [`08-EXPLORATION.md`](../design/08-EXPLORATION.md),
+[`09-MAPS-CHAPTER-1.md`](../design/09-MAPS-CHAPTER-1.md), scènes 3 à 5 de
+[`03-CHAPTER-1.md`](../design/03-CHAPTER-1.md), ADR
+[0013](adr/0013-exploration-temps-reel-sur-grille.md),
+[0014](adr/0014-tirage-franklyn-capitaine-equipes-dynamiques.md),
+[0015](adr/0015-concentration-chance-et-triche.md).
+
+| Lot | Contenu | Dépend de | État |
+|---|---|---|---|
+| 3.1 | **Moteur narratif, extensions** : alias `equipier1`/`equipier2`, gabarits `{equipier1}`, `startNode` choisi par l'appelant, réflexion facultative avec coût (`insight.cost`), état `awaitingLuck` + `spendLuck` / `acceptRoll`, API de debug | — | à faire |
+| 3.2 | **Le tirage** : équipes dans le `RunState`, choix d'Abigail, affinités et étiquettes, fin de `DEFAULT_BLUE`/`DEFAULT_RED` hors tests, parcours hors champ et notation sur les vraies équipes, écran de tirage, simulateur d'équilibre sur les six compositions | 3.1 | à faire |
+| 3.3 | **L'examen vivant** : concentration, Chance au dé (« dépenser N Chance ? »), triche et vigilance du surveillant, contenu `ch1.exam`, étiquettes `tricheur` / `pris-a-tricher` lues au bal | 3.1 | à faire |
+| 3.4 | **Coéquipiers variables dans le contenu** : fourgon, salles, conversations, bal réécrits avec les alias et des variantes par cadet ; dispute Zachary/Grover ; le test « aucun cul-de-sac » tire aussi les compositions | 3.2 | à faire |
+| 3.5 | **Socle d'exploration** : couche `src/explore/` (cartes, entités, déclencheurs, objectifs), format `MapDef` et validateur, rendu des lieux (murs en coupe, portes, mobilier en blocs), clic pour se déplacer, caméra qui suit, survol et étiquettes, encart d'objectif, API de debug ; une carte d'essai | 3.1 | à faire |
+| 3.6 | **L'académie HOLT** : la carte, les étapes 1 à 6 en exploration, figurants et répliques brèves, cadets placés au temps libre, groupe qui suit après le tirage | 3.2, 3.5 | à faire |
+| 3.7 | **Le centre d'examen** : la carte, les salles découpées en entités, passage au combat sur la même carte, retour au procès-verbal | 3.4, 3.6 | à faire |
+| 3.8 | **Revue de bout en bout** : partie complète jouée à la souris, captures, performances (cible GTX 1070), tests e2e du parcours complet | tout | à faire |
+
+Ordre de passage : 3.1 seul ; puis 3.2 et 3.5 en parallèle (fichiers disjoints) ; puis 3.3
+et 3.4 ; puis 3.6 ; puis 3.7 ; enfin 3.8.
+
+---
+
 ## Après le chapitre 1
 
 Rien n'est décidé, et c'est volontaire. Les questions qui se poseront :
 
 - Le chapitre 2 reprend-il le dossier exporté, ou faut-il un format de sauvegarde commun ?
-- L'exploration à la troisième personne devient-elle nécessaire (et donc Rapier, ADR 0007) ?
 - Le système de règles tient-il pour des scènes hors examen, avec de vrais enjeux vitaux ?
 
 Chacune fera l'objet d'un ADR le moment venu.

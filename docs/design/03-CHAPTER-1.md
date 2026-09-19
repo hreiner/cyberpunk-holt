@@ -3,22 +3,25 @@
 Une journée, du réveil au bal de promo. C'est l'histoire du personnage principal, pas celle
 de l'académie : tout est vu par Franklyn.
 
-**État d'implémentation** : seule la scène 8 (l'affrontement final) existe dans le code.
-Les scènes 1 à 7 et 9 sont la charge de l'epic 2. Ce document est leur spécification.
+**État d'implémentation** : les neuf scènes existent sous forme de dialogues enchaînés
+(epics 1 et 2). **L'epic 3 les rend explorables** : on se déplace dans l'académie puis dans
+le centre d'examen, et les scènes se déclenchent sur place
+([`08-EXPLORATION.md`](08-EXPLORATION.md), [`09-MAPS-CHAPTER-1.md`](09-MAPS-CHAPTER-1.md),
+[ADR 0013](../process/adr/0013-exploration-temps-reel-sur-grille.md)).
 
 ## Déroulé
 
-| # | Scène | Epic | Ce qui s'y joue |
+| # | Scène | Lieu (epic 3) | Ce qui s'y joue |
 |---|---|---|---|
-| 1 | Introduction brève | 2 | réveil, dortoir, ton de l'académie |
-| 2 | Discours du directeur | 2 | la première promotion, les stages à venir |
-| 3 | Examen écrit | 2 | dialogue guidé à jets de dés, remplit le dossier |
-| 4 | Tirage des équipes | 2 | scripté : toujours les six mêmes |
-| 5 | Hub de dialogue | 2 | Franklyn parle aux cinq autres |
-| 6 | Trajet en fourgon | 2 | traversée des Badlands, ambiance |
-| 7 | Parcours intérieur | 2 | trois salles, jets de compétences |
-| 8 | **Affrontement final** | **1** | **combat tactique entre containers** |
-| 9 | Bal de promo | 2 | les conséquences de la journée |
+| 1 | Réveil | Dortoirs → couloirs | réveil, ton de l'académie ; objectif « Rejoindre la cantine » |
+| 2 | Discours du directeur | Cantine (s'asseoir) | la première promotion, les stages à venir |
+| 3 | Examen écrit | Salles d'entraînement (s'asseoir au pupitre) | concentration, Chance, triche, note /6 |
+| 4 | Tirage | Salles d'entraînement | Franklyn et Abigail capitaines ; **le joueur choisit ses deux coéquipiers** |
+| 5 | Temps libre | toute l'académie | parler aux cinq cadets là où ils sont ; objectif « Rejoindre le garage » |
+| 6 | Trajet en fourgon | Garage → dialogue | traversée des Badlands, ambiance, avec les coéquipiers choisis |
+| 7 | Parcours intérieur | Centre d'examen : hall, salles 1 à 3 | entités à examiner, jets, dilemmes |
+| 8 | **Affrontement final** | Cour de containers, même carte | **combat tactique**, déclenché en franchissant le portail |
+| 9 | Bal de promo | dialogue (exploration hors périmètre de l'epic 3) | les conséquences de la journée |
 
 ---
 
@@ -50,29 +53,65 @@ arrive ; seule la réponse `best` compte pour la note. Voir
 [`07-DIALOGUE-FORMAT.md`](07-DIALOGUE-FORMAT.md) et
 l'[ADR 0012](../process/adr/0012-examen-ecrit-jet-de-reflexion-et-mise-en-scene.md).
 
+### Ce qui rend l'examen vivant (epic 3)
+
+Détail et chiffres : [ADR 0015](../process/adr/0015-concentration-chance-et-triche.md).
+
+- **Concentration** : 3 points pour 6 questions. Réfléchir coûte un point ; le joueur
+  choisit où il en a besoin.
+- **Chance** : 3 points pour toute la journée. Après un jet raté de peu, on peut dépenser de
+  la Chance devant le dé pour le rattraper — ce qu'on dépense ici manquera dans les salles.
+- **La triche** : les cadets sont assis autour de Franklyn. Zachary souffle une réponse
+  (question 2), la copie de Letitia est en vue (question 4), Grover demande de l'aide
+  (question 5). Chaque tentative réveille un peu plus le surveillant. Les affinités ainsi
+  gagnées ou perdues pèsent **immédiatement** sur le tirage qui suit.
+
 ## Scène 4 — Le tirage
 
-Scripté : **les six mêmes cadets** sortent du chapeau. Zacharie et Grover sont les deux
-capitaines et choisissent à tour de rôle.
+Décision : [ADR 0014](../process/adr/0014-tirage-franklyn-capitaine-equipes-dynamiques.md).
 
-Composition par défaut retenue dans le code (`DEFAULT_BLUE` / `DEFAULT_RED`) :
+Le directeur tire au sort **les six premiers à partir** pour l'examen pratique — toujours
+les six mêmes — et désigne deux capitaines : **Franklyn et Abigail** (« l'académie veut voir
+ses profils techniques commander »). Ils choisissent **à tour de rôle, Franklyn d'abord** :
+Franklyn, Abigail, Franklyn, Abigail. Le joueur fait donc deux vrais choix.
 
-| Équipe | Cadets | Profil |
-|---|---|---|
-| Bleue (joueur) | Zacharie, John, Franklyn | puissance de feu, pas de soigneur |
-| Rouge (IA) | Grover, Letitia, Abigail | soutien, reperage, soins |
+**L'écran du tirage** réutilise l'alignement du hub : les quatre cadets restants devant le
+mur gradué, les deux capitaines de part et d'autre. Chaque choix tombe comme un tampon
+« ÉQUIPE BLEUE » ou « ÉQUIPE ROUGE » sur le portrait ; Abigail commente les siens ; le
+cadet choisi réagit. Avant de choisir, le survol d'un cadet rappelle son rôle, ses deux
+traits et l'affinité actuelle — le joueur choisit en connaissance de cause.
 
-Justification : Zacharie choisit John (le meilleur élément brut) puis Franklyn (sa bande) ;
-Grover prend Letitia (son trio) et hérite d'Abigail. L'asymétrie qui en résulte est
-volontaire et documentée dans [`05-TACTICAL-COMBAT.md`](05-TACTICAL-COMBAT.md).
+Abigail choisit dans l'ordre de préférence **Zachary, Letitia, John, Grover** (le premier
+disponible). Ce qu'implique chaque composition :
 
-## Scène 5 — Le hub de dialogue
+| Si Franklyn prend… | Ce que ça change |
+|---|---|
+| John | le meilleur combattant brut, un ami sûr |
+| Zachary | la puissance de feu, sa bande ; prive Abigail de son premier choix |
+| Letitia | le repérage (Perception), l'anticipation |
+| Grover | le rassembleur (Encourager) ; un rival à apprivoiser |
+| Zachary **et** Grover | les deux rivaux dans la même équipe : dispute scriptée en salle 1 ; Abigail hérite de Letitia et John |
 
-Franklyn peut parler à chacun des cinq autres avant le départ. Chaque conversation :
+L'équipe d'Abigail a toujours la soigneuse ; celle de Franklyn, jamais — sauf kit gagné en
+salle 1. C'est l'asymétrie voulue du chapitre ([`05-TACTICAL-COMBAT.md`](05-TACTICAL-COMBAT.md)).
+
+## Scène 5 — Le temps libre
+
+Il reste un moment avant le départ. Les cinq cadets sont **quelque part dans l'académie**,
+chacun dans un lieu qui lui ressemble ([`09-MAPS-CHAPTER-1.md`](09-MAPS-CHAPTER-1.md)) :
+Abigail à l'infirmerie, John à l'armurerie, Letitia aux archives, Grover dans la cour
+intérieure, Zachary aux salles d'entraînement. Les conversations sont facultatives
+(objectif secondaire « Parler aux cadets 0/5 »), l'objectif principal est de rejoindre le
+garage.
+
+Chaque conversation :
 
 - révèle un fragment de personnalité et un morceau de la relation,
 - peut faire bouger l'**affinité** (échelle −3 à +3, valeur de départ dans les fiches),
-- peut ouvrir une option tactique plus tard (un conseil de Grover, un repérage de Letitia).
+- tient compte du tirage : un coéquipier parle du parcours à venir, un adversaire du duel,
+  un cadet vexé de ne pas avoir été choisi le fait sentir,
+- peut ouvrir une option tactique **si le cadet est dans l'équipe** (un conseil de Grover, un
+  repérage de Letitia).
 
 ## Scène 6 — Le trajet
 
@@ -83,7 +122,7 @@ Fonction : montrer le monde sans combat, et faire monter l'inquiétude.
 
 ## Scène 7 — Le parcours intérieur
 
-L'instructeur sépare les six cadets en **deux équipes de trois**. Les deux équipes font le
+Les deux équipes de trois sont celles du tirage (scène 4). Les deux équipes font le
 parcours **en parallèle mais séparément** : le joueur en joue une, l'autre est résolue par
 l'IA hors champ, quelques jets suffisent. On entend sa progression à la radio et par les
 bruits.

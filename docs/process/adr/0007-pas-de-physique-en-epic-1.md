@@ -1,6 +1,6 @@
 # ADR 0007 — Pas de moteur physique tant que l'exploration n'existe pas
 
-**Statut** : accepté · **Date** : 2026-09-18
+**Statut** : remplacé par l'[ADR 0013](0013-exploration-temps-reel-sur-grille.md) · **Date** : 2026-09-18
 
 ## Contexte
 

@@ -23,7 +23,9 @@ qui justifie le style low-poly et la caméra fixe.
 
 ## Ce que le jeu est
 
-- Un RPG narratif au tour par tour, en vue isométrique.
+- Un CRPG narratif en vue isométrique, à la *Baldur's Gate* : on **explore les lieux en
+  temps réel** (clic pour se déplacer), les scènes se déclenchent sur place, et le
+  **combat se joue au tour par tour** (ADR 0013).
 - Un système de règles **visible** : le joueur voit les dés, les difficultés, les
   modificateurs. L'opacité tue le plaisir du jet de dés.
 - Un jeu où **l'échec est intéressant** : rater ne bloque pas, rater change la suite.
