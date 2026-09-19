@@ -46,7 +46,12 @@ export interface GameStateSnapshot {
 
 export interface GameDebugApi {
   readonly version: number;
-  newGame(options?: { seed?: string; blue?: CharacterId[]; red?: CharacterId[]; roundLimit?: number }): GameStateSnapshot;
+  newGame(options?: {
+    seed?: string;
+    blue?: CharacterId[];
+    red?: CharacterId[];
+    roundLimit?: number;
+  }): GameStateSnapshot;
   state(): GameStateSnapshot;
   perform(action: Action): { ok: boolean; reason?: string };
   endTurn(): GameStateSnapshot;

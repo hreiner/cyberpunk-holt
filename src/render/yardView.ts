@@ -9,12 +9,14 @@
 
 import * as THREE from 'three';
 import type { Rng } from '@/core/rng';
+import { ITEM_COLORS } from '@/data/items';
 import { CELL_SIZE_METERS, type TacticalMap } from '@/tactical/grid';
-import type { Vec2 } from '@/tactical/types';
+import type { GroundItem, ItemId, Vec2 } from '@/tactical/types';
 
 export const TEAM_COLORS = { blue: 0x3fa9ff, red: 0xff5a52 } as const;
 
 const CONTAINER_PALETTE = [0xd9a441, 0x4f8f5a, 0xb4463c, 0x3a6ea5, 0xb0b3b8];
+const ARMED_MINE_COLOR = 0xff3b30;
 const GROUND_COLOR = 0x2a2b30;
 const LINE_COLOR = 0x53555e;
 
@@ -39,6 +41,13 @@ export class YardView {
   readonly root = new THREE.Group();
   readonly groundPlane: THREE.Mesh;
   private readonly overlay = new THREE.Group();
+  private readonly groundItems = new THREE.Group();
+  private readonly groundItemGeometry = {
+    taser: new THREE.BoxGeometry(0.2, 0.12, 0.6),
+    mine: new THREE.CylinderGeometry(0.3, 0.3, 0.1, 16),
+    marker: new THREE.RingGeometry(0.42, 0.56, 24),
+  };
+  private readonly groundItemMaterials = new Map<string, THREE.Material>();
   private readonly reachMaterial: THREE.MeshBasicMaterial;
   private readonly hoverMaterial: THREE.MeshBasicMaterial;
   private readonly threatMaterial: THREE.MeshBasicMaterial;
@@ -52,6 +61,7 @@ export class YardView {
     this.scene.fog = new THREE.Fog(0x14151a, 60, 160);
     this.scene.add(this.root);
     this.root.add(this.overlay);
+    this.root.add(this.groundItems);
 
     /* --- lumieres --- */
     this.scene.add(new THREE.HemisphereLight(0x8899bb, 0x20202a, 0.85));
@@ -79,7 +89,12 @@ export class YardView {
     this.groundPlane.receiveShadow = true;
     this.root.add(this.groundPlane);
 
-    const grid = new THREE.GridHelper(Math.max(w, h), Math.max(map.width, map.height), LINE_COLOR, LINE_COLOR);
+    const grid = new THREE.GridHelper(
+      Math.max(w, h),
+      Math.max(map.width, map.height),
+      LINE_COLOR,
+      LINE_COLOR,
+    );
     (grid.material as THREE.Material).opacity = 0.25;
     (grid.material as THREE.Material).transparent = true;
     grid.position.y = 0.01;
@@ -169,5 +184,51 @@ export class YardView {
     for (const cell of options.threatened ?? []) add(cell, this.threatMaterial, 0.025);
     for (const cell of options.reachable ?? []) add(cell, this.reachMaterial, 0.03);
     if (options.hovered) add(options.hovered, this.hoverMaterial, 0.035);
+  }
+
+  /**
+   * Materiel pose au sol : taser lache par un cadet neutralise, mine (armee ou non).
+   * Un anneau de la couleur de l'objet le rend visible de loin ; une mine armee est rouge.
+   */
+  setGroundItems(items: readonly GroundItem[]): void {
+    this.groundItems.clear();
+    for (const g of items) {
+      const { x, z } = cellToWorld(this.map, g.pos);
+      const group = new THREE.Group();
+      group.position.set(x, 0, z);
+
+      const color = g.item === 'mine' && g.armed ? ARMED_MINE_COLOR : ITEM_COLORS[g.item];
+      const marker = new THREE.Mesh(this.groundItemGeometry.marker, this.groundMaterial(color, true));
+      marker.rotation.x = -Math.PI / 2;
+      marker.position.y = 0.04;
+      group.add(marker);
+
+      const shape = this.groundShape(g.item);
+      if (shape) {
+        const mesh = new THREE.Mesh(shape, this.groundMaterial(color, false));
+        mesh.position.y = g.item === 'mine' ? 0.08 : 0.1;
+        mesh.rotation.y = g.item === 'taser' ? 0.6 : 0;
+        group.add(mesh);
+      }
+      this.groundItems.add(group);
+    }
+  }
+
+  private groundShape(item: ItemId): THREE.BufferGeometry | null {
+    if (item === 'taser') return this.groundItemGeometry.taser;
+    if (item === 'mine') return this.groundItemGeometry.mine;
+    return null;
+  }
+
+  private groundMaterial(color: number, flat: boolean): THREE.Material {
+    const key = `${color}:${flat}`;
+    let material = this.groundItemMaterials.get(key);
+    if (!material) {
+      material = flat
+        ? new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.8, depthWrite: false })
+        : new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.6, roughness: 0.4 });
+      this.groundItemMaterials.set(key, material);
+    }
+    return material;
   }
 }

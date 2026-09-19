@@ -6,28 +6,24 @@
  * `data-testid`. Voir docs/process/ARCHITECTURE.md.
  */
 
+import { CARRIED_ITEMS, ITEM_ICONS } from '@/data/items';
 import { getCharacter } from '@/rules/character';
 import type { CharacterId } from '@/rules/character';
 import { ITEM_LABELS } from '@/tactical/combat';
 import type { TacticalCombat } from '@/tactical/combat';
 import { estimateShot } from '@/tactical/queries';
-import type { CombatState, Unit } from '@/tactical/types';
+import type { CombatState, ItemId, Unit } from '@/tactical/types';
 
 export type HudActionId =
-  | 'shoot'
-  | 'melee'
-  | 'heal'
-  | 'spot'
-  | 'encourage'
-  | 'pickup'
-  | 'placeMine'
-  | 'run'
-  | 'endTurn';
+  'shoot' | 'melee' | 'heal' | 'spot' | 'encourage' | 'pickup' | 'placeMine' | 'run' | 'endTurn';
 
 export interface HudCallbacks {
   onAction(id: HudActionId): void;
   onSelectTarget(id: CharacterId): void;
   onRestart(): void;
+  /** Tourne la camera de `step` quarts de tour (+1 : sens horaire). */
+  onRotateCamera(step: number): void;
+  onToggleSound(): void;
 }
 
 export class Hud {
@@ -50,6 +46,12 @@ export class Hud {
       <header class="hud-top">
         <div class="hud-banner" data-testid="banner"></div>
         <div class="hud-order" data-testid="order"></div>
+        <div class="hud-camera" aria-label="Camera">
+          <button data-testid="camera-left" title="Pivoter la camera (A)">⟲</button>
+          <span>Camera</span>
+          <button data-testid="camera-right" title="Pivoter la camera (E)">⟳</button>
+          <button data-testid="sound" title="Couper le son">🔊</button>
+        </div>
       </header>
       <aside class="hud-sheet" data-testid="sheet"></aside>
       <section class="hud-log" data-testid="log"></section>
@@ -64,6 +66,15 @@ export class Hud {
     this.actionBar = this.q('[data-testid="actions"]');
     this.logPanel = this.q('[data-testid="log"]');
     this.footer = this.q('[data-testid="footer"]');
+    this.q('[data-testid="camera-left"]').addEventListener('click', () => this.callbacks.onRotateCamera(-1));
+    this.q('[data-testid="camera-right"]').addEventListener('click', () => this.callbacks.onRotateCamera(1));
+    this.q('[data-testid="sound"]').addEventListener('click', () => this.callbacks.onToggleSound());
+  }
+
+  setSoundMuted(muted: boolean): void {
+    const button = this.q('[data-testid="sound"]');
+    button.textContent = muted ? '🔇' : '🔊';
+    button.title = muted ? 'Activer le son' : 'Couper le son';
   }
 
   private q(selector: string): HTMLElement {
@@ -75,28 +86,29 @@ export class Hud {
   render(combat: TacticalCombat, playerTeam: 'blue' | 'red', pendingMode: string | null): void {
     const state = combat.state;
     this.renderBanner(state, playerTeam);
-    this.renderOrder(combat);
+    this.renderOrder(combat, playerTeam);
     this.renderSheet(combat, playerTeam);
     this.renderActions(combat, playerTeam, pendingMode);
     this.renderLog(state);
-    this.footer.textContent = `Graine : ${state.seed} — clic : deplacer · maj+clic : courir · A/E : pivoter la camera`;
+    this.footer.textContent = `Graine : ${state.seed} — clic : deplacer · maj+clic : courir · A/E : pivoter la camera (un cadet cache derriere un container reste visible en silhouette)`;
   }
 
   private renderBanner(state: CombatState, playerTeam: 'blue' | 'red'): void {
     if (state.phase === 'finished') {
       const won = state.winner === playerTeam;
-      const label =
-        state.winner === 'draw' ? 'Match nul' : won ? 'Exercice reussi' : 'Exercice manque';
+      const label = state.winner === 'draw' ? 'Match nul' : won ? 'Exercice reussi' : 'Exercice manque';
       this.banner.innerHTML = `<strong>${label}</strong> <button data-testid="restart">Rejouer</button>`;
       const btn = this.banner.querySelector('[data-testid="restart"]');
       btn?.addEventListener('click', () => this.callbacks.onRestart());
       return;
     }
     const current = getCharacter(state.order[state.turnIndex] as CharacterId).name;
-    this.banner.innerHTML = `<span>Round ${state.round}/${state.roundLimit}</span><span>Au tour de <strong>${current}</strong></span>`;
+    const kits = (team: 'blue' | 'red', label: string) =>
+      `<span class="kit team-${team}" title="Kits de soin de l'equipe ${label}">${ITEM_ICONS.healkit} ${label} ×${state.teams[team].healkits}</span>`;
+    this.banner.innerHTML = `<span>Round ${state.round}/${state.roundLimit}</span><span>Au tour de <strong>${current}</strong></span>${kits(playerTeam, playerTeam === 'blue' ? 'bleue' : 'rouge')}`;
   }
 
-  private renderOrder(combat: TacticalCombat): void {
+  private renderOrder(combat: TacticalCombat, playerTeam: 'blue' | 'red'): void {
     const state = combat.state;
     this.orderStrip.innerHTML = '';
     state.order.forEach((id, index) => {
@@ -111,7 +123,11 @@ export class Hud {
         .filter(Boolean)
         .join(' ');
       chip.dataset.testid = `order-${id}`;
-      chip.textContent = getCharacter(id).name;
+      const sheet = getCharacter(id);
+      // Le joueur ne connait que le materiel de sa propre equipe.
+      const known = unit.team === playerTeam;
+      chip.title = known ? itemsSentence(unit.items) : 'Materiel inconnu';
+      chip.innerHTML = `<i class="swatch" style="background:${sheet.placeholderColor}"></i>${sheet.name}<span class="chip-items">${known ? itemIcons(unit.items) : ''}</span>`;
       chip.addEventListener('click', () => this.callbacks.onSelectTarget(id));
       this.orderStrip.appendChild(chip);
     });
@@ -121,16 +137,21 @@ export class Hud {
     const unit = combat.currentUnit();
     const sheet = getCharacter(unit.id);
     const enemies = combat.activeUnitsOf(playerTeam === 'blue' ? 'red' : 'blue');
-    const shots = unit.items.includes('taser')
-      ? enemies
-          .map((e) => ({ e, est: estimateShot(combat, unit, e) }))
-          .filter((s) => s.est.possible)
-          .map(
-            (s) =>
-              `<li><button data-shoot="${s.e.id}" data-testid="shoot-${s.e.id}">${getCharacter(s.e.id).name} — ${s.est.chance}% (couvert ${s.est.coverLabel}, ${s.est.distance} cases)</button></li>`,
-          )
-          .join('')
-      : '<li class="muted">Pas de taser</li>';
+    // Le joueur ne connait que le materiel de sa propre equipe : pendant le tour adverse,
+    // la fiche n'en revele rien (ni objets, ni tirs possibles).
+    const known = unit.team === playerTeam;
+    const shots = !known
+      ? '<li class="muted">Equipement adverse inconnu</li>'
+      : unit.items.includes('taser')
+        ? enemies
+            .map((e) => ({ e, est: estimateShot(combat, unit, e) }))
+            .filter((s) => s.est.possible)
+            .map(
+              (s) =>
+                `<li><button data-shoot="${s.e.id}" data-testid="shoot-${s.e.id}">${getCharacter(s.e.id).name} — ${s.est.chance}% (couvert ${s.est.coverLabel}, ${s.est.distance} cases)</button></li>`,
+            )
+            .join('')
+        : '<li class="muted">Pas de taser</li>';
 
     this.sheetPanel.innerHTML = `
       <h2>${sheet.name}</h2>
@@ -139,9 +160,9 @@ export class Hud {
         <li>PM restants <strong data-testid="mp">${unit.mp}</strong></li>
         <li>Action <strong>${unit.actionUsed ? 'utilisee' : 'disponible'}</strong></li>
         <li>Etat <strong>${statusLabel(unit)}</strong></li>
-        <li>Materiel <strong>${unit.items.map((i) => ITEM_LABELS[i]).join(', ') || 'aucun'}</strong></li>
+        <li>Materiel <strong>${known ? unit.items.map((i) => `${ITEM_ICONS[i]} ${ITEM_LABELS[i]}`).join(', ') || 'aucun' : 'inconnu'}</strong></li>
       </ul>
-      <h3>Tirs possibles</h3>
+      <h3>${known ? 'Tirs possibles' : 'Equipe adverse'}</h3>
       <ul class="shots">${shots}</ul>
     `;
 
@@ -153,16 +174,28 @@ export class Hud {
     });
   }
 
-  private renderActions(combat: TacticalCombat, playerTeam: 'blue' | 'red', pendingMode: string | null): void {
+  private renderActions(
+    combat: TacticalCombat,
+    playerTeam: 'blue' | 'red',
+    pendingMode: string | null,
+  ): void {
     const unit = combat.currentUnit();
     const playable = combat.state.phase === 'playing' && unit.team === playerTeam;
     const buttons: Array<{ id: HudActionId; label: string; enabled: boolean }> = [
-      { id: 'run', label: pendingMode === 'run' ? 'Choisir la case…' : 'Courir', enabled: !unit.actionUsed && unit.mp > 0 },
+      {
+        id: 'run',
+        label: pendingMode === 'run' ? 'Choisir la case…' : 'Courir',
+        enabled: !unit.actionUsed && unit.mp > 0,
+      },
       { id: 'spot', label: 'Reperer', enabled: !unit.actionUsed },
       { id: 'encourage', label: 'Encourager', enabled: !unit.actionUsed },
       { id: 'heal', label: 'Ranimer', enabled: !unit.actionUsed },
       { id: 'pickup', label: 'Ramasser', enabled: !unit.actionUsed },
-      { id: 'placeMine', label: pendingMode === 'placeMine' ? 'Choisir la case…' : 'Poser la mine', enabled: !unit.actionUsed && unit.items.includes('mine') },
+      {
+        id: 'placeMine',
+        label: pendingMode === 'placeMine' ? 'Choisir la case…' : 'Poser la mine',
+        enabled: !unit.actionUsed && unit.items.includes('mine'),
+      },
       { id: 'endTurn', label: 'Fin du tour', enabled: true },
     ];
 
@@ -202,4 +235,15 @@ function statusLabel(unit: Unit): string {
   if (unit.exposed) flags.push('a decouvert');
   if (unit.gassed) flags.push('gaze');
   return flags.length > 0 ? flags.join(', ') : 'operationnel';
+}
+
+/** Pictogrammes du materiel porte, dans un ordre stable. */
+function itemIcons(items: readonly ItemId[]): string {
+  return CARRIED_ITEMS.filter((i) => items.includes(i))
+    .map((i) => `<span class="icon icon-${i}">${ITEM_ICONS[i]}</span>`)
+    .join('');
+}
+
+function itemsSentence(items: readonly ItemId[]): string {
+  return items.length > 0 ? `Materiel : ${items.map((i) => ITEM_LABELS[i]).join(', ')}` : 'Sans materiel';
 }

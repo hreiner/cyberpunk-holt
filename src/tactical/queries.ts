@@ -84,9 +84,7 @@ export function estimateShot(combat: TacticalCombat, shooter: Unit, target: Unit
 
   const sheet = getCharacter(shooter.id);
   const rangePenalty =
-    dist > TASER_EFFECTIVE_RANGE
-      ? Math.ceil((dist - TASER_EFFECTIVE_RANGE) / 4) * RANGE_PENALTY_PER_STEP
-      : 0;
+    dist > TASER_EFFECTIVE_RANGE ? Math.ceil((dist - TASER_EFFECTIVE_RANGE) / 4) * RANGE_PENALTY_PER_STEP : 0;
   const dv = BASE_SHOT_DV + cover.value + rangePenalty - (target.exposed ? EXPOSED_BONUS : 0);
 
   let bonus = sheet.attributes.DEX + sheet.skills.armesDePoing;

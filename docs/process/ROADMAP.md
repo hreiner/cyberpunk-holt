@@ -10,8 +10,8 @@ contenu narratif sur un moteur déjà stable.
 
 ## Epic 1 — socle technique et phase tactique
 
-**État : en place.** Le jeu démarre, l'affrontement final se joue de bout en bout, une note
-est calculée.
+**État : clos.** Le jeu démarre, l'affrontement final se joue de bout en bout, une note
+est calculée. Déplacements animés, matériel lisible, retours visuels et sonores du tir.
 
 | Lot | Contenu | État |
 |---|---|---|
@@ -25,14 +25,20 @@ est calculée.
 | 1.8 | Rendu isométrique, décor procédural, rigs de remplacement | fait |
 | 1.9 | HUD : bandeau, ordre d'initiative, fiche, actions, journal de dés | fait |
 | 1.10 | API `window.__game`, tests unitaires et e2e, simulateur d'équilibrage | fait |
+| 1.11 | Déplacements animés, matériel visible, silhouettes derrière les décors ([ADR 0009](adr/0009-animation-des-deplacements-et-equipement-visible.md)) | fait |
+| 1.12 | Retours du tir (trait, impact, chute) et bruitages ([ADR 0010](adr/0010-evenements-de-combat-et-bruitages-synthetises.md)) | fait |
 
-### Reste à faire avant de clore l'epic 1
+### Clôture de l'epic 1
 
-- [ ] Retours visuels du tir : trait de tir, impact, réaction à la neutralisation.
-- [ ] Bruitages minimaux (tir, chute, clic d'interface).
-- [ ] Capture de référence Playwright validée sur la machine de développement.
-- [ ] Première passe de `GltfRig` si les modèles sont prêts — sinon repoussé à l'epic 2.
-- [ ] Relecture de l'équilibrage sur 1 000 simulations.
+- [x] Retours visuels du tir : trait de tir, impact, réaction à la neutralisation.
+- [x] Bruitages minimaux (tir, chute, clic d'interface).
+
+Reportés, sans bloquer la clôture :
+
+- [ ] Capture de référence Playwright à valider sur la machine de développement
+      (`npx playwright install` puis `npm run test:e2e`).
+- [ ] Première passe de `GltfRig`, à faire quand les modèles seront prêts (epic 2, lot art).
+- [ ] Relecture de l'équilibrage sur 1 000 simulations (`npx tsx scripts/simulate.ts 1000 equilibrage`).
 
 ---
 

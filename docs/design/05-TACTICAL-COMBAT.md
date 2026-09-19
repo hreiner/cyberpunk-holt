@@ -98,6 +98,8 @@ jet = DEX + Armes de poing + d10 + modificateurs
 | Cible gazée | −2 à ses propres jets |
 | John, premier tir | +2 (*Sang-froid absolu*) |
 
+**Retour visuel.** Chaque tir montre un trait depuis le canon ; au but, un impact et la chute du cadet ; manqué, le trait dévie vers le sol. Voir [ADR 0010](../process/adr/0010-evenements-de-combat-et-bruitages-synthetises.md).
+
 **Touché = neutralisé.** Pas de dégâts, pas de points de vie (ADR 0003). Le cadet tombe et
 **lâche son taser et sa mine sur sa case** : le matériel redevient un enjeu tactique.
 
@@ -123,6 +125,12 @@ Chaque équipe dispose de **trois objets pour trois cadets**, répartis automati
 le **taser au meilleur tireur**, l'**outil de piratage au meilleur technicien non organique**
 (John ne peut jamais l'avoir). Le **kit de soin est une ressource d'équipe**, pas un objet
 porté.
+
+**Information visible.** Le joueur ne sait **qui porte quoi que dans son équipe** : pour les
+adversaires, ni l'étiquette au-dessus du cadet, ni la bande d'initiative, ni la fiche ne
+révèlent leur matériel. Le matériel lâché au sol reste visible de tous (voir
+[ADR 0009](../process/adr/0009-animation-des-deplacements-et-equipement-visible.md)).
+Pictogrammes : ⚡ taser, 💻 outil de piratage, 💣 mine, ✚ kit de soin (`src/data/items.ts`).
 
 L'état importé du parcours intérieur (scène 7) est porté par `TeamState` :
 

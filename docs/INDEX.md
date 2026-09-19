@@ -59,3 +59,5 @@ aucune conversation à retrouver.
 | [0006](process/adr/0006-francais-en-dur.md) | Français écrit en dur, pas d'i18n |
 | [0007](process/adr/0007-pas-de-physique-en-epic-1.md) | Pas de moteur physique tant que l'exploration n'existe pas |
 | [0008](process/adr/0008-joueur-controle-trois-cadets.md) | Le joueur contrôle les trois cadets de son équipe |
+| [0009](process/adr/0009-animation-des-deplacements-et-equipement-visible.md) | Déplacements animés côté rendu, matériel visible (équipe du joueur seulement) |
+| [0010](process/adr/0010-evenements-de-combat-et-bruitages-synthetises.md) | Événements de combat pour le rendu (tirs, chutes), bruitages synthétisés |

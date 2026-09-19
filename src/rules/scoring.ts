@@ -64,13 +64,13 @@ export function scoreExercise(input: ScoreInput): ExerciseScore {
   const draw = input.winner === 'draw';
   const resultPoints = won ? 8 : draw ? 4 : 1;
   breakdown.push({
-    label: 'Resultat de l\'affrontement',
+    label: "Resultat de l'affrontement",
     points: resultPoints,
     max: 8,
     comment: won
       ? 'Objectif rempli : equipe adverse neutralisee.'
       : draw
-        ? 'Aucune equipe n\'a pris l\'ascendant.'
+        ? "Aucune equipe n'a pris l'ascendant."
         : 'Equipe mise hors de combat.',
   });
   if (won) tags.push('vainqueur-exercice');
@@ -105,16 +105,17 @@ export function scoreExercise(input: ScoreInput): ExerciseScore {
   /* --- Rapidite : 3 points --- */
   const fast = Math.ceil(input.roundLimit / 2);
   const medium = Math.ceil((input.roundLimit * 3) / 4);
-  const speedPoints = input.rounds <= fast ? 3 : input.rounds <= medium ? 2 : input.rounds < input.roundLimit ? 1 : 0;
+  const speedPoints =
+    input.rounds <= fast ? 3 : input.rounds <= medium ? 2 : input.rounds < input.roundLimit ? 1 : 0;
   breakdown.push({
-    label: 'Rapidite d\'execution',
+    label: "Rapidite d'execution",
     points: speedPoints,
     max: 3,
     comment:
       speedPoints === 3
         ? 'Tempo remarquable.'
         : speedPoints === 0
-          ? 'Exercice etire jusqu\'a la limite de temps.'
+          ? "Exercice etire jusqu'a la limite de temps."
           : 'Tempo correct.',
   });
   if (speedPoints === 3) tags.push('rapide');

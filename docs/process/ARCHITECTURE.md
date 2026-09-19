@@ -79,7 +79,7 @@ par les scènes narratives de l'epic 2.
 
 ### `src/render` et `src/ui` — l'affichage
 
-`render/` est du three.js pur ; `ui/` du DOM pur. Les deux sont remplaçables sans toucher au
+`render/` est du three.js pur (sauf `rigAnimator.ts` et `effectQueue.ts`, volontairement sans `three` donc testables sous Node) ; `ui/` du DOM pur ; `audio/` du Web Audio pur (bruitages synthétisés). Les deux sont remplaçables sans toucher au
 gameplay. L'interface est en HTML parce que c'est plus rapide à itérer, accessible, et
 directement testable par Playwright via des `data-testid`.
 
@@ -121,4 +121,4 @@ clic joueur
 | Moteur de dialogue | `src/narrative/` — même règle : aucune dépendance |
 | Routeur de scènes | `src/app/scenes/` avec une interface `Scene` |
 | Exploration à la troisième personne | `src/render/` + Rapier, seulement si une scène l'exige (ADR 0007) |
-| Audio | `src/audio/` avec Howler.js |
+| Audio narratif et musique | `src/audio/` avec Howler.js ; les bruitages de combat y existent déjà, synthétisés (ADR 0010) |

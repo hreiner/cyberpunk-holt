@@ -103,6 +103,9 @@ export function createRng(seed: string): Rng {
  * Utilisee quand le joueur lance une partie sans graine imposee.
  */
 export function randomSeedLabel(entropy: () => number = Math.random): string {
-  const part = () => Math.floor(entropy() * 0xffff).toString(16).padStart(4, '0');
+  const part = () =>
+    Math.floor(entropy() * 0xffff)
+      .toString(16)
+      .padStart(4, '0');
   return `holt-${part()}-${part()}`;
 }

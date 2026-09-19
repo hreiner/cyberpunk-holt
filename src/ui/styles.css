@@ -96,6 +96,78 @@ canvas {
   border-color: var(--red);
 }
 
+.order-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.order-chip .swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.order-chip .chip-items {
+  display: inline-flex;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.icon-taser {
+  color: #ffd400;
+}
+
+.icon-hackingTool {
+  color: #4cc9f0;
+}
+
+.icon-mine {
+  color: #ff8a1f;
+}
+
+.hud-banner .kit {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.hud-banner .kit.team-blue {
+  color: var(--blue);
+}
+
+.hud-banner .kit.team-red {
+  color: var(--red);
+}
+
+.hud-camera {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.hud-camera button {
+  background: transparent;
+  border: 1px solid var(--panel-border);
+  color: var(--text);
+  border-radius: 6px;
+  width: 30px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.hud-camera button:hover {
+  border-color: var(--accent);
+}
+
 .order-chip.is-current {
   background: var(--accent);
   color: #07131a;

@@ -44,11 +44,13 @@ export function decideAction(combat: TacticalCombat, unit: Unit): AiDecision {
 
   // 1. Ranimer.
   if (!unit.actionUsed) {
-    const canRevive =
-      combat.state.teams[unit.team].healkits > 0 || hasTrait(sheet, 'mainsDOr');
+    const canRevive = combat.state.teams[unit.team].healkits > 0 || hasTrait(sheet, 'mainsDOr');
     const adjacent = downedAllies.find((a) => distance(unit.pos, a.pos) <= 1);
     if (canRevive && adjacent) {
-      return { action: { type: 'heal', target: adjacent.id }, rationale: `ranime ${getCharacter(adjacent.id).name}` };
+      return {
+        action: { type: 'heal', target: adjacent.id },
+        rationale: `ranime ${getCharacter(adjacent.id).name}`,
+      };
     }
     if (canRevive && downedAllies.length > 0) {
       const target = downedAllies[0] as Unit;
@@ -65,7 +67,10 @@ export function decideAction(combat: TacticalCombat, unit: Unit): AiDecision {
       .sort((a, b) => b.est.chance - a.est.chance || a.enemy.id.localeCompare(b.enemy.id));
     const best = shots[0];
     if (best && best.est.chance >= AI_MIN_SHOT_CHANCE) {
-      const better = best.est.chance < AI_REPOSITION_THRESHOLD ? findBetterFiringSpot(combat, unit, best.est.chance) : null;
+      const better =
+        best.est.chance < AI_REPOSITION_THRESHOLD
+          ? findBetterFiringSpot(combat, unit, best.est.chance)
+          : null;
       if (better) {
         return { action: { type: 'move', to: better }, rationale: 'cherche un meilleur angle de tir' };
       }
@@ -90,7 +95,10 @@ export function decideAction(combat: TacticalCombat, unit: Unit): AiDecision {
     );
     if (visible.length > 0 && shooterAlly && !unit.items.includes('taser')) {
       const target = visible[0] as Unit;
-      return { action: { type: 'spot', target: target.id }, rationale: `repere ${getCharacter(target.id).name}` };
+      return {
+        action: { type: 'spot', target: target.id },
+        rationale: `repere ${getCharacter(target.id).name}`,
+      };
     }
     if (hasTrait(sheet, 'cohesion') && shooterAlly && unit.cohesionUsedRound !== combat.state.round) {
       if (hasLineOfSight(combat.map, unit.pos, shooterAlly.pos)) {

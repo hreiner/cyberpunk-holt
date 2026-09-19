@@ -77,7 +77,7 @@ raison étant un texte français affichable tel quel.
 | Paramètre | Effet |
 |---|---|
 | `?seed=xxx` | rejoue exactement la même partie |
-| `?ai=0` | supprime le délai entre actions de l'IA |
+| `?ai=0` | supprime le délai entre actions de l'IA, **et coupe animations, effets et sons** (placement instantané des cadets) |
 
 ## Exemples
 

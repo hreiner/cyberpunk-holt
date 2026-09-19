@@ -17,13 +17,16 @@ interface CharacterRig {
   faceTowards(x: number, z: number): void;
   play(animation: 'idle' | 'walk' | 'run' | 'shoot' | 'down' | 'revive'): void;
   setHighlighted(on: boolean): void;
+  setEquipment(items: ItemId[] | null): void; // null = matériel inconnu (équipe adverse)
+  update(dt: number): void;                   // animations internes, appelé à chaque image
   dispose(): void;
 }
 ```
 
 **Six animations, pas une de plus.** C'est le contrat minimal pour jouer le chapitre 1.
 Aujourd'hui l'implémentation est `PlaceholderRig` : une capsule colorée, un anneau d'équipe,
-un repère d'orientation. Demain ce sera `GltfRig`, et **aucune ligne de `src/tactical/` ni
+un repère d'orientation, le matériel porté en petits volumes, une étiquette flottante et une
+silhouette visible à travers les décors. Demain ce sera `GltfRig`, et **aucune ligne de `src/tactical/` ni
 de `src/app.ts` ne changera**. Voir l'[ADR 0004](../process/adr/0004-abstraction-rig.md).
 
 ## Étape suivante : base mesh + Mixamo

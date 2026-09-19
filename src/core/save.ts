@@ -21,6 +21,8 @@ export interface SessionSave {
   lastSeed: string;
   /** Vrai si le joueur a active l'affichage de debug. */
   debugOverlay: boolean;
+  /** Vrai si le joueur a coupe le son. */
+  soundMuted: boolean;
 }
 
 function storage(): Storage | null {
@@ -62,7 +64,7 @@ export function saveDossier(dossier: Dossier): boolean {
 
 export function loadSession(): SessionSave {
   const s = storage();
-  const fallback: SessionSave = { lastSeed: '', debugOverlay: false };
+  const fallback: SessionSave = { lastSeed: '', debugOverlay: false, soundMuted: false };
   if (!s) return fallback;
   try {
     const raw = s.getItem(SESSION_KEY);

@@ -80,6 +80,18 @@ export interface LogEntry {
   check?: CheckResult;
 }
 
+/**
+ * Evenement de combat : trace de ce qui vient de se passer, destinee au rendu (traits de tir,
+ * chutes, bruitages). Pure donnee : le moteur ne connait pas le temps et n'attend jamais
+ * qu'un evenement soit joue. Voir ADR 0010.
+ */
+export type CombatEvent =
+  | { type: 'shot'; shooter: CharacterId; target: CharacterId; hit: boolean }
+  | { type: 'melee'; attacker: CharacterId; target: CharacterId }
+  | { type: 'mine'; unit: CharacterId; dodged: boolean }
+  | { type: 'neutralized'; unit: CharacterId }
+  | { type: 'revived'; unit: CharacterId };
+
 export interface TeamState {
   /** Kits de soin encore disponibles pour l'equipe. */
   healkits: number;
@@ -100,16 +112,7 @@ export interface TacticalSetup {
 }
 
 export type ActionType =
-  | 'move'
-  | 'run'
-  | 'shoot'
-  | 'melee'
-  | 'heal'
-  | 'spot'
-  | 'encourage'
-  | 'pickup'
-  | 'placeMine'
-  | 'endTurn';
+  'move' | 'run' | 'shoot' | 'melee' | 'heal' | 'spot' | 'encourage' | 'pickup' | 'placeMine' | 'endTurn';
 
 export type Action =
   | { type: 'move'; to: Vec2 }
@@ -144,6 +147,8 @@ export interface CombatState {
   ground: GroundItem[];
   bonuses: PendingBonus[];
   log: LogEntry[];
+  /** Journal d'evenements pour le rendu, ajoute au fil des actions (jamais reordonne). */
+  events: CombatEvent[];
   winner: Winner;
   roundLimit: number;
   seed: string;

@@ -24,6 +24,7 @@ import { computeReach, pathTo } from './pathfinding';
 import type {
   Action,
   ActionOutcome,
+  CombatEvent,
   CombatState,
   GroundItem,
   ItemId,
@@ -165,8 +166,7 @@ export class TacticalCombat {
         const spawn = spawns[index % spawns.length] as Vec2;
         const items = [...((loadout[id] ?? []) as ItemId[])];
         const gassed = teamState.gassedMember === id;
-        const initiative =
-          sheet.attributes.REF + this.rng.die(10) + (hasTrait(sheet, 'fonceur') ? 1 : 0);
+        const initiative = sheet.attributes.REF + this.rng.die(10) + (hasTrait(sheet, 'fonceur') ? 1 : 0);
         units[id] = {
           id,
           team,
@@ -214,6 +214,7 @@ export class TacticalCombat {
       ground,
       bonuses: [],
       log: [],
+      events: [],
       winner: null,
       roundLimit: this.setup.roundLimit,
       seed: this.setup.seed,
@@ -374,6 +375,7 @@ export class TacticalCombat {
       dv: MINE_DODGE_DV,
       modifiers: this.commonModifiers(actor),
     });
+    this.emit({ type: 'mine', unit: actor.id, dodged: result.success });
     if (!result.success) {
       this.neutralize(actor, 'la mine incapacitante');
     } else {
@@ -419,6 +421,7 @@ export class TacticalCombat {
       modifiers,
     });
 
+    this.emit({ type: 'shot', shooter: actor.id, target: targetId, hit: result.success });
     if (result.success) {
       this.neutralize(target, `le taser de ${sheet.name}`);
     } else {
@@ -453,6 +456,7 @@ export class TacticalCombat {
       modifiers: this.commonModifiers(target),
     });
 
+    this.emit({ type: 'melee', attacker: actor.id, target: targetId });
     if (attack.total > defense.total) {
       this.neutralize(target, `le corps a corps de ${sheet.name}`);
     } else if (defense.total - attack.total >= 5) {
@@ -478,6 +482,7 @@ export class TacticalCombat {
     if (team.healkits > 0) {
       team.healkits--;
       target.status = 'active';
+      this.emit({ type: 'revived', unit: targetId });
       this.log(
         'status',
         `${sheet.name} utilise le kit de soin : ${getCharacter(targetId).name} est de nouveau operationnel.`,
@@ -497,6 +502,7 @@ export class TacticalCombat {
     });
     if (result.success) {
       target.status = 'active';
+      this.emit({ type: 'revived', unit: targetId });
       this.log('status', `${getCharacter(targetId).name} se remet sur pied.`, actor.id);
     }
     return { ok: true, check: result };
@@ -547,7 +553,11 @@ export class TacticalCombat {
       label: `cohesion de ${sheet.name}`,
       expiresAfterRound: this.state_.round,
     });
-    this.log('status', `${sheet.name} encourage ${getCharacter(targetId).name} : +2 au prochain jet.`, actor.id);
+    this.log(
+      'status',
+      `${sheet.name} encourage ${getCharacter(targetId).name} : +2 au prochain jet.`,
+      actor.id,
+    );
     return { ok: true };
   }
 
@@ -631,6 +641,7 @@ export class TacticalCombat {
   private neutralize(u: Unit, cause: string): void {
     u.status = 'neutralized';
     u.mp = 0;
+    this.emit({ type: 'neutralized', unit: u.id });
     const sheet = getCharacter(u.id);
     // Le materiel tombe au sol et redevient disponible.
     for (const item of u.items) {
@@ -665,8 +676,13 @@ export class TacticalCombat {
   private finish(winner: Winner): void {
     this.state_.phase = 'finished';
     this.state_.winner = winner;
-    const label = winner === 'draw' ? 'Match nul' : `Victoire de l'equipe ${winner === 'blue' ? 'bleue' : 'rouge'}`;
+    const label =
+      winner === 'draw' ? 'Match nul' : `Victoire de l'equipe ${winner === 'blue' ? 'bleue' : 'rouge'}`;
     this.log('result', `${label}.`);
+  }
+
+  private emit(event: CombatEvent): void {
+    this.state_?.events.push(event);
   }
 
   private log(kind: LogKind, text: string, unitId?: CharacterId, checkResult?: CheckResult): void {

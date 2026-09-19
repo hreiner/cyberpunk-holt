@@ -103,13 +103,14 @@ export const TRAITS: Record<TraitId, Trait> = {
   organique: {
     id: 'organique',
     label: 'Organique',
-    description: "Pas de neuroport : ne peut pas utiliser l'outil de piratage, immunise aux effets d'implants.",
+    description:
+      "Pas de neuroport : ne peut pas utiliser l'outil de piratage, immunise aux effets d'implants.",
     tactical: true,
   },
   cohesion: {
     id: 'cohesion',
     label: 'Cohesion',
-    description: 'Une fois par round, donne +2 au prochain jet d\'un allie en vue.',
+    description: "Une fois par round, donne +2 au prochain jet d'un allie en vue.",
     tactical: true,
   },
   polyvalent: {
