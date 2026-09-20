@@ -92,7 +92,12 @@ Détail et justification : [`docs/process/ARCHITECTURE.md`](docs/process/ARCHITE
 - **Ne jamais committer de clé, de token ou de secret.** Rien de ce genre n'est nécessaire
   pour ce projet.
 - **Assets** : ne pas committer de binaires lourds. `public/assets/` accueille les fichiers
-  légers ; au-delà de quelques Mo, voir `docs/art/ART-PIPELINE.md`.
+  légers ; au-delà de quelques Mo, voir `docs/art/ART-PIPELINE.md`. **Une seule exception,
+  décidée par le propriétaire du projet** : `docs/art/Reference_pictures/` (26 Mo) est
+  versionné, parce que ces images sont la source d'inspiration de toute la production
+  graphique et que les briefs de `docs/art/image-generation/` les référencent par chemin.
+  Elles ne sont ni servies ni importées par le jeu. Les masters générés, eux, restent hors
+  dépôt (`art-masters/`).
 
 ## 7. Le vocabulaire du projet
 
