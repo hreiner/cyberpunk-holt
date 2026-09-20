@@ -84,8 +84,15 @@ import { DraftView } from './ui/draftView';
  * ch1.salle1, pour qu'un demarrage direct sur ch1.salle2/3 (`?scene=`, debug
  * `goToScene`) reste correct : `resolveOffscreenRun` est pure, la rejouer
  * plusieurs fois ne coute rien et redonne toujours le meme resultat.
+ *
+ * Lot 3.7b : ch1.salle1/2/3 sont desormais des scenes `explore` (le parcours
+ * interieur devient explorable), pas `dialogue` -- l'appel vit donc dans
+ * `enterExploreScene`, plus dans `enterDialogueScene` (voir plus bas).
  */
 const OFFSCREEN_ROOM_SCENES = new Set(['ch1.salle1', 'ch1.salle2', 'ch1.salle3']);
+
+/** Duree du tampon "CONTACT" + coupure avant le combat (08-EXPLORATION.md "Passer au combat"). */
+const CONTACT_TRANSITION_MS = 400;
 
 /**
  * Ressources de l'examen ecrit affichees en permanence pendant la scene
@@ -204,7 +211,18 @@ export class ChapterApp {
    * des cadets, `HubView`, retire au lot 3.6b -- meme mecanisme, un
    * `entityId` en plus).
    */
-  private activeExploreConversation: { entityId: string; dialogueId: string; runner: DialogueRunner } | null = null;
+  private activeExploreConversation: {
+    entityId: string;
+    dialogueId: string;
+    runner: DialogueRunner;
+    /**
+     * Lot 3.7b : vrai quand `entityId` est le `completionTrigger` de l'objectif courant --
+     * la conversation PORTE le dialogue de la pièce elle-même (pas celui de la scène
+     * suivante), et sa fin doit donc faire avancer le routeur (`completeExploreConversation`)
+     * au lieu de rendre la main à une simple exploration (voir `handleExploreInteraction`).
+     */
+    advancesRouter: boolean;
+  } | null = null;
   private tacticalApp: GameApp | null = null;
   /** Etat du tirage en cours (ADR 0014), `null` hors de l'ecran de tirage -- voir `showDraft`. */
   private draftState: DraftState | null = null;
@@ -216,6 +234,8 @@ export class ChapterApp {
   private readonly reportHost: HTMLElement;
   private readonly draftHost: HTMLElement;
   private readonly diceHost: HTMLElement;
+  /** Tampon "CONTACT" (lot 3.7b, "Passer au combat") : voir `playContactTransition`. */
+  private readonly contactHost: HTMLElement;
   private readonly view: NarrativeView;
   private readonly reportView: ReportView;
   private readonly draftView: DraftView;
@@ -345,6 +365,13 @@ export class ChapterApp {
     this.draftHost.className = 'chapter-host chapter-host-draft';
     this.diceHost = document.createElement('div');
     this.diceHost.className = 'chapter-dice-host';
+    this.contactHost = document.createElement('div');
+    this.contactHost.className = 'contact-transition';
+    this.contactHost.style.display = 'none';
+    const contactStamp = document.createElement('div');
+    contactStamp.className = 'contact-transition__stamp stamp stamp--ko';
+    contactStamp.textContent = 'CONTACT';
+    this.contactHost.appendChild(contactStamp);
     container.append(
       this.tacticalHost,
       this.narrativeHost,
@@ -352,6 +379,7 @@ export class ChapterApp {
       this.reportHost,
       this.draftHost,
       this.diceHost,
+      this.contactHost,
     );
 
     this.dice = createDicePlayer(this.diceHost, options.diceEnabled ?? true);
@@ -712,10 +740,6 @@ export class ChapterApp {
   private enterDialogueScene(scene: SceneDef): void {
     this.hideAllViews();
     this.setActiveHost('dialogue');
-    // Defaut 1 du rapport de cloture : l'equipe adverse doit avoir un etat
-    // fixe des qu'on entre dans le parcours interieur, pas seulement au
-    // moment du combat final (voir resolveOffscreenTeam).
-    if (OFFSCREEN_ROOM_SCENES.has(scene.id)) this.resolveOffscreenTeam();
 
     const file = scene.dialogueId ? DIALOGUES[scene.dialogueId] : undefined;
     if (!file) {
@@ -797,6 +821,10 @@ export class ChapterApp {
     this.hideAllViews();
     this.activeExploreConversation = null;
     this.ctx = withEtape(this.ctx, scene);
+    // Defaut 1 du rapport de cloture epic 2 : l'equipe adverse doit avoir un etat fixe des
+    // qu'on entre dans le parcours interieur -- ch1.salle1/2/3 sont des scenes `explore`
+    // depuis le lot 3.7b (elles etaient `dialogue` avant, voir OFFSCREEN_ROOM_SCENES plus haut).
+    if (OFFSCREEN_ROOM_SCENES.has(scene.id)) this.resolveOffscreenTeam();
 
     // Rend `exploreHost` visible AVANT toute mesure de sa taille (`buildExploreWorld`/
     // `exploreAspect()` lisent `clientWidth`/`clientHeight`, qui valent 0 tant que l'element
@@ -1165,6 +1193,18 @@ export class ChapterApp {
     if (entityCell) this.exploreView?.faceLeaderTowards(entityCell);
 
     if (this.isObjectiveTrigger(entityId)) {
+      // Lot 3.7b (centre d'examen) : contrairement au lot 3.6b, le declencheur peut porter un
+      // dialogue qui n'est PAS celui de la scene suivante (ex. salle1.panneau-porte joue
+      // ch1.salle1 depuis "arrivee" -- c'est la piece ELLE-MEME, pas la scene d'apres). On le
+      // joue alors en entier avant d'avancer (`advancesRouter`, voir `openExploreConversation`/
+      // `completeExploreConversation`). Mais si son dialogueId est bien celui de la scene
+      // SUIVANTE (contrat du lot 3.6b, ex. "cantine.place-franklyn" -> ch1.discours), on garde
+      // le comportement d'origine -- jeter l'issue et laisser cette scene suivante le charger
+      // depuis son propre depart -- sinon le meme dialogue s'ouvrirait DEUX FOIS (une ici via
+      // la conversation, une seconde fois via `enterDialogueScene`).
+      if (outcome.kind === 'dialogue' && !this.nextSceneAlreadyShows(outcome.dialogueId)) {
+        return this.openExploreConversation(entityId, outcome.dialogueId, outcome.startNode, true) ?? outcome;
+      }
       this.completeExploreScene();
       return outcome;
     }
@@ -1199,9 +1239,68 @@ export class ChapterApp {
 
   /** L'entite qui termine l'objectif fait avancer le routeur -- exactement comme un dialogue/bilan/tirage termine. */
   private completeExploreScene(): void {
+    // "Passer au combat" (08-EXPLORATION.md) : le seul moment orchestre de la transition --
+    // tampon "CONTACT" + coupure breve (400 ms) -- juste avant que la scene suivante ne soit
+    // le combat tactique (cour.portail, voir CHAPTER_1_SCENES "ch1.cour"). `peekNext()` ne
+    // modifie rien : `advanceRouter()` (dans `finishExploreScene`) refait le meme calcul juste
+    // apres, avec le contexte le plus a jour -- ce n'est qu'un COUP D'OEIL.
+    if (this.router.peekNext()?.kind === 'tactical') {
+      this.playContactTransition(() => this.finishExploreScene());
+      return;
+    }
+    this.finishExploreScene();
+  }
+
+  private finishExploreScene(): void {
     const next = this.advanceRouter();
     this.persistAfterScene();
     this.enterScene(next);
+  }
+
+  /**
+   * Vrai si la scene qui suit CELLE-CI dans le routeur est une scene `dialogue` de dialogueId
+   * `dialogueId` -- contrat du lot 3.6b ("l'entite qui termine l'objectif porte le dialogueId
+   * de la scene suivante"). Utilise par `handleExploreInteraction` pour distinguer ce cas
+   * (jeter l'issue, laisser la scene suivante charger le dialogue depuis son propre depart) du
+   * cas introduit par le lot 3.7b (le declencheur porte SON PROPRE dialogue, a un noeud qui
+   * n'est pas forcement celui de la scene suivante -- voir CHAPTER_1_SCENES, "ch1.salle1" etc).
+   */
+  private nextSceneAlreadyShows(dialogueId: string): boolean {
+    const next = this.router.peekNext();
+    return next?.kind === 'dialogue' && next.dialogueId === dialogueId;
+  }
+
+  /**
+   * Tampon "CONTACT" + coupure breve (08-EXPLORATION.md "Passer au combat", lot 3.7b) : affiche
+   * `contactHost` par-dessus tout le reste, attend `CONTACT_TRANSITION_MS`, puis appelle
+   * `onDone` (qui fait reellement avancer la scene). La vue tactique reste un ecran a part
+   * (son propre renderer/camera/HUD, `enterTacticalScene`/`GameApp`) -- decision confirmee par
+   * le proprietaire du projet, pas un repli devant le cout d'un rendu partage : c'est la vue
+   * tactique qui doit rester l'interface de TOUS les combats a venir, y compris ceux qui
+   * n'auront aucune carte d'exploration derriere eux. Ce que la carte garantit, elle, c'est que
+   * le terrain est le meme des deux cotes de la coupure (le rectangle `tacticalArea`, engendre
+   * depuis `yard-map` et verifie case par case, voir tests/unit/centreExamenMap.test.ts) : le
+   * joueur voit la cour en s'en approchant, puis se bat dedans, jamais un autre decor. Ce
+   * tampon habille le changement d'ecran plutot que de le laisser brut.
+   */
+  private playContactTransition(onDone: () => void): void {
+    this.contactHost.style.display = '';
+    window.setTimeout(() => {
+      this.contactHost.style.display = 'none';
+      onDone();
+    }, CONTACT_TRANSITION_MS);
+  }
+
+  /**
+   * Une porte verrouillee (`locked: true`, ex. salle2.porte-nord) dont le dialogue vient de se
+   * resoudre reste ouverte pour de bon (lot 3.7b) : `ExploreState.computeOutcome()` ne
+   * deverrouille jamais une porte `locked` elle-meme (voir `ExploreState.forceDoorOpen`), donc
+   * sans cet appel la case resterait bloquee malgre la scene deja jouee -- un vrai blocage de
+   * progression, pas un detail cosmetique. No-op sur une entite qui n'est pas une porte.
+   */
+  private unlockDoorIfNeeded(entityId: string): void {
+    this.exploreState?.forceDoorOpen(entityId);
+    this.exploreView?.setDoorOpen(entityId, true);
   }
 
   /** `npc` : bulle parlee (suit la tete). `object`/`door` : narration discrete en bas de l'ecran. */
@@ -1226,24 +1325,41 @@ export class ChapterApp {
    * `outcome` tel quel), ou l'`InteractOutcome` de substitution (`brief-line`)
    * si la conversation a deja ete jouee -- pour que `window.__game.interact()`
    * reflete ce qui s'est reellement passe.
+   *
+   * `advancesRouter` (lot 3.7b) : vrai quand `entityId` est le `completionTrigger` de l'etape
+   * courante -- la conversation doit alors faire avancer le routeur en fin de compte (voir
+   * `completeExploreConversation`), y compris quand elle est deja "faite" (une autre entite de
+   * la meme piece a joue ce dialogue en premier, voir centre-examen.ts "salle1.chien"/
+   * "salle1.panneau-porte") : la scene doit avancer quand meme, sans rejouer le dialogue.
    */
-  private openExploreConversation(entityId: string, dialogueId: string, startNode?: string): InteractOutcome | null {
+  private openExploreConversation(
+    entityId: string,
+    dialogueId: string,
+    startNode?: string,
+    advancesRouter = false,
+  ): InteractOutcome | null {
     const doneKey = this.conversationDoneFlagKey(dialogueId);
     if (this.ctx.run.flags[doneKey]) {
       const entity = this.exploreEntity(entityId);
       const repeatLine = entity && 'line' in entity && entity.line ? entity.line : EXPLORE_REPEAT_LINE_FALLBACK;
       this.playExploreBriefLine(entityId, repeatLine);
+      if (advancesRouter) {
+        this.unlockDoorIfNeeded(entityId);
+        this.completeExploreScene();
+      }
       return { kind: 'brief-line', entityId, text: repeatLine };
     }
     const file = DIALOGUES[dialogueId];
     if (!file) {
       console.error(`ChapterApp : dialogue "${dialogueId}" introuvable pour l'entite "${entityId}".`);
+      if (advancesRouter) this.completeExploreScene();
       return { kind: 'none', entityId, reason: 'Dialogue introuvable' };
     }
     const rng = createRng(`${this.ctx.run.seed}::${dialogueId}`);
     this.activeExploreConversation = {
       entityId,
       dialogueId,
+      advancesRouter,
       runner: new DialogueRunner(file, this.ctx, rng, startNode ? { startNode } : undefined),
     };
     this.hideAllViews();
@@ -1271,6 +1387,14 @@ export class ChapterApp {
     };
     this.mergeContext(ctx);
     this.activeExploreConversation = null;
+    if (entry.advancesRouter) {
+      // Lot 3.7b : ce dialogue etait celui du declencheur d'objectif lui-meme (pas une simple
+      // conversation annexe) -- pas de retour a l'exploration, on enchaine directement, comme
+      // apres un dialogue de scene ordinaire (voir CHAPTER_1_SCENES, "ch1.salle1" etc).
+      this.unlockDoorIfNeeded(entry.entityId);
+      this.completeExploreScene();
+      return;
+    }
     // Retour a l'exploration : ce n'est pas "au milieu d'un dialogue" (ADR 0011), on
     // peut sauvegarder ici sans attendre que le joueur quitte l'etape entiere.
     this.persistAfterScene();

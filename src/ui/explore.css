@@ -195,3 +195,31 @@
     transition: none;
   }
 }
+
+/* ------------------------------------------------------------------------ */
+/* "CONTACT" -- 08-EXPLORATION.md "Passer au combat" : tampon + coupure      */
+/* brève (400 ms), le seul moment orchestré de la transition au tactique.   */
+/* ------------------------------------------------------------------------ */
+
+.contact-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink-2);
+  /* Une vraie coupure : bloque le clic/le survol de ce qu'il y a derrière pendant les 400 ms. */
+  pointer-events: auto;
+}
+
+.contact-transition__stamp {
+  font-size: var(--fs-2xl);
+  color: var(--ko);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-transition__stamp {
+    animation: none;
+  }
+}

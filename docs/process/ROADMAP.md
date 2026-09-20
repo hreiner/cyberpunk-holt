@@ -110,7 +110,8 @@ Références : [`08-EXPLORATION.md`](../design/08-EXPLORATION.md),
 [`03-CHAPTER-1.md`](../design/03-CHAPTER-1.md), ADR
 [0013](adr/0013-exploration-temps-reel-sur-grille.md),
 [0014](adr/0014-tirage-franklyn-capitaine-equipes-dynamiques.md),
-[0015](adr/0015-concentration-chance-et-triche.md).
+[0015](adr/0015-concentration-chance-et-triche.md),
+[0016](adr/0016-vue-tactique-ecran-separe.md).
 
 | Lot | Contenu | Dépend de | État |
 |---|---|---|---|
@@ -120,7 +121,7 @@ Références : [`08-EXPLORATION.md`](../design/08-EXPLORATION.md),
 | 3.4 | **Coéquipiers variables dans le contenu** : fourgon, salles, conversations, bal réécrits avec les alias et des variantes par cadet ; dispute Zachary/Grover ; le test « aucun cul-de-sac » tire aussi les compositions ; condition `teammate` | 3.2 | fait |
 | 3.5 | **Socle d'exploration** : couche `src/explore/` (cartes, entités, déclencheurs, objectifs), format `MapDef` et validateur, rendu des lieux (murs en coupe, portes, mobilier en blocs), clic pour se déplacer, caméra libre (flèches, molette, `C`), survol et étiquettes, encart d'objectif, API de debug ; une carte d'essai | 3.1 | fait |
 | 3.6 | **L'académie HOLT** : la carte (52 × 64), les étapes 1 à 6 en exploration, figurants et répliques brèves, cadets placés au temps libre, groupe qui suit après le tirage ; la liste du hub disparaît, on aborde les cadets sur la carte | 3.2, 3.5 | fait |
-| 3.7 | **Le centre d'examen** : la carte, les salles découpées en entités, passage au combat sur la même carte, retour au procès-verbal | 3.4, 3.6 | à faire |
+| 3.7 | **Le centre d'examen** : la carte (3.7a), les salles découpées en entités jouées pour de bon, tampon « CONTACT » et coupure vers l'écran tactique (même terrain des deux côtés, ADR 0016), retour au procès-verbal (3.7b) | 3.4, 3.6 | fait |
 | 3.8 | **Revue de bout en bout** : partie complète jouée à la souris, captures, performances (cible GTX 1070), tests e2e du parcours complet | tout | à faire |
 
 Ordre de passage : 3.1 seul ; puis 3.2 et 3.5 en parallèle (fichiers disjoints) ; puis 3.3

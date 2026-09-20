@@ -212,6 +212,20 @@ export class ExploreState {
     return this.doorsOpen.get(entityId) ?? true;
   }
 
+  /**
+   * Force `entityId` à l'état ouvert, sans passer par `interact()` (lot 3.7b : une porte
+   * verrouillée dont le dialogue vient de se résoudre -- `chapter.ts`, `unlockDoorIfNeeded`).
+   * `computeOutcome()` ne déverrouille JAMAIS une porte `locked` elle-même (elle renvoie le
+   * dialogue/`door-locked` tant que `entity.locked` reste vrai, voir plus bas) : sans cet appel
+   * explicite après la conversation, la case resterait bloquée pour de bon malgré une scène
+   * déjà jouée en entier -- un vrai blocage de progression, pas un détail cosmétique.
+   */
+  forceDoorOpen(entityId: string): void {
+    const entity = this.entitiesById.get(entityId);
+    if (!entity || entity.type !== 'door') return;
+    this.doorsOpen.set(entityId, true);
+  }
+
   /* ------------------------------------------------------------------ */
   /* Position, simulation                                                */
   /* ------------------------------------------------------------------ */

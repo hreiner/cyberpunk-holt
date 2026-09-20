@@ -91,18 +91,22 @@ silence.
 | `draft()` | `DraftState`, ou `null` | état du tirage (ADR 0014), `null` hors de l'écran de tirage : `{ pool, picks, turn }` — `pool` les cadets encore disponibles, `picks` tous les choix déjà faits dans l'ordre F/A/F/A, `turn` `'franklyn' \| 'abigail' \| 'done'` (en pratique jamais observable à `'abigail'`, voir `pickTeammate`) |
 | `pickTeammate(cadetId)` | `{ ok, reason? }` | choix de Franklyn pour le tirage ; résout aussi, dans le **même appel**, le choix déterministe d'Abigail qui suit (`src/narrative/draft.ts`) — le joueur ne pilote jamais son tour à elle. Refuse si aucun tirage n'est en cours, si ce n'est pas le tour de Franklyn, ou si `cadetId` n'est plus disponible. Une fois `draft().turn === 'done'`, `runState().roster` reflète déjà les nouvelles équipes ; un dernier `advance()` rend la main à la scène suivante (même idiome qu'un nœud de dialogue terminal) |
 
-## Méthodes d'exploration (ADR 0013, epic 3 lot 3.6b)
+## Méthodes d'exploration (ADR 0013, epic 3 lots 3.6b/3.7b)
 
 Actives uniquement pendant une scène `explore` (`scene().kind === 'explore'`) : réveil ->
 cantine (`ch1.vers-cantine`), cantine -> salles d'entraînement (`ch1.vers-examen`), temps
-libre -> garage (`ch1.hub`). Toutes synchrones, dans l'esprit de `choose()`.
+libre -> garage (`ch1.hub`), puis, sur le centre d'examen (lot 3.7b), l'arrivée
+(`ch1.centre-hall`), les trois salles (`ch1.salle1`/`ch1.salle2`/`ch1.salle3` — mêmes
+identifiants qu'avant le lot 3.7b, mais des scènes `explore` désormais, plus `dialogue`) et
+la cour (`ch1.cour`, qui se termine par le passage au combat). Toutes synchrones, dans
+l'esprit de `choose()`.
 
 | Méthode | Renvoie | Effet |
 |---|---|---|
 | `explore()` | `ExploreDebugSnapshot`, ou `null` | instantané hors de toute scène `explore` : lieu (`mapId`), case du meneur et des coéquipiers (`leader`/`followers`), objectif courant (`objective`, `null` si aucun), entités interactives actives ET découvertes (`interactables`, avec leur case, leur libellé de survol et si elles sont atteignables — un `npc`/`object`/`seat` d'une pièce pas encore visitée, 08-EXPLORATION.md "La découverte des lieux", n'y figure pas : cet instantané est un miroir fidèle de ce que le joueur perçoit, pas une vue "développeur" à part, sous peine qu'un test de bout en bout reste vert en pilotant une entité injoignable en jouant), pièces découvertes cette partie sur ce lieu (`discoveredRooms`, `RoomDef.id`) — un test qui doit atteindre une entité d'une pièce pas encore visitée y entre d'abord avec `walkTo`, exactement comme un joueur |
 | `walkTo(x, y)` | — | déplace le meneur **instantanément** vers la case franchissable la plus proche de `(x, y)` (et le groupe avec lui, en formation) ; pas d'animation, pas de vérification d'atteignabilité (contrairement à un clic joueur) |
-| `interact(entityId)` | `InteractOutcome` | déclenche l'entité `entityId` **sans marcher jusqu'à elle** (contrairement à un clic joueur, qui marche d'abord) ; si `entityId` est le `completionTrigger` de l'objectif courant, fait avancer le routeur exactement comme un clic — la scène suivante joue son dialogue (contrat "une seule règle" : l'entité qui termine l'objectif porte le `dialogueId` de la scène suivante) ; sinon, si l'entité porte un `dialogueId`, ouvre une conversation annexe (`node()` la reflète ensuite) déjà jouée cette partie -> réplique brève au lieu de rejouer le dialogue |
-| `completeStep()` | — | **réservé au développement** : termine l'objectif courant ET fait avancer le routeur, comme si son `completionTrigger` venait d'être déclenché — utile pour sauter une étape d'exploration bloquée sans en chercher le trigger exact |
+| `interact(entityId)` | `InteractOutcome` | déclenche l'entité `entityId` **sans marcher jusqu'à elle** (contrairement à un clic joueur, qui marche d'abord). Si `entityId` est le `completionTrigger` de l'objectif courant ET qu'il ne porte pas de dialogue propre, fait avancer le routeur directement (la scène suivante joue son propre dialogue — cas du lot 3.6b, ex. `hall.instructeur`). Si `entityId` EST le `completionTrigger` et porte un dialogue (lot 3.7b, ex. `salle1.panneau-porte`, `salle2.porte-nord`), ce dialogue s'ouvre d'abord (`node()` le reflète) et c'est SA fin (`advance()` sur son dernier nœud) qui fait avancer le routeur — y compris s'il a déjà été joué via une autre entité de la même pièce (ex. le chien avant le panneau) : la scène avance alors quand même, sans rejouer le dialogue. Sinon, si l'entité porte un `dialogueId`, ouvre une conversation annexe qui n'avance PAS le routeur, déjà jouée cette partie -> réplique brève au lieu de rejouer le dialogue. **Cour de containers (`cour.portail`)** : `interact()`/un clic déclenchent le tampon "CONTACT" (08-EXPLORATION.md "Passer au combat") — `scene()` continue de répondre `ch1.cour` pendant ~400 ms avant de basculer sur `ch1.affrontement` ; un test attend cette transition (`waitForFunction`) plutôt que de lire `scene()` tout de suite après l'appel |
+| `completeStep()` | — | **réservé au développement** : termine l'objectif courant ET fait avancer le routeur SANS jouer le dialogue d'un déclencheur qui en porte un (contrairement à `interact()`) — utile pour sauter une étape d'exploration bloquée sans en chercher le trigger exact, mais ne pose donc pas les drapeaux/étiquettes qu'un vrai dialogue de salle poserait (voir `interact()` pour un parcours qui doit alimenter le dossier) |
 
 ```ts
 interface ExploreDebugSnapshot {
@@ -288,6 +292,27 @@ __game.node();                  // null : deja jouee cette partie, John repond p
 
 __game.completeStep();          // outil de dev : saute l'objectif du temps libre
 __game.scene().id;              // 'ch1.fourgon'
+```
+
+Le centre d'examen (lot 3.7b) : chaque salle se joue en entier via l'entité qui porte le
+dialogue, puis la scène avance d'elle-même ; le portail de la cour bascule au combat après le
+tampon "CONTACT" (`waitForFunction`, pas de lecture immédiate de `scene()`) :
+
+```js
+// http://localhost:5173/?ai=0&scene=ch1.salle1
+__game.interact('salle1.panneau-porte');   // completionTrigger : joue ch1.salle1 depuis "arrivee"
+let node = __game.node();
+while (node && !node.finished) { /* ... choix/jets comme un dialogue ordinaire ... */ node = __game.node(); }
+__game.advance();                          // fin du dialogue -> avance directement vers ch1.salle2
+__game.scene().id;                         // 'ch1.salle2'
+
+// ... ch1.salle2 (salle2.porte-nord), ch1.salle3 (salle3.porte-nord), meme idiome ...
+
+// ch1.cour : le portail declenche le tampon "CONTACT" (400 ms) avant de vraiment basculer.
+__game.interact('cour.portail');
+__game.scene().id;                         // encore 'ch1.cour' juste apres l'appel
+await new Promise((r) => setTimeout(r, 450));
+__game.scene();                            // { id: 'ch1.affrontement', kind: 'tactical', ... }
 ```
 
 Sauter directement au combat final avec l'état du `RunState` :

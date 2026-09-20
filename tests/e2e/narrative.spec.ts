@@ -176,19 +176,62 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
     dossierAfterDraft.tags.includes('equipe-bande') || dossierAfterDraft.tags.includes('equipe-tactique'),
   ).toBe(true);
 
-  /* --- 3. Le parcours interieur alimente le RunState.teams avant l'affrontement --- */
-  await page.evaluate(() => window.__game.goToScene('ch1.salle1'));
+  /* --- 3. Le parcours interieur (epic 3 lot 3.7b) : les salles se jouent en entier ---
+   * -- via l'entite qui porte le dialogue, dans le centre d'examen desormais explorable --
+   * et le RunState/le dossier en sortent nourris, avant l'affrontement. */
+  const centreHall = await page.evaluate(() => {
+    window.__game.goToScene('ch1.centre-hall');
+    return window.__game.scene();
+  });
+  expect(centreHall.id).toBe('ch1.centre-hall');
+  expect(centreHall.kind).toBe('explore');
+
+  // Salle 1 : le panneau de porte PORTE ch1.salle1 (declencheur d'objectif, lot 3.7b) --
+  // sa fin fait directement avancer vers la salle 2, sans repasser par l'exploration.
+  await page.evaluate(() => window.__game.interact('hall.instructeur'));
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle1');
+  await page.evaluate(() => window.__game.interact('salle1.panneau-porte'));
+  const salle1End = await traverseDialogue(page);
+  expect(salle1End?.finished).toBe(true);
+  await page.evaluate(() => window.__game.advance());
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle2');
+
+  // Salle 2 : l'armoire d'abord (conversation annexe, "le choix couteux", n'avance pas le
+  // routeur), puis la porte nord (declencheur, deja "faite" -- avance sans rejouer).
+  await page.evaluate(() => window.__game.interact('salle2.armoire'));
   await traverseDialogue(page);
-  await advanceToNextScene(page); // fusionne et sauvegarde le RunState (jamais au milieu d'un dialogue)
+  await page.evaluate(() => window.__game.advance());
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle2'); // conversation annexe : pas d'avancee
+  await page.evaluate(() => window.__game.interact('salle2.porte-nord'));
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle3'); // deja "faite" via l'armoire -> avance directement
+
+  // Salle 3 : choisit explicitement de rester malgre le gaz (2e choix de "choix-rester")
+  // pour garantir la video (`renseignement`), plutot que le 1er choix par defaut ("foncer").
+  await page.evaluate(() => window.__game.interact('salle3.ordinateur'));
+  const choixRester = await page.evaluate(() => window.__game.node());
+  const resterChoice = choixRester?.choices[1];
+  expect(resterChoice, 'choix "rester" introuvable sur choix-rester').toBeDefined();
+  if (resterChoice) await page.evaluate((index) => window.__game.choose(index), resterChoice.index);
+  await traverseDialogue(page);
+  await page.evaluate(() => window.__game.advance());
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle3'); // conversation annexe
+
+  const runAfterSalle3: E2ERunState = await page.evaluate(() => window.__game.runState());
+  // Deterministe (le choix "rester" mene toujours a video-recuperee, quel que soit le jet de
+  // Resistance) : c'est CE drapeau que `courseResultFromFlags` relit pour le poste "parcours
+  // interieur" du bareme (docs/design/06-SCORING-DOSSIER.md), desormais atteignable pour de bon.
+  expect(runAfterSalle3.flags['ch1.salle3.video-vue']).toBe(true);
+
+  await page.evaluate(() => window.__game.interact('salle3.porte-nord')); // deja "faite" -> avance directement
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.cour');
 
   const runBeforeCombat: E2ERunState = await page.evaluate(() => window.__game.runState());
 
-  /* --- 4. Le combat demarre avec le TeamState issu du RunState, pas un defaut cache --- */
-  const combatScene = await page.evaluate(() => {
-    window.__game.goToScene('ch1.affrontement');
-    return window.__game.scene();
-  });
-  expect(combatScene.id).toBe('ch1.affrontement');
+  /* --- 4. La cour : le portail declenche le tampon "CONTACT" (08-EXPLORATION.md "Passer au
+   * combat") puis, apres la coupure de 400 ms, le combat demarre avec le TeamState du RunState. --- */
+  await page.evaluate(() => window.__game.interact('cour.portail'));
+  await page.waitForFunction(() => window.__game.scene().id === 'ch1.affrontement');
+  const combatScene = await page.evaluate(() => window.__game.scene());
   expect(combatScene.kind).toBe('tactical');
 
   const combatState = await page.evaluate(() => window.__game.state());
@@ -197,6 +240,13 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
   // Preuve du branchement : les kits de soin du combat sont ceux du RunState
   // construit par le parcours interieur, pas `defaultTeamState()` recalcule a la volee.
   expect(combatState.healkits.blue).toBe(runBeforeCombat.teams.blue.healkits);
+
+  /* --- 5. Jusqu'au proces-verbal : le combat termine, le poste "parcours interieur" du
+   * bareme n'est plus a zero (defaut historique corrige par ce lot). --- */
+  await page.evaluate(() => window.__game.runToEnd());
+  const dossierAfterCombat = await page.evaluate(() => window.__game.dossier());
+  expect(dossierAfterCombat.practicalScore).not.toBeNull();
+  expect(dossierAfterCombat.practicalScore?.tags).toContain('renseignement');
 });
 
 test(

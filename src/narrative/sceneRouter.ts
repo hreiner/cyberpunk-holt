@@ -129,6 +129,17 @@ export class SceneRouter {
     this.applyCurrentScene();
   }
 
+  /**
+   * Scène qui suivrait un `next()`, SANS avancer le routeur (lecture seule, aucun effet sur
+   * `index`/`ctx`) -- lot 3.7b : sert à `ChapterApp.completeExploreScene` pour savoir, avant de
+   * réellement changer de scène, si la transition mène au mode tactique (tampon "CONTACT" +
+   * coupure, 08-EXPLORATION.md "Passer au combat") ou à une scène ordinaire.
+   */
+  peekNext(): SceneDef | null {
+    const idx = this.nextEligibleIndex(this.index + 1);
+    return idx < this.scenes.length ? (this.scenes[idx] ?? null) : null;
+  }
+
   private nextEligibleIndex(from: number): number {
     let i = from;
     while (i < this.scenes.length) {
@@ -260,9 +271,105 @@ export const CHAPTER_1_SCENES: SceneDef[] = [
     },
   },
   { id: 'ch1.fourgon', kind: 'dialogue', title: 'Le trajet en fourgon', dialogueId: 'ch1.fourgon' },
-  { id: 'ch1.salle1', kind: 'dialogue', title: 'Salle 1 — La porte et le chien', dialogueId: 'ch1.salle1' },
-  { id: 'ch1.salle2', kind: 'dialogue', title: 'Salle 2 — Le choix coûteux', dialogueId: 'ch1.salle2' },
-  { id: 'ch1.salle3', kind: 'dialogue', title: 'Salle 3 — Le gaz et la video', dialogueId: 'ch1.salle3' },
+  /*
+   * Le centre d'examen (scène 7, epic 3 lot 3.7b) : docs/design/09-MAPS-CHAPTER-1.md
+   * "Le centre d'examen désaffecté" / "Les salles deviennent des lieux". Cinq étapes
+   * d'exploration sur `centre-examen` (`src/data/maps/centre-examen.ts`), qui posent
+   * `ch1.etape` = 'hall' | 'salle1' | 'salle2' | 'salle3' | 'cour' (`Ch1Etape`).
+   *
+   * `ch1.salle1`/`ch1.salle2`/`ch1.salle3` GARDENT leurs identifiants (sauvegardes,
+   * `?scene=`, tests en dépendent) mais deviennent des scènes `explore` -- même
+   * mécanisme que `ch1.hub` au lot 3.6b (liste de cadets -> carte, même id, autre
+   * type de scène). Le dialogue qu'elles chargeaient (fichier JSON inchangé, texte et
+   * jets inchangés) est désormais ouvert PAR UNE ENTITÉ de la pièce, à un nœud choisi
+   * (`dialogueId`/`startNode` de `centre-examen.ts`) : celle qui termine l'objectif de
+   * la pièce joue le dialogue en entier et fait avancer le routeur elle-même (règle du
+   * lot 3.6b étendue par le lot 3.7b, voir `ChapterApp.handleExploreInteraction` --
+   * jusqu'ici seul le dialogueId de la scène SUIVANTE était montré, ce lot introduit le
+   * cas où le déclencheur porte lui-même un nœud non par défaut) ; toute autre entité à
+   * dialogue ouvre une conversation annexe qui n'avance pas le routeur (inchangé).
+   *
+   * `ch1.centre-hall` (arrivée + briefing) et `ch1.cour` (portail -> combat) sont de
+   * NOUVELLES scènes, sans équivalent avant ce lot.
+   */
+  {
+    id: 'ch1.centre-hall',
+    kind: 'explore',
+    title: "Le centre d'examen désaffecté",
+    mapId: 'centre-examen',
+    spawn: 'parking',
+    etape: 'hall',
+    objective: {
+      id: 'ch1.centre-hall',
+      title: "Rejoindre l'instructeur",
+      context: 'Le centre désaffecté attend, béton taggé et néons morts.',
+      // hall.instructeur ne porte pas de dialogue (briefing non écrit, hors périmètre de
+      // ce lot) : compléter l'objectif fait directement avancer vers ch1.salle1.
+      completionTrigger: 'hall.instructeur',
+    },
+  },
+  {
+    id: 'ch1.salle1',
+    kind: 'explore',
+    title: 'Salle 1 — La porte et le chien',
+    mapId: 'centre-examen',
+    // Cold start uniquement (voir `SceneDef.spawn`) : en jeu normal, Franklyn reste où le
+    // hall l'a laissé, tout près de la porte (spawn au cas où, ex. `?scene=ch1.salle1`).
+    spawn: 'salle1',
+    etape: 'salle1',
+    objective: {
+      id: 'ch1.salle1',
+      title: 'Franchir la salle 1',
+      context: 'La porte résiste, verrouillée par un panneau électronique.',
+      // salle1.panneau-porte porte ch1.salle1 depuis "arrivee" (voir centre-examen.ts) :
+      // le déclencheur JOUE le dialogue lui-même (pas la scène suivante) puis avance.
+      completionTrigger: 'salle1.panneau-porte',
+    },
+  },
+  {
+    id: 'ch1.salle2',
+    kind: 'explore',
+    title: 'Salle 2 — Le choix coûteux',
+    mapId: 'centre-examen',
+    spawn: 'salle2',
+    etape: 'salle2',
+    objective: {
+      id: 'ch1.salle2',
+      title: 'Franchir la salle 2',
+      context: 'Une armoire sécurisée, une porte verrouillée en face.',
+      completionTrigger: 'salle2.porte-nord',
+    },
+  },
+  {
+    id: 'ch1.salle3',
+    kind: 'explore',
+    title: 'Salle 3 — Le gaz et la video',
+    mapId: 'centre-examen',
+    spawn: 'salle3',
+    etape: 'salle3',
+    objective: {
+      id: 'ch1.salle3',
+      title: 'Franchir la salle 3',
+      context: 'Un gaz irritant commence à envahir la pièce.',
+      completionTrigger: 'salle3.porte-nord',
+    },
+  },
+  {
+    id: 'ch1.cour',
+    kind: 'explore',
+    title: 'La cour de containers',
+    mapId: 'centre-examen',
+    spawn: 'cour',
+    etape: 'cour',
+    objective: {
+      id: 'ch1.cour',
+      title: 'Franchir le portail',
+      context: "L'équipe adverse ne va plus tarder.",
+      // Zone, pas de dialogue : tampon "CONTACT" + passage au mode tactique
+      // (ChapterApp.completeExploreScene, "Passer au combat" de 08-EXPLORATION.md).
+      completionTrigger: 'cour.portail',
+    },
+  },
   { id: 'ch1.affrontement', kind: 'tactical', title: "L'affrontement final" },
   { id: 'ch1.bal', kind: 'dialogue', title: 'Le bal de promo', dialogueId: 'ch1.bal' },
 ];

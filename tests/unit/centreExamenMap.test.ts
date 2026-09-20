@@ -9,6 +9,7 @@ import type { EntityType } from '@/explore';
 import { CENTRE_EXAMEN_MAP } from '@/data/maps/centre-examen';
 import { YARD_MAP_ASCII } from '@/data/yard-map';
 import { getMap, MAPS } from '@/data/maps';
+import { hasDialogue, DIALOGUES } from '@/data/dialogues/registry';
 
 describe('carte du centre d’examen désaffecté', () => {
   it('est valide (voir la liste des erreurs en cas d’échec)', () => {
@@ -104,9 +105,40 @@ describe('carte du centre d’examen désaffecté', () => {
     expect(entity?.type).toBe(type);
   });
 
-  it('n’a encore aucun dialogueId branché : le lot 3.7a pose les entités, pas les dialogues', () => {
-    const withDialogue = CENTRE_EXAMEN_MAP.entities.filter((e) => 'dialogueId' in e && !!e.dialogueId);
-    expect(withDialogue).toEqual([]);
+  /**
+   * Lot 3.7b : les salles sont découpées en points d'entrée (docs/design/09-MAPS-CHAPTER-1.md
+   * "Les salles deviennent des lieux") -- pendant, pour ce lieu, du test équivalent de
+   * `holtMap.test.ts` ("tous les dialogueId référencés existent"), étendu au nœud de départ
+   * (`startNode`), nouveau avec ce lot : c'est la première carte où un point d'entrée n'est PAS
+   * le départ par défaut du dialogue (ex. "chien-identifie", "choix-armoire").
+   */
+  it('a au moins une entité avec un dialogueId (le lot 3.7b a branché les salles)', () => {
+    const withDialogue = CENTRE_EXAMEN_MAP.entities.filter(
+      (e): e is typeof e & { dialogueId: string } => 'dialogueId' in e && !!e.dialogueId,
+    );
+    expect(withDialogue.length).toBeGreaterThan(0);
+  });
+
+  it('tous les dialogueId référencés existent dans le registre des dialogues', () => {
+    for (const e of CENTRE_EXAMEN_MAP.entities) {
+      if (!('dialogueId' in e) || !e.dialogueId) continue;
+      expect(hasDialogue(e.dialogueId), `dialogue "${e.dialogueId}" (entité "${e.id}") introuvable`).toBe(true);
+    }
+  });
+
+  it('tous les startNode référencés existent dans les nœuds de leur dialogue', () => {
+    for (const e of CENTRE_EXAMEN_MAP.entities) {
+      if (!('startNode' in e) || !e.startNode) continue;
+      const dialogueId = 'dialogueId' in e ? e.dialogueId : undefined;
+      expect(dialogueId, `entité "${e.id}" : startNode sans dialogueId`).toBeTruthy();
+      if (!dialogueId) continue;
+      const file = DIALOGUES[dialogueId];
+      expect(file, `dialogue "${dialogueId}" (entité "${e.id}") introuvable`).toBeDefined();
+      expect(
+        e.startNode in (file?.nodes ?? {}),
+        `nœud "${e.startNode}" introuvable dans "${dialogueId}" (entité "${e.id}")`,
+      ).toBe(true);
+    }
   });
 
   /**

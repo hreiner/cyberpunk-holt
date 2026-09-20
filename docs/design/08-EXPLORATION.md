@@ -188,19 +188,28 @@ d'exploration porte **un objectif principal** et, éventuellement, des **faculta
 
 ## Passer au combat
 
-Le centre d'examen contient la **cour de containers** du combat existant. L'entrée dans sa
-zone déclenche le **passage au mode tactique sur la même carte** :
+Le centre d'examen contient la **cour de containers** du combat existant. Franchir le
+portail met fin à l'étape d'exploration et donne la main au combat :
 
 1. Tampon « CONTACT » et coupure brève (400 ms) — le seul moment orchestré de la transition.
 2. Les trois cadets du joueur sont placés sur leurs cases de déploiement, l'équipe adverse
    apparaît sur les siennes.
-3. Le HUD tactique remplace l'encart d'objectif ; la grille s'allume ; l'initiative est lancée.
+3. L'écran tactique prend la place de l'exploration ; la grille s'allume ; l'initiative est lancée.
 4. En fin de combat : procès-verbal, puis suite du chapitre.
 
-Le moteur de combat ne connaît que le **rectangle** de la cour (30 × 20, la carte
-`yard-map` actuelle). La carte d'exploration l'embarque avec un **décalage** ; le rendu
-dessine tout le lieu, le moteur ne raisonne que sur la cour. Aucun changement de règle de
-combat.
+**La vue tactique reste un écran à part, et c'est voulu** (décision du lot 3.7b, confirmée
+par le propriétaire du projet). Fusionner les deux rendus dans le même canvas — deux scènes
+3D, deux modèles de caméra, deux HUD à faire cohabiter — coûtait très cher pour un gain
+d'illusion, et le combat n'y gagnait rien. La vue tactique est au contraire l'**interface de
+tous les combats à venir** : elle doit pouvoir accueillir des affrontements qui n'auront
+aucune carte d'exploration derrière eux. Le tampon « CONTACT » habille ce changement d'écran
+au lieu de le laisser brut.
+
+Ce que la carte d'exploration garantit, en revanche, c'est que **le terrain est le même des
+deux côtés de la coupure** : le rectangle `tacticalArea` (30 × 20) est engendré depuis
+`yard-map` et un test vérifie la correspondance case par case. Le joueur voit la cour en
+s'en approchant, puis se bat dedans ; il ne découvre pas un autre décor. Le moteur de combat,
+lui, ne connaît que ce rectangle et ne change pas d'une ligne.
 
 ## Sauvegarde
 

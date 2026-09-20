@@ -28,39 +28,51 @@
  * Drapeau `ch1.etape` (voir `Ch1Etape`, `src/narrative/sceneRouter.ts`) : ce fichier
  * n'écrit rien, il ne fait que LIRE les six valeurs propres à ce lieu via `condition`
  * sur les entités qui n'ont de sens qu'à une étape donnée — 'arrivee' | 'hall' |
- * 'salle1' | 'salle2' | 'salle3' | 'cour'. Aucune scène ne pose encore ces valeurs
- * (lot 3.7b, hors périmètre de ce fichier, même remarque que holt.ts pour 'discours'/
- * 'tirage'/'depart') : 'arrivee' elle-même n'est lue par AUCUNE entité ici (le parking
- * n'a qu'un point d'apparition, pas d'entité qui déclenche sur cette étape précise —
- * le briefing de l'instructeur, première interaction du lieu, attend 'hall').
+ * 'salle1' | 'salle2' | 'salle3' | 'cour'. Posées par `CHAPTER_1_SCENES`
+ * (`src/narrative/sceneRouter.ts`, lot 3.7b) : `ch1.centre-hall` pose 'hall',
+ * `ch1.salle1`/`ch1.salle2`/`ch1.salle3` (désormais des scènes `explore`, mêmes
+ * identifiants que les anciennes scènes `dialogue` qu'elles remplacent) posent
+ * respectivement 'salle1'/'salle2'/'salle3', `ch1.cour` pose 'cour'. 'arrivee' reste
+ * non lue (le parking n'a qu'un point d'apparition, pas d'entité qui déclenche dessus).
  *
- * PORTÉE DE CE FICHIER (lot 3.7a, voir la tâche du lot) : la carte et les entités
- * (identifiant, type, case, libellé) — PAS les dialogues. `dialogueId`/`startNode`
- * restent VOLONTAIREMENT VIDES : c'est le lot 3.7b qui découpe `ch1.salle1.json` /
- * `ch1.salle2.json` / `ch1.salle3.json` (déjà écrits, dialogues de scène complets) en
- * points d'entrée et les branche sur ces entités. Point d'entrée attendu par entité,
- * pour que 3.7b n'ait qu'à remplir `dialogueId`/`startNode` (noms de nœuds exacts des
- * fichiers existants, à la date de ce lot) :
+ * PORTÉE DE CE FICHIER (lot 3.7a) : la carte et les entités. Le lot 3.7b (voir
+ * `src/chapter.ts`, `src/narrative/sceneRouter.ts`) a branché `dialogueId`/`startNode`
+ * sur `ch1.salle1.json` / `ch1.salle2.json` / `ch1.salle3.json` (texte et jets inchangés,
+ * seule la mise en scène change) :
  *
- *   hall.instructeur       -> un dialogue de briefing (répartition taser/kit/outil) —
- *                              n'existe pas encore dans src/data/dialogues, à écrire.
- *   salle1.panneau-porte   -> ch1.salle1, nœud "arrivee" (piratage du panneau, jet).
- *   salle1.chien           -> ch1.salle1, nœud "chien-identifie" (Perception, tirer ou non).
+ *   hall.instructeur       -> pas de dialogue : complète l'objectif de `ch1.centre-hall`
+ *                              (briefing non écrit, hors périmètre décidé par l'orchestrateur
+ *                              pour ce lot) et fait directement avancer vers `ch1.salle1`.
+ *   salle1.panneau-porte   -> ch1.salle1, nœud "arrivee" (piratage du panneau, jet) ;
+ *                              complète l'objectif de la salle (l'entité qui termine
+ *                              l'objectif porte le dialogue, lot 3.6b).
+ *   salle1.chien           -> ch1.salle1, nœud "chien-identifie" (Perception, tirer ou non) ;
+ *                              conversation annexe (n'avance pas le routeur).
  *   salle1.otage           -> même scène que le chien, côté otage (kit de soin) — le
  *                              document ("l'otage, puis le chien") en fait un seul
  *                              enchaînement ; deux entités ici pour que le joueur
  *                              puisse cibler l'un ou l'autre du regard, même dialogue.
- *   salle2.armoire          -> ch1.salle2, nœud "choix-armoire" (forcer l'armoire, tempo).
- *   salle2.porte-nord       -> ch1.salle2, nœud "porte" (continuer sans l'armoire).
- *   salle3.ordinateur       -> ch1.salle3, nœud "choix-rester" (jets de Résistance, vidéo).
- *   salle3.porte-nord       -> ch1.salle3, nœud "sortie-rapide" (sortir vite).
- *   salle1.entree (zone)    -> narration courte (fumée, bruit de course) — le nœud
- *                              "arrivee" de ch1.salle1 porte déjà ce texte, à extraire.
- *   salle3.entree (zone)    -> narration courte (porte qui se verrouille, gaz) — nœud
- *                              "arrivee" de ch1.salle3.
+ *   salle2.armoire          -> ch1.salle2, nœud "choix-armoire" (forcer l'armoire, tempo) ;
+ *                              conversation annexe.
+ *   salle2.porte-nord       -> ch1.salle2, nœud "porte" (continuer sans l'armoire) ;
+ *                              verrouillée (`locked: true`) pour que l'interaction ouvre le
+ *                              dialogue au lieu d'un simple battant ; complète l'objectif.
+ *   salle3.ordinateur       -> ch1.salle3, nœud "choix-rester" (jets de Résistance, vidéo) ;
+ *                              conversation annexe.
+ *   salle3.porte-nord       -> ch1.salle3, nœud "sortie-rapide" (sortir vite) ; verrouillée,
+ *                              complète l'objectif.
+ *   salle1.entree/salle3.entree (zone) -> `ZoneEntity` ne porte pas de texte (pas de
+ *                              `BriefLine`/`DialogueEntry` dans `src/explore/types.ts`) :
+ *                              la narration d'entrée ("de la fumée s'infiltre...", "le gaz
+ *                              commence à envahir...") reste celle déjà portée par le nœud
+ *                              "arrivee" de chaque dialogue, jouée dès qu'on aborde le
+ *                              panneau/l'ordinateur. Les deux zones restent posées (calcul
+ *                              de la découverte de pièce, cohérence avec 09-MAPS) mais ne
+ *                              déclenchent rien de plus par elles-mêmes — décision du lot
+ *                              3.7b, pas une refonte du type `ZoneEntity`.
  *   cour.portail (zone)     -> pas un dialogue : tampon "CONTACT" + passage au mode
  *                              tactique (08-EXPLORATION.md "Passer au combat"), câblage
- *                              hors de ce fichier (lot 3.7b également).
+ *                              dans `ChapterApp.completeExploreScene` (src/chapter.ts).
  *
  * `tacticalArea` : la cour (voir ci-dessus). Le reste du lieu n'a pas de combat propre.
  */
@@ -256,6 +268,12 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 19, y: 48 }, // sur la case de la porte hall <-> salle 1
     label: 'Pirater le panneau de la porte',
     condition: etape('salle1'),
+    // Complète l'objectif de la salle (lot 3.7b, voir CHAPTER_1_SCENES "ch1.salle1") : joue
+    // ch1.salle1 depuis son tout début (arrivée, piratage, chien) si rien d'autre n'a encore
+    // été déclenché dans la pièce -- sinon (chien/otage abordés en premier) une réplique brève
+    // de repli suffit, la scène a déjà tout dit (voir `openExploreConversation`, chapter.ts).
+    dialogueId: 'ch1.salle1',
+    startNode: 'arrivee',
   },
   {
     id: 'salle1.chien',
@@ -263,6 +281,10 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 17, y: 43 },
     label: 'Regarder le chien',
     condition: etape('salle1'),
+    // Même dialogue que le panneau, entrée plus tardive (voir en-tête : deux entités, une seule
+    // scène) -- conversation annexe, n'avance PAS le routeur (ce n'est pas le completionTrigger).
+    dialogueId: 'ch1.salle1',
+    startNode: 'chien-identifie',
   },
   {
     id: 'salle1.otage',
@@ -270,6 +292,8 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 22, y: 43 },
     label: "Parler à l'otage",
     condition: etape('salle1'),
+    dialogueId: 'ch1.salle1',
+    startNode: 'chien-identifie',
   },
 
   // -- Salle 2 — le choix coûteux (étape 'salle2') -----------------------
@@ -279,6 +303,9 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 15, y: 34 },
     label: "Forcer l'armoire sécurisée",
     condition: etape('salle2'),
+    // Détour facultatif ("le choix coûteux") : conversation annexe, n'avance pas le routeur.
+    dialogueId: 'ch1.salle2',
+    startNode: 'choix-armoire',
   },
   {
     id: 'salle2.porte-nord',
@@ -286,6 +313,14 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 19, y: 30 },
     label: 'Franchir la porte nord',
     condition: etape('salle2'),
+    // Verrouillée par défaut (boîtier électronique, voir ch1.salle2.json "porte") : c'est ce qui
+    // fait apparaître le dialogue au lieu d'un simple battant qui s'ouvre (ExploreState.computeOutcome,
+    // cas 'door'). Complète l'objectif de la salle -- `chapter.ts` déverrouille la porte pour de
+    // bon une fois la conversation terminée (`forceDoorOpen`, sans quoi le passage vers la salle 3
+    // resterait physiquement bloqué malgré la scène déjà jouée).
+    locked: true,
+    dialogueId: 'ch1.salle2',
+    startNode: 'porte',
   },
 
   // -- Salle 3 — le gaz et la vidéo (étape 'salle3') ----------------------
@@ -302,6 +337,9 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 17, y: 25 },
     label: "Utiliser l'ordinateur",
     condition: etape('salle3'),
+    // Détour facultatif ("rester malgré le gaz") : conversation annexe, n'avance pas le routeur.
+    dialogueId: 'ch1.salle3',
+    startNode: 'choix-rester',
   },
   {
     id: 'salle3.porte-nord',
@@ -309,6 +347,11 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 19, y: 21 },
     label: 'Franchir la porte nord',
     condition: etape('salle3'),
+    // Même mécanique que salle2.porte-nord ci-dessus (verrouillée -> dialogue -> déverrouillée
+    // pour de bon par `chapter.ts`). Complète l'objectif de la salle.
+    locked: true,
+    dialogueId: 'ch1.salle3',
+    startNode: 'sortie-rapide',
   },
 
   // -- Cour de containers (étape 'cour') ----------------------------------

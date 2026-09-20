@@ -71,3 +71,4 @@ aucune conversation à retrouver.
 | [0013](process/adr/0013-exploration-temps-reel-sur-grille.md) | Exploration en temps réel sur la grille, sans moteur physique (remplace 0007) |
 | [0014](process/adr/0014-tirage-franklyn-capitaine-equipes-dynamiques.md) | Le tirage : Franklyn capitaine, équipes composées par le joueur |
 | [0015](process/adr/0015-concentration-chance-et-triche.md) | Concentration, Chance et triche à l'examen |
+| [0016](process/adr/0016-vue-tactique-ecran-separe.md) | Le passage au combat reste une coupure vers un écran tactique séparé |
