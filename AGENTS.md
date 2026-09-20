@@ -86,7 +86,8 @@ Détail et justification : [`docs/process/ARCHITECTURE.md`](docs/process/ARCHITE
   même commit** que le code.
 - **Pas de refonte silencieuse.** Un changement d'architecture passe par un ADR.
 - **Tout comportement de règle nouveau s'accompagne d'un test unitaire.** Les tests
-  vivent dans `tests/unit/` et sont écrits en français.
+  vivent dans `tests/unit/` et sont écrits en français. Un test se justifie par ce qu'il
+  attrape — voir « L'économie des tests » ci-dessous.
 - **L'API `window.__game` est un contrat public** : toute évolution se répercute dans
   `docs/process/DEBUG_API.md` et dans `tests/e2e/debug-api.d.ts`.
 - **Ne jamais committer de clé, de token ou de secret.** Rien de ce genre n'est nécessaire
@@ -98,6 +99,47 @@ Détail et justification : [`docs/process/ARCHITECTURE.md`](docs/process/ARCHITE
   graphique et que les briefs de `docs/art/image-generation/` les référencent par chemin.
   Elles ne sont ni servies ni importées par le jeu. Les masters générés, eux, restent hors
   dépôt (`art-masters/`).
+
+### L'économie des tests
+
+Vérifier est indispensable ; ce projet doit plusieurs vrais défauts à une vérification
+faite pour de bon plutôt qu'à un rapport optimiste. Mais **un test a un coût** : à écrire,
+à lire, à maintenir quand le code bouge — et, pour tout ce qui passe par un navigateur, un
+coût en temps et en jetons qui se paie sur le budget de la session. Le bon réflexe n'est
+donc pas « le plus de tests possible », c'est **le test qui attrape le plus pour ce qu'il
+coûte**.
+
+**Règle générale** : un test qui ne peut pas échouer pour une raison réaliste est à
+supprimer. Il ne prouve rien et il faudra le réparer au prochain remaniement.
+
+**Tests unitaires** (`tests/unit/`, Vitest) — le meilleur rapport, à privilégier :
+
+- Un test par **comportement de règle**, pas un par fonction. Dix tests qui déclinent le
+  même mécanisme valent moins qu'un seul qui balaie ses cas dans une table.
+- Ne pas tester ce que le typage garantit déjà, ni retester le moteur depuis un test de
+  contenu : le contenu se teste sur **ce qu'il produit** (une étiquette posée, une
+  composition qui ne bloque pas), pas sur la mécanique qui le porte.
+- Les tests qui gardent une propriété globale — pas de cul-de-sac, vocabulaire fermé
+  respecté, toutes les compositions jouables — valent plusieurs tests ponctuels : ils
+  attrapent ce que personne n'a pensé à vérifier.
+
+**Vérification au navigateur** (captures d'écran pendant un lot) — de loin la plus chère,
+donc la plus à cadrer :
+
+- **Ne pas capturer pour vérifier une logique.** L'état du jeu se lit par l'API de debug
+  (`window.__game`, [`docs/process/DEBUG_API.md`](docs/process/DEBUG_API.md)) ou en
+  déroulant les données dans Node : c'est immédiat, exact et quasi gratuit. Une capture
+  d'écran ne sert qu'à juger **ce que seul l'œil juge** : mise en page, lisibilité,
+  couleur, cadrage, rendu 3D.
+- **Une manche de captures par lot**, sur les quelques vues décisives, pas une capture à
+  chaque itération. Corriger d'abord, capturer ensuite.
+- Préférer, quand c'est possible, la lecture du texte de la page ou une assertion sur le
+  DOM à une image : même certitude, coût sans commune mesure.
+
+**Tests de bout en bout** (`tests/e2e/`, Playwright) — réservés aux **parcours complets**
+qui prouvent que le jeu est jouable (le chapitre s'enchaîne, une partie se termine et
+produit une note), jamais une spécification par bouton. Une douzaine de scénarios est le
+bon ordre de grandeur ; au-delà, c'est que des tests unitaires auraient fait le travail.
 
 ## 7. Le vocabulaire du projet
 
