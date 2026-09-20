@@ -57,9 +57,23 @@ export interface SceneDef {
 /**
  * Valeurs du drapeau `ch1.etape` (chapitre 1 uniquement -- un futur chapitre
  * aurait son propre drapeau). Source de verite unique : `src/data/maps/holt.ts`
- * ne fait que LIRE ce type via `condition` sur ses entites.
+ * et `src/data/maps/centre-examen.ts` ne font que LIRE ce type via `condition`
+ * sur leurs entites -- les six premieres valeurs pour l'academie HOLT, les six
+ * suivantes pour le centre d'examen (docs/design/09-MAPS-CHAPTER-1.md).
  */
-export type Ch1Etape = 'reveil' | 'discours' | 'examen' | 'tirage' | 'temps-libre' | 'depart';
+export type Ch1Etape =
+  | 'reveil'
+  | 'discours'
+  | 'examen'
+  | 'tirage'
+  | 'temps-libre'
+  | 'depart'
+  | 'arrivee'
+  | 'hall'
+  | 'salle1'
+  | 'salle2'
+  | 'salle3'
+  | 'cour';
 
 /** Nom du drapeau de `RunState.flags` qui porte l'etape courante du chapitre 1. */
 export const CH1_ETAPE_FLAG = 'ch1.etape';

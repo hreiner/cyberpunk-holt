@@ -1,0 +1,155 @@
+/**
+ * Carte du centre d'examen désaffecté (epic 3, lot 3.7a) — voir
+ * docs/design/09-MAPS-CHAPTER-1.md "Le centre d'examen désaffecté".
+ */
+
+import { describe, expect, it } from 'vitest';
+import { ExploreMap, YARD_SIZE, findPath, validateMap } from '@/explore';
+import type { EntityType } from '@/explore';
+import { CENTRE_EXAMEN_MAP } from '@/data/maps/centre-examen';
+import { YARD_MAP_ASCII } from '@/data/yard-map';
+import { getMap, MAPS } from '@/data/maps';
+
+describe('carte du centre d’examen désaffecté', () => {
+  it('est valide (voir la liste des erreurs en cas d’échec)', () => {
+    const result = validateMap(CENTRE_EXAMEN_MAP);
+    expect(result.errors, result.errors.join('\n')).toEqual([]);
+    expect(result.ok).toBe(true);
+  });
+
+  it('est rectangulaire, toutes les lignes de la même largeur', () => {
+    const widths = new Set(CENTRE_EXAMEN_MAP.ascii.map((row) => row.length));
+    expect(widths.size).toBe(1);
+  });
+
+  it('a une taille proche de la cible du design (environ 40 x 70)', () => {
+    const width = CENTRE_EXAMEN_MAP.ascii[0]?.length ?? 0;
+    const height = CENTRE_EXAMEN_MAP.ascii.length;
+    expect(width).toBeGreaterThanOrEqual(35);
+    expect(width).toBeLessThanOrEqual(45);
+    expect(height).toBeGreaterThanOrEqual(60);
+    expect(height).toBeLessThanOrEqual(80);
+  });
+
+  it('n’utilise que les caractères de la légende commune (08-EXPLORATION / 09-MAPS)', () => {
+    const legal = new Set(['.', '#', '+', '=', 'o', 'T', '~', ' ']);
+    for (const row of CENTRE_EXAMEN_MAP.ascii) {
+      for (const ch of row) {
+        expect(legal.has(ch), `caractère inconnu "${ch}"`).toBe(true);
+      }
+    }
+  });
+
+  /**
+   * LA propriété qui compte (contrat du lot 3.7a) : le rectangle `tacticalArea`
+   * doit correspondre CASE POUR CASE à `yard-map.ts`, décalé de son origine — sans
+   * quoi le décor exploré et le terrain que le moteur de combat calcule divergent.
+   * La légende diffère (yard : `#`/`o`/`m`/`B`/`R` ; exploration : `#`/`o`/`.` — voir
+   * l'en-tête de centre-examen.ts) : la correspondance porte donc sur la NATURE de
+   * la case (franchissable ou non, bloque la vue ou non), pas sur l'identité du
+   * caractère, sauf pour `#`/`o` qui ont le même sens dans les deux légendes.
+   */
+  it('a un rectangle tacticalArea identique à yard-map.ts, case pour case (décalé de l’origine)', () => {
+    expect(CENTRE_EXAMEN_MAP.tacticalArea).toBeDefined();
+    const { origin, mapId } = CENTRE_EXAMEN_MAP.tacticalArea!;
+    expect(mapId).toBe('yard');
+    expect(YARD_MAP_ASCII.length).toBe(YARD_SIZE.height);
+    expect(YARD_MAP_ASCII[0]?.length).toBe(YARD_SIZE.width);
+
+    const yardCharToExplore = (ch: string): string => {
+      if (ch === '#' || ch === 'o') return ch;
+      if (ch === '.' || ch === 'm' || ch === 'B' || ch === 'R') return '.';
+      throw new Error(`caractère yard inconnu "${ch}"`);
+    };
+
+    for (let y = 0; y < YARD_MAP_ASCII.length; y++) {
+      const yardRow = YARD_MAP_ASCII[y] as string;
+      for (let x = 0; x < yardRow.length; x++) {
+        const expected = yardCharToExplore(yardRow[x] as string);
+        const actualRow = CENTRE_EXAMEN_MAP.ascii[origin.y + y] as string;
+        const actual = actualRow[origin.x + x];
+        expect(
+          actual,
+          `case (${x},${y}) de la cour (yard "${yardRow[x]}") -> (${origin.x + x},${origin.y + y}) du centre d'examen : attendu "${expected}", trouvé "${actual}"`,
+        ).toBe(expected);
+      }
+    }
+  });
+
+  it('a des identifiants d’entités et de pièces uniques', () => {
+    const ids = CENTRE_EXAMEN_MAP.entities.map((e) => e.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    const roomIds = CENTRE_EXAMEN_MAP.rooms.map((r) => r.id);
+    expect(new Set(roomIds).size).toBe(roomIds.length);
+  });
+
+  /** Table "Les salles deviennent des lieux" de 09-MAPS-CHAPTER-1.md. */
+  const expected: Array<{ id: string; type: EntityType }> = [
+    { id: 'hall.instructeur', type: 'npc' },
+    { id: 'salle1.entree', type: 'zone' },
+    { id: 'salle1.panneau-porte', type: 'object' },
+    { id: 'salle1.chien', type: 'npc' },
+    { id: 'salle1.otage', type: 'npc' },
+    { id: 'salle2.armoire', type: 'object' },
+    { id: 'salle2.porte-nord', type: 'door' },
+    { id: 'salle3.entree', type: 'zone' },
+    { id: 'salle3.ordinateur', type: 'object' },
+    { id: 'salle3.porte-nord', type: 'door' },
+    { id: 'cour.portail', type: 'zone' },
+  ];
+
+  it.each(expected)('l’entité du déroulé "$id" existe, avec le bon type', ({ id, type }) => {
+    const entity = CENTRE_EXAMEN_MAP.entities.find((e) => e.id === id);
+    expect(entity, `entité "${id}" introuvable`).toBeDefined();
+    expect(entity?.type).toBe(type);
+  });
+
+  it('n’a encore aucun dialogueId branché : le lot 3.7a pose les entités, pas les dialogues', () => {
+    const withDialogue = CENTRE_EXAMEN_MAP.entities.filter((e) => 'dialogueId' in e && !!e.dialogueId);
+    expect(withDialogue).toEqual([]);
+  });
+
+  /**
+   * Propriété de non-blocage (08-EXPLORATION.md) : toute case d'interaction est
+   * atteignable depuis le point d'apparition du parking. `validateMap` le vérifie
+   * déjà pour toutes les entités ; ce test explicite en plus la chaîne du déroulé
+   * (parking -> hall -> salle 1 -> salle 2 -> salle 3 -> cour) demandée par le lot.
+   */
+  it('relie le parking au hall, aux trois salles puis à la cour', () => {
+    const map = new ExploreMap(CENTRE_EXAMEN_MAP);
+    const isWalkable = (c: { x: number; y: number }) => map.isWalkable(c);
+    const start = CENTRE_EXAMEN_MAP.spawns['parking'];
+    expect(start).toBeDefined();
+    if (!start) return;
+
+    const checkpoints: Array<[string, { x: number; y: number } | undefined]> = [
+      ['hall.instructeur', CENTRE_EXAMEN_MAP.entities.find((e) => e.id === 'hall.instructeur')?.cell],
+      ['salle1.panneau-porte', CENTRE_EXAMEN_MAP.entities.find((e) => e.id === 'salle1.panneau-porte')?.cell],
+      ['salle2.armoire', CENTRE_EXAMEN_MAP.entities.find((e) => e.id === 'salle2.armoire')?.cell],
+      ['salle3.ordinateur', CENTRE_EXAMEN_MAP.entities.find((e) => e.id === 'salle3.ordinateur')?.cell],
+      [
+        'cour (spawn)',
+        CENTRE_EXAMEN_MAP.spawns['cour'],
+      ],
+    ];
+    for (const [label, target] of checkpoints) {
+      expect(target, `case cible manquante pour "${label}"`).toBeDefined();
+      if (!target) continue;
+      const path = findPath(map, start, target, isWalkable);
+      expect(path, `pas de chemin de (${start.x},${start.y}) à "${label}" (${target.x},${target.y})`).not.toBeNull();
+      const arrival = path?.at(-1);
+      expect(arrival).toBeDefined();
+      if (arrival) {
+        const dist = Math.max(Math.abs(arrival.x - target.x), Math.abs(arrival.y - target.y));
+        expect(dist, `arrivée trop loin de "${label}"`).toBeLessThanOrEqual(1);
+      }
+    }
+  });
+});
+
+describe('registre des cartes (src/data/maps/index.ts)', () => {
+  it('contient la carte centre-examen', () => {
+    expect(MAPS['centre-examen']).toBe(CENTRE_EXAMEN_MAP);
+    expect(getMap('centre-examen')).toBe(CENTRE_EXAMEN_MAP);
+  });
+});

@@ -90,12 +90,24 @@ Tout ce qui réagit dans une carte est une **entité** déclarée dans les donn�
 | `object` | un dialogue court, souvent un jet | l'armoire sécurisée, l'ordinateur de la salle 3, un panneau de porte |
 | `seat` | une scène, en s'asseyant | le pupitre de Franklyn, sa place au réfectoire |
 | `door` | ouverture, ou un dialogue si verrouillée | portes des salles, portail de la cour |
-| `exit` | changement de lieu | le fourgon au garage, l'entrée du bâtiment |
+| `exit` | changement de lieu | (voir la note ci-dessous — aucune carte du chapitre 1 ne s'en sert) |
 | `zone` | invisible, se déclenche **une fois** en y entrant | l'entrée de la salle 3 (le gaz), l'arrivée dans la cour de containers |
 
 Chaque entité peut porter une **condition** (format `Condition` des dialogues) : un cadet
 n'est au réfectoire qu'avant le discours, la porte du garage ne s'ouvre qu'une fois
 l'objectif atteint. Même vocabulaire que les dialogues, aucun langage de plus.
+
+**`exit` : au format, pas en usage (décision du lot 3.7a).** Le chapitre 1 n'a que deux
+lieux (l'académie, le centre d'examen) et le passage de l'un à l'autre se fait **à la
+frontière d'une scène** : une scène d'exploration déclare son `mapId`
+(`SceneDef.mapId`) ; quand il diffère de celui de la scène précédente, `ChapterApp`
+traite l'entrée comme une entrée à froid et applique le `spawn` de la scène — la règle
+existe depuis le lot 3.6b (`enterExploreScene`/`buildExploreWorld` dans `src/chapter.ts`).
+Une entité `exit` n'est donc jamais nécessaire pour le chapitre 1 : le type reste défini
+dans `ExploreState`/`MapDef` (utilisé par le banc d'essai `src/dev/exploreLab.ts`, format
+partagé), mais `chapter.ts` traite l'issue `change-map` d'une interaction comme un
+no-op explicite — pas une case grisée « à venir », un cas qui ne se produit simplement
+jamais sur les cartes de ce chapitre.
 
 ### Répliques brèves
 

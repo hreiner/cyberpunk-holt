@@ -25,15 +25,18 @@ import { ObjectiveHud } from '@/ui/objectiveHud';
 import { BriefLineView } from '@/ui/briefLine';
 import { EXPLORE_LAB_MAP } from './exploreLabMap';
 import { HOLT_MAP } from '@/data/maps/holt';
+import { CENTRE_EXAMEN_MAP } from '@/data/maps/centre-examen';
 
 /**
- * Carte affichée : `?map=holt` pour l'académie HOLT (lot 3.6a), sinon la carte de
- * démonstration par défaut (comportement inchangé). Seule concession du lot 3.6a à ce
- * fichier — le reste du harnais (objectif, tirage du concierge/banc/fourgon) reste celui
- * de la carte de démo et n'a de sens que pour elle, voir `buildScene()` plus bas.
+ * Carte affichée : `?map=holt` pour l'académie HOLT (lot 3.6a), `?map=centre-examen`
+ * pour le centre d'examen désaffecté (lot 3.7a), sinon la carte de démonstration par
+ * défaut (comportement inchangé). Seule concession de ces lots à ce fichier — le reste
+ * du harnais (objectif, tirage du concierge/banc/fourgon) reste celui de la carte de
+ * démo et n'a de sens que pour elle, voir `buildScene()` plus bas.
  */
+const MAP_PARAM = new URLSearchParams(window.location.search).get('map');
 const ACTIVE_MAP: MapDef =
-  new URLSearchParams(window.location.search).get('map') === 'holt' ? HOLT_MAP : EXPLORE_LAB_MAP;
+  MAP_PARAM === 'holt' ? HOLT_MAP : MAP_PARAM === 'centre-examen' ? CENTRE_EXAMEN_MAP : EXPLORE_LAB_MAP;
 
 const viewport = document.getElementById('explore-lab-viewport') as HTMLElement;
 const canvas = document.getElementById('explore-lab-canvas') as HTMLCanvasElement;

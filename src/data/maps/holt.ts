@@ -24,7 +24,8 @@
  * étape donnée. Seules trois étapes sont aujourd'hui posées par une scène
  * `explore` (`reveil`, `examen`, `temps-libre` -- voir CHAPTER_1_SCENES) :
  * 'discours', 'tirage' et 'depart' restent réservées (scènes `dialogue` sur
- * place, ou lot 3.7 pour le centre d'examen), sans entité qui les lise ici.
+ * place, ou le centre d'examen -- `src/data/maps/centre-examen.ts`, lot 3.7),
+ * sans entité qui les lise ici.
  *
  * L'aile ouest (seconde génération, 6-12 ans) est hors carte : une porte
  * verrouillée dans le mur ouest du couloir ouest (`corridor-ouest.acces-
@@ -477,22 +478,12 @@ const ENTITIES: EntityDef[] = [
     label: 'Monter dans le fourgon',
     // Trigger de fin d'objectif de la scène `ch1.hub` (CHAPTER_1_SCENES,
     // etape 'temps-libre') : doit être actif pendant CETTE étape, pas
-    // 'depart' (qui n'est posée par aucune scène tant que le centre d'examen
-    // -- lot 3.7 -- n'est pas exploré sur cette carte).
+    // 'depart' (qui n'est posée par aucune scène : le passage à l'académie ->
+    // centre d'examen se fait à la frontière de scène, pas par une entité
+    // `exit` -- voir 08-EXPLORATION.md et la note de `chapter.ts` sur
+    // `handleExploreInteraction`, cas `change-map`. Câblage de la scène
+    // suivante, lot 3.7b).
     condition: etape('temps-libre'),
-  },
-  {
-    id: 'garage.sortie',
-    type: 'exit',
-    cell: { x: 38, y: 60 },
-    targetMapId: 'centre-examen',
-    targetSpawn: 'arrivee',
-    label: "Rejoindre le centre d'examen",
-    // Volontairement dormante ce lot (3.6b) : aucune scène ne pose encore
-    // 'depart', et la carte `centre-examen` elle-même n'existe pas avant le
-    // lot 3.7 -- le départ réel passe par `garage.fourgon` (dialogue
-    // `ch1.fourgon`), pas par cette sortie.
-    condition: etape('depart'),
   },
 ];
 

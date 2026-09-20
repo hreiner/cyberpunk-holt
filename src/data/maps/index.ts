@@ -3,15 +3,18 @@
  * fichier `src/data/maps/<id>.ts` et une entrée ci-dessous — même principe
  * que `src/data/dialogues/registry.ts`.
  *
- * Aujourd'hui : seulement l'académie HOLT (lot 3.6a). Le centre d'examen
- * arrive au lot 3.7 (docs/design/09-MAPS-CHAPTER-1.md).
+ * L'académie HOLT (lot 3.6a) et le centre d'examen désaffecté (lot 3.7a,
+ * docs/design/09-MAPS-CHAPTER-1.md — entités posées, dialogues branchés au
+ * lot 3.7b).
  */
 
 import type { MapDef } from '@/explore';
 import { HOLT_MAP } from './holt';
+import { CENTRE_EXAMEN_MAP } from './centre-examen';
 
 export const MAPS: Record<string, MapDef> = {
   holt: HOLT_MAP,
+  'centre-examen': CENTRE_EXAMEN_MAP,
 };
 
 /** Carte par identifiant, ou erreur explicite en français si l'identifiant est inconnu. */

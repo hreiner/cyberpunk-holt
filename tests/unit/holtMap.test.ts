@@ -64,7 +64,6 @@ describe('carte de l’académie HOLT', () => {
   const expected: Array<{ id: string; type: EntityType; dialogueId?: string }> = [
     { id: 'cantine.place-franklyn', type: 'seat', dialogueId: 'ch1.discours' },
     { id: 'entrainement.pupitre-franklyn', type: 'seat', dialogueId: 'ch1.exam' },
-    { id: 'garage.sortie', type: 'exit' },
     { id: 'garage.fourgon', type: 'object', dialogueId: 'ch1.fourgon' },
     { id: 'infirmerie.abigail', type: 'npc', dialogueId: 'ch1.hub.abigail' },
     { id: 'armurerie.john', type: 'npc', dialogueId: 'ch1.hub.john' },
@@ -127,7 +126,7 @@ describe('carte de l’académie HOLT', () => {
     const checkpoints = [
       HOLT_MAP.entities.find((e) => e.id === 'cantine.place-franklyn')?.cell,
       HOLT_MAP.entities.find((e) => e.id === 'entrainement.pupitre-franklyn')?.cell,
-      HOLT_MAP.entities.find((e) => e.id === 'garage.sortie')?.cell,
+      HOLT_MAP.entities.find((e) => e.id === 'garage.fourgon')?.cell,
     ];
     for (const target of checkpoints) {
       expect(target).toBeDefined();

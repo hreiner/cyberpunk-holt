@@ -1138,9 +1138,14 @@ export class ChapterApp {
         if (outcome.line) this.playExploreBriefLine(outcome.entityId, outcome.line);
         break;
       case 'change-map':
-        // Hors perimetre du chapitre 1 (le centre d'examen n'existe pas avant le lot 3.7) :
-        // on journalise plutot que de planter sur une carte introuvable.
-        console.warn(`ChapterApp (exploration) : changement de carte vers "${outcome.targetMapId}" non gere (lot 3.7).`);
+        // Volontairement un no-op : le chapitre 1 change de lieu A LA FRONTIERE D'UNE
+        // SCENE (`SceneDef.mapId` differe de la scene precedente -> entree a froid,
+        // voir `enterExploreScene`/`buildExploreWorld` plus haut), jamais via une entite
+        // `exit` -- decision du lot 3.7a (08-EXPLORATION.md "Les objets du monde").
+        // Le type `exit` reste au format (utilise par le banc d'essai `src/dev/exploreLab.ts`),
+        // mais aucune carte du chapitre 1 n'en pose : ce cas ne se produit donc jamais en
+        // jeu. Pas de `console.warn` ici : un avertissement sur un chemin qui ne s'emprunte
+        // jamais ressemble a un bug qu'on aurait laisse trainer, ce n'en est pas un.
         break;
       case 'zone-trigger':
       case 'none':
