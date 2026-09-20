@@ -14,7 +14,7 @@
  */
 
 import { DIRECTIONS, posKey } from '@/tactical/grid';
-import type { Cell, ExploreCellKind, MapDef } from './types';
+import type { Cell, ExploreCellKind, MapDef, RoomDef } from './types';
 
 const CHAR_TO_KIND: Record<string, ExploreCellKind> = {
   '.': 'floor',
@@ -171,4 +171,14 @@ export function inRect(p: Cell, rect: { origin: Cell; width: number; height: num
     p.x < rect.origin.x + rect.width &&
     p.y < rect.origin.y + rect.height
   );
+}
+
+/**
+ * Pièce (`MapDef.rooms`) contenant `cell`, ou `undefined` si elle est dans un couloir ou un
+ * extérieur (08-EXPLORATION.md "La découverte des lieux" : "les couloirs et les extérieurs ne
+ * sont pas des pièces"). Les rectangles de pièces ne se chevauchent pas (carte valide), donc au
+ * plus une correspondance.
+ */
+export function roomAt(def: MapDef, cell: Cell): RoomDef | undefined {
+  return def.rooms.find((r) => inRect(cell, r.rect));
 }

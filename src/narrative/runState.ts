@@ -62,6 +62,13 @@ export interface RunState {
   luck: number;
   /** Identifiants des repliques radio deja entendues. */
   heardRadio: string[];
+  /**
+   * Pieces d'exploration decouvertes, tous lieux confondus (08-EXPLORATION.md "La decouverte
+   * des lieux"). Cle composite "mapId:roomId" (`roomKey`) -- un identifiant de piece n'est
+   * unique qu'au sein d'une carte, deux cartes peuvent reutiliser le meme `RoomDef.id`. Survit
+   * au rechargement : voir `discoverRoom`/`discoveredRoomIdsForMap`.
+   */
+  discoveredRooms: string[];
   seed: string;
 }
 
@@ -74,6 +81,7 @@ export function createRunState(seed: string): RunState {
     roster: defaultRoster(),
     luck: INITIAL_LUCK,
     heardRadio: [],
+    discoveredRooms: [],
     seed,
   };
 }
@@ -98,6 +106,9 @@ export function migrateRunState(raw: unknown, seed: string): RunState {
     heardRadio: Array.isArray(candidate.heardRadio)
       ? candidate.heardRadio.filter((id): id is string => typeof id === 'string')
       : base.heardRadio,
+    discoveredRooms: Array.isArray(candidate.discoveredRooms)
+      ? candidate.discoveredRooms.filter((id): id is string => typeof id === 'string')
+      : base.discoveredRooms,
     seed,
   };
 }
@@ -166,4 +177,35 @@ export function applyTeamEffect(run: RunState, team: TeamId, effect: ResolvedTea
   }
 
   return { ...run, teams: { ...run.teams, [team]: next } };
+}
+
+/** Cle composite d'une piece decouverte : un `RoomDef.id` n'est unique qu'au sein d'une carte. */
+function roomKey(mapId: string, roomId: string): string {
+  return `${mapId}:${roomId}`;
+}
+
+/**
+ * Marque une piece decouverte (08-EXPLORATION.md "La decouverte des lieux") ; sans effet si
+ * elle l'est deja (jamais de doublon). Appele quand `ExploreState` signale un evenement
+ * `room-discovered` (`src/chapter.ts`), a persister immediatement (pas seulement a la fin de
+ * l'etape) : "recharger une partie ne re-cache pas des pieces deja visitees".
+ */
+export function discoverRoom(run: RunState, mapId: string, roomId: string): RunState {
+  const key = roomKey(mapId, roomId);
+  if (run.discoveredRooms.includes(key)) return run;
+  return { ...run, discoveredRooms: [...run.discoveredRooms, key] };
+}
+
+export function isRoomDiscovered(run: RunState, mapId: string, roomId: string): boolean {
+  return run.discoveredRooms.includes(roomKey(mapId, roomId));
+}
+
+/**
+ * Identifiants de pieces (`RoomDef.id`, sans le prefixe de carte) deja decouvertes pour
+ * `mapId` -- exactement ce qu'attend `ExploreStateOptions.discoveredRooms` a la construction
+ * d'un `ExploreState` (entree a froid : nouvelle partie, reprise de sauvegarde, `?scene=`).
+ */
+export function discoveredRoomIdsForMap(run: RunState, mapId: string): string[] {
+  const prefix = `${mapId}:`;
+  return run.discoveredRooms.filter((key) => key.startsWith(prefix)).map((key) => key.slice(prefix.length));
 }

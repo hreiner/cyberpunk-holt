@@ -28,6 +28,8 @@ import {
   applyDraftResult,
   createDraftState,
   createRunState,
+  discoverRoom,
+  discoveredRoomIdsForMap,
   exploreFollowerIds,
   markHeard,
   migrateRunState,
@@ -50,7 +52,15 @@ import type {
   SceneKind,
 } from '@/narrative';
 import { ExploreState } from '@/explore';
-import type { Cell, EntityDef, ExploreDebugSnapshot, ExploreEvent, InteractOutcome, MapDef } from '@/explore';
+import type {
+  Cell,
+  EntityDef,
+  ExploreDebugSnapshot,
+  ExploreEvent,
+  InteractableInfo,
+  InteractOutcome,
+  MapDef,
+} from '@/explore';
 import { getMap } from '@/data/maps';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_1_RADIO } from '@/data/radio';
@@ -809,6 +819,7 @@ export class ChapterApp {
     this.syncExploreFollowerRigs(followerIds);
     this.exploreState?.setObjective(scene.objective ?? null);
     this.exploreView?.setPingTarget(this.objectiveTargetCell(scene));
+    this.syncExploreVisibility();
 
     this.setActiveHost('explore'); // -> resumeExplore()
     this.centerCameraOnLeader();
@@ -843,6 +854,7 @@ export class ChapterApp {
     this.exploreState = new ExploreState(mapDef, this.ctx, {
       spawn: scene.spawn,
       followerIds: exploreFollowerIds(this.ctx.run),
+      discoveredRooms: discoveredRoomIdsForMap(this.ctx.run, mapDef.id),
     });
 
     if (!this.exploreRenderer || !this.exploreCanvas) {
@@ -868,6 +880,27 @@ export class ChapterApp {
     this.exploreView.updateRigPosition('leader', this.exploreState.leaderCell(), false, 0);
     this.exploreView.centerOn(this.exploreState.leaderCell());
     this.exploreRenderer.setSize(this.exploreHost.clientWidth, this.exploreHost.clientHeight, false);
+    // Avant la première frame : évite un flash "tout caché" (la vue part pessimiste, voir
+    // `ExploreView.buildRoomFloors`/`registerVisualEntity`) le temps que la boucle démarre.
+    this.syncExploreVisibility();
+  }
+
+  /**
+   * Pousse vers le rendu ce qui est actuellement visible (08-EXPLORATION.md "La découverte des
+   * lieux") : entités npc/object/seat actives ET découvertes, pièces découvertes. `ExploreView`
+   * ne fait qu'obéir -- la règle vit entièrement dans `ExploreState` (pur, testable sans
+   * navigateur). Appelée une fois à l'entrée d'une étape (cold start ET reprise sur la même
+   * carte, où le contexte -- donc les entités actives -- peut changer sans reconstruire l'état)
+   * et à chaque frame utile de la boucle (la découverte évolue en cours de partie).
+   */
+  private syncExploreVisibility(interactables?: InteractableInfo[]): void {
+    if (!this.exploreState || !this.exploreView) return;
+    const list = interactables ?? this.exploreState.listInteractables();
+    const entityIds = list
+      .filter((i) => i.type === 'npc' || i.type === 'object' || i.type === 'seat')
+      .map((i) => i.id);
+    this.exploreView.setVisibleEntities(entityIds);
+    this.exploreView.setDiscoveredRooms(this.exploreState.discoveredRoomIds());
   }
 
   /** Case cible du repere "Tab maintenu" (08-EXPLORATION.md "Les objectifs") : celle du `completionTrigger`. */
@@ -1056,6 +1089,7 @@ export class ChapterApp {
 
       const interactables = state.listInteractables();
       this.exploreHud?.setInteractables(interactables.map((it) => ({ id: it.id, label: it.label, reachable: it.reachable })));
+      this.syncExploreVisibility(interactables);
       if (this.exploreHoveredEntityId) {
         const info = interactables.find((i) => i.id === this.exploreHoveredEntityId);
         if (info) this.exploreHud?.setHoverLabel(info.label, info.reachable, this.exploreLastPointerClient);
@@ -1091,6 +1125,15 @@ export class ChapterApp {
       case 'objective-task-progress':
       case 'objective-complete':
         this.exploreHud?.setObjective(this.exploreState?.objectiveStatus() ?? null);
+        break;
+      case 'room-discovered':
+        // Persisté IMMEDIATEMENT (pas seulement à la fin de l'étape, voir `persistAfterScene`) :
+        // 08-EXPLORATION.md "La découverte des lieux" -- "recharger une partie ne re-cache pas
+        // des pièces déjà visitées", y compris un rechargement en plein milieu d'une étape.
+        if (this.exploreMapDef) {
+          this.ctx = { ...this.ctx, run: discoverRoom(this.ctx.run, this.exploreMapDef.id, ev.roomId) };
+          this.persistAfterScene();
+        }
         break;
       case 'arrived':
         break;

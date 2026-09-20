@@ -106,22 +106,37 @@ async function performDraft(page: Page): Promise<E2ESceneSnapshot> {
 }
 
 /**
- * Marche jusqu'a la case d'interaction de `entityId` (lue via `explore()`,
- * jamais codee en dur : les coordonnees de la carte appartiennent a
- * `src/data/maps/holt.ts`) puis le declenche -- reproduit le flot d'un clic
- * joueur (marcher, puis interagir), a la difference que `interact()` ne
- * verifie pas l'atteignabilite (voir docs/process/DEBUG_API.md).
+ * Marche jusqu'a la case d'interaction de `entityId` puis le declenche --
+ * reproduit le flot d'un clic joueur (marcher, puis interagir), a la
+ * difference que `interact()` ne verifie pas l'atteignabilite (voir
+ * docs/process/DEBUG_API.md).
+ *
+ * `roomWaypoint` : une case DANS la piece qui porte `entityId`, pour y entrer
+ * d'abord -- `explore().interactables` ne montre qu'une entite npc/object/seat
+ * DECOUVERTE (08-EXPLORATION.md "La decouverte des lieux"), exactement ce que
+ * voit un vrai joueur, donc `entityId` n'y figure pas tant que la piece n'a
+ * pas ete visitee. Coordonnees reprises d'un point d'apparition DEJA public
+ * de la carte (`SPAWNS` de `src/data/maps/holt.ts`), jamais inventees pour ce
+ * test.
  */
-async function walkAndInteract(page: Page, entityId: string): Promise<E2ESceneSnapshot> {
-  return page.evaluate((id) => {
-    const api = window.__game;
-    const snapshot = api.explore();
-    const target = snapshot?.interactables.find((i) => i.id === id);
-    if (!target) throw new Error(`interactable "${id}" introuvable dans explore().interactables`);
-    api.walkTo(target.interactionCell.x, target.interactionCell.y);
-    api.interact(id);
-    return api.scene();
-  }, entityId);
+async function walkAndInteract(
+  page: Page,
+  entityId: string,
+  roomWaypoint: { x: number; y: number },
+): Promise<E2ESceneSnapshot> {
+  return page.evaluate(
+    ({ id, waypoint }) => {
+      const api = window.__game;
+      api.walkTo(waypoint.x, waypoint.y); // entre dans la piece -> la decouvre
+      const snapshot = api.explore();
+      const target = snapshot?.interactables.find((i) => i.id === id);
+      if (!target) throw new Error(`interactable "${id}" introuvable dans explore().interactables`);
+      api.walkTo(target.interactionCell.x, target.interactionCell.y);
+      api.interact(id);
+      return api.scene();
+    },
+    { id: entityId, waypoint: roomWaypoint },
+  );
 }
 
 test('le chapitre 1 se joue de bout en bout par l’API de debug (réveil -> fourgon)', async ({ page }) => {
@@ -146,7 +161,7 @@ test('le chapitre 1 se joue de bout en bout par l’API de debug (réveil -> fou
   const leaderAtSpawn = explore?.leader;
 
   /* --- 2. Marche jusqu'à la place de la cantine, s'assoit -> ch1.discours (dialogue) --- */
-  scene = await walkAndInteract(page, 'cantine.place-franklyn');
+  scene = await walkAndInteract(page, 'cantine.place-franklyn', { x: 41, y: 15 }); // SPAWNS.cantine
   expect(scene).toMatchObject({ id: 'ch1.discours', kind: 'dialogue' });
 
   /* --- 3. Discours -> "Rejoindre les salles d'entraînement" (explore, MÊME carte) --- */
@@ -167,7 +182,7 @@ test('le chapitre 1 se joue de bout en bout par l’API de debug (réveil -> fou
   expect(canvasAfterDiscours?.height).toBeGreaterThan(0);
 
   /* --- 4. Marche jusqu'au pupitre, s'assoit -> ch1.exam (dialogue) --- */
-  scene = await walkAndInteract(page, 'entrainement.pupitre-franklyn');
+  scene = await walkAndInteract(page, 'entrainement.pupitre-franklyn', { x: 37, y: 34 }); // SPAWNS.pupitre
   expect(scene).toMatchObject({ id: 'ch1.exam', kind: 'dialogue' });
 
   /* --- 5. Examen -> tirage -> "Rejoindre le garage" (explore, étape temps-libre) --- */
@@ -204,7 +219,7 @@ test('le chapitre 1 se joue de bout en bout par l’API de debug (réveil -> fou
   expect(node, 'la conversation déjà jouée ne doit pas se rejouer').toBeNull();
 
   /* --- 7. Marche jusqu'au garage, monte dans le fourgon -> ch1.fourgon (dialogue) --- */
-  scene = await walkAndInteract(page, 'garage.fourgon');
+  scene = await walkAndInteract(page, 'garage.fourgon', { x: 37, y: 57 }); // SPAWNS.garage
   expect(scene).toMatchObject({ id: 'ch1.fourgon', kind: 'dialogue' });
 });
 

@@ -151,6 +151,8 @@ export interface E2ERunState {
   /** Chance restante de Franklyn pour le chapitre (ADR 0015 §2). */
   luck: number;
   heardRadio: string[];
+  /** Pieces d'exploration decouvertes, cle composite "mapId:roomId" (08-EXPLORATION.md "La decouverte des lieux"). */
+  discoveredRooms: string[];
   seed: string;
 }
 
@@ -218,6 +220,8 @@ export interface E2EExploreSnapshot {
   followers: E2ECell[];
   objective: E2EObjectiveStatus | null;
   interactables: E2EInteractable[];
+  /** RoomDef.id des pieces deja visitees cette partie sur cette carte (08-EXPLORATION.md "La decouverte des lieux"). */
+  discoveredRooms: string[];
 }
 
 export type E2EInteractOutcome =

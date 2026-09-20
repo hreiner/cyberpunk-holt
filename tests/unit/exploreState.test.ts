@@ -3,6 +3,7 @@ import { createDossier } from '@/core/dossier';
 import { createRunState } from '@/narrative';
 import type { NarrativeContext } from '@/narrative';
 import { ExploreState, LEADER_SPEED } from '@/explore';
+import type { MapDef } from '@/explore';
 import { CONDITIONED_MAP, SMALL_MAP } from './fixtures/exploreFixtures';
 
 function ctx(): NarrativeContext {
@@ -12,7 +13,9 @@ function ctx(): NarrativeContext {
 describe('ExploreState — mouvement', () => {
   it('marche en continu vers la case cliquée, à 4 cases/s', () => {
     const state = new ExploreState(SMALL_MAP, ctx());
-    const res = state.walkLeaderTo({ x: 2, y: 2 });
+    // (2,1) : sol libre, en ligne droite depuis le spawn (2,4) -- une case occupée par une
+    // entité est couverte séparément, voir "ExploreState — jamais sur une entité" plus bas.
+    const res = state.walkLeaderTo({ x: 2, y: 1 });
     expect(res.ok).toBe(true);
     expect(state.isMoving()).toBe(true);
 
@@ -25,10 +28,10 @@ describe('ExploreState — mouvement', () => {
 
   it('arrive exactement sur la case cible et redevient immobile', () => {
     const state = new ExploreState(SMALL_MAP, ctx());
-    state.walkLeaderTo({ x: 2, y: 2 });
+    state.walkLeaderTo({ x: 2, y: 1 });
     for (let i = 0; i < 20; i++) state.tick(200);
     expect(state.isMoving()).toBe(false);
-    expect(state.leaderCell()).toEqual({ x: 2, y: 2 });
+    expect(state.leaderCell()).toEqual({ x: 2, y: 1 });
   });
 
   it('une case inaccessible retombe sur la case franchissable la plus proche', () => {
@@ -172,13 +175,16 @@ describe('ExploreState — interactions', () => {
 
   it('un seat a sa case d’interaction SUR sa propre case (on s’assoit dessus) -- exception assumée', () => {
     const state = new ExploreState(SMALL_MAP, ctx());
+    state.walkTo(8, 2); // entre dans "roomB" (découverte pièce par pièce) : "chair" y vit.
     const chair = state.listInteractables().find((i) => i.id === 'chair');
+    expect(chair).toBeDefined();
     expect(chair?.interactionCell).toEqual(chair?.cell);
   });
 
   it('une exit a sa case d’interaction SUR sa propre case (on la franchit) -- exception assumée', () => {
     const state = new ExploreState(SMALL_MAP, ctx());
     const gate = state.listInteractables().find((i) => i.id === 'gate');
+    expect(gate).toBeDefined();
     expect(gate?.interactionCell).toEqual(gate?.cell);
   });
 
@@ -197,6 +203,145 @@ describe('ExploreState — interactions', () => {
     const near = state.interactablesNear({ x: 2, y: 2 }, 1);
     expect(near.map((i) => i.id)).toContain('guard');
     expect(near.map((i) => i.id)).not.toContain('gate');
+  });
+});
+
+describe('ExploreState — on ne marche jamais sur une entité (08-EXPLORATION.md "Contrôles")', () => {
+  it('un ordre de déplacement vers la case d’un npc aboutit à sa case d’interaction, jamais dessus', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const res = state.walkLeaderTo({ x: 2, y: 2 }); // case du npc "guard"
+    expect(res.ok).toBe(true);
+    for (let i = 0; i < 30 && state.isMoving(); i++) state.tick(150);
+    expect(state.leaderCell()).not.toEqual({ x: 2, y: 2 });
+    const dist = Math.max(Math.abs(state.leaderCell().x - 2), Math.abs(state.leaderCell().y - 2));
+    expect(dist).toBe(1); // arrêté juste à côté, pas plus loin
+  });
+
+  it('un ordre de déplacement vers la case d’un object aboutit à sa case d’interaction, jamais dessus', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const res = state.walkLeaderTo({ x: 3, y: 4 }); // case de l'objet "locker"
+    expect(res.ok).toBe(true);
+    for (let i = 0; i < 30 && state.isMoving(); i++) state.tick(150);
+    expect(state.leaderCell()).not.toEqual({ x: 3, y: 4 });
+    const dist = Math.max(Math.abs(state.leaderCell().x - 3), Math.abs(state.leaderCell().y - 4));
+    expect(dist).toBe(1);
+  });
+
+  it('un seat reste une exception assumée : un ordre de déplacement peut aboutir sur sa case', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const res = state.walkLeaderTo({ x: 8, y: 2 }); // case du seat "chair"
+    expect(res.ok).toBe(true);
+    for (let i = 0; i < 30 && state.isMoving(); i++) state.tick(150);
+    expect(state.leaderCell()).toEqual({ x: 8, y: 2 });
+  });
+
+  it('une entité d’une pièce non découverte ne dévie pas un ordre de déplacement (rien ne fuite)', () => {
+    // "chair" (seat, case (8,2)) est de toute façon exempté -- ici on vise un npc/object mis en
+    // scène dans "roomB", non découverte depuis le spawn (roomA) : le meneur doit pouvoir
+    // marcher DESSUS sans détour tant que la pièce n'a pas été visitée.
+    const map = {
+      ...SMALL_MAP,
+      id: 'test-small-hidden-object',
+      entities: [
+        ...SMALL_MAP.entities.filter((e) => e.id !== 'chair'),
+        { id: 'hiddenProp', type: 'object' as const, cell: { x: 8, y: 2 }, line: 'Un objet caché.' },
+      ],
+    };
+    const state = new ExploreState(map, ctx());
+    expect(state.listInteractables().some((i) => i.id === 'hiddenProp')).toBe(false);
+    const res = state.walkLeaderTo({ x: 8, y: 2 });
+    expect(res.ok).toBe(true);
+    for (let i = 0; i < 30 && state.isMoving(); i++) state.tick(150);
+    expect(state.leaderCell()).toEqual({ x: 8, y: 2 });
+  });
+});
+
+describe('ExploreState — la découverte des lieux (08-EXPLORATION.md "La découverte des lieux")', () => {
+  it('la pièce d’apparition est découverte d’emblée', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    expect(state.isRoomDiscovered('roomA')).toBe(true);
+    expect(state.isRoomDiscovered('roomB')).toBe(false);
+  });
+
+  it('une entité npc/object/seat d’une pièce non découverte n’apparaît ni dans les interactables ni au parcours clavier', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    // "chair" (seat) vit dans "roomB", non découverte depuis le spawn (roomA).
+    expect(state.listInteractables().some((i) => i.id === 'chair')).toBe(false);
+    // Le Tab clavier (ObjectiveHud) ne fait que parcourir listInteractables() -- une entité
+    // absente de cette liste est donc mécaniquement absente du parcours clavier aussi.
+  });
+
+  it('entrer dans une pièce la découvre, et elle le reste après en être ressorti', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    expect(state.listInteractables().some((i) => i.id === 'chair')).toBe(false);
+
+    state.walkLeaderTo({ x: 8, y: 3 }); // entre dans "roomB" (via la porte)
+    for (let i = 0; i < 30 && state.isMoving(); i++) state.tick(150);
+    expect(state.isRoomDiscovered('roomB')).toBe(true);
+    expect(state.listInteractables().some((i) => i.id === 'chair')).toBe(true);
+
+    state.walkLeaderTo({ x: 2, y: 4 }); // ressort vers "roomA"
+    for (let i = 0; i < 30 && state.isMoving(); i++) state.tick(150);
+    expect(state.isRoomDiscovered('roomB')).toBe(true); // reste découverte
+    expect(state.listInteractables().some((i) => i.id === 'chair')).toBe(true);
+  });
+
+  it('entrer dans une pièce émet un événement "room-discovered" une seule fois', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    state.walkLeaderTo({ x: 8, y: 3 });
+    let discoveries = 0;
+    for (let i = 0; i < 30; i++) {
+      discoveries += state.tick(150).filter((e) => e.kind === 'room-discovered' && e.roomId === 'roomB').length;
+    }
+    expect(discoveries).toBe(1);
+
+    // Ressortir puis rerentrer ne redéclenche pas l'événement.
+    state.walkLeaderTo({ x: 2, y: 4 });
+    for (let i = 0; i < 30; i++) state.tick(150);
+    state.walkLeaderTo({ x: 8, y: 3 });
+    let secondPass = 0;
+    for (let i = 0; i < 30; i++) {
+      secondPass += state.tick(150).filter((e) => e.kind === 'room-discovered').length;
+    }
+    expect(secondPass).toBe(0);
+  });
+
+  it('reprendre une sauvegarde avec des pièces déjà découvertes ne les re-cache pas', () => {
+    const state = new ExploreState(SMALL_MAP, ctx(), { discoveredRooms: ['roomB'] });
+    expect(state.isRoomDiscovered('roomB')).toBe(true);
+    expect(state.listInteractables().some((i) => i.id === 'chair')).toBe(true);
+  });
+
+  it('une pièce alwaysDiscovered (ex. la cour de containers) est toujours visible, sans jamais être visitée', () => {
+    const map = {
+      ...SMALL_MAP,
+      id: 'test-small-always-discovered',
+      rooms: SMALL_MAP.rooms.map((r) => (r.id === 'roomB' ? { ...r, alwaysDiscovered: true } : r)),
+    };
+    const state = new ExploreState(map, ctx());
+    expect(state.isRoomDiscovered('roomB')).toBe(true);
+    expect(state.listInteractables().some((i) => i.id === 'chair')).toBe(true);
+  });
+
+  it('les couloirs et les extérieurs (hors MapDef.rooms) sont toujours visibles', () => {
+    // Petite carte dédiée : deux pièces d'une case reliées par une case de couloir (2,2), hors
+    // de tout `RoomDef` -- exactement le cas "couloirs/extérieurs : jamais une pièce".
+    const map: MapDef = {
+      id: 'test-corridor',
+      title: 'Carte de test',
+      ascii: ['#####', '#...#', '##.##', '#...#', '#####'],
+      rooms: [
+        { id: 'roomTop', title: 'Haut', rect: { origin: { x: 1, y: 1 }, width: 3, height: 1 } },
+        { id: 'roomBottom', title: 'Bas', rect: { origin: { x: 1, y: 3 }, width: 3, height: 1 } },
+      ],
+      entities: [{ id: 'corridorNpc', type: 'npc', cell: { x: 2, y: 2 }, line: 'Un passant.' }],
+      spawns: { start: { x: 2, y: 1 } }, // dans "roomTop"
+    };
+    const state = new ExploreState(map, ctx());
+    expect(state.isRoomDiscovered('roomTop')).toBe(true); // pièce d'apparition
+    expect(state.isRoomDiscovered('roomBottom')).toBe(false);
+    // "corridorNpc" (2,2) est hors des deux `RoomDef` : toujours visible, jamais à visiter.
+    expect(state.listInteractables().some((i) => i.id === 'corridorNpc')).toBe(true);
   });
 });
 

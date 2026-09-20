@@ -24,6 +24,9 @@ export {
   bumpCounter,
   addTempo,
   applyTeamEffect,
+  discoverRoom,
+  isRoomDiscovered,
+  discoveredRoomIdsForMap,
   INITIAL_LUCK,
 } from './runState';
 

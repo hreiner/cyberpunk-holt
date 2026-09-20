@@ -27,6 +27,7 @@ export {
   sameCell,
   cellDistance,
   inRect,
+  roomAt,
   posKey,
 } from './exploreMap';
 export { computeReach, pathTo, findPath } from './pathing';

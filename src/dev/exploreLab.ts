@@ -118,9 +118,25 @@ function handleEvent(ev: ExploreEvent): void {
       log(`Objectif "${ev.objectiveId}" terminé.`);
       hud.setObjective(state.objectiveStatus());
       break;
+    case 'room-discovered':
+      log(`Pièce découverte : ${ev.roomId}`);
+      break;
     case 'arrived':
       break;
   }
+}
+
+/**
+ * Pousse vers le rendu ce qui est actuellement visible (08-EXPLORATION.md "La découverte des
+ * lieux") : mêmes deux canaux que `chapter.ts` (`syncExploreVisibility`) -- entités npc/object/
+ * seat actives ET découvertes, pièces découvertes. `ExploreView` ne fait qu'obéir.
+ */
+function syncVisibility(interactables = state.listInteractables()): void {
+  const entityIds = interactables
+    .filter((i) => i.type === 'npc' || i.type === 'object' || i.type === 'seat')
+    .map((i) => i.id);
+  view.setVisibleEntities(entityIds);
+  view.setDiscoveredRooms(state.discoveredRoomIds());
 }
 
 function buildScene(): void {
@@ -159,6 +175,7 @@ function buildScene(): void {
   // Ici, l'équivalent du "début d'une étape" qui reviendra à `chapter.ts` (lot 3.6c, portée).
   view.updateRigPosition('leader', state.leaderCell(), false, 0);
   view.centerOn(state.leaderCell());
+  syncVisibility(); // avant la première frame : évite un flash "tout caché" (la vue part pessimiste)
 
   hud = new ObjectiveHud(viewport, {
     onPingChange: (active) => view.setPingActive(active),
@@ -321,6 +338,7 @@ function frame(now: number): void {
 
   const interactables = state.listInteractables();
   hud.setInteractables(interactables.map((it) => ({ id: it.id, label: it.label, reachable: it.reachable })));
+  syncVisibility(interactables);
   if (hoveredEntityId) {
     const info = interactables.find((i) => i.id === hoveredEntityId);
     if (info) hud.setHoverLabel(info.label, info.reachable, lastPointerClient);

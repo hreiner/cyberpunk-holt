@@ -51,7 +51,7 @@ silence.
 |---|---|---|
 | `scene()` | `{ id, kind, title, finished }` | scène courante du chapitre (`kind` : `'dialogue' \| 'explore' \| 'tactical' \| 'debrief'`) |
 | `goToScene(id)` | scène | saute à une scène du chapitre (`ch1.intro`, `ch1.vers-cantine`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, ...) ; construit le `TacticalSetup` depuis le `RunState` si la cible est la scène tactique ; démarre directement sur la carte, au spawn de l'étape, si la cible est une scène `explore` (voir "Méthodes d'exploration" plus bas) |
-| `runState()` | `RunState` | drapeaux (dont `ch1.etape`, posé à l'entrée de chaque étape d'exploration — ADR 0013 §4), tempo, `TeamState` des deux équipes (matériel), `roster` (composition des équipes, ADR 0014 §7 — distinct de `teams`), `luck` (Chance restante de Franklyn, ADR 0015 §2), répliques radio déjà entendues, graine |
+| `runState()` | `RunState` | drapeaux (dont `ch1.etape`, posé à l'entrée de chaque étape d'exploration — ADR 0013 §4), tempo, `TeamState` des deux équipes (matériel), `roster` (composition des équipes, ADR 0014 §7 — distinct de `teams`), `luck` (Chance restante de Franklyn, ADR 0015 §2), répliques radio déjà entendues, pièces d'exploration découvertes (`discoveredRooms`, clé composite `"mapId:roomId"` — 08-EXPLORATION.md "La découverte des lieux"), graine |
 | `dossier()` | `Dossier` | étiquettes, affinités, entrées, note pratique une fois posée |
 | `node()` | noeud présenté, ou `null` | le noeud de dialogue affiché (scène `dialogue`, ou conversation annexe en cours pendant une scène `explore` — un cadet abordé sur la carte) ; `null` en scène tactique ou en exploration hors conversation |
 | `choose(index)` | `{ ok, reason? }` | sélectionne le choix `index` du noeud courant ; appeler `node()` ensuite pour lire le noeud à jour |
@@ -99,7 +99,7 @@ libre -> garage (`ch1.hub`). Toutes synchrones, dans l'esprit de `choose()`.
 
 | Méthode | Renvoie | Effet |
 |---|---|---|
-| `explore()` | `ExploreDebugSnapshot`, ou `null` | instantané hors de toute scène `explore` : lieu (`mapId`), case du meneur et des coéquipiers (`leader`/`followers`), objectif courant (`objective`, `null` si aucun), entités visibles et interactives (`interactables`, avec leur case, leur libellé de survol et si elles sont atteignables) |
+| `explore()` | `ExploreDebugSnapshot`, ou `null` | instantané hors de toute scène `explore` : lieu (`mapId`), case du meneur et des coéquipiers (`leader`/`followers`), objectif courant (`objective`, `null` si aucun), entités interactives actives ET découvertes (`interactables`, avec leur case, leur libellé de survol et si elles sont atteignables — un `npc`/`object`/`seat` d'une pièce pas encore visitée, 08-EXPLORATION.md "La découverte des lieux", n'y figure pas : cet instantané est un miroir fidèle de ce que le joueur perçoit, pas une vue "développeur" à part, sous peine qu'un test de bout en bout reste vert en pilotant une entité injoignable en jouant), pièces découvertes cette partie sur ce lieu (`discoveredRooms`, `RoomDef.id`) — un test qui doit atteindre une entité d'une pièce pas encore visitée y entre d'abord avec `walkTo`, exactement comme un joueur |
 | `walkTo(x, y)` | — | déplace le meneur **instantanément** vers la case franchissable la plus proche de `(x, y)` (et le groupe avec lui, en formation) ; pas d'animation, pas de vérification d'atteignabilité (contrairement à un clic joueur) |
 | `interact(entityId)` | `InteractOutcome` | déclenche l'entité `entityId` **sans marcher jusqu'à elle** (contrairement à un clic joueur, qui marche d'abord) ; si `entityId` est le `completionTrigger` de l'objectif courant, fait avancer le routeur exactement comme un clic — la scène suivante joue son dialogue (contrat "une seule règle" : l'entité qui termine l'objectif porte le `dialogueId` de la scène suivante) ; sinon, si l'entité porte un `dialogueId`, ouvre une conversation annexe (`node()` la reflète ensuite) déjà jouée cette partie -> réplique brève au lieu de rejouer le dialogue |
 | `completeStep()` | — | **réservé au développement** : termine l'objectif courant ET fait avancer le routeur, comme si son `completionTrigger` venait d'être déclenché — utile pour sauter une étape d'exploration bloquée sans en chercher le trigger exact |
@@ -117,6 +117,7 @@ interface ExploreDebugSnapshot {
     complete: boolean;
   } | null;
   interactables: {
+    // actives ET découvertes seulement (npc/object/seat d'une pièce pas encore visitée exclus)
     id: string;
     type: 'npc' | 'object' | 'seat' | 'door' | 'exit';
     cell: { x: number; y: number };
@@ -124,6 +125,7 @@ interface ExploreDebugSnapshot {
     label: string;      // verbe + cible, ex. "Parler à John"
     reachable: boolean;
   }[];
+  discoveredRooms: string[]; // RoomDef.id des pièces déjà visitées cette partie sur cette carte
 }
 ```
 

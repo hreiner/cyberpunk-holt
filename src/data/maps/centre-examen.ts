@@ -216,6 +216,10 @@ const ROOMS: RoomDef[] = [
     id: 'cour',
     title: 'Cour de containers',
     rect: { origin: TACTICAL_ORIGIN, width: 30, height: 20 },
+    // 08-EXPLORATION.md "La découverte des lieux" : "la cour de containers non plus [ne se
+    // découvre pas] — le portail est un seuil, pas une porte, et l'affrontement doit se voir
+    // venir". `RoomDef` sert ici aux murs en coupe/au titre, pas à la découverte pièce par pièce.
+    alwaysDiscovered: true,
   },
   { id: 'salle3', title: 'Salle 3 — le gaz et la vidéo', rect: { origin: { x: 14, y: 22 }, width: 12, height: 8 } },
   { id: 'salle2', title: 'Salle 2 — le choix coûteux', rect: { origin: { x: 14, y: 31 }, width: 12, height: 8 } },

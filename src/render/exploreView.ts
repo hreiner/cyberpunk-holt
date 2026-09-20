@@ -18,7 +18,7 @@
 import * as THREE from 'three';
 import type { Rng } from '@/core/rng';
 import type { CharacterSheet } from '@/rules/character';
-import { ExploreMap } from '@/explore';
+import { ExploreMap, posKey, roomAt } from '@/explore';
 import type { Cell, DoorEntity, EntityDef, MapDef, RoomDef } from '@/explore';
 import { PlaceholderRig, type CharacterRig } from './characterRig';
 import { CAMERA_DISTANCE, ISO_ELEVATION_DEG, IsoCamera } from './isoCamera';
@@ -63,6 +63,17 @@ const VEHICLE_COLOR = 0xc9863a;
 const VEHICLE_GLASS_COLOR = 0x8ea6b8;
 /** Anneau au sol du groupe du joueur : `--comm` est réservé à la radio (ART-DIRECTION.md "Couleurs"), on reprend l'accent d'interface. */
 const PARTY_RING_COLOR = 0x4cc9f0;
+
+/**
+ * Sol d'une pièce NON découverte (08-EXPLORATION.md "La découverte des lieux") : une masse
+ * sombre UNIFORME, jamais teintée par pièce ("une pièce vide et une pièce pleine doivent se
+ * ressembler tant qu'on n'y est pas entré, sinon la découverte ne cache rien") -- nettement
+ * plus sombre que `GROUND_COLOR`, mais pas un noir pur : on doit lire "masse sombre", pas "trou".
+ * Ce côté-ci n'a pas bougé au correctif du lot 3.7c (`discoveredFloorColor`) : la vérification
+ * visuelle initiale le lisait déjà bien comme une forme sombre, pas un trou -- seul le côté
+ * "découvert" manquait de punch.
+ */
+const HIDDEN_ROOM_COLOR = 0x121218;
 
 /**
  * Zoom continu (08-EXPLORATION.md "Contrôles") : bornes propres à l'exploration, distinctes
@@ -211,6 +222,24 @@ function roomFloorColor(id: string): THREE.Color {
   return out;
 }
 
+/**
+ * Sol d'une pièce DÉCOUVERTE, effectivement rendu (`buildRoomFloors`/`setDiscoveredRooms`) :
+ * `roomFloorColor(id)` relevé en luminosité, jamais sa teinte -- correctif verification visuelle
+ * du lot 3.7c. `roomFloorColor` seule (proche de `GROUND_COLOR`, § "sobre, jamais un sol
+ * arc-en-ciel") se lit à peine plus clair qu'une pièce NON découverte une fois éclairée par la
+ * scène (ombres portées, faible ambiante) : à l'écran, connu et inconnu se confondaient. La
+ * découverte doit se lire comme un ALLUMAGE, pas une nuance -- 08-EXPLORATION.md dit "nettement
+ * plus sombre" pour l'inconnu, ce qui implique la réciproque : le connu doit se lire éclairé.
+ */
+function discoveredFloorColor(id: string): THREE.Color {
+  const base = roomFloorColor(id);
+  const hsl = { h: 0, s: 0, l: 0 };
+  base.getHSL(hsl);
+  const out = new THREE.Color();
+  out.setHSL(hsl.h, THREE.MathUtils.clamp(hsl.s + 0.05, 0, 1), THREE.MathUtils.clamp(hsl.l + 0.24, 0, 0.62));
+  return out;
+}
+
 interface WallCellInfo {
   mesh: THREE.Mesh;
   topEdge: THREE.Mesh;
@@ -234,6 +263,25 @@ export class ExploreView {
   private readonly floorPlane: THREE.Mesh;
   private readonly hoverOutline: THREE.Mesh;
   private hovered: HoverTarget | null = null;
+
+  /* -- Découverte des lieux (08-EXPLORATION.md "La découverte des lieux") -- */
+
+  /** `RoomDef.id` -> sa définition, pour retrouver `alwaysDiscovered`/le titre sans re-scanner `def.rooms`. */
+  private readonly roomsById = new Map<string, RoomDef>();
+  /** `RoomDef.id` -> son plan de sol teinté (`buildRoomFloors`), dont la couleur bascule clair/sombre. */
+  private readonly roomFloors = new Map<string, THREE.Mesh>();
+  /** `RoomDef.id` -> mobilier/décor (o/T/~) DE CETTE PIÈCE (jamais alwaysDiscovered) : visibilité togglée avec la pièce. */
+  private readonly roomDecor = new Map<string, THREE.Object3D[]>();
+  /**
+   * posKey(case) -> id d'une entité npc/object/seat -- le "repli généreux" du clic/survol
+   * (08-EXPLORATION.md "Contrôles" : "toute la case d'une entité interactive est cliquable").
+   * Porte/sortie n'y figurent pas : déjà bien visées par leur volume de clic direct (voir `pick`).
+   */
+  private readonly entityCellIndex = new Map<string, string>();
+  /** id d'entité npc/object/seat -> ses parties visuelles (marqueur + repère au sol), togglées ensemble. */
+  private readonly entityVisualParts = new Map<string, THREE.Object3D[]>();
+  /** Entités npc/object/seat actuellement actives ET découvertes (nourri par `setVisibleEntities`). */
+  private visibleEntityIds = new Set<string>();
 
   private readonly rigs = new Map<string, CharacterRig>();
   private readonly lastRigPos = new Map<string, { x: number; z: number }>();
@@ -361,17 +409,23 @@ export class ExploreView {
    */
   private buildRoomFloors(): void {
     for (const room of this.def.rooms as RoomDef[]) {
+      this.roomsById.set(room.id, room);
       const { origin, width, height } = room.rect;
       const center = { x: origin.x + (width - 1) / 2, y: origin.y + (height - 1) / 2 };
       const { x: wx, z: wz } = cellToWorld(this.map, center);
+      // Pessimiste par défaut (pièce non découverte, sauf `alwaysDiscovered`) : `setDiscoveredRooms`
+      // corrige AVANT le premier rendu (appelée synchroniquement par l'appelant juste après la
+      // construction), donc jamais de flash "tout éclairé" à l'écran.
+      const initialColor = room.alwaysDiscovered ? discoveredFloorColor(room.id) : HIDDEN_ROOM_COLOR;
       const plane = new THREE.Mesh(
         new THREE.PlaneGeometry(width * EXPLORE_CELL_SIZE_METERS, height * EXPLORE_CELL_SIZE_METERS),
-        new THREE.MeshStandardMaterial({ color: roomFloorColor(room.id), roughness: 0.95 }),
+        new THREE.MeshStandardMaterial({ color: initialColor, roughness: 0.95 }),
       );
       plane.rotation.x = -Math.PI / 2;
       plane.position.set(wx, 0.006, wz);
       plane.receiveShadow = true;
       this.root.add(plane);
+      this.roomFloors.set(room.id, plane);
     }
   }
 
@@ -409,6 +463,23 @@ export class ExploreView {
     return this.def.entities.find(
       (e): e is DoorEntity => e.type === 'door' && e.cell.x === cell.x && e.cell.y === cell.y,
     );
+  }
+
+  /**
+   * Enregistre `parts` (mobilier bas/haut, végétation) comme "contenu" de la pièce contenant
+   * `(x, y)`, s'il y en a une qui se découvre (08-EXPLORATION.md "La découverte des lieux" :
+   * "son contenu est caché -- mobilier, objets, figurants, cadets"). Pessimiste par défaut
+   * (masqué) : `setDiscoveredRooms` corrige avant le premier rendu. Hors pièce (couloir,
+   * extérieur) ou pièce `alwaysDiscovered` (la cour de containers) : rien à faire, `parts`
+   * garde sa visibilité par défaut (affiché).
+   */
+  private trackRoomDecor(x: number, y: number, parts: THREE.Object3D[]): void {
+    const room = roomAt(this.def, { x, y });
+    if (!room || room.alwaysDiscovered) return;
+    for (const part of parts) part.visible = false;
+    const arr = this.roomDecor.get(room.id) ?? [];
+    arr.push(...parts);
+    this.roomDecor.set(room.id, arr);
   }
 
   private buildCells(): void {
@@ -507,6 +578,7 @@ export class ExploreView {
           mesh.position.set(wx, FURNITURE_LOW_HEIGHT / 2, wz);
           mesh.castShadow = true;
           this.root.add(mesh);
+          this.trackRoomDecor(x, y, [mesh]);
         } else if (kind === 'furnitureHigh') {
           if (this.garageCells.has(key)) {
             // Véhicule du garage : même case ('T') que l'agrès/l'arbre ailleurs sur la carte,
@@ -524,14 +596,18 @@ export class ExploreView {
             roof.position.set(wx, vehicleHeight + 0.2, wz);
             roof.castShadow = true;
             this.root.add(roof);
+            this.trackRoomDecor(x, y, [body, roof]);
           } else {
             const mesh = new THREE.Mesh(unitBox, furnitureHighMat);
             mesh.scale.set(0.9, FURNITURE_HIGH_HEIGHT, 0.9);
             mesh.position.set(wx, FURNITURE_HIGH_HEIGHT / 2, wz);
             mesh.castShadow = true;
             this.root.add(mesh);
+            this.trackRoomDecor(x, y, [mesh]);
           }
         } else if (kind === 'glass') {
+          // Vitre/grille : structurelle, part du "plan" du lieu (08-EXPLORATION.md "garde sa
+          // forme -- murs, porte, dimensions") -- jamais cachée par la découverte, comme les murs.
           const mesh = new THREE.Mesh(unitBox, glassMat);
           mesh.scale.set(0.94, GLASS_HEIGHT, 0.12);
           mesh.position.set(wx, GLASS_HEIGHT / 2, wz);
@@ -546,6 +622,7 @@ export class ExploreView {
           mesh.position.set(wx + jitterX, VEGETATION_HEIGHT / 2, wz + jitterZ);
           mesh.castShadow = true;
           this.root.add(mesh);
+          this.trackRoomDecor(x, y, [mesh]);
         }
       }
     }
@@ -554,7 +631,7 @@ export class ExploreView {
   }
 
   /** Anneau discret au sol sous un interactable : le repère même quand le prop lui-même est petit. */
-  private addGroundMarker(wx: number, wz: number, color: number): void {
+  private addGroundMarker(wx: number, wz: number, color: number): THREE.Mesh {
     const ring = new THREE.Mesh(
       new THREE.RingGeometry(0.36, 0.44, 20),
       new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.45, depthWrite: false }),
@@ -562,6 +639,18 @@ export class ExploreView {
     ring.rotation.x = -Math.PI / 2;
     ring.position.set(wx, 0.015, wz);
     this.root.add(ring);
+    return ring;
+  }
+
+  /**
+   * Enregistre une entité npc/object/seat comme "contenu" togglable (08-EXPLORATION.md "La
+   * découverte des lieux") : indexée par case pour le repli généreux du clic/survol (`pick`),
+   * et par id pour `setVisibleEntities`. Masquée par défaut (pessimiste, voir `buildRoomFloors`).
+   */
+  private registerVisualEntity(e: EntityDef, parts: THREE.Object3D[]): void {
+    for (const part of parts) part.visible = false;
+    this.entityCellIndex.set(posKey(e.cell), e.id);
+    this.entityVisualParts.set(e.id, parts);
   }
 
   private buildEntityMarkers(): void {
@@ -579,7 +668,8 @@ export class ExploreView {
         capsule.userData.entityId = e.id;
         this.root.add(capsule);
         this.pickables.push(capsule);
-        this.addGroundMarker(wx, wz, EXTRA_COLOR);
+        const marker = this.addGroundMarker(wx, wz, EXTRA_COLOR);
+        this.registerVisualEntity(e, [capsule, marker]);
         continue;
       }
 
@@ -601,7 +691,8 @@ export class ExploreView {
         box.userData.entityId = e.id;
         this.root.add(box);
         this.pickables.push(box);
-        this.addGroundMarker(wx, wz, OBJECT_COLOR);
+        const marker = this.addGroundMarker(wx, wz, OBJECT_COLOR);
+        this.registerVisualEntity(e, [box, marker]);
         continue;
       }
 
@@ -620,7 +711,8 @@ export class ExploreView {
         seat.userData.entityId = e.id;
         this.root.add(seat);
         this.pickables.push(seat);
-        this.addGroundMarker(wx, wz, SEAT_COLOR);
+        const marker = this.addGroundMarker(wx, wz, SEAT_COLOR);
+        this.registerVisualEntity(e, [seat, marker]);
         continue;
       }
 
@@ -945,18 +1037,102 @@ export class ExploreView {
   }
 
   /* ------------------------------------------------------------------ */
+  /* Découverte des lieux (08-EXPLORATION.md "La découverte des lieux") : ce que le rendu     */
+  /* affiche OBÉIT à ce que la règle de jeu (`ExploreState`, pure) décide -- rien n'est décidé */
+  /* ici. L'appelant (`chapter.ts`/`exploreLab.ts`) pousse le résultat à chaque frame utile.    */
+  /* ------------------------------------------------------------------ */
+
+  /**
+   * Entités npc/object/seat actuellement actives ET découvertes (typiquement
+   * `ExploreState.listInteractables()` filtré à ces trois types) : pilote à la fois
+   * l'apparence (marqueur + repère au sol) et le repli généreux de `pick()`. Une entité qui
+   * n'y figure plus (pièce refermée -- ne se produit pas au chapitre 1, mais reste possible)
+   * redevient invisible.
+   */
+  setVisibleEntities(ids: Iterable<string>): void {
+    const next = new Set(ids);
+    for (const [id, parts] of this.entityVisualParts) {
+      const visible = next.has(id);
+      for (const part of parts) part.visible = visible;
+    }
+    this.visibleEntityIds = next;
+  }
+
+  /**
+   * Pièces découvertes (`ExploreState.discoveredRoomIds()`) : éclaire leur sol et montre leur
+   * mobilier/décor, assombrit/masque tout le reste -- jamais les murs/portes ("garde sa
+   * forme"). Les pièces `alwaysDiscovered` (la cour de containers) n'ont jamais été enregistrées
+   * dans `roomDecor`/assombries : elles ignorent silencieusement cet appel.
+   */
+  setDiscoveredRooms(ids: Iterable<string>): void {
+    const discovered = new Set(ids);
+    for (const [roomId, floor] of this.roomFloors) {
+      const room = this.roomsById.get(roomId);
+      const shown = room?.alwaysDiscovered === true || discovered.has(roomId);
+      (floor.material as THREE.MeshStandardMaterial).color.set(shown ? discoveredFloorColor(roomId) : HIDDEN_ROOM_COLOR);
+    }
+    for (const [roomId, parts] of this.roomDecor) {
+      const shown = discovered.has(roomId);
+      for (const part of parts) part.visible = shown;
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Survol / clic — coordonnées normalisées [-1, 1] (comme `THREE.Raycaster`) */
   /* ------------------------------------------------------------------ */
 
+  /** Remonte la chaîne des parents jusqu'à trouver un `userData.entityId` (modèle à plusieurs maillages). */
+  private entityIdOfObject(object: THREE.Object3D): string | undefined {
+    let cur: THREE.Object3D | null = object;
+    while (cur) {
+      const id = (cur.userData as { entityId?: string }).entityId;
+      if (id) return id;
+      cur = cur.parent;
+    }
+    return undefined;
+  }
+
+  /**
+   * Une entité npc/object/seat actuellement visible dont la case coïncide avec `cell`, ou
+   * `undefined`. C'est le "repli généreux" (08-EXPLORATION.md "Contrôles" : "toute la case
+   * d'une entité interactive est cliquable, pas seulement les quelques pixels de son modèle").
+   */
+  private visibleEntityAt(cell: Cell): string | undefined {
+    const entityId = this.entityCellIndex.get(posKey(cell));
+    if (!entityId || !this.visibleEntityIds.has(entityId)) return undefined;
+    return entityId;
+  }
+
+  /**
+   * Deux temps, jamais un rayon sur les seuls maillages (ancien défaut diagnostiqué en jeu :
+   * "le clic sur des personnages... fonctionne de temps en temps" -- un clic à côté d'un
+   * cheveu traversait la capsule/le cube et touchait le SOL, interprété comme un ordre de
+   * déplacement vers la case de l'entité) :
+   *  1. un rayon qui touche VRAIMENT un maillage d'entité (récursif : un modèle à plusieurs
+   *     maillages enfants doit être touché sur n'importe lequel d'entre eux, jamais seulement
+   *     sur le maillage racine) ;
+   *  2. à défaut, le point du SOL sous le curseur -- si sa case porte une entité npc/object/seat
+   *     actuellement visible, c'est elle qui répond ("toute la case... est cliquable"), pas le
+   *     sol. Porte/sortie n'ont pas besoin de ce repli : leur volume de clic direct (temps 1)
+   *     est déjà fiable (grands panneaux), et il n'y a jamais eu de plainte les concernant.
+   */
   private pick(ndcX: number, ndcY: number): HoverTarget | null {
     this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera.camera);
-    const hits = this.raycaster.intersectObjects([...this.pickables, this.floorPlane], false);
-    if (hits.length === 0) return null;
-    const first = hits[0] as THREE.Intersection;
-    const entityId = (first.object.userData as { entityId?: string }).entityId;
+
+    const directHits = this.raycaster.intersectObjects(this.pickables, true);
+    if (directHits.length > 0) {
+      const entityId = this.entityIdOfObject((directHits[0] as THREE.Intersection).object);
+      if (entityId) return { type: 'entity', id: entityId };
+    }
+
+    const floorHits = this.raycaster.intersectObject(this.floorPlane, false);
+    if (floorHits.length === 0) return null;
+    const point = (floorHits[0] as THREE.Intersection).point;
+    const cell = worldToCell(this.map, point.x, point.z);
+    if (!cell) return null;
+    const entityId = this.visibleEntityAt(cell);
     if (entityId) return { type: 'entity', id: entityId };
-    const cell = worldToCell(this.map, first.point.x, first.point.z);
-    return cell ? { type: 'floor', cell } : null;
+    return { type: 'floor', cell };
   }
 
   handlePointerMove(ndcX: number, ndcY: number): void {

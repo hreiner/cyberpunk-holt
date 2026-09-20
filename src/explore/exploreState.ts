@@ -10,7 +10,7 @@
 
 import type { NarrativeContext } from '@/narrative';
 import { evaluateCondition } from '@/narrative';
-import { ExploreMap, nearestAdjacentWalkableCell, nearestWalkableCell, posKey } from './exploreMap';
+import { ExploreMap, nearestAdjacentWalkableCell, nearestWalkableCell, posKey, roomAt } from './exploreMap';
 import { computeReach, findPath, pathTo } from './pathing';
 import type {
   Cell,
@@ -38,6 +38,14 @@ export interface ExploreStateOptions {
    * "Le groupe").
    */
   followerIds?: string[];
+  /**
+   * Identifiants de pièces (`RoomDef.id`, PAS de clé composite carte) déjà découvertes pour
+   * CETTE carte, à réappliquer sur une entrée à froid (`RunState.discoveredRooms`, voir
+   * `discoveredRoomIdsForMap` dans `src/narrative/runState.ts`) -- 08-EXPLORATION.md "La
+   * découverte des lieux" : "recharger une partie ne re-cache pas des pièces déjà visitées".
+   * La pièce d'apparition est de toute façon découverte d'emblée, avec ou sans cette liste.
+   */
+  discoveredRooms?: string[];
 }
 
 export type InteractOutcome =
@@ -81,6 +89,7 @@ export type ExploreEvent =
   | { kind: 'interaction-fired'; entityId: string; outcome: InteractOutcome }
   | { kind: 'objective-task-progress'; taskId: string; count: number; target: number }
   | { kind: 'objective-complete'; objectiveId: string }
+  | { kind: 'room-discovered'; roomId: string }
   | { kind: 'arrived' };
 
 /** Instantané renvoyé par l'API de debug `explore()` (08-EXPLORATION.md "L'API de debug"). */
@@ -90,6 +99,8 @@ export interface ExploreDebugSnapshot {
   followers: Cell[];
   objective: ObjectiveStatus | null;
   interactables: InteractableInfo[];
+  /** Pièces découvertes cette partie sur CETTE carte (`RoomDef.id`, voir `discoveredRoomIds()`). */
+  discoveredRooms: string[];
 }
 
 /**
@@ -143,6 +154,15 @@ export class ExploreState {
   private objectiveDone = false;
   private readonly taskCounted = new Map<string, Set<string>>();
 
+  /**
+   * Pièces découvertes cette partie, sur CETTE carte (08-EXPLORATION.md "La découverte des
+   * lieux") : `RoomDef.id`, jamais de clé composite -- une `ExploreState` ne connaît qu'une
+   * seule carte. Alimenté par `options.discoveredRooms` (reprise d'une sauvegarde) et par la
+   * pièce d'apparition (toujours découverte d'emblée), puis par `checkRoomDiscovery()` au fil
+   * de la partie.
+   */
+  private readonly discoveredRooms = new Set<string>();
+
   private events: ExploreEvent[] = [];
 
   constructor(def: MapDef, ctx: NarrativeContext, options: ExploreStateOptions = {}) {
@@ -163,6 +183,15 @@ export class ExploreState {
     if (!spawn) throw new Error(`Carte "${def.id}" : point d'apparition "${spawnName ?? ''}" introuvable`);
     this.leaderPos = { x: spawn.x, y: spawn.y };
     this.trail = seedTrail(this.leaderPos, this.followerIds.length);
+
+    const validRoomIds = new Set(def.rooms.map((r) => r.id));
+    for (const id of options.discoveredRooms ?? []) {
+      if (validRoomIds.has(id)) this.discoveredRooms.add(id);
+    }
+    // La pièce d'apparition est découverte d'emblée, avec ou sans sauvegarde (08-EXPLORATION.md
+    // "Attention au cas d'apparition : la pièce où il apparaît est découverte d'emblée").
+    const spawnRoom = roomAt(def, this.leaderCell());
+    if (spawnRoom) this.discoveredRooms.add(spawnRoom.id);
   }
 
   /* ------------------------------------------------------------------ */
@@ -254,6 +283,7 @@ export class ExploreState {
   tick(dtMs: number): ExploreEvent[] {
     const dt = Math.max(0, dtMs) / 1000;
     if (dt > 0 && this.leaderPath.length > 0) this.advanceLeader(dt);
+    this.checkRoomDiscovery();
     this.checkZones();
     return this.drainEvents();
   }
@@ -307,6 +337,51 @@ export class ExploreState {
     this.events.push({ kind: 'interaction-fired', entityId, outcome });
   }
 
+  /**
+   * Découvre la pièce sous le meneur, si ce n'est pas déjà fait (08-EXPLORATION.md "La
+   * découverte des lieux" : "une pièce est découverte quand Franklyn y entre, et le reste pour
+   * la partie"). Sans effet dans un couloir/extérieur (`roomAt` renvoie `undefined`) ou dans une
+   * pièce déjà découverte -- jamais d'événement en double.
+   */
+  private checkRoomDiscovery(): void {
+    const room = roomAt(this.map.def, this.leaderCell());
+    if (!room || this.discoveredRooms.has(room.id)) return;
+    this.discoveredRooms.add(room.id);
+    this.events.push({ kind: 'room-discovered', roomId: room.id });
+  }
+
+  /** Pièces découvertes cette partie (`RoomDef.id`) -- à persister dans `RunState.discoveredRooms` (voir `discoverRoom`). */
+  discoveredRoomIds(): string[] {
+    return [...this.discoveredRooms];
+  }
+
+  /**
+   * Vrai si `roomId` est découverte, ou n'a pas besoin de l'être : une pièce inconnue de cette
+   * carte (défensif), une pièce `alwaysDiscovered` (la cour de containers), ou une pièce déjà
+   * visitée. 08-EXPLORATION.md "La découverte des lieux".
+   */
+  isRoomDiscovered(roomId: string): boolean {
+    const room = this.map.def.rooms.find((r) => r.id === roomId);
+    if (!room) return true;
+    return room.alwaysDiscovered === true || this.discoveredRooms.has(roomId);
+  }
+
+  /**
+   * Une entité est visible (survolable, cliquable, listée -- 08-EXPLORATION.md "La découverte
+   * des lieux" : "rien ne fuite par un autre canal") si elle est active (`condition`) et, pour
+   * un `npc`/`object`/`seat`, si la pièce qui la porte est découverte. Les couloirs/extérieurs
+   * (`roomAt` renvoie `undefined`) sont toujours visibles. Portes et sorties restent
+   * structurelles ("garde sa forme -- murs, porte, dimensions") : cette règle ne les concerne
+   * pas, seul `isEntityActive` s'applique à elles.
+   */
+  private isEntityVisible(e: EntityDef): boolean {
+    if (!this.isEntityActive(e)) return false;
+    if (e.type !== 'npc' && e.type !== 'object' && e.type !== 'seat') return true;
+    const room = roomAt(this.map.def, e.cell);
+    if (!room) return true;
+    return this.isRoomDiscovered(room.id);
+  }
+
   private checkZones(): void {
     for (const e of this.map.def.entities) {
       if (e.type !== 'zone') continue;
@@ -337,10 +412,31 @@ export class ExploreState {
    */
   walkLeaderTo(cell: Cell): { ok: boolean; reason?: string } {
     this.pendingInteraction = null;
-    const path = findPath(this.map, this.leaderCell(), cell, this.isWalkableAt);
+    const target = this.resolveWalkTarget(cell);
+    const path = findPath(this.map, this.leaderCell(), target, this.isWalkableAt);
     if (!path) return { ok: false, reason: 'Hors d’atteinte' };
     this.leaderPath = path;
     return { ok: true };
+  }
+
+  /**
+   * Ramène `cell` à la case d'interaction de l'entité `npc`/`object` qui l'occupe, s'il y en a
+   * une (08-EXPLORATION.md "Contrôles" : "on ne marche jamais sur une entité... Seul un `seat`
+   * s'occupe : on s'assoit dessus, c'est le geste") -- une porte/sortie/siège n'est jamais
+   * redirigée (sa case EST la destination normale). N'agit que sur une entité `isEntityVisible`
+   * : une entité d'une pièce non découverte ne doit jamais dévier un ordre de déplacement, sous
+   * peine de trahir sa présence par un arrêt inexpliqué ("rien ne fuite par un autre canal").
+   */
+  private resolveWalkTarget(cell: Cell): Cell {
+    const entity = this.map.def.entities.find(
+      (e) =>
+        (e.type === 'npc' || e.type === 'object') &&
+        e.cell.x === cell.x &&
+        e.cell.y === cell.y &&
+        this.isEntityVisible(e),
+    );
+    if (!entity) return cell;
+    return this.interactionCellFor(entity, this.leaderCell()) ?? cell;
   }
 
   /**
@@ -395,13 +491,22 @@ export class ExploreState {
     return nearestAdjacentWalkableCell(this.map, entity.cell, this.isWalkableAt, fromCell);
   }
 
+  /**
+   * Ce que le JOUEUR peut survoler/cliquer/atteindre au clavier (Tab) -- et donc aussi ce que
+   * `explore()` (API de debug) rapporte : actif ET découvert (08-EXPLORATION.md "La découverte
+   * des lieux" -- "rien ne fuite par un autre canal"). L'instantané de debug est un miroir de
+   * l'état du jeu, pas une vue "développeur" à part : une entité qu'un vrai joueur ne peut pas
+   * viser n'y figure pas non plus, sous peine qu'un test de bout en bout reste vert en pilotant
+   * ce qui n'est pas atteignable en jouant. `interact(entityId)`, lui, reste volontairement
+   * permissif (voir sa docstring) : c'est l'outil de développement assumé, pas cette liste.
+   */
   listInteractables(): InteractableInfo[] {
     const leader = this.leaderCell();
     const reach = computeReach(this.map, leader, this.isWalkableAt);
     const out: InteractableInfo[] = [];
     for (const e of this.map.def.entities) {
       if (e.type === 'zone') continue;
-      if (!this.isEntityActive(e)) continue;
+      if (!this.isEntityVisible(e)) continue;
       const interactionCell = this.interactionCellFor(e, leader);
       if (!interactionCell) continue;
       out.push({
@@ -565,6 +670,7 @@ export class ExploreState {
       followers: this.followerCells(),
       objective: this.objectiveStatus(),
       interactables: this.listInteractables(),
+      discoveredRooms: this.discoveredRoomIds(),
     };
   }
 
@@ -576,6 +682,9 @@ export class ExploreState {
     this.pendingInteraction = null;
     this.totalDist = 0;
     this.trail = seedTrail(this.leaderPos, this.followerIds.length);
+    // Une téléportation de debug entre aussi dans une pièce (08-EXPLORATION.md "L'API de
+    // debug" : les appels de debug se comportent comme un clic, ici sans marcher).
+    this.checkRoomDiscovery();
   }
 
   /** Passe l'objectif courant, sans attendre le déclencheur réel (réservé au développement). */
