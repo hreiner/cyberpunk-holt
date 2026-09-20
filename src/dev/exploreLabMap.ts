@@ -23,6 +23,12 @@ const WALL_ROW = row('#'.repeat(WIDTH));
 function roomRow(centerChar: '#' | '+'): string {
   return row('#' + '.'.repeat(14) + centerChar + '.'.repeat(15) + '#');
 }
+/** Remplace des caractères à des colonnes précises (mobilier), sans retoucher `roomRow`. */
+function withFurniture(base: string, overrides: Record<number, 'o' | 'T'>): string {
+  const chars = base.split('');
+  for (const [col, ch] of Object.entries(overrides)) chars[Number(col)] = ch;
+  return row(chars.join(''));
+}
 /** Rangée de fermeture des pièces, avec une brèche de couloir en colonne 7. */
 const CLOSE_ROW = row('#'.repeat(7) + '.' + '#'.repeat(WIDTH - 8));
 /** Rangée de cour : mur, 30 cases de sol, mur. */
@@ -31,11 +37,13 @@ const YARD_ROW = row('#' + '.'.repeat(30) + '#');
 const ASCII: string[] = [
   WALL_ROW, // 0
   roomRow('#'), // 1
-  roomRow('#'), // 2
+  // "armoire" (mobilier haut, bloque la vue) dans chaque salle, coin nord-est.
+  withFurniture(roomRow('#'), { 12: 'T', 13: 'T', 28: 'T' }), // 2
   roomRow('#'), // 3
   roomRow('+'), // 4 — porte entre les deux salles
   roomRow('#'), // 5
-  roomRow('#'), // 6
+  // "table" (mobilier bas, ne bloque pas la vue) dans chaque salle.
+  withFurniture(roomRow('#'), { 2: 'o', 3: 'o', 24: 'o', 25: 'o' }), // 6
   roomRow('#'), // 7
   roomRow('#'), // 8
   CLOSE_ROW, // 9 — brèche de couloir (col. 7)

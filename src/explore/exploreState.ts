@@ -92,6 +92,26 @@ export interface ExploreDebugSnapshot {
   interactables: InteractableInfo[];
 }
 
+/**
+ * Direction "arrière" par défaut à l'apparition (aucune direction de regard connue à cet
+ * instant) : sud, cohérent avec la lecture haut→bas des plans ASCII (09-MAPS-CHAPTER-1.md).
+ */
+const SPAWN_BEHIND: FloatCell = { x: 0, y: 1 };
+
+/**
+ * Amorce l'historique de filature avec un segment synthétique "avant le spawn", pour que
+ * `followerPosition` donne aux coéquipiers une position en formation dès l'apparition — sans
+ * ce segment, `Math.max(0, totalDist - lag)` les ferait tous coïncider avec le meneur tant
+ * qu'il n'a pas parcouru au moins `lag` cases (voir la revue de lot 3.5).
+ */
+function seedTrail(spawn: FloatCell, followerCount: number): { dist: number; pos: FloatCell }[] {
+  const reach = followerCount * FOLLOW_GAP + FOLLOW_GAP;
+  return [
+    { dist: -reach, pos: { x: spawn.x + SPAWN_BEHIND.x * reach, y: spawn.y + SPAWN_BEHIND.y * reach } },
+    { dist: 0, pos: { ...spawn } },
+  ];
+}
+
 export class ExploreState {
   readonly map: ExploreMap;
 
@@ -133,7 +153,7 @@ export class ExploreState {
     const spawn = spawnName ? def.spawns[spawnName] : undefined;
     if (!spawn) throw new Error(`Carte "${def.id}" : point d'apparition "${spawnName ?? ''}" introuvable`);
     this.leaderPos = { x: spawn.x, y: spawn.y };
-    this.trail = [{ dist: 0, pos: { ...this.leaderPos } }];
+    this.trail = seedTrail(this.leaderPos, this.followerIds.length);
   }
 
   /* ------------------------------------------------------------------ */
@@ -185,7 +205,10 @@ export class ExploreState {
 
   /** Point sur l'historique du meneur, à `lag` cases derrière lui (interpolation linéaire). */
   private followerPosition(lag: number): FloatCell {
-    const targetDist = Math.max(0, this.totalDist - lag);
+    // Pas de bornage à 0 : le segment synthétique posé par `seedTrail` couvre les distances
+    // négatives, ce qui donne aux coéquipiers une position "en formation" dès l'apparition
+    // au lieu de les faire coïncider avec le meneur tant qu'il n'a pas assez marché.
+    const targetDist = this.totalDist - lag;
     let prev = this.trail[0] as { dist: number; pos: FloatCell };
     for (const point of this.trail) {
       if (point.dist >= targetDist) {
@@ -509,13 +532,14 @@ export class ExploreState {
     };
   }
 
-  /** Téléporte le meneur (et le groupe) sans animation. */
+  /** Téléporte le meneur (et le groupe, en formation) sans animation. */
   walkTo(x: number, y: number): void {
     const target = nearestWalkableCell(this.map, { x, y }, this.isWalkableAt) ?? this.leaderCell();
     this.leaderPos = { x: target.x, y: target.y };
     this.leaderPath = [];
     this.pendingInteraction = null;
-    this.trail = [{ dist: this.totalDist, pos: { ...this.leaderPos } }];
+    this.totalDist = 0;
+    this.trail = seedTrail(this.leaderPos, this.followerIds.length);
   }
 
   /** Passe l'objectif courant, sans attendre le déclencheur réel (réservé au développement). */

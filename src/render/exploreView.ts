@@ -21,7 +21,7 @@ import type { CharacterSheet } from '@/rules/character';
 import { ExploreMap } from '@/explore';
 import type { Cell, DoorEntity, EntityDef, MapDef, RoomDef } from '@/explore';
 import { PlaceholderRig, type CharacterRig } from './characterRig';
-import { IsoCamera } from './isoCamera';
+import { IsoCamera, MAX_ZOOM, MIN_ZOOM } from './isoCamera';
 
 export const EXPLORE_CELL_SIZE_METERS = 1;
 const WALL_HEIGHT = 3;
@@ -31,17 +31,32 @@ const FURNITURE_HIGH_HEIGHT = 2.6;
 const GLASS_HEIGHT = 3;
 const VEGETATION_HEIGHT = 0.5;
 
-const GROUND_COLOR = 0x2a2b30;
-const WALL_COLOR = 0x3a3b42;
-const DOOR_FRAME_COLOR = 0x53555e;
-const FURNITURE_LOW_COLOR = 0x6b5a3e;
-const FURNITURE_HIGH_COLOR = 0xb0b3b8;
+/**
+ * Palette : sol nettement plus clair que les murs (règle de lisibilité n° 1,
+ * ART-DIRECTION.md), mobilier bas/haut dans deux teintes distinctes entre
+ * elles ET du mur. Repris/adapté de `YardView` (containers/caisses) plutôt
+ * qu'inventé : mêmes trois lumières, même logique de contraste.
+ */
+const GROUND_COLOR = 0x44464e;
+const WALL_COLOR = 0x201f24;
+const DOOR_FRAME_COLOR = 0x8a8d99;
+const DOOR_PANEL_COLOR = 0x35343a;
+const FURNITURE_LOW_COLOR = 0xb98a4f; // mobilier bas : bois clair (table, pupitre...)
+const FURNITURE_HIGH_COLOR = 0x6f7680; // mobilier haut : acier bleuté (armoire, serveur...)
 const GLASS_COLOR = 0x4cc9f0;
 const VEGETATION_COLOR = 0x4f8f5a;
 const CUT_EDGE_COLOR = 0x4cc9f0;
-const EXTRA_COLOR = 0x8c93a5; // --bone-faint : figurants gris, plus petits (ART-DIRECTION)
+const EXTRA_COLOR = 0xaab0bd; // figurants gris, plus clairs que --bone-faint pour rester lisibles
 const HOVER_COLOR = 0xf2c230; // --tape
 const EXIT_COLOR = 0x7fd08a;
+const OBJECT_COLOR = 0xd9a441; // repris de la palette containers (YardView) : un objet se remarque
+const SEAT_COLOR = 0xb4463c;
+/** Anneau au sol du groupe du joueur : `--comm` est réservé à la radio (ART-DIRECTION.md "Couleurs"), on reprend l'accent d'interface. */
+const PARTY_RING_COLOR = 0x4cc9f0;
+/** Zoom par défaut de `IsoCamera` (non exposé par le module) : point de départ des deux niveaux. */
+const ISO_CAMERA_DEFAULT_ZOOM = 34;
+/** Deux niveaux de zoom (08-EXPLORATION.md "Contrôles") : une pièce, puis une vue large (utile sur l'académie, ~52x64). */
+const ZOOM_LEVELS = [20, 46] as const;
 
 export type Side = 'north' | 'south' | 'east' | 'west';
 
@@ -113,6 +128,10 @@ export class ExploreView {
   /** Quart de tour courant (0..3), suit `IsoCamera` : voir `rotate()`. */
   private quarter = 0;
 
+  /** Index courant dans `ZOOM_LEVELS`. `IsoCamera` n'expose pas son zoom : on le suit nous-même. */
+  private zoomLevel = 0;
+  private trackedZoom = ISO_CAMERA_DEFAULT_ZOOM;
+
   private readonly raycaster = new THREE.Raycaster();
 
   constructor(
@@ -124,15 +143,27 @@ export class ExploreView {
     this.def = def;
     this.map = new ExploreMap(def);
     this.camera = new IsoCamera(aspect);
+    this.setZoomLevel(0, aspect);
 
     this.scene.background = new THREE.Color(0x14151a);
     this.scene.fog = new THREE.Fog(0x14151a, 60, 160);
     this.scene.add(this.root);
 
+    // Trois sources, comme ART-DIRECTION.md "Lumière" (mêmes valeurs que `YardView`) :
+    // hémisphérique, directionnelle chaude avec ombres, contre-jour froid.
     this.scene.add(new THREE.HemisphereLight(0x8899bb, 0x20202a, 0.85));
     const sun = new THREE.DirectionalLight(0xfff0d8, 1.1);
     sun.position.set(24, 40, 18);
     sun.castShadow = true;
+    // Le frustum d'ombre par défaut (±5) est bien plus petit qu'une carte d'exploration :
+    // sans ce réglage, l'essentiel du sol tombe hors de la shadow map et rend uniformément
+    // sombre. On le dimensionne sur la carte, comme `YardView` le fait sur la cour.
+    const shadowHalf = (Math.max(this.map.width, this.map.height) * EXPLORE_CELL_SIZE_METERS) / 2 + 6;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.left = -shadowHalf;
+    sun.shadow.camera.right = shadowHalf;
+    sun.shadow.camera.top = shadowHalf;
+    sun.shadow.camera.bottom = -shadowHalf;
     this.scene.add(sun);
     const rim = new THREE.DirectionalLight(0x4cc9f0, 0.35);
     rim.position.set(-20, 12, -24);
@@ -254,7 +285,7 @@ export class ExploreView {
             if (door) {
               const panel = new THREE.Mesh(
                 unitBox,
-                new THREE.MeshStandardMaterial({ color: WALL_COLOR, roughness: 0.85 }),
+                new THREE.MeshStandardMaterial({ color: DOOR_PANEL_COLOR, roughness: 0.85 }),
               );
               panel.scale.set(0.86, 1, 0.16);
               panel.position.x = wx;
@@ -309,6 +340,17 @@ export class ExploreView {
     this.recomputeCutaway();
   }
 
+  /** Anneau discret au sol sous un interactable : le repère même quand le prop lui-même est petit. */
+  private addGroundMarker(wx: number, wz: number, color: number): void {
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(0.36, 0.44, 20),
+      new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.45, depthWrite: false }),
+    );
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.set(wx, 0.015, wz);
+    this.root.add(ring);
+  }
+
   private buildEntityMarkers(): void {
     for (const e of this.def.entities as EntityDef[]) {
       if (e.type === 'door' || e.type === 'zone') continue; // portes : déjà construites ; zones : invisibles
@@ -316,47 +358,63 @@ export class ExploreView {
 
       if (e.type === 'npc') {
         const capsule = new THREE.Mesh(
-          new THREE.CapsuleGeometry(0.22, 0.55, 4, 8),
+          new THREE.CapsuleGeometry(0.26, 0.6, 4, 8),
           new THREE.MeshStandardMaterial({ color: EXTRA_COLOR, roughness: 0.7 }),
         );
-        capsule.position.set(wx, 0.55, wz);
+        capsule.position.set(wx, 0.6, wz);
         capsule.castShadow = true;
         capsule.userData.entityId = e.id;
         this.root.add(capsule);
         this.pickables.push(capsule);
+        this.addGroundMarker(wx, wz, EXTRA_COLOR);
         continue;
       }
 
+      // Objet/siège : plus gros et légèrement lumineux qu'un simple bloc de mobilier --
+      // ce sont des interactables, ils doivent se remarquer (comme le matériel au sol en
+      // combat, `YardView.setGroundItems`), pas se confondre avec le décor.
       if (e.type === 'object') {
         const box = new THREE.Mesh(
-          new THREE.BoxGeometry(0.5, 0.5, 0.5),
-          new THREE.MeshStandardMaterial({ color: FURNITURE_LOW_COLOR, roughness: 0.85 }),
+          new THREE.BoxGeometry(0.62, 0.62, 0.62),
+          new THREE.MeshStandardMaterial({
+            color: OBJECT_COLOR,
+            roughness: 0.6,
+            emissive: OBJECT_COLOR,
+            emissiveIntensity: 0.25,
+          }),
         );
-        box.position.set(wx, 0.25, wz);
+        box.position.set(wx, 0.31, wz);
         box.castShadow = true;
         box.userData.entityId = e.id;
         this.root.add(box);
         this.pickables.push(box);
+        this.addGroundMarker(wx, wz, OBJECT_COLOR);
         continue;
       }
 
       if (e.type === 'seat') {
         const seat = new THREE.Mesh(
-          new THREE.BoxGeometry(0.6, 0.45, 0.6),
-          new THREE.MeshStandardMaterial({ color: 0x8a6a3a, roughness: 0.85 }),
+          new THREE.BoxGeometry(0.72, 0.5, 0.72),
+          new THREE.MeshStandardMaterial({
+            color: SEAT_COLOR,
+            roughness: 0.6,
+            emissive: SEAT_COLOR,
+            emissiveIntensity: 0.2,
+          }),
         );
-        seat.position.set(wx, 0.225, wz);
+        seat.position.set(wx, 0.25, wz);
         seat.castShadow = true;
         seat.userData.entityId = e.id;
         this.root.add(seat);
         this.pickables.push(seat);
+        this.addGroundMarker(wx, wz, SEAT_COLOR);
         continue;
       }
 
       if (e.type === 'exit') {
         const ring = new THREE.Mesh(
-          new THREE.RingGeometry(0.5, 0.62, 24),
-          new THREE.MeshBasicMaterial({ color: EXIT_COLOR, transparent: true, opacity: 0.6, depthWrite: false }),
+          new THREE.RingGeometry(0.55, 0.72, 24),
+          new THREE.MeshBasicMaterial({ color: EXIT_COLOR, transparent: true, opacity: 0.75, depthWrite: false }),
         );
         ring.rotation.x = -Math.PI / 2;
         ring.position.set(wx, 0.02, wz);
@@ -386,8 +444,16 @@ export class ExploreView {
     for (const info of this.wallCells.values()) {
       const cut = this.isCut(info.sides);
       const height = cut ? WALL_CUT_HEIGHT : WALL_HEIGHT;
-      info.mesh.scale.set(0.98, height, 0.98);
-      info.mesh.position.y = height / 2;
+      if (info.door) {
+        // Porte : un simple linteau en haut de l'ouverture, jamais un bloc plein -- sinon
+        // une porte OUVERTE lirait comme un mur (08-EXPLORATION.md "Pas de plafond. Les
+        // portes ouvertes sont des trouées"). Le panneau (`info.panel`) porte l'état fermé.
+        info.mesh.scale.set(0.92, Math.min(0.14, height), 0.92);
+        info.mesh.position.y = height - Math.min(0.07, height / 2);
+      } else {
+        info.mesh.scale.set(0.98, height, 0.98);
+        info.mesh.position.y = height / 2;
+      }
       info.topEdge.visible = cut;
       info.topEdge.position.y = height;
       if (info.panel) {
@@ -405,6 +471,24 @@ export class ExploreView {
   }
 
   /* ------------------------------------------------------------------ */
+  /* Zoom -- deux niveaux (08-EXPLORATION.md "Contrôles") : une pièce, une */
+  /* vue large. `IsoCamera` ne fournit qu'un zoom RELATIF borné [18, 70] : */
+  /* on garde notre propre valeur suivie pour poser des niveaux absolus.   */
+  /* ------------------------------------------------------------------ */
+
+  private setZoomLevel(level: number, aspect: number): void {
+    this.zoomLevel = ((level % ZOOM_LEVELS.length) + ZOOM_LEVELS.length) % ZOOM_LEVELS.length;
+    const target = THREE.MathUtils.clamp(ZOOM_LEVELS[this.zoomLevel] as number, MIN_ZOOM, MAX_ZOOM);
+    this.camera.zoomBy(target - this.trackedZoom, aspect);
+    this.trackedZoom = target;
+  }
+
+  /** Molette / `+`-`-` : bascule entre les deux niveaux de zoom. */
+  cycleZoom(aspect: number): void {
+    this.setZoomLevel(this.zoomLevel + 1, aspect);
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Portes (état piloté par l'appelant, voir `ExploreState.isDoorOpen`) */
   /* ------------------------------------------------------------------ */
 
@@ -419,21 +503,35 @@ export class ExploreView {
   /* ------------------------------------------------------------------ */
 
   setLeader(sheet: CharacterSheet): void {
-    this.addRig('leader', sheet);
+    this.addRig('leader', sheet, true);
   }
 
   setFollower(id: string, sheet: CharacterSheet): void {
-    this.addRig(id, sheet);
+    this.addRig(id, sheet, false);
   }
 
-  private addRig(id: string, sheet: CharacterSheet): void {
+  /**
+   * `PlaceholderRig` porte déjà la couleur d'accent du cadet (`sheet.placeholderColor`,
+   * ART-DIRECTION.md "Couleurs de cadets") et un anneau au sol (ici en `--comm`, la couleur
+   * "équipe du joueur" plutôt qu'une couleur d'équipe de combat). Le meneur est mis en
+   * évidence via `setHighlighted` (même mécanisme que l'unité active en tactique) ; les
+   * étiquettes des coéquipiers sont masquées pour ne pas former un bloc illisible quand le
+   * groupe se serre (elles restent identifiables par leur couleur de capsule).
+   */
+  private addRig(id: string, sheet: CharacterSheet, isLeader: boolean): void {
     const existing = this.rigs.get(id);
     if (existing) {
       existing.dispose();
       this.root.remove(existing.object);
     }
-    const rig = new PlaceholderRig(sheet, 0x4cc9f0);
+    const rig = new PlaceholderRig(sheet, PARTY_RING_COLOR);
     rig.setEquipment(null);
+    rig.setHighlighted(isLeader);
+    if (!isLeader) {
+      for (const child of rig.object.children) {
+        if ((child as THREE.Sprite).isSprite) child.visible = false;
+      }
+    }
     this.root.add(rig.object);
     this.rigs.set(id, rig);
   }

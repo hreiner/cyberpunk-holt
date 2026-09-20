@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOLT Academy — Explore Lab (dev only)</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--ink, #140d0e);
+        color: var(--bone, #efe4d4);
+        font-family: var(--font-text, 'Barlow Semi Condensed', sans-serif);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        box-sizing: border-box;
+      }
+      h1 {
+        font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+        font-size: 1.4rem;
+        margin: 0;
+      }
+      p.hint {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--bone-dim, #b4a693);
+      }
+      #explore-lab-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .lab-btn {
+        background: var(--ink-3, #2b1c1d);
+        color: var(--bone, #efe4d4);
+        border: 1px solid var(--rule, #4a3031);
+        font-family: var(--font-display, sans-serif);
+        font-weight: 700;
+        padding: 6px 14px;
+        cursor: pointer;
+      }
+      .lab-btn:hover {
+        border-color: var(--tape, #f2c230);
+      }
+      #explore-lab-main {
+        display: flex;
+        gap: 12px;
+        flex: 1;
+        min-height: 0;
+      }
+      #explore-lab-viewport {
+        position: relative;
+        flex: 3;
+        min-height: 560px;
+        border: 1px dashed var(--rule, #4a3031);
+        overflow: hidden;
+      }
+      #explore-lab-canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      #explore-lab-debug {
+        flex: 1;
+        min-width: 280px;
+        max-width: 420px;
+        overflow-y: auto;
+        background: var(--ink-2, #1e1415);
+        border: 1px solid var(--rule, #4a3031);
+        padding: 10px;
+        font-size: 0.78rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      #explore-lab-log {
+        max-height: 140px;
+        overflow-y: auto;
+        font-size: 0.78rem;
+        color: var(--bone-dim, #b4a693);
+        border-top: 1px solid var(--rule, #4a3031);
+        padding-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Explore Lab — banc d’essai de l’exploration (lot 3.5)</h1>
+    <p class="hint">
+      Ne fait pas partie du build de production. Clic sur le sol : déplacement. Clic sur une
+      entité : interaction. Touches : A/E tourner, +/- zoomer, Tab (maintenu) montrer
+      l’objectif, Tab/Maj+Tab parcourir les entités, Espace interagir.
+    </p>
+    <div id="explore-lab-controls">
+      <button type="button" id="reload-btn" class="lab-btn">Recharger la carte</button>
+      <label><input type="checkbox" id="reduced-toggle" /> Mouvement réduit</label>
+      <button type="button" id="complete-step-btn" class="lab-btn">Compléter l’étape (debug)</button>
+    </div>
+    <div id="explore-lab-main">
+      <div id="explore-lab-viewport">
+        <canvas id="explore-lab-canvas"></canvas>
+      </div>
+      <pre id="explore-lab-debug"></pre>
+    </div>
+    <div id="explore-lab-log"></div>
+    <script type="module" src="/src/dev/exploreLab.ts"></script>
+  </body>
+</html>

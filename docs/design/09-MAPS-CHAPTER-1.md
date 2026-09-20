@@ -41,6 +41,18 @@ Un test unitaire valide chaque carte : rectangularité, portes sur un mur, toute
 entités sur une case accessible ou adjacente à une case accessible, **toute case
 d'interaction atteignable depuis chaque point d'apparition**, identifiants uniques.
 
+**Implémentation (lot 3.5)** : `MapDef`, `EntityDef` (une variante par type, chacune avec
+une `condition` facultative) et `Cell` sont définis dans
+[`src/explore/types.ts`](../../src/explore/types.ts), qui recopie ce contrat exactement (voir
+`AGENTS.md` règle 7 : le code suit le design, pas l'inverse). `validateMap()`
+([`src/explore/validateMap.ts`](../../src/explore/validateMap.ts)) implémente les règles
+ci-dessus ; le socle d'exploration lui-même (état, déplacement continu, interactions,
+objectifs) est décrit par l'[ADR 0013](../process/adr/0013-exploration-temps-reel-sur-grille.md)
+§5 et testé dans `tests/unit/explore*.test.ts`. Les deux cartes du chapitre 1 ci-dessous
+restent à écrire dans `src/data/maps/` (hors lot 3.5 — voir la portée de
+`docs/process/ROADMAP.md`) ; `src/dev/exploreLabMap.ts` n'est qu'un banc d'essai technique,
+pas une ébauche de l'une de ces deux cartes.
+
 ---
 
 ## L'académie HOLT

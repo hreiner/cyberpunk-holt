@@ -168,8 +168,7 @@ canvas.addEventListener('click', (e) => {
 window.addEventListener('keydown', (e) => {
   if (e.key === 'a' || e.key === 'A') view.rotate(-1);
   else if (e.key === 'e' || e.key === 'E') view.rotate(1);
-  else if (e.key === '+' || e.key === '=') view.camera.zoomBy(-12, aspect());
-  else if (e.key === '-' || e.key === '_') view.camera.zoomBy(12, aspect());
+  else if (e.key === '+' || e.key === '=' || e.key === '-' || e.key === '_') view.cycleZoom(aspect());
   else if ((e.key === ' ' || e.code === 'Space') && !hud.hasSelection() && hoveredEntityId) {
     e.preventDefault();
     requestInteract(hoveredEntityId);

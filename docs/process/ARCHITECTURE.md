@@ -110,6 +110,27 @@ Comme `tactical`, ce module **n'importe ni `three` ni le DOM** : un dialogue se 
 l'identique dans Node, à la graine près. `src/data/dialogues/*.json` porte le contenu (texte
 français), `src/data/radio.ts` les répliques de l'instructeur.
 
+### `src/explore` — le socle d'exploration (ADR 0013 §5, lot 3.5)
+
+Comme `tactical` et `narrative`, **n'importe ni `three` ni le DOM** (garde-fou dédié :
+`tests/unit/exploreArchitecture.test.ts`, séparé de `tests/unit/architecture.test.ts` pour ne
+pas toucher un fichier partagé avec le reste de l'epic 3).
+
+| Fichier | Rôle |
+|---|---|
+| `types.ts` | contrat exact de `MapDef`/`EntityDef`/`Cell` (recopié de [`09-MAPS-CHAPTER-1.md`](../design/09-MAPS-CHAPTER-1.md)), `ObjectiveDef` |
+| `exploreMap.ts` | légende ASCII exploration (murs, portes, mobilier...), franchissabilité, voisinage 8 directions |
+| `pathing.ts` | BFS déterministe sans limite de budget (à la différence de `tactical/pathfinding.ts`, plafonné aux PM d'un tour) ; réutilise en lecture seule `DIRECTIONS`/`posKey` de `tactical/grid.ts` |
+| `validateMap.ts` | règles de `09-MAPS-CHAPTER-1.md` "Format des cartes" |
+| `exploreState.ts` | `ExploreState` : position continue du meneur et des coéquipiers (filature par historique de trajet), portes, déclencheurs de zone, objectif courant, et l'API de debug `explore()`/`walkTo()`/`interact()`/`completeStep()` (08-EXPLORATION.md "L'API de debug") |
+
+Les conditions d'entité réutilisent telles quelles `Condition`/`evaluateCondition` de
+`src/narrative` (même vocabulaire, aucun langage de plus). Le rendu vit dans
+`src/render/exploreView.ts` (murs en coupe recalculés à chaque quart de tour, portes,
+mobilier, rigs), l'encart d'objectif dans `src/ui/objectiveHud.ts` + `src/ui/explore.css`.
+Banc d'essai (dev only, hors build) : `explore-lab.html` + `src/dev/exploreLab.ts`. **Rien
+n'est encore branché sur `chapter.ts`** (lot 3.6).
+
 ### `src/chapter.ts` — le chef d'orchestre
 
 Seul fichier, avec `app.ts`, à mélanger logique de jeu et DOM — et le seul en dehors de
