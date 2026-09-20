@@ -127,8 +127,20 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
   // que d'exiger specifiquement une etiquette qu'aucun premier choix ne pose ici.
   expect(dossierSize(introDossier)).toBeGreaterThan(0);
 
+  // Le reveil enchaine desormais sur une etape d'exploration (ADR 0013 §4,
+  // epic 3 lot 3.6b) avant le discours -- ce test se concentre sur le
+  // dossier/tirage/combat, pas sur le deplacement (voir explore.spec.ts pour
+  // le parcours reel a la souris/API) : `completeStep()` (outil de dev,
+  // docs/process/DEBUG_API.md) saute directement au declencheur.
   const afterIntro = await advanceToNextScene(page);
-  expect(afterIntro.id).toBe('ch1.discours');
+  expect(afterIntro.kind).toBe('explore');
+  expect(afterIntro.id).toBe('ch1.vers-cantine');
+
+  const afterVersCantine = await page.evaluate(() => {
+    window.__game.completeStep();
+    return window.__game.scene();
+  });
+  expect(afterVersCantine.id).toBe('ch1.discours');
 
   /* --- 2. L'examen : six questions, six entrees de dossier --- */
   const examScene = await page.evaluate(() => {
@@ -206,7 +218,16 @@ test(
     await page.waitForFunction(() => '__game' in window);
 
     const dossierB = await page.evaluate(() => window.__game.dossier());
-    expect(dossierSize(dossierB)).toBe(0);
+    // `dossierSize()` compte aussi les affinites, TOUJOURS non vides des la
+    // creation (`createDossier()`/`startingAffinities()`, epic 3 lot 3.2 --
+    // amorcees depuis les fiches, docs/design/04-CHARACTERS.md) : une partie
+    // neuve n'a donc jamais un dossier de taille 0. Ce qui doit rester a zero
+    // sur une graine neuve, ce sont les etiquettes/entrees VRAIMENT acquises
+    // pendant la partie precedente -- l'assertion isole ces deux champs
+    // plutot que l'agregat (voir `dossierSize`, garde en dessous pour la
+    // premiere moitie de ce test).
+    expect(dossierB.tags).toHaveLength(0);
+    expect(dossierB.entries).toHaveLength(0);
     for (const tag of dossierA.tags) expect(dossierB.tags).not.toContain(tag);
   },
 );

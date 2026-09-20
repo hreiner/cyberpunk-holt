@@ -1,11 +1,13 @@
 /**
- * Chef d'orchestre du chapitre 1 : enchaine les neuf scenes du SceneRouter,
- * pilote un `DialogueRunner` (ou le `GameApp` tactique) selon le type de
+ * Chef d'orchestre du chapitre 1 : enchaine les scenes du SceneRouter, pilote
+ * un `DialogueRunner`, le trio `ExploreState`/`ExploreView`/`ObjectiveHud`
+ * (scenes `explore`, ADR 0013 §4) ou le `GameApp` tactique selon le type de
  * scene courante, et sauvegarde apres chaque scene — jamais au milieu d'un
  * dialogue (ADR 0011). Seul fichier hors `src/narrative` a assembler le
  * routeur de scenes avec du DOM : voir docs/process/ARCHITECTURE.md.
  */
 
+import * as THREE from 'three';
 import { createRng, randomSeedLabel } from '@/core/rng';
 import { loadDossier, loadSession, saveDossier, saveSession } from '@/core/save';
 import type { SessionSave } from '@/core/save';
@@ -22,9 +24,11 @@ import {
   DialogueRunner,
   FLAG_ADVERSE_TASER,
   SceneRouter,
+  TIRAGE_SCENE_ID,
   applyDraftResult,
   createDraftState,
   createRunState,
+  exploreFollowerIds,
   markHeard,
   migrateRunState,
   offscreenFlags,
@@ -32,6 +36,7 @@ import {
   pick as pickDraftCadet,
   resolveOffscreenRun,
   setFlag,
+  withEtape,
 } from '@/narrative';
 import type {
   DraftState,
@@ -44,14 +49,20 @@ import type {
   SceneDef,
   SceneKind,
 } from '@/narrative';
+import { ExploreState } from '@/explore';
+import type { Cell, EntityDef, ExploreDebugSnapshot, ExploreEvent, InteractOutcome, MapDef } from '@/explore';
+import { getMap } from '@/data/maps';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_1_RADIO } from '@/data/radio';
 import { createDicePlayer } from '@/render/diceAdapter';
 import type { DicePlayer } from '@/render/diceAdapter';
+import { ExploreView, KEY_ZOOM_SPEED } from '@/render/exploreView';
+import type { HoverTarget } from '@/render/exploreView';
 import { GameApp } from './app';
 import type { TacticalOutcome } from './app';
 import { NarrativeView } from './ui/narrativeView';
-import { HubView } from './ui/hubView';
+import { ObjectiveHud } from './ui/objectiveHud';
+import { BriefLineView } from './ui/briefLine';
 import { ReportView } from './ui/reportView';
 import { DraftView } from './ui/draftView';
 
@@ -71,12 +82,10 @@ const OFFSCREEN_ROOM_SCENES = new Set(['ch1.salle1', 'ch1.salle2', 'ch1.salle3']
  * terminal declenche l'ecran de tirage (`DraftView`) plutot que d'avancer le
  * routeur, exactement comme `showReport`/`continueFromReport` pour le bilan
  * de l'exercice (voir docs/process/ARCHITECTURE.md, "Le bilan de l'exercice :
- * un pas d'interface, pas une scene").
+ * un pas d'interface, pas une scene"). `TIRAGE_SCENE_ID` vit desormais dans
+ * `src/narrative/sceneRouter.ts` (source unique, reutilisee par
+ * `exploreFollowerIds`).
  */
-const TIRAGE_SCENE_ID = 'ch1.tirage';
-
-/* Note : la liste des cadets du hub est portee par CHAPTER_1_SCENES (sceneRouter.ts,
- * `hubDialogueIds`) ; ChapterApp la relit directement depuis la scene, pas ici. */
 
 export interface ChapterOptions {
   seed?: string;
@@ -98,13 +107,6 @@ export interface NarrativeSceneSnapshot {
   title: string;
   /** Vrai une fois la derniere scene depassee : il n'y a plus rien a jouer. */
   finished: boolean;
-}
-
-/** Une conversation du hub, proposee au joueur (cf. HubView.render). */
-export interface HubEntry {
-  dialogueId: string;
-  label: string;
-  done: boolean;
 }
 
 /**
@@ -140,13 +142,43 @@ function isResumingRun(session: SessionSave, options: ChapterOptions, seed: stri
   return session.run.seed === seed;
 }
 
+/** Touches maintenues du panoramique/zoom continu en exploration (08-EXPLORATION.md "Contrôles"). */
+interface ExploreHeldKeys {
+  up: boolean;
+  down: boolean;
+  left: boolean;
+  right: boolean;
+  zoomIn: boolean;
+  zoomOut: boolean;
+}
+
+/** Réplique brève de repli quand une conversation annexe déjà jouée est rabordée (contrat du lot 3.6b §3). */
+const EXPLORE_REPEAT_LINE_FALLBACK = "Il n'y a plus rien à ajouter.";
+
+/** Flèches -> axe de panoramique continu (08-EXPLORATION.md "Contrôles"). */
+const EXPLORE_PAN_KEYS: Record<string, keyof ExploreHeldKeys> = {
+  ArrowUp: 'up',
+  ArrowDown: 'down',
+  ArrowLeft: 'left',
+  ArrowRight: 'right',
+};
+
 export class ChapterApp {
   private ctx: NarrativeContext;
   private router: SceneRouter;
   private currentSceneDef: SceneDef | null = null;
 
   private activeDialogue: DialogueRunner | null = null;
-  private activeHub: { dialogueId: string; runner: DialogueRunner } | null = null;
+  /**
+   * Conversation annexe d'une scene `explore` (un cadet aborde sur la carte,
+   * l'armoire securisee, ...) : contrat du lot 3.6b §3 -- se joue dans
+   * `NarrativeView` comme n'importe quel dialogue, mais NE FAIT PAS avancer
+   * le routeur ; `entityId` sert a router les evenements de fin (drapeau
+   * "deja jouee", replique breve de repli). Anciennement `activeHub` (liste
+   * des cadets, `HubView`, retire au lot 3.6b -- meme mecanisme, un
+   * `entityId` en plus).
+   */
+  private activeExploreConversation: { entityId: string; dialogueId: string; runner: DialogueRunner } | null = null;
   private tacticalApp: GameApp | null = null;
   /** Etat du tirage en cours (ADR 0014), `null` hors de l'ecran de tirage -- voir `showDraft`. */
   private draftState: DraftState | null = null;
@@ -154,12 +186,11 @@ export class ChapterApp {
   private readonly aiDelayMs: number;
   private readonly narrativeHost: HTMLElement;
   private readonly tacticalHost: HTMLElement;
-  private readonly hubHost: HTMLElement;
+  private readonly exploreHost: HTMLElement;
   private readonly reportHost: HTMLElement;
   private readonly draftHost: HTMLElement;
   private readonly diceHost: HTMLElement;
   private readonly view: NarrativeView;
-  private readonly hubView: HubView;
   private readonly reportView: ReportView;
   private readonly draftView: DraftView;
   /**
@@ -170,6 +201,90 @@ export class ChapterApp {
    */
   private readonly dice: DicePlayer;
   private disposed = false;
+
+  /* ------------------------------- exploration (ADR 0013 §4, lot 3.6b) ------------------------------- */
+  /**
+   * Rendu + renderer de l'exploration : construits UNE FOIS (comme `tacticalApp`) et reutilises
+   * d'une etape a l'autre tant que la carte ne change pas -- c'est ce qui garantit qu'on ne
+   * teleporte jamais Franklyn entre deux etapes d'exploration qui se suivent sur la meme carte
+   * (contrat du lot : "le spawn ne sert qu'a une entree a froid").
+   */
+  private exploreState: ExploreState | null = null;
+  private exploreView: ExploreView | null = null;
+  private exploreMapDef: MapDef | null = null;
+  private exploreRenderer: THREE.WebGLRenderer | null = null;
+  private exploreCanvas: HTMLCanvasElement | null = null;
+  /** HUD/bulles : recrees a chaque entree en exploration (voir `resumeExplore`/`pauseExplore`) pour ne jamais laisser un ecouteur clavier global actif pendant un dialogue ou le combat. */
+  private exploreHud: ObjectiveHud | null = null;
+  private exploreBriefLine: BriefLineView | null = null;
+  private exploreHoveredEntityId: string | null = null;
+  private exploreLastPointerClient = { x: 0, y: 0 };
+  private exploreFollowerRigIds: string[] = [];
+  private readonly exploreHeldKeys: ExploreHeldKeys = {
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+    zoomIn: false,
+    zoomOut: false,
+  };
+  /** Jeton de generation de la boucle d'image (voir `startExploreLoop`) : invalide toute frame en vol des qu'on arrete/redemarre. */
+  private exploreLoopId = 0;
+  private exploreRafId: number | null = null;
+  private exploreLastFrameTime = 0;
+  /** `true` tant que les ecouteurs clavier d'exploration sont attaches (voir `attachExploreKeyboard`/`detachExploreKeyboard`). */
+  private exploreKeyboardAttached = false;
+
+  private readonly onExploreKeyDown = (e: KeyboardEvent): void => {
+    const panKey = EXPLORE_PAN_KEYS[e.key];
+    if (panKey) {
+      this.exploreHeldKeys[panKey] = true;
+      e.preventDefault();
+      return;
+    }
+    if (e.key === '+' || e.key === '=') {
+      this.exploreHeldKeys.zoomIn = true;
+      return;
+    }
+    if (e.key === '-' || e.key === '_') {
+      this.exploreHeldKeys.zoomOut = true;
+      return;
+    }
+    if (e.key === 'a' || e.key === 'A') this.exploreView?.rotate(-1);
+    else if (e.key === 'e' || e.key === 'E') this.exploreView?.rotate(1);
+    else if (e.key === 'c' || e.key === 'C') this.centerCameraOnLeader();
+    else if (
+      (e.key === ' ' || e.code === 'Space') &&
+      !this.exploreHud?.hasSelection() &&
+      this.exploreHoveredEntityId
+    ) {
+      e.preventDefault();
+      this.requestExploreInteract(this.exploreHoveredEntityId);
+    }
+  };
+
+  private readonly onExploreKeyUp = (e: KeyboardEvent): void => {
+    const panKey = EXPLORE_PAN_KEYS[e.key];
+    if (panKey) this.exploreHeldKeys[panKey] = false;
+    else if (e.key === '+' || e.key === '=') this.exploreHeldKeys.zoomIn = false;
+    else if (e.key === '-' || e.key === '_') this.exploreHeldKeys.zoomOut = false;
+  };
+
+  /** Touches restees "enfoncees" si la fenetre perd le focus pendant un appui (alt-tab...). */
+  private readonly onExploreBlur = (): void => {
+    this.exploreHeldKeys.up =
+      this.exploreHeldKeys.down =
+      this.exploreHeldKeys.left =
+      this.exploreHeldKeys.right =
+        false;
+    this.exploreHeldKeys.zoomIn = this.exploreHeldKeys.zoomOut = false;
+  };
+
+  private readonly onExploreResize = (): void => {
+    if (!this.exploreRenderer || !this.exploreView) return;
+    this.exploreRenderer.setSize(this.exploreHost.clientWidth, this.exploreHost.clientHeight, false);
+    this.exploreView.resize(this.exploreAspect());
+  };
 
   constructor(container: HTMLElement, options: ChapterOptions = {}) {
     this.aiDelayMs = options.aiDelayMs ?? 450;
@@ -188,7 +303,7 @@ export class ChapterApp {
 
     // Etat initial arbitraire : `enterScene()` (appelee a la fin du constructeur)
     // appelle toujours `setActiveHost()` avant d'afficher quoi que ce soit, donc
-    // un seul des quatre hosts reste visible en pratique. Ne pas s'y fier ici :
+    // un seul des cinq hosts reste visible en pratique. Ne pas s'y fier ici :
     // le bug corrige (voir `setActiveHost`) venait justement de `narrativeHost`
     // ne recevant jamais d'etat explicite hors de ce constructeur.
     this.tacticalHost = document.createElement('div');
@@ -196,8 +311,8 @@ export class ChapterApp {
     this.tacticalHost.style.display = 'none';
     this.narrativeHost = document.createElement('div');
     this.narrativeHost.className = 'chapter-host chapter-host-narrative';
-    this.hubHost = document.createElement('div');
-    this.hubHost.className = 'chapter-host chapter-host-hub';
+    this.exploreHost = document.createElement('div');
+    this.exploreHost.className = 'chapter-host chapter-host-explore';
     this.reportHost = document.createElement('div');
     this.reportHost.className = 'chapter-host chapter-host-report';
     this.draftHost = document.createElement('div');
@@ -207,7 +322,7 @@ export class ChapterApp {
     container.append(
       this.tacticalHost,
       this.narrativeHost,
-      this.hubHost,
+      this.exploreHost,
       this.reportHost,
       this.draftHost,
       this.diceHost,
@@ -223,10 +338,6 @@ export class ChapterApp {
       onAcceptRoll: () => this.acceptRoll(),
       playRoll: (roll, label) => this.dice.playRoll(roll, label),
       cancelRoll: () => this.dice.cancel(),
-    });
-    this.hubView = new HubView(this.hubHost, {
-      onPick: (id) => this.pickHub(id),
-      onLeave: () => this.leaveHub(),
     });
     this.reportView = new ReportView(this.reportHost, {
       onContinueExercise: () => this.continueFromReport(),
@@ -252,14 +363,15 @@ export class ChapterApp {
   /* --------------------------------- lecture -------------------------------- */
 
   /**
-   * Contexte le plus a jour : celui du dialogue (ou de la conversation du hub)
-   * en cours si l'un des deux est actif, sinon le contexte du chapitre. Les
+   * Contexte le plus a jour : celui du dialogue (ou de la conversation annexe
+   * d'exploration) en cours si l'un des deux est actif, sinon le contexte du
+   * chapitre. Les
    * effets d'un noeud s'appliquent immediatement (voir DialogueRunner), donc
    * `run`/`dossier` doivent les refleter tout de suite — pas seulement une
    * fois la scene entierement terminee et fusionnee via `mergeContext`.
    */
   private get liveCtx(): NarrativeContext {
-    const runnerCtx = this.activeDialogue?.context ?? this.activeHub?.runner.context;
+    const runnerCtx = this.activeDialogue?.context ?? this.activeExploreConversation?.runner.context;
     if (!runnerCtx) return this.ctx;
     // Le RunState "en vol" du runner n'a pas la liste a jour des repliques
     // radio deja montrees (voir `checkRadio`), ni les drapeaux ch1.adverse.*
@@ -300,17 +412,11 @@ export class ChapterApp {
     };
   }
 
-  /** Noeud presente actuellement (dialogue de scene ou conversation du hub), `null` sinon. */
+  /** Noeud presente actuellement (dialogue de scene ou conversation annexe d'exploration), `null` sinon. */
   get node(): PresentedNode | null {
     if (this.activeDialogue) return this.activeDialogue.current();
-    if (this.activeHub) return this.activeHub.runner.current();
+    if (this.activeExploreConversation) return this.activeExploreConversation.runner.current();
     return null;
-  }
-
-  /** Liste des conversations du hub, uniquement quand la liste est affichee (pas en pleine conversation). */
-  get hub(): HubEntry[] | null {
-    if (!this.currentSceneDef || this.currentSceneDef.kind !== 'hub' || this.activeHub) return null;
-    return this.hubEntries(this.currentSceneDef);
   }
 
   /** Repliques radio actuellement dues, sans les marquer entendues (lecture pure, pour le debug). */
@@ -318,11 +424,54 @@ export class ChapterApp {
     return pendingRadio(CHAPTER_1_RADIO, this.liveCtx);
   }
 
+  /**
+   * Instantane de l'exploration en cours (`window.__game.explore()`,
+   * 08-EXPLORATION.md "L'API de debug") -- `null` hors d'une scene `explore`
+   * (y compris pendant une conversation annexe : `currentSceneDef` reste
+   * `explore` tout du long, meme principe que l'ancien hub avec `scene()`).
+   */
+  exploreSnapshot(): ExploreDebugSnapshot | null {
+    if (this.currentSceneDef?.kind !== 'explore' || !this.exploreState) return null;
+    return this.exploreState.explore();
+  }
+
+  /** Deplacement instantane du meneur (`window.__game.walkTo(x, y)`), sans animation. */
+  exploreWalkTo(x: number, y: number): void {
+    this.exploreState?.walkTo(x, y);
+  }
+
+  /**
+   * Declenche `entityId` comme un clic, sans marcher (`window.__game.interact(entityId)`) :
+   * meme logique de routage que la resolution differee d'un clic reel, voir
+   * `handleExploreInteraction`. Renvoie l'issue EFFECTIVE (ex. `brief-line`
+   * si une conversation annexe deja jouee a ete substituee au dialogue),
+   * jamais l'issue brute de l'entite si elle a ete remplacee.
+   */
+  exploreInteract(entityId: string): InteractOutcome | null {
+    if (!this.exploreState) return null;
+    const outcome = this.exploreState.interact(entityId);
+    for (const ev of this.exploreState.drainEvents()) this.handleExploreEvent(ev);
+    return this.handleExploreInteraction(entityId, outcome);
+  }
+
+  /**
+   * Reserve au developpement (`window.__game.completeStep()`) : termine l'objectif ET fait
+   * avancer le routeur, comme si son `completionTrigger` venait d'etre declenche -- sans quoi
+   * l'outil ne debloquerait rien (l'ancien `ExploreState.completeStep()` ne fait que poser le
+   * tampon "FAIT" sur le HUD, voir `src/dev/exploreLab.ts`).
+   */
+  exploreCompleteStep(): void {
+    if (!this.exploreState || this.currentSceneDef?.kind !== 'explore') return;
+    this.exploreState.completeStep();
+    this.exploreState.drainEvents();
+    this.completeExploreScene();
+  }
+
   /* --------------------------------- pilotage -------------------------------- */
 
   /**
    * Selectionne le choix `index` (l'index D'ORIGINE, voir `PresentedChoice.index`)
-   * du dialogue ou de la conversation de hub en cours. Repercute tel quel le
+   * du dialogue ou de la conversation annexe en cours. Repercute tel quel le
    * `NarrativeOutcome` du runner : un choix indisponible ne fait jamais rien
    * en silence (defaut 1 du rapport de cloture epic 2, regle 3 d'AGENTS.md).
    */
@@ -332,9 +481,9 @@ export class ChapterApp {
       this.renderDialogue();
       return outcome;
     }
-    if (this.activeHub) {
-      const outcome = this.activeHub.runner.choose(index);
-      this.renderHubDialogue();
+    if (this.activeExploreConversation) {
+      const outcome = this.activeExploreConversation.runner.choose(index);
+      this.renderExploreConversation();
       return outcome;
     }
     return { ok: false, reason: 'Aucun dialogue en cours.' };
@@ -352,9 +501,9 @@ export class ChapterApp {
       this.renderDialogue();
       return outcome;
     }
-    if (this.activeHub) {
-      const outcome = this.activeHub.runner.rollInsight();
-      this.renderHubDialogue();
+    if (this.activeExploreConversation) {
+      const outcome = this.activeExploreConversation.runner.rollInsight();
+      this.renderExploreConversation();
       return outcome;
     }
     return { ok: false, reason: 'Aucun dialogue en cours.' };
@@ -362,7 +511,7 @@ export class ChapterApp {
 
   /**
    * Depense `n` points de Chance sur le jet en attente du dialogue ou de la
-   * conversation de hub en cours (ADR 0015 §2, `DialogueRunner.spendLuck`) :
+   * conversation annexe en cours (ADR 0015 §2, `DialogueRunner.spendLuck`) :
    * meme garde-fou et meme forme de retour que `rollInsight`.
    */
   spendLuck(n: number): NarrativeOutcome {
@@ -371,9 +520,9 @@ export class ChapterApp {
       this.renderDialogue();
       return outcome;
     }
-    if (this.activeHub) {
-      const outcome = this.activeHub.runner.spendLuck(n);
-      this.renderHubDialogue();
+    if (this.activeExploreConversation) {
+      const outcome = this.activeExploreConversation.runner.spendLuck(n);
+      this.renderExploreConversation();
       return outcome;
     }
     return { ok: false, reason: 'Aucun dialogue en cours.' };
@@ -386,9 +535,9 @@ export class ChapterApp {
       this.renderDialogue();
       return outcome;
     }
-    if (this.activeHub) {
-      const outcome = this.activeHub.runner.acceptRoll();
-      this.renderHubDialogue();
+    if (this.activeExploreConversation) {
+      const outcome = this.activeExploreConversation.runner.acceptRoll();
+      this.renderExploreConversation();
       return outcome;
     }
     return { ok: false, reason: 'Aucun dialogue en cours.' };
@@ -399,7 +548,7 @@ export class ChapterApp {
    * (`to`), soit il est terminal et il faut alors rendre la main a la scene
    * suivante — mais seulement maintenant, pas au moment ou le noeud terminal a
    * ete affiche, sinon sa derniere replique ne serait jamais lue (voir
-   * `renderDialogue` / `renderHubDialogue`, qui n'enchainent jamais seules).
+   * `renderDialogue` / `renderExploreConversation`, qui n'enchainent jamais seules).
    */
   advance(): void {
     if (this.activeDialogue) {
@@ -411,13 +560,13 @@ export class ChapterApp {
       this.renderDialogue();
       return;
     }
-    if (this.activeHub) {
-      if (this.activeHub.runner.current().finished) {
-        this.completeHubDialogue();
+    if (this.activeExploreConversation) {
+      if (this.activeExploreConversation.runner.current().finished) {
+        this.completeExploreConversation();
         return;
       }
-      this.activeHub.runner.advance();
-      this.renderHubDialogue();
+      this.activeExploreConversation.runner.advance();
+      this.renderExploreConversation();
       return;
     }
     // Le tirage termine (recap a l'ecran) : un dernier "Continuer" rend la
@@ -425,29 +574,7 @@ export class ChapterApp {
     if (this.draftState && this.draftState.turn === 'done') {
       this.continueFromDraft();
     }
-    // Rien a avancer sinon : liste du hub, scene tactique, ou chapitre termine.
-  }
-
-  pickHub(dialogueId: string): void {
-    const file = DIALOGUES[dialogueId];
-    if (!file) {
-      console.error(`ChapterApp : dialogue de hub "${dialogueId}" introuvable.`);
-      return;
-    }
-    const rng = createRng(`${this.ctx.run.seed}::${dialogueId}`);
-    this.activeHub = { dialogueId, runner: new DialogueRunner(file, this.ctx, rng) };
-    // La conversation choisie s'affiche dans NarrativeView (`narrativeHost`),
-    // pas dans la liste du hub (`hubHost`, HubView) : voir `setActiveHost`.
-    this.hideAllViews();
-    this.setActiveHost('dialogue');
-    this.view.show();
-    this.renderHubDialogue();
-  }
-
-  leaveHub(): void {
-    const next = this.advanceRouter();
-    this.persistAfterScene();
-    this.enterScene(next);
+    // Rien a avancer sinon : exploration hors conversation, scene tactique, ou chapitre termine.
   }
 
   goToScene(id: string): void {
@@ -480,7 +607,7 @@ export class ChapterApp {
     this.jumpRouter('ch1.affrontement');
     this.persistAfterScene();
     this.activeDialogue = null;
-    this.activeHub = null;
+    this.activeExploreConversation = null;
     this.enterTacticalScene(this.router.current(), setup);
     return this.tacticalApp as GameApp;
   }
@@ -490,7 +617,10 @@ export class ChapterApp {
     this.disposed = true;
     this.tacticalApp?.dispose();
     this.view.dispose();
-    this.hubView.dispose();
+    this.pauseExplore();
+    this.exploreView?.dispose();
+    this.exploreRenderer?.dispose();
+    window.removeEventListener('resize', this.onExploreResize);
     this.reportView.dispose();
     this.draftView.dispose();
     this.dice.dispose();
@@ -503,36 +633,52 @@ export class ChapterApp {
    * `narrativeHost` plus haut) : cache les trois autres inconditionnellement
    * avant d'afficher celui qui commence. Appelee par les `enterXScene`, par
    * `debugStartTactical` (atteint la scene tactique sans passer par
-   * `enterScene`), et par `pickHub`/`completeHubDialogue`/`showReport` qui
-   * basculent SANS changer de `SceneDef` (le hub reste une seule scene pour
-   * le routeur, qu'on affiche sa liste ou une conversation).
+   * `enterScene`), et par `openExploreConversation`/`completeExploreConversation`/
+   * `showReport` qui basculent SANS changer de `SceneDef` (une scene `explore`
+   * reste une seule scene pour le routeur, qu'on s'y deplace ou qu'on y joue
+   * une conversation annexe).
    *
    * `'dialogue'` couvre a la fois une vraie scene `dialogue` ET une
-   * conversation de hub en cours (les deux passent par NarrativeView) ;
-   * `'hub'` designe uniquement la LISTE des cadets (HubView) ; `'report'` le
-   * bilan de l'exercice, un pas de l'interface sans `SceneDef` dedie (voir
-   * `showReport`, docs/process/ARCHITECTURE.md).
+   * conversation annexe d'exploration en cours (les deux passent par
+   * NarrativeView) ; `'explore'` la carte, l'encart d'objectif et les bulles
+   * de replique (`exploreHost`) ; `'report'` le bilan de l'exercice, un pas
+   * de l'interface sans `SceneDef` dedie (voir `showReport`,
+   * docs/process/ARCHITECTURE.md).
+   *
+   * Piege deja rencontre deux fois sur ce projet : une regle auteur `display:`
+   * d'une couche bat `[hidden] { display: none }` du navigateur. On l'evite
+   * ici comme partout ailleurs dans cette methode : en bascule l'inline
+   * `style.display` du HOST lui-meme (jamais l'attribut `hidden` d'un
+   * enfant) -- masquer `exploreHost` masque d'un coup l'encart d'objectif ET
+   * les bulles de replique, sans piege de specificite CSS a traquer un par un.
    */
-  private setActiveHost(kind: 'dialogue' | 'hub' | 'tactical' | 'report' | 'draft'): void {
+  private setActiveHost(kind: 'dialogue' | 'explore' | 'tactical' | 'report' | 'draft'): void {
     this.tacticalHost.style.display = kind === 'tactical' ? '' : 'none';
-    this.hubHost.style.display = kind === 'hub' ? '' : 'none';
+    this.exploreHost.style.display = kind === 'explore' ? '' : 'none';
     this.reportHost.style.display = kind === 'report' ? '' : 'none';
     this.draftHost.style.display = kind === 'draft' ? '' : 'none';
     this.narrativeHost.style.display = kind === 'dialogue' ? '' : 'none';
+    // Contrat du lot 3.6b : l'encart d'objectif et les bulles sont affiches
+    // PENDANT l'exploration, masques pendant les dialogues et le combat --
+    // c'est ici, au seul endroit qui bascule les hosts, que la boucle
+    // d'exploration doit demarrer/s'arreter en consequence.
+    if (kind === 'explore') this.resumeExplore();
+    else this.pauseExplore();
   }
 
   /**
-   * Cache les trois vues (dialogue, hub, bilan) sans se soucier de laquelle
-   * etait active : filet de securite complementaire a `setActiveHost` (qui ne
-   * fait que masquer les HOSTS). Sans lui, une vue jamais explicitement
-   * cachee garde son propre `root.hidden = false` et son ecouteur clavier
-   * global continue d'intercepter des touches derriere un host masque --
-   * inoffensif visuellement, mais pas pour le clavier (ex. `debugStartTactical`,
-   * qui atteint la scene tactique sans passer par `pickHub`/`completeHubDialogue`).
+   * Cache les deux vues plein cadre restantes (bilan, tirage) sans se soucier
+   * de laquelle etait active : filet de securite complementaire a
+   * `setActiveHost` (qui ne fait que masquer les HOSTS). Sans lui, une vue
+   * jamais explicitement cachee garde son propre `root.hidden = false` et son
+   * ecouteur clavier global continue d'intercepter des touches derriere un
+   * host masque -- inoffensif visuellement, mais pas pour le clavier (ex.
+   * `debugStartTactical`, qui atteint la scene tactique directement). `view`
+   * (NarrativeView) et l'exploration (`pauseExplore`/`resumeExplore`, voir
+   * `setActiveHost`) gerent deja leur propre visibilite/ecouteurs.
    */
   private hideAllViews(): void {
     this.view.hide();
-    this.hubView.hide();
     this.reportView.hide();
     this.draftView.hide();
   }
@@ -583,59 +729,463 @@ export class ChapterApp {
     this.enterScene(next);
   }
 
-  /* ---------------------------------- scenes : hub ---------------------------- */
+  /* ---------------------------------- scenes : explore (ADR 0013 §4, lot 3.6b) ---------------------------- */
 
-  private enterHubScene(scene: SceneDef): void {
+  /**
+   * Entree dans une etape d'exploration : pose `ch1.etape` AVANT toute autre
+   * chose (les conditions des entites en dependent), construit (ou reutilise)
+   * le monde 3D, met a jour objectif/coequipiers/repere, puis recentre la
+   * camera sur Franklyn (contrat du lot : "au debut d'une etape... jamais
+   * pendant un deplacement").
+   */
+  private enterExploreScene(scene: SceneDef): void {
+    this.currentSceneDef = scene;
     this.hideAllViews();
-    this.setActiveHost('hub');
-    this.activeHub = null;
-    this.hubView.show();
-    this.renderHubList(scene);
+    this.activeExploreConversation = null;
+    this.ctx = withEtape(this.ctx, scene);
+
+    // Rend `exploreHost` visible AVANT toute mesure de sa taille (`buildExploreWorld`/
+    // `exploreAspect()` lisent `clientWidth`/`clientHeight`, qui valent 0 tant que l'element
+    // est `display:none` -- laisse depuis la derniere scene non-explore, voir `setActiveHost`).
+    // Le `setActiveHost('explore')` en fin de methode reste necessaire : lui seul demarre la
+    // boucle d'image et recree l'encart d'objectif/les bulles (`resumeExplore`).
+    this.exploreHost.style.display = '';
+
+    const mapDef = getMap(scene.mapId ?? '');
+    if (!this.exploreState || !this.exploreView || this.exploreState.map.id !== mapDef.id) {
+      this.buildExploreWorld(mapDef, scene);
+    } else {
+      // Meme carte que l'etape precedente : on NE reconstruit PAS l'etat (donc on ne
+      // teleporte pas Franklyn, voir SceneDef.spawn) -- seul le contexte change.
+      this.exploreState.updateContext(this.ctx);
+    }
+
+    const followerIds = exploreFollowerIds(this.ctx.run);
+    this.exploreState?.setFollowers(followerIds);
+    this.syncExploreFollowerRigs(followerIds);
+    this.exploreState?.setObjective(scene.objective ?? null);
+    this.exploreView?.setPingTarget(this.objectiveTargetCell(scene));
+
+    this.setActiveHost('explore'); // -> resumeExplore()
+    this.centerCameraOnLeader();
   }
 
-  private hubEntries(scene: SceneDef): HubEntry[] {
-    return (scene.hubDialogueIds ?? []).map((dialogueId) => {
-      const cadetId = dialogueId.split('.').pop() as CharacterId;
-      return {
-        dialogueId,
-        label: getCharacter(cadetId).name,
-        done: Boolean(this.ctx.run.flags[this.hubFlagKey(dialogueId)]),
-      };
+  /**
+   * Recentre la camera sur la position RÉELLE du meneur (`ExploreState.leaderCell()`),
+   * jamais sur `ExploreView.centerOnLeader()` -- ce dernier lit une case
+   * mise en cache par `updateRigPosition()`, alimentée uniquement pendant le
+   * rendu (boucle d'image en cours). Aux trois moments où `chapter.ts`
+   * recentre (début d'étape, sortie d'un dialogue, touche `C`), la boucle
+   * vient justement d'être à l'arrêt (ou n'a pas encore tourné une seule
+   * fois pour cette étape) : la case mise en cache est alors nulle ou
+   * périmée d'une étape entière -- défaut réel constaté en vérification
+   * visuelle du lot 3.6b (la caméra ne bougeait pas d'une étape à l'autre).
+   */
+  private centerCameraOnLeader(): void {
+    if (!this.exploreState || !this.exploreView) return;
+    this.exploreView.centerOn(this.exploreState.leaderCell());
+  }
+
+  /**
+   * Construit l'etat/le rendu d'exploration pour `mapDef` -- une entree a
+   * froid (nouvelle partie, reprise de sauvegarde, `?scene=`) ou un
+   * changement de carte (hors perimetre du chapitre 1, voir le centre
+   * d'examen, lot 3.7). `scene.spawn` ne sert QU'ICI : voir `SceneDef.spawn`.
+   */
+  private buildExploreWorld(mapDef: MapDef, scene: SceneDef): void {
+    this.exploreView?.dispose();
+    this.exploreFollowerRigIds = [];
+    this.exploreMapDef = mapDef;
+    this.exploreState = new ExploreState(mapDef, this.ctx, {
+      spawn: scene.spawn,
+      followerIds: exploreFollowerIds(this.ctx.run),
     });
+
+    if (!this.exploreRenderer || !this.exploreCanvas) {
+      this.exploreCanvas = document.createElement('canvas');
+      this.exploreHost.appendChild(this.exploreCanvas);
+      this.exploreRenderer = new THREE.WebGLRenderer({ canvas: this.exploreCanvas, antialias: true });
+      this.exploreRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      this.exploreRenderer.outputColorSpace = THREE.SRGBColorSpace;
+      this.exploreRenderer.shadowMap.enabled = true;
+      this.wireExploreCanvasInput(this.exploreCanvas);
+    }
+
+    const rng = createRng(`${this.ctx.run.seed}::explore::${mapDef.id}`);
+    this.exploreView = new ExploreView(mapDef, rng, this.exploreAspect(), {
+      onHover: (target) => this.handleExploreHover(target),
+      onMoveTo: (cell) => {
+        const res = this.exploreState?.walkLeaderTo(cell);
+        if (res && !res.ok) console.warn(`ChapterApp (exploration) : deplacement refuse (${res.reason}).`);
+      },
+      onInteract: (entityId) => this.requestExploreInteract(entityId),
+    });
+    this.exploreView.setLeader(getCharacter('franklyn'));
+    this.exploreView.updateRigPosition('leader', this.exploreState.leaderCell(), false, 0);
+    this.exploreView.centerOn(this.exploreState.leaderCell());
+    this.exploreRenderer.setSize(this.exploreHost.clientWidth, this.exploreHost.clientHeight, false);
   }
 
-  private hubFlagKey(dialogueId: string): string {
+  /** Case cible du repere "Tab maintenu" (08-EXPLORATION.md "Les objectifs") : celle du `completionTrigger`. */
+  private objectiveTargetCell(scene: SceneDef): Cell | null {
+    const triggerId = scene.objective?.completionTrigger;
+    if (!triggerId) return null;
+    return this.exploreEntity(triggerId)?.cell ?? null;
+  }
+
+  private exploreEntity(entityId: string): EntityDef | undefined {
+    return this.exploreMapDef?.entities.find((e) => e.id === entityId);
+  }
+
+  private exploreAspect(): number {
+    return Math.max(0.1, this.exploreHost.clientWidth / Math.max(1, this.exploreHost.clientHeight));
+  }
+
+  /** Ajoute/retire les rigs des coequipiers pour correspondre exactement a `ids` (ordre du roster). */
+  private syncExploreFollowerRigs(ids: string[]): void {
+    if (!this.exploreView) return;
+    for (const id of this.exploreFollowerRigIds) {
+      if (!ids.includes(id)) this.exploreView.removeRig(id);
+    }
+    for (const id of ids) {
+      if (!this.exploreFollowerRigIds.includes(id)) this.exploreView.setFollower(id, getCharacter(id as CharacterId));
+    }
+    this.exploreFollowerRigIds = [...ids];
+  }
+
+  /* -- affichage/pilotage de la boucle d'exploration (montre/masque encart + bulles, contrat §6) -- */
+
+  /**
+   * Affiche l'encart d'objectif + les bulles et (re)demarre la boucle
+   * d'image. Recree `ObjectiveHud`/`BriefLineView` a chaque entree plutot que
+   * de les garder en vie tout le chapitre (contrairement a `exploreState`/
+   * `exploreView`) : les deux posent des ecouteurs clavier globaux (Tab,
+   * Espace) qu'on ne veut JAMAIS actifs pendant un dialogue ou le combat --
+   * les recreer est plus sur que de leur ajouter une API de pause.
+   */
+  private resumeExplore(): void {
+    if (!this.exploreState || !this.exploreView) return;
+    if (!this.exploreHud) {
+      this.exploreHud = new ObjectiveHud(this.exploreHost, {
+        onPingChange: (active) => this.exploreView?.setPingActive(active),
+        onInteractSelected: (entityId) => this.requestExploreInteract(entityId),
+      });
+    }
+    this.exploreHud.setObjective(this.exploreState.objectiveStatus());
+    if (!this.exploreBriefLine) this.exploreBriefLine = new BriefLineView(this.exploreHost);
+    this.attachExploreKeyboard();
+    this.startExploreLoop();
+  }
+
+  private pauseExplore(): void {
+    this.stopExploreLoop();
+    this.detachExploreKeyboard();
+    this.exploreHud?.dispose();
+    this.exploreHud = null;
+    this.exploreBriefLine?.dispose();
+    this.exploreBriefLine = null;
+  }
+
+  private attachExploreKeyboard(): void {
+    if (this.exploreKeyboardAttached) return;
+    this.exploreKeyboardAttached = true;
+    window.addEventListener('keydown', this.onExploreKeyDown);
+    window.addEventListener('keyup', this.onExploreKeyUp);
+    window.addEventListener('blur', this.onExploreBlur);
+  }
+
+  private detachExploreKeyboard(): void {
+    if (!this.exploreKeyboardAttached) return;
+    this.exploreKeyboardAttached = false;
+    window.removeEventListener('keydown', this.onExploreKeyDown);
+    window.removeEventListener('keyup', this.onExploreKeyUp);
+    window.removeEventListener('blur', this.onExploreBlur);
+    this.exploreHeldKeys.up =
+      this.exploreHeldKeys.down =
+      this.exploreHeldKeys.left =
+      this.exploreHeldKeys.right =
+        false;
+    this.exploreHeldKeys.zoomIn = this.exploreHeldKeys.zoomOut = false;
+  }
+
+  /** Souris : pointermove/click/wheel, cables une seule fois sur le canvas (persiste tout le chapitre). */
+  private wireExploreCanvasInput(canvas: HTMLCanvasElement): void {
+    const ndcFromEvent = (e: PointerEvent | MouseEvent | WheelEvent): { x: number; y: number } => {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        y: -(((e.clientY - rect.top) / rect.height) * 2 - 1),
+      };
+    };
+    canvas.addEventListener('pointermove', (e) => {
+      this.exploreLastPointerClient = { x: e.clientX, y: e.clientY };
+      const { x, y } = ndcFromEvent(e);
+      this.exploreView?.handlePointerMove(x, y);
+    });
+    canvas.addEventListener('click', (e) => {
+      const { x, y } = ndcFromEvent(e);
+      this.exploreView?.handleClick(x, y);
+    });
+    canvas.addEventListener(
+      'wheel',
+      (e) => {
+        e.preventDefault();
+        const { x, y } = ndcFromEvent(e);
+        this.exploreView?.zoomAtCursor(x, y, e.deltaY, this.exploreAspect());
+      },
+      { passive: false },
+    );
+    window.addEventListener('resize', this.onExploreResize);
+  }
+
+  private handleExploreHover(target: HoverTarget | null): void {
+    if (target?.type === 'entity') {
+      this.exploreHoveredEntityId = target.id;
+      const info = this.exploreState?.listInteractables().find((i) => i.id === target.id);
+      this.exploreHud?.setHoverLabel(info?.label ?? target.id, info?.reachable ?? true, this.exploreLastPointerClient);
+    } else {
+      this.exploreHoveredEntityId = null;
+      this.exploreHud?.setHoverLabel(null);
+    }
+  }
+
+  /** Clic (ou selection clavier) sur un interactable : marche jusqu'a la case d'interaction, puis declenche. */
+  private requestExploreInteract(entityId: string): void {
+    const res = this.exploreState?.requestInteract(entityId);
+    if (res && !res.ok) console.warn(`ChapterApp (exploration) : interaction refusee (${entityId}) : ${res.reason}`);
+  }
+
+  /**
+   * Boucle d'image de l'exploration : `ExploreState.tick(dtMs)` (dtMs
+   * MESURE, jamais lu de l'horloge par `tick` lui-meme -- ADR 0013 §3) puis
+   * `ExploreView.render()`. Jeton de generation (`exploreLoopId`) : si un
+   * evenement traite en cours de frame fait quitter l'exploration
+   * (`completeExploreScene`, qui appelle `setActiveHost('dialogue')` ->
+   * `pauseExplore()` -> `stopExploreLoop()`), la frame s'arrete net plutot
+   * que de continuer a animer une scene qu'on vient de quitter, et surtout
+   * sans planifier de frame suivante par-dessus celle qu'un `resumeExplore()`
+   * ulterieur aurait deja replanifiee (cas d'ecole : deux scenes `explore`
+   * qui se suivent -- n'arrive pas au chapitre 1, mais reste possible au
+   * lot 3.7).
+   */
+  private startExploreLoop(): void {
+    this.exploreLoopId += 1;
+    const loopId = this.exploreLoopId;
+    this.exploreLastFrameTime = performance.now();
+
+    const frame = (now: number): void => {
+      if (loopId !== this.exploreLoopId) return;
+      const state = this.exploreState;
+      const view = this.exploreView;
+      const renderer = this.exploreRenderer;
+      if (!state || !view || !renderer) return;
+
+      const dtMs = Math.min(now - this.exploreLastFrameTime, 250);
+      this.exploreLastFrameTime = now;
+      const dt = dtMs / 1000;
+
+      state.updateContext(this.ctx);
+      for (const ev of state.tick(dtMs)) {
+        this.handleExploreEvent(ev);
+        if (loopId !== this.exploreLoopId) return;
+      }
+
+      view.panScreenRelative(this.exploreHeldKeys, dt);
+      if (this.exploreHeldKeys.zoomIn) view.zoomBy(-KEY_ZOOM_SPEED * dt, this.exploreAspect());
+      if (this.exploreHeldKeys.zoomOut) view.zoomBy(KEY_ZOOM_SPEED * dt, this.exploreAspect());
+
+      view.updateRigPosition('leader', state.leaderPosition(), state.isMoving(), dt);
+      const positions = state.followerPositions();
+      this.exploreFollowerRigIds.forEach((id, i) => {
+        const pos = positions[i];
+        if (pos) view.updateRigPosition(id, pos, state.isMoving(), dt);
+      });
+      view.tick(dt);
+
+      this.exploreBriefLine?.tick(dt);
+      const trackedEntityId = this.exploreBriefLine?.entityToTrack;
+      if (trackedEntityId) {
+        const cell = this.exploreEntity(trackedEntityId)?.cell;
+        const pos = cell ? view.projectToScreen(cell, this.exploreHost.clientWidth, this.exploreHost.clientHeight) : null;
+        this.exploreBriefLine?.setSpeechScreenPosition(pos);
+      }
+
+      const interactables = state.listInteractables();
+      this.exploreHud?.setInteractables(interactables.map((it) => ({ id: it.id, label: it.label, reachable: it.reachable })));
+      if (this.exploreHoveredEntityId) {
+        const info = interactables.find((i) => i.id === this.exploreHoveredEntityId);
+        if (info) this.exploreHud?.setHoverLabel(info.label, info.reachable, this.exploreLastPointerClient);
+      }
+
+      renderer.render(view.scene, view.camera.camera);
+      this.exploreRafId = requestAnimationFrame(frame);
+    };
+
+    this.exploreRafId = requestAnimationFrame(frame);
+  }
+
+  private stopExploreLoop(): void {
+    this.exploreLoopId += 1; // invalide toute frame deja planifiee
+    if (this.exploreRafId !== null) {
+      cancelAnimationFrame(this.exploreRafId);
+      this.exploreRafId = null;
+    }
+  }
+
+  /* -- evenements/interactions (contrat du lot 3.6b §3, "comment une etape se termine") -- */
+
+  private handleExploreEvent(ev: ExploreEvent): void {
+    switch (ev.kind) {
+      case 'interaction-fired':
+        this.handleExploreInteraction(ev.entityId, ev.outcome);
+        break;
+      case 'zone-triggered':
+        // Aucune zone n'est `completionTrigger` au chapitre 1 (toutes des `seat`/`object`) --
+        // couvert par symetrie avec `interaction-fired`, utile des le lot 3.7 (le portail de la cour).
+        if (this.isObjectiveTrigger(ev.entityId)) this.completeExploreScene();
+        break;
+      case 'objective-task-progress':
+      case 'objective-complete':
+        this.exploreHud?.setObjective(this.exploreState?.objectiveStatus() ?? null);
+        break;
+      case 'arrived':
+        break;
+    }
+  }
+
+  private isObjectiveTrigger(entityId: string): boolean {
+    return this.currentSceneDef?.kind === 'explore' && this.currentSceneDef.objective?.completionTrigger === entityId;
+  }
+
+  /**
+   * Regle unique de fin d'etape (contrat du lot 3.6b §3) : l'entite qui
+   * porte le `completionTrigger` de l'objectif fait TOUJOURS avancer le
+   * routeur, quel que soit son `InteractOutcome` -- jamais son propre
+   * dialogue (c'est la scene SUIVANTE qui le joue, via `enterScene`). Toute
+   * autre entite a `dialogueId` ouvre une conversation annexe qui n'avance
+   * pas le routeur.
+   *
+   * Renvoie l'issue EFFECTIVE (pas forcement `outcome` tel quel) : une
+   * conversation annexe deja jouee substitue une replique breve au dialogue
+   * -- `window.__game.interact()` (voir `exploreInteract`) doit refleter ce
+   * qui s'est reellement passe, pas la nature brute de l'entite.
+   */
+  private handleExploreInteraction(entityId: string, outcome: InteractOutcome): InteractOutcome {
+    // "Le personnage marche jusqu'à la case d'interaction (adjacente), se tourne, puis l'action
+    // se déclenche" (08-EXPLORATION.md "Interaction") -- `updateRigPosition` ne tourne le rig
+    // QUE pendant un déplacement (voir `ExploreView.faceLeaderTowards`), donc explicite ici.
+    const entityCell = this.exploreEntity(entityId)?.cell;
+    if (entityCell) this.exploreView?.faceLeaderTowards(entityCell);
+
+    if (this.isObjectiveTrigger(entityId)) {
+      this.completeExploreScene();
+      return outcome;
+    }
+    switch (outcome.kind) {
+      case 'dialogue':
+        return this.openExploreConversation(entityId, outcome.dialogueId, outcome.startNode) ?? outcome;
+      case 'brief-line':
+        this.playExploreBriefLine(outcome.entityId, outcome.text);
+        break;
+      case 'door-toggled':
+        this.exploreView?.setDoorOpen(outcome.entityId, outcome.open);
+        break;
+      case 'door-locked':
+        if (outcome.line) this.playExploreBriefLine(outcome.entityId, outcome.line);
+        break;
+      case 'change-map':
+        // Hors perimetre du chapitre 1 (le centre d'examen n'existe pas avant le lot 3.7) :
+        // on journalise plutot que de planter sur une carte introuvable.
+        console.warn(`ChapterApp (exploration) : changement de carte vers "${outcome.targetMapId}" non gere (lot 3.7).`);
+        break;
+      case 'zone-trigger':
+      case 'none':
+        break;
+    }
+    return outcome;
+  }
+
+  /** L'entite qui termine l'objectif fait avancer le routeur -- exactement comme un dialogue/bilan/tirage termine. */
+  private completeExploreScene(): void {
+    const next = this.advanceRouter();
+    this.persistAfterScene();
+    this.enterScene(next);
+  }
+
+  /** `npc` : bulle parlee (suit la tete). `object`/`door` : narration discrete en bas de l'ecran. */
+  private playExploreBriefLine(entityId: string, text: string): void {
+    if (!this.exploreBriefLine) return;
+    const entity = this.exploreEntity(entityId);
+    if (entity?.type === 'npc') this.exploreBriefLine.showSpeech(entityId, text);
+    else this.exploreBriefLine.showNarration(text);
+  }
+
+  /** Cle du drapeau "conversation annexe deja jouee cette partie" (contrat du lot 3.6b §3). */
+  private conversationDoneFlagKey(dialogueId: string): string {
     return `${dialogueId}.fait`;
   }
 
-  private renderHubList(scene: SceneDef): void {
-    this.hubView.render(this.hubEntries(scene));
+  /**
+   * Conversation annexe (un cadet aborde sur la carte, ...) : contrat §3 --
+   * "le routeur n'avance pas, et on revient a l'exploration" ; deja jouee
+   * cette partie -> une replique breve a la place (jamais rejouee en entier).
+   *
+   * Renvoie `null` si le dialogue s'est bien ouvert (l'appelant garde
+   * `outcome` tel quel), ou l'`InteractOutcome` de substitution (`brief-line`)
+   * si la conversation a deja ete jouee -- pour que `window.__game.interact()`
+   * reflete ce qui s'est reellement passe.
+   */
+  private openExploreConversation(entityId: string, dialogueId: string, startNode?: string): InteractOutcome | null {
+    const doneKey = this.conversationDoneFlagKey(dialogueId);
+    if (this.ctx.run.flags[doneKey]) {
+      const entity = this.exploreEntity(entityId);
+      const repeatLine = entity && 'line' in entity && entity.line ? entity.line : EXPLORE_REPEAT_LINE_FALLBACK;
+      this.playExploreBriefLine(entityId, repeatLine);
+      return { kind: 'brief-line', entityId, text: repeatLine };
+    }
+    const file = DIALOGUES[dialogueId];
+    if (!file) {
+      console.error(`ChapterApp : dialogue "${dialogueId}" introuvable pour l'entite "${entityId}".`);
+      return { kind: 'none', entityId, reason: 'Dialogue introuvable' };
+    }
+    const rng = createRng(`${this.ctx.run.seed}::${dialogueId}`);
+    this.activeExploreConversation = {
+      entityId,
+      dialogueId,
+      runner: new DialogueRunner(file, this.ctx, rng, startNode ? { startNode } : undefined),
+    };
+    this.hideAllViews();
+    this.setActiveHost('dialogue'); // -> pauseExplore() : encart/bulles masques pendant la conversation
+    this.view.show();
+    this.renderExploreConversation();
+    return null;
   }
 
-  private renderHubDialogue(): void {
-    const entry = this.activeHub;
+  private renderExploreConversation(): void {
+    const entry = this.activeExploreConversation;
     if (!entry) return;
     const node = entry.runner.current();
     this.view.render(node, this.currentSceneDef?.title ?? '', this.currentSceneDef?.id ?? '');
     this.checkRadio(entry.runner.context);
   }
 
-  private completeHubDialogue(): void {
-    const entry = this.activeHub;
+  private completeExploreConversation(): void {
+    const entry = this.activeExploreConversation;
     if (!entry) return;
     const ctx: NarrativeContext = {
       ...entry.runner.context,
-      run: setFlag(entry.runner.context.run, this.hubFlagKey(entry.dialogueId), true),
+      run: setFlag(entry.runner.context.run, this.conversationDoneFlagKey(entry.dialogueId), true),
     };
     this.mergeContext(ctx);
-    this.activeHub = null;
-    // Retour a la liste : ce n'est pas "au milieu d'un dialogue" (ADR 0011), on
-    // peut sauvegarder ici sans attendre que le joueur quitte le hub entier.
+    this.activeExploreConversation = null;
+    // Retour a l'exploration : ce n'est pas "au milieu d'un dialogue" (ADR 0011), on
+    // peut sauvegarder ici sans attendre que le joueur quitte l'etape entiere.
     this.persistAfterScene();
     this.hideAllViews();
-    this.setActiveHost('hub');
-    this.hubView.show();
-    if (this.currentSceneDef) this.renderHubList(this.currentSceneDef);
+    this.setActiveHost('explore'); // -> resumeExplore()
+    this.exploreState?.updateContext(this.ctx);
+    // Recentrage a la sortie d'un dialogue (contrat §6), jamais pendant un deplacement.
+    this.centerCameraOnLeader();
   }
 
   /* ---------------------------------- tirage ----------------------------- */
@@ -822,7 +1372,7 @@ export class ChapterApp {
 
   private enterScene(scene: SceneDef | null): void {
     this.activeDialogue = null;
-    this.activeHub = null;
+    this.activeExploreConversation = null;
     this.currentSceneDef = scene;
 
     if (!scene) {
@@ -834,8 +1384,8 @@ export class ChapterApp {
       case 'dialogue':
         this.enterDialogueScene(scene);
         break;
-      case 'hub':
-        this.enterHubScene(scene);
+      case 'explore':
+        this.enterExploreScene(scene);
         break;
       case 'tactical':
         this.enterTacticalScene(scene);
@@ -873,8 +1423,17 @@ export class ChapterApp {
    */
   startNewGame(seed: string = randomSeedLabel()): void {
     this.activeDialogue = null;
-    this.activeHub = null;
+    this.activeExploreConversation = null;
     this.hideAllViews();
+    this.pauseExplore();
+    // Nouvelle partie, nouvelle graine : l'etat d'exploration de la
+    // precedente (position de Franklyn, decor seede sur l'ancienne graine)
+    // ne doit pas survivre -- `enterExploreScene` en reconstruira un neuf des
+    // la prochaine etape `explore` (voir `buildExploreWorld`).
+    this.exploreView?.dispose();
+    this.exploreView = null;
+    this.exploreState = null;
+    this.exploreMapDef = null;
     this.ctx = { dossier: createDossier(), run: createRunState(seed) };
     this.router = new SceneRouter(CHAPTER_1_SCENES, this.ctx);
     this.ctx = this.router.context;

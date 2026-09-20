@@ -32,6 +32,14 @@ export interface CharacterRig {
    * `null` = materiel inconnu du joueur (equipe adverse) : rien n'est montre.
    */
   setEquipment(items: readonly ItemId[] | null): void;
+  /**
+   * Affiche ou masque la LIGNE de materiel de la plaque flottante (le nom
+   * reste toujours visible) -- `true` par defaut. En exploration (ADR 0013) :
+   * pas d'arme ni d'equipe adverse a deviner, "materiel inconnu"/"sans
+   * materiel" n'a rien a faire sous le nom d'un cadet qui se promene ; en
+   * tactique, la ligne reste utile (inchange).
+   */
+  setEquipmentLineVisible(visible: boolean): void;
   /** Avance les animations internes (balancement de marche, pulsation) de `dt` secondes. */
   update(dt: number): void;
   dispose(): void;
@@ -82,6 +90,7 @@ export class PlaceholderRig implements CharacterRig {
   private current: RigAnimation = 'idle';
   private items: readonly ItemId[] | null = [];
   private highlighted = false;
+  private equipmentLineVisible = true;
   private clock = 0;
   /** 0 = debout, 1 = a terre ; rattrape `fallTarget` en douceur. */
   private fall = 0;
@@ -215,12 +224,23 @@ export class PlaceholderRig implements CharacterRig {
     this.drawTag();
   }
 
+  setEquipmentLineVisible(visible: boolean): void {
+    if (this.equipmentLineVisible === visible) return;
+    this.equipmentLineVisible = visible;
+    this.drawTag();
+  }
+
   private applyPropVisibility(): void {
     const down = this.current === 'down';
     for (const [item, object] of this.props) object.visible = !down && (this.items?.includes(item) ?? false);
   }
 
-  /** Etiquette flottante : nom du cadet (bord a la couleur d'equipe) et pictogrammes du materiel. */
+  /**
+   * Etiquette flottante : nom du cadet (bord a la couleur d'equipe) et, en
+   * tactique seulement (`equipmentLineVisible`), pictogrammes du materiel.
+   * En exploration, la plaque ne porte QUE le nom -- pas d'arme ni d'equipe
+   * adverse a deviner -- et se dessine donc plus courte (voir `boxHeight`).
+   */
   private drawTag(): void {
     const ctx = this.tagCanvas.getContext('2d');
     if (!ctx) return;
@@ -228,11 +248,12 @@ export class PlaceholderRig implements CharacterRig {
     const down = this.current === 'down';
     ctx.clearRect(0, 0, width, height);
 
+    const boxHeight = this.equipmentLineVisible ? height - 8 : 52;
     ctx.globalAlpha = down ? 0.6 : 1;
     ctx.fillStyle = 'rgba(10, 12, 18, 0.88)';
     ctx.strokeStyle = `#${this.teamColor.toString(16).padStart(6, '0')}`;
     ctx.lineWidth = this.highlighted ? 8 : 5;
-    roundRect(ctx, 4, 4, width - 8, height - 8, 16);
+    roundRect(ctx, 4, 4, width - 8, boxHeight, 16);
     ctx.fill();
     ctx.stroke();
 
@@ -240,14 +261,20 @@ export class PlaceholderRig implements CharacterRig {
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#ffffff';
     ctx.font = `700 34px ${TAG_FONT}`;
-    ctx.fillText(down ? `${this.name} (a terre)` : this.name, width / 2, 30, width - 24);
+    ctx.fillText(down ? `${this.name} (à terre)` : this.name, width / 2, 30, width - 24);
+
+    if (!this.equipmentLineVisible) {
+      ctx.globalAlpha = 1;
+      this.tagTexture.needsUpdate = true;
+      return;
+    }
 
     const items = this.items;
     const carried = items ? CARRIED_ITEMS.filter((item) => items.includes(item)) : [];
     if (items === null || carried.length === 0) {
       ctx.fillStyle = '#8c93a5';
       ctx.font = `400 22px ${TAG_FONT}`;
-      ctx.fillText(items === null ? 'materiel inconnu' : 'sans materiel', width / 2, 68);
+      ctx.fillText(items === null ? 'matériel inconnu' : 'sans matériel', width / 2, 68);
     } else {
       ctx.font = `400 36px ${EMOJI_FONT}`;
       const step = 56;

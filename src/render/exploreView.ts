@@ -115,6 +115,48 @@ export function worldToCell(map: ExploreMap, x: number, z: number): Cell | null 
 }
 
 /**
+ * Boîte englobante (coordonnées monde) de toutes les `MapDef.rooms` -- repli sur le rectangle
+ * ASCII entier si la carte n'en déclare aucune (défensif, ne devrait pas arriver sur une carte
+ * validée par `validateMap`). Voir `ExploreView.contentBounds`.
+ */
+function computeContentBounds(
+  map: ExploreMap,
+  def: MapDef,
+): { minX: number; maxX: number; minZ: number; maxZ: number } {
+  if (def.rooms.length === 0) {
+    const nw = cellToWorld(map, { x: 0, y: 0 });
+    const se = cellToWorld(map, { x: map.width - 1, y: map.height - 1 });
+    return { minX: nw.x, maxX: se.x, minZ: nw.z, maxZ: se.z };
+  }
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minZ = Infinity;
+  let maxZ = -Infinity;
+  for (const room of def.rooms) {
+    const { origin, width, height } = room.rect;
+    const nw = cellToWorld(map, { x: origin.x, y: origin.y });
+    const se = cellToWorld(map, { x: origin.x + width - 1, y: origin.y + height - 1 });
+    minX = Math.min(minX, nw.x, se.x);
+    maxX = Math.max(maxX, nw.x, se.x);
+    minZ = Math.min(minZ, nw.z, se.z);
+    maxZ = Math.max(maxZ, nw.z, se.z);
+  }
+  return { minX, maxX, minZ, maxZ };
+}
+
+/**
+ * Ramene `value` (coordonnee sur un axe ecran) vers l'interieur de `[mapMin, mapMax]`, de sorte
+ * que le cadre visible (demi-etendue `halfExtent` de part et d'autre) deborde le moins possible
+ * -- voir `ExploreView.frameClampedTarget`. Si la carte est plus etroite que le cadre le long de
+ * cet axe (`mapMax - mapMin <= halfExtent * 2`), renvoie le centre de la carte : mieux vaut la
+ * montrer en entier qu'exiger un centrage exact sur `value` qui laisserait du vide.
+ */
+function clampAxisToFrame(value: number, mapMin: number, mapMax: number, halfExtent: number): number {
+  if (mapMax - mapMin <= halfExtent * 2) return (mapMin + mapMax) / 2;
+  return THREE.MathUtils.clamp(value, mapMin + halfExtent, mapMax - halfExtent);
+}
+
+/**
  * Teintes de sol par pièce, pour l'académie HOLT : une petite palette dessinée à la main
  * (même esprit que `CONTAINER_PALETTE` de `YardView`), pas un calcul générique — un écart de
  * teinte pertinent (bureau, clinique, atelier, réfectoire...) se choisit, il ne se déduit pas
@@ -212,6 +254,14 @@ export class ExploreView {
 
   /** Bornes du panoramique libre (mètres monde), carte + marge d'une pièce — voir `PAN_MARGIN_METERS`. */
   private readonly panBounds: { minX: number; maxX: number; minZ: number; maxZ: number };
+  /**
+   * Boîte englobante (mètres monde) des PIÈCES (`MapDef.rooms`) plutôt que du rectangle ASCII
+   * entier : voir `centerOn`/`frameClampedTarget`. Un plan de bâtiment n'est presque jamais un
+   * rectangle plein -- le rectangle ASCII contient beaucoup de vide structurel (au-delà des
+   * couloirs, entre deux ailes...) que "garder le bâtiment dans le cadre" ne doit pas essayer de
+   * remplir, sous peine de re-produire le même défaut (du vide à l'écran) à l'envers.
+   */
+  private readonly contentBounds: { minX: number; maxX: number; minZ: number; maxZ: number };
 
   private readonly raycaster = new THREE.Raycaster();
 
@@ -233,6 +283,7 @@ export class ExploreView {
       minZ: -halfH - PAN_MARGIN_METERS,
       maxZ: halfH + PAN_MARGIN_METERS,
     };
+    this.contentBounds = computeContentBounds(this.map, def);
 
     this.scene.background = new THREE.Color(0x14151a);
     this.scene.fog = new THREE.Fog(0x14151a, 60, 160);
@@ -712,13 +763,52 @@ export class ExploreView {
 
   /**
    * Recentre la caméra sur `cell` — amorti, sauf `prefers-reduced-motion` (instantané). C'est
-   * l'API que `chapter.ts` utilisera pour recentrer au début d'une étape et après un dialogue
-   * (08-EXPLORATION.md "La caméra et les murs"), sans rien câbler ici : cette classe ne connaît
-   * que la caméra, pas le déroulé du chapitre.
+   * l'API que `chapter.ts` utilise pour recentrer au début d'une étape et après un dialogue
+   * (08-EXPLORATION.md "La caméra et les murs").
+   *
+   * Ne vise PAS aveuglément la case du meneur : `frameClampedTarget` glisse la cible vers
+   * l'intérieur de la carte pour garder le bâtiment à l'écran plutôt que de gaspiller la moitié
+   * du cadre sur du vide -- défaut réel constaté en vérification visuelle du lot 3.6b (recentrer
+   * près d'un bord, ex. le garage, laissait la moitié droite de l'écran noire). Arbitrage
+   * assumé : le meneur reste visible, mais pas forcément exactement au centre, si la carte est
+   * plus étroite que le cadre courant le long d'un axe -- la lisibilité du lieu prime.
    */
   centerOn(cell: Cell): void {
-    const { x, z } = cellToWorld(this.map, cell);
+    const world = cellToWorld(this.map, cell);
+    const { x, z } = this.frameClampedTarget(world.x, world.z);
     this.camera.animateTargetTo(x, z, this.reducedMotion);
+  }
+
+  /**
+   * Glisse `(x, z)` vers l'intérieur de la carte, dans le repère écran courant (`screenRight`/
+   * `screenUp`, même repère que le panoramique clavier) : si la demi-étendue visible actuelle
+   * (frustum projeté au sol, même facteur `cos(élévation)` que `updateFog`) déborde de la carte
+   * le long d'un axe écran, la cible est ramenée juste assez pour que ce bord du cadre coïncide
+   * avec le bord de la carte -- jamais plus loin que nécessaire. Si la carte est plus étroite que
+   * le cadre le long de cet axe, centre sur la carte plutôt que sur `(x, z)`.
+   */
+  private frameClampedTarget(x: number, z: number): { x: number; z: number } {
+    const right = this.camera.screenRightXZ();
+    const up = this.camera.screenUpXZ();
+    // Meme approximation que `updateFog()` : la demi-etendue du frustum orthographique,
+    // projetee sur le sol incline par l'elevation de la camera.
+    const groundFactor = Math.cos(THREE.MathUtils.degToRad(ISO_ELEVATION_DEG));
+    const halfR = this.camera.camera.right * groundFactor;
+    const halfU = this.camera.camera.top * groundFactor;
+
+    const { minX, maxX, minZ, maxZ } = this.contentBounds;
+    const corners = [
+      { x: minX, z: minZ },
+      { x: maxX, z: minZ },
+      { x: minX, z: maxZ },
+      { x: maxX, z: maxZ },
+    ];
+    const rCorners = corners.map((c) => c.x * right.x + c.z * right.z);
+    const uCorners = corners.map((c) => c.x * up.x + c.z * up.z);
+    const r = clampAxisToFrame(x * right.x + z * right.z, Math.min(...rCorners), Math.max(...rCorners), halfR);
+    const u = clampAxisToFrame(x * up.x + z * up.z, Math.min(...uCorners), Math.max(...uCorners), halfU);
+
+    return { x: r * right.x + u * up.x, z: r * right.z + u * up.z };
   }
 
   /** Recentre sur le meneur (dernière case vue par `updateRigPosition('leader', …)`). Touche `C`. */
@@ -800,6 +890,9 @@ export class ExploreView {
     }
     const rig = new PlaceholderRig(sheet, PARTY_RING_COLOR);
     rig.setEquipment(null);
+    // Exploration : pas d'arme ni d'equipe adverse a deviner -- la plaque ne porte que le nom
+    // (contrat 08-EXPLORATION.md, correctif verification visuelle du lot 3.6b).
+    rig.setEquipmentLineVisible(false);
     rig.setHighlighted(isLeader);
     if (!isLeader) {
       for (const child of rig.object.children) {
@@ -824,6 +917,22 @@ export class ExploreView {
     rig.play(moving ? 'walk' : 'idle');
     rig.update(dt);
     this.lastRigPos.set(id, { x, z });
+  }
+
+  /**
+   * Tourne le meneur vers `cell`, sans le déplacer -- appelé une fois arrivé
+   * sur la case d'interaction (08-EXPLORATION.md "Interaction" : "le
+   * personnage marche jusqu'à la case d'interaction (adjacente), se tourne,
+   * puis l'action se déclenche"). `updateRigPosition` ne tourne le rig QUE
+   * quand sa position change (voir plus haut) : à l'arrêt, sans cet appel
+   * explicite, Franklyn resterait tourné dans sa dernière direction de
+   * marche plutôt que de faire face à l'entité.
+   */
+  faceLeaderTowards(cell: Cell): void {
+    const rig = this.rigs.get('leader');
+    if (!rig) return;
+    const { x, z } = cellToWorld(this.map, cell);
+    rig.faceTowards(x, z);
   }
 
   removeRig(id: string): void {

@@ -415,12 +415,12 @@ canvas {
 /* Vue de dialogue (src/ui/narrativeView.ts). Refonte "Encre rouge"        */
 /* (docs/art/UI-DESIGN-SYSTEM.md, "Écrans > Dialogue" / "Transition de     */
 /* scène" / "Mouvement") : panneau ancre en bas, decor de scene en haut,   */
-/* portrait hero, tampon de jet. La liste du hub vit desormais dans son    */
-/* propre ecran (`.hub-screen`, src/ui/hubView.ts, plus bas).              */
+/* portrait hero, tampon de jet. La liste du hub (choix du cadet a qui      */
+/* parler) a disparu au lot 3.6b : les cadets sont desormais abordes sur   */
+/* la carte d'exploration (src/ui/objectiveHud.ts, src/ui/explore.css).    */
 /* ---------------------------------------------------------------------- */
 
 .narrative,
-.hub-screen,
 .draft-screen,
 .title-screen {
   position: absolute;
@@ -1058,47 +1058,18 @@ canvas {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Hub (src/ui/hubView.ts) : parade d'identification de police devant un   */
-/* mur a graduations (docs/art/UI-DESIGN-SYSTEM.md, "Hub — l'alignement"). */
-/* Ecran plein cadre a part entiere, reutilise le decor de `.scene-shell`. */
+/* Tirage (src/ui/draftView.ts, ADR 0014) : portraits `card` devant le mur */
+/* a graduations -- deux capitaines fixes de part et d'autre d'un pool     */
+/* central de quatre cadets disputes. Meme langage visuel que l'ancien     */
+/* ecran de hub (HubView, retire au lot 3.6b -- les cadets sont desormais  */
+/* abordes sur la carte, `src/ui/objectiveHud.ts`), dont `.hub-chart-rule` */
+/* (mur a graduations, filets tous les 10cm) reste le seul heritage direct.*/
 /* ---------------------------------------------------------------------- */
 
-/* Un ciel plus court que le decor de dialogue (correctif revue visuelle : a
-   1280x720, un ciel a 30vh + une parade ancree tout en bas laissait une
-   bande vide entre le titre et les cartes) : la parade se centre dans la
-   moitie basse restante plutot que de coller au bouton "Rejoindre le
-   fourgon", elle occupe ainsi confortablement le centre-bas de l'ecran. */
-.hub-screen .narrative-backdrop {
-  flex: none;
-  height: 18vh;
-  min-height: 120px;
-}
-
-.hub-subtitle {
-  margin: 4px 0 0;
-  color: var(--bone-dim);
-  font-size: var(--fs-sm);
-}
-
-.hub-lineup-wrap {
-  position: relative;
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 0;
-  padding: 12px 24px;
-  overflow: hidden;
-}
-
 /* Mur a graduations : filets tous les 10cm, cotes 150-200 a gauche (regle
-   "Formes" : filets 1px --rule, jamais une texture decorative). */
-.hub-heightchart {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
+   "Formes" : filets 1px --rule, jamais une texture decorative). Partage par
+   `.draft-heightchart` (src/ui/draftView.ts) : classe nommee `hub-*` pour
+   des raisons historiques, jamais retiree parce que toujours utilisee. */
 .hub-chart-rule {
   position: absolute;
   left: 0;
@@ -1115,97 +1086,6 @@ canvas {
   font-variant-numeric: tabular-nums;
   color: var(--bone-faint);
 }
-
-.hub-lineup {
-  position: relative;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: flex-end;
-  gap: 18px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.hub-cadet-btn {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  background: transparent;
-  border: none;
-  padding: 0;
-  color: var(--bone);
-  cursor: pointer;
-  transition: transform 120ms ease-out;
-}
-
-/* Survol/focus : le portrait avance d'un pas (docs : "translation 6px + ombre
-   de reperage"). */
-.hub-cadet-btn:hover,
-.hub-cadet-btn:focus-visible {
-  transform: translateY(-6px);
-  outline: none;
-}
-
-.hub-cadet-btn:hover .portrait,
-.hub-cadet-btn:focus-visible .portrait {
-  filter: drop-shadow(4px 4px 0 var(--red-deep));
-}
-
-.hub-cadet-btn:focus-visible .portrait {
-  outline: 2px solid var(--tape);
-  outline-offset: 2px;
-}
-
-.hub-cadet-btn.is-done .portrait {
-  opacity: 0.85;
-}
-
-/* Tampon "VU" : un cadet deja vu cette partie. */
-.hub-cadet-vu {
-  position: absolute;
-  top: 6px;
-  right: -6px;
-  font-size: var(--fs-sm);
-  z-index: 1;
-}
-
-.hub-cadet-number {
-  position: absolute;
-  top: 6px;
-  left: -6px;
-  width: 20px;
-  height: 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ink);
-  border: 1px solid var(--rule);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-xs);
-  color: var(--bone-dim);
-}
-
-.hub-cadet-name {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-sm);
-}
-
-.hub-leave {
-  align-self: flex-end;
-  margin: 0 24px 24px auto;
-}
-
-/* ---------------------------------------------------------------------- */
-/* Tirage (src/ui/draftView.ts, ADR 0014) : meme langage visuel que le hub --*/
-/* portraits `card` devant le mur a graduations -- mais deux capitaines fixes*/
-/* de part et d'autre d'un pool central de quatre cadets disputes.         */
-/* ---------------------------------------------------------------------- */
 
 .draft-screen .narrative-backdrop {
   flex: none;
@@ -1686,48 +1566,8 @@ canvas {
     width: auto;
   }
 
-  /* Hub : cinq cartes `160x213` ne tiennent pas sur une largeur de 375px
-     (regle "Formes" : les cartes elles-memes ne changent pas de taille
-     ailleurs, donc `transform: scale()` plutot que retailler le portrait) --
-     le mur se reduit a un bandeau court, la parade defile verticalement. */
-  .hub-screen .narrative-backdrop {
-    height: 96px;
-    min-height: 0;
-  }
-
-  /* `flex: 0 1 auto` (plutot que le `flex: 1 1 auto` herite) : le mur a
-     graduations (`.hub-heightchart`, position absolue inset:0 DANS ce
-     conteneur) doit s'arreter avec les cartes, pas courir jusqu'en bas d'un
-     conteneur etire sur toute la hauteur restante de l'ecran (correctif
-     revue visuelle -- les cotes ne correspondaient plus aux cartes). */
-  .hub-lineup-wrap {
-    flex: 0 1 auto;
-    align-items: flex-start;
-    padding: 12px 12px 88px;
-    overflow-y: auto;
-  }
-
-  .hub-lineup {
-    gap: 4px 8px;
-  }
-
-  /* `portraitElement` pose `width`/`height` en ligne (voir portraits.ts) :
-     seul `!important` peut les retailler ici. Meme ratio 3:4 que `card`. */
-  .hub-cadet-btn .portrait {
-    width: 104px !important;
-    height: 139px !important;
-  }
-
-  .hub-leave {
-    position: absolute;
-    right: 16px;
-    bottom: 16px;
-    margin: 0;
-    z-index: 1;
-  }
-
   /* Tirage : les deux capitaines passent au-dessus du pool plutot qu'a cote
-     (meme raisonnement que le hub -- cinq/six cartes `card` ne tiennent pas
+     (cinq/six cartes `card` ne tiennent pas
      sur 375px de large), le pool defile horizontalement en dessous. */
   .draft-screen .narrative-backdrop {
     height: 88px;

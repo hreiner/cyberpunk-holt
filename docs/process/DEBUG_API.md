@@ -14,8 +14,12 @@ Typage côté tests : [`tests/e2e/debug-api.d.ts`](../../tests/e2e/debug-api.d.t
 
 ## Version
 
-`window.__game.version` vaut **1**. Incrémenter à chaque changement incompatible. L'ajout des
-méthodes narratives (epic 2) n'a rien cassé côté tactique : la version n'a pas bougé.
+`window.__game.version` vaut **2**. Incrémenter à chaque changement incompatible. L'ajout des
+méthodes narratives (epic 2) n'a rien cassé côté tactique : la version n'a pas bougé. Le lot
+3.6b (exploration, epic 3) l'a fait passer de 1 à 2 : `hub()`/`pickHub(dialogueId)`/
+`leaveHub()` ont disparu avec la scène `hub` (liste des cadets) elle-même, remplacée par la
+scène `explore` (les cadets sont désormais abordés sur la carte) -- voir `explore()`/
+`walkTo()`/`interact()`/`completeStep()` plus bas.
 
 ## Deux familles de méthodes
 
@@ -45,11 +49,11 @@ silence.
 
 | Méthode | Renvoie | Effet |
 |---|---|---|
-| `scene()` | `{ id, kind, title, finished }` | scène courante du chapitre |
-| `goToScene(id)` | scène | saute à une scène du chapitre (`ch1.intro`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, ...) ; construit le `TacticalSetup` depuis le `RunState` si la cible est la scène tactique |
-| `runState()` | `RunState` | drapeaux, tempo, `TeamState` des deux équipes (matériel), `roster` (composition des équipes, ADR 0014 §7 — distinct de `teams`), `luck` (Chance restante de Franklyn, ADR 0015 §2), répliques radio déjà entendues, graine |
+| `scene()` | `{ id, kind, title, finished }` | scène courante du chapitre (`kind` : `'dialogue' \| 'explore' \| 'tactical' \| 'debrief'`) |
+| `goToScene(id)` | scène | saute à une scène du chapitre (`ch1.intro`, `ch1.vers-cantine`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, ...) ; construit le `TacticalSetup` depuis le `RunState` si la cible est la scène tactique ; démarre directement sur la carte, au spawn de l'étape, si la cible est une scène `explore` (voir "Méthodes d'exploration" plus bas) |
+| `runState()` | `RunState` | drapeaux (dont `ch1.etape`, posé à l'entrée de chaque étape d'exploration — ADR 0013 §4), tempo, `TeamState` des deux équipes (matériel), `roster` (composition des équipes, ADR 0014 §7 — distinct de `teams`), `luck` (Chance restante de Franklyn, ADR 0015 §2), répliques radio déjà entendues, graine |
 | `dossier()` | `Dossier` | étiquettes, affinités, entrées, note pratique une fois posée |
-| `node()` | noeud présenté, ou `null` | le noeud de dialogue affiché (scène `dialogue`, ou conversation du hub en cours) ; `null` en scène tactique ou sur la liste du hub |
+| `node()` | noeud présenté, ou `null` | le noeud de dialogue affiché (scène `dialogue`, ou conversation annexe en cours pendant une scène `explore` — un cadet abordé sur la carte) ; `null` en scène tactique ou en exploration hors conversation |
 | `choose(index)` | `{ ok, reason? }` | sélectionne le choix `index` du noeud courant ; appeler `node()` ensuite pour lire le noeud à jour |
 | `rollInsight()` | `{ ok, reason? }` | résout le jet de réflexion du noeud courant (`node().insight`, ADR 0012 ; facultatif avec coût, ADR 0015 §1) ; seul moment où le `Rng` du dialogue est consommé pour ce jet, déterministe, synchrone, aucune animation côté debug ; refuse explicitement si le noeud n'a pas d'`insight`, si le jet a déjà été résolu, si un jet de Chance est en attente, ou (jet facultatif) si le compteur de `cost` est insuffisant (`{ ok: false, reason: "Plus de concentration." }`) ; appeler `node()` ensuite pour lire `insight.status`/`insight.roll` à jour et les choix `best` fraîchement révélés |
 | `spendLuck(n)` | `{ ok, reason? }` | dépense `n` points de Chance sur le jet en attente (`node().pendingRoll`, ADR 0015 §2) : `n` doit couvrir au moins `pendingRoll.missingBy` sans dépasser `pendingRoll.luckAvailable` ; transforme l'échec en réussite (le total du jet augmente de `n`), déduit `n` de `runState().luck`, pose une entrée de dossier (`ch1.chance`, jamais une étiquette) puis résout enfin la navigation/l'issue différée ; refuse si rien n'est en attente ou si `n` est hors bornes ; appeler `node()` ensuite |
@@ -83,19 +87,51 @@ silence.
 | `node().lastCheck` | `PresentedRoll`, ou `null` | detail structure du dernier jet resolu (chaine de des, modificateurs nommes, total vs DV) -- ajoute par la refonte UI de l'ecran de dialogue (lot 2.11), pour le tampon RÉUSSI/ÉCHEC. `node().lastRoll` (texte) reste inchange a cote. |
 | `node().insight` | `PresentedInsight`, ou absent | jet de réflexion du noeud courant (examen écrit, ADR 0012 ; facultatif avec coût, ADR 0015 §1) : `{ skillLabel, dvLabel, chancePercent, status: 'pending'\|'available'\|'success'\|'failure', optional?, cost?, affordable?, roll?, successText?, failureText? }`. Absent si le noeud n'a pas d'`insight`. `status: 'available'` (au lieu de `'pending'`) et `optional: true` signalent un jet FACULTATIF (`insight.optional` des données) : `choose()` fonctionne directement sans avoir appelé `rollInsight()`. `cost`/`affordable` n'apparaissent que si `insight.cost` est défini dans les données ; `affordable` dit si le compteur suffit MAINTENANT. `roll` a la même forme que `lastCheck` (`PresentedRoll`) une fois le jet résolu — il peut être présent alors que `status` reste `'pending'`/`'available'` : c'est le cas d'un jet en attente de Chance, voir `node().pendingRoll` ci-dessous. |
 | `node().pendingRoll` | `{ roll, missingBy, luckAvailable }`, ou absent | jet de Franklyn (jamais un coéquipier) raté de peu et rattrapable à la Chance (ADR 0015 §2) : tant que ce champ est présent, la navigation vers `onSuccess`/`onFailure` (ou le statut de l'`insight`) reste EN ATTENTE — `choose()`, `advance()` et `rollInsight()` refusent d'agir (`advance()` ne fait rien, les deux autres renvoient `{ ok: false, reason }`). `roll` porte la chaîne de dés complète (`dieFaces`) pour que le dé 3D la rejoue avant d'afficher l'invite « Il manque N — dépenser N Chance ? ». Se résout via `spendLuck(n)` ou `acceptRoll()`. |
-| `pickHub(dialogueId)` | noeud | démarre la conversation d'un cadet depuis la liste du hub |
-| `leaveHub()` | scène | quitte le hub, passe à la scène suivante |
 | `radio()` | `RadioCue[]` | répliques radio actuellement dues, sans les marquer entendues (lecture pure) |
 | `draft()` | `DraftState`, ou `null` | état du tirage (ADR 0014), `null` hors de l'écran de tirage : `{ pool, picks, turn }` — `pool` les cadets encore disponibles, `picks` tous les choix déjà faits dans l'ordre F/A/F/A, `turn` `'franklyn' \| 'abigail' \| 'done'` (en pratique jamais observable à `'abigail'`, voir `pickTeammate`) |
 | `pickTeammate(cadetId)` | `{ ok, reason? }` | choix de Franklyn pour le tirage ; résout aussi, dans le **même appel**, le choix déterministe d'Abigail qui suit (`src/narrative/draft.ts`) — le joueur ne pilote jamais son tour à elle. Refuse si aucun tirage n'est en cours, si ce n'est pas le tour de Franklyn, ou si `cadetId` n'est plus disponible. Une fois `draft().turn === 'done'`, `runState().roster` reflète déjà les nouvelles équipes ; un dernier `advance()` rend la main à la scène suivante (même idiome qu'un nœud de dialogue terminal) |
 
+## Méthodes d'exploration (ADR 0013, epic 3 lot 3.6b)
+
+Actives uniquement pendant une scène `explore` (`scene().kind === 'explore'`) : réveil ->
+cantine (`ch1.vers-cantine`), cantine -> salles d'entraînement (`ch1.vers-examen`), temps
+libre -> garage (`ch1.hub`). Toutes synchrones, dans l'esprit de `choose()`.
+
+| Méthode | Renvoie | Effet |
+|---|---|---|
+| `explore()` | `ExploreDebugSnapshot`, ou `null` | instantané hors de toute scène `explore` : lieu (`mapId`), case du meneur et des coéquipiers (`leader`/`followers`), objectif courant (`objective`, `null` si aucun), entités visibles et interactives (`interactables`, avec leur case, leur libellé de survol et si elles sont atteignables) |
+| `walkTo(x, y)` | — | déplace le meneur **instantanément** vers la case franchissable la plus proche de `(x, y)` (et le groupe avec lui, en formation) ; pas d'animation, pas de vérification d'atteignabilité (contrairement à un clic joueur) |
+| `interact(entityId)` | `InteractOutcome` | déclenche l'entité `entityId` **sans marcher jusqu'à elle** (contrairement à un clic joueur, qui marche d'abord) ; si `entityId` est le `completionTrigger` de l'objectif courant, fait avancer le routeur exactement comme un clic — la scène suivante joue son dialogue (contrat "une seule règle" : l'entité qui termine l'objectif porte le `dialogueId` de la scène suivante) ; sinon, si l'entité porte un `dialogueId`, ouvre une conversation annexe (`node()` la reflète ensuite) déjà jouée cette partie -> réplique brève au lieu de rejouer le dialogue |
+| `completeStep()` | — | **réservé au développement** : termine l'objectif courant ET fait avancer le routeur, comme si son `completionTrigger` venait d'être déclenché — utile pour sauter une étape d'exploration bloquée sans en chercher le trigger exact |
+
 ```ts
-interface HubEntry {
-  dialogueId: string;   // ex. "ch1.hub.john"
-  label: string;        // prenom du cadet
-  done: boolean;        // conversation deja faite cette partie
+interface ExploreDebugSnapshot {
+  mapId: string;
+  leader: { x: number; y: number };
+  followers: { x: number; y: number }[];
+  objective: {
+    id: string;
+    title: string;
+    context: string;
+    tasks: { id: string; label: string; count: number; target: number; done: boolean }[];
+    complete: boolean;
+  } | null;
+  interactables: {
+    id: string;
+    type: 'npc' | 'object' | 'seat' | 'door' | 'exit';
+    cell: { x: number; y: number };
+    interactionCell: { x: number; y: number };
+    label: string;      // verbe + cible, ex. "Parler à John"
+    reachable: boolean;
+  }[];
 }
 ```
+
+`InteractOutcome` (renvoyé par `interact()`) est une union discriminée par `kind` :
+`'dialogue'` (`{ entityId, dialogueId, startNode? }`), `'brief-line'` (`{ entityId, text }`),
+`'door-toggled'` (`{ entityId, open }`), `'door-locked'` (`{ entityId, line? }`),
+`'change-map'` (`{ entityId, targetMapId, targetSpawn }` -- non géré avant le lot 3.7),
+`'zone-trigger'` (`{ entityId }`) ou `'none'` (`{ entityId, reason? }`).
 
 ## L'instantané
 
@@ -146,7 +182,7 @@ raison étant un texte français affichable tel quel.
 |---|---|
 | `?seed=xxx` | rejoue exactement la même partie |
 | `?ai=0` | supprime le délai entre actions de l'IA, **et coupe animations, effets et sons** (placement instantané des cadets) |
-| `?scene=<id>` | démarre directement sur une scène du chapitre (`ch1.intro`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, ...) plutôt qu'au début — indispensable pour développer et tester une scène sans rejouer les précédentes |
+| `?scene=<id>` | démarre directement sur une scène du chapitre (`ch1.intro`, `ch1.vers-cantine`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, ...) plutôt qu'au début — indispensable pour développer et tester une scène sans rejouer les précédentes. Sur une scène `explore`, démarre directement sur la carte, au point d'apparition de l'étape (`SceneDef.spawn`, une entrée à froid — voir "Méthodes d'exploration") |
 | `?dice=0` | désactive la mise en scène du dé 3D (`src/render/dice3d.ts`) pour tout jet narratif : `NarrativeView.playRoll()` résout alors immédiatement, sans overlay ni clic requis. Sans effet sur `window.__game` (`choose()`/`rollInsight()`/`advance()` sont déjà synchrones, avec ou sans mise en scène — voir plus bas) ; utile pour un parcours de test qui n'a pas besoin de l'animation |
 
 ## Exemples
@@ -192,6 +228,20 @@ while (node && !node.finished) {
   node = __game.node();
 }
 __game.advance();               // rend la main : passe a la scene suivante
+__game.scene();                 // { id: 'ch1.vers-cantine', kind: 'explore', ... }
+```
+
+Rejoindre la cantine (scène `explore`) en marchant jusqu'à la place, puis s'asseoir — c'est
+cette interaction (le `completionTrigger` de l'objectif) qui fait avancer le routeur vers
+`ch1.discours`, pas un appel séparé :
+
+```js
+// http://localhost:5173/?ai=0&scene=ch1.vers-cantine
+const target = __game
+  .explore()
+  .interactables.find((i) => i.id === 'cantine.place-franklyn');
+__game.walkTo(target.cell.x, target.cell.y);
+__game.interact('cantine.place-franklyn');   // ne marche pas jusqu'a la cible (voir plus haut) : walkTo() suffit deja
 __game.scene();                 // { id: 'ch1.discours', kind: 'dialogue', ... }
 ```
 
@@ -218,6 +268,24 @@ while (state && state.turn !== 'done') {
 }
 __game.advance();               // rend la main : passe a la scene suivante (ch1.hub)
 __game.runState().roster;       // { blue: ['franklyn', ...], red: ['abigail', ...], redCaptain: 'abigail' }
+```
+
+Temps libre (`ch1.hub`, scène `explore`) : parler à un cadet ouvre une conversation annexe qui
+NE fait PAS avancer le routeur ; la rejouer ne rejoue plus le dialogue (réplique brève à la
+place). `completeStep()` saute directement au garage, sans marcher :
+
+```js
+// http://localhost:5173/?ai=0&scene=ch1.hub
+__game.interact('armurerie.john');
+__game.scene().id;              // toujours 'ch1.hub' -- une conversation annexe n'avance pas le routeur
+let node = __game.node();
+while (node && !node.finished) { /* ... comme une scene de dialogue ordinaire ... */ node = __game.node(); }
+__game.advance();               // ferme la conversation, revient a l'exploration (scene() reste 'ch1.hub')
+__game.interact('armurerie.john');
+__game.node();                  // null : deja jouee cette partie, John repond par une replique breve
+
+__game.completeStep();          // outil de dev : saute l'objectif du temps libre
+__game.scene().id;              // 'ch1.fourgon'
 ```
 
 Sauter directement au combat final avec l'état du `RunState` :

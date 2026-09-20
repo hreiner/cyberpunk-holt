@@ -122,6 +122,40 @@ export function nearestWalkableCell(map: ExploreMap, cell: Cell, isWalkableAt: (
   return null;
 }
 
+/**
+ * Case franchissable ADJACENTE à `cell` -- jamais `cell` elle-même, même si
+ * elle est franchissable (contrairement à `nearestWalkableCell`) : sert à
+ * placer le meneur À CÔTÉ d'un `npc`/`object`/`door` pour l'interaction
+ * (08-EXPLORATION.md "Interaction" : "le personnage marche jusqu'à la case
+ * d'interaction (adjacente)"), jamais SUR sa case. Parmi les voisines
+ * franchissables (8 directions), celle la plus proche de `fromCell`
+ * (distance de Chebyshev) ; à égalité, l'ordre fixe de parcours des
+ * directions tranche -- jamais un choix aléatoire (AGENTS.md règle 1). `null`
+ * si aucune voisine n'est franchissable.
+ */
+export function nearestAdjacentWalkableCell(
+  map: ExploreMap,
+  cell: Cell,
+  isWalkableAt: (c: Cell) => boolean,
+  fromCell: Cell,
+): Cell | null {
+  let best: Cell | null = null;
+  let bestDist = Infinity;
+  for (let dy = -1; dy <= 1; dy++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      if (dx === 0 && dy === 0) continue;
+      const n = { x: cell.x + dx, y: cell.y + dy };
+      if (!map.inBounds(n) || !isWalkableAt(n)) continue;
+      const dist = cellDistance(n, fromCell);
+      if (dist < bestDist) {
+        best = n;
+        bestDist = dist;
+      }
+    }
+  }
+  return best;
+}
+
 export function sameCell(a: Cell, b: Cell): boolean {
   return a.x === b.x && a.y === b.y;
 }

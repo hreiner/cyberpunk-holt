@@ -125,11 +125,14 @@ pas toucher un fichier partagé avec le reste de l'epic 3).
 | `exploreState.ts` | `ExploreState` : position continue du meneur et des coéquipiers (filature par historique de trajet), portes, déclencheurs de zone, objectif courant, et l'API de debug `explore()`/`walkTo()`/`interact()`/`completeStep()` (08-EXPLORATION.md "L'API de debug") |
 
 Les conditions d'entité réutilisent telles quelles `Condition`/`evaluateCondition` de
-`src/narrative` (même vocabulaire, aucun langage de plus). Le rendu vit dans
-`src/render/exploreView.ts` (murs en coupe recalculés à chaque quart de tour, portes,
-mobilier, rigs), l'encart d'objectif dans `src/ui/objectiveHud.ts` + `src/ui/explore.css`.
-Banc d'essai (dev only, hors build) : `explore-lab.html` + `src/dev/exploreLab.ts`. **Rien
-n'est encore branché sur `chapter.ts`** (lot 3.6).
+`src/narrative` (même vocabulaire, aucun langage de plus) ; `ObjectiveDef`/`ObjectiveTask`
+vivent dans `src/narrative/objective.ts` et sont réexportés tels quels par
+`src/explore/types.ts` (évite un cycle `narrative` -> `explore` -> `narrative`, `SceneDef`
+porte aussi un `objective`, voir plus bas). Le rendu vit dans `src/render/exploreView.ts`
+(murs en coupe recalculés à chaque quart de tour, portes, mobilier, rigs), l'encart d'objectif
+dans `src/ui/objectiveHud.ts` + `src/ui/explore.css`. Banc d'essai (dev only, hors build) :
+`explore-lab.html` + `src/dev/exploreLab.ts`. Branché sur `chapter.ts` depuis le lot 3.6b (voir
+plus bas).
 
 ### `src/chapter.ts` — le chef d'orchestre
 
@@ -138,7 +141,16 @@ Seul fichier, avec `app.ts`, à mélanger logique de jeu et DOM — et le seul e
 `Dossier` et le `RunState`, et selon le type de la scène courante :
 
 - `dialogue` : instancie un `DialogueRunner` et pilote `NarrativeView` ;
-- `hub` : affiche la liste des cinq cadets, joue la conversation choisie, revient à la liste ;
+- `explore` (ADR 0013 §4, lot 3.6b) : pose `RunState.flags['ch1.etape']` (`withEtape()`,
+  `src/narrative/sceneRouter.ts`), construit (ou réutilise, si la carte n'a pas changé --
+  Franklyn n'est JAMAIS téléporté entre deux étapes d'exploration qui se suivent sur la même
+  carte) un `ExploreState`/`ExploreView`, et pilote sa propre boucle d'image
+  (`ExploreState.tick(dtMs)` puis `ExploreView.render()`, `dtMs` mesuré -- jamais lu de
+  l'horloge, ADR 0013 §3) tant que la scène reste active. L'entité qui déclenche
+  `objective.completionTrigger` fait avancer le routeur (la scène SUIVANTE joue son
+  dialogue) ; toute autre entité à `dialogueId` ouvre une conversation annexe
+  (`DialogueRunner`, comme l'ancien hub) qui ne fait PAS avancer le routeur, avec un drapeau
+  `<dialogueId>.fait` pour ne pas la rejouer ;
 - `tactical` : construit un `TacticalSetup` à partir de `RunState.roster` (composition,
   ADR 0014 §5 -- `DEFAULT_BLUE`/`DEFAULT_RED` ne servent plus qu'au démarrage direct de debug
   et aux tests) et `RunState.teams` (matériel) et instancie `GameApp`, exactement comme une
@@ -151,18 +163,23 @@ jamais au milieu d'un dialogue.
 ### `src/render` et `src/ui` — l'affichage
 
 `render/` est du three.js pur (sauf `rigAnimator.ts` et `effectQueue.ts`, volontairement sans `three` donc testables sous Node) ; `ui/` du DOM pur (`Hud` pour le combat, `NarrativeView` pour
-les CONVERSATIONS narratives, `HubView` pour la liste des cadets, `ReportView` pour le bilan de
-l'exercice et l'ecran de cloture, `DraftView` pour l'ecran de tirage (ADR 0014, lot 3.2),
-`TitleView` pour l'ecran titre) ; `audio/` du Web Audio pur (bruitages synthétisés). Les trois
-(`render`, `ui`, `audio`) sont remplaçables sans toucher au gameplay. L'interface est en HTML
-parce que c'est plus rapide à itérer, accessible, et directement testable par Playwright via
-des `data-testid`.
+les CONVERSATIONS narratives (scènes `dialogue` et conversations annexes d'exploration),
+`ObjectiveHud`/`BriefLineView` pour l'exploration (08-EXPLORATION.md), `ReportView` pour le
+bilan de l'exercice et l'ecran de cloture, `DraftView` pour l'ecran de tirage (ADR 0014, lot
+3.2), `TitleView` pour l'ecran titre) ; `audio/` du Web Audio pur (bruitages synthétisés). Les
+trois (`render`, `ui`, `audio`) sont remplaçables sans toucher au gameplay. L'interface est en
+HTML parce que c'est plus rapide à itérer, accessible, et directement testable par Playwright
+via des `data-testid`.
 
-`ChapterApp` possede cinq HOSTS DOM distincts dans le conteneur (`narrativeHost`,
-`hubHost`, `tacticalHost`, `reportHost`, `draftHost`), un par vue plein cadre, et n'en montre
-jamais qu'un seul a la fois (`setActiveHost`). `src/ui/sceneChrome.ts` factorise le decor
-commun (ciel tramé, silhouette de toits) entre `NarrativeView`, `HubView`, `DraftView` et
-`TitleView` -- les quatre doivent se lire comme la meme piece du dossier
+`ChapterApp` possede six HOSTS DOM distincts dans le conteneur (`narrativeHost`,
+`exploreHost`, `tacticalHost`, `reportHost`, `draftHost`), un par vue plein cadre, et n'en
+montre jamais qu'un seul a la fois (`setActiveHost`) -- règle de piège déjà rencontrée deux
+fois sur ce projet : une règle auteur `display:` d'une couche bat `[hidden] { display: none }`
+du navigateur, `setActiveHost` bascule donc l'inline `style.display` du HOST lui-même plutôt
+que l'attribut `hidden` d'un enfant, ce qui masque d'un coup l'encart d'objectif et les bulles
+de réplique (enfants d'`exploreHost`) sans piège de spécificité. `src/ui/sceneChrome.ts`
+factorise le decor commun (ciel tramé, silhouette de toits) entre `NarrativeView`, `DraftView`
+et `TitleView` -- les trois doivent se lire comme la meme piece du dossier
 (docs/art/UI-DESIGN-SYSTEM.md).
 
 ### `src/debug` — l'API de test
@@ -288,7 +305,8 @@ partie (voir `docs/process/DEBUG_API.md`).
 
 | Besoin | Emplacement prévu |
 |---|---|
-| Exploration à la troisième personne | `src/render/` + Rapier, seulement si une scène l'exige (ADR 0007) |
+| Le centre d'examen explorable (salles 1-3, cour de containers) | `src/data/maps/centre-examen.ts` + branchement sur `chapter.ts`, lot 3.7 -- même mécanisme que l'académie (lot 3.6b), avec en plus le passage au mode tactique (`tacticalArea`) |
+| Un vrai moteur physique (objets lancés, portes battantes...) | nouvel ADR si le besoin se confirme (ADR 0013 §"Conséquences") -- l'exploration actuelle reste sur la grille, sans Rapier |
 | Audio narratif et musique | `src/audio/` avec Howler.js ; les bruitages de combat y existent déjà, synthétisés (ADR 0010) |
 | Portraits des cadets dans `NarrativeView` | lot de polish ultérieur, volontairement absent de la première passe d'UX (voir la tâche « branchement narratif ») |
 | Mini-jeu de piratage (salle 2) | délibérément écarté par l'ADR 0011 : c'est un jet ordinaire |

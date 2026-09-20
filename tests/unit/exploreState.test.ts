@@ -150,6 +150,48 @@ describe('ExploreState — interactions', () => {
     });
   });
 
+  it(
+    'un npc/object posé sur une case franchissable a une case d’interaction ' +
+      'ADJACENTE, jamais sa propre case (on se place à côté, pas dessus)',
+    () => {
+      const state = new ExploreState(SMALL_MAP, ctx());
+      const interactables = state.listInteractables();
+      const guard = interactables.find((i) => i.id === 'guard'); // npc, case {2,2} déjà franchissable
+      const locker = interactables.find((i) => i.id === 'locker'); // object, case {3,4} déjà franchissable
+      expect(guard).toBeDefined();
+      expect(locker).toBeDefined();
+
+      for (const info of [guard, locker]) {
+        if (!info) continue;
+        expect(info.interactionCell).not.toEqual(info.cell);
+        const dist = Math.max(Math.abs(info.interactionCell.x - info.cell.x), Math.abs(info.interactionCell.y - info.cell.y));
+        expect(dist).toBe(1); // adjacente (8 directions), pas plus loin
+      }
+    },
+  );
+
+  it('un seat a sa case d’interaction SUR sa propre case (on s’assoit dessus) -- exception assumée', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const chair = state.listInteractables().find((i) => i.id === 'chair');
+    expect(chair?.interactionCell).toEqual(chair?.cell);
+  });
+
+  it('une exit a sa case d’interaction SUR sa propre case (on la franchit) -- exception assumée', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const gate = state.listInteractables().find((i) => i.id === 'gate');
+    expect(gate?.interactionCell).toEqual(gate?.cell);
+  });
+
+  it('requestInteract fait marcher le meneur à côté du npc, jamais sur sa case', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const res = state.requestInteract('guard');
+    expect(res.ok).toBe(true);
+    for (let i = 0; i < 30 && state.isMoving(); i++) state.tick(150);
+    expect(state.leaderCell()).not.toEqual({ x: 2, y: 2 });
+    const dist = Math.max(Math.abs(state.leaderCell().x - 2), Math.abs(state.leaderCell().y - 2));
+    expect(dist).toBe(1);
+  });
+
   it('interactablesNear filtre par proximité de la case donnée', () => {
     const state = new ExploreState(SMALL_MAP, ctx());
     const near = state.interactablesNear({ x: 2, y: 2 }, 1);

@@ -10,7 +10,7 @@
 
 import type { NarrativeContext } from '@/narrative';
 import { evaluateCondition } from '@/narrative';
-import { ExploreMap, nearestWalkableCell, posKey } from './exploreMap';
+import { ExploreMap, nearestAdjacentWalkableCell, nearestWalkableCell, posKey } from './exploreMap';
 import { computeReach, findPath, pathTo } from './pathing';
 import type {
   Cell,
@@ -115,7 +115,16 @@ function seedTrail(spawn: FloatCell, followerCount: number): { dist: number; pos
 export class ExploreState {
   readonly map: ExploreMap;
 
-  private readonly ctx: NarrativeContext;
+  /**
+   * Contexte narratif courant (drapeaux, dont `ch1.etape` -- voir `condition`
+   * des entités). PAS `readonly` : deux étapes d'exploration qui se suivent
+   * sur la MÊME carte réutilisent la même instance (`chapter.ts`, contrat du
+   * lot 3.6b, "le spawn ne sert qu'à une entrée à froid") -- `updateContext`
+   * permet à l'appelant de tenir cette référence à jour au fil des scènes,
+   * plutôt que de reconstruire `ExploreState` (et perdre la position de
+   * Franklyn) à chaque changement de drapeau.
+   */
+  private ctx: NarrativeContext;
   private readonly doorEntities = new Map<string, DoorEntity>();
   private readonly doorsOpen = new Map<string, boolean>();
   private readonly entitiesById = new Map<string, EntityDef>();
@@ -201,6 +210,17 @@ export class ExploreState {
 
   setFollowers(ids: string[]): void {
     this.followerIds = [...ids];
+  }
+
+  /**
+   * Remplace le contexte narratif lu par `isEntityActive` (drapeaux, dont
+   * `ch1.etape`) -- voir la note sur `ctx` plus haut. `chapter.ts` l'appelle
+   * chaque fois que son propre contexte change pendant que cette instance
+   * reste active (nouvelle étape sur la même carte, conversation annexe
+   * terminée, ...).
+   */
+  updateContext(ctx: NarrativeContext): void {
+    this.ctx = ctx;
   }
 
   /** Point sur l'historique du meneur, à `lag` cases derrière lui (interpolation linéaire). */
@@ -332,10 +352,10 @@ export class ExploreState {
   requestInteract(entityId: string): { ok: boolean; reason?: string } {
     const entity = this.entitiesById.get(entityId);
     if (!entity || entity.type === 'zone') return { ok: false, reason: 'Hors d’atteinte' };
-    const interactionCell = nearestWalkableCell(this.map, entity.cell, this.isWalkableAt);
+    const from = this.leaderCell();
+    const interactionCell = this.interactionCellFor(entity, from);
     if (!interactionCell) return { ok: false, reason: 'Hors d’atteinte' };
 
-    const from = this.leaderCell();
     if (from.x === interactionCell.x && from.y === interactionCell.y) {
       this.pendingInteraction = null;
       const outcome = this.interact(entityId);
@@ -359,6 +379,22 @@ export class ExploreState {
     return !e.condition || evaluateCondition(e.condition, this.ctx);
   }
 
+  /**
+   * Case où se placer pour interagir avec `entity`, la plus proche de
+   * `fromCell` (08-EXPLORATION.md "Interaction"). Deux exceptions à "toujours
+   * une case adjacente, jamais la case de l'entité elle-même" : `seat` (on
+   * s'assoit DESSUS) et `exit` (on la FRANCHIT, `nearestWalkableCell` peut
+   * donc renvoyer sa propre case si elle est déjà franchissable). `zone` n'a
+   * pas de case d'interaction (invisible, se déclenche en marchant dedans) --
+   * jamais appelée pour ce type, voir les deux appelants.
+   */
+  private interactionCellFor(entity: EntityDef, fromCell: Cell): Cell | null {
+    if (entity.type === 'seat' || entity.type === 'exit') {
+      return nearestWalkableCell(this.map, entity.cell, this.isWalkableAt);
+    }
+    return nearestAdjacentWalkableCell(this.map, entity.cell, this.isWalkableAt, fromCell);
+  }
+
   listInteractables(): InteractableInfo[] {
     const leader = this.leaderCell();
     const reach = computeReach(this.map, leader, this.isWalkableAt);
@@ -366,7 +402,7 @@ export class ExploreState {
     for (const e of this.map.def.entities) {
       if (e.type === 'zone') continue;
       if (!this.isEntityActive(e)) continue;
-      const interactionCell = nearestWalkableCell(this.map, e.cell, this.isWalkableAt);
+      const interactionCell = this.interactionCellFor(e, leader);
       if (!interactionCell) continue;
       out.push({
         id: e.id,

@@ -16,11 +16,15 @@
  * carte de cette taille. La largeur de chaque ligne est vérifiée au chargement.
  *
  * Drapeau de partie `ch1.etape` : posé par le lot 3.6b (intégration au
- * chapitre, `src/narrative/sceneRouter.ts` — hors du périmètre de ce
- * fichier). Valeurs exactes (`Condition` de src/narrative/types.ts) :
- * 'reveil' | 'discours' | 'examen' | 'tirage' | 'temps-libre' | 'depart'.
- * Ce fichier ne fait que LIRE ce drapeau via `condition` sur les entités qui
- * n'ont de sens qu'à une étape donnée.
+ * chapitre, `SceneDef.etape` + `withEtape()` dans
+ * `src/narrative/sceneRouter.ts` — hors du périmètre de ce fichier). Valeurs
+ * exactes (`Ch1Etape`, `src/narrative/sceneRouter.ts`) : 'reveil' | 'discours'
+ * | 'examen' | 'tirage' | 'temps-libre' | 'depart'. Ce fichier ne fait que
+ * LIRE ce drapeau via `condition` sur les entités qui n'ont de sens qu'à une
+ * étape donnée. Seules trois étapes sont aujourd'hui posées par une scène
+ * `explore` (`reveil`, `examen`, `temps-libre` -- voir CHAPTER_1_SCENES) :
+ * 'discours', 'tirage' et 'depart' restent réservées (scènes `dialogue` sur
+ * place, ou lot 3.7 pour le centre d'examen), sans entité qui les lise ici.
  *
  * L'aile ouest (seconde génération, 6-12 ans) est hors carte : une porte
  * verrouillée dans le mur ouest du couloir ouest (`corridor-ouest.acces-
@@ -29,14 +33,13 @@
  * Pas de `tacticalArea` : l'académie n'a pas de combat (voir 08-EXPLORATION.md).
  */
 
-import type { Condition } from '@/narrative';
+import type { Condition, Ch1Etape } from '@/narrative';
+import { CH1_ETAPE_FLAG } from '@/narrative';
 import type { EntityDef, MapDef, RoomDef } from '@/explore';
-
-type Ch1Etape = 'reveil' | 'discours' | 'examen' | 'tirage' | 'temps-libre' | 'depart';
 
 /** Condition d'apparition sur le drapeau d'étape du chapitre 1 (voir en-tête). */
 function etape(value: Ch1Etape): Condition {
-  return { flag: 'ch1.etape', equals: value };
+  return { flag: CH1_ETAPE_FLAG, equals: value };
 }
 
 const WIDTH = 52;
@@ -464,7 +467,7 @@ const ENTITIES: EntityDef[] = [
     label: 'Essayer la porte',
   },
 
-  // -- Garage (étape 6 · Départ) --------------------------------------------
+  // -- Garage (étape 5 · Temps libre -- déclenche le départ, scène ch1.fourgon) --
   {
     id: 'garage.fourgon',
     type: 'object',
@@ -472,7 +475,11 @@ const ENTITIES: EntityDef[] = [
     dialogueId: 'ch1.fourgon',
     line: 'Le fourgon de police, moteur déjà tournant.',
     label: 'Monter dans le fourgon',
-    condition: etape('depart'),
+    // Trigger de fin d'objectif de la scène `ch1.hub` (CHAPTER_1_SCENES,
+    // etape 'temps-libre') : doit être actif pendant CETTE étape, pas
+    // 'depart' (qui n'est posée par aucune scène tant que le centre d'examen
+    // -- lot 3.7 -- n'est pas exploré sur cette carte).
+    condition: etape('temps-libre'),
   },
   {
     id: 'garage.sortie',
@@ -481,6 +488,10 @@ const ENTITIES: EntityDef[] = [
     targetMapId: 'centre-examen',
     targetSpawn: 'arrivee',
     label: "Rejoindre le centre d'examen",
+    // Volontairement dormante ce lot (3.6b) : aucune scène ne pose encore
+    // 'depart', et la carte `centre-examen` elle-même n'existe pas avant le
+    // lot 3.7 -- le départ réel passe par `garage.fourgon` (dialogue
+    // `ch1.fourgon`), pas par cette sortie.
     condition: etape('depart'),
   },
 ];

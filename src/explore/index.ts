@@ -20,7 +20,15 @@ export type {
   ObjectiveDef,
 } from './types';
 
-export { ExploreMap, nearestWalkableCell, sameCell, cellDistance, inRect, posKey } from './exploreMap';
+export {
+  ExploreMap,
+  nearestWalkableCell,
+  nearestAdjacentWalkableCell,
+  sameCell,
+  cellDistance,
+  inRect,
+  posKey,
+} from './exploreMap';
 export { computeReach, pathTo, findPath } from './pathing';
 export type { ReachResult } from './pathing';
 export { validateMap, YARD_SIZE } from './validateMap';

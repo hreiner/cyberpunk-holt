@@ -8,7 +8,9 @@
  * testable dans Node, comme `src/tactical` et `src/narrative`.
  */
 
-import type { Condition } from '@/narrative';
+import type { Condition, ObjectiveDef, ObjectiveTask } from '@/narrative';
+
+export type { ObjectiveDef, ObjectiveTask };
 
 /** Case de la grille d'exploration (1 case = 1 m, cf. 08-EXPLORATION.md). */
 export interface Cell {
@@ -128,26 +130,10 @@ export interface ValidationResult {
 }
 
 /**
- * Facultatif d'une étape (08-EXPLORATION.md "Les objectifs") : un compteur
- * progresse d'un cran la première fois que chaque entité de `entityIds` est
- * déclenchée (interaction ou zone).
+ * `ObjectiveTask`/`ObjectiveDef` (facultatif d'une étape, objectif courant --
+ * 08-EXPLORATION.md "Les objectifs", ADR 0013 §4) vivent désormais dans
+ * `src/narrative/objective.ts` : voir ce fichier pour la justification (évite
+ * un cycle `narrative` -> `explore` -> `narrative`). Réexportés ci-dessus
+ * pour ne rien changer côté appelants de `src/explore`.
  */
-export interface ObjectiveTask {
-  id: string;
-  label: string;
-  entityIds: string[];
-}
-
-/**
- * Objectif courant d'une étape d'exploration. `completionTrigger` est
- * l'identifiant de l'entité (ou zone) dont le déclenchement termine
- * l'objectif — voir ADR 0013 §4 ("la condition qui le termine").
- */
-export interface ObjectiveDef {
-  id: string;
-  title: string;
-  context: string;
-  completionTrigger: string;
-  tasks?: ObjectiveTask[];
-}
 

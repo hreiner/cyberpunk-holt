@@ -42,7 +42,7 @@ export interface E2EScore {
 
 /* --------------------------- narratif (ADR 0011) --------------------------- */
 
-export type E2ESceneKind = 'dialogue' | 'tactical' | 'hub' | 'debrief';
+export type E2ESceneKind = 'dialogue' | 'tactical' | 'explore' | 'debrief';
 
 export interface E2ESceneSnapshot {
   id: string;
@@ -178,11 +178,56 @@ export interface E2EDossier {
   updatedAt: string;
 }
 
-export interface E2EHubEntry {
-  dialogueId: string;
+/* --------------------------- exploration (ADR 0013, lot 3.6b) --------------------------- */
+
+export interface E2ECell {
+  x: number;
+  y: number;
+}
+
+export type E2EEntityType = 'npc' | 'object' | 'seat' | 'door' | 'exit';
+
+export interface E2EInteractable {
+  id: string;
+  type: E2EEntityType;
+  cell: E2ECell;
+  interactionCell: E2ECell;
   label: string;
+  reachable: boolean;
+}
+
+export interface E2EObjectiveTask {
+  id: string;
+  label: string;
+  count: number;
+  target: number;
   done: boolean;
 }
+
+export interface E2EObjectiveStatus {
+  id: string;
+  title: string;
+  context: string;
+  tasks: E2EObjectiveTask[];
+  complete: boolean;
+}
+
+export interface E2EExploreSnapshot {
+  mapId: string;
+  leader: E2ECell;
+  followers: E2ECell[];
+  objective: E2EObjectiveStatus | null;
+  interactables: E2EInteractable[];
+}
+
+export type E2EInteractOutcome =
+  | { kind: 'dialogue'; entityId: string; dialogueId: string; startNode?: string }
+  | { kind: 'brief-line'; entityId: string; text: string }
+  | { kind: 'door-toggled'; entityId: string; open: boolean }
+  | { kind: 'door-locked'; entityId: string; line?: string }
+  | { kind: 'change-map'; entityId: string; targetMapId: string; targetSpawn: string }
+  | { kind: 'zone-trigger'; entityId: string }
+  | { kind: 'none'; entityId: string; reason?: string };
 
 /* --------------------------- tirage (ADR 0014) --------------------------- */
 
@@ -241,14 +286,21 @@ export interface E2EGameApi {
   /** Voir `GameDebugApi.acceptRoll` dans src/debug/gameApi.ts (ADR 0015 §2). */
   acceptRoll(): { ok: boolean; reason?: string };
   advance(): E2EPresentedNode | null;
-  hub(): E2EHubEntry[] | null;
-  pickHub(dialogueId: string): E2EPresentedNode | null;
-  leaveHub(): E2ESceneSnapshot;
   radio(): E2ERadioCue[];
   /** Voir `GameDebugApi.draft` dans src/debug/gameApi.ts (ADR 0014). */
   draft(): E2EDraftState | null;
   /** Voir `GameDebugApi.pickTeammate` dans src/debug/gameApi.ts (ADR 0014). */
   pickTeammate(cadetId: string): { ok: boolean; reason?: string };
+
+  /* --- exploration (ADR 0013, lot 3.6b) --- */
+  /** Voir `GameDebugApi.explore` dans src/debug/gameApi.ts. `null` hors d'une scène `explore`. */
+  explore(): E2EExploreSnapshot | null;
+  /** Voir `GameDebugApi.walkTo` dans src/debug/gameApi.ts : déplacement instantané, sans animation. */
+  walkTo(x: number, y: number): void;
+  /** Voir `GameDebugApi.interact` dans src/debug/gameApi.ts : déclenche l'entité sans marcher jusqu'à elle. */
+  interact(entityId: string): E2EInteractOutcome | null;
+  /** Voir `GameDebugApi.completeStep` dans src/debug/gameApi.ts : outil de développement, saute l'étape courante. */
+  completeStep(): void;
 }
 
 declare global {

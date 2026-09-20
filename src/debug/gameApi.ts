@@ -14,7 +14,7 @@
  * `GameApp` courante, creee des qu'on atteint ou force la scene tactique.
  */
 
-import type { ChapterApp, HubEntry, NarrativeSceneSnapshot } from '@/chapter';
+import type { ChapterApp, NarrativeSceneSnapshot } from '@/chapter';
 import type { GameApp } from '@/app';
 import { combatOutcome } from '@/app';
 import { playAiTurn, playToEnd } from '@/tactical/ai';
@@ -24,8 +24,15 @@ import type { Action, CombatState, TeamId } from '@/tactical/types';
 import type { CharacterId } from '@/rules/character';
 import type { Dossier } from '@/core/dossier';
 import type { DraftState, NarrativeOutcome, PresentedNode, RadioCue, RunState } from '@/narrative';
+import type { ExploreDebugSnapshot, InteractOutcome } from '@/explore';
 
-export const DEBUG_API_VERSION = 1;
+/**
+ * Version 2 (epic 3, lot 3.6b) : `hub()`/`pickHub(dialogueId)`/`leaveHub()` ont disparu avec
+ * la scène `hub` (liste des cadets, `HubView`) elle-même -- remplacée par la scène `explore`
+ * (les cadets sont désormais abordés sur la carte). Voir `explore()`/`walkTo()`/`interact()`/
+ * `completeStep()` ci-dessous et docs/process/DEBUG_API.md.
+ */
+export const DEBUG_API_VERSION = 2;
 
 export interface GameStateSnapshot {
   phase: CombatState['phase'];
@@ -111,9 +118,6 @@ export interface GameDebugApi {
    */
   acceptRoll(): NarrativeOutcome;
   advance(): PresentedNode | null;
-  hub(): HubEntry[] | null;
-  pickHub(dialogueId: string): PresentedNode | null;
-  leaveHub(): NarrativeSceneSnapshot;
   radio(): RadioCue[];
   /**
    * Etat courant du tirage (ADR 0014), `null` hors de l'ecran de tirage :
@@ -133,6 +137,20 @@ export interface GameDebugApi {
    * a la scene suivante (meme idiome qu'un noeud de dialogue terminal).
    */
   pickTeammate(cadetId: CharacterId): NarrativeOutcome;
+
+  /* --- exploration (ADR 0013, epic 3 lot 3.6b) --- */
+  /** Instantane de l'exploration en cours (08-EXPLORATION.md "L'API de debug"), `null` hors d'une scene `explore`. */
+  explore(): ExploreDebugSnapshot | null;
+  /** Deplacement instantane du meneur (et du groupe, en formation), sans animation. */
+  walkTo(x: number, y: number): void;
+  /**
+   * Declenche `entityId` comme un clic, SANS marcher jusqu'a elle. Si `entityId` est le
+   * `completionTrigger` de l'objectif courant, fait avancer le routeur -- la scene suivante
+   * joue alors son dialogue. Renvoie `null` hors d'une scene `explore`.
+   */
+  interact(entityId: string): InteractOutcome | null;
+  /** Reserve au developpement : termine l'objectif courant ET fait avancer le routeur. */
+  completeStep(): void;
 }
 
 export function snapshot(app: GameApp): GameStateSnapshot {
@@ -252,23 +270,19 @@ export function installDebugApi(chapter: ChapterApp): GameDebugApi {
       return chapter.node;
     },
 
-    hub: () => chapter.hub,
-
-    pickHub(dialogueId: string) {
-      chapter.pickHub(dialogueId);
-      return chapter.node;
-    },
-
-    leaveHub() {
-      chapter.leaveHub();
-      return chapter.sceneSnapshot();
-    },
-
     radio: () => chapter.peekRadio(),
 
     draft: () => chapter.draft,
 
     pickTeammate: (cadetId: CharacterId) => chapter.pickTeammate(cadetId),
+
+    explore: () => chapter.exploreSnapshot(),
+
+    walkTo: (x: number, y: number) => chapter.exploreWalkTo(x, y),
+
+    interact: (entityId: string) => chapter.exploreInteract(entityId),
+
+    completeStep: () => chapter.exploreCompleteStep(),
   };
 
   (window as unknown as { __game: GameDebugApi }).__game = api;

@@ -51,8 +51,10 @@ export { pendingRadio, markHeard } from './radio';
 
 export { validateDialogue } from './validate';
 
-export type { SceneKind, SceneDef } from './sceneRouter';
-export { SceneRouter, CHAPTER_1_SCENES } from './sceneRouter';
+export type { SceneKind, SceneDef, Ch1Etape } from './sceneRouter';
+export { SceneRouter, CHAPTER_1_SCENES, CH1_ETAPE_FLAG, TIRAGE_SCENE_ID, withEtape, exploreFollowerIds } from './sceneRouter';
+
+export type { ObjectiveDef, ObjectiveTask } from './objective';
 
 export type { OffscreenOutcome } from './offscreen';
 export {
