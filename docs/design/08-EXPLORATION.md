@@ -40,8 +40,10 @@ jets, le dé 3D, la radio, le combat restent ce qu'ils sont.
 |---|---|---|
 | Se déplacer | clic gauche sur le sol | — |
 | Interagir | clic gauche sur un objet ou un personnage | `Espace` sur l'objet survolé le plus proche |
+| Déplacer la caméra | — | les quatre **flèches** |
+| Recentrer sur Franklyn | — | `C` |
 | Tourner la caméra | — | `A` / `E` (quarts de tour, comme en tactique) |
-| Zoom | molette (deux crans) | `+` / `−` |
+| Zoom | **molette**, en continu | `+` / `−` |
 | Montrer l'objectif | — | `Tab` maintenu |
 | Journal | — | `J` |
 
@@ -58,8 +60,17 @@ jets, le dé 3D, la radio, le combat restent ce qu'ils sont.
 
 ## La caméra et les murs
 
-- Même caméra isométrique 3/4 que le combat (ADR 0001), qui **suit Franklyn** avec un léger
-  amorti. Rotation en quarts de tour conservée.
+- Même caméra isométrique 3/4 que le combat (ADR 0001). Rotation en quarts de tour conservée.
+- **La caméra ne suit pas Franklyn.** Une caméra qui recolle en permanence au personnage
+  saccade à chaque pas et rend le déplacement désagréable ; on perd aussi la lecture du
+  plan, qui est justement ce qu'on vient chercher dans une vue 3/4. La caméra est donc
+  **libre** : les flèches la déplacent dans le plan de la carte, la molette zoome en continu,
+  `C` la recentre sur Franklyn. Le panoramique est **relatif à l'écran** (↑ déplace la vue
+  vers le haut de l'écran quelle que soit la rotation) et **borné à la carte**, marge d'une
+  pièce comprise : on ne se perd pas dans le noir.
+- La caméra **se recentre d'elle-même** aux seuls moments où le joueur perdrait le fil :
+  au début d'une étape, après un changement de lieu, et à la sortie d'un dialogue. Jamais
+  pendant un déplacement.
 - **Murs en coupe.** Les intérieurs ont des murs de 3 m. Les murs **situés entre la caméra
   et l'intérieur de la pièce** (côtés sud et est pour l'orientation par défaut, recalculés à
   chaque rotation) sont rendus **coupés à 0,4 m**, arête supérieure soulignée. On voit
@@ -163,6 +174,7 @@ dans [`../process/DEBUG_API.md`](../process/DEBUG_API.md).
 
 - Tout objet interactif est atteignable **au clavier** : `Tab`/`Maj+Tab` parcourt les
   entités visibles à l'écran, `Espace` interagit.
-- `prefers-reduced-motion` : caméra sans amorti, pas de pulsation du repère d'objectif.
+- `prefers-reduced-motion` : recentrages instantanés plutôt qu'amortis, pas de pulsation du
+  repère d'objectif.
 - Les figurants sont gris et plus petits d'un cran : on reconnaît les six cadets d'un coup
   d'œil (couleur de personnage sur l'uniforme, comme en tactique).

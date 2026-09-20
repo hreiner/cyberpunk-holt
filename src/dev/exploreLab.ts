@@ -19,10 +19,20 @@ import { createDossier } from '@/core/dossier';
 import { createRng } from '@/core/rng';
 import { createRunState } from '@/narrative';
 import { getCharacter } from '@/rules/character';
-import { ExploreState, type Cell, type ExploreEvent } from '@/explore';
+import { ExploreState, type Cell, type ExploreEvent, type MapDef } from '@/explore';
 import { ExploreView, type HoverTarget } from '@/render/exploreView';
 import { ObjectiveHud } from '@/ui/objectiveHud';
 import { EXPLORE_LAB_MAP } from './exploreLabMap';
+import { HOLT_MAP } from '@/data/maps/holt';
+
+/**
+ * Carte affichée : `?map=holt` pour l'académie HOLT (lot 3.6a), sinon la carte de
+ * démonstration par défaut (comportement inchangé). Seule concession du lot 3.6a à ce
+ * fichier — le reste du harnais (objectif, tirage du concierge/banc/fourgon) reste celui
+ * de la carte de démo et n'a de sens que pour elle, voir `buildScene()` plus bas.
+ */
+const ACTIVE_MAP: MapDef =
+  new URLSearchParams(window.location.search).get('map') === 'holt' ? HOLT_MAP : EXPLORE_LAB_MAP;
 
 const viewport = document.getElementById('explore-lab-viewport') as HTMLElement;
 const canvas = document.getElementById('explore-lab-canvas') as HTMLCanvasElement;
@@ -54,7 +64,7 @@ let hoveredEntityId: string | null = null;
 let lastPointerClient = { x: 0, y: 0 };
 
 function entityCell(id: string): Cell | null {
-  return EXPLORE_LAB_MAP.entities.find((e) => e.id === id)?.cell ?? null;
+  return ACTIVE_MAP.entities.find((e) => e.id === id)?.cell ?? null;
 }
 
 function requestInteract(entityId: string): void {
@@ -104,16 +114,18 @@ function buildScene(): void {
 
   const rng = createRng('explore-lab');
   const ctx = { dossier: createDossier(), run: createRunState('explore-lab') };
-  state = new ExploreState(EXPLORE_LAB_MAP, ctx, { followerIds: ['equipier1', 'equipier2'] });
-  state.setObjective({
-    id: 'obj1',
-    title: 'Rejoindre le fourgon',
-    context: 'Traverse les salles puis la cour.',
-    completionTrigger: 'fourgon',
-    tasks: [{ id: 't1', label: 'parler au concierge et s’asseoir', entityIds: ['concierge', 'bench'] }],
-  });
+  state = new ExploreState(ACTIVE_MAP, ctx, { followerIds: ['equipier1', 'equipier2'] });
+  if (ACTIVE_MAP.id === 'lab') {
+    state.setObjective({
+      id: 'obj1',
+      title: 'Rejoindre le fourgon',
+      context: 'Traverse les salles puis la cour.',
+      completionTrigger: 'fourgon',
+      tasks: [{ id: 't1', label: 'parler au concierge et s’asseoir', entityIds: ['concierge', 'bench'] }],
+    });
+  }
 
-  view = new ExploreView(EXPLORE_LAB_MAP, rng, aspect(), {
+  view = new ExploreView(ACTIVE_MAP, rng, aspect(), {
     onHover: handleHover,
     onMoveTo: (cell) => {
       const res = state.walkLeaderTo(cell);
