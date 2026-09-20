@@ -21,7 +21,7 @@ import type { CharacterSheet } from '@/rules/character';
 import { ExploreMap } from '@/explore';
 import type { Cell, DoorEntity, EntityDef, MapDef, RoomDef } from '@/explore';
 import { PlaceholderRig, type CharacterRig } from './characterRig';
-import { IsoCamera, MAX_ZOOM, MIN_ZOOM } from './isoCamera';
+import { CAMERA_DISTANCE, ISO_ELEVATION_DEG, IsoCamera } from './isoCamera';
 
 export const EXPLORE_CELL_SIZE_METERS = 1;
 const WALL_HEIGHT = 3;
@@ -45,18 +45,41 @@ const FURNITURE_LOW_COLOR = 0xb98a4f; // mobilier bas : bois clair (table, pupit
 const FURNITURE_HIGH_COLOR = 0x6f7680; // mobilier haut : acier bleuté (armoire, serveur...)
 const GLASS_COLOR = 0x4cc9f0;
 const VEGETATION_COLOR = 0x4f8f5a;
-const CUT_EDGE_COLOR = 0x4cc9f0;
+/**
+ * Arête supérieure d'un mur coupé (08-EXPLORATION.md "La caméra et les murs") : un ivoire
+ * sale et discret, pas le cyan. Le cyan est réservé au verre et à l'anneau d'équipe
+ * (UI-DESIGN-SYSTEM.md "Couleurs" : « le cyan `--comm` signifie radio », et en 3D il ne sert
+ * qu'au verre/contre-jour) — sur l'académie (52x64), colorer chaque arête de mur coupé en
+ * cyan vif transformait tout le bâtiment en filaire lumineux qui écrasait le reste du rendu.
+ */
+const CUT_EDGE_COLOR = 0xb0a184;
 const EXTRA_COLOR = 0xaab0bd; // figurants gris, plus clairs que --bone-faint pour rester lisibles
 const HOVER_COLOR = 0xf2c230; // --tape
 const EXIT_COLOR = 0x7fd08a;
 const OBJECT_COLOR = 0xd9a441; // repris de la palette containers (YardView) : un objet se remarque
 const SEAT_COLOR = 0xb4463c;
+/** Couleur d'un véhicule du garage : distincte du mobilier haut (agrès), pour rester lisible côte à côte. */
+const VEHICLE_COLOR = 0xc9863a;
+const VEHICLE_GLASS_COLOR = 0x8ea6b8;
 /** Anneau au sol du groupe du joueur : `--comm` est réservé à la radio (ART-DIRECTION.md "Couleurs"), on reprend l'accent d'interface. */
 const PARTY_RING_COLOR = 0x4cc9f0;
-/** Zoom par défaut de `IsoCamera` (non exposé par le module) : point de départ des deux niveaux. */
-const ISO_CAMERA_DEFAULT_ZOOM = 34;
-/** Deux niveaux de zoom (08-EXPLORATION.md "Contrôles") : une pièce, puis une vue large (utile sur l'académie, ~52x64). */
-const ZOOM_LEVELS = [20, 46] as const;
+
+/**
+ * Zoom continu (08-EXPLORATION.md "Contrôles") : bornes propres à l'exploration, distinctes
+ * de celles du combat tactique (`MIN_ZOOM`/`MAX_ZOOM` d'`isoCamera.ts`, calibrées sur la cour
+ * 30x20). Au plus large (`ZOOM_MAX`), on embrasse une aile entière de l'académie (52x64) ;
+ * au plus près (`ZOOM_MIN`), on distingue les visages des cadets.
+ */
+const ZOOM_MIN = 10;
+const ZOOM_MAX = 96;
+/** Molette : sensibilité (unités de zoom par cran `deltaY`, valeur navigateur typique ~100). */
+const WHEEL_ZOOM_SENSITIVITY = 0.045;
+/** `+`/`-` maintenus : vitesse de zoom continue. */
+export const KEY_ZOOM_SPEED = 30;
+/** Flèches maintenues : vitesse du panoramique libre, en mètres/seconde. */
+const PAN_SPEED_M_S = 18;
+/** Marge de panoramique au-delà du bord de la carte, "une pièce" (08-EXPLORATION.md "La caméra et les murs"). */
+const PAN_MARGIN_METERS = 12;
 
 export type Side = 'north' | 'south' | 'east' | 'west';
 
@@ -91,6 +114,61 @@ export function worldToCell(map: ExploreMap, x: number, z: number): Cell | null 
   return { x: cx, y: cy };
 }
 
+/**
+ * Teintes de sol par pièce, pour l'académie HOLT : une petite palette dessinée à la main
+ * (même esprit que `CONTAINER_PALETTE` de `YardView`), pas un calcul générique — un écart de
+ * teinte pertinent (bureau, clinique, atelier, réfectoire...) se choisit, il ne se déduit pas
+ * d'un hash. Chaque valeur reste proche de `GROUND_COLOR` (même famille grise sourde, léger
+ * écart de teinte/luminosité) : sobre, jamais un sol "arc-en-ciel". Clé = `RoomDef.id`.
+ */
+const ROOM_FLOOR_PALETTE: Record<string, number> = {
+  administration: 0x4a4650, // gris chaud — bureaucratie
+  interface: 0x424b52, // gris-bleu neutre — salle informatique
+  infirmerie: 0x3f4f54, // gris-vert froid — clinique
+  armurerie: 0x3a4048, // gris-acier sombre — sécurité
+  archives: 0x454654, // gris-violet sourd — stockage
+  'local-technique': 0x3c3f46, // gris industriel sombre
+  dortoirs: 0x4a4a58, // gris-lavande doux — vie commune
+  'cour-interieure': 0x3f4f46, // gris-vert — jardin
+  cantine: 0x50473f, // gris-brun chaud — réfectoire
+  'salles-entrainement': 0x46433c, // gris-sable — sport
+  garage: 0x36363c, // gris-anthracite — mécanique
+};
+
+/** Hash déterministe d'une chaîne (FNV-1a) : aucun aléa, juste un écart stable (AGENTS.md règle 1). */
+function hashRoomId(id: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < id.length; i++) {
+    h ^= id.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+/**
+ * Teinte de sol propre à une pièce : `ROOM_FLOOR_PALETTE` pour l'académie HOLT ; pour toute
+ * pièce hors de cette liste (autre carte, `exploreLabMap.ts`...), un léger écart
+ * teinte/luminosité déterministe autour de `GROUND_COLOR` — dégradé, jamais une couleur au
+ * hasard, et jamais l'absence totale de distinction.
+ */
+function roomFloorColor(id: string): THREE.Color {
+  const preset = ROOM_FLOOR_PALETTE[id];
+  if (preset !== undefined) return new THREE.Color(preset);
+  const hash = hashRoomId(id);
+  const base = new THREE.Color(GROUND_COLOR);
+  const hsl = { h: 0, s: 0, l: 0 };
+  base.getHSL(hsl);
+  const hueShift = (((hash >> 4) % 49) - 24) / 360; // ± ~24°
+  const lightShift = (((hash >> 12) % 11) - 5) / 100; // ± 5 % de luminosité
+  const out = new THREE.Color();
+  out.setHSL(
+    (((hsl.h + hueShift) % 1) + 1) % 1,
+    THREE.MathUtils.clamp(hsl.s + 0.1, 0, 1),
+    THREE.MathUtils.clamp(hsl.l + lightShift, 0.08, 0.9),
+  );
+  return out;
+}
+
 interface WallCellInfo {
   mesh: THREE.Mesh;
   topEdge: THREE.Mesh;
@@ -108,6 +186,8 @@ export class ExploreView {
 
   private readonly wallCells = new Map<string, WallCellInfo>();
   private readonly roomSidesByCell = new Map<string, Side[]>();
+  /** Cases de mobilier haut ('T') situées dans la pièce 'garage' : rendues comme des véhicules (voir `buildCells`). */
+  private readonly garageCells = new Set<string>();
   private readonly pickables: THREE.Object3D[] = [];
   private readonly floorPlane: THREE.Mesh;
   private readonly hoverOutline: THREE.Mesh;
@@ -115,6 +195,8 @@ export class ExploreView {
 
   private readonly rigs = new Map<string, CharacterRig>();
   private readonly lastRigPos = new Map<string, { x: number; z: number }>();
+  /** Dernière case connue du meneur (alimentée par `updateRigPosition`) : sert à `centerOnLeader()`. */
+  private leaderCell: Cell | null = null;
 
   /** État initial des portes (avant que `ExploreState` ne prenne le relais via `setDoorOpen`). */
   private readonly doorsOpenDefault = new Map<string, boolean>();
@@ -128,9 +210,8 @@ export class ExploreView {
   /** Quart de tour courant (0..3), suit `IsoCamera` : voir `rotate()`. */
   private quarter = 0;
 
-  /** Index courant dans `ZOOM_LEVELS`. `IsoCamera` n'expose pas son zoom : on le suit nous-même. */
-  private zoomLevel = 0;
-  private trackedZoom = ISO_CAMERA_DEFAULT_ZOOM;
+  /** Bornes du panoramique libre (mètres monde), carte + marge d'une pièce — voir `PAN_MARGIN_METERS`. */
+  private readonly panBounds: { minX: number; maxX: number; minZ: number; maxZ: number };
 
   private readonly raycaster = new THREE.Raycaster();
 
@@ -142,8 +223,16 @@ export class ExploreView {
   ) {
     this.def = def;
     this.map = new ExploreMap(def);
-    this.camera = new IsoCamera(aspect);
-    this.setZoomLevel(0, aspect);
+    this.camera = new IsoCamera(aspect, { min: ZOOM_MIN, max: ZOOM_MAX });
+
+    const halfW = (this.map.width * EXPLORE_CELL_SIZE_METERS) / 2;
+    const halfH = (this.map.height * EXPLORE_CELL_SIZE_METERS) / 2;
+    this.panBounds = {
+      minX: -halfW - PAN_MARGIN_METERS,
+      maxX: halfW + PAN_MARGIN_METERS,
+      minZ: -halfH - PAN_MARGIN_METERS,
+      maxZ: halfH + PAN_MARGIN_METERS,
+    };
 
     this.scene.background = new THREE.Color(0x14151a);
     this.scene.fog = new THREE.Fog(0x14151a, 60, 160);
@@ -178,6 +267,7 @@ export class ExploreView {
     this.floorPlane.rotation.x = -Math.PI / 2;
     this.floorPlane.receiveShadow = true;
     this.root.add(this.floorPlane);
+    this.buildRoomFloors();
 
     this.hoverOutline = new THREE.Mesh(
       new THREE.RingGeometry(0.42, 0.5, 24),
@@ -202,13 +292,47 @@ export class ExploreView {
     }
 
     this.computeRoomSides();
+    this.computeGarageCells();
     this.buildCells();
     this.buildEntityMarkers();
+    this.updateFog();
   }
 
   /* ------------------------------------------------------------------ */
   /* Construction du décor                                               */
   /* ------------------------------------------------------------------ */
+
+  /**
+   * Sol légèrement teinté par pièce (`MapDef.rooms`), au-dessus du sol de base : on reconnaît
+   * une pièce d'un coup d'œil sans casser l'harmonie de palette (portée du lot, voir en-tête
+   * de fichier). Écart déterministe dérivé de l'identifiant de la pièce — aucun aléa
+   * (AGENTS.md règle 1), les couloirs (hors `MapDef.rooms`) gardent le sol de base.
+   */
+  private buildRoomFloors(): void {
+    for (const room of this.def.rooms as RoomDef[]) {
+      const { origin, width, height } = room.rect;
+      const center = { x: origin.x + (width - 1) / 2, y: origin.y + (height - 1) / 2 };
+      const { x: wx, z: wz } = cellToWorld(this.map, center);
+      const plane = new THREE.Mesh(
+        new THREE.PlaneGeometry(width * EXPLORE_CELL_SIZE_METERS, height * EXPLORE_CELL_SIZE_METERS),
+        new THREE.MeshStandardMaterial({ color: roomFloorColor(room.id), roughness: 0.95 }),
+      );
+      plane.rotation.x = -Math.PI / 2;
+      plane.position.set(wx, 0.006, wz);
+      plane.receiveShadow = true;
+      this.root.add(plane);
+    }
+  }
+
+  private computeGarageCells(): void {
+    for (const room of this.def.rooms as RoomDef[]) {
+      if (room.id !== 'garage') continue;
+      const { origin, width, height } = room.rect;
+      for (let y = origin.y; y < origin.y + height; y++) {
+        for (let x = origin.x; x < origin.x + width; x++) this.garageCells.add(`${x},${y}`);
+      }
+    }
+  }
 
   private computeRoomSides(): void {
     const add = (x: number, y: number, side: Side) => {
@@ -254,7 +378,27 @@ export class ExploreView {
       metalness: 0.6,
     });
     const vegetationMat = new THREE.MeshStandardMaterial({ color: VEGETATION_COLOR, roughness: 1 });
-    const edgeMat = new THREE.MeshBasicMaterial({ color: CUT_EDGE_COLOR });
+    // Matériau lit (pas `MeshBasicMaterial`) et semi-transparent : sur une grande carte, une arête
+    // pleinement lumineuse et uniforme sur CHAQUE mur coupé lit comme un filaire qui écrase tout
+    // le reste (voir le commentaire de `CUT_EDGE_COLOR`). Ici l'éclairage de la scène la nuance.
+    const edgeMat = new THREE.MeshStandardMaterial({
+      color: CUT_EDGE_COLOR,
+      roughness: 0.7,
+      transparent: true,
+      opacity: 0.55,
+    });
+    const vehicleMat = new THREE.MeshStandardMaterial({
+      color: VEHICLE_COLOR,
+      roughness: 0.45,
+      metalness: 0.35,
+      emissive: VEHICLE_COLOR,
+      emissiveIntensity: 0.1,
+    });
+    const vehicleGlassMat = new THREE.MeshStandardMaterial({
+      color: VEHICLE_GLASS_COLOR,
+      roughness: 0.2,
+      metalness: 0.6,
+    });
 
     for (let y = 0; y < this.map.height; y++) {
       for (let x = 0; x < this.map.width; x++) {
@@ -313,11 +457,29 @@ export class ExploreView {
           mesh.castShadow = true;
           this.root.add(mesh);
         } else if (kind === 'furnitureHigh') {
-          const mesh = new THREE.Mesh(unitBox, furnitureHighMat);
-          mesh.scale.set(0.9, FURNITURE_HIGH_HEIGHT, 0.9);
-          mesh.position.set(wx, FURNITURE_HIGH_HEIGHT / 2, wz);
-          mesh.castShadow = true;
-          this.root.add(mesh);
+          if (this.garageCells.has(key)) {
+            // Véhicule du garage : même case ('T') que l'agrès/l'arbre ailleurs sur la carte,
+            // mais rendu distinct (carrosserie + pavillon vitré) pour que les deux véhicules du
+            // garage se distinguent l'un de l'autre et du reste du mobilier haut.
+            const vehicleHeight = 1.3;
+            const body = new THREE.Mesh(unitBox, vehicleMat);
+            body.scale.set(0.92, vehicleHeight, 0.92);
+            body.position.set(wx, vehicleHeight / 2, wz);
+            body.castShadow = true;
+            body.receiveShadow = true;
+            this.root.add(body);
+            const roof = new THREE.Mesh(unitBox, vehicleGlassMat);
+            roof.scale.set(0.68, 0.4, 0.68);
+            roof.position.set(wx, vehicleHeight + 0.2, wz);
+            roof.castShadow = true;
+            this.root.add(roof);
+          } else {
+            const mesh = new THREE.Mesh(unitBox, furnitureHighMat);
+            mesh.scale.set(0.9, FURNITURE_HIGH_HEIGHT, 0.9);
+            mesh.position.set(wx, FURNITURE_HIGH_HEIGHT / 2, wz);
+            mesh.castShadow = true;
+            this.root.add(mesh);
+          }
         } else if (kind === 'glass') {
           const mesh = new THREE.Mesh(unitBox, glassMat);
           mesh.scale.set(0.94, GLASS_HEIGHT, 0.12);
@@ -471,21 +633,133 @@ export class ExploreView {
   }
 
   /* ------------------------------------------------------------------ */
-  /* Zoom -- deux niveaux (08-EXPLORATION.md "Contrôles") : une pièce, une */
-  /* vue large. `IsoCamera` ne fournit qu'un zoom RELATIF borné [18, 70] : */
-  /* on garde notre propre valeur suivie pour poser des niveaux absolus.   */
+  /* Caméra libre (08-EXPLORATION.md "La caméra et les murs") : panoramique   */
+  /* continu relatif à l'écran, zoom continu, recentrage amorti sur le meneur. */
   /* ------------------------------------------------------------------ */
 
-  private setZoomLevel(level: number, aspect: number): void {
-    this.zoomLevel = ((level % ZOOM_LEVELS.length) + ZOOM_LEVELS.length) % ZOOM_LEVELS.length;
-    const target = THREE.MathUtils.clamp(ZOOM_LEVELS[this.zoomLevel] as number, MIN_ZOOM, MAX_ZOOM);
-    this.camera.zoomBy(target - this.trackedZoom, aspect);
-    this.trackedZoom = target;
+  private clampToPanBounds(x: number, z: number): { x: number; z: number } {
+    return {
+      x: THREE.MathUtils.clamp(x, this.panBounds.minX, this.panBounds.maxX),
+      z: THREE.MathUtils.clamp(z, this.panBounds.minZ, this.panBounds.maxZ),
+    };
   }
 
-  /** Molette / `+`-`-` : bascule entre les deux niveaux de zoom. */
-  cycleZoom(aspect: number): void {
-    this.setZoomLevel(this.zoomLevel + 1, aspect);
+  private setTargetClamped(x: number, z: number): void {
+    const c = this.clampToPanBounds(x, z);
+    this.camera.setTarget(c.x, c.z);
+  }
+
+  /**
+   * Flèches maintenues : panoramique libre, EN CONTINU tant que la touche est tenue, et
+   * RELATIF À L'ÉCRAN (↑ déplace la vue vers le haut de l'écran quelle que soit la rotation
+   * courante — voir `IsoCamera.screenUpXZ`). Borné à la carte, marge d'une pièce comprise.
+   */
+  panScreenRelative(input: { up: boolean; down: boolean; left: boolean; right: boolean }, dt: number): void {
+    const up = this.camera.screenUpXZ();
+    const right = this.camera.screenRightXZ();
+    let dx = 0;
+    let dz = 0;
+    if (input.up) {
+      dx += up.x;
+      dz += up.z;
+    }
+    if (input.down) {
+      dx -= up.x;
+      dz -= up.z;
+    }
+    if (input.right) {
+      dx += right.x;
+      dz += right.z;
+    }
+    if (input.left) {
+      dx -= right.x;
+      dz -= right.z;
+    }
+    const len = Math.hypot(dx, dz);
+    if (len < 1e-6) return;
+    const dist = PAN_SPEED_M_S * dt;
+    const t = this.camera.getTarget();
+    this.setTargetClamped(t.x + (dx / len) * dist, t.z + (dz / len) * dist);
+  }
+
+  /** Point du sol (monde) sous des coordonnées écran normalisées [-1, 1], ou `null` hors sol. */
+  private groundPointAt(ndcX: number, ndcY: number): { x: number; z: number } | null {
+    this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera.camera);
+    const hits = this.raycaster.intersectObject(this.floorPlane, false);
+    if (hits.length === 0) return null;
+    const p = (hits[0] as THREE.Intersection).point;
+    return { x: p.x, z: p.z };
+  }
+
+  /**
+   * Molette, en continu : zoom vers le curseur (le point du sol sous la souris reste sous la
+   * souris). `wheelDeltaY` : `WheelEvent.deltaY` brut, l'appelant ne convertit rien.
+   */
+  zoomAtCursor(ndcX: number, ndcY: number, wheelDeltaY: number, aspect: number): void {
+    const before = this.groundPointAt(ndcX, ndcY);
+    this.camera.zoomBy(wheelDeltaY * WHEEL_ZOOM_SENSITIVITY, aspect);
+    const after = before ? this.groundPointAt(ndcX, ndcY) : null;
+    if (before && after) {
+      const t = this.camera.getTarget();
+      this.setTargetClamped(t.x + (before.x - after.x), t.z + (before.z - after.z));
+    }
+  }
+
+  /** `+`/`-` maintenus : zoom continu vers le centre de l'écran (pas de curseur à suivre au clavier). */
+  zoomBy(delta: number, aspect: number): void {
+    this.camera.zoomBy(delta, aspect);
+  }
+
+  /**
+   * Recentre la caméra sur `cell` — amorti, sauf `prefers-reduced-motion` (instantané). C'est
+   * l'API que `chapter.ts` utilisera pour recentrer au début d'une étape et après un dialogue
+   * (08-EXPLORATION.md "La caméra et les murs"), sans rien câbler ici : cette classe ne connaît
+   * que la caméra, pas le déroulé du chapitre.
+   */
+  centerOn(cell: Cell): void {
+    const { x, z } = cellToWorld(this.map, cell);
+    this.camera.animateTargetTo(x, z, this.reducedMotion);
+  }
+
+  /** Recentre sur le meneur (dernière case vue par `updateRigPosition('leader', …)`). Touche `C`. */
+  centerOnLeader(): void {
+    if (this.leaderCell) this.centerOn(this.leaderCell);
+  }
+
+  /**
+   * Projette une case en coordonnées écran (pixels, origine haut-gauche), `heightMeters`
+   * au-dessus du sol — pour ancrer une bulle de réplique brève au-dessus d'une tête
+   * (08-EXPLORATION.md "Répliques brèves"). `null` si la case sort du champ de la caméra.
+   */
+  projectToScreen(
+    cell: Cell,
+    viewportWidth: number,
+    viewportHeight: number,
+    heightMeters = 1.9,
+  ): { x: number; y: number } | null {
+    const { x: wx, z: wz } = cellToWorld(this.map, cell);
+    const v = new THREE.Vector3(wx, heightMeters, wz);
+    v.project(this.camera.camera);
+    if (v.x < -1 || v.x > 1 || v.y < -1 || v.y > 1) return null;
+    return {
+      x: (v.x * 0.5 + 0.5) * viewportWidth,
+      y: (-v.y * 0.5 + 0.5) * viewportHeight,
+    };
+  }
+
+  /**
+   * Brouillard en fonction du zoom courant (au lieu de bornes fixes) : la caméra reste à
+   * distance fixe de sa cible (`CAMERA_DISTANCE`, seul le frustum change de taille), donc des
+   * bornes fixes noient les pièces éloignées dès qu'on dézoome sur une grande carte comme
+   * l'académie. Recalculé à chaque frame (`tick`), coût négligeable.
+   */
+  private updateFog(): void {
+    const fog = this.scene.fog as THREE.Fog;
+    const zoom = this.camera.getZoom();
+    const half = (zoom / 2) * Math.cos(THREE.MathUtils.degToRad(ISO_ELEVATION_DEG));
+    const margin = 26;
+    fog.near = Math.max(20, CAMERA_DISTANCE - half - margin);
+    fog.far = CAMERA_DISTANCE + half + margin * 2.5;
   }
 
   /* ------------------------------------------------------------------ */
@@ -538,6 +812,7 @@ export class ExploreView {
 
   /** Place un rig (case, éventuellement fractionnaire) et joue l'animation adaptée. */
   updateRigPosition(id: string, cell: { x: number; y: number }, moving: boolean, dt: number): void {
+    if (id === 'leader') this.leaderCell = { x: cell.x, y: cell.y };
     const rig = this.rigs.get(id);
     if (!rig) return;
     const { x, z } = cellToWorld(this.map, cell);
@@ -608,15 +883,6 @@ export class ExploreView {
   }
 
   /* ------------------------------------------------------------------ */
-  /* Boucle d'image (le renderer/canvas appartiennent à l'appelant)      */
-  /* ------------------------------------------------------------------ */
-
-  followTarget(cell: { x: number; y: number }): void {
-    const { x, z } = cellToWorld(this.map, cell);
-    this.camera.setTarget(x, z);
-  }
-
-  /* ------------------------------------------------------------------ */
   /* Repère "Tab maintenu" (08-EXPLORATION.md "Les objectifs")           */
   /* ------------------------------------------------------------------ */
 
@@ -646,6 +912,7 @@ export class ExploreView {
 
   tick(dt: number): void {
     this.camera.tick(dt);
+    this.updateFog();
     if (this.pingActive && !this.reducedMotion) {
       this.pingClock += dt;
       const s = 1 + Math.sin(this.pingClock * 5) * 0.18;

@@ -104,6 +104,16 @@ a déjà écoutés répondent par une **bulle** au-dessus de la tête — une ph
 panneau de dialogue. C'est ce qui rend les lieux habités à peu de frais. Une réplique
 brève ne pose jamais d'effet : ce qui compte passe par un vrai dialogue.
 
+Deux formes, selon le porteur — et l'écriture suit :
+
+| Porteur | Forme | À l'écran |
+|---|---|---|
+| `npc` | ce que le personnage **dit** | bulle au-dessus de la tête, entre guillemets |
+| `object` | ce que Franklyn **voit** | ligne de narration discrète en bas de l'écran |
+
+Écrire une description dans la `line` d'un `npc` (« Un cadet enfile ses bottes ») la fait
+sortir de sa bouche entre guillemets : une entité `npc` parle, toujours.
+
 ## Les objectifs
 
 Le chapitre reste **linéaire** (ADR 0011) : une étape à la fois. Chaque étape

@@ -20,8 +20,9 @@ import { createRng } from '@/core/rng';
 import { createRunState } from '@/narrative';
 import { getCharacter } from '@/rules/character';
 import { ExploreState, type Cell, type ExploreEvent, type MapDef } from '@/explore';
-import { ExploreView, type HoverTarget } from '@/render/exploreView';
+import { ExploreView, KEY_ZOOM_SPEED, type HoverTarget } from '@/render/exploreView';
 import { ObjectiveHud } from '@/ui/objectiveHud';
+import { BriefLineView } from '@/ui/briefLine';
 import { EXPLORE_LAB_MAP } from './exploreLabMap';
 import { HOLT_MAP } from '@/data/maps/holt';
 
@@ -60,11 +61,19 @@ renderer.shadowMap.enabled = true;
 let state: ExploreState;
 let view: ExploreView;
 let hud: ObjectiveHud;
+let briefLine: BriefLineView;
 let hoveredEntityId: string | null = null;
 let lastPointerClient = { x: 0, y: 0 };
 
 function entityCell(id: string): Cell | null {
   return ACTIVE_MAP.entities.find((e) => e.id === id)?.cell ?? null;
+}
+
+/** `npc` : réplique parlée (bulle qui suit la tête). `object` : narration en bas de l'écran. */
+function playBriefLine(entityId: string, text: string): void {
+  const entity = ACTIVE_MAP.entities.find((e) => e.id === entityId);
+  if (entity?.type === 'npc') briefLine.showSpeech(entityId, text);
+  else briefLine.showNarration(text);
 }
 
 function requestInteract(entityId: string): void {
@@ -91,7 +100,10 @@ function handleEvent(ev: ExploreEvent): void {
     case 'interaction-fired':
       log(`Interaction "${ev.entityId}" → ${ev.outcome.kind}`);
       if (ev.outcome.kind === 'door-toggled') view.setDoorOpen(ev.entityId, ev.outcome.open);
-      if (ev.outcome.kind === 'brief-line') log(`« ${ev.outcome.text} »`);
+      if (ev.outcome.kind === 'brief-line') {
+        log(`« ${ev.outcome.text} »`);
+        playBriefLine(ev.outcome.entityId, ev.outcome.text);
+      }
       if (ev.outcome.kind === 'door-locked' && ev.outcome.line) log(`« ${ev.outcome.line} »`);
       if (ev.outcome.kind === 'change-map') log(`Changement de carte → ${ev.outcome.targetMapId}`);
       break;
@@ -111,6 +123,7 @@ function handleEvent(ev: ExploreEvent): void {
 function buildScene(): void {
   view?.dispose();
   hud?.dispose();
+  briefLine?.dispose();
 
   const rng = createRng('explore-lab');
   const ctx = { dossier: createDossier(), run: createRunState('explore-lab') };
@@ -138,13 +151,32 @@ function buildScene(): void {
   view.setFollower('equipier2', getCharacter('john'));
   view.setReducedMotion(reducedToggle.checked);
   view.setPingTarget(entityCell('fourgon'));
-  view.followTarget(state.leaderCell());
+  // Position initiale de la caméra : la caméra ne suit plus Franklyn (08-EXPLORATION.md "La
+  // caméra et les murs") — elle est libre, et ne se recentre que sur des moments ponctuels.
+  // Ici, l'équivalent du "début d'une étape" qui reviendra à `chapter.ts` (lot 3.6c, portée).
+  view.updateRigPosition('leader', state.leaderCell(), false, 0);
+  view.centerOn(state.leaderCell());
 
   hud = new ObjectiveHud(viewport, {
     onPingChange: (active) => view.setPingActive(active),
     onInteractSelected: requestInteract,
   });
   hud.setObjective(state.objectiveStatus());
+
+  briefLine = new BriefLineView(viewport);
+
+  // Crochet de débogage du banc d'essai (dev only, jamais dans le build de production — voir
+  // l'en-tête de fichier) : permet de piloter une réplique brève sans souris pour la vérification
+  // visuelle (Playwright), dans l'esprit de `window.__game` (08-EXPLORATION.md "L'API de debug").
+  (window as unknown as { __exploreLab: unknown }).__exploreLab = {
+    state,
+    view,
+    triggerBriefLine: (entityId: string) => {
+      const outcome = state.interact(entityId);
+      if (outcome.kind === 'brief-line') playBriefLine(outcome.entityId, outcome.text);
+      return outcome;
+    },
+  };
 
   log('Carte rechargée.');
 }
@@ -172,19 +204,67 @@ canvas.addEventListener('click', (e) => {
   view.handleClick(x, y);
 });
 
+// Molette, en continu, vers le curseur (08-EXPLORATION.md "Contrôles").
+canvas.addEventListener(
+  'wheel',
+  (e) => {
+    e.preventDefault();
+    const { x, y } = ndcFromEvent(e);
+    view.zoomAtCursor(x, y, e.deltaY, aspect());
+  },
+  { passive: false },
+);
+
 /* -------------------------------------------------------------------- */
-/* Clavier : A/E rotation, +/- zoom, Espace sur l'objet survolé.         */
+/* Clavier : flèches (panoramique continu), A/E rotation, molette/+/-    */
+/* zoom continu, C recentre sur Franklyn, Espace sur l'objet survolé.    */
 /* (Tab maintenu / Tab-Maj+Tab / Espace-sur-sélection : `ObjectiveHud`.) */
 /* -------------------------------------------------------------------- */
 
+const heldKeys = { up: false, down: false, left: false, right: false, zoomIn: false, zoomOut: false };
+
+const PAN_KEYS: Record<string, keyof typeof heldKeys> = {
+  ArrowUp: 'up',
+  ArrowDown: 'down',
+  ArrowLeft: 'left',
+  ArrowRight: 'right',
+};
+
 window.addEventListener('keydown', (e) => {
+  const panKey = PAN_KEYS[e.key];
+  if (panKey) {
+    heldKeys[panKey] = true;
+    e.preventDefault();
+    return;
+  }
+  if (e.key === '+' || e.key === '=') {
+    heldKeys.zoomIn = true;
+    return;
+  }
+  if (e.key === '-' || e.key === '_') {
+    heldKeys.zoomOut = true;
+    return;
+  }
   if (e.key === 'a' || e.key === 'A') view.rotate(-1);
   else if (e.key === 'e' || e.key === 'E') view.rotate(1);
-  else if (e.key === '+' || e.key === '=' || e.key === '-' || e.key === '_') view.cycleZoom(aspect());
+  else if (e.key === 'c' || e.key === 'C') view.centerOnLeader();
   else if ((e.key === ' ' || e.code === 'Space') && !hud.hasSelection() && hoveredEntityId) {
     e.preventDefault();
     requestInteract(hoveredEntityId);
   }
+});
+
+window.addEventListener('keyup', (e) => {
+  const panKey = PAN_KEYS[e.key];
+  if (panKey) heldKeys[panKey] = false;
+  else if (e.key === '+' || e.key === '=') heldKeys.zoomIn = false;
+  else if (e.key === '-' || e.key === '_') heldKeys.zoomOut = false;
+});
+
+// Touches restées "enfoncées" si la fenêtre perd le focus pendant un appui (alt-tab...).
+window.addEventListener('blur', () => {
+  heldKeys.up = heldKeys.down = heldKeys.left = heldKeys.right = false;
+  heldKeys.zoomIn = heldKeys.zoomOut = false;
 });
 
 /* -------------------------------------------------------------------- */
@@ -216,12 +296,25 @@ function frame(now: number): void {
 
   for (const ev of state.tick(dtMs)) handleEvent(ev);
 
-  view.followTarget(state.leaderCell());
+  // Caméra libre (08-EXPLORATION.md "La caméra et les murs") : plus de suivi automatique du
+  // meneur ici — seul un panoramique clavier continu et le recentrage `C`/`centerOnLeader()`.
+  view.panScreenRelative(heldKeys, dt);
+  if (heldKeys.zoomIn) view.zoomBy(-KEY_ZOOM_SPEED * dt, aspect());
+  if (heldKeys.zoomOut) view.zoomBy(KEY_ZOOM_SPEED * dt, aspect());
+
   view.updateRigPosition('leader', state.leaderPosition(), state.isMoving(), dt);
   for (const [i, pos] of state.followerPositions().entries()) {
     view.updateRigPosition(i === 0 ? 'equipier1' : 'equipier2', pos, state.isMoving(), dt);
   }
   view.tick(dt);
+
+  briefLine.tick(dt);
+  const trackedEntityId = briefLine.entityToTrack;
+  if (trackedEntityId) {
+    const cell = entityCell(trackedEntityId);
+    const pos = cell ? view.projectToScreen(cell, viewport.clientWidth, viewport.clientHeight) : null;
+    briefLine.setSpeechScreenPosition(pos);
+  }
 
   const interactables = state.listInteractables();
   hud.setInteractables(interactables.map((it) => ({ id: it.id, label: it.label, reachable: it.reachable })));

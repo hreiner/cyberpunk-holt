@@ -12,8 +12,17 @@ import * as THREE from 'three';
 export const ISO_ELEVATION_DEG = 35.264; // arctan(1/sqrt(2)) : vraie isometrie
 export const MIN_ZOOM = 18;
 export const MAX_ZOOM = 70;
+/** Distance (unites monde) entre la camera et sa cible : fixe, seul le zoom (taille du frustum) change. */
+export const CAMERA_DISTANCE = 120;
 /** Vivacite de la rotation animee (plus grand = plus rapide). */
 const ROTATE_SHARPNESS = 12;
+/** Duree du recentrage amorti (`animateTargetTo`, `prefers-reduced-motion` mis a part). */
+const RECENTER_DURATION_S = 0.45;
+
+export interface ZoomBounds {
+  min: number;
+  max: number;
+}
 
 export class IsoCamera {
   readonly camera: THREE.OrthographicCamera;
@@ -22,21 +31,46 @@ export class IsoCamera {
   /** Angle affiche, en quarts de tour : rattrape `quarter` en douceur. */
   private shownQuarter = 0;
   private zoom = 34;
+  private readonly minZoom: number;
+  private readonly maxZoom: number;
   private target = new THREE.Vector3(0, 0, 0);
+  /** Recentrage amorti en cours (`animateTargetTo`), `null` si aucun. */
+  private recenter: { from: THREE.Vector3; to: THREE.Vector3; t: number } | null = null;
 
-  constructor(aspect: number) {
+  constructor(aspect: number, zoomBounds?: ZoomBounds) {
+    this.minZoom = zoomBounds?.min ?? MIN_ZOOM;
+    this.maxZoom = zoomBounds?.max ?? MAX_ZOOM;
+    this.zoom = THREE.MathUtils.clamp(this.zoom, this.minZoom, this.maxZoom);
     this.camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, -500, 1000);
     this.applyZoom(aspect);
     this.update();
   }
 
+  /** Deplace la cible immediatement (panoramique libre) et annule un recentrage amorti en cours. */
   setTarget(x: number, z: number): void {
+    this.recenter = null;
     this.target.set(x, 0, z);
     this.update();
   }
 
+  getTarget(): { x: number; z: number } {
+    return { x: this.target.x, z: this.target.z };
+  }
+
   lookAtCell(x: number, z: number): void {
     this.setTarget(x, z);
+  }
+
+  /**
+   * Recentre la cible sur `(x, z)`. Amorti par defaut ; `instant` (mouvement
+   * reduit, 08-EXPLORATION.md "Accessibilite") saute directement a la cible.
+   */
+  animateTargetTo(x: number, z: number, instant: boolean): void {
+    if (instant) {
+      this.setTarget(x, z);
+      return;
+    }
+    this.recenter = { from: this.target.clone(), to: new THREE.Vector3(x, 0, z), t: 0 };
   }
 
   /** Tourne la camera de `step` quarts de tour ; la rotation est animee par `tick()`. */
@@ -44,25 +78,51 @@ export class IsoCamera {
     this.quarter += step;
   }
 
-  /** Fait avancer la rotation animee. Renvoie true tant que la camera bouge. */
+  /** Fait avancer la rotation et le recentrage amortis. Renvoie true tant que la camera bouge. */
   tick(dt: number): boolean {
+    let moving = false;
     const gap = this.quarter - this.shownQuarter;
     if (Math.abs(gap) < 0.001) {
       if (gap !== 0) {
         this.shownQuarter = this.quarter;
         this.update();
       }
-      return false;
+    } else {
+      // Lissage exponentiel : rapide au debut, doux a l'arrivee.
+      this.shownQuarter += gap * (1 - Math.exp(-ROTATE_SHARPNESS * dt));
+      this.update();
+      moving = true;
     }
-    // Lissage exponentiel : rapide au debut, doux a l'arrivee.
-    this.shownQuarter += gap * (1 - Math.exp(-ROTATE_SHARPNESS * dt));
-    this.update();
-    return true;
+    if (this.recenter) {
+      this.recenter.t = Math.min(1, this.recenter.t + dt / RECENTER_DURATION_S);
+      const eased = 1 - (1 - this.recenter.t) ** 3; // ease-out cubique
+      this.target.lerpVectors(this.recenter.from, this.recenter.to, eased);
+      this.update();
+      moving = true;
+      if (this.recenter.t >= 1) this.recenter = null;
+    }
+    return moving;
   }
 
   zoomBy(delta: number, aspect: number): void {
-    this.zoom = THREE.MathUtils.clamp(this.zoom + delta, MIN_ZOOM, MAX_ZOOM);
+    this.zoom = THREE.MathUtils.clamp(this.zoom + delta, this.minZoom, this.maxZoom);
     this.applyZoom(aspect);
+  }
+
+  getZoom(): number {
+    return this.zoom;
+  }
+
+  /** Direction "vers le haut de l'ecran", dans le plan XZ, a l'angle affiche courant (panoramique relatif a l'ecran). */
+  screenUpXZ(): { x: number; z: number } {
+    const azimuth = THREE.MathUtils.degToRad(45 + this.shownQuarter * 90);
+    return { x: -Math.cos(azimuth), z: -Math.sin(azimuth) };
+  }
+
+  /** Direction "vers la droite de l'ecran", dans le plan XZ, a l'angle affiche courant. */
+  screenRightXZ(): { x: number; z: number } {
+    const azimuth = THREE.MathUtils.degToRad(45 + this.shownQuarter * 90);
+    return { x: Math.sin(azimuth), z: -Math.cos(azimuth) };
   }
 
   resize(aspect: number): void {
@@ -81,7 +141,7 @@ export class IsoCamera {
   private update(): void {
     const azimuth = THREE.MathUtils.degToRad(45 + this.shownQuarter * 90);
     const elevation = THREE.MathUtils.degToRad(ISO_ELEVATION_DEG);
-    const distance = 120;
+    const distance = CAMERA_DISTANCE;
     const horizontal = Math.cos(elevation) * distance;
     this.camera.position.set(
       this.target.x + Math.cos(azimuth) * horizontal,
