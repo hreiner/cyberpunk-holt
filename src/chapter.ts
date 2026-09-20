@@ -1,19 +1,18 @@
 /**
  * Chef d'orchestre du chapitre 1 : enchaine les scenes du SceneRouter, pilote
- * un `DialogueRunner`, le trio `ExploreState`/`ExploreView`/`ObjectiveHud`
- * (scenes `explore`, ADR 0013 §4) ou le `GameApp` tactique selon le type de
- * scene courante, et sauvegarde apres chaque scene — jamais au milieu d'un
- * dialogue (ADR 0011). Seul fichier hors `src/narrative` a assembler le
- * routeur de scenes avec du DOM : voir docs/process/ARCHITECTURE.md.
+ * un `DialogueRunner`, un `ExploreSession` (scenes `explore`, ADR 0013 §4 --
+ * voir `src/exploreSession.ts` pour le montage 3D/clavier/souris qu'il
+ * delegue) ou le `GameApp` tactique selon le type de scene courante, et
+ * sauvegarde apres chaque scene — jamais au milieu d'un dialogue (ADR 0011).
+ * Seul fichier hors `src/narrative` a assembler le routeur de scenes avec du
+ * DOM : voir docs/process/ARCHITECTURE.md.
  */
 
-import * as THREE from 'three';
 import { createRng, randomSeedLabel } from '@/core/rng';
 import { loadDossier, loadSession, saveDossier, saveSession } from '@/core/save';
 import type { SessionSave } from '@/core/save';
 import type { Dossier } from '@/core/dossier';
 import { createDossier, setPracticalScore } from '@/core/dossier';
-import { getCharacter } from '@/rules/character';
 import type { CharacterId } from '@/rules/character';
 import { FLAG_VIDEO_WATCHED, courseResultFromFlags, courseResultToScoreInput, scoreExercise } from '@/rules/scoring';
 import type { ExerciseScore } from '@/rules/scoring';
@@ -29,7 +28,6 @@ import {
   createDraftState,
   createRunState,
   discoverRoom,
-  discoveredRoomIdsForMap,
   exploreFollowerIds,
   markHeard,
   migrateRunState,
@@ -51,29 +49,17 @@ import type {
   SceneDef,
   SceneKind,
 } from '@/narrative';
-import { ExploreState } from '@/explore';
-import type {
-  Cell,
-  EntityDef,
-  ExploreDebugSnapshot,
-  ExploreEvent,
-  InteractableInfo,
-  InteractOutcome,
-  MapDef,
-} from '@/explore';
+import type { ExploreDebugSnapshot, ExploreEvent, InteractOutcome } from '@/explore';
 import { getMap } from '@/data/maps';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_1_RADIO } from '@/data/radio';
 import { createDicePlayer } from '@/render/diceAdapter';
 import type { DicePlayer } from '@/render/diceAdapter';
-import { ExploreView, KEY_ZOOM_SPEED } from '@/render/exploreView';
-import type { HoverTarget } from '@/render/exploreView';
+import { ExploreSession } from './exploreSession';
 import { GameApp } from './app';
 import type { TacticalOutcome } from './app';
 import { NarrativeView } from './ui/narrativeView';
 import type { NarrativeHud } from './ui/narrativeView';
-import { ObjectiveHud } from './ui/objectiveHud';
-import { BriefLineView } from './ui/briefLine';
 import { ReportView } from './ui/reportView';
 import { DraftView } from './ui/draftView';
 
@@ -175,26 +161,8 @@ function isResumingRun(session: SessionSave, options: ChapterOptions, seed: stri
   return session.run.seed === seed;
 }
 
-/** Touches maintenues du panoramique/zoom continu en exploration (08-EXPLORATION.md "Contrôles"). */
-interface ExploreHeldKeys {
-  up: boolean;
-  down: boolean;
-  left: boolean;
-  right: boolean;
-  zoomIn: boolean;
-  zoomOut: boolean;
-}
-
 /** Réplique brève de repli quand une conversation annexe déjà jouée est rabordée (contrat du lot 3.6b §3). */
 const EXPLORE_REPEAT_LINE_FALLBACK = "Il n'y a plus rien à ajouter.";
-
-/** Flèches -> axe de panoramique continu (08-EXPLORATION.md "Contrôles"). */
-const EXPLORE_PAN_KEYS: Record<string, keyof ExploreHeldKeys> = {
-  ArrowUp: 'up',
-  ArrowDown: 'down',
-  ArrowLeft: 'left',
-  ArrowRight: 'right',
-};
 
 export class ChapterApp {
   private ctx: NarrativeContext;
@@ -248,89 +216,17 @@ export class ChapterApp {
   private readonly dice: DicePlayer;
   private disposed = false;
 
-  /* ------------------------------- exploration (ADR 0013 §4, lot 3.6b) ------------------------------- */
   /**
-   * Rendu + renderer de l'exploration : construits UNE FOIS (comme `tacticalApp`) et reutilises
-   * d'une etape a l'autre tant que la carte ne change pas -- c'est ce qui garantit qu'on ne
-   * teleporte jamais Franklyn entre deux etapes d'exploration qui se suivent sur la meme carte
-   * (contrat du lot : "le spawn ne sert qu'a une entree a froid").
+   * Montage de l'exploration (ADR 0013 §4, lot 3.6b -- extrait dans son propre module a la
+   * revue de fin d'epic 3, voir `src/exploreSession.ts`) : possede l'`ExploreState`/
+   * `ExploreView`, l'encart d'objectif, les bulles, la boucle d'image, le clavier et la
+   * souris. `ChapterApp` ne lui parle qu'a travers sa petite interface (entrer dans une
+   * etape, mettre en pause/reprendre, quelques lectures pour son propre routage) et deux
+   * rappels (`getContext`/`onEvent`, voir `ExploreSessionCallbacks`) -- c'est lui qui reste
+   * le chef d'orchestre : quelle entite fait avancer le routeur, laquelle ouvre une
+   * conversation annexe, etc.
    */
-  private exploreState: ExploreState | null = null;
-  private exploreView: ExploreView | null = null;
-  private exploreMapDef: MapDef | null = null;
-  private exploreRenderer: THREE.WebGLRenderer | null = null;
-  private exploreCanvas: HTMLCanvasElement | null = null;
-  /** HUD/bulles : recrees a chaque entree en exploration (voir `resumeExplore`/`pauseExplore`) pour ne jamais laisser un ecouteur clavier global actif pendant un dialogue ou le combat. */
-  private exploreHud: ObjectiveHud | null = null;
-  private exploreBriefLine: BriefLineView | null = null;
-  private exploreHoveredEntityId: string | null = null;
-  private exploreLastPointerClient = { x: 0, y: 0 };
-  private exploreFollowerRigIds: string[] = [];
-  private readonly exploreHeldKeys: ExploreHeldKeys = {
-    up: false,
-    down: false,
-    left: false,
-    right: false,
-    zoomIn: false,
-    zoomOut: false,
-  };
-  /** Jeton de generation de la boucle d'image (voir `startExploreLoop`) : invalide toute frame en vol des qu'on arrete/redemarre. */
-  private exploreLoopId = 0;
-  private exploreRafId: number | null = null;
-  private exploreLastFrameTime = 0;
-  /** `true` tant que les ecouteurs clavier d'exploration sont attaches (voir `attachExploreKeyboard`/`detachExploreKeyboard`). */
-  private exploreKeyboardAttached = false;
-
-  private readonly onExploreKeyDown = (e: KeyboardEvent): void => {
-    const panKey = EXPLORE_PAN_KEYS[e.key];
-    if (panKey) {
-      this.exploreHeldKeys[panKey] = true;
-      e.preventDefault();
-      return;
-    }
-    if (e.key === '+' || e.key === '=') {
-      this.exploreHeldKeys.zoomIn = true;
-      return;
-    }
-    if (e.key === '-' || e.key === '_') {
-      this.exploreHeldKeys.zoomOut = true;
-      return;
-    }
-    if (e.key === 'a' || e.key === 'A') this.exploreView?.rotate(-1);
-    else if (e.key === 'e' || e.key === 'E') this.exploreView?.rotate(1);
-    else if (e.key === 'c' || e.key === 'C') this.centerCameraOnLeader();
-    else if (
-      (e.key === ' ' || e.code === 'Space') &&
-      !this.exploreHud?.hasSelection() &&
-      this.exploreHoveredEntityId
-    ) {
-      e.preventDefault();
-      this.requestExploreInteract(this.exploreHoveredEntityId);
-    }
-  };
-
-  private readonly onExploreKeyUp = (e: KeyboardEvent): void => {
-    const panKey = EXPLORE_PAN_KEYS[e.key];
-    if (panKey) this.exploreHeldKeys[panKey] = false;
-    else if (e.key === '+' || e.key === '=') this.exploreHeldKeys.zoomIn = false;
-    else if (e.key === '-' || e.key === '_') this.exploreHeldKeys.zoomOut = false;
-  };
-
-  /** Touches restees "enfoncees" si la fenetre perd le focus pendant un appui (alt-tab...). */
-  private readonly onExploreBlur = (): void => {
-    this.exploreHeldKeys.up =
-      this.exploreHeldKeys.down =
-      this.exploreHeldKeys.left =
-      this.exploreHeldKeys.right =
-        false;
-    this.exploreHeldKeys.zoomIn = this.exploreHeldKeys.zoomOut = false;
-  };
-
-  private readonly onExploreResize = (): void => {
-    if (!this.exploreRenderer || !this.exploreView) return;
-    this.exploreRenderer.setSize(this.exploreHost.clientWidth, this.exploreHost.clientHeight, false);
-    this.exploreView.resize(this.exploreAspect());
-  };
+  private readonly exploreSession: ExploreSession;
 
   constructor(container: HTMLElement, options: ChapterOptions = {}) {
     this.aiDelayMs = options.aiDelayMs ?? 450;
@@ -383,6 +279,10 @@ export class ChapterApp {
     );
 
     this.dice = createDicePlayer(this.diceHost, options.diceEnabled ?? true);
+    this.exploreSession = new ExploreSession(this.exploreHost, {
+      getContext: () => this.ctx,
+      onEvent: (ev) => this.handleExploreEvent(ev),
+    });
 
     this.view = new NarrativeView(this.narrativeHost, {
       onChoose: (index) => this.chooseOption(index),
@@ -485,13 +385,13 @@ export class ChapterApp {
    * `explore` tout du long, meme principe que l'ancien hub avec `scene()`).
    */
   exploreSnapshot(): ExploreDebugSnapshot | null {
-    if (this.currentSceneDef?.kind !== 'explore' || !this.exploreState) return null;
-    return this.exploreState.explore();
+    if (this.currentSceneDef?.kind !== 'explore' || !this.exploreSession.state) return null;
+    return this.exploreSession.state.explore();
   }
 
   /** Deplacement instantane du meneur (`window.__game.walkTo(x, y)`), sans animation. */
   exploreWalkTo(x: number, y: number): void {
-    this.exploreState?.walkTo(x, y);
+    this.exploreSession.state?.walkTo(x, y);
   }
 
   /**
@@ -502,9 +402,9 @@ export class ChapterApp {
    * jamais l'issue brute de l'entite si elle a ete remplacee.
    */
   exploreInteract(entityId: string): InteractOutcome | null {
-    if (!this.exploreState) return null;
-    const outcome = this.exploreState.interact(entityId);
-    for (const ev of this.exploreState.drainEvents()) this.handleExploreEvent(ev);
+    if (!this.exploreSession.state) return null;
+    const outcome = this.exploreSession.state.interact(entityId);
+    for (const ev of this.exploreSession.state.drainEvents()) this.handleExploreEvent(ev);
     return this.handleExploreInteraction(entityId, outcome);
   }
 
@@ -515,9 +415,9 @@ export class ChapterApp {
    * tampon "FAIT" sur le HUD, voir `src/dev/exploreLab.ts`).
    */
   exploreCompleteStep(): void {
-    if (!this.exploreState || this.currentSceneDef?.kind !== 'explore') return;
-    this.exploreState.completeStep();
-    this.exploreState.drainEvents();
+    if (!this.exploreSession.state || this.currentSceneDef?.kind !== 'explore') return;
+    this.exploreSession.state.completeStep();
+    this.exploreSession.state.drainEvents();
     this.completeExploreScene();
   }
 
@@ -671,10 +571,7 @@ export class ChapterApp {
     this.disposed = true;
     this.tacticalApp?.dispose();
     this.view.dispose();
-    this.pauseExplore();
-    this.exploreView?.dispose();
-    this.exploreRenderer?.dispose();
-    window.removeEventListener('resize', this.onExploreResize);
+    this.exploreSession.dispose();
     this.reportView.dispose();
     this.draftView.dispose();
     this.dice.dispose();
@@ -716,8 +613,8 @@ export class ChapterApp {
     // PENDANT l'exploration, masques pendant les dialogues et le combat --
     // c'est ici, au seul endroit qui bascule les hosts, que la boucle
     // d'exploration doit demarrer/s'arreter en consequence.
-    if (kind === 'explore') this.resumeExplore();
-    else this.pauseExplore();
+    if (kind === 'explore') this.exploreSession.resume();
+    else this.exploreSession.pause();
   }
 
   /**
@@ -728,7 +625,7 @@ export class ChapterApp {
    * ecouteur clavier global continue d'intercepter des touches derriere un
    * host masque -- inoffensif visuellement, mais pas pour le clavier (ex.
    * `debugStartTactical`, qui atteint la scene tactique directement). `view`
-   * (NarrativeView) et l'exploration (`pauseExplore`/`resumeExplore`, voir
+   * (NarrativeView) et l'exploration (`ExploreSession.pause`/`resume`, voir
    * `setActiveHost`) gerent deja leur propre visibilite/ecouteurs.
    */
   private hideAllViews(): void {
@@ -826,316 +723,18 @@ export class ChapterApp {
     // depuis le lot 3.7b (elles etaient `dialogue` avant, voir OFFSCREEN_ROOM_SCENES plus haut).
     if (OFFSCREEN_ROOM_SCENES.has(scene.id)) this.resolveOffscreenTeam();
 
-    // Rend `exploreHost` visible AVANT toute mesure de sa taille (`buildExploreWorld`/
-    // `exploreAspect()` lisent `clientWidth`/`clientHeight`, qui valent 0 tant que l'element
-    // est `display:none` -- laisse depuis la derniere scene non-explore, voir `setActiveHost`).
-    // Le `setActiveHost('explore')` en fin de methode reste necessaire : lui seul demarre la
-    // boucle d'image et recree l'encart d'objectif/les bulles (`resumeExplore`).
+    // Rend `exploreHost` visible AVANT toute mesure de sa taille (la session lit
+    // `clientWidth`/`clientHeight`, qui valent 0 tant que l'element est `display:none` --
+    // laisse depuis la derniere scene non-explore, voir `setActiveHost`). Le
+    // `setActiveHost('explore')` en fin de methode reste necessaire : lui seul demarre la
+    // boucle d'image et recree l'encart d'objectif/les bulles (`ExploreSession.resume`).
     this.exploreHost.style.display = '';
 
     const mapDef = getMap(scene.mapId ?? '');
-    if (!this.exploreState || !this.exploreView || this.exploreState.map.id !== mapDef.id) {
-      this.buildExploreWorld(mapDef, scene);
-    } else {
-      // Meme carte que l'etape precedente : on NE reconstruit PAS l'etat (donc on ne
-      // teleporte pas Franklyn, voir SceneDef.spawn) -- seul le contexte change.
-      this.exploreState.updateContext(this.ctx);
-    }
+    this.exploreSession.enterStep(mapDef, this.ctx, scene, exploreFollowerIds(this.ctx.run));
 
-    const followerIds = exploreFollowerIds(this.ctx.run);
-    this.exploreState?.setFollowers(followerIds);
-    this.syncExploreFollowerRigs(followerIds);
-    this.exploreState?.setObjective(scene.objective ?? null);
-    this.exploreView?.setPingTarget(this.objectiveTargetCell(scene));
-    this.syncExploreVisibility();
-
-    this.setActiveHost('explore'); // -> resumeExplore()
-    this.centerCameraOnLeader();
-  }
-
-  /**
-   * Recentre la camera sur la position RÉELLE du meneur (`ExploreState.leaderCell()`),
-   * jamais sur `ExploreView.centerOnLeader()` -- ce dernier lit une case
-   * mise en cache par `updateRigPosition()`, alimentée uniquement pendant le
-   * rendu (boucle d'image en cours). Aux trois moments où `chapter.ts`
-   * recentre (début d'étape, sortie d'un dialogue, touche `C`), la boucle
-   * vient justement d'être à l'arrêt (ou n'a pas encore tourné une seule
-   * fois pour cette étape) : la case mise en cache est alors nulle ou
-   * périmée d'une étape entière -- défaut réel constaté en vérification
-   * visuelle du lot 3.6b (la caméra ne bougeait pas d'une étape à l'autre).
-   */
-  private centerCameraOnLeader(): void {
-    if (!this.exploreState || !this.exploreView) return;
-    this.exploreView.centerOn(this.exploreState.leaderCell());
-  }
-
-  /**
-   * Construit l'etat/le rendu d'exploration pour `mapDef` -- une entree a
-   * froid (nouvelle partie, reprise de sauvegarde, `?scene=`) ou un
-   * changement de carte (hors perimetre du chapitre 1, voir le centre
-   * d'examen, lot 3.7). `scene.spawn` ne sert QU'ICI : voir `SceneDef.spawn`.
-   */
-  private buildExploreWorld(mapDef: MapDef, scene: SceneDef): void {
-    this.exploreView?.dispose();
-    this.exploreFollowerRigIds = [];
-    this.exploreMapDef = mapDef;
-    this.exploreState = new ExploreState(mapDef, this.ctx, {
-      spawn: scene.spawn,
-      followerIds: exploreFollowerIds(this.ctx.run),
-      discoveredRooms: discoveredRoomIdsForMap(this.ctx.run, mapDef.id),
-    });
-
-    if (!this.exploreRenderer || !this.exploreCanvas) {
-      this.exploreCanvas = document.createElement('canvas');
-      this.exploreHost.appendChild(this.exploreCanvas);
-      this.exploreRenderer = new THREE.WebGLRenderer({ canvas: this.exploreCanvas, antialias: true });
-      this.exploreRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      this.exploreRenderer.outputColorSpace = THREE.SRGBColorSpace;
-      this.exploreRenderer.shadowMap.enabled = true;
-      this.wireExploreCanvasInput(this.exploreCanvas);
-    }
-
-    const rng = createRng(`${this.ctx.run.seed}::explore::${mapDef.id}`);
-    this.exploreView = new ExploreView(mapDef, rng, this.exploreAspect(), {
-      onHover: (target) => this.handleExploreHover(target),
-      onMoveTo: (cell) => {
-        const res = this.exploreState?.walkLeaderTo(cell);
-        if (res && !res.ok) console.warn(`ChapterApp (exploration) : deplacement refuse (${res.reason}).`);
-      },
-      onInteract: (entityId) => this.requestExploreInteract(entityId),
-    });
-    this.exploreView.setLeader(getCharacter('franklyn'));
-    this.exploreView.updateRigPosition('leader', this.exploreState.leaderCell(), false, 0);
-    this.exploreView.centerOn(this.exploreState.leaderCell());
-    this.exploreRenderer.setSize(this.exploreHost.clientWidth, this.exploreHost.clientHeight, false);
-    // Avant la première frame : évite un flash "tout caché" (la vue part pessimiste, voir
-    // `ExploreView.buildRoomFloors`/`registerVisualEntity`) le temps que la boucle démarre.
-    this.syncExploreVisibility();
-  }
-
-  /**
-   * Pousse vers le rendu ce qui est actuellement visible (08-EXPLORATION.md "La découverte des
-   * lieux") : entités npc/object/seat actives ET découvertes, pièces découvertes. `ExploreView`
-   * ne fait qu'obéir -- la règle vit entièrement dans `ExploreState` (pur, testable sans
-   * navigateur). Appelée une fois à l'entrée d'une étape (cold start ET reprise sur la même
-   * carte, où le contexte -- donc les entités actives -- peut changer sans reconstruire l'état)
-   * et à chaque frame utile de la boucle (la découverte évolue en cours de partie).
-   */
-  private syncExploreVisibility(interactables?: InteractableInfo[]): void {
-    if (!this.exploreState || !this.exploreView) return;
-    const list = interactables ?? this.exploreState.listInteractables();
-    const entityIds = list
-      .filter((i) => i.type === 'npc' || i.type === 'object' || i.type === 'seat')
-      .map((i) => i.id);
-    this.exploreView.setVisibleEntities(entityIds);
-    this.exploreView.setDiscoveredRooms(this.exploreState.discoveredRoomIds());
-  }
-
-  /** Case cible du repere "Tab maintenu" (08-EXPLORATION.md "Les objectifs") : celle du `completionTrigger`. */
-  private objectiveTargetCell(scene: SceneDef): Cell | null {
-    const triggerId = scene.objective?.completionTrigger;
-    if (!triggerId) return null;
-    return this.exploreEntity(triggerId)?.cell ?? null;
-  }
-
-  private exploreEntity(entityId: string): EntityDef | undefined {
-    return this.exploreMapDef?.entities.find((e) => e.id === entityId);
-  }
-
-  private exploreAspect(): number {
-    return Math.max(0.1, this.exploreHost.clientWidth / Math.max(1, this.exploreHost.clientHeight));
-  }
-
-  /** Ajoute/retire les rigs des coequipiers pour correspondre exactement a `ids` (ordre du roster). */
-  private syncExploreFollowerRigs(ids: string[]): void {
-    if (!this.exploreView) return;
-    for (const id of this.exploreFollowerRigIds) {
-      if (!ids.includes(id)) this.exploreView.removeRig(id);
-    }
-    for (const id of ids) {
-      if (!this.exploreFollowerRigIds.includes(id)) this.exploreView.setFollower(id, getCharacter(id as CharacterId));
-    }
-    this.exploreFollowerRigIds = [...ids];
-  }
-
-  /* -- affichage/pilotage de la boucle d'exploration (montre/masque encart + bulles, contrat §6) -- */
-
-  /**
-   * Affiche l'encart d'objectif + les bulles et (re)demarre la boucle
-   * d'image. Recree `ObjectiveHud`/`BriefLineView` a chaque entree plutot que
-   * de les garder en vie tout le chapitre (contrairement a `exploreState`/
-   * `exploreView`) : les deux posent des ecouteurs clavier globaux (Tab,
-   * Espace) qu'on ne veut JAMAIS actifs pendant un dialogue ou le combat --
-   * les recreer est plus sur que de leur ajouter une API de pause.
-   */
-  private resumeExplore(): void {
-    if (!this.exploreState || !this.exploreView) return;
-    if (!this.exploreHud) {
-      this.exploreHud = new ObjectiveHud(this.exploreHost, {
-        onPingChange: (active) => this.exploreView?.setPingActive(active),
-        onInteractSelected: (entityId) => this.requestExploreInteract(entityId),
-      });
-    }
-    this.exploreHud.setObjective(this.exploreState.objectiveStatus());
-    if (!this.exploreBriefLine) this.exploreBriefLine = new BriefLineView(this.exploreHost);
-    this.attachExploreKeyboard();
-    this.startExploreLoop();
-  }
-
-  private pauseExplore(): void {
-    this.stopExploreLoop();
-    this.detachExploreKeyboard();
-    this.exploreHud?.dispose();
-    this.exploreHud = null;
-    this.exploreBriefLine?.dispose();
-    this.exploreBriefLine = null;
-  }
-
-  private attachExploreKeyboard(): void {
-    if (this.exploreKeyboardAttached) return;
-    this.exploreKeyboardAttached = true;
-    window.addEventListener('keydown', this.onExploreKeyDown);
-    window.addEventListener('keyup', this.onExploreKeyUp);
-    window.addEventListener('blur', this.onExploreBlur);
-  }
-
-  private detachExploreKeyboard(): void {
-    if (!this.exploreKeyboardAttached) return;
-    this.exploreKeyboardAttached = false;
-    window.removeEventListener('keydown', this.onExploreKeyDown);
-    window.removeEventListener('keyup', this.onExploreKeyUp);
-    window.removeEventListener('blur', this.onExploreBlur);
-    this.exploreHeldKeys.up =
-      this.exploreHeldKeys.down =
-      this.exploreHeldKeys.left =
-      this.exploreHeldKeys.right =
-        false;
-    this.exploreHeldKeys.zoomIn = this.exploreHeldKeys.zoomOut = false;
-  }
-
-  /** Souris : pointermove/click/wheel, cables une seule fois sur le canvas (persiste tout le chapitre). */
-  private wireExploreCanvasInput(canvas: HTMLCanvasElement): void {
-    const ndcFromEvent = (e: PointerEvent | MouseEvent | WheelEvent): { x: number; y: number } => {
-      const rect = canvas.getBoundingClientRect();
-      return {
-        x: ((e.clientX - rect.left) / rect.width) * 2 - 1,
-        y: -(((e.clientY - rect.top) / rect.height) * 2 - 1),
-      };
-    };
-    canvas.addEventListener('pointermove', (e) => {
-      this.exploreLastPointerClient = { x: e.clientX, y: e.clientY };
-      const { x, y } = ndcFromEvent(e);
-      this.exploreView?.handlePointerMove(x, y);
-    });
-    canvas.addEventListener('click', (e) => {
-      const { x, y } = ndcFromEvent(e);
-      this.exploreView?.handleClick(x, y);
-    });
-    canvas.addEventListener(
-      'wheel',
-      (e) => {
-        e.preventDefault();
-        const { x, y } = ndcFromEvent(e);
-        this.exploreView?.zoomAtCursor(x, y, e.deltaY, this.exploreAspect());
-      },
-      { passive: false },
-    );
-    window.addEventListener('resize', this.onExploreResize);
-  }
-
-  private handleExploreHover(target: HoverTarget | null): void {
-    if (target?.type === 'entity') {
-      this.exploreHoveredEntityId = target.id;
-      const info = this.exploreState?.listInteractables().find((i) => i.id === target.id);
-      this.exploreHud?.setHoverLabel(info?.label ?? target.id, info?.reachable ?? true, this.exploreLastPointerClient);
-    } else {
-      this.exploreHoveredEntityId = null;
-      this.exploreHud?.setHoverLabel(null);
-    }
-  }
-
-  /** Clic (ou selection clavier) sur un interactable : marche jusqu'a la case d'interaction, puis declenche. */
-  private requestExploreInteract(entityId: string): void {
-    const res = this.exploreState?.requestInteract(entityId);
-    if (res && !res.ok) console.warn(`ChapterApp (exploration) : interaction refusee (${entityId}) : ${res.reason}`);
-  }
-
-  /**
-   * Boucle d'image de l'exploration : `ExploreState.tick(dtMs)` (dtMs
-   * MESURE, jamais lu de l'horloge par `tick` lui-meme -- ADR 0013 §3) puis
-   * `ExploreView.render()`. Jeton de generation (`exploreLoopId`) : si un
-   * evenement traite en cours de frame fait quitter l'exploration
-   * (`completeExploreScene`, qui appelle `setActiveHost('dialogue')` ->
-   * `pauseExplore()` -> `stopExploreLoop()`), la frame s'arrete net plutot
-   * que de continuer a animer une scene qu'on vient de quitter, et surtout
-   * sans planifier de frame suivante par-dessus celle qu'un `resumeExplore()`
-   * ulterieur aurait deja replanifiee (cas d'ecole : deux scenes `explore`
-   * qui se suivent -- n'arrive pas au chapitre 1, mais reste possible au
-   * lot 3.7).
-   */
-  private startExploreLoop(): void {
-    this.exploreLoopId += 1;
-    const loopId = this.exploreLoopId;
-    this.exploreLastFrameTime = performance.now();
-
-    const frame = (now: number): void => {
-      if (loopId !== this.exploreLoopId) return;
-      const state = this.exploreState;
-      const view = this.exploreView;
-      const renderer = this.exploreRenderer;
-      if (!state || !view || !renderer) return;
-
-      const dtMs = Math.min(now - this.exploreLastFrameTime, 250);
-      this.exploreLastFrameTime = now;
-      const dt = dtMs / 1000;
-
-      state.updateContext(this.ctx);
-      for (const ev of state.tick(dtMs)) {
-        this.handleExploreEvent(ev);
-        if (loopId !== this.exploreLoopId) return;
-      }
-
-      view.panScreenRelative(this.exploreHeldKeys, dt);
-      if (this.exploreHeldKeys.zoomIn) view.zoomBy(-KEY_ZOOM_SPEED * dt, this.exploreAspect());
-      if (this.exploreHeldKeys.zoomOut) view.zoomBy(KEY_ZOOM_SPEED * dt, this.exploreAspect());
-
-      view.updateRigPosition('leader', state.leaderPosition(), state.isMoving(), dt);
-      const positions = state.followerPositions();
-      this.exploreFollowerRigIds.forEach((id, i) => {
-        const pos = positions[i];
-        if (pos) view.updateRigPosition(id, pos, state.isMoving(), dt);
-      });
-      view.tick(dt);
-
-      this.exploreBriefLine?.tick(dt);
-      const trackedEntityId = this.exploreBriefLine?.entityToTrack;
-      if (trackedEntityId) {
-        const cell = this.exploreEntity(trackedEntityId)?.cell;
-        const pos = cell ? view.projectToScreen(cell, this.exploreHost.clientWidth, this.exploreHost.clientHeight) : null;
-        this.exploreBriefLine?.setSpeechScreenPosition(pos);
-      }
-
-      const interactables = state.listInteractables();
-      this.exploreHud?.setInteractables(interactables.map((it) => ({ id: it.id, label: it.label, reachable: it.reachable })));
-      this.syncExploreVisibility(interactables);
-      if (this.exploreHoveredEntityId) {
-        const info = interactables.find((i) => i.id === this.exploreHoveredEntityId);
-        if (info) this.exploreHud?.setHoverLabel(info.label, info.reachable, this.exploreLastPointerClient);
-      }
-
-      renderer.render(view.scene, view.camera.camera);
-      this.exploreRafId = requestAnimationFrame(frame);
-    };
-
-    this.exploreRafId = requestAnimationFrame(frame);
-  }
-
-  private stopExploreLoop(): void {
-    this.exploreLoopId += 1; // invalide toute frame deja planifiee
-    if (this.exploreRafId !== null) {
-      cancelAnimationFrame(this.exploreRafId);
-      this.exploreRafId = null;
-    }
+    this.setActiveHost('explore'); // -> exploreSession.resume()
+    this.exploreSession.centerCameraOnLeader();
   }
 
   /* -- evenements/interactions (contrat du lot 3.6b §3, "comment une etape se termine") -- */
@@ -1152,14 +751,14 @@ export class ChapterApp {
         break;
       case 'objective-task-progress':
       case 'objective-complete':
-        this.exploreHud?.setObjective(this.exploreState?.objectiveStatus() ?? null);
+        this.exploreSession.refreshObjectiveHud();
         break;
       case 'room-discovered':
         // Persisté IMMEDIATEMENT (pas seulement à la fin de l'étape, voir `persistAfterScene`) :
         // 08-EXPLORATION.md "La découverte des lieux" -- "recharger une partie ne re-cache pas
         // des pièces déjà visitées", y compris un rechargement en plein milieu d'une étape.
-        if (this.exploreMapDef) {
-          this.ctx = { ...this.ctx, run: discoverRoom(this.ctx.run, this.exploreMapDef.id, ev.roomId) };
+        if (this.exploreSession.mapDef) {
+          this.ctx = { ...this.ctx, run: discoverRoom(this.ctx.run, this.exploreSession.mapDef.id, ev.roomId) };
           this.persistAfterScene();
         }
         break;
@@ -1189,8 +788,8 @@ export class ChapterApp {
     // "Le personnage marche jusqu'à la case d'interaction (adjacente), se tourne, puis l'action
     // se déclenche" (08-EXPLORATION.md "Interaction") -- `updateRigPosition` ne tourne le rig
     // QUE pendant un déplacement (voir `ExploreView.faceLeaderTowards`), donc explicite ici.
-    const entityCell = this.exploreEntity(entityId)?.cell;
-    if (entityCell) this.exploreView?.faceLeaderTowards(entityCell);
+    const entityCell = this.exploreSession.entity(entityId)?.cell;
+    if (entityCell) this.exploreSession.faceLeaderTowards(entityCell);
 
     if (this.isObjectiveTrigger(entityId)) {
       // Lot 3.7b (centre d'examen) : contrairement au lot 3.6b, le declencheur peut porter un
@@ -1212,18 +811,18 @@ export class ChapterApp {
       case 'dialogue':
         return this.openExploreConversation(entityId, outcome.dialogueId, outcome.startNode) ?? outcome;
       case 'brief-line':
-        this.playExploreBriefLine(outcome.entityId, outcome.text);
+        this.exploreSession.playBriefLine(outcome.entityId, outcome.text);
         break;
       case 'door-toggled':
-        this.exploreView?.setDoorOpen(outcome.entityId, outcome.open);
+        this.exploreSession.setDoorOpen(outcome.entityId, outcome.open);
         break;
       case 'door-locked':
-        if (outcome.line) this.playExploreBriefLine(outcome.entityId, outcome.line);
+        if (outcome.line) this.exploreSession.playBriefLine(outcome.entityId, outcome.line);
         break;
       case 'change-map':
         // Volontairement un no-op : le chapitre 1 change de lieu A LA FRONTIERE D'UNE
         // SCENE (`SceneDef.mapId` differe de la scene precedente -> entree a froid,
-        // voir `enterExploreScene`/`buildExploreWorld` plus haut), jamais via une entite
+        // voir `enterExploreScene`/`ExploreSession.enterStep` plus haut), jamais via une entite
         // `exit` -- decision du lot 3.7a (08-EXPLORATION.md "Les objets du monde").
         // Le type `exit` reste au format (utilise par le banc d'essai `src/dev/exploreLab.ts`),
         // mais aucune carte du chapitre 1 n'en pose : ce cas ne se produit donc jamais en
@@ -1299,16 +898,7 @@ export class ChapterApp {
    * progression, pas un detail cosmetique. No-op sur une entite qui n'est pas une porte.
    */
   private unlockDoorIfNeeded(entityId: string): void {
-    this.exploreState?.forceDoorOpen(entityId);
-    this.exploreView?.setDoorOpen(entityId, true);
-  }
-
-  /** `npc` : bulle parlee (suit la tete). `object`/`door` : narration discrete en bas de l'ecran. */
-  private playExploreBriefLine(entityId: string, text: string): void {
-    if (!this.exploreBriefLine) return;
-    const entity = this.exploreEntity(entityId);
-    if (entity?.type === 'npc') this.exploreBriefLine.showSpeech(entityId, text);
-    else this.exploreBriefLine.showNarration(text);
+    this.exploreSession.unlockDoor(entityId);
   }
 
   /** Cle du drapeau "conversation annexe deja jouee cette partie" (contrat du lot 3.6b §3). */
@@ -1340,9 +930,9 @@ export class ChapterApp {
   ): InteractOutcome | null {
     const doneKey = this.conversationDoneFlagKey(dialogueId);
     if (this.ctx.run.flags[doneKey]) {
-      const entity = this.exploreEntity(entityId);
+      const entity = this.exploreSession.entity(entityId);
       const repeatLine = entity && 'line' in entity && entity.line ? entity.line : EXPLORE_REPEAT_LINE_FALLBACK;
-      this.playExploreBriefLine(entityId, repeatLine);
+      this.exploreSession.playBriefLine(entityId, repeatLine);
       if (advancesRouter) {
         this.unlockDoorIfNeeded(entityId);
         this.completeExploreScene();
@@ -1363,7 +953,7 @@ export class ChapterApp {
       runner: new DialogueRunner(file, this.ctx, rng, startNode ? { startNode } : undefined),
     };
     this.hideAllViews();
-    this.setActiveHost('dialogue'); // -> pauseExplore() : encart/bulles masques pendant la conversation
+    this.setActiveHost('dialogue'); // -> exploreSession.pause() : encart/bulles masques pendant la conversation
     this.view.show();
     this.renderExploreConversation();
     return null;
@@ -1399,10 +989,10 @@ export class ChapterApp {
     // peut sauvegarder ici sans attendre que le joueur quitte l'etape entiere.
     this.persistAfterScene();
     this.hideAllViews();
-    this.setActiveHost('explore'); // -> resumeExplore()
-    this.exploreState?.updateContext(this.ctx);
+    this.setActiveHost('explore'); // -> exploreSession.resume()
+    this.exploreSession.state?.updateContext(this.ctx);
     // Recentrage a la sortie d'un dialogue (contrat §6), jamais pendant un deplacement.
-    this.centerCameraOnLeader();
+    this.exploreSession.centerCameraOnLeader();
   }
 
   /* ---------------------------------- tirage ----------------------------- */
@@ -1642,15 +1232,11 @@ export class ChapterApp {
     this.activeDialogue = null;
     this.activeExploreConversation = null;
     this.hideAllViews();
-    this.pauseExplore();
     // Nouvelle partie, nouvelle graine : l'etat d'exploration de la
     // precedente (position de Franklyn, decor seede sur l'ancienne graine)
     // ne doit pas survivre -- `enterExploreScene` en reconstruira un neuf des
-    // la prochaine etape `explore` (voir `buildExploreWorld`).
-    this.exploreView?.dispose();
-    this.exploreView = null;
-    this.exploreState = null;
-    this.exploreMapDef = null;
+    // la prochaine etape `explore` (voir `ExploreSession.enterStep`/`resetWorld`).
+    this.exploreSession.resetWorld();
     this.ctx = { dossier: createDossier(), run: createRunState(seed) };
     this.router = new SceneRouter(CHAPTER_1_SCENES, this.ctx);
     this.ctx = this.router.context;
