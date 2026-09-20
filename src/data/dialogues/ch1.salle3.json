@@ -4,12 +4,37 @@
   "nodes": {
     "arrivee": {
       "text": "La porte se referme derrière eux avec un claquement pneumatique et se verrouille aussitôt. Un chuintement monte des bouches d'aération : un gaz irritant, âcre, commence à envahir la pièce. Au centre, un terminal encore allumé ; en face, la sortie.",
-      "lines": [
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "teammate": "zachary" }], "to": "arrivee-zachary" },
         {
-          "who": "zachary",
-          "text": "On sort, ou on regarde ce que raconte cette machine ?"
+          "text": "Continuer.",
+          "conditions": [{ "not": { "teammate": "zachary" } }, { "teammate": "letitia" }],
+          "to": "arrivee-letitia"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "teammate": "zachary" } },
+            { "not": { "teammate": "letitia" } },
+            { "teammate": "grover" }
+          ],
+          "to": "arrivee-grover"
         }
-      ],
+      ]
+    },
+    "arrivee-zachary": {
+      "lines": [{ "who": "zachary", "text": "On sort, ou on regarde ce que raconte cette machine ?" }],
+      "to": "choix-rester"
+    },
+    "arrivee-letitia": {
+      "lines": [{ "who": "letitia", "text": "Il y a quelque chose sur cet écran. Je le sens." }],
+      "to": "choix-rester"
+    },
+    "arrivee-grover": {
+      "lines": [{ "who": "grover", "text": "Vaut peut-être mieux sortir. Le temps presse, et personne ne nous en voudra." }],
+      "to": "choix-rester"
+    },
+    "choix-rester": {
       "choices": [
         {
           "text": "Foncer vers la sortie sans s'attarder.",
@@ -17,78 +42,44 @@
         },
         {
           "text": "[Résistance] Rester malgré les vapeurs pour fouiller le terminal.",
-          "check": {
-            "skill": "resistance",
-            "dv": "DIFFICILE",
-            "who": "zachary"
-          },
-          "effects": [
-            {
-              "tempo": 2
-            }
-          ],
-          "onSuccess": "zacharie-tient",
-          "onFailure": "zacharie-gaze"
+          "check": { "skill": "resistance", "dv": "DIFFICILE", "who": "equipier1" },
+          "effects": [{ "tempo": 2 }],
+          "onSuccess": "equipier1-tient",
+          "onFailure": "equipier1-gaze"
         }
       ]
     },
     "sortie-rapide": {
       "text": "L'équipe traverse sans un regard pour l'écran, les yeux déjà rivés sur la sortie. Ils respirent l'air libre avant même d'avoir toussé.",
-      "effects": [
-        {
-          "tag": "prudent"
-        }
-      ]
+      "effects": [{ "tag": "prudent" }]
     },
-    "zacharie-tient": {
-      "text": "Zacharie serre les dents, les yeux rouges, mais tient debout.",
-      "to": "epreuve-john"
+    "equipier1-tient": {
+      "text": "{equipier1} serre les dents, les yeux rouges, mais tient debout.",
+      "to": "epreuve-equipier2"
     },
-    "zacharie-gaze": {
-      "text": "Une quinte de toux plie Zacharie en deux ; il s'effondre contre le mur, hors d'état de continuer sans assistance.",
-      "effects": [
-        {
-          "team": {
-            "gassed": "zachary"
-          }
-        },
-        {
-          "tag": "imprudent-salle-3"
-        }
-      ],
-      "to": "epreuve-john"
+    "equipier1-gaze": {
+      "text": "Une quinte de toux plie {equipier1} en deux, qui s'effondre contre le mur, hors d'état de continuer sans assistance.",
+      "effects": [{ "team": { "gassed": "equipier1" } }, { "tag": "imprudent-salle-3" }],
+      "to": "epreuve-equipier2"
     },
-    "epreuve-john": {
-      "text": "Le gaz monte encore. John couvre son visage d'un bras et avance vers le terminal.",
+    "epreuve-equipier2": {
+      "text": "Le gaz monte encore. {equipier2} couvre son visage d'un bras et avance vers le terminal.",
       "choices": [
         {
-          "text": "[Résistance] John encaisse et continue.",
-          "check": {
-            "skill": "resistance",
-            "dv": "DIFFICILE",
-            "who": "john"
-          },
-          "onSuccess": "john-tient",
-          "onFailure": "john-gaze"
+          "text": "[Résistance] {equipier2} encaisse et continue.",
+          "check": { "skill": "resistance", "dv": "DIFFICILE", "who": "equipier2" },
+          "onSuccess": "equipier2-tient",
+          "onFailure": "equipier2-gaze"
         }
       ]
     },
-    "john-tient": {
-      "text": "John force le passage à travers les vapeurs sans un mot de plainte.",
+    "equipier2-tient": {
+      "text": "{equipier2} force le passage à travers les vapeurs sans un mot de plainte.",
       "to": "epreuve-franklyn"
     },
-    "john-gaze": {
-      "text": "John suffoque et se plie contre une console, les yeux larmoyants, incapable d'aller plus loin.",
-      "effects": [
-        {
-          "team": {
-            "gassed": "john"
-          }
-        },
-        {
-          "tag": "imprudent-salle-3"
-        }
-      ],
+    "equipier2-gaze": {
+      "text": "{equipier2} suffoque et se plie contre une console, les yeux larmoyants, incapable d'aller plus loin.",
+      "effects": [{ "team": { "gassed": "equipier2" } }, { "tag": "imprudent-salle-3" }],
       "to": "epreuve-franklyn"
     },
     "epreuve-franklyn": {
@@ -96,10 +87,7 @@
       "choices": [
         {
           "text": "[Résistance] Tenir jusqu'au terminal.",
-          "check": {
-            "skill": "resistance",
-            "dv": "DIFFICILE"
-          },
+          "check": { "skill": "resistance", "dv": "DIFFICILE" },
           "onSuccess": "franklyn-tient",
           "onFailure": "franklyn-gaze"
         }
@@ -111,29 +99,39 @@
     },
     "franklyn-gaze": {
       "text": "Franklyn s'écroule à un pas du terminal, la vue brouillée par les vapeurs. Il faudra que quelqu'un d'autre termine.",
-      "effects": [
-        {
-          "team": {
-            "gassed": "franklyn"
-          }
-        },
-        {
-          "tag": "imprudent-salle-3"
-        }
-      ],
+      "effects": [{ "team": { "gassed": "franklyn" } }, { "tag": "imprudent-salle-3" }],
       "to": "video-recuperee"
     },
     "video-recuperee": {
       "text": "Sur l'écran, les caméras de sécurité rejouent le passage de l'équipe adverse, salle après salle. Franklyn regarde jusqu'au bout, puis la sortie.",
-      "effects": [
+      "effects": [{ "tag": "renseignement" }, { "flag": "ch1.salle3.video-vue", "value": true }],
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "teammate": "john" }], "to": "video-john" },
         {
-          "tag": "renseignement"
+          "text": "Continuer.",
+          "conditions": [{ "not": { "teammate": "john" } }, { "teammate": "grover" }],
+          "to": "video-grover"
         },
         {
-          "flag": "ch1.salle3.video-vue",
-          "value": true
+          "text": "Continuer.",
+          "conditions": [{ "not": { "teammate": "john" } }, { "not": { "teammate": "grover" } }],
+          "to": "video-generic"
         }
       ]
+    },
+    "video-john": {
+      "lines": [{ "who": "john", "text": "Ça nous dit où ils sont. Autant en profiter." }]
+    },
+    "video-grover": {
+      "lines": [
+        {
+          "who": "grover",
+          "text": "Bon. Maintenant on sait à quoi s'attendre — pas de mauvaise surprise, si on s'organise."
+        }
+      ]
+    },
+    "video-generic": {
+      "lines": [{ "who": "equipier1", "text": "On sait au moins à quoi s'attendre, maintenant." }]
     }
   }
 }

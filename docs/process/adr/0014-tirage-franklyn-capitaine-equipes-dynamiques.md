@@ -60,3 +60,21 @@ forts d'un CRPG, et que le pilier « La bande » repose sur les relations entre 
   toutes atteignables quel que soit l'ordre des deux choix de Franklyn.
 - La rivalité Zachary / Grover, structurante, devient une situation que le joueur peut
   **créer** en les prenant tous les deux : une dispute scriptée en salle 1 l'exploite.
+
+## Correctif lot 3.4 — condition `teammate`, dispute déplacée au fourgon
+
+Le fourgon, les salles 1 à 3 réécrits pour des coéquipiers variables (§7 ci-dessus) ont
+révélé qu'un `flag` conventionnel (`{ "flag": "ch1.equipe.john", "equals": true }`, l'exemple
+donné au §7) est fragile : rien ne le pose automatiquement, et l'oublier après un changement
+de roster désynchronise silencieusement le contenu. Le format gagne donc une condition dédiée,
+**`{ "teammate": CharacterId }`**, vraie si ce cadet est dans `RunState.roster.blue` — calculée
+à la volée depuis le roster, jamais un état à synchroniser. Voir
+[`07-DIALOGUE-FORMAT.md`](../../design/07-DIALOGUE-FORMAT.md#alias-déquipe-et-gabarits-de-texte-adr-0014-7-lot-31).
+
+La dispute Zachary/Grover est placée dans **le fourgon** (`ch1.fourgon.json`), pas en salle 1 :
+c'est le seul moment du chapitre où les deux coéquipiers sont ensemble, au calme, avant que
+l'urgence du parcours (fumée, chien, gaz) ne prenne toute la place — une friction de
+personnalité a besoin de ce temps mort pour ne pas être noyée sous les jets et les portes à
+forcer. Conséquence mécanique : `affinity` (+1/-1 selon le camp pris) ou `tempo` (+1 si
+Franklyn calme le jeu sans trancher), jamais une nouvelle étiquette — le vocabulaire du dossier
+reste fermé (voir [`06-SCORING-DOSSIER.md`](../../design/06-SCORING-DOSSIER.md)).

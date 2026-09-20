@@ -14,6 +14,7 @@ export function evaluateCondition(cond: Condition, ctx: NarrativeContext): boole
   if ('flag' in cond) return evaluateFlag(cond, ctx);
   if ('tag' in cond) return ctx.dossier.tags.includes(cond.tag);
   if ('affinity' in cond) return evaluateAffinity(cond, ctx);
+  if ('teammate' in cond) return ctx.run.roster.blue.includes(cond.teammate);
   return false;
 }
 

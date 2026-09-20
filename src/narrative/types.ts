@@ -148,6 +148,18 @@ export type Condition =
   | { flag: string; equals?: string | number | boolean; atLeast?: number }
   | { tag: string }
   | { affinity: CharacterId; atLeast?: number; atMost?: number }
+  /**
+   * Vrai si `cadet` fait partie de l'equipe bleue de Franklyn (`RunState.roster.blue`),
+   * peu importe l'ordre du tirage (lot 3.4, ADR 0014 §7). C'est le mecanisme
+   * retenu pour les variantes de contenu par cadet ("le fourgon, les salles ...
+   * doivent etre reecrits pour des coequipiers variables") : plus fiable qu'un
+   * flag conventionnel (`ch1.equipe.john`, evoque a l'origine par l'ADR) car
+   * calcule directement depuis le roster, jamais desynchronise. `franklyn`
+   * comme `abigail` n'ont pas de sens ici (le premier est toujours dans
+   * l'equipe bleue, la seconde jamais) -- toujours vrai pour l'un, toujours
+   * faux pour l'autre, mais aucun garde-fou moteur ne l'empeche.
+   */
+  | { teammate: CharacterId }
   | { not: Condition }
   | { all: Condition[] }
   | { any: Condition[] };

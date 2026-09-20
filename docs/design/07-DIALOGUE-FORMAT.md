@@ -153,6 +153,7 @@ type Condition =
   | { flag: string; equals?: string | number | boolean; atLeast?: number }
   | { tag: string }
   | { affinity: CharacterId; atLeast?: number; atMost?: number }
+  | { teammate: CharacterId }             // cadet present dans l'equipe bleue (lot 3.4, ADR 0014 §7)
   | { not: Condition }
   | { all: Condition[] }
   | { any: Condition[] };
@@ -263,6 +264,15 @@ texte des choix et les textes de jet de réflexion :
 ```
 
 Un gabarit `{...}` qui n'est PAS dans cette liste est une anomalie (voir Validation).
+
+**Condition `teammate` (lot 3.4, ADR 0014 §7)** : `{ "teammate": "john" }` est vraie si `john`
+fait partie de l'équipe bleue de Franklyn (`RunState.roster.blue`), quel que soit l'ordre du
+tirage — c'est ainsi qu'un nœud écrit une **variante propre à un cadet présent**, en plus de la
+version générique aux alias : un choix `"Continuer."` gardé par `{ "teammate": "zachary" }` mène à
+une réplique où `"who": "zachary"` est légitime (il est garanti présent), sans jamais s'afficher
+pour une équipe qui ne le contient pas. Ne confond pas avec `{equipier1}`/`{equipier2}` : les
+gabarits et alias résolvent un nom générique, `teammate` sert à **brancher** vers un texte écrit
+pour LUI, pas seulement à substituer son prénom.
 
 ### `startNode` et `entries` (moteur d'exploration, lot 3.1)
 

@@ -5,7 +5,20 @@
   "nodes": {
     "arrivee": {
       "text": "La porte du premier module d'examen résiste, verrouillée par un panneau électronique. De la fumée s'infiltre par les grilles d'aération, et un bruit de course résonne plus loin dans le bâtiment.",
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "teammate": "zachary" }], "to": "arrivee-zachary" },
+        { "text": "Continuer.", "conditions": [{ "not": { "teammate": "zachary" } }], "to": "arrivee-generic" }
+      ]
+    },
+    "arrivee-zachary": {
       "lines": [{ "who": "zachary", "text": "On n'a pas toute la journée. Ouvre-moi ça." }],
+      "to": "porte-piratage"
+    },
+    "arrivee-generic": {
+      "lines": [{ "who": "equipier1", "text": "Vas-y. On sent la fumée d'ici." }],
+      "to": "porte-piratage"
+    },
+    "porte-piratage": {
       "choices": [
         {
           "text": "[Piratage] Pirater le panneau de verrouillage.",
@@ -16,14 +29,39 @@
       ]
     },
     "porte-recalcitrante": {
-      "text": "Le panneau clignote et refuse la commande. John s'impatiente, arrache la plaque à mains nues et force le mécanisme le temps de trouver une meilleure prise.",
-      "lines": [{ "who": "john", "text": "Laisse, je m'en occupe." }],
+      "text": "Le panneau clignote et refuse la commande. Il va falloir forcer.",
       "effects": [{ "tempo": 1 }],
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "teammate": "john" }], "to": "porte-recalcitrante-john" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "teammate": "john" } }, { "teammate": "grover" }],
+          "to": "porte-recalcitrante-grover"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "teammate": "john" } }, { "not": { "teammate": "grover" } }],
+          "to": "porte-recalcitrante-generic"
+        }
+      ]
+    },
+    "porte-recalcitrante-john": {
+      "text": "John s'impatiente, arrache la plaque à mains nues et force le mécanisme le temps de trouver une meilleure prise.",
+      "lines": [{ "who": "john", "text": "Laisse, je m'en occupe." }],
+      "to": "porte-ouverte"
+    },
+    "porte-recalcitrante-grover": {
+      "text": "Grover ne perd pas de temps à pester contre le panneau. Il agrippe le battant à deux mains et fait signe aux autres de faire pareil.",
+      "lines": [{ "who": "grover", "text": "Ensemble, sur trois. Un, deux—" }],
+      "to": "porte-ouverte"
+    },
+    "porte-recalcitrante-generic": {
+      "text": "{equipier1} s'attaque au panneau sans grande méthode, mais avec assez d'insistance pour que le mécanisme finisse par céder.",
       "to": "porte-ouverte"
     },
     "porte-ouverte": {
       "text": "Le battant cède dans un grincement. Au-delà, la fumée s'épaissit ; quelque chose court entre les silhouettes des poteaux, avec un grondement sourd.",
-      "lines": [{ "who": "zachary", "text": "Là. Quelque chose bouge." }],
+      "lines": [{ "who": "equipier1", "text": "Là. Quelque chose bouge." }],
       "choices": [
         {
           "text": "[Perception] Repérer ce qui approche dans la fumée.",
@@ -35,6 +73,25 @@
     },
     "chien-identifie": {
       "text": "Un chien dressé fonce droit sur une silhouette aux mains liées, brassard orange au bras — un civil qui joue l'otage pour l'exercice. Le reste de la salle est vide de menace.",
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "teammate": "john" }], "to": "chien-identifie-john" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "teammate": "john" } }, { "teammate": "zachary" }],
+          "to": "chien-identifie-zachary"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "teammate": "john" } },
+            { "not": { "teammate": "zachary" } },
+            { "teammate": "letitia" }
+          ],
+          "to": "chien-identifie-letitia"
+        }
+      ]
+    },
+    "chien-identifie-john": {
       "lines": [{ "who": "john", "text": "C'est un des leurs. Je le tiens." }],
       "choices": [
         {
@@ -43,10 +100,32 @@
           "onSuccess": "chien-abattu",
           "onFailure": "chien-manque"
         },
+        { "text": "Laisser filer et avancer vers la sortie.", "to": "otage-ignore" }
+      ]
+    },
+    "chien-identifie-zachary": {
+      "lines": [{ "who": "zachary", "text": "Je le vois, je le vois — poussez-vous, je gère." }],
+      "choices": [
         {
-          "text": "Laisser filer et avancer vers la sortie.",
-          "to": "otage-ignore"
-        }
+          "text": "[Armes de poing] Abattre le chien avant qu'il n'atteigne l'otage.",
+          "check": { "skill": "armesDePoing", "dv": "DIFFICILE", "who": "zachary" },
+          "onSuccess": "chien-abattu",
+          "onFailure": "chien-manque"
+        },
+        { "text": "Laisser filer et avancer vers la sortie.", "to": "otage-ignore" }
+      ]
+    },
+    "chien-identifie-letitia": {
+      "text": "Ni {equipier1} ni {equipier2} n'ont le geste sûr d'un tireur. Letitia, elle, a déjà repéré la fraction de seconde où le chien va bondir.",
+      "lines": [{ "who": "letitia", "text": "Maintenant. Vise où il va être, pas où il est." }],
+      "choices": [
+        {
+          "text": "[Armes de poing] Abattre le chien avant qu'il n'atteigne l'otage.",
+          "check": { "skill": "armesDePoing", "dv": "DIFFICILE" },
+          "onSuccess": "chien-abattu",
+          "onFailure": "chien-manque"
+        },
+        { "text": "Laisser filer et avancer vers la sortie.", "to": "otage-ignore" }
       ]
     },
     "chien-abattu": {
@@ -69,7 +148,7 @@
     },
     "silhouettes-confuses": {
       "text": "Dans cette fumée, impossible de distinguer qui est qui : deux formes se confondent, l'une poursuivant l'autre.",
-      "lines": [{ "who": "zachary", "text": "On tire ou on fonce ?" }],
+      "lines": [{ "who": "equipier1", "text": "On tire ou on fonce ?" }],
       "choices": [
         { "text": "Tirer dans le tas, quitte à se tromper.", "to": "otage-blesse" },
         { "text": "Ne pas tirer, foncer vers la sortie.", "to": "otage-manque" }

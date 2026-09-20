@@ -4,7 +4,42 @@
   "nodes": {
     "arrivee": {
       "text": "La deuxième salle s'ouvre sur une armoire blindée à triple combinaison, et sur une porte close droit en face. Le vacarme du parcours voisin filtre à travers les murs.",
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "teammate": "letitia" }], "to": "arrivee-letitia" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "teammate": "letitia" } }, { "teammate": "grover" }],
+          "to": "arrivee-grover"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "teammate": "letitia" } },
+            { "not": { "teammate": "grover" } },
+            { "teammate": "zachary" }
+          ],
+          "to": "arrivee-zachary"
+        }
+      ]
+    },
+    "arrivee-letitia": {
+      "lines": [
+        {
+          "who": "letitia",
+          "text": "Cette combinaison a trois molettes. Ça prendra du temps, mais on ne retrouvera pas un second taser comme ça si on laisse tomber."
+        }
+      ],
+      "to": "choix-armoire"
+    },
+    "arrivee-grover": {
+      "lines": [{ "who": "grover", "text": "À vous de voir. Mais si on force cette armoire, on le fait ensemble, pas à moitié." }],
+      "to": "choix-armoire"
+    },
+    "arrivee-zachary": {
       "lines": [{ "who": "zachary", "text": "L'armoire ou la porte, il faut choisir." }],
+      "to": "choix-armoire"
+    },
+    "choix-armoire": {
       "choices": [
         {
           "text": "[Piratage] Forcer le verrou de l'armoire sécurisée.",
@@ -49,12 +84,65 @@
     },
     "porte-resistante": {
       "text": "Le boîtier refuse la commande et se bloque. Il va falloir passer en force, ou trouver un autre biais.",
-      "lines": [{ "who": "john", "text": "Poussez-vous." }],
       "effects": [{ "tempo": 1 }],
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "teammate": "zachary" }], "to": "porte-resistante-zachary" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "teammate": "zachary" } }, { "teammate": "john" }],
+          "to": "porte-resistante-john"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "teammate": "zachary" } },
+            { "not": { "teammate": "john" } },
+            { "teammate": "grover" }
+          ],
+          "to": "porte-resistante-grover"
+        }
+      ]
+    },
+    "porte-resistante-zachary": {
+      "lines": [{ "who": "zachary", "text": "Poussez-vous, je m'en charge." }],
       "choices": [
         {
           "text": "[Athlétisme] Enfoncer la porte d'un coup d'épaule.",
           "check": { "skill": "athletisme", "dv": "NORMALE", "who": "zachary" },
+          "onSuccess": "porte-franchie",
+          "onFailure": "porte-forcee-a-la-dure"
+        },
+        {
+          "text": "[Électronique] Court-circuiter la gâche électrique.",
+          "check": { "skill": "electronique", "dv": "NORMALE" },
+          "onSuccess": "porte-franchie",
+          "onFailure": "porte-forcee-a-la-dure"
+        }
+      ]
+    },
+    "porte-resistante-john": {
+      "lines": [{ "who": "john", "text": "Poussez-vous." }],
+      "choices": [
+        {
+          "text": "[Athlétisme] Enfoncer la porte d'un coup d'épaule.",
+          "check": { "skill": "athletisme", "dv": "NORMALE", "who": "john" },
+          "onSuccess": "porte-franchie",
+          "onFailure": "porte-forcee-a-la-dure"
+        },
+        {
+          "text": "[Électronique] Court-circuiter la gâche électrique.",
+          "check": { "skill": "electronique", "dv": "NORMALE" },
+          "onSuccess": "porte-franchie",
+          "onFailure": "porte-forcee-a-la-dure"
+        }
+      ]
+    },
+    "porte-resistante-grover": {
+      "lines": [{ "who": "grover", "text": "Un, deux, trois — tous ensemble." }],
+      "choices": [
+        {
+          "text": "[Athlétisme] Enfoncer la porte d'un coup d'épaule.",
+          "check": { "skill": "athletisme", "dv": "NORMALE", "who": "grover" },
           "onSuccess": "porte-franchie",
           "onFailure": "porte-forcee-a-la-dure"
         },

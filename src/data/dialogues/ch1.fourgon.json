@@ -17,10 +17,60 @@
     },
     "silence1": {
       "text": "Le fourgon cahote sur une route défoncée depuis des décennies. Personne ne parle vraiment ; chacun regarde le désert filer.",
-      "to": "reactions"
+      "to": "avant-dispute"
     },
     "campement": {
       "text": "Au loin, entre deux dunes de gravats, Franklyn distingue des silhouettes autour d'un feu — un campement de pillards, presque invisible à l'œil nu. Personne d'autre ne semble l'avoir vu.",
+      "to": "avant-dispute"
+    },
+    "avant-dispute": {
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "teammate": "zachary" }, { "teammate": "grover" }],
+          "to": "dispute-zachary-grover"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "all": [{ "teammate": "zachary" }, { "teammate": "grover" }] } }],
+          "to": "reactions"
+        }
+      ]
+    },
+    "dispute-zachary-grover": {
+      "text": "Zachary tape du talon contre le plancher du fourgon depuis un moment déjà, et Grover finit par le remarquer à voix haute.",
+      "lines": [
+        { "who": "grover", "text": "Tu comptes faire ça pendant tout le trajet ?" },
+        { "who": "zachary", "text": "Je compte pas rester assis à rien faire pendant qu'on nous prépare un sale coup, si c'est ça que tu demandes." },
+        { "who": "grover", "text": "Personne ne te demande de rester assis. Juste d'attendre qu'on sache où on met les pieds avant de foncer." },
+        { "who": "zachary", "text": "Et pendant qu'on attend, c'est l'autre équipe qui prend de l'avance. Comme d'habitude, avec toi." }
+      ],
+      "choices": [
+        {
+          "text": "Prendre le parti de Zachary : il n'a pas tort, l'autre équipe ne va pas nous attendre.",
+          "to": "dispute-suite",
+          "effects": [
+            { "affinity": { "who": "zachary", "delta": 1 } },
+            { "affinity": { "who": "grover", "delta": -1 } }
+          ]
+        },
+        {
+          "text": "Prendre le parti de Grover : mieux vaut un plan qu'une charge à l'aveugle.",
+          "to": "dispute-suite",
+          "effects": [
+            { "affinity": { "who": "grover", "delta": 1 } },
+            { "affinity": { "who": "zachary", "delta": -1 } }
+          ]
+        },
+        {
+          "text": "Ne trancher pour personne, juste calmer le jeu avant d'arriver.",
+          "to": "dispute-suite",
+          "effects": [{ "tempo": 1 }]
+        }
+      ]
+    },
+    "dispute-suite": {
+      "text": "Le silence qui suit n'est pas tout à fait le même qu'avant. Les deux gardent les yeux ailleurs, chacun de son côté du fourgon, comme si le carré du tirage n'avait pas suffi à trancher qui commande vraiment.",
       "to": "reactions"
     },
     "reactions": {
@@ -28,13 +78,23 @@
       "choices": [
         {
           "text": "Plaisanter avec Zachary sur le tag.",
-          "conditions": [{ "affinity": "zachary", "atLeast": 2 }],
+          "conditions": [{ "teammate": "zachary" }, { "affinity": "zachary", "atLeast": 2 }],
           "to": "zachary-humour"
         },
         {
           "text": "Chercher le regard de John.",
-          "conditions": [{ "affinity": "john", "atLeast": 2 }],
+          "conditions": [{ "teammate": "john" }, { "affinity": "john", "atLeast": 2 }],
           "to": "john-silence"
+        },
+        {
+          "text": "Suivre le regard de Letitia, fixé sur autre chose que le tag.",
+          "conditions": [{ "teammate": "letitia" }, { "affinity": "letitia", "atLeast": 2 }],
+          "to": "letitia-observation"
+        },
+        {
+          "text": "Laisser Grover tenter de détendre l'équipe.",
+          "conditions": [{ "teammate": "grover" }, { "affinity": "grover", "atLeast": 2 }],
+          "to": "grover-apaise"
         },
         { "text": "Ne rien dire.", "to": "approche" }
       ]
@@ -46,6 +106,16 @@
     },
     "john-silence": {
       "text": "John croise son regard une seconde et hoche la tête — rien de plus, mais ça suffit.",
+      "to": "approche"
+    },
+    "letitia-observation": {
+      "text": "Letitia ne regarde pas le tag. Elle fixe un point plus loin sur la carcasse du bus, là où la tôle a été arrachée puis mal replacée, comme si quelqu'un s'y était caché récemment.",
+      "lines": [{ "who": "letitia", "text": "Quelqu'un est passé par là il n'y a pas longtemps. Regarde la poussière sur la tôle — elle a été déplacée, pas juste posée." }],
+      "to": "approche"
+    },
+    "grover-apaise": {
+      "text": "Grover laisse passer un silence puis se lance, moins pour rassurer que pour occuper l'espace avant que quelqu'un d'autre ne le fasse mal.",
+      "lines": [{ "who": "grover", "text": "On va tous entrer là-dedans ensemble, on en ressortira pareil. Un exercice à la fois, pas la peine d'y penser en entier d'un coup." }],
       "to": "approche"
     },
     "approche": {
