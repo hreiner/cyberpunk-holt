@@ -44,8 +44,13 @@ chacune un **pari** visible :
 | 5 | Grover glisse un papier : il demande de l'aide | l'aider (**Discrétion**) ou refuser | aidé : Grover **+2** ; refusé : Grover −1 ; pris : les deux pénalisés |
 
 - **Vigilance du surveillant** : 0 à 3, visible (portrait du surveillant, œil qui s'ouvre).
-  Chaque tentative, réussie ou non, l'augmente de 1. La DV de Discrétion en dépend :
-  Normale, Difficile, Très difficile, Exceptionnelle.
+  Chaque tentative, réussie ou non, l'augmente de 1 — y compris suivre Zachary (question 2),
+  qui n'a pourtant pas de jet : chuchoter dans une salle d'examen silencieuse reste une
+  tentative. La DV de Discrétion en dépend : Normale, Difficile, Très difficile,
+  Exceptionnelle. Avec seulement trois occasions au chapitre 1 (la troisième, question 5,
+  ne voit jamais plus de deux tentatives précédentes), la vigilance n'y dépasse jamais 2 et
+  la DV n'y atteint jamais Exceptionnelle en pratique — le niveau reste dans la table pour
+  un futur chapitre avec plus d'occasions, le clamp du moteur le couvre déjà.
 - **Pris la main dans le sac** : la question concernée vaut 0 quoi qu'on réponde, le
   surveillant avertit à voix haute, étiquette `pris-a-tricher`.
 - Tricher sans être pris : étiquette `tricheur` (les cadets savent). Les deux sont lues au

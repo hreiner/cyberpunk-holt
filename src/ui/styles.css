@@ -682,6 +682,81 @@ canvas {
   overflow-y: auto;
 }
 
+/* -- Ressources persistantes (Chance, concentration, vigilance -- ADR 0015, lot 3.3). -- */
+/* Sobre, en tete de panneau : jamais plus voyant que le choix ou le jet en cours.       */
+
+.narrative-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.narrative-status:empty {
+  display: none;
+}
+
+.status-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-chip-label {
+  color: var(--bone-dim);
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+}
+
+.status-pips {
+  display: inline-flex;
+  gap: 4px;
+}
+
+/* Pastille ronde : exception explicite au "pas de coins arrondis" (voir
+   UI-DESIGN-SYSTEM.md, section Formes -- "sauf les pastilles rondes du HUD
+   tactique existant"), le meme jeton `--tape` que le reste des jets. */
+.status-pip {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid var(--tape);
+  background: transparent;
+}
+
+.status-pip.is-filled {
+  background: var(--tape);
+}
+
+/* Vigilance : meme forme, teinte d'alerte (--red) plutot que --tape -- ce
+   n'est pas "un jet possible", c'est une menace qui monte. */
+.status-pip--vigilance {
+  border-color: var(--red);
+}
+
+.status-pip--vigilance.is-filled {
+  background: var(--red);
+}
+
+.status-chip--vigilance {
+  gap: 10px;
+}
+
+.status-vigilance-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.status-vigilance-value {
+  color: var(--red);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+}
+
 .narrative-text {
   margin: 0;
   padding-left: 14px;

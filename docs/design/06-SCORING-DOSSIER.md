@@ -58,11 +58,19 @@ au bal, et plus tard au chapitre 2, de réagir sans connaître le détail de cha
 | Tempérament | `cynique`, `distrait`, `reserve`, `direct`, `rebelle`, `bluffeur` | scènes 1, 2, 3 |
 | Doctrine | `legaliste`, `pragmatique`, `idealiste`, `corporatiste` | scène 3 |
 | Savoir | `technicien` | scène 3 |
+| Triche | `tricheur`, `pris-a-tricher` | scène 3 (ADR 0015 §3) |
 | Écrit | `copie-brillante`, `copie-faible` | note écrite (`writtenScore`), scène 3 |
 | Loyauté | `loyal-academie`, `loyal-bande`, `solitaire` | scènes 1, 3, 5 |
 | Tirage | `equipe-bande`, `equipe-tactique` | scène 4 (ADR 0014 §6) |
 | Parcours | `sauveteur`, `curieux`, `renseignement`, `imprudent-salle-3`, `prudent` | scène 7 |
 | Exercice | `vainqueur-exercice`, `defaite-exercice`, `protecteur`, `equipe-decimee`, `offensif`, `rapide`, `lent` | `scoreExercise`, scène 8 |
+
+`tricheur` (triché sans être pris) et `pris-a-tricher` (pris la main dans le sac, la
+question concernée vaut alors zéro) viennent de la triche à l'examen écrit
+([ADR 0015 §3](../process/adr/0015-concentration-chance-et-triche.md)) : trois occasions,
+Zachary qui souffle sa doctrine, la copie de Letitia en vue, Grover qui demande de l'aide.
+Les deux sont lues au bal ([`ch1.bal.json`](../../src/data/dialogues/ch1.bal.json)) ;
+`pris-a-tricher` l'est en plus par le directeur.
 
 Ajouter une étiquette est possible, mais c'est **modifier ce tableau dans le même commit** —
 sinon le bal ne saura pas y réagir.

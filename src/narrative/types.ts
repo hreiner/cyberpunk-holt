@@ -92,10 +92,25 @@ export interface CheckSpec {
   skill: Skill;
   /** Par defaut SKILL_ATTRIBUTE[skill]. */
   attribute?: Attribute;
-  /** "FACILE" | "NORMALE" | ... — jamais un nombre. */
+  /**
+   * "FACILE" | "NORMALE" | ... — jamais un nombre. Sert de repli quand
+   * `dvByCounter` est absent OU que son compteur n'est pas encore pose (voir
+   * `dvByCounter` ci-dessous) : toujours obligatoire, meme avec `dvByCounter`.
+   */
   dv: DifficultyName;
   /** Cadet qui lance le jet (un alias d'equipe resout vers un coequipier). Par defaut le candidat (Franklyn). */
   who?: CharacterId | TeamAlias;
+  /**
+   * DV VARIABLE, pilotee par un compteur de `RunState.flags` (ADR 0015 §3 --
+   * la vigilance du surveillant a l'examen ecrit : chaque tentative de triche
+   * la fait monter, la DV de Discretion suit). DV effective =
+   * `levels[min(valeur du compteur, levels.length - 1)]`, jamais negatif
+   * (compteur absent ou < 0 traite comme 0). `dv` reste le repli tant que le
+   * compteur vaut 0 ou est absent -- les deux doivent donc s'accorder dans les
+   * donnees. Remplace le besoin de dupliquer un noeud de jet par palier de
+   * difficulte : un seul `check`/`insight` couvre tous les niveaux.
+   */
+  dvByCounter?: { counter: string; levels: DifficultyName[] };
 }
 
 /**

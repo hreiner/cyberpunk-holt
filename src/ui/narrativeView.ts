@@ -15,7 +15,25 @@
 import { portraitElement, portraitFor } from '@/ui/portraits';
 import { backdropMarkup, sceneZone, splitTitle } from '@/ui/sceneChrome';
 import { DIFFICULTY_LABELS } from '@/rules/attributes';
+import { INITIAL_LUCK } from '@/narrative';
 import type { PresentedChoice, PresentedNode, PresentedRoll, RadioCue, SpeakerId } from '@/narrative';
+
+/**
+ * Ressources persistantes affichees en permanence pendant un dialogue (ADR
+ * 0015 §1-§3, lot 3.3) -- distinct de `pendingRoll`/`insight`, qui ne vivent
+ * que sur le noeud courant. `concentration`/`vigilance` sont propres a
+ * l'examen ecrit (`ch1.exam`) : absents ailleurs, l'encart correspondant
+ * reste masque. `luck` est affiche sur TOUTE scene de dialogue -- c'est une
+ * ressource de tout le chapitre (ADR 0015 §2).
+ */
+export interface NarrativeHud {
+  /** Chance restante de Franklyn (0-3, `RunState.luck`), affichee tout le chapitre. */
+  luck: number;
+  /** Concentration de l'examen ecrit (ADR 0015 §1) -- absent hors `ch1.exam`. */
+  concentration?: { remaining: number; max: number };
+  /** Vigilance du surveillant (ADR 0015 §3) -- absent hors `ch1.exam`. */
+  vigilance?: { level: number; max: number; dvLabel: string };
+}
 
 export interface NarrativeViewCallbacks {
   onChoose(index: number): void;
@@ -105,6 +123,24 @@ function dvName(dvLabel: string): string {
 }
 
 /**
+ * Rangee de pastilles pleines/vides (jeton `--tape`, docs/art/UI-DESIGN-SYSTEM.md
+ * "Formes" : rond autorise pour ce genre de compteur, a l'image des pastilles
+ * du HUD tactique) -- Chance et concentration partagent ce meme rendu, seul
+ * le nombre change. `modifier` ajoute une classe supplementaire (vigilance :
+ * meme forme, teinte differente).
+ */
+function pipsElement(filled: number, total: number, modifier = ''): HTMLElement {
+  const wrap = document.createElement('span');
+  wrap.className = 'status-pips';
+  for (let i = 0; i < total; i++) {
+    const pip = document.createElement('span');
+    pip.className = `status-pip${modifier} ${i < filled ? 'is-filled' : 'is-empty'}`;
+    wrap.appendChild(pip);
+  }
+  return wrap;
+}
+
+/**
  * Reste de la ligne apres la chaine de des : attribut, competence,
  * modificateurs nommes s'il y en a, puis total contre DV nommee. Format
  * impose par la revue visuelle : "INT 8 · Piratage 6 · total 9 contre DV 13
@@ -127,6 +163,7 @@ export class NarrativeView {
   private readonly heroFrameEl: HTMLElement;
   private readonly heroPortraitsEl: HTMLElement;
   private readonly heroNameEl: HTMLElement;
+  private readonly statusEl: HTMLElement;
   private readonly narrationEl: HTMLElement;
   private readonly linesEl: HTMLElement;
   private readonly offscreenEl: HTMLElement;
@@ -157,6 +194,8 @@ export class NarrativeView {
   private currentNode: PresentedNode | null = null;
   private currentSceneTitle = '';
   private currentSceneId = '';
+  /** Dernier HUD recu (Chance/concentration/vigilance) -- reutilise par le re-rendu interne de `ensureRevealed`. */
+  private currentHud: NarrativeHud = { luck: 0 };
   /** Incremente a chaque `render()` : detecte un rendu externe perime pendant qu'une mise en scene tourne. */
   private renderToken = 0;
   private sceneCardTimer: number | undefined;
@@ -180,6 +219,7 @@ export class NarrativeView {
           <p class="narrative-hero-name"></p>
         </div>
         <div class="narrative-panel panel">
+          <div class="narrative-status" data-testid="status"></div>
           <p class="narrative-text" data-testid="narration" hidden></p>
           <div class="narrative-lines" data-testid="lines"></div>
           <div class="narrative-offscreen" data-testid="offscreen-log" hidden></div>
@@ -199,6 +239,7 @@ export class NarrativeView {
     this.heroFrameEl = this.q('[data-testid="hero"]');
     this.heroPortraitsEl = this.q('.narrative-hero-portraits');
     this.heroNameEl = this.q('.narrative-hero-name');
+    this.statusEl = this.q('[data-testid="status"]');
     this.narrationEl = this.q('[data-testid="narration"]');
     this.linesEl = this.q('[data-testid="lines"]');
     this.offscreenEl = this.q('[data-testid="offscreen-log"]');
@@ -236,12 +277,13 @@ export class NarrativeView {
    *   reste affichee (narration/lignes), seuls le verdict et le choix `best`
    *   restent masques -- voir `renderInsight`.
    */
-  render(node: PresentedNode, sceneTitle: string, sceneId = ''): void {
+  render(node: PresentedNode, sceneTitle: string, sceneId = '', hud: NarrativeHud = { luck: 0 }): void {
     const token = ++this.renderToken;
     const wasAnimating = this.animatingRoll !== null && this.animatingRoll !== this.revealedRoll;
     this.currentNode = node;
     this.currentSceneTitle = sceneTitle;
     if (sceneId) this.currentSceneId = sceneId;
+    this.currentHud = hud;
 
     if (wasAnimating) {
       // L'etat du jeu a change sous une mise en scene non terminee (test qui
@@ -255,6 +297,7 @@ export class NarrativeView {
     if (sceneId) this.root.dataset.zone = sceneZone(sceneId);
     this.renderSceneTag(sceneTitle);
     this.maybeShowSceneCard(sceneTitle, sceneId);
+    this.renderStatus(hud);
 
     const relevantCheck = this.checkJustResolvedThisNode(node);
     if (relevantCheck && this.ensureRevealed(relevantCheck, token, node)) return;
@@ -342,7 +385,7 @@ export class NarrativeView {
         if (token !== this.renderToken) return;
         this.revealedRoll = roll;
         this.animatingRoll = null;
-        this.render(node, this.currentSceneTitle, this.currentSceneId);
+        this.render(node, this.currentSceneTitle, this.currentSceneId, this.currentHud);
       });
     }
     return true;
@@ -358,6 +401,58 @@ export class NarrativeView {
     this.sceneNameEl.innerHTML = room
       ? `<span class="narrative-scene-room">${room}</span> — ${name}`
       : name;
+  }
+
+  /**
+   * Ressources persistantes (ADR 0015, lot 3.3) : Chance sur TOUTE scene de
+   * dialogue (§2 -- "que le joueur voie combien il lui reste, pendant tout le
+   * chapitre") ; concentration et vigilance UNIQUEMENT quand `hud` les porte
+   * (§1/§3 -- `ChapterApp` ne les remplit que pour `ch1.exam`). Rendu en tete
+   * du panneau, sobrement : trois pastilles/notches, jamais un chiffre nu.
+   */
+  private renderStatus(hud: NarrativeHud): void {
+    this.statusEl.innerHTML = '';
+
+    const luckChip = document.createElement('div');
+    luckChip.className = 'status-chip';
+    luckChip.dataset.testid = 'status-luck';
+    const luckLabel = document.createElement('span');
+    luckLabel.className = 'status-chip-label';
+    luckLabel.textContent = 'Chance';
+    luckChip.append(luckLabel, pipsElement(hud.luck, INITIAL_LUCK));
+    this.statusEl.appendChild(luckChip);
+
+    if (hud.concentration) {
+      const concChip = document.createElement('div');
+      concChip.className = 'status-chip';
+      concChip.dataset.testid = 'status-concentration';
+      const concLabel = document.createElement('span');
+      concLabel.className = 'status-chip-label';
+      concLabel.textContent = 'Concentration';
+      concChip.append(concLabel, pipsElement(hud.concentration.remaining, hud.concentration.max));
+      this.statusEl.appendChild(concChip);
+    }
+
+    if (hud.vigilance) {
+      const vigChip = document.createElement('div');
+      vigChip.className = 'status-chip status-chip--vigilance';
+      vigChip.dataset.testid = 'status-vigilance';
+      // Le surveillant n'a pas de portrait dedie (SpeakerId n'en prevoit pas) :
+      // reutilise celui de l'instructeur, qui EST le surveillant dans cette
+      // scene (voir le rapport de la tache pour ce choix).
+      vigChip.appendChild(portraitElement('instructeur', 'thumb'));
+      const text = document.createElement('span');
+      text.className = 'status-vigilance-text';
+      const vigLabel = document.createElement('span');
+      vigLabel.className = 'status-chip-label';
+      vigLabel.textContent = 'Vigilance du surveillant';
+      const vigValue = document.createElement('span');
+      vigValue.className = 'status-vigilance-value';
+      vigValue.textContent = dvName(hud.vigilance.dvLabel);
+      text.append(vigLabel, vigValue);
+      vigChip.append(text, pipsElement(hud.vigilance.level + 1, hud.vigilance.max, ' status-pip--vigilance'));
+      this.statusEl.appendChild(vigChip);
+    }
   }
 
   /** Portrait "hero" : le dernier locuteur du noeud, repli sur `speaker` (fichier) si narration pure. */
@@ -506,7 +601,13 @@ export class NarrativeView {
     }
 
     if (!insight.roll && (insight.status === 'pending' || insight.status === 'available')) {
-      const disabled = insight.optional === true && insight.affordable === false;
+      // Facultatif ET plus de concentration (ADR 0015 §1) : le bouton DISPARAIT,
+      // pas seulement desactive -- il n'y a plus rien a proposer, le joueur
+      // repond directement (jamais verrouille, voir le `return` plus bas).
+      if (insight.optional === true && insight.affordable === false) {
+        this.insightEl.hidden = true;
+        return { locked: false, reveal: null };
+      }
       const label = insight.optional ? `Réfléchir (${insight.cost?.amount ?? 1} concentration)` : 'Lancer le dé';
       const hint = insight.optional
         ? ''
@@ -518,12 +619,12 @@ export class NarrativeView {
           <span class="chip-check__dv">DV ${dvName(insight.dvLabel)}</span>
           <span class="chip-check__pct">${insight.chancePercent}%</span>
         </span>
-        <button type="button" class="btn btn--primary" data-testid="insight-roll" ${disabled ? 'disabled' : ''}>${label}</button>
+        <button type="button" class="btn btn--primary" data-testid="insight-roll">${label}</button>
         ${hint}
       `;
       const btn = this.insightEl.querySelector('[data-testid="insight-roll"]') as HTMLButtonElement;
       btn.addEventListener('click', () => this.callbacks.onRollInsight());
-      if (!disabled && !insight.optional) btn.focus();
+      if (!insight.optional) btn.focus();
       // Facultatif : jamais verrouille, le joueur peut repondre sans lancer le de.
       return { locked: !insight.optional, reveal: null };
     }

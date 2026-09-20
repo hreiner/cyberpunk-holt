@@ -696,3 +696,107 @@ describe('la Chance de Franklyn (ADR 0015 §2)', () => {
     expect(node.choices.find((c) => c.index === 0)?.best).toBe(true);
   });
 });
+
+/* ------------------------------------------------------------------------ */
+/* Lot 3.3 (Epic 3, ADR 0015 §3) : DV variable pilotee par un compteur       */
+/* (vigilance du surveillant a l'examen ecrit).                             */
+/* ------------------------------------------------------------------------ */
+
+const graphAvecDvByCounter: DialogueFile = {
+  id: 'test.dvByCounter',
+  start: 'a',
+  nodes: {
+    a: {
+      text: 'x',
+      insight: {
+        skill: 'discretion',
+        dv: 'NORMALE',
+        dvByCounter: {
+          counter: 'vigilance',
+          levels: ['NORMALE', 'DIFFICILE', 'TRES_DIFFICILE', 'EXCEPTIONNELLE'],
+        },
+      },
+      choices: [
+        {
+          text: '[Discrétion] Tenter.',
+          check: {
+            skill: 'discretion',
+            dv: 'NORMALE',
+            dvByCounter: {
+              counter: 'vigilance',
+              levels: ['NORMALE', 'DIFFICILE', 'TRES_DIFFICILE', 'EXCEPTIONNELLE'],
+            },
+          },
+          onSuccess: 'succes',
+          onFailure: 'echec',
+        },
+      ],
+    },
+    succes: { text: 'ok' },
+    echec: { text: 'ko' },
+  },
+};
+
+function withCounter(counter: string, value: number): NarrativeContext {
+  const base = context();
+  return { ...base, run: { ...base.run, flags: { [counter]: value } } };
+}
+
+describe('dvByCounter : DV variable pilotee par un compteur (ADR 0015 §3)', () => {
+  it('choisit la DV de "levels" au niveau correspondant a la valeur du compteur, pour un check comme pour un insight', () => {
+    const runnerNiveau0 = new DialogueRunner(graphAvecDvByCounter, withCounter('vigilance', 0), createRng('g0'));
+    expect(runnerNiveau0.current().insight?.dvLabel).toBe('NORMALE');
+    expect(runnerNiveau0.current().choices[0]?.check?.dvLabel).toBe('NORMALE');
+
+    const runnerNiveau1 = new DialogueRunner(graphAvecDvByCounter, withCounter('vigilance', 1), createRng('g1'));
+    expect(runnerNiveau1.current().insight?.dvLabel).toBe('DIFFICILE');
+    expect(runnerNiveau1.current().choices[0]?.check?.dvLabel).toBe('DIFFICILE');
+
+    const runnerNiveau2 = new DialogueRunner(graphAvecDvByCounter, withCounter('vigilance', 2), createRng('g2'));
+    expect(runnerNiveau2.current().insight?.dvLabel).toBe('TRES_DIFFICILE');
+
+    const runnerNiveau3 = new DialogueRunner(graphAvecDvByCounter, withCounter('vigilance', 3), createRng('g3'));
+    expect(runnerNiveau3.current().insight?.dvLabel).toBe('EXCEPTIONNELLE');
+  });
+
+  it('retombe sur "levels[levels.length - 1]" (jamais un index hors bornes) au-dela du dernier niveau', () => {
+    const runner = new DialogueRunner(graphAvecDvByCounter, withCounter('vigilance', 99), createRng('g-haut'));
+    expect(runner.current().insight?.dvLabel).toBe('EXCEPTIONNELLE');
+  });
+
+  it('retombe sur "dv" quand le compteur est absent (valeur 0 implicite)', () => {
+    const runner = new DialogueRunner(graphAvecDvByCounter, context(), createRng('g-absent'));
+    expect(runner.current().insight?.dvLabel).toBe('NORMALE');
+  });
+
+  it('retombe sur "dv" quand dvByCounter est absent (comportement inchange, non-regression)', () => {
+    const graph: DialogueFile = {
+      id: 'test.sansDvByCounter',
+      start: 'a',
+      nodes: {
+        a: {
+          text: 'x',
+          choices: [
+            {
+              text: '[Discrétion] Tenter.',
+              check: { skill: 'discretion', dv: 'DIFFICILE' },
+              onSuccess: 'b',
+              onFailure: 'b',
+            },
+          ],
+        },
+        b: { text: 'fin' },
+      },
+    };
+    const runner = new DialogueRunner(graph, withCounter('vigilance', 3), createRng('g-sans'));
+    expect(runner.current().choices[0]?.check?.dvLabel).toBe('DIFFICILE');
+  });
+
+  it('la DV effective est bien celle RESOLUE (chance de reussite differente a niveau 0 et a niveau 3)', () => {
+    const runnerBas = new DialogueRunner(graphAvecDvByCounter, withCounter('vigilance', 0), createRng('g-pct-0'));
+    const runnerHaut = new DialogueRunner(graphAvecDvByCounter, withCounter('vigilance', 3), createRng('g-pct-3'));
+    const pctBas = runnerBas.current().choices[0]?.check?.chancePercent ?? 0;
+    const pctHaut = runnerHaut.current().choices[0]?.check?.chancePercent ?? 0;
+    expect(pctBas).toBeGreaterThan(pctHaut);
+  });
+});

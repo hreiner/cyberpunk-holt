@@ -160,6 +160,99 @@ describe('validateDialogue', () => {
     expect(validateDialogue({})).not.toEqual([]);
   });
 
+  it('detecte un "dvByCounter" mal forme, vide, ou avec une DV inconnue (ADR 0015 §3)', () => {
+    const malForme = {
+      id: 'test.dvByCounter-malforme',
+      start: 'a',
+      nodes: {
+        a: {
+          text: 'x',
+          choices: [
+            {
+              text: 'c',
+              check: { skill: 'discretion', dv: 'NORMALE', dvByCounter: 'pas-un-objet' },
+              onSuccess: 'a',
+              onFailure: 'a',
+            },
+          ],
+        },
+      },
+    };
+    expect(validateDialogue(malForme).some((m) => m.includes('dvByCounter'))).toBe(true);
+
+    const vide = {
+      id: 'test.dvByCounter-vide',
+      start: 'a',
+      nodes: {
+        a: {
+          text: 'x',
+          choices: [
+            {
+              text: 'c',
+              check: { skill: 'discretion', dv: 'NORMALE', dvByCounter: { counter: 'v', levels: [] } },
+              onSuccess: 'a',
+              onFailure: 'a',
+            },
+          ],
+        },
+      },
+    };
+    expect(validateDialogue(vide).some((m) => m.includes('levels'))).toBe(true);
+
+    const dvInconnue = {
+      id: 'test.dvByCounter-dv-inconnue',
+      start: 'a',
+      nodes: {
+        a: {
+          text: 'x',
+          choices: [
+            {
+              text: 'c',
+              check: {
+                skill: 'discretion',
+                dv: 'NORMALE',
+                dvByCounter: { counter: 'v', levels: ['NORMALE', 'IMPOSSIBLE'] },
+              },
+              onSuccess: 'a',
+              onFailure: 'a',
+            },
+          ],
+        },
+      },
+    };
+    expect(validateDialogue(dvInconnue).some((m) => m.includes('dvByCounter.levels'))).toBe(true);
+  });
+
+  it('accepte un "dvByCounter" bien forme, sur un check comme sur un insight', () => {
+    const file = {
+      id: 'test.dvByCounter-ok',
+      start: 'a',
+      nodes: {
+        a: {
+          text: 'x',
+          insight: {
+            skill: 'discretion',
+            dv: 'NORMALE',
+            dvByCounter: { counter: 'v', levels: ['NORMALE', 'DIFFICILE'] },
+          },
+          choices: [
+            {
+              text: 'c',
+              check: {
+                skill: 'discretion',
+                dv: 'NORMALE',
+                dvByCounter: { counter: 'v', levels: ['NORMALE', 'DIFFICILE'] },
+              },
+              onSuccess: 'a',
+              onFailure: 'a',
+            },
+          ],
+        },
+      },
+    };
+    expect(validateDialogue(file)).toEqual([]);
+  });
+
   it('valide tous les fichiers de src/data/dialogues sans aucune anomalie', () => {
     const files = readdirSync(DIALOGUES_DIR).filter((f) => f.endsWith('.json'));
     expect(files.length).toBeGreaterThan(0);

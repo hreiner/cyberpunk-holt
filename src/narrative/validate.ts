@@ -252,6 +252,31 @@ function validateCheckSpec(label: string, spec: Record<string, unknown>, errors:
   if (spec.who !== undefined && !isCharacterId(spec.who) && !isTeamAlias(spec.who)) {
     errors.push(`${label} : personnage inconnu "${String(spec.who)}" pour le jet.`);
   }
+
+  // DV variable pilotee par un compteur (ADR 0015 §3, la vigilance du
+  // surveillant a l'examen ecrit) : partagee par `check` et `insight`
+  // (CheckSpec, InsightSpec l'etend) via ce meme validateur.
+  if (spec.dvByCounter !== undefined) {
+    validateDvByCounter(label, spec.dvByCounter, errors);
+  }
+}
+
+function validateDvByCounter(label: string, dvByCounter: unknown, errors: string[]): void {
+  if (!isRecord(dvByCounter) || typeof dvByCounter.counter !== 'string' || !Array.isArray(dvByCounter.levels)) {
+    errors.push(`${label} : "dvByCounter" invalide (attend { counter: string, levels: DifficultyName[] }).`);
+    return;
+  }
+  if (dvByCounter.levels.length === 0) {
+    errors.push(`${label} : "dvByCounter.levels" ne doit pas etre vide.`);
+    return;
+  }
+  for (const level of dvByCounter.levels) {
+    if (typeof level === 'number') {
+      errors.push(`${label} : "dvByCounter.levels" contient une DV ecrite en nombre, elle doit etre nommee.`);
+    } else if (typeof level !== 'string' || !KNOWN_DV.includes(level)) {
+      errors.push(`${label} : "dvByCounter.levels" contient une DV inconnue "${String(level)}".`);
+    }
+  }
 }
 
 function validateEffect(prefix: string, effect: unknown, errors: string[]): void {

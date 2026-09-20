@@ -11,6 +11,7 @@
           "text": "Vous avez quarante minutes. Répondez avec ce que vous savez, pas ce que vous croyez qu'on veut entendre."
         }
       ],
+      "effects": [{ "counter": "ch1.exam.concentration", "delta": 3 }],
       "to": "question1"
     },
     "question1": {
@@ -24,6 +25,8 @@
       "insight": {
         "skill": "education",
         "dv": "TRES_DIFFICILE",
+        "optional": true,
+        "cost": { "counter": "ch1.exam.concentration", "amount": 1 },
         "successText": "La réponse s'impose, nette.",
         "failureText": "Trou noir. Il faudra répondre à l'instinct.",
         "successEffects": [{ "tag": "technicien" }],
@@ -77,16 +80,19 @@
       ]
     },
     "question2": {
-      "text": "Deuxième question, sur une fiche à part : un cas pratique.",
+      "text": "Deuxième question, sur une fiche à part : un cas pratique. Zachary, deux pupitres plus loin, se penche à peine vers Franklyn.",
       "lines": [
         {
           "who": "instructeur",
           "text": "Question deux : sur le terrain, votre enregistreur corporel refuse de démarrer au moment d'une interpellation. Que faites-vous ?"
-        }
+        },
+        { "who": "zachary", "text": "(chuchoté) Continue sans, on réglera ça après. Fais-moi confiance." }
       ],
       "insight": {
         "skill": "electronique",
         "dv": "TRES_DIFFICILE",
+        "optional": true,
+        "cost": { "counter": "ch1.exam.concentration", "amount": 1 },
         "successText": "Le circuit s'éclaire dans sa tête : la panne est évidente.",
         "failureText": "Le schéma reste flou. Il faudra deviner.",
         "successEffects": [{ "tag": "technicien" }]
@@ -135,6 +141,23 @@
               }
             }
           ]
+        },
+        {
+          "text": "Suivre le conseil chuchoté par Zachary.",
+          "to": "question3",
+          "effects": [
+            { "tag": "tricheur" },
+            { "tag": "pragmatique" },
+            { "affinity": { "who": "zachary", "delta": 1 } },
+            { "counter": "ch1.exam.vigilance", "delta": 1 },
+            {
+              "entry": {
+                "key": "ch1.exam.question2",
+                "label": "Examen — question 2 : enregistreur en panne",
+                "value": "Suit en douce le conseil de Zachary : continuer sans, régler ça après."
+              }
+            }
+          ]
         }
       ]
     },
@@ -149,6 +172,8 @@
       "insight": {
         "skill": "education",
         "dv": "TRES_DIFFICILE",
+        "optional": true,
+        "cost": { "counter": "ch1.exam.concentration", "amount": 1 },
         "successText": "L'article lui revient mot pour mot.",
         "failureText": "Le texte de loi se dérobe, imprécis.",
         "successEffects": [{ "tag": "technicien" }]
@@ -201,16 +226,49 @@
       ]
     },
     "question4": {
-      "text": "Quatrième question, tirée d'un cas réel de la ville.",
+      "text": "Quatrième question, tirée d'un cas réel de la ville. La copie de Letitia, sur le pupitre voisin, est légèrement inclinée vers Franklyn — juste assez pour être lisible d'ici.",
       "lines": [
         {
           "who": "instructeur",
           "text": "Question quatre : une corporation revendique une scène de crime avant vous et y poste sa propre sécurité. Vous faites quoi ?"
         }
       ],
+      "choices": [
+        {
+          "text": "[Discrétion] Regarder la copie de Letitia.",
+          "check": {
+            "skill": "discretion",
+            "dv": "NORMALE",
+            "dvByCounter": {
+              "counter": "ch1.exam.vigilance",
+              "levels": ["NORMALE", "DIFFICILE", "TRES_DIFFICILE", "EXCEPTIONNELLE"]
+            }
+          },
+          "onSuccess": "question4-informe",
+          "onFailure": "question4-pris",
+          "effects": [{ "counter": "ch1.exam.vigilance", "delta": 1 }]
+        },
+        { "text": "Répondre sans regarder ailleurs.", "to": "question4-reponses" }
+      ]
+    },
+    "question4-informe": {
+      "text": "Un coup d'œil discret suffit : sur la copie de Letitia, la réponse est nette — sécuriser le périmètre à distance et négocier l'accès.",
+      "effects": [{ "tag": "tricheur" }],
+      "to": "question4-reponses"
+    },
+    "question4-pris": {
+      "text": "Le surveillant a suivi le regard de Franklyn. Il se lève, traverse la salle, et pose la main sur la copie sans un mot.",
+      "lines": [{ "who": "instructeur", "text": "Copie marquée. On en reparlera après l'examen." }],
+      "effects": [{ "tag": "pris-a-tricher" }, { "affinity": { "who": "letitia", "delta": -1 } }],
+      "to": "question4-reponses-pris"
+    },
+    "question4-reponses": {
+      "text": "Reste à répondre, noir sur blanc.",
       "insight": {
         "skill": "piratage",
         "dv": "EXCEPTIONNELLE",
+        "optional": true,
+        "cost": { "counter": "ch1.exam.concentration", "amount": 1 },
         "successText": "La faille dans le mandat saute aux yeux.",
         "failureText": "Le document semble en règle — ou pas. Impossible à dire.",
         "successEffects": [{ "tag": "rebelle" }],
@@ -263,17 +321,103 @@
         }
       ]
     },
+    "question4-reponses-pris": {
+      "text": "Franklyn répond quand même, sous le regard du surveillant — mais cette copie-là ne comptera pas.",
+      "choices": [
+        {
+          "text": "On les laisse faire. Ils ont plus de droits que nous là-dessus.",
+          "to": "question5",
+          "effects": [
+            { "tag": "cynique" },
+            {
+              "entry": {
+                "key": "ch1.exam.question4",
+                "label": "Examen — question 4 : scène de crime corpo",
+                "value": "Cède la scène, les corporations ont la priorité légale (copie marquée)."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On sécurise le périmètre à distance et on négocie l'accès.",
+          "to": "question5",
+          "effects": [
+            { "tag": "pragmatique" },
+            {
+              "entry": {
+                "key": "ch1.exam.question4",
+                "label": "Examen — question 4 : scène de crime corpo",
+                "value": "Sécurise le périmètre, négocie l'accès (copie marquée)."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On refuse de céder : la loi passe avant le logo.",
+          "to": "question5",
+          "effects": [
+            { "tag": "idealiste" },
+            {
+              "entry": {
+                "key": "ch1.exam.question4",
+                "label": "Examen — question 4 : scène de crime corpo",
+                "value": "Refuse de céder la scène à la corporation (copie marquée)."
+              }
+            }
+          ]
+        }
+      ]
+    },
     "question5": {
-      "text": "Cinquième question, plus courte.",
+      "text": "Cinquième question, plus courte. Grover, sur la gauche de Franklyn, fait glisser un bout de papier plié au bord de son pupitre.",
       "lines": [
         {
           "who": "instructeur",
           "text": "Question cinq : en patrouille dans les Badlands, un convoi civil s'arrête sans raison apparente devant vous. Premier réflexe ?"
-        }
+        },
+        { "who": "grover", "text": "(chuchoté) Un coup de main ? S'il te plaît." }
       ],
+      "choices": [
+        {
+          "text": "[Discrétion] Glisser une réponse à Grover.",
+          "check": {
+            "skill": "discretion",
+            "dv": "NORMALE",
+            "dvByCounter": {
+              "counter": "ch1.exam.vigilance",
+              "levels": ["NORMALE", "DIFFICILE", "TRES_DIFFICILE", "EXCEPTIONNELLE"]
+            }
+          },
+          "onSuccess": "question5-aide-reussie",
+          "onFailure": "question5-pris",
+          "successEffects": [{ "affinity": { "who": "grover", "delta": 2 } }],
+          "effects": [{ "counter": "ch1.exam.vigilance", "delta": 1 }]
+        },
+        {
+          "text": "Refuser, trop risqué.",
+          "to": "question5-reponses",
+          "effects": [{ "affinity": { "who": "grover", "delta": -1 } }]
+        }
+      ]
+    },
+    "question5-aide-reussie": {
+      "text": "D'un geste rapide, Franklyn pousse un mot griffonné vers Grover, qui l'attrape sans un regard et hoche à peine la tête.",
+      "effects": [{ "tag": "tricheur" }],
+      "to": "question5-reponses"
+    },
+    "question5-pris": {
+      "text": "Le surveillant a repéré le mouvement. Il confisque le papier et note les deux noms sur son carnet.",
+      "lines": [{ "who": "instructeur", "text": "Vous deux, au tableau des sanctions. Continuez, en attendant." }],
+      "effects": [{ "tag": "pris-a-tricher" }, { "affinity": { "who": "grover", "delta": -1 } }],
+      "to": "question5-reponses-pris"
+    },
+    "question5-reponses": {
+      "text": "Reste à répondre.",
       "insight": {
         "skill": "perception",
         "dv": "TRES_DIFFICILE",
+        "optional": true,
+        "cost": { "counter": "ch1.exam.concentration", "amount": 1 },
         "successText": "Un détail accroche son regard, net et précis.",
         "failureText": "Rien ne cloche en apparence. Ou alors elle lui échappe.",
         "successEffects": [{ "tag": "direct" }],
@@ -326,6 +470,53 @@
         }
       ]
     },
+    "question5-reponses-pris": {
+      "text": "Franklyn répond quand même, sous l'œil du surveillant — mais cette copie-là ne comptera pas.",
+      "choices": [
+        {
+          "text": "Par le livre : on demande les papiers du convoi.",
+          "to": "question6",
+          "effects": [
+            { "tag": "legaliste" },
+            {
+              "entry": {
+                "key": "ch1.exam.question5",
+                "label": "Examen — question 5 : convoi arrêté dans les Badlands",
+                "value": "Demande les papiers, procédure standard (copie marquée)."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On se méfie d'abord, on parle ensuite.",
+          "to": "question6",
+          "effects": [
+            { "tag": "prudent" },
+            {
+              "entry": {
+                "key": "ch1.exam.question5",
+                "label": "Examen — question 5 : convoi arrêté dans les Badlands",
+                "value": "Reste à distance et observe avant d'approcher (copie marquée)."
+              }
+            }
+          ]
+        },
+        {
+          "text": "On continue sa route, ce n'est pas notre secteur.",
+          "to": "question6",
+          "effects": [
+            { "tag": "pragmatique" },
+            {
+              "entry": {
+                "key": "ch1.exam.question5",
+                "label": "Examen — question 5 : convoi arrêté dans les Badlands",
+                "value": "Ignore le convoi, hors de sa juridiction (copie marquée)."
+              }
+            }
+          ]
+        }
+      ]
+    },
     "question6": {
       "text": "Sixième et dernière question.",
       "lines": [
@@ -337,6 +528,8 @@
       "insight": {
         "skill": "tactique",
         "dv": "TRES_DIFFICILE",
+        "optional": true,
+        "cost": { "counter": "ch1.exam.concentration", "amount": 1 },
         "successText": "La situation se lit clairement, malgré la tension.",
         "failureText": "Le chaos brouille tout jugement.",
         "successEffects": [{ "tag": "technicien" }],
@@ -391,7 +584,10 @@
     },
     "fin": {
       "text": "Franklyn repose son stylet. Six questions, aucune certitude d'avoir bien répondu — mais la copie est complète.",
-      "effects": [{ "writtenScore": { "counterKey": "ch1.exam.bonnes-reponses", "total": 6 } }]
+      "effects": [
+        { "writtenScore": { "counterKey": "ch1.exam.bonnes-reponses", "total": 6 } },
+        { "flag": "ch1.exam.concentration", "value": 0 }
+      ]
     }
   }
 }

@@ -118,6 +118,11 @@ interface CheckSpec {
   dv: DifficultyName;              // "FACILE" | "NORMALE" | ... — jamais un nombre
   /** Cadet qui lance le jet (un alias d'équipe résout vers un coéquipier). Par défaut le candidat (Franklyn). */
   who?: CharacterId | TeamAlias;
+  /**
+   * DV VARIABLE, pilotée par un compteur de `RunState.flags` (ADR 0015 §3 —
+   * la vigilance du surveillant à l'examen écrit). Voir "DV variable" plus bas.
+   */
+  dvByCounter?: { counter: string; levels: DifficultyName[] };
 }
 
 /**
@@ -309,6 +314,39 @@ est une ressource du candidat, pas de l'équipe. `pendingRoll.roll` porte la cha
 complète (`dieFaces`) : le dé 3D la rejoue avant que l'interface n'affiche l'invite
 « Il manque N — dépenser N Chance ? ».
 
+### DV variable, pilotée par un compteur (ADR 0015 §3)
+
+`CheckSpec.dvByCounter` remplace une DV fixe par une DV qui monte avec un compteur de
+`RunState.flags` — la vigilance du surveillant à l'examen écrit (0 à 3, augmentée de 1 à
+chaque tentative de triche, réussie ou non) en est le seul usage aujourd'hui : la
+Discrétion pour regarder la copie d'un voisin ou glisser une réponse devient plus dure à
+mesure que le surveillant se méfie.
+
+```jsonc
+{
+  "skill": "discretion",
+  "dv": "NORMALE",                 // repli tant que le compteur vaut 0 ou est absent
+  "dvByCounter": {
+    "counter": "ch1.exam.vigilance",
+    "levels": ["NORMALE", "DIFFICILE", "TRES_DIFFICILE", "EXCEPTIONNELLE"]
+  }
+}
+```
+
+DV effective = `levels[min(valeur du compteur, levels.length - 1)]`, jamais un index
+négatif (compteur absent ou négatif traité comme 0). `dv` reste **obligatoire** : c'est le
+repli au niveau 0, donc `dv` et `levels[0]` doivent porter la même valeur dans les
+données. Le moteur (`DialogueRunner`, fonction interne `effectiveDvName`) calcule cette DV
+au même endroit pour RÉSOUDRE le jet et pour l'AFFICHER (puce de compétence,
+`PresentedCheck.dvLabel`/`PresentedInsight.dvLabel`) : jamais de divergence entre ce que le
+joueur voit avant de lancer et ce qui est réellement testé.
+
+**Pourquoi un compteur plutôt que quatre nœuds presque identiques** : sans ce champ, il
+aurait fallu un nœud de jet par palier de vigilance (Normale/Difficile/Très difficile/
+Exceptionnelle), soit quatre copies de la même question à maintenir en parallèle. Un seul
+`check`/`insight` avec `dvByCounter` couvre tous les paliers ; c'est le contenu (le
+compteur qui monte) qui varie, pas le graphe.
+
 ## La radio
 
 Les répliques de l'instructeur ne sont **pas** des nœuds. Elles vivent dans `src/data/radio.ts` :
@@ -344,6 +382,8 @@ sur **tous** les fichiers de `src/data/dialogues/` et doit trouver zéro anomali
 - un `best` dans un nœud sans `insight` ;
 - `insight.optional` présent et différent de `true` ;
 - `insight.cost` mal formé, ou présent sans `insight.optional: true` (lot 3.1, ADR 0015 §1) ;
+- `dvByCounter` mal formé, `dvByCounter.levels` vide, ou contenant une DV inconnue ou
+  écrite en nombre (lot 3.3, ADR 0015 §3) ;
 - un `entries` qui référence un nœud inexistant (lot 3.1) ;
 - un gabarit `{...}` inconnu dans un texte (narration, réplique, choix, `successText`/
   `failureText`) — seuls `{equipier1}`, `{equipier2}`, `{rivale}` et `{franklyn}` sont

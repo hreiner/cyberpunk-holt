@@ -14,7 +14,7 @@ import { addEntry } from '@/core/dossier';
 import type { CheckResult } from '@/rules/dice';
 import { check } from '@/rules/dice';
 import { ATTRIBUTES, DV, SKILL_ATTRIBUTE, SKILL_LABELS } from '@/rules/attributes';
-import type { Attribute } from '@/rules/attributes';
+import type { Attribute, DifficultyName } from '@/rules/attributes';
 import type { CharacterId, CharacterSheet } from '@/rules/character';
 import { getCharacter } from '@/rules/character';
 import type { CheckSpec, DialogueChoice, DialogueFile, DialogueNode, InsightSpec, SpeakerId } from './types';
@@ -213,6 +213,24 @@ function resolveCheckSpec(spec: ResolvableCheckSpec): ResolvedCheck | null {
     dv,
     skillLabel,
   };
+}
+
+/**
+ * DV effective d'un jet (ADR 0015 §3) : `spec.dvByCounter` l'emporte sur
+ * `spec.dv` des que son compteur existe dans `RunState.flags` --
+ * `levels[min(valeur, levels.length - 1)]`, jamais un index negatif (valeur
+ * absente ou negative traitee comme 0). Repli sur `spec.dv` si `dvByCounter`
+ * est absent, si `levels` est vide, ou sur toute donnee invalide (jamais de
+ * crash, meme esprit que le reste du moteur). Fonction pure : ni Rng ni effet
+ * de bord, appelable a la fois pour RESOUDRE un jet et pour l'AFFICHER
+ * (`presentCheck`/`presentInsight`) sans jamais diverger entre les deux.
+ */
+function effectiveDvName(spec: CheckSpec, run: RunState): DifficultyName {
+  if (!spec.dvByCounter || spec.dvByCounter.levels.length === 0) return spec.dv;
+  const raw = run.flags[spec.dvByCounter.counter];
+  const value = typeof raw === 'number' ? Math.max(0, raw) : 0;
+  const idx = Math.min(value, spec.dvByCounter.levels.length - 1);
+  return spec.dvByCounter.levels[idx] ?? spec.dv;
 }
 
 /** `getCharacter` leve sur un identifiant inconnu : on l'attrape, jamais de crash sur donnee JSON invalide. */
@@ -450,7 +468,7 @@ export class DialogueRunner {
       skill: resolved.skillValue,
       dv: resolved.dv,
     });
-    const presented = buildPresentedRoll(resolved, spec.dv, result);
+    const presented = buildPresentedRoll(resolved, effectiveDvName(spec, this.ctx.run), result);
     this.lastRoll = formatRollSummary(resolved.skillLabel, result.total, result.dv, result.success);
     this.lastCheck = presented;
 
@@ -506,7 +524,7 @@ export class DialogueRunner {
       skill: resolved.skillValue,
       dv: resolved.dv,
     });
-    const presented = buildPresentedRoll(resolved, spec.dv, result);
+    const presented = buildPresentedRoll(resolved, effectiveDvName(spec, this.ctx.run), result);
     this.insightRoll = presented;
 
     if (this.maybeEnterAwaitingLuck(resolved, presented, result, { kind: 'insight', spec })) {
@@ -713,7 +731,7 @@ export class DialogueRunner {
     const status = this.insightStatus ?? (node.insight.optional ? 'available' : 'pending');
     const presented: PresentedInsight = {
       skillLabel: resolved.skillLabel,
-      dvLabel: node.insight.dv,
+      dvLabel: effectiveDvName(node.insight, this.ctx.run),
       chancePercent: successChance({
         label: resolved.skillLabel,
         attribute: resolved.attributeValue,
@@ -745,7 +763,7 @@ export class DialogueRunner {
     if (!resolved) return undefined;
     return {
       skillLabel: resolved.skillLabel,
-      dvLabel: choice.check.dv,
+      dvLabel: effectiveDvName(choice.check, this.ctx.run),
       chancePercent: successChance({
         label: resolved.skillLabel,
         attribute: resolved.attributeValue,
@@ -755,9 +773,15 @@ export class DialogueRunner {
     };
   }
 
-  /** Resout l'alias eventuel de `spec.who` (ADR 0014 §7) avant de deleguer a `resolveCheckSpec` -- seul point d'entree du moteur vers cette resolution. */
+  /**
+   * Resout l'alias eventuel de `spec.who` (ADR 0014 §7) ET la DV effective
+   * (`dvByCounter`, ADR 0015 §3) avant de deleguer a `resolveCheckSpec` --
+   * seul point d'entree du moteur vers cette resolution, partage par la
+   * resolution d'un jet ET son affichage (`presentCheck`/`presentInsight`).
+   */
   private resolveCheckSpecAliased(spec: CheckSpec): ResolvedCheck | null {
     const who = resolveWhoAlias(spec.who, this.ctx.run);
-    return resolveCheckSpec({ skill: spec.skill, attribute: spec.attribute, dv: spec.dv, who });
+    const dv = effectiveDvName(spec, this.ctx.run);
+    return resolveCheckSpec({ skill: spec.skill, attribute: spec.attribute, dv, who });
   }
 }

@@ -600,16 +600,39 @@
       "choices": [
         {
           "text": "Continuer.",
-          "conditions": [{ "tag": "copie-brillante" }],
+          "conditions": [{ "tag": "pris-a-tricher" }],
+          "to": "echo-pris-a-tricher"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "copie-brillante" }, { "not": { "tag": "pris-a-tricher" } }],
           "to": "echo-copie-brillante"
         },
         {
           "text": "Continuer.",
-          "conditions": [{ "tag": "copie-faible" }],
+          "conditions": [{ "tag": "copie-faible" }, { "not": { "tag": "pris-a-tricher" } }],
           "to": "echo-copie-faible"
         },
-        { "text": "Continuer.", "to": "echo-comportement" }
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "tag": "pris-a-tricher" } },
+            { "not": { "tag": "copie-brillante" } },
+            { "not": { "tag": "copie-faible" } }
+          ],
+          "to": "echo-comportement"
+        }
       ]
+    },
+    "echo-pris-a-tricher": {
+      "text": "Le directeur s'arrête net sur une ligne de la copie, la mâchoire un peu plus serrée que pour les autres dossiers.",
+      "lines": [
+        {
+          "who": "directeur",
+          "text": "Le surveillant vous a vu, Franklyn. Une question à zéro, une remarque au dossier — ce genre de chose laisse une trace, ici."
+        }
+      ],
+      "to": "echo-comportement"
     },
     "echo-copie-brillante": {
       "text": "Le directeur s'attarde une seconde de trop sur le nom de Franklyn, feuilletant la copie d'examen.",
@@ -634,16 +657,26 @@
     "echo-comportement": {
       "text": "La soirée continue, et d'autres souvenirs de la journée refont surface, un par un.",
       "choices": [
-        { "text": "Continuer.", "conditions": [{ "tag": "loyal-academie" }], "to": "echo-loyal" },
+        { "text": "Continuer.", "conditions": [{ "tag": "tricheur" }], "to": "echo-tricheur" },
         {
           "text": "Continuer.",
-          "conditions": [{ "tag": "prudent" }, { "not": { "tag": "loyal-academie" } }],
+          "conditions": [{ "tag": "loyal-academie" }, { "not": { "tag": "tricheur" } }],
+          "to": "echo-loyal"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "tag": "prudent" },
+            { "not": { "tag": "tricheur" } },
+            { "not": { "tag": "loyal-academie" } }
+          ],
           "to": "echo-prudent"
         },
         {
           "text": "Continuer.",
           "conditions": [
             { "tag": "distrait" },
+            { "not": { "tag": "tricheur" } },
             { "not": { "tag": "loyal-academie" } },
             { "not": { "tag": "prudent" } }
           ],
@@ -653,14 +686,29 @@
           "text": "Continuer.",
           "conditions": [
             { "tag": "direct" },
+            { "not": { "tag": "tricheur" } },
             { "not": { "tag": "loyal-academie" } },
             { "not": { "tag": "prudent" } },
             { "not": { "tag": "distrait" } }
           ],
           "to": "echo-direct"
         },
-        { "text": "Continuer.", "to": "echo-equipe" }
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "tag": "tricheur" } },
+            { "not": { "tag": "loyal-academie" } },
+            { "not": { "tag": "prudent" } },
+            { "not": { "tag": "distrait" } },
+            { "not": { "tag": "direct" } }
+          ],
+          "to": "echo-equipe"
+        }
       ]
+    },
+    "echo-tricheur": {
+      "text": "Une rumeur discrète a couru pendant l'examen : Franklyn a triché sans se faire prendre. Ceux qui l'ont vu n'en parlent pas devant les instructeurs, mais le regard qu'ils lui lancent en dit assez long.",
+      "to": "echo-equipe"
     },
     "echo-loyal": {
       "text": "Un instructeur glisse au directeur que Franklyn est de ceux qui n'ont jamais levé les yeux du discours du matin, ni contesté un mot de ce qu'on enseigne à HOLT. Le directeur hoche la tête, presque satisfait.",

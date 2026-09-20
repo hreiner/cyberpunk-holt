@@ -61,6 +61,7 @@ import type { HoverTarget } from '@/render/exploreView';
 import { GameApp } from './app';
 import type { TacticalOutcome } from './app';
 import { NarrativeView } from './ui/narrativeView';
+import type { NarrativeHud } from './ui/narrativeView';
 import { ObjectiveHud } from './ui/objectiveHud';
 import { BriefLineView } from './ui/briefLine';
 import { ReportView } from './ui/reportView';
@@ -75,6 +76,21 @@ import { DraftView } from './ui/draftView';
  * plusieurs fois ne coute rien et redonne toujours le meme resultat.
  */
 const OFFSCREEN_ROOM_SCENES = new Set(['ch1.salle1', 'ch1.salle2', 'ch1.salle3']);
+
+/**
+ * Ressources de l'examen ecrit affichees en permanence pendant la scene
+ * (ADR 0015 §1/§3, lot 3.3) -- `EXAM_SCENE_ID` est le seul id ou l'encart de
+ * concentration/vigilance apparait (voir `buildHud`). Les cles de compteur et
+ * la liste des DV DOIVENT rester synchronisees avec `src/data/dialogues/ch1.exam.json`
+ * (`insight.cost.counter`, `check.dvByCounter`) : ce ne sont que des valeurs
+ * d'AFFICHAGE, le moteur narratif lit les siennes depuis les donnees.
+ */
+const EXAM_SCENE_ID = 'ch1.exam';
+const EXAM_CONCENTRATION_COUNTER = 'ch1.exam.concentration';
+const EXAM_CONCENTRATION_MAX = 3;
+const EXAM_VIGILANCE_COUNTER = 'ch1.exam.vigilance';
+/** Doit correspondre exactement a `dvByCounter.levels` de ch1.exam.json (ADR 0015 §3). */
+const EXAM_VIGILANCE_LEVELS = ['NORMALE', 'DIFFICILE', 'TRES_DIFFICILE', 'EXCEPTIONNELLE'] as const;
 
 /**
  * Le tirage (scene 4, ADR 0014) : la narration de `ch1.tirage.json` n'est
@@ -709,9 +725,37 @@ export class ChapterApp {
     const runner = this.activeDialogue;
     if (!runner) return;
     const node = runner.current();
-    this.view.render(node, this.currentSceneDef?.title ?? '', this.currentSceneDef?.id ?? '');
+    const sceneId = this.currentSceneDef?.id ?? '';
+    this.view.render(node, this.currentSceneDef?.title ?? '', sceneId, this.buildHud(runner.context.run, sceneId));
     this.checkRadio(runner.context);
     this.checkOffscreenReward(runner.context);
+  }
+
+  /**
+   * Ressources persistantes affichees par `NarrativeView` (ADR 0015, lot
+   * 3.3) : la Chance sur toute scene de dialogue, la concentration et la
+   * vigilance uniquement pendant l'examen ecrit (`EXAM_SCENE_ID`). Lecture
+   * seule de `run.flags` -- ne modifie jamais le RunState.
+   */
+  private buildHud(run: RunState, sceneId: string): NarrativeHud {
+    const hud: NarrativeHud = { luck: run.luck };
+    if (sceneId !== EXAM_SCENE_ID) return hud;
+
+    const concentration = run.flags[EXAM_CONCENTRATION_COUNTER];
+    hud.concentration = {
+      remaining: typeof concentration === 'number' ? concentration : EXAM_CONCENTRATION_MAX,
+      max: EXAM_CONCENTRATION_MAX,
+    };
+
+    const rawVigilance = run.flags[EXAM_VIGILANCE_COUNTER];
+    const vigilance = typeof rawVigilance === 'number' ? Math.max(0, rawVigilance) : 0;
+    const levelIdx = Math.min(vigilance, EXAM_VIGILANCE_LEVELS.length - 1);
+    hud.vigilance = {
+      level: levelIdx,
+      max: EXAM_VIGILANCE_LEVELS.length,
+      dvLabel: EXAM_VIGILANCE_LEVELS[levelIdx] ?? EXAM_VIGILANCE_LEVELS[0],
+    };
+    return hud;
   }
 
   private completeDialogueScene(finalCtx: NarrativeContext): void {
@@ -1165,7 +1209,8 @@ export class ChapterApp {
     const entry = this.activeExploreConversation;
     if (!entry) return;
     const node = entry.runner.current();
-    this.view.render(node, this.currentSceneDef?.title ?? '', this.currentSceneDef?.id ?? '');
+    const sceneId = this.currentSceneDef?.id ?? '';
+    this.view.render(node, this.currentSceneDef?.title ?? '', sceneId, this.buildHud(entry.runner.context.run, sceneId));
     this.checkRadio(entry.runner.context);
   }
 
