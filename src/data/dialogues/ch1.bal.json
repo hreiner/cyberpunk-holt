@@ -659,12 +659,12 @@
           ],
           "to": "echo-direct"
         },
-        { "text": "Continuer.", "to": "echo-menus" }
+        { "text": "Continuer.", "to": "echo-equipe" }
       ]
     },
     "echo-loyal": {
       "text": "Un instructeur glisse au directeur que Franklyn est de ceux qui n'ont jamais levé les yeux du discours du matin, ni contesté un mot de ce qu'on enseigne à HOLT. Le directeur hoche la tête, presque satisfait.",
-      "to": "echo-menus"
+      "to": "echo-equipe"
     },
     "echo-prudent": {
       "text": "Un instructeur feuillette encore la fiche de Franklyn, s'arrêtant sur les mêmes lignes deux fois.",
@@ -674,7 +674,7 @@
           "text": "Vous avez toujours choisi la prudence : sortir vite de la salle enfumée, observer avant d'agir sur la route. Ça ne fait pas les gros titres, mais ça garde les cadets en vie."
         }
       ],
-      "to": "echo-menus"
+      "to": "echo-equipe"
     },
     "echo-distrait": {
       "text": "Zacharie passe un bras autour des épaules de Franklyn, hilare.",
@@ -684,7 +684,7 @@
           "text": "Toi, pendant le discours du directeur, t'avais déjà la tête dans le désert par la fenêtre. Je t'ai vu !"
         }
       ],
-      "to": "echo-menus"
+      "to": "echo-equipe"
     },
     "echo-direct": {
       "text": "John s'approche, les bras croisés, et lâche sa remarque comme on referme un dossier.",
@@ -692,6 +692,42 @@
         {
           "who": "john",
           "text": "T'as pas hésité à l'écrit non plus, on dirait. Tant mieux. Réfléchir trop longtemps, ça tue plus vite qu'autre chose."
+        }
+      ],
+      "to": "echo-equipe"
+    },
+    "echo-equipe": {
+      "text": "Le souvenir du tirage de l'après-midi remonte, net : Franklyn revoit les deux noms qu'il avait appelés devant tout le carré.",
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "equipe-bande" }],
+          "to": "echo-equipe-bande"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "equipe-tactique" }],
+          "to": "echo-equipe-tactique"
+        },
+        { "text": "Continuer.", "to": "echo-menus" }
+      ]
+    },
+    "echo-equipe-bande": {
+      "text": "Il avait pris {equipier1} et {equipier2} sans vraiment hésiter — les deux qu'il aurait appelés n'importe quel autre jour, tirage ou pas.",
+      "lines": [
+        {
+          "who": "equipier1",
+          "text": "T'avais pas vraiment le choix, hein. C'était nous, de toute façon."
+        }
+      ],
+      "to": "echo-menus"
+    },
+    "echo-equipe-tactique": {
+      "text": "Il avait pris {equipier1} et {equipier2} pour ce qu'ils apportaient sur le terrain, pas pour l'amitié — un choix de capitaine, pas de copain.",
+      "lines": [
+        {
+          "who": "equipier2",
+          "text": "Un choix froid. Pas un mauvais choix, remarque : on a fait le boulot."
         }
       ],
       "to": "echo-menus"

@@ -196,6 +196,19 @@ body {
   color: var(--ko);
 }
 
+/**
+ * Tampons d'equipe (tirage, src/ui/draftView.ts, ADR 0014) : les seules
+ * couleurs d'equipe restent --team-blue/--team-red, prioritaires sur tout le
+ * reste (regle de lisibilite, docs/art/UI-DESIGN-SYSTEM.md, "HUD tactique").
+ */
+.stamp--blue {
+  color: var(--team-blue);
+}
+
+.stamp--red {
+  color: var(--team-red);
+}
+
 /* ------------------------------------------------------------------------ */
 /* .portrait -- conteneur commun a src/ui/portraits.ts (thumb/card/hero).   */
 /* Taille reelle posee en ligne par `portraitElement` ; ces regles ne       */

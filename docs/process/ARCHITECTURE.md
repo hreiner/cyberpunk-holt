@@ -97,6 +97,7 @@ Voir l'[ADR 0011](adr/0011-moteur-narratif-etat-de-partie-et-radio.md) et
 |---|---|
 | `types.ts` | contrat exact du format de dialogue (`DialogueFile`, `Effect`, `Condition`, `TeamAlias`, ...) |
 | `runState.ts` | `RunState` : mémoire mécanique de la traversée (drapeaux, tempo, `TeamState` matériel, `roster` composition d'équipe ADR 0014 §7, `luck` Chance ADR 0015 §2, scène courante) |
+| `draft.ts` | moteur pur du tirage (ADR 0014 §3-4, lot 3.2) : machine à états (pool, picks, tour), choix déterministe d'Abigail, `rosterFromDraft`, `draftConsequences`/`applyDraftResult` (affinités, entrée de dossier, étiquette `equipe-bande`/`equipe-tactique`) |
 | `aliases.ts` | résolution des alias `equipier1`/`equipier2`/`rivale` (ADR 0014 §7, lot 3.1) et des gabarits `{equipier1}`... dans les textes |
 | `conditions.ts` / `effects.ts` | évaluation des `Condition`, application des `Effect` (purs) |
 | `odds.ts` | chance de réussite d'un jet, calculée analytiquement (aucun tirage) |
@@ -117,9 +118,11 @@ Seul fichier, avec `app.ts`, à mélanger logique de jeu et DOM — et le seul e
 
 - `dialogue` : instancie un `DialogueRunner` et pilote `NarrativeView` ;
 - `hub` : affiche la liste des cinq cadets, joue la conversation choisie, revient à la liste ;
-- `tactical` : construit un `TacticalSetup` à partir du `RunState.teams` et instancie `GameApp`,
-  exactement comme une scène parmi les autres (c'est le lot « brancher le parcours sur la
-  phase tactique », rendu trivial par le découpage de l'ADR 0011).
+- `tactical` : construit un `TacticalSetup` à partir de `RunState.roster` (composition,
+  ADR 0014 §5 -- `DEFAULT_BLUE`/`DEFAULT_RED` ne servent plus qu'au démarrage direct de debug
+  et aux tests) et `RunState.teams` (matériel) et instancie `GameApp`, exactement comme une
+  scène parmi les autres (c'est le lot « brancher le parcours sur la phase tactique », rendu
+  trivial par le découpage de l'ADR 0011).
 
 Sauvegarde `Dossier` + `SessionSave` (qui embarque le `RunState`) après chaque scène complète,
 jamais au milieu d'un dialogue.
@@ -128,16 +131,18 @@ jamais au milieu d'un dialogue.
 
 `render/` est du three.js pur (sauf `rigAnimator.ts` et `effectQueue.ts`, volontairement sans `three` donc testables sous Node) ; `ui/` du DOM pur (`Hud` pour le combat, `NarrativeView` pour
 les CONVERSATIONS narratives, `HubView` pour la liste des cadets, `ReportView` pour le bilan de
-l'exercice et l'ecran de cloture, `TitleView` pour l'ecran titre) ; `audio/` du Web Audio pur
-(bruitages synthétisés). Les trois (`render`, `ui`, `audio`) sont remplaçables sans toucher au
-gameplay. L'interface est en HTML parce que c'est plus rapide à itérer, accessible, et
-directement testable par Playwright via des `data-testid`.
+l'exercice et l'ecran de cloture, `DraftView` pour l'ecran de tirage (ADR 0014, lot 3.2),
+`TitleView` pour l'ecran titre) ; `audio/` du Web Audio pur (bruitages synthétisés). Les trois
+(`render`, `ui`, `audio`) sont remplaçables sans toucher au gameplay. L'interface est en HTML
+parce que c'est plus rapide à itérer, accessible, et directement testable par Playwright via
+des `data-testid`.
 
-`ChapterApp` possede quatre HOSTS DOM distincts dans le conteneur (`narrativeHost`,
-`hubHost`, `tacticalHost`, `reportHost`), un par vue plein cadre, et n'en montre jamais qu'un
-seul a la fois (`setActiveHost`). `src/ui/sceneChrome.ts` factorise le decor commun (ciel
-tramé, silhouette de toits) entre `NarrativeView`, `HubView` et `TitleView` -- les trois
-doivent se lire comme la meme piece du dossier (docs/art/UI-DESIGN-SYSTEM.md).
+`ChapterApp` possede cinq HOSTS DOM distincts dans le conteneur (`narrativeHost`,
+`hubHost`, `tacticalHost`, `reportHost`, `draftHost`), un par vue plein cadre, et n'en montre
+jamais qu'un seul a la fois (`setActiveHost`). `src/ui/sceneChrome.ts` factorise le decor
+commun (ciel tramé, silhouette de toits) entre `NarrativeView`, `HubView`, `DraftView` et
+`TitleView` -- les quatre doivent se lire comme la meme piece du dossier
+(docs/art/UI-DESIGN-SYSTEM.md).
 
 ### `src/debug` — l'API de test
 
@@ -216,6 +221,36 @@ Même principe pour l'écran de clôture (`showChapterEnd`, `router.finished ===
 réutilise `ReportView.renderChapterEnd(dossier)` (dossier complet plutôt que le seul exercice)
 avec une action « Nouvelle partie » qui appelle `ChapterApp.startNewGame()` — repart d'un
 dossier et d'un `RunState` vierges sur une graine fraîche, sans passer par `isResumingRun`.
+
+## Le tirage : le même principe, un pas de plus tôt (ADR 0014, lot 3.2)
+
+`ch1.tirage.json` ne scripte plus les choix : c'est redevenu une narration courte (deux
+nœuds), qui se termine sur un nœud terminal SANS choix -- le directeur nomme les deux
+capitaines, Franklyn et Abigail. `ChapterApp.completeDialogueScene()` reconnaît cette scène
+précise (`TIRAGE_SCENE_ID`) et appelle `showDraft()` plutôt que `advanceRouter()`, exactement
+comme `completeTacticalScene()` appelle `showReport()` : le `SceneDef` courant reste
+`ch1.tirage` tant que le joueur n'a pas choisi ses deux coéquipiers (`sceneSnapshot()` renvoie
+donc `{ id: 'ch1.tirage', kind: 'dialogue', finished: false }` pendant tout l'écran de tirage).
+
+`DraftView` (docs/art/UI-DESIGN-SYSTEM.md, "Hub — l'alignement") affiche les deux capitaines
+fixes et les quatre cadets restants ; chaque clic (ou `window.__game.pickTeammate(id)`) appelle
+`ChapterApp.pickTeammate()`, qui délègue à `pick()` (`src/narrative/draft.ts` -- moteur pur,
+ADR 0014 §3-4) : ce seul appel résout le choix de Franklyn ET, dans la foulée, le choix
+déterministe d'Abigail qui suit. Une fois `draftState.turn === 'done'`,
+`applyDraftResult()` verse immédiatement les conséquences (§6 : roster, affinités, entrée de
+dossier, étiquette `equipe-bande`/`equipe-tactique`) dans le contexte -- avant même que le
+joueur ait cliqué sur le « Continuer » du récapitulatif, exactement comme la note de
+l'exercice est posée au dossier avant l'affichage du bilan. Le clic sur ce « Continuer »
+(`continueFromDraft()`, aussi accessible via `window.__game.advance()` -- même idiome qu'un
+nœud de dialogue terminal) fait alors ce que `completeDialogueScene()` aurait fait sans ce
+détour : `advanceRouter()` puis `enterScene()` vers `ch1.hub`.
+
+`RunState.roster` (ADR 0014 §5, déjà porté par le `RunState` depuis le lot 3.1) devient à ce
+moment la SEULE source de vérité pour la composition des deux équipes : `buildTacticalSetup()`,
+le parcours hors champ (`offscreenOutcome()`) et la notation (via le combat, qui lit déjà
+`TacticalSetup.blue`/`.red`) le lisent tous. `DEFAULT_BLUE`/`DEFAULT_RED`
+(`src/tactical/combat.ts`) ne servent plus qu'au repli de `createRunState()` (avant tout
+tirage) et à `debugStartTactical()` (démarrage direct en tactique, `window.__game.newGame()`).
 
 ## L'écran titre : un overlay, pas une porte
 

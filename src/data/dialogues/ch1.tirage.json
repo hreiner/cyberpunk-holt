@@ -3,52 +3,23 @@
   "start": "ouverture",
   "nodes": {
     "ouverture": {
-      "text": "Dans la cour, les trente cadets forment un carré autour de l'instructeur. Aujourd'hui, seuls six d'entre eux comptent : les deux équipes qui s'affronteront ce soir. Zachary et Grover sont appelés en premier, face à face.",
+      "text": "Dans la cour, les trente cadets forment un carré autour du directeur. Il déplie une liste et tire au sort les six premiers à partir pour l'examen pratique — toujours les six mêmes. Six noms, et deux d'entre eux comptent double.",
       "lines": [
         {
-          "who": "instructeur",
-          "text": "Capitaines désignés. Vous choisissez chacun votre tour. Zachary, tu ouvres."
+          "who": "directeur",
+          "text": "Franklyn. Abigail. Approchez — l'académie veut voir ses profils techniques commander."
         }
       ],
-      "to": "choix-john"
+      "to": "appel"
     },
-    "choix-john": {
-      "text": "Zachary ne réfléchit pas longtemps. Il balaie le carré du regard et s'arrête sur John.",
+    "appel": {
+      "text": "Ils s'avancent face à face devant le reste du carré. Le directeur désigne les quatre autres noms tirés au sort, alignés en attente.",
       "lines": [
-        { "who": "zachary", "text": "John. Avec moi." },
-        { "who": "grover", "text": "Sans surprise." }
-      ],
-      "to": "choix-letitia"
-    },
-    "choix-letitia": {
-      "text": "Grover ne cherche pas à égaler le choix. Il appelle Letitia, la seule qu'il voulait vraiment.",
-      "lines": [{ "who": "grover", "text": "Letitia, avec moi." }],
-      "to": "choix-franklyn"
-    },
-    "choix-franklyn": {
-      "text": "Il ne reste que Franklyn et Abigail. Zachary n'hésite pas une seconde.",
-      "lines": [{ "who": "zachary", "text": "Franklyn. On finit ensemble, comme d'habitude." }],
-      "choices": [
         {
-          "text": "Se détendre, sourire.",
-          "to": "conclusion",
-          "effects": [{ "affinity": { "who": "zachary", "delta": 1 } }]
-        },
-        {
-          "text": "Faire remarquer, agacé, que c'est toujours lui le dernier appelé.",
-          "to": "conclusion",
-          "effects": [{ "affinity": { "who": "zachary", "delta": -1 } }]
-        },
-        {
-          "text": "Se tourner vers Abigail, la seule qui reste : « Désolé. »",
-          "to": "conclusion",
-          "effects": [{ "affinity": { "who": "abigail", "delta": 1 } }]
+          "who": "directeur",
+          "text": "Vous choisissez chacun votre tour, Franklyn d'abord. Le dernier ira à Abigail, qu'il le veuille ou non."
         }
       ]
-    },
-    "conclusion": {
-      "text": "Abigail rejoint l'équipe rouge sans qu'on l'appelle — il ne restait qu'elle. Les rangs se forment : Zachary, John et Franklyn en bleu ; Grover, Letitia et Abigail en rouge. Ce soir, ils s'affronteront entre les containers.",
-      "effects": [{ "flag": "ch1.tirage.fait", "value": true }]
     }
   }
 }

@@ -22,15 +22,19 @@ import {
   DialogueRunner,
   FLAG_ADVERSE_TASER,
   SceneRouter,
+  applyDraftResult,
+  createDraftState,
   createRunState,
   markHeard,
   migrateRunState,
   offscreenFlags,
   pendingRadio,
+  pick as pickDraftCadet,
   resolveOffscreenRun,
   setFlag,
 } from '@/narrative';
 import type {
+  DraftState,
   NarrativeContext,
   NarrativeOutcome,
   OffscreenOutcome,
@@ -49,6 +53,7 @@ import type { TacticalOutcome } from './app';
 import { NarrativeView } from './ui/narrativeView';
 import { HubView } from './ui/hubView';
 import { ReportView } from './ui/reportView';
+import { DraftView } from './ui/draftView';
 
 /**
  * Scenes du parcours interieur (scene 7, docs/design/03-CHAPTER-1.md) : la
@@ -59,6 +64,16 @@ import { ReportView } from './ui/reportView';
  * plusieurs fois ne coute rien et redonne toujours le meme resultat.
  */
 const OFFSCREEN_ROOM_SCENES = new Set(['ch1.salle1', 'ch1.salle2', 'ch1.salle3']);
+
+/**
+ * Le tirage (scene 4, ADR 0014) : la narration de `ch1.tirage.json` n'est
+ * plus que l'ouverture (le directeur nomme les deux capitaines) -- son noeud
+ * terminal declenche l'ecran de tirage (`DraftView`) plutot que d'avancer le
+ * routeur, exactement comme `showReport`/`continueFromReport` pour le bilan
+ * de l'exercice (voir docs/process/ARCHITECTURE.md, "Le bilan de l'exercice :
+ * un pas d'interface, pas une scene").
+ */
+const TIRAGE_SCENE_ID = 'ch1.tirage';
 
 /* Note : la liste des cadets du hub est portee par CHAPTER_1_SCENES (sceneRouter.ts,
  * `hubDialogueIds`) ; ChapterApp la relit directement depuis la scene, pas ici. */
@@ -133,16 +148,20 @@ export class ChapterApp {
   private activeDialogue: DialogueRunner | null = null;
   private activeHub: { dialogueId: string; runner: DialogueRunner } | null = null;
   private tacticalApp: GameApp | null = null;
+  /** Etat du tirage en cours (ADR 0014), `null` hors de l'ecran de tirage -- voir `showDraft`. */
+  private draftState: DraftState | null = null;
 
   private readonly aiDelayMs: number;
   private readonly narrativeHost: HTMLElement;
   private readonly tacticalHost: HTMLElement;
   private readonly hubHost: HTMLElement;
   private readonly reportHost: HTMLElement;
+  private readonly draftHost: HTMLElement;
   private readonly diceHost: HTMLElement;
   private readonly view: NarrativeView;
   private readonly hubView: HubView;
   private readonly reportView: ReportView;
+  private readonly draftView: DraftView;
   /**
    * Met en scene tout jet narratif (examen, salles, hub, bal -- jamais le
    * combat tactique, decision produit du lot "dé 3D"). Toujours monte, quel
@@ -181,9 +200,18 @@ export class ChapterApp {
     this.hubHost.className = 'chapter-host chapter-host-hub';
     this.reportHost = document.createElement('div');
     this.reportHost.className = 'chapter-host chapter-host-report';
+    this.draftHost = document.createElement('div');
+    this.draftHost.className = 'chapter-host chapter-host-draft';
     this.diceHost = document.createElement('div');
     this.diceHost.className = 'chapter-dice-host';
-    container.append(this.tacticalHost, this.narrativeHost, this.hubHost, this.reportHost, this.diceHost);
+    container.append(
+      this.tacticalHost,
+      this.narrativeHost,
+      this.hubHost,
+      this.reportHost,
+      this.draftHost,
+      this.diceHost,
+    );
 
     this.dice = createDicePlayer(this.diceHost, options.diceEnabled ?? true);
 
@@ -203,6 +231,10 @@ export class ChapterApp {
     this.reportView = new ReportView(this.reportHost, {
       onContinueExercise: () => this.continueFromReport(),
       onNewGame: () => this.startNewGame(),
+    });
+    this.draftView = new DraftView(this.draftHost, {
+      onPick: (id) => this.pickTeammate(id),
+      onContinue: () => this.continueFromDraft(),
     });
 
     this.router = new SceneRouter(CHAPTER_1_SCENES, this.ctx);
@@ -386,8 +418,14 @@ export class ChapterApp {
       }
       this.activeHub.runner.advance();
       this.renderHubDialogue();
+      return;
     }
-    // Rien a avancer : liste du hub, scene tactique, ou chapitre termine.
+    // Le tirage termine (recap a l'ecran) : un dernier "Continuer" rend la
+    // main au chapitre, meme idiome que le noeud terminal d'un dialogue.
+    if (this.draftState && this.draftState.turn === 'done') {
+      this.continueFromDraft();
+    }
+    // Rien a avancer sinon : liste du hub, scene tactique, ou chapitre termine.
   }
 
   pickHub(dialogueId: string): void {
@@ -454,6 +492,7 @@ export class ChapterApp {
     this.view.dispose();
     this.hubView.dispose();
     this.reportView.dispose();
+    this.draftView.dispose();
     this.dice.dispose();
   }
 
@@ -474,10 +513,11 @@ export class ChapterApp {
    * bilan de l'exercice, un pas de l'interface sans `SceneDef` dedie (voir
    * `showReport`, docs/process/ARCHITECTURE.md).
    */
-  private setActiveHost(kind: 'dialogue' | 'hub' | 'tactical' | 'report'): void {
+  private setActiveHost(kind: 'dialogue' | 'hub' | 'tactical' | 'report' | 'draft'): void {
     this.tacticalHost.style.display = kind === 'tactical' ? '' : 'none';
     this.hubHost.style.display = kind === 'hub' ? '' : 'none';
     this.reportHost.style.display = kind === 'report' ? '' : 'none';
+    this.draftHost.style.display = kind === 'draft' ? '' : 'none';
     this.narrativeHost.style.display = kind === 'dialogue' ? '' : 'none';
   }
 
@@ -494,6 +534,7 @@ export class ChapterApp {
     this.view.hide();
     this.hubView.hide();
     this.reportView.hide();
+    this.draftView.hide();
   }
 
   private enterDialogueScene(scene: SceneDef): void {
@@ -530,6 +571,13 @@ export class ChapterApp {
   private completeDialogueScene(finalCtx: NarrativeContext): void {
     this.activeDialogue = null;
     this.mergeContext(finalCtx);
+    // Le tirage (ADR 0014) n'avance pas le routeur tout de suite : l'ecran de
+    // tirage s'intercale, meme principe que le bilan de l'exercice (voir
+    // `showReport`/TIRAGE_SCENE_ID).
+    if (this.currentSceneDef?.id === TIRAGE_SCENE_ID) {
+      this.showDraft();
+      return;
+    }
     const next = this.advanceRouter();
     this.persistAfterScene();
     this.enterScene(next);
@@ -590,6 +638,50 @@ export class ChapterApp {
     if (this.currentSceneDef) this.renderHubList(this.currentSceneDef);
   }
 
+  /* ---------------------------------- tirage ----------------------------- */
+
+  /** Etat courant du tirage, expose au debug (`window.__game.draft()`) -- `null` hors de l'ecran de tirage. */
+  get draft(): DraftState | null {
+    return this.draftState;
+  }
+
+  private showDraft(): void {
+    this.draftState = createDraftState();
+    this.hideAllViews();
+    this.setActiveHost('draft');
+    this.draftView.show();
+    this.draftView.render(this.draftState, this.ctx.dossier);
+  }
+
+  /**
+   * Choix de Franklyn (`window.__game.pickTeammate(id)`) : le choix
+   * d'Abigail qui suit est deterministe et resolu dans le meme appel (voir
+   * `pick()` dans src/narrative/draft.ts). Une fois le tirage complet
+   * (`turn === 'done'`), verse immediatement les consequences (ADR 0014 §6 --
+   * roster, affinites, entree de dossier, etiquette) dans le contexte : la
+   * suite du chapitre (parcours interieur, combat, bal) doit les voir sans
+   * attendre le clic "Continuer" du recap.
+   */
+  pickTeammate(cadetId: CharacterId): NarrativeOutcome {
+    if (!this.draftState) return { ok: false, reason: 'Aucun tirage en cours.' };
+    const outcome = pickDraftCadet(this.draftState, cadetId);
+    if (!outcome.ok) return outcome;
+    this.draftState = outcome.step.state;
+    if (this.draftState.turn === 'done') {
+      this.ctx = applyDraftResult(this.ctx, this.draftState);
+    }
+    this.draftView.render(this.draftState, this.ctx.dossier, outcome.step);
+    return { ok: true };
+  }
+
+  private continueFromDraft(): void {
+    this.draftView.hide();
+    this.draftState = null;
+    const next = this.advanceRouter();
+    this.persistAfterScene();
+    this.enterScene(next);
+  }
+
   /* ------------------------------- scenes : tactique --------------------------- */
 
   private enterTacticalScene(scene: SceneDef, setupOverride?: TacticalSetup): void {
@@ -610,12 +702,19 @@ export class ChapterApp {
     }
   }
 
+  /**
+   * `run.roster` (ADR 0014 §5, issu du tirage -- ou du repli par defaut de
+   * `createRunState` si la scene tactique est atteinte sans passer par le
+   * tirage, ex. `?scene=ch1.affrontement`) est la SEULE source de verite pour
+   * la composition des equipes du combat normal : `DEFAULT_BLUE`/`DEFAULT_RED`
+   * ne servent plus qu'a `debugStartTactical` et aux tests (ADR 0014 §5).
+   */
   private buildTacticalSetup(): TacticalSetup {
     const run = this.ctx.run;
     return {
       seed: run.seed,
-      blue: [...DEFAULT_BLUE],
-      red: [...DEFAULT_RED],
+      blue: [...run.roster.blue],
+      red: [...run.roster.red],
       blueState: run.teams.blue,
       // `run.teams.red` porte deja l'etat complet resolu par resolveOffscreenTeam
       // (voir enterDialogueScene) : plus de reconstruction a la volee ici.
@@ -651,7 +750,10 @@ export class ChapterApp {
    * petite et serialisable (ADR 0011).
    */
   private offscreenOutcome(): OffscreenOutcome {
-    return resolveOffscreenRun(createRng(`${this.ctx.run.seed}::offscreen`), DEFAULT_RED);
+    // `run.roster.red` (ADR 0014 §5) -- l'equipe adverse hors champ est
+    // composee des cadets REELLEMENT laisses a Abigail par le tirage, jamais
+    // `DEFAULT_RED` (repli de test uniquement, voir `buildTacticalSetup`).
+    return resolveOffscreenRun(createRng(`${this.ctx.run.seed}::offscreen`), this.ctx.run.roster.red);
   }
 
   /**

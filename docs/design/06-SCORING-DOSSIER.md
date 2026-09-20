@@ -60,6 +60,7 @@ au bal, et plus tard au chapitre 2, de réagir sans connaître le détail de cha
 | Savoir | `technicien` | scène 3 |
 | Écrit | `copie-brillante`, `copie-faible` | note écrite (`writtenScore`), scène 3 |
 | Loyauté | `loyal-academie`, `loyal-bande`, `solitaire` | scènes 1, 3, 5 |
+| Tirage | `equipe-bande`, `equipe-tactique` | scène 4 (ADR 0014 §6) |
 | Parcours | `sauveteur`, `curieux`, `renseignement`, `imprudent-salle-3`, `prudent` | scène 7 |
 | Exercice | `vainqueur-exercice`, `defaite-exercice`, `protecteur`, `equipe-decimee`, `offensif`, `rapide`, `lent` | `scoreExercise`, scène 8 |
 
@@ -120,6 +121,14 @@ remplace l'entrée.
    sont protégées et retombent sur un dossier vide.
 4. **Toute nouvelle information persistée passe par le dossier**, jamais par une variable
    globale ou un champ ajouté à la volée dans l'état de combat.
+5. **`createDossier()` amorce les affinités de départ** lues dans les fiches
+   (`affinity` de `characters.json` : John +3, Abigail +2, Zachary +2, Letitia +1,
+   Grover −1 — voir [`04-CHARACTERS.md`](04-CHARACTERS.md#affinités)). Un dossier neuf n'est
+   donc **jamais** à zéro pour tout le monde. Sans cet amorçage, aucune réaction conditionnée
+   à une affinité forte ne se déclenche : ni le malus du tirage sur un ami laissé à l'autre
+   équipe ([ADR 0014](../process/adr/0014-tirage-franklyn-capitaine-equipes-dynamiques.md)),
+   ni les répliques chaleureuses du bal. Les relations du chapitre partent de l'histoire
+   commune des cadets, pas de rien.
 
 ### Où il vit
 

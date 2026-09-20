@@ -1,0 +1,251 @@
+import { describe, expect, it } from 'vitest';
+import { createDossier } from '@/core/dossier';
+import { createRunState } from '@/narrative';
+import type { NarrativeContext } from '@/narrative';
+import { ExploreState, LEADER_SPEED } from '@/explore';
+import { CONDITIONED_MAP, SMALL_MAP } from './fixtures/exploreFixtures';
+
+function ctx(): NarrativeContext {
+  return { dossier: createDossier(), run: createRunState('test-seed') };
+}
+
+describe('ExploreState — mouvement', () => {
+  it('marche en continu vers la case cliquée, à 4 cases/s', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const res = state.walkLeaderTo({ x: 2, y: 2 });
+    expect(res.ok).toBe(true);
+    expect(state.isMoving()).toBe(true);
+
+    // 4 cases/s : au bout de 500 ms, 2 cases parcourues depuis (2,4).
+    state.tick(500);
+    const pos = state.leaderPosition();
+    const distFromStart = Math.hypot(pos.x - 2, pos.y - 4);
+    expect(distFromStart).toBeCloseTo(2, 1);
+  });
+
+  it('arrive exactement sur la case cible et redevient immobile', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    state.walkLeaderTo({ x: 2, y: 2 });
+    for (let i = 0; i < 20; i++) state.tick(200);
+    expect(state.isMoving()).toBe(false);
+    expect(state.leaderCell()).toEqual({ x: 2, y: 2 });
+  });
+
+  it('une case inaccessible retombe sur la case franchissable la plus proche', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const res = state.walkLeaderTo({ x: 0, y: 0 }); // un mur
+    expect(res.ok).toBe(true);
+    for (let i = 0; i < 30; i++) state.tick(200);
+    expect(state.isMoving()).toBe(false);
+  });
+
+  it('est déterministe : la même séquence de dt produit les mêmes positions', () => {
+    const dts = [16, 16, 33, 16, 100, 250, 16, 16, 9, 400];
+
+    const run = () => {
+      const state = new ExploreState(SMALL_MAP, ctx(), { followerIds: ['f1', 'f2'] });
+      state.walkLeaderTo({ x: 9, y: 4 });
+      const snapshots: unknown[] = [];
+      for (const dt of dts) {
+        state.tick(dt);
+        snapshots.push({ leader: state.leaderPosition(), followers: state.followerPositions() });
+      }
+      return snapshots;
+    };
+
+    expect(run()).toEqual(run());
+  });
+
+  it('les coéquipiers suivent le meneur à distance, sans jamais le rattraper', () => {
+    const state = new ExploreState(SMALL_MAP, ctx(), { followerIds: ['f1', 'f2'] });
+    state.walkLeaderTo({ x: 9, y: 4 });
+    for (let i = 0; i < 40; i++) {
+      state.tick(50);
+      const leader = state.leaderPosition();
+      for (const f of state.followerPositions()) {
+        const dist = Math.hypot(leader.x - f.x, leader.y - f.y);
+        expect(dist).toBeGreaterThanOrEqual(0);
+      }
+    }
+    const [f1, f2] = state.followerPositions();
+    // f2 reste toujours au moins aussi loin du meneur que f1 (ordre de filature respecté).
+    const leader = state.leaderPosition();
+    const d1 = Math.hypot(leader.x - (f1?.x ?? 0), leader.y - (f1?.y ?? 0));
+    const d2 = Math.hypot(leader.x - (f2?.x ?? 0), leader.y - (f2?.y ?? 0));
+    expect(d2).toBeGreaterThanOrEqual(d1 - 0.001);
+  });
+
+  it("un nouveau clic remplace la destination à tout moment", () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    state.walkLeaderTo({ x: 2, y: 2 });
+    state.tick(100);
+    state.walkLeaderTo({ x: 4, y: 4 });
+    for (let i = 0; i < 20; i++) state.tick(200);
+    expect(state.leaderCell()).toEqual({ x: 4, y: 4 });
+  });
+});
+
+describe('ExploreState — interactions', () => {
+  it('un objet sans dialogue déclenche une réplique brève', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const outcome = state.interact('locker');
+    expect(outcome).toEqual({ kind: 'brief-line', entityId: 'locker', text: 'Un vieux casier.' });
+  });
+
+  it('un npc avec dialogue déclenche l’ouverture du dialogue', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const outcome = state.interact('guard');
+    expect(outcome).toEqual({ kind: 'dialogue', entityId: 'guard', dialogueId: 'test.npc', startNode: 'start' });
+  });
+
+  it('une porte ouverte se ferme, une porte fermée s’ouvre', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    expect(state.isDoorOpen('doorAB')).toBe(true);
+    const closed = state.interact('doorAB');
+    expect(closed).toEqual({ kind: 'door-toggled', entityId: 'doorAB', open: false });
+    expect(state.isDoorOpen('doorAB')).toBe(false);
+    const opened = state.interact('doorAB');
+    expect(opened).toEqual({ kind: 'door-toggled', entityId: 'doorAB', open: true });
+  });
+
+  it('une porte verrouillée sans dialogue renvoie sa réplique de verrou', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const outcome = state.interact('secretDoor');
+    expect(outcome).toEqual({ kind: 'door-locked', entityId: 'secretDoor', line: 'Verrouillée.' });
+    expect(state.isDoorOpen('secretDoor')).toBe(false);
+  });
+
+  it('une sortie renvoie un changement de carte', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const outcome = state.interact('gate');
+    expect(outcome).toEqual({ kind: 'change-map', entityId: 'gate', targetMapId: 'other', targetSpawn: 'arrivee' });
+  });
+
+  it('une entité conditionnée est inactive tant que le drapeau est faux', () => {
+    const context = ctx();
+    const state = new ExploreState(CONDITIONED_MAP, context);
+    expect(state.listInteractables().some((i) => i.id === 'guard')).toBe(false);
+    expect(state.interact('guard').kind).toBe('none');
+
+    context.run.flags['discours-fini'] = true;
+    expect(state.listInteractables().some((i) => i.id === 'guard')).toBe(true);
+    expect(state.interact('guard').kind).toBe('dialogue');
+  });
+
+  it('requestInteract marche jusqu’à la case adjacente puis déclenche, via un événement de tick', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const res = state.requestInteract('chair');
+    expect(res.ok).toBe(true);
+    expect(state.isMoving()).toBe(true);
+
+    let fired: unknown = null;
+    for (let i = 0; i < 30 && !fired; i++) {
+      const events = state.tick(150);
+      fired = events.find((e) => e.kind === 'interaction-fired');
+    }
+    expect(fired).toMatchObject({
+      kind: 'interaction-fired',
+      entityId: 'chair',
+      outcome: { kind: 'dialogue', dialogueId: 'test.seat' },
+    });
+  });
+
+  it('interactablesNear filtre par proximité de la case donnée', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const near = state.interactablesNear({ x: 2, y: 2 }, 1);
+    expect(near.map((i) => i.id)).toContain('guard');
+    expect(near.map((i) => i.id)).not.toContain('gate');
+  });
+});
+
+describe('ExploreState — zones', () => {
+  it('une zone se déclenche une seule fois', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    state.walkLeaderTo({ x: 8, y: 3 }); // dans "trapzone"
+    let triggeredCount = 0;
+    for (let i = 0; i < 30; i++) {
+      const events = state.tick(150);
+      triggeredCount += events.filter((e) => e.kind === 'zone-triggered').length;
+    }
+    expect(triggeredCount).toBe(1);
+
+    // Ressortir puis rerentrer ne redéclenche pas.
+    state.walkLeaderTo({ x: 2, y: 4 });
+    for (let i = 0; i < 30; i++) state.tick(150);
+    state.walkLeaderTo({ x: 8, y: 3 });
+    let secondPass = 0;
+    for (let i = 0; i < 30; i++) {
+      const events = state.tick(150);
+      secondPass += events.filter((e) => e.kind === 'zone-triggered').length;
+    }
+    expect(secondPass).toBe(0);
+  });
+});
+
+describe('ExploreState — objectifs', () => {
+  it('se termine quand le déclencheur déclaré est déclenché', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    state.setObjective({ id: 'obj1', title: 'Sortir', context: 'Contexte.', completionTrigger: 'gate' });
+    expect(state.objectiveStatus()?.complete).toBe(false);
+    state.interact('gate');
+    expect(state.objectiveStatus()?.complete).toBe(true);
+  });
+
+  it('les tâches facultatives comptent chaque entité une seule fois', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    state.setObjective({
+      id: 'obj1',
+      title: 'Explorer',
+      context: 'Contexte.',
+      completionTrigger: 'gate',
+      tasks: [{ id: 't1', label: 'parler aux occupants', entityIds: ['guard', 'chair'] }],
+    });
+    state.interact('guard');
+    state.interact('guard'); // ne recompte pas
+    let status = state.objectiveStatus();
+    expect(status?.tasks[0]).toMatchObject({ count: 1, target: 2, done: false });
+
+    state.interact('chair');
+    status = state.objectiveStatus();
+    expect(status?.tasks[0]).toMatchObject({ count: 2, target: 2, done: true });
+  });
+
+  it('completeStep() force la complétion sans attendre le vrai déclencheur (développement)', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    state.setObjective({ id: 'obj1', title: 'Sortir', context: 'Contexte.', completionTrigger: 'gate' });
+    state.completeStep();
+    expect(state.objectiveStatus()?.complete).toBe(true);
+  });
+});
+
+describe('ExploreState — API de debug', () => {
+  it('explore() renvoie un instantané cohérent', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const snap = state.explore();
+    expect(snap.mapId).toBe('test-small');
+    expect(snap.leader).toEqual({ x: 2, y: 4 });
+    expect(snap.interactables.some((i) => i.id === 'guard')).toBe(true);
+  });
+
+  it('walkTo() téléporte sans animation', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    state.walkTo(8, 2);
+    expect(state.isMoving()).toBe(false);
+    expect(state.leaderCell()).toEqual({ x: 8, y: 2 });
+  });
+
+  it('interact() déclenche sans marcher', () => {
+    const state = new ExploreState(SMALL_MAP, ctx());
+    const outcome = state.interact('gate');
+    expect(outcome.kind).toBe('change-map');
+    // Le meneur n'a pas bougé.
+    expect(state.leaderCell()).toEqual({ x: 2, y: 4 });
+  });
+});
+
+// Vitesse : sanity check sur la constante documentée (08-EXPLORATION.md "Contrôles").
+describe('LEADER_SPEED', () => {
+  it('vaut 4 cases par seconde', () => {
+    expect(LEADER_SPEED).toBe(4);
+  });
+});

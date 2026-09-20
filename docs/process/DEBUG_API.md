@@ -86,6 +86,8 @@ silence.
 | `pickHub(dialogueId)` | noeud | démarre la conversation d'un cadet depuis la liste du hub |
 | `leaveHub()` | scène | quitte le hub, passe à la scène suivante |
 | `radio()` | `RadioCue[]` | répliques radio actuellement dues, sans les marquer entendues (lecture pure) |
+| `draft()` | `DraftState`, ou `null` | état du tirage (ADR 0014), `null` hors de l'écran de tirage : `{ pool, picks, turn }` — `pool` les cadets encore disponibles, `picks` tous les choix déjà faits dans l'ordre F/A/F/A, `turn` `'franklyn' \| 'abigail' \| 'done'` (en pratique jamais observable à `'abigail'`, voir `pickTeammate`) |
+| `pickTeammate(cadetId)` | `{ ok, reason? }` | choix de Franklyn pour le tirage ; résout aussi, dans le **même appel**, le choix déterministe d'Abigail qui suit (`src/narrative/draft.ts`) — le joueur ne pilote jamais son tour à elle. Refuse si aucun tirage n'est en cours, si ce n'est pas le tour de Franklyn, ou si `cadetId` n'est plus disponible. Une fois `draft().turn === 'done'`, `runState().roster` reflète déjà les nouvelles équipes ; un dernier `advance()` rend la main à la scène suivante (même idiome qu'un nœud de dialogue terminal) |
 
 ```ts
 interface HubEntry {
@@ -201,6 +203,21 @@ if (node.pendingRoll) {
   __game.spendLuck(node.pendingRoll.missingBy);   // ou __game.acceptRoll() pour laisser l'echec
   node = __game.node();                           // pendingRoll a disparu, l'issue est resolue
 }
+```
+
+Jouer le tirage (ADR 0014) jusqu'au bout, en prenant toujours le premier cadet encore disponible :
+
+```js
+// http://localhost:5173/?ai=0&scene=ch1.tirage
+__game.advance();               // traverse la narration d'ouverture (2 noeuds sans choix)
+__game.advance();               // dernier "Continuer" : ouvre l'ecran de tirage
+let state = __game.draft();
+while (state && state.turn !== 'done') {
+  __game.pickTeammate(state.pool[0]);   // choix de Franklyn ; Abigail suit dans le meme appel
+  state = __game.draft();
+}
+__game.advance();               // rend la main : passe a la scene suivante (ch1.hub)
+__game.runState().roster;       // { blue: ['franklyn', ...], red: ['abigail', ...], redCaptain: 'abigail' }
 ```
 
 Sauter directement au combat final avec l'état du `RunState` :

@@ -161,21 +161,34 @@ pas les jets de combat d'une partie rejouée.
 
 ## Équilibrage
 
-Mesuré sur 400 combats IA contre IA (deux familles de graines) :
+**Depuis le tirage dynamique (ADR 0014, lot 3.2), l'équipe du joueur n'est plus fixe** : elle
+dépend des deux coéquipiers que le joueur choisit pour Franklyn. `scripts/simulate.ts` balaie
+donc les **cinq compositions réellement atteignables** (pas six — voir ADR 0014, "Correctif
+lot 3.2" : Abigail choisit entre les deux tours de Franklyn, et son ordre de préférence
+commence par Zachary puis Letitia, ce qui rend "Zachary et Letitia" impossible pour l'équipe de
+Franklyn), 200 combats IA contre IA par composition (`npx tsx scripts/simulate.ts 200
+equilibrage`) :
 
-| Résultat | Part |
-|---|---|
-| Victoire bleue (équipe du joueur) | ~60 % |
-| Victoire rouge | ~36 % |
-| Match nul | ~4 % |
-| Parties allant au bout des 12 rounds | ~10 % |
-| Durée moyenne | ~7,4 rounds |
-| Note moyenne du joueur | ~11,8 / 20 |
+| Composition (Franklyn +) | Victoire bleue | Victoire rouge | Nul | Rounds moy. | Note moy. /20 |
+|---|---|---|---|---|---|
+| Zachary + John | 98,0 % | 2,0 % | 0,0 % | 6,49 | 17,10 |
+| Letitia + John | 60,5 % | 38,0 % | 1,5 % | 5,97 | 12,07 |
+| John + Grover | 48,5 % | 51,5 % | 0,0 % | 7,36 | 9,92 |
+| Zachary + Grover | 35,5 % | 64,0 % | 0,5 % | 5,88 | 8,64 |
+| Letitia + Grover | 32,0 % | 68,0 % | 0,0 % | 4,75 | 8,36 |
+| **Toutes compositions (1000 parties)** | **54,9 %** | **44,7 %** | **0,4 %** | **6,09** | **11,22** |
 
-L'asymétrie est volontaire : **bleu a la puissance de feu** (John), **rouge a le soutien**
-(Abigail soigne, Letitia repère, Grover encourage). Comme un humain joue mieux que l'IA, le
-taux réel de réussite du joueur sera supérieur — l'exercice doit rester gagnable sans être
-offert.
+**Lecture** : l'équilibre ne dépend presque plus de la couleur d'équipe mais de **qui a John**
+(le combattant brut, `sangFroidAbsolu` + `organique`) et, dans une moindre mesure, **qui a
+Zachary** (`fonceur`, initiative et portée de course) — les deux fiches les plus fortes en
+duel direct. Les garder ensemble avec Franklyn écrase l'IA adverse (98 % de victoires) ; les
+laisser toutes les deux à Abigail (Letitia + Grover pour Franklyn) inverse le rapport de force
+presque à l'identique (32 %). C'est l'asymétrie **voulue** du chapitre — chaque pick a un vrai
+coût tactique, pas seulement narratif (docs/design/03-CHAPTER-1.md, scène 4, tableau "Ce que ça
+change") — mais elle est plus marquée que l'ancien tirage scripté ne le laissait supposer : la
+moyenne globale (54,9 % / 11,22 pt) reste dans la fourchette visée, tant qu'aucune composition
+individuelle n'est réellement injouable (même la pire, 32 %, reste gagnable, et un humain joue
+mieux que l'IA adverse).
 
 **Après toute modification des fiches, de la carte ou de l'IA, relancer la simulation** et
 mettre ce tableau à jour.
@@ -186,5 +199,4 @@ mettre ce tableau à jour.
 
 - Animations et retours visuels des tirs (trait de tir, impact, son).
 - Overwatch / tir de couverture — envisagé, non décidé.
-- Génération de la composition d'équipes depuis la scène de tirage (epic 2).
 - Alimentation réelle de `TeamState` par le parcours intérieur (epic 2).

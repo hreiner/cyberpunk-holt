@@ -369,7 +369,8 @@ describe('alias d equipe equipier1/equipier2/rivale (ADR 0014 §7)', () => {
       },
     };
     const runner = new DialogueRunner(graph, context(), createRng('graine-alias-effets'));
-    expect(runner.context.dossier.affinities.abigail).toBe(1);
+    // Abigail part a +2 (affinite de depart de sa fiche), donc +1 la met a 3.
+    expect(runner.context.dossier.affinities.abigail).toBe(3);
     expect(runner.context.run.teams.blue.gassedMembers).toEqual(['zachary']);
   });
 });

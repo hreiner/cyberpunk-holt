@@ -128,7 +128,7 @@ export const TRAITS: Record<TraitId, Trait> = {
   meneurDeBande: {
     id: 'meneurDeBande',
     label: 'Meneur de bande',
-    description: 'Capitaine naturel lors du tirage des équipes.',
+    description: 'Rallie sa bande derrière lui, en toute circonstance.',
     tactical: false,
   },
 };

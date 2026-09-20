@@ -106,7 +106,7 @@
   {
     "id": "grover",
     "name": "Grover",
-    "role": "Rassembleur, capitaine de l'équipe rouge",
+    "role": "Rassembleur, un rival à apprivoiser",
     "affinity": -1,
     "attributes": { "INT": 6, "REF": 6, "DEX": 6, "TECH": 5, "SF": 6, "EMP": 7, "CORPS": 6, "MOUV": 6 },
     "skills": {
@@ -132,7 +132,7 @@
   {
     "id": "zachary",
     "name": "Zachary",
-    "role": "Fonceur, capitaine de l'équipe bleue",
+    "role": "Fonceur, meneur de sa bande",
     "affinity": 2,
     "attributes": { "INT": 5, "REF": 7, "DEX": 7, "TECH": 4, "SF": 6, "EMP": 5, "CORPS": 7, "MOUV": 7 },
     "skills": {

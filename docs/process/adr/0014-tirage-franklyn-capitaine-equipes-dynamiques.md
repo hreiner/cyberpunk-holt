@@ -47,6 +47,16 @@ forts d'un CRPG, et que le pilier « La bande » repose sur les relations entre 
   répliques génériques via les alias, plus des variantes par cadet sur les moments forts.
   Le test « aucun cul-de-sac » doit tirer aussi des compositions d'équipe.
 - L'équilibre du combat varie avec les équipes : le simulateur d'équilibre
-  (`npm run balance`) doit balayer les **six compositions possibles**.
+  (`npm run balance`) doit balayer les compositions **atteignables**.
+- **Correctif lot 3.2 : cinq compositions atteignables, pas six.** `C(4,2)` donne
+  mathématiquement six paires possibles pour les deux choix de Franklyn, mais le tour
+  d'Abigail s'intercale ENTRE les deux (§3 : « parmi quatre, puis parmi deux ») et son ordre
+  de préférence commence justement par Zachary puis Letitia (§4) : quel que soit celui des
+  deux que Franklyn ne prend pas à son premier choix, Abigail le prend aussitôt, avant que
+  Franklyn n'ait un second tour. La composition « Zachary et Letitia » pour l'équipe de
+  Franklyn est donc **structurellement impossible**, pas un oubli d'implémentation — voir
+  `src/narrative/draft.ts` et `tests/unit/draft.test.ts`. Les cinq compositions restantes
+  (Zachary+John, Zachary+Grover, Letitia+John, Letitia+Grover, John+Grover) sont, elles,
+  toutes atteignables quel que soit l'ordre des deux choix de Franklyn.
 - La rivalité Zachary / Grover, structurante, devient une situation que le joueur peut
   **créer** en les prenant tous les deux : une dispute scriptée en salle 1 l'exploite.

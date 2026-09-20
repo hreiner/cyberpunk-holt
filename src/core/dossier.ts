@@ -9,6 +9,7 @@
  */
 
 import type { CharacterId } from '@/rules/character';
+import { allCharacters } from '@/rules/character';
 import type { ExerciseScore, WrittenScore } from '@/rules/scoring';
 import { writtenScoreTags } from '@/rules/scoring';
 
@@ -40,12 +41,27 @@ export interface Dossier {
   updatedAt: string;
 }
 
+/**
+ * Affinites de depart, lues dans les fiches (`affinity` de characters.json,
+ * docs/design/04-CHARACTERS.md). Sans cet amorcage, toutes les relations
+ * partent de zero et les reactions conditionnees a une affinite forte
+ * (le bal, le tirage) ne se declenchent jamais.
+ */
+function startingAffinities(candidate: CharacterId): Partial<Record<CharacterId, number>> {
+  const affinities: Partial<Record<CharacterId, number>> = {};
+  for (const sheet of allCharacters()) {
+    if (sheet.id === candidate) continue;
+    affinities[sheet.id] = Math.max(-3, Math.min(3, sheet.affinity));
+  }
+  return affinities;
+}
+
 export function createDossier(candidate: CharacterId = 'franklyn'): Dossier {
   return {
     version: DOSSIER_VERSION,
     candidate,
     tags: [],
-    affinities: {},
+    affinities: startingAffinities(candidate),
     entries: [],
     practicalScore: null,
     writtenScore: null,

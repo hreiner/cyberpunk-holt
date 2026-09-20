@@ -23,7 +23,7 @@ import type { ExerciseScore } from '@/rules/scoring';
 import type { Action, CombatState, TeamId } from '@/tactical/types';
 import type { CharacterId } from '@/rules/character';
 import type { Dossier } from '@/core/dossier';
-import type { NarrativeOutcome, PresentedNode, RadioCue, RunState } from '@/narrative';
+import type { DraftState, NarrativeOutcome, PresentedNode, RadioCue, RunState } from '@/narrative';
 
 export const DEBUG_API_VERSION = 1;
 
@@ -115,6 +115,24 @@ export interface GameDebugApi {
   pickHub(dialogueId: string): PresentedNode | null;
   leaveHub(): NarrativeSceneSnapshot;
   radio(): RadioCue[];
+  /**
+   * Etat courant du tirage (ADR 0014), `null` hors de l'ecran de tirage :
+   * pool de cadets encore disponibles, picks deja effectues (dans l'ordre
+   * F/A/F/A), et de qui c'est le tour (`'franklyn' | 'abigail' | 'done'` --
+   * en pratique jamais observable a `'abigail'`, son choix est resolu dans le
+   * meme appel que celui de Franklyn, voir `pickTeammate`).
+   */
+  draft(): DraftState | null;
+  /**
+   * Choix de Franklyn pour le tirage (`node().choices` ne s'applique pas ici,
+   * ce n'est pas un dialogue) : resout aussi, dans le meme appel, le choix
+   * deterministe d'Abigail qui suit (`src/narrative/draft.ts`). Renvoie
+   * `{ ok, reason? }`, meme esprit que `choose()`. Appeler `draft()` ensuite
+   * pour lire l'etat a jour ; une fois `turn === 'done'`, `runState().roster`
+   * reflete deja les nouvelles equipes -- un dernier `advance()` rend la main
+   * a la scene suivante (meme idiome qu'un noeud de dialogue terminal).
+   */
+  pickTeammate(cadetId: CharacterId): NarrativeOutcome;
 }
 
 export function snapshot(app: GameApp): GameStateSnapshot {
@@ -247,6 +265,10 @@ export function installDebugApi(chapter: ChapterApp): GameDebugApi {
     },
 
     radio: () => chapter.peekRadio(),
+
+    draft: () => chapter.draft,
+
+    pickTeammate: (cadetId: CharacterId) => chapter.pickTeammate(cadetId),
   };
 
   (window as unknown as { __game: GameDebugApi }).__game = api;

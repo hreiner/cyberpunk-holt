@@ -63,3 +63,22 @@ export {
   FLAG_ADVERSE_TASER,
   FLAG_ADVERSE_GASSED,
 } from './offscreen';
+
+export type { DraftTurn, DraftPick, DraftState, DraftStepResult, DraftOutcome, DraftConsequences } from './draft';
+export {
+  DRAFT_POOL,
+  ABIGAIL_PREFERENCE_ORDER,
+  ABIGAIL_PICK_LINES,
+  DRAFT_EXPECTATION_AFFINITY,
+  DRAFT_FIRST_PICK_BONUS,
+  DRAFT_LEFT_BEHIND_PENALTY,
+  TAG_EQUIPE_BANDE,
+  TAG_EQUIPE_TACTIQUE,
+  DRAFT_DOSSIER_ENTRY_KEY,
+  createDraftState,
+  pick,
+  rosterFromDraft,
+  draftSummary,
+  draftConsequences,
+  applyDraftResult,
+} from './draft';

@@ -421,6 +421,7 @@ canvas {
 
 .narrative,
 .hub-screen,
+.draft-screen,
 .title-screen {
   position: absolute;
   inset: 0;
@@ -1201,6 +1202,227 @@ canvas {
 }
 
 /* ---------------------------------------------------------------------- */
+/* Tirage (src/ui/draftView.ts, ADR 0014) : meme langage visuel que le hub --*/
+/* portraits `card` devant le mur a graduations -- mais deux capitaines fixes*/
+/* de part et d'autre d'un pool central de quatre cadets disputes.         */
+/* ---------------------------------------------------------------------- */
+
+.draft-screen .narrative-backdrop {
+  flex: none;
+  height: 18vh;
+  min-height: 120px;
+}
+
+.draft-subtitle {
+  margin: 4px 0 0;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+}
+
+.draft-board {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  min-height: 0;
+  padding: 12px 24px;
+}
+
+.draft-captain {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+.draft-captain-tag {
+  position: absolute;
+  top: -10px;
+  z-index: 1;
+}
+
+.draft-captain-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-lg);
+}
+
+.draft-captain-role {
+  color: var(--bone-faint);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.draft-pool-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 8px;
+  overflow: hidden;
+}
+
+.draft-heightchart {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.draft-pool {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.draft-cadet-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--bone);
+  cursor: pointer;
+  transition:
+    transform 120ms ease-out,
+    opacity 120ms ease-out;
+}
+
+.draft-cadet-btn:not(:disabled):hover,
+.draft-cadet-btn:not(:disabled):focus-visible {
+  transform: translateY(-6px);
+  outline: none;
+}
+
+.draft-cadet-btn:not(:disabled):hover .portrait,
+.draft-cadet-btn:not(:disabled):focus-visible .portrait {
+  filter: drop-shadow(4px 4px 0 var(--red-deep));
+}
+
+.draft-cadet-btn:focus-visible .portrait {
+  outline: 2px solid var(--tape);
+  outline-offset: 2px;
+}
+
+.draft-cadet-btn:disabled {
+  cursor: default;
+}
+
+.draft-cadet-btn:disabled .portrait {
+  opacity: 0.55;
+}
+
+.draft-cadet-stamp {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  font-size: var(--fs-md);
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.draft-cadet-number {
+  position: absolute;
+  top: 6px;
+  left: -6px;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  border: 1px solid var(--rule);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  color: var(--bone-dim);
+}
+
+.draft-cadet-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-sm);
+}
+
+.draft-info {
+  position: absolute;
+  left: 50%;
+  bottom: 92px;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 10px 16px;
+  max-width: 320px;
+  text-align: center;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-text);
+  z-index: 2;
+}
+
+.draft-info-affinity {
+  font-variant-numeric: tabular-nums;
+  color: var(--tape);
+}
+
+.draft-reaction {
+  margin: 0 24px 8px;
+  min-height: 1.6em;
+  color: var(--bone-dim);
+  font-size: var(--fs-md);
+  text-align: center;
+}
+
+.draft-recap {
+  margin: 0 auto 24px;
+  padding: 20px 28px;
+  max-width: 420px;
+  text-align: center;
+}
+
+.draft-recap h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-lg);
+}
+
+.draft-recap-teams {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.draft-recap-teams ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+
+.draft-recap-blue {
+  color: var(--team-blue);
+}
+
+.draft-recap-red {
+  color: var(--team-red);
+}
+
+/* ---------------------------------------------------------------------- */
 /* Ecran titre (src/ui/titleView.ts, docs/art/UI-DESIGN-SYSTEM.md,         */
 /* "Écran titre") : "HOLT Academy" tres grand sur le ciel tramé.           */
 /* ---------------------------------------------------------------------- */
@@ -1502,6 +1724,74 @@ canvas {
     bottom: 16px;
     margin: 0;
     z-index: 1;
+  }
+
+  /* Tirage : les deux capitaines passent au-dessus du pool plutot qu'a cote
+     (meme raisonnement que le hub -- cinq/six cartes `card` ne tiennent pas
+     sur 375px de large), le pool defile horizontalement en dessous. */
+  .draft-screen .narrative-backdrop {
+    height: 88px;
+    min-height: 0;
+  }
+
+  .draft-board {
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 12px 96px;
+    overflow-y: auto;
+  }
+
+  .draft-captain {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .draft-captain .portrait {
+    width: 64px !important;
+    height: 85px !important;
+  }
+
+  .draft-captain-tag {
+    position: static;
+  }
+
+  /* `flex: 1 1 auto` + `overflow: hidden` (regles desktop) coupaient la
+     deuxieme ligne du pool quand les quatre cadets passent sur deux rangees
+     (correctif revue visuelle) : sur 375px, ce conteneur suit sa hauteur de
+     contenu comme le reste de `.draft-board` (`overflow-y: auto` deja pose
+     dessus), jamais un centrage qui l'ecrase sur une seule rangee visible. */
+  .draft-pool-wrap {
+    flex: none;
+    overflow: visible;
+    padding: 4px;
+  }
+
+  .draft-pool {
+    gap: 4px 8px;
+  }
+
+  .draft-cadet-btn .portrait {
+    width: 92px !important;
+    height: 123px !important;
+  }
+
+  .draft-info {
+    bottom: auto;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    transform: none;
+    max-width: none;
+  }
+
+  .draft-recap {
+    max-width: none;
+    margin: 0 12px 16px;
+    padding: 16px;
+  }
+
+  .draft-recap-teams {
+    gap: 16px;
   }
 
   /* Ecran titre : le sous-titre et les actions gardent leur place, seul le

@@ -74,9 +74,38 @@ async function traverseDialogue(page: Page): Promise<E2EPresentedNode | null> {
 
 /** Sur un noeud terminal, un dernier "Continuer" rend la main au chapitre (voir chapter.ts). */
 async function advanceToNextScene(page: Page): Promise<E2ESceneSnapshot> {
-  return page.evaluate(() => {
+  const scene = await page.evaluate(() => {
     window.__game.advance();
     return window.__game.scene();
+  });
+  // Le tirage (ADR 0014) intercale un ecran hors dialogue avant de vraiment
+  // avancer le routeur (meme principe que le bilan de l'exercice, voir
+  // docs/process/ARCHITECTURE.md) : la scene reste "ch1.tirage" tant que le
+  // joueur n'a pas choisi ses deux coequipiers. L'auto-joueur les choisit ici
+  // pour ne jamais rester bloque devant cet ecran.
+  if (scene.id === 'ch1.tirage' && !scene.finished) return performDraft(page);
+  return scene;
+}
+
+/**
+ * Joue le tirage (ADR 0014) : Franklyn choisit toujours le premier cadet
+ * encore disponible (reproductible, comme le reste de l'auto-joueur), le
+ * choix d'Abigail est resolu dans le meme appel (voir `pickTeammate` dans
+ * src/debug/gameApi.ts). Un dernier `advance()` rend la main a la scene
+ * suivante une fois le recap affiche.
+ */
+async function performDraft(page: Page): Promise<E2ESceneSnapshot> {
+  return page.evaluate(() => {
+    const api = window.__game;
+    let state = api.draft();
+    for (let i = 0; i < 10 && state && state.turn !== 'done'; i++) {
+      const cadetId = state.pool[0];
+      if (!cadetId) break;
+      api.pickTeammate(cadetId);
+      state = api.draft();
+    }
+    api.advance();
+    return api.scene();
   });
 }
 
@@ -115,6 +144,25 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
   const examDossier = await page.evaluate(() => window.__game.dossier());
   const examEntries = examDossier.entries.filter((e) => e.key.startsWith('ch1.exam.question'));
   expect(examEntries).toHaveLength(6);
+
+  /* --- 3bis. Le tirage (ADR 0014) : l'auto-joueur choisit deux coequipiers, --- */
+  /* le roster du RunState (source de verite du combat, plus DEFAULT_BLUE/RED) en garde la trace. */
+  await page.evaluate(() => window.__game.goToScene('ch1.tirage'));
+  await traverseDialogue(page); // joue l'ouverture (le directeur nomme les deux capitaines)
+  const afterTirage = await advanceToNextScene(page); // joue le tirage lui-meme, avance au hub
+  expect(afterTirage.id).toBe('ch1.hub');
+
+  const runAfterDraft: E2ERunState = await page.evaluate(() => window.__game.runState());
+  expect(runAfterDraft.roster.blue[0]).toBe('franklyn');
+  expect(runAfterDraft.roster.blue).toHaveLength(3);
+  expect(runAfterDraft.roster.red[0]).toBe('abigail');
+  expect(runAfterDraft.roster.red).toHaveLength(3);
+
+  const dossierAfterDraft = await page.evaluate(() => window.__game.dossier());
+  expect(dossierAfterDraft.entries.some((e) => e.key === 'ch1.tirage.choix')).toBe(true);
+  expect(
+    dossierAfterDraft.tags.includes('equipe-bande') || dossierAfterDraft.tags.includes('equipe-tactique'),
+  ).toBe(true);
 
   /* --- 3. Le parcours interieur alimente le RunState.teams avant l'affrontement --- */
   await page.evaluate(() => window.__game.goToScene('ch1.salle1'));

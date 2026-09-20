@@ -184,6 +184,21 @@ export interface E2EHubEntry {
   done: boolean;
 }
 
+/* --------------------------- tirage (ADR 0014) --------------------------- */
+
+export type E2EDraftTurn = 'franklyn' | 'abigail' | 'done';
+
+export interface E2EDraftPick {
+  cadet: string;
+  team: 'blue' | 'red';
+}
+
+export interface E2EDraftState {
+  pool: string[];
+  picks: E2EDraftPick[];
+  turn: E2EDraftTurn;
+}
+
 export interface E2ERadioCue {
   id: string;
   atTempo: number;
@@ -230,6 +245,10 @@ export interface E2EGameApi {
   pickHub(dialogueId: string): E2EPresentedNode | null;
   leaveHub(): E2ESceneSnapshot;
   radio(): E2ERadioCue[];
+  /** Voir `GameDebugApi.draft` dans src/debug/gameApi.ts (ADR 0014). */
+  draft(): E2EDraftState | null;
+  /** Voir `GameDebugApi.pickTeammate` dans src/debug/gameApi.ts (ADR 0014). */
+  pickTeammate(cadetId: string): { ok: boolean; reason?: string };
 }
 
 declare global {
