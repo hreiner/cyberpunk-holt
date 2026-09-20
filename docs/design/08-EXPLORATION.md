@@ -57,6 +57,14 @@ jets, le dé 3D, la radio, le combat restent ce qu'ils sont.
 - **Interaction** : clic → le personnage marche jusqu'à la case d'interaction (adjacente),
   se tourne, puis l'action se déclenche. Si le chemin est impossible, l'étiquette l'indique
   (« Hors d'atteinte ») au lieu de ne rien faire.
+- **Viser une entité est généreux, jamais pointu.** Toute la case d'une entité interactive
+  est cliquable, pas seulement les quelques pixels de son modèle : cliquer « à peu près
+  dessus » interagit. Sans cette règle, un clic manqué d'un cheveu devient un ordre de
+  déplacement **vers la case de l'objet**, et le personnage finit planté dedans — exactement
+  ce qu'on ne veut pas voir.
+- **On ne marche jamais sur une entité.** Une destination qui tombe sur la case d'un
+  personnage ou d'un objet est ramenée à sa case d'interaction. Seul un `seat` s'occupe :
+  on s'assoit dessus, c'est le geste.
 
 ## La caméra et les murs
 
@@ -125,6 +133,29 @@ Deux formes, selon le porteur — et l'écriture suit :
 
 Écrire une description dans la `line` d'un `npc` (« Un cadet enfile ses bottes ») la fait
 sortir de sa bouche entre guillemets : une entité `npc` parle, toujours.
+
+## La découverte des lieux
+
+**On ne sait pas ce qu'il y a dans une pièce avant d'y entrer.** C'est ce qui donne envie de
+pousser la porte suivante, et ce qui rend le centre d'examen inquiétant plutôt
+qu'administratif : on avance de salle en salle sans savoir ce qui attend.
+
+- La granularité est la **pièce** (`MapDef.rooms`). Une pièce est **découverte** quand
+  Franklyn y entre, et le reste pour la partie.
+- Une pièce non découverte garde sa **forme** — murs, porte, dimensions : on lit toujours le
+  plan du bâtiment, on n'explore pas à l'aveugle — mais son **contenu est caché** : mobilier,
+  objets, figurants, cadets. Son sol est rendu en masse sombre, nettement plus sombre que le
+  sol éclairé d'une pièce connue. Une pièce vide et une pièce pleine doivent se ressembler
+  tant qu'on n'y est pas entré, sinon la découverte ne cache rien.
+- **Rien ne fuite par un autre canal.** Une entité d'une pièce non découverte n'est ni
+  survolable, ni cliquable, ni atteignable au clavier (`Tab`), et ne compte pas dans la
+  liste des entités proches. Le repère d'objectif (`Tab` maintenu) montre la **destination**,
+  jamais ce qu'il y a autour.
+- Les **couloirs et les extérieurs** ne sont pas des pièces : ils sont toujours visibles. La
+  cour de containers non plus — le portail est un seuil, pas une porte, et l'affrontement doit
+  se voir venir.
+- L'ensemble découvert vit dans le `RunState` : recharger une partie ne re-cache pas des
+  pièces déjà visitées.
 
 ## Les objectifs
 
