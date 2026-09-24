@@ -10,14 +10,44 @@
 import * as THREE from 'three';
 import type { Rng } from '@/core/rng';
 import { ITEM_COLORS } from '@/data/items';
+import { EnvironmentMaterials } from '@/render/exploration/materials';
 import { CELL_SIZE_METERS, type TacticalMap } from '@/tactical/grid';
 import type { GroundItem, ItemId, Vec2 } from '@/tactical/types';
 
 export const TEAM_COLORS = { blue: 0x3fa9ff, red: 0xff5a52 } as const;
 
-const CONTAINER_PALETTE = [0xd9a441, 0x4f8f5a, 0xb4463c, 0x3a6ea5, 0xb0b3b8];
+/**
+ * Conteneurs : tôle nervurée usée plutôt que cinq aplats saturés (passe E, constat "la cour
+ * remplit tout le cadre de boîtes criardes" -- docs/art/UI-DESIGN-SYSTEM.md "le rouge est
+ * rare"). Chaque teinte réemploie la matière procédurale `containerSteel` (nervures + grain +
+ * vignette, `src/render/exploration/materials.ts`), seulement recolorée -- exactement ce que
+ * `ExploreView.buildCells` fait déjà pour les faux containers du parking du centre d'examen.
+ * Huit teintes désaturées, un écart de VALEUR (clair/sombre) plutôt que de teinte pour la
+ * variété entre conteneurs -- "dépareillé" par l'usure, jamais criard.
+ */
+const CONTAINER_TINTS = [
+  0xa89a72, // tan délavé
+  0x8f8362, // tan délavé, plus sombre
+  0x5c6b5a, // vert d'eau éteint
+  0x475244, // vert d'eau éteint, plus sombre
+  0x3a5568, // bleu pétrole éteint
+  0x2c4252, // bleu pétrole éteint, plus sombre
+  0x8f8d84, // gris blanchi
+  0x6e6d64, // gris blanchi, plus sombre
+] as const;
+
+/**
+ * Un seul conteneur rouge dans toute la cour (UI-DESIGN-SYSTEM.md "le rouge est rare" : "s'il
+ * apparaît, que ce soit sur un conteneur, pas sur dix"). Choisi par un tirage seedé parmi les
+ * cases container (voir `buildObstacles`), jamais par une probabilité uniforme qui en poserait
+ * plusieurs sur une carte de cette taille (~140 cases container).
+ */
+const RARE_CONTAINER_TINT = 0x7a4a3e;
+
+/** Repris de l'asphalte du parking (ADR 0019) : une plage large évite un damier sur un aussi grand sol. */
+const GROUND_TEXTURE_SPAN = 22;
+
 const ARMED_MINE_COLOR = 0xff3b30;
-const GROUND_COLOR = 0x2a2b30;
 const LINE_COLOR = 0x53555e;
 
 /** Convertit une case en coordonnees monde (centre de la case). */
@@ -52,6 +82,14 @@ export class YardView {
   private readonly hoverMaterial: THREE.MeshBasicMaterial;
   private readonly threatMaterial: THREE.MeshBasicMaterial;
   private readonly tileGeometry: THREE.PlaneGeometry;
+  /** Matières partagées (containers, sol) : une instance par YardView, libérée par `dispose()`. */
+  private readonly materials: EnvironmentMaterials;
+  /** Géométries et matériaux propres au décor (containers, caisses, sol), à libérer avec la vue. */
+  private readonly obstacleGeometries: THREE.BufferGeometry[] = [];
+  private readonly obstacleMaterials: THREE.Material[] = [];
+  private readonly spawnGeometry: THREE.RingGeometry;
+  private readonly spawnMaterials: THREE.Material[] = [];
+  private readonly grid: THREE.GridHelper;
 
   constructor(
     private readonly map: TacticalMap,
@@ -81,32 +119,42 @@ export class YardView {
     rim.position.set(-20, 12, -24);
     this.scene.add(rim);
 
+    this.materials = new EnvironmentMaterials(rng.fork('materials'));
+
     /* --- sol --- */
+    // Bitume use plutot qu'un aplat gris (docs/art/EXPLORATION-VISUAL-DESIGN.md, sol du
+    // parking/de la cour) : meme matiere photo CC0 que le parking du centre d'examen (ADR 0019),
+    // seule consommatrice de cette cle dans cette vue -- pas de clone necessaire, la matiere est
+    // directement utilisee (comportement par defaut de three.js pour le chargement reseau, voir
+    // le commentaire de `EnvironmentMaterials.get`). Plage de repetition large (meme valeur que
+    // l'asphalte du parking) pour eviter un damier sur un sol de 45 x 30 m.
     const w = map.width * CELL_SIZE_METERS;
     const h = map.height * CELL_SIZE_METERS;
-    this.groundPlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(w, h),
-      new THREE.MeshStandardMaterial({ color: GROUND_COLOR, roughness: 0.95 }),
-    );
+    const groundMaterial = this.materials.get('asphalt');
+    if (groundMaterial.map) {
+      groundMaterial.map.repeat.set(Math.max(1, w / GROUND_TEXTURE_SPAN), Math.max(1, h / GROUND_TEXTURE_SPAN));
+    }
+    this.groundPlane = new THREE.Mesh(new THREE.PlaneGeometry(w, h), groundMaterial);
     this.groundPlane.rotation.x = -Math.PI / 2;
     this.groundPlane.receiveShadow = true;
     this.root.add(this.groundPlane);
 
-    const grid = new THREE.GridHelper(
+    this.grid = new THREE.GridHelper(
       Math.max(w, h),
       Math.max(map.width, map.height),
       LINE_COLOR,
       LINE_COLOR,
     );
-    (grid.material as THREE.Material).opacity = 0.25;
-    (grid.material as THREE.Material).transparent = true;
-    grid.position.y = 0.01;
-    this.root.add(grid);
+    (this.grid.material as THREE.Material).opacity = 0.25;
+    (this.grid.material as THREE.Material).transparent = true;
+    this.grid.position.y = 0.01;
+    this.root.add(this.grid);
 
     /* --- containers et caisses --- */
     this.buildObstacles(rng);
 
     /* --- zones de deploiement --- */
+    this.spawnGeometry = new THREE.RingGeometry(0.5, 0.62, 20);
     this.buildSpawnMarkers(map.blueSpawns, TEAM_COLORS.blue);
     this.buildSpawnMarkers(map.redSpawns, TEAM_COLORS.red);
 
@@ -133,27 +181,71 @@ export class YardView {
   }
 
   private buildObstacles(rng: Rng): void {
+    // Toit legerement plus sombre (poussiere, moins de soleil direct qu'une face laterale) :
+    // memes indices de sommets que `ExploreView.buildCells` (`containerBox`) -- BoxGeometry
+    // range ses sommets par face, +Y (le toit) occupe les sommets 8-11.
     const containerGeo = new THREE.BoxGeometry(CELL_SIZE_METERS, 2.6, CELL_SIZE_METERS);
-    const crateGeo = new THREE.BoxGeometry(CELL_SIZE_METERS * 0.8, 1.0, CELL_SIZE_METERS * 0.8);
-    const crateMat = new THREE.MeshStandardMaterial({ color: 0x6b5a3e, roughness: 0.9 });
-    const materials = CONTAINER_PALETTE.map(
-      (c) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.8, metalness: 0.15 }),
-    );
+    const containerColors = new Float32Array(containerGeo.getAttribute('position').count * 3).fill(1);
+    for (let i = 8; i < 12; i++) {
+      containerColors[i * 3] = 0.62;
+      containerColors[i * 3 + 1] = 0.64;
+      containerColors[i * 3 + 2] = 0.66;
+    }
+    containerGeo.setAttribute('color', new THREE.BufferAttribute(containerColors, 3));
+    this.obstacleGeometries.push(containerGeo);
 
+    const crateGeo = new THREE.BoxGeometry(CELL_SIZE_METERS * 0.8, 1.0, CELL_SIZE_METERS * 0.8);
+    this.obstacleGeometries.push(crateGeo);
+
+    // Caisses en bois ET barils rouilles (reference vueexercicetactique.png) : deux matieres
+    // procedurales existantes plutot qu'un brun uni, et un contraste de matiere (bois chaud vs
+    // acier froid des containers) qui aide a distinguer couvert bas / couvert haut d'un coup d'oeil.
+    const crateMaterials = [this.materials.get('wood'), this.materials.get('rust')];
+
+    // Matiere de base des containers : `containerSteel` (nervures + grain, voir le commentaire
+    // du module plus haut), clonee et recoloree par teinte -- un seul canevas partage entre tous
+    // les clones (`Material.clone()` ne duplique pas la texture), donc aucune texture de plus.
+    const containerTemplate = this.materials.get('containerSteel');
+    const tintMaterials = new Map<number, THREE.MeshStandardMaterial>();
+    const materialForTint = (tint: number): THREE.MeshStandardMaterial => {
+      let material = tintMaterials.get(tint);
+      if (!material) {
+        material = containerTemplate.clone();
+        material.color.setHex(tint);
+        material.vertexColors = true;
+        tintMaterials.set(tint, material);
+        this.obstacleMaterials.push(material);
+      }
+      return material;
+    };
+
+    // Un seul container rouge sur toute la carte (voir `RARE_CONTAINER_TINT`) : tire une fois,
+    // seede, parmi les cases container reellement presentes sur cette carte, plutot qu'une
+    // probabilite uniforme qui en poserait plusieurs sur ~140 cases.
+    let containerCount = 0;
+    for (let y = 0; y < this.map.height; y++) {
+      for (let x = 0; x < this.map.width; x++) {
+        if (this.map.kindAt({ x, y }) === 'container') containerCount++;
+      }
+    }
+    const rareContainerIndex = containerCount > 0 ? rng.int(0, containerCount - 1) : -1;
+
+    let containerIndex = 0;
     for (let y = 0; y < this.map.height; y++) {
       for (let x = 0; x < this.map.width; x++) {
         const kind = this.map.kindAt({ x, y });
         if (kind !== 'container' && kind !== 'crate') continue;
         const { x: wx, z: wz } = cellToWorld(this.map, { x, y });
         if (kind === 'container') {
-          const mat = rng.pick(materials);
-          const mesh = new THREE.Mesh(containerGeo, mat);
+          const tint = containerIndex === rareContainerIndex ? RARE_CONTAINER_TINT : rng.pick(CONTAINER_TINTS);
+          containerIndex++;
+          const mesh = new THREE.Mesh(containerGeo, materialForTint(tint));
           mesh.position.set(wx, 1.3, wz);
           mesh.castShadow = true;
           mesh.receiveShadow = true;
           this.root.add(mesh);
         } else {
-          const mesh = new THREE.Mesh(crateGeo, crateMat);
+          const mesh = new THREE.Mesh(crateGeo, rng.pick(crateMaterials));
           mesh.position.set(wx, 0.5, wz);
           mesh.castShadow = true;
           this.root.add(mesh);
@@ -163,11 +255,11 @@ export class YardView {
   }
 
   private buildSpawnMarkers(cells: Vec2[], color: number): void {
-    const geo = new THREE.RingGeometry(0.5, 0.62, 20);
     const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.35, depthWrite: false });
+    this.spawnMaterials.push(mat);
     for (const cell of cells) {
       const { x, z } = cellToWorld(this.map, cell);
-      const mesh = new THREE.Mesh(geo, mat);
+      const mesh = new THREE.Mesh(this.spawnGeometry, mat);
       mesh.rotation.x = -Math.PI / 2;
       mesh.position.set(x, 0.015, z);
       this.root.add(mesh);
@@ -233,5 +325,34 @@ export class YardView {
       this.groundItemMaterials.set(key, material);
     }
     return material;
+  }
+
+  /**
+   * Libere les geometries et materiaux propres a cette vue -- indispensable depuis que le sol et
+   * les containers portent de vraies textures (photo et canevas procedural, `this.materials`) au
+   * lieu d'aplats sans cout GPU. `ChapterApp.enterTacticalScene` reutilise le meme `GameApp` d'une
+   * partie a l'autre (`startWith` -> `buildScene` -> `new YardView`) : sans ce nettoyage, chaque
+   * nouvelle partie empilerait les ressources de la precedente.
+   */
+  dispose(): void {
+    this.materials.dispose();
+    for (const geometry of this.obstacleGeometries) geometry.dispose();
+    for (const material of this.obstacleMaterials) material.dispose();
+    this.spawnGeometry.dispose();
+    for (const material of this.spawnMaterials) material.dispose();
+    this.tileGeometry.dispose();
+    this.reachMaterial.dispose();
+    this.hoverMaterial.dispose();
+    this.threatMaterial.dispose();
+    this.groundItemGeometry.taser.dispose();
+    this.groundItemGeometry.mine.dispose();
+    this.groundItemGeometry.marker.dispose();
+    for (const material of this.groundItemMaterials.values()) material.dispose();
+    this.groundItemMaterials.clear();
+    // Le materiau du sol appartient a `this.materials` (dispose ci-dessus) ; seule sa geometrie
+    // (PlaneGeometry propre a cette vue) reste a liberer ici.
+    this.groundPlane.geometry.dispose();
+    this.grid.geometry.dispose();
+    (this.grid.material as THREE.Material).dispose();
   }
 }

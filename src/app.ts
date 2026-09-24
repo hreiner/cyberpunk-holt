@@ -188,6 +188,7 @@ export class GameApp {
     this.disposed = true;
     if (this.aiTimer) clearTimeout(this.aiTimer);
     for (const rig of this.rigs.values()) rig.dispose();
+    this.view?.dispose();
     this.renderer.dispose();
   }
 
@@ -202,6 +203,9 @@ export class GameApp {
     this.queue.clear();
     this.eventCursor = this.combat.state.events.length;
     this.finishedNotified = false;
+    // `startWith` (rejouer une partie) reconstruit la vue sans recreer `GameApp` : sans ce
+    // nettoyage, les textures et geometries de la cour precedente restent en memoire GPU.
+    this.view?.dispose();
 
     this.view = new YardView(this.combat.map, createRng(`${this.combat.state.seed}::decor`));
     this.effects = new EffectsLayer();
