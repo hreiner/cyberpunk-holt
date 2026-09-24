@@ -38,6 +38,12 @@ export interface HumanRigOptions {
 
 const CADET_HEIGHT = 1.75;
 const ADULT_HEIGHT = 1.85;
+/**
+ * Un cadet tactique lit plus petit qu'en exploration : camera plus reculee (vue d'ensemble du
+ * terrain), pas de zoom rapproche permanent. Revue du 24/09 : a peine ~20px de haut par defaut,
+ * illisible. Combine a `TACTICAL_INITIAL_ZOOM` (`app.ts`), pas une resolution a lui seul.
+ */
+const TACTICAL_HEIGHT_BOOST = 1.18;
 const TRANSITION_SECONDS = 0.18;
 const WALK_METRES_PER_CYCLE = 1.5;
 const RUN_METRES_PER_CYCLE = 2.35;
@@ -45,13 +51,28 @@ const LABEL_CANVAS = { width: 224, height: 56 } as const;
 /** Etiquette agrandie en tactique : deux lignes (nom + materiel), cf. `drawLabel`. */
 const TACTICAL_LABEL_CANVAS = { width: 256, height: 96 } as const;
 const LABEL_WORLD_WIDTH = 2.35;
-const TACTICAL_LABEL_WORLD_WIDTH = 2.9;
+/**
+ * Repris a 1,5 m (etait 2,9, environ trois fois la largeur d'un cadet -- signale en revue sur
+ * `07-john-tete-hires.png`) : la plaque doit accompagner le personnage, pas le recouvrir.
+ */
+const TACTICAL_LABEL_WORLD_WIDTH = 1.5;
 /** Silhouette "rayon X" : capsule generique dessinee uniquement la ou un conteneur masque le cadet. */
 const XRAY_RADIUS = 0.3;
 const DEFAULT_RING_COLOR = 0xa1433e;
 /** Emissif leger de l'unite active (tactique) -- ART-DIRECTION.md, regle de lisibilite 2 :
  *  "L'unite active est mise en evidence -- emissif leger ET anneau opaque", pas l'un ou l'autre. */
 const HIGHLIGHT_EMISSIVE = 0x2a2200;
+const HIGHLIGHT_COLOR = new THREE.Color(HIGHLIGHT_EMISSIVE);
+/**
+ * Lumiere de remplissage propre au cadet (tactique seulement) : les trois sources globales de
+ * la cour (`yardView.ts`, ADR/ART-DIRECTION "trois sources, pas une de plus" -- hors perimetre
+ * de cette passe) laissent les uniformes sombres decoupes en ombre chinoise a la revue du 24/09
+ * (`07-john-tete-hires.png`). Plutot qu'une quatrieme source globale ou un mesh emissif qui
+ * n'eclairerait pas les surfaces voisines (ADR 0018, meme constat pour les luminaires
+ * d'exploration), chaque materiau du cadet recoit un emissif proportionnel a SA PROPRE couleur :
+ * ca le rend lisible sans laver son identite (l'uniforme sombre reste sombre, juste plus lu).
+ */
+const TACTICAL_FILL_EMISSIVE = 0.34;
 const CLIP_NAME: Record<RigAnimation, string> = {
   idle: 'Idle_Neutral',
   walk: 'Walk',
@@ -114,6 +135,9 @@ export class CadetRig implements CadetExplorationRig {
   private highlighted = false;
   private items: readonly ItemId[] | null = [];
   private equipmentLineVisible: boolean;
+  /** Emissif "de base" (remplissage tactique) par materiau, pour que `setHighlighted` l'AJOUTE
+   *  au lieu de l'ecraser -- voir `applyTacticalFill`. Vide en exploration. */
+  private readonly baseEmissive = new Map<THREE.MeshStandardMaterial, THREE.Color>();
 
   constructor(actor: VisualActor, teamColor: number, options: HumanRigOptions = {}) {
     this.id = actor.id;
@@ -135,7 +159,8 @@ export class CadetRig implements CadetExplorationRig {
     this.object.name = `cadet:${actor.id}`;
     this.object.add(this.visual);
     this.visual.add(this.model);
-    const height = options.adult ? ADULT_HEIGHT : CADET_HEIGHT;
+    const baseHeight = options.adult ? ADULT_HEIGHT : CADET_HEIGHT;
+    const height = this.tactical ? baseHeight * TACTICAL_HEIGHT_BOOST : baseHeight;
     this.visual.scale.setScalar(height / (modelType === 'female' ? 1.803 : 1.824));
     this.visual.scale.x *= profile.build === 'athletic' ? 1.07 : profile.build === 'slim' ? 0.94 : 1;
 
@@ -284,11 +309,13 @@ export class CadetRig implements CadetExplorationRig {
     this.highlighted = on;
     this.ring.material.opacity = on ? 1 : 0.55;
     // Anneau opaque ET emissif leger sur tout le modele (tactique seulement -- l'exploration
-    // n'a pas d'unite "active" a signaler de cette facon).
+    // n'a pas d'unite "active" a signaler de cette facon). S'AJOUTE au remplissage de base
+    // (`applyTacticalFill`), ne l'ecrase pas -- sinon l'unite active redeviendrait plus sombre
+    // que ses coequipiers des qu'elle rend la main.
     if (this.tactical) {
-      const tint = on ? HIGHLIGHT_EMISSIVE : 0x000000;
-      for (const material of this.ownedMaterials) {
-        if (material instanceof THREE.MeshStandardMaterial) material.emissive.setHex(tint);
+      for (const [material, base] of this.baseEmissive) {
+        material.emissive.copy(base);
+        if (on) material.emissive.add(HIGHLIGHT_COLOR);
       }
       this.drawLabel();
     }
@@ -508,6 +535,7 @@ export class CadetRig implements CadetExplorationRig {
           material.roughness = source.name.includes('Skin') ? 0.82 : 0.76;
           material.metalness = 0;
           material.flatShading = true;
+          this.applyTacticalFill(material);
         }
         return material;
       };
@@ -657,7 +685,16 @@ export class CadetRig implements CadetExplorationRig {
   private material(color: number, roughness: number): THREE.MeshStandardMaterial {
     const material = new THREE.MeshStandardMaterial({ color, roughness, metalness: 0.04, flatShading: true });
     this.ownedMaterials.push(material);
+    this.applyTacticalFill(material);
     return material;
+  }
+
+  /** Voir `TACTICAL_FILL_EMISSIVE`. No-op en exploration. */
+  private applyTacticalFill(material: THREE.MeshStandardMaterial): void {
+    if (!this.tactical) return;
+    const fill = material.color.clone().multiplyScalar(TACTICAL_FILL_EMISSIVE);
+    material.emissive.copy(fill);
+    this.baseEmissive.set(material, fill);
   }
 
   private part(

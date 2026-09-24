@@ -64,8 +64,11 @@ export class YardView {
     this.root.add(this.groundItems);
 
     /* --- lumieres --- */
-    this.scene.add(new THREE.HemisphereLight(0x8899bb, 0x20202a, 0.85));
-    const sun = new THREE.DirectionalLight(0xfff0d8, 1.1);
+    // Intensites relevees (0,85/1,1 -> 1,05/2,2) : a la meme energie que l'exploration
+    // (ADR 0018, atmosphere.ts, academie), les memes modeles de cadets se decoupaient en
+    // ombre chinoise en tactique -- revue du 24/09. Toujours trois sources, aucune ajoutee.
+    this.scene.add(new THREE.HemisphereLight(0x8899bb, 0x20202a, 1.05));
+    const sun = new THREE.DirectionalLight(0xfff0d8, 2.2);
     sun.position.set(24, 40, 18);
     sun.castShadow = true;
     sun.shadow.mapSize.set(1024, 1024);

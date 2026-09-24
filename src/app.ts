@@ -79,6 +79,8 @@ const CHEST_HEIGHT = 0.65;
 const MUZZLE_FORWARD = 0.55;
 const HIT_COLOR = 0xffffff;
 const MINE_COLOR = 0xff8a1f;
+/** Zoom (`IsoCamera`) au tout premier rendu de la vue tactique -- voir `IsoCamera.MIN_ZOOM` (18). */
+const TACTICAL_INITIAL_ZOOM = 20;
 
 export class GameApp {
   combat: TacticalCombat;
@@ -131,7 +133,10 @@ export class GameApp {
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(this.renderer.domElement);
 
-    this.iso = new IsoCamera(1);
+    // Zoom de depart plus serre que le defaut generique (34) : a la distance de jeu, un
+    // cadet doit se lire d'un coup d'oeil (equipe, etat) sans plisser les yeux -- signale en
+    // revue sur `01-debut-combat.png`. Les bornes (molette) restent celles d'`IsoCamera`.
+    this.iso = new IsoCamera(1, undefined, TACTICAL_INITIAL_ZOOM);
     this.combat = new TacticalCombat(setup);
     // Pas de son en mode test (`?ai=0`) : les effets y sont de toute facon ignores.
     this.sfx = new Sfx(this.aiDelayMs > 0, session.soundMuted);

@@ -46,9 +46,16 @@ export class IsoCamera {
   private insetsPx = { left: 0, right: 0, top: 0, bottom: 0 };
   private viewportHeightPx = 1;
 
-  constructor(aspect: number, zoomBounds?: ZoomBounds) {
+  /**
+   * `initialZoom` : point de depart different du defaut (34), sans toucher aux bornes
+   * `zoomBounds` (la molette continue d'aller de l'une a l'autre). L'exploration ne le passe
+   * jamais -- son cadrage d'entree est inchange ; seule la vue tactique l'utilise pour demarrer
+   * plus pres (voir `GameApp`, lisibilite des cadets a la distance de jeu par defaut).
+   */
+  constructor(aspect: number, zoomBounds?: ZoomBounds, initialZoom?: number) {
     this.minZoom = zoomBounds?.min ?? MIN_ZOOM;
     this.maxZoom = zoomBounds?.max ?? MAX_ZOOM;
+    if (initialZoom !== undefined) this.zoom = initialZoom;
     this.zoom = THREE.MathUtils.clamp(this.zoom, this.minZoom, this.maxZoom);
     this.camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, -500, 1000);
     this.applyZoom(aspect);
