@@ -39,6 +39,7 @@ aucune conversation à retrouver.
 | [`art/UI-DESIGN-SYSTEM.md`](art/UI-DESIGN-SYSTEM.md)                           | design system de l'interface HTML/CSS (« Encre rouge ») : jetons, typographie, formes, portraits, écrans        |
 | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md)                                   | de la référence au GLB dans le jeu, et comment remplacer les capsules                                           |
 | [`art/EXPLORATION-VISUAL-DESIGN.md`](art/EXPLORATION-VISUAL-DESIGN.md)         | design finalisé : exploration 3D picturale cyberpunk, nouveaux plans, personnages animés et critères de qualité |
+| [`art/ROOM-COMPOSITION.md`](art/ROOM-COMPOSITION.md)                           | audit de composition pièce par pièce : usage, ancre narrative, implantation du mobilier et circulation         |
 | [`art/REFERENCES.md`](art/REFERENCES.md)                                       | index et description des images de référence (`art/Reference_pictures/`)                                        |
 | [`art/image-generation/ORCHESTRATOR.md`](art/image-generation/ORCHESTRATOR.md) | production des illustrations : orchestrateur, bible de style, manifeste, fiches par image                       |
 

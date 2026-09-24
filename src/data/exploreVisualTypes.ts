@@ -6,12 +6,12 @@
  */
 
 import type { Cell } from '@/explore';
+import type { ExploreVisualModelId } from './exploreVisualModels';
 
 /** Quart de tour autour de l'axe vertical, orientation +Z a zero degre. */
 export type ExploreVisualRotation = 0 | 90 | 180 | 270;
 
-/** Identifiant stable resolu par la fabrique de meshes, pas un chemin d'asset. */
-export type ExploreVisualModelId = string;
+export type { ExploreVisualModelId };
 
 /**
  * Visibilite d'un placement : une piece suit sa decouverte ; l'exterieur est

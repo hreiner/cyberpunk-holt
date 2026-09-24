@@ -43,6 +43,13 @@ entités sur une case accessible ou adjacente à une case accessible, **toute ca
 d'interaction atteignable depuis chaque point d'apparition**, identifiants uniques et
 références `opensDoorAfterDialogue` vers une porte existante.
 
+**Où va quel meuble, et pourquoi** : [`../art/ROOM-COMPOSITION.md`](../art/ROOM-COMPOSITION.md)
+tient l'audit de composition pièce par pièce (usage, ancre narrative, implantation,
+circulation). Les blocs `o`/`T` de ces deux fichiers en découlent : le mobilier est adossé
+aux murs sauf quand sa fonction exige le centre, et son emprise correspond à la taille
+réelle du modèle qui l'habille
+([`../../src/data/exploreVisualModels.ts`](../../src/data/exploreVisualModels.ts)).
+
 **Implémentation actuelle** : `MapDef`, `EntityDef` et `Cell` sont définis dans
 [`src/explore/types.ts`](../../src/explore/types.ts). `validateMap()`
 ([`src/explore/validateMap.ts`](../../src/explore/validateMap.ts)) vérifie la structure et
@@ -107,6 +114,11 @@ Topologie à respecter :
   au sud, seule sortie vers l'extérieur.
 - Un **couloir de ceinture** fait le tour de l'aile est, relie les deux blocs par le nord
   (près de l'Administration) et par le milieu (entre la colonne ouest et la cour).
+- La cour intérieure et la Cantine ouvrent **directement** sur les Salles d'entraînement,
+  au sud. Attention au tracé : ces deux jonctions ont **deux rangées de mur** (la cour et
+  la cantine s'arrêtent à `y=31`, les salles d'entraînement commencent leur anneau à
+  `y=32`), contrairement aux autres jonctions de la carte qui partagent un seul mur. Les
+  deux rangées doivent être percées, sinon la porte donne sur du béton plein.
 - Taille actuelle à 1 m par case : **52 × 64**. Les pièces doivent rester lisibles à
   l'écran : la Cantine peut accueillir la promotion (une vingtaine de figurants assis), les
   Salles d'entraînement une trentaine de pupitres d'examen.

@@ -212,13 +212,57 @@ punchDoor(21, 61); // hall <-> parking
 /* Décor discret (mobilier, pas d'entité)                              */
 /* ------------------------------------------------------------------ */
 
-fillBlock(18, 65, 6, 3, 'T'); // parking : fourgon en une pièce, moteur coupé
-fillBlock(15, 54, 4, 1, 'o'); // hall : banc d'attente
-fillBlock(26, 57, 3, 1, 'o'); // hall : banc d'attente
-fillBlock(15, 35, 2, 3, 'T'); // salle 2 : armoire sécurisée
-fillBlock(24, 25, 2, 2, 'o'); // salle 3 : console de l'ordinateur
-fillBlock(15, 45, 3, 1, 'o'); // salle 1 : mobilier qui cadre l'otage
-fillBlock(27, 47, 2, 2, 'T'); // salle 1 : ancien poste de sécurité
+// Passe de cohérence du décor (docs/art/ROOM-COMPOSITION.md). Le centre est DÉSAFFECTÉ :
+// le mobilier n'y est pas « rangé » comme à l'académie, il est poussé contre les murs et
+// abandonné là. Chaque salle garde donc ses bords chargés et son centre vide — c'est ce
+// vide qui laisse lire l'ancre narrative (le chien, l'armoire, le terminal) et la sortie.
+
+// Parking — le fourgon est garé SUR LE CÔTÉ, pas au milieu de l'aire de manœuvre.
+fillBlock(24, 66, 5, 3, 'T'); // fourgon de l'académie, moteur coupé
+fillBlock(9, 62, 2, 2, 'T'); // fûts, angle nord-ouest
+fillBlock(9, 67, 2, 2, 'T'); // caisses sur palette, angle sud-ouest
+setChar(18, 63, 'o'); // barrière de chantier, à gauche du chemin vers la porte
+setChar(24, 63, 'o'); // barrière de chantier, à droite
+setChar(35, 62, 'T'); // pylône de signalisation, angle nord-est
+
+// Hall d'entrée — bancs adossés aux deux murs latéraux, matériel contre le mur nord de
+// part et d'autre de la porte de la salle 1. Le centre reste vide : c'est là que
+// l'instructeur fait son briefing, et c'est lui qu'on doit voir en entrant.
+fillBlock(13, 55, 1, 3, 'o'); // banc d'attente ouest, face à l'est
+fillBlock(30, 55, 1, 3, 'o'); // banc d'attente est, face à l'ouest
+fillBlock(14, 52, 3, 1, 'T'); // banque technique, mur nord
+fillBlock(28, 52, 2, 1, 'T'); // cage à matériel, mur nord
+fillBlock(13, 59, 2, 2, 'T'); // caisses, angle sud-ouest
+setChar(30, 52, 'T'); // pylône de signalisation, angle nord-est
+
+// Salle 1 — la porte et le chien. On entre au sud-est (26,51), on ressort au nord-ouest
+// (17,41) : la traversée est oblique, et tout le mobilier est sur les bords pour que le
+// chien, l'otage et les deux portes soient les seules choses au milieu.
+fillBlock(13, 45, 3, 2, 'T'); // enclos cynophile, mur ouest — le chien en est sorti
+fillBlock(14, 48, 2, 1, 'o'); // obstacle du parcours, rangé contre le mur ouest
+fillBlock(14, 50, 3, 1, 'o'); // barrières d'exercice empilées, mur sud
+fillBlock(29, 46, 2, 2, 'T'); // poste de sécurité, mur est — l'otage s'abrite derrière
+fillBlock(27, 42, 3, 1, 'T'); // banque technique, mur nord
+fillBlock(13, 42, 2, 1, 'T'); // cage à matériel, angle nord-ouest
+setChar(30, 42, 'T'); // pylône de signalisation, angle nord-est
+
+// Salle 2 — le choix coûteux. L'armoire est SEULE contre le mur ouest, éclairée : c'est
+// le détour qu'on voit et qu'on décide. Le reste du matériel est aligné au mur est.
+fillBlock(13, 35, 2, 3, 'T'); // armoire sécurisée
+fillBlock(30, 34, 1, 2, 'T'); // cage à matériel nord
+fillBlock(30, 37, 1, 2, 'T'); // cage à matériel sud
+fillBlock(27, 32, 3, 1, 'T'); // banque technique, mur nord
+fillBlock(13, 39, 2, 2, 'T'); // caisses, angle sud-ouest
+
+// Salle 3 — le gaz et la vidéo. L'ordinateur est un ÎLOT au centre (c'est une ancienne
+// salle de contrôle : sa console y a toujours été), entouré de vide, la sortie nord dans
+// son axe. Bouteilles et filtration aux murs disent d'où vient le gaz.
+fillBlock(21, 26, 2, 2, 'o'); // îlot de supervision (entité salle3.ordinateur)
+fillBlock(13, 26, 1, 3, 'T'); // banque de filtration, mur ouest
+fillBlock(29, 28, 2, 2, 'T'); // trémie de filtration, angle sud-est
+fillBlock(29, 22, 2, 2, 'T'); // fûts, angle nord-est
+fillBlock(13, 23, 2, 1, 'T'); // bouteilles sous pression, mur nord
+setChar(13, 30, 'T'); // pylône d'évacuation, angle sud-ouest
 
 /* ------------------------------------------------------------------ */
 /* Conversion en ASCII, avec vérification de largeur au chargement     */
@@ -295,7 +339,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle1.chien',
     type: 'npc',
-    cell: { x: 19, y: 46 },
+    cell: { x: 20, y: 46 }, // au milieu du vide, sorti de son enclos : on ne voit que lui
     label: 'Regarder le chien',
     condition: etape('salle1'),
     // Même dialogue que le panneau, entrée plus tardive (voir en-tête : deux entités, une seule
@@ -306,7 +350,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle1.otage',
     type: 'npc',
-    cell: { x: 23, y: 47 },
+    cell: { x: 28, y: 47 }, // adosse au poste de securite du mur est, a couvert
     label: "Parler à l'otage",
     condition: etape('salle1'),
     dialogueId: 'ch1.salle1',
@@ -317,7 +361,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle2.armoire',
     type: 'object',
-    cell: { x: 15, y: 35 },
+    cell: { x: 14, y: 36 }, // l armoire elle-meme, seule contre le mur ouest
     label: "Forcer l'armoire sécurisée",
     condition: etape('salle2'),
     // Détour facultatif ("le choix coûteux") : conversation annexe, n'avance pas le routeur.
@@ -354,7 +398,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle3.ordinateur',
     type: 'object',
-    cell: { x: 24, y: 25 },
+    cell: { x: 21, y: 26 }, // l ilot de supervision, au centre de la salle de controle
     label: "Utiliser l'ordinateur",
     condition: etape('salle3'),
     // Détour facultatif ("rester malgré le gaz") : conversation annexe, n'avance pas le routeur.
@@ -404,7 +448,7 @@ const SPAWNS: Record<string, { x: number; y: number }> = {
   hall: { x: 21, y: 57 },
   salle1: { x: 22, y: 47 },
   salle2: { x: 22, y: 37 },
-  salle3: { x: 22, y: 27 },
+  salle3: { x: 24, y: 27 }, // a cote de l ilot, la sortie nord dans l axe
   // Au SUD du portail (`cour.portail`, aire y = 19-20), côté salle 3 : un joueur qui recharge
   // pendant cette étape réapparaît avant le déclencheur, jamais déjà au-delà (défaut réel
   // constaté par l'orchestrateur -- l'ancien spawn {21,10} était au nord de la zone, donc déjà

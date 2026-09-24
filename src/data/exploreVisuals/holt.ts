@@ -1,6 +1,27 @@
-/** Habillage explicite de l'académie : emprises revues avec le plan L1. */
+/**
+ * Habillage explicite de l'académie HOLT.
+ *
+ * Passe de cohérence du décor — le plan de lecture est dans
+ * `docs/art/ROOM-COMPOSITION.md`, pièce par pièce. Trois règles y président et
+ * se relisent ici à l'œil nu :
+ *
+ * 1. **Le mobilier vit contre les murs**, sauf quand sa fonction exige le
+ *    centre (bassin de la cour, cercle de combat, rangs d'examen).
+ * 2. **Ce qui sert ensemble est ensemble** : les postes de netrun en rangée
+ *    face au même mur, les casiers alignés, les fûts près de l'établi.
+ * 3. **L'ancre narrative se détache** : autour d'elle, du vide, une réglette
+ *    ou un marquage au sol — jamais trois meubles.
+ *
+ * Les rotations sont des quarts de tour : 0 = l'avant du modèle regarde le SUD
+ * (+y sur la carte), 90 = l'EST, 180 = le NORD, 270 = l'OUEST. Un meuble adossé
+ * à un mur regarde donc l'intérieur de sa pièce.
+ *
+ * `src/data/exploreVisualModels.ts` dit ce que chaque modèle occupe réellement,
+ * et `tests/unit/exploreVisualPlacements.test.ts` vérifie que chaque emprise
+ * posée ici correspond à ce que l'ASCII de `holt.ts` dit de ces cases.
+ */
 import type { Cell } from '@/explore';
-import type { ExploreVisualMapDef } from '../exploreVisualTypes';
+import type { ExploreVisualMapDef, ExploreVisualPlacement } from '../exploreVisualTypes';
 
 const rect = (x: number, y: number, width: number, height: number): Cell[] =>
   Array.from({ length: height }, (_, row) =>
@@ -11,333 +32,212 @@ const anchor = (x: number, y: number, width: number, height: number): Cell => ({
   y: y + (height - 1) / 2,
 });
 
-const bed = (id: string, x: number, y: number) => ({
+/** Meuble plein : son emprise est reprise telle quelle à la carte, placeholder générique retiré. */
+const solid = (
+  id: string,
+  model: ExploreVisualPlacement['model'],
+  roomId: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  rotation: ExploreVisualPlacement['rotation'] = 0,
+  extra: Partial<ExploreVisualPlacement> = {},
+): ExploreVisualPlacement => ({
   id,
-  model: 'bed-cadet',
-  cell: anchor(x, y, 2, 3),
-  footprint: rect(x, y, 2, 3),
-  replaces: rect(x, y, 2, 3),
-  roomId: 'dortoirs' as const,
+  model,
+  cell: anchor(x, y, width, height),
+  footprint: rect(x, y, width, height),
+  replaces: rect(x, y, width, height),
+  rotation,
+  roomId,
+  ...extra,
 });
-const examDesk = (x: number, y: number, entityId?: string) => ({
-  id: `entrainement.pupitre-${x}-${y}`,
-  model: 'exam-desk',
-  cell: { x, y },
-  footprint: [{ x, y }],
-  roomId: 'salles-entrainement' as const,
-  ...(entityId ? { entityId } : {}),
+
+/** Marquage au sol ou objet suspendu : ne bloque rien, ne remplace rien. */
+const light = (
+  id: string,
+  model: ExploreVisualPlacement['model'],
+  roomId: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  rotation: ExploreVisualPlacement['rotation'] = 0,
+): ExploreVisualPlacement => ({
+  id,
+  model,
+  cell: anchor(x, y, width, height),
+  footprint: rect(x, y, width, height),
+  rotation,
+  roomId,
 });
+
+/** Lit de cadet : tête au mur, donc orienté par la travée à laquelle il appartient. */
+const bed = (id: string, x: number, y: number, rotation: 90 | 270): ExploreVisualPlacement =>
+  solid(id, 'bed-cadet', 'dortoirs', x, y, 3, 2, rotation);
+
+const examDesk = (x: number, y: number, entityId?: string): ExploreVisualPlacement =>
+  entityId
+    ? {
+        id: `entrainement.pupitre-${x}-${y}`,
+        model: 'exam-desk',
+        cell: { x, y },
+        footprint: [{ x, y }],
+        roomId: 'salles-entrainement',
+        entityId,
+      }
+    : solid(`entrainement.pupitre-${x}-${y}`, 'exam-desk', 'salles-entrainement', x, y, 1, 1);
 
 export const HOLT_VISUALS: ExploreVisualMapDef = {
   mapId: 'holt',
   placements: [
-    {
-      id: 'administration.banc-reception',
-      model: 'waiting-bench',
-      cell: { x: 7, y: 3 },
-      footprint: [{ x: 7, y: 3 }],
-      replaces: [{ x: 7, y: 3 }],
-      roomId: 'administration',
-    },
-    {
-      id: 'administration.bureau-accueil',
-      model: 'admin-desk',
-      cell: { x: 14, y: 3 },
-      footprint: [{ x: 14, y: 3 }],
-      replaces: [{ x: 14, y: 3 }],
-      roomId: 'administration',
-    },
-    {
-      id: 'interface.poste-nord',
-      model: 'netrun-station',
-      cell: { x: 7, y: 10 },
-      footprint: [{ x: 7, y: 10 }],
-      replaces: [{ x: 7, y: 10 }],
-      roomId: 'interface',
-    },
-    {
-      id: 'interface.poste-sud',
-      model: 'netrun-station',
-      cell: { x: 7, y: 13 },
-      footprint: [{ x: 7, y: 13 }],
-      replaces: [{ x: 7, y: 13 }],
-      roomId: 'interface',
-    },
+    /* -- Administration : un guichet, une attente, un passage ------------- */
+    // On entre par l'ouest ou par l'est, on traverse ; ce qu'on doit voir, c'est
+    // la porte fermée du directeur au nord, et le guichet qui la garde.
+    solid('administration.bureau-accueil', 'admin-desk', 'administration', 13, 2, 3, 1, 0),
+    solid('administration.banc-reception', 'waiting-bench', 'administration', 6, 7, 3, 1, 0),
+    solid('administration.armoire-dossiers', 'archive-shelves', 'administration', 5, 6, 1, 2, 270),
+    light('administration.reglette-guichet', 'strip-light', 'administration', 13, 4, 2, 1, 0),
+
+    /* -- Interface : trois postes en rangée, un terminal à part ----------- */
+    solid('interface.poste-ouest', 'netrun-station', 'interface', 6, 9, 2, 1, 180),
+    solid('interface.poste-centre', 'netrun-station', 'interface', 9, 9, 2, 1, 180),
+    solid('interface.poste-est', 'netrun-station', 'interface', 12, 9, 2, 1, 180),
+    // Le seul allumé, isolé contre le mur ouest : il se détache des trois autres.
     {
       id: 'interface.terminal',
       model: 'netrun-terminal',
-      cell: { x: 10, y: 11 },
-      footprint: [{ x: 10, y: 11 }],
+      cell: { x: 5, y: 12 },
+      footprint: [{ x: 5, y: 12 }],
+      replaces: [{ x: 5, y: 12 }],
+      rotation: 270,
       entityId: 'interface.terminal',
       roomId: 'interface',
     },
-    {
-      id: 'infirmerie.lit-nord',
-      model: 'medical-bed',
-      cell: { x: 7, y: 17 },
-      footprint: [{ x: 7, y: 17 }],
-      replaces: [{ x: 7, y: 17 }],
-      roomId: 'infirmerie',
-    },
-    {
-      id: 'infirmerie.lit-sud',
-      model: 'medical-bed',
-      cell: { x: 7, y: 21 },
-      footprint: [{ x: 7, y: 21 }],
-      replaces: [{ x: 7, y: 21 }],
-      roomId: 'infirmerie',
-    },
-    {
-      id: 'infirmerie.armoire-pharmacie',
-      model: 'medical-cabinet',
-      cell: { x: 14, y: 18 },
-      footprint: [{ x: 14, y: 18 }],
-      replaces: [{ x: 14, y: 18 }],
-      roomId: 'infirmerie',
-    },
-    {
-      id: 'armurerie.caisse-tasers',
-      model: 'weapon-case',
-      cell: { x: 7, y: 26 },
-      footprint: [{ x: 7, y: 26 }],
-      replaces: [{ x: 7, y: 26 }],
-      roomId: 'armurerie',
-    },
-    {
-      id: 'armurerie.ratelier-nord',
-      model: 'weapon-rack',
-      cell: { x: 14, y: 25 },
-      footprint: [{ x: 14, y: 25 }],
-      replaces: [{ x: 14, y: 25 }],
-      roomId: 'armurerie',
-    },
-    {
-      id: 'armurerie.ratelier-sud',
-      model: 'weapon-rack',
-      cell: { x: 14, y: 29 },
-      footprint: [{ x: 14, y: 29 }],
-      replaces: [{ x: 14, y: 29 }],
-      roomId: 'armurerie',
-    },
-    {
-      id: 'archives.etagere-basse',
-      model: 'archive-shelves',
-      cell: { x: 7, y: 34 },
-      footprint: [{ x: 7, y: 34 }],
-      replaces: [{ x: 7, y: 34 }],
-      roomId: 'archives',
-    },
-    {
-      id: 'archives.baie-serveur-nord',
-      model: 'server-shelves',
-      cell: { x: 14, y: 33 },
-      footprint: [{ x: 14, y: 33 }],
-      replaces: [{ x: 14, y: 33 }],
-      roomId: 'archives',
-    },
-    {
-      id: 'archives.baie-serveur-sud',
-      model: 'server-shelves',
-      cell: { x: 14, y: 37 },
-      footprint: [{ x: 14, y: 37 }],
-      replaces: [{ x: 14, y: 37 }],
-      roomId: 'archives',
-    },
-    {
-      id: 'local-technique.etabli',
-      model: 'workbench',
-      cell: { x: 7, y: 42 },
-      footprint: [{ x: 7, y: 42 }],
-      replaces: [{ x: 7, y: 42 }],
-      roomId: 'local-technique',
-    },
-    {
-      id: 'local-technique.transformateur-nord',
-      model: 'transformer',
-      cell: { x: 14, y: 41 },
-      footprint: [{ x: 14, y: 41 }],
-      replaces: [{ x: 14, y: 41 }],
-      roomId: 'local-technique',
-    },
-    {
-      id: 'local-technique.transformateur-sud',
-      model: 'transformer',
-      cell: { x: 14, y: 45 },
-      footprint: [{ x: 14, y: 45 }],
-      replaces: [{ x: 14, y: 45 }],
-      roomId: 'local-technique',
-    },
-    bed('dortoir.lit-ouest-1', 27, 2),
-    bed('dortoir.lit-ouest-2', 27, 7),
-    bed('dortoir.lit-ouest-3', 31, 2),
-    bed('dortoir.lit-ouest-4', 31, 7),
-    bed('dortoir.lit-est-1', 45, 2),
-    bed('dortoir.lit-est-2', 45, 7),
-    bed('dortoir.lit-est-3', 48, 2),
-    bed('dortoir.lit-est-4', 48, 7),
-    {
-      id: 'dortoir.casiers-ouest',
-      model: 'locker-bank',
-      cell: anchor(35, 2, 1, 4),
-      footprint: rect(35, 2, 1, 4),
-      replaces: rect(35, 2, 1, 4),
-      roomId: 'dortoirs',
-    },
-    {
-      id: 'dortoir.casiers-est',
-      model: 'locker-bank',
-      cell: anchor(43, 2, 1, 4),
-      footprint: rect(43, 2, 1, 4),
-      replaces: rect(43, 2, 1, 4),
-      roomId: 'dortoirs',
-    },
-    {
-      id: 'dortoir.sas-controle',
-      model: 'access-console-bank',
-      cell: anchor(27, 13, 4, 1),
-      footprint: rect(27, 13, 4, 1),
-      replaces: rect(27, 13, 4, 1),
-      roomId: 'dortoirs',
-    },
-    {
-      id: 'cour.arbre',
-      model: 'courtyard-tree',
-      cell: { x: 31, y: 20 },
-      footprint: [{ x: 31, y: 20 }],
-      replaces: [{ x: 31, y: 20 }],
-      roomId: 'cour-interieure',
-    },
-    {
-      id: 'cour.bassin',
-      model: 'square-basin',
-      cell: anchor(30, 25, 3, 3),
-      footprint: rect(30, 25, 3, 3),
-      // Sans `replaces`, le rendu générique des cases (désormais `o`, mobilier bas -- voir
-      // holt.ts) restait dessiné SOUS/À CÔTÉ du modèle "square-basin", d'où un doublon visuel.
-      replaces: rect(30, 25, 3, 3),
-      roomId: 'cour-interieure',
-    },
-    {
-      id: 'cantine.estrade',
-      model: 'canteen-podium',
-      cell: anchor(40, 28, 3, 1),
-      footprint: rect(40, 28, 3, 1),
-      replaces: rect(40, 28, 3, 1),
-      roomId: 'cantine',
-    },
-    {
-      id: 'cantine.table-1',
-      model: 'canteen-table',
-      cell: anchor(40, 18, 2, 2),
-      footprint: rect(40, 18, 2, 2),
-      replaces: rect(40, 18, 2, 2),
-      roomId: 'cantine',
-    },
-    {
-      id: 'cantine.table-2',
-      model: 'canteen-table',
-      cell: anchor(44, 21, 2, 2),
-      footprint: rect(44, 21, 2, 2),
-      replaces: rect(44, 21, 2, 2),
-      roomId: 'cantine',
-    },
-    {
-      id: 'cantine.chaise-abraham',
-      model: 'canteen-chair',
-      cell: { x: 41, y: 21 },
-      rotation: 90,
-      footprint: [{ x: 41, y: 21 }],
+
+    /* -- Infirmerie & labo : deux lits au mur, la paillasse au nord ------- */
+    solid('infirmerie.lit-nord', 'medical-bed', 'infirmerie', 5, 17, 2, 1, 270),
+    solid('infirmerie.lit-sud', 'medical-bed', 'infirmerie', 5, 21, 2, 1, 270),
+    solid('infirmerie.paillasse', 'workbench', 'infirmerie', 12, 16, 3, 2, 0),
+    solid('infirmerie.armoire-pharmacie', 'medical-cabinet', 'infirmerie', 16, 16, 1, 1, 90),
+    light('infirmerie.reglette-lits', 'strip-light', 'infirmerie', 6, 19, 2, 1, 0),
+
+    /* -- Armurerie : les râteliers alignés, les caisses en face ----------- */
+    solid('armurerie.ratelier-ouest', 'weapon-rack', 'armurerie', 6, 24, 2, 1, 180),
+    solid('armurerie.ratelier-centre', 'weapon-rack', 'armurerie', 9, 24, 2, 1, 180),
+    solid('armurerie.ratelier-est', 'weapon-rack', 'armurerie', 12, 24, 2, 1, 180),
+    solid('armurerie.caisse-tasers', 'weapon-case', 'armurerie', 6, 30, 2, 1, 180),
+    solid('armurerie.caisse-munitions', 'weapon-case', 'armurerie', 9, 30, 2, 1, 180),
+    solid('armurerie.armoire-blindee', 'secure-locker', 'armurerie', 15, 29, 2, 2, 270),
+    light('armurerie.marque-rassemblement', 'hazard-floor-zone', 'armurerie', 9, 26, 3, 2, 0),
+
+    /* -- Archives & serveurs : serveurs au nord, papier au sud ------------ */
+    solid('archives.baie-serveur-ouest', 'server-shelves', 'archives', 6, 32, 2, 1, 180),
+    solid('archives.baie-serveur-centre', 'server-shelves', 'archives', 9, 32, 2, 1, 180),
+    solid('archives.baie-serveur-est', 'server-shelves', 'archives', 12, 32, 2, 1, 180),
+    solid('archives.etagere-ouest', 'archive-shelves', 'archives', 6, 38, 2, 1, 0),
+    solid('archives.etagere-centre', 'archive-shelves', 'archives', 9, 38, 2, 1, 0),
+    solid('archives.etagere-est', 'archive-shelves', 'archives', 12, 38, 2, 1, 0),
+
+    /* -- Local technique : les deux transformateurs ensemble -------------- */
+    solid('local-technique.transformateur-nord', 'transformer', 'local-technique', 5, 40, 2, 2, 270),
+    solid('local-technique.transformateur-sud', 'transformer', 'local-technique', 5, 44, 2, 2, 270),
+    // L'établi est près de la gaine qu'il sert : le matériel de maintenance ne
+    // se range pas à l'autre bout de la salle.
+    solid('local-technique.etabli', 'workbench', 'local-technique', 12, 45, 3, 2, 180),
+    light('local-technique.gaine', 'vent-duct', 'local-technique', 12, 43, 3, 1, 0),
+    light('local-technique.conduite', 'pipe-run', 'local-technique', 8, 42, 4, 1, 0),
+    light('local-technique.balise', 'warning-beacon', 'local-technique', 8, 40, 1, 1, 180),
+
+    /* -- Dortoirs : deux travées au mur, pièce commune au centre ---------- */
+    bed('dortoir.lit-ouest-1', 26, 1, 90),
+    bed('dortoir.lit-ouest-2', 26, 4, 90),
+    bed('dortoir.lit-ouest-3', 26, 9, 90),
+    bed('dortoir.lit-ouest-4', 26, 12, 90),
+    bed('dortoir.lit-est-1', 48, 1, 270),
+    bed('dortoir.lit-est-2', 48, 4, 270),
+    bed('dortoir.lit-est-3', 48, 9, 270),
+    bed('dortoir.lit-est-4', 48, 12, 270),
+    // Casiers adossés au mur nord, portes vers la pièce commune. Le casier de
+    // Franklyn (entité `dortoir.casier`) est celui de gauche.
+    solid('dortoir.casiers-ouest', 'locker-bank', 'dortoirs', 34, 1, 4, 1, 270),
+    solid('dortoir.casiers-est', 'locker-bank', 'dortoirs', 40, 1, 4, 1, 270),
+    solid('dortoir.banc-commun-ouest', 'waiting-bench', 'dortoirs', 34, 15, 3, 1, 0),
+    solid('dortoir.banc-commun-est', 'waiting-bench', 'dortoirs', 41, 15, 3, 1, 0),
+    solid('dortoir.sas-controle', 'access-console-bank', 'dortoirs', 27, 15, 4, 1, 0),
+    light('dortoir.reglette-allee', 'strip-light', 'dortoirs', 37, 7, 2, 1, 0),
+    light('dortoir.gaine-commune', 'vent-duct', 'dortoirs', 38, 11, 3, 1, 0),
+
+    /* -- Cour intérieure : le bassin est le point d'orientation ----------- */
+    solid('cour.bassin', 'square-basin', 'cour-interieure', 30, 22, 3, 3, 0),
+    solid('cour.arbre', 'courtyard-tree', 'cour-interieure', 34, 19, 1, 1, 0),
+    // Les deux bancs REGARDENT le bassin : l'un depuis l'ouest, l'autre depuis
+    // le sud-est, où Grover et son trio se tiennent au temps libre.
+    solid('cour.banc-ouest', 'waiting-bench', 'cour-interieure', 28, 20, 1, 3, 270),
+    solid('cour.banc-sud-est', 'waiting-bench', 'cour-interieure', 33, 27, 3, 1, 0),
+
+    /* -- Cantine : deux rangées, une allée, une estrade ------------------- */
+    solid('cantine.table-ouest-nord', 'canteen-table', 'cantine', 40, 19, 2, 2, 0),
+    solid('cantine.table-ouest-centre', 'canteen-table', 'cantine', 40, 22, 2, 2, 0),
+    solid('cantine.table-ouest-sud', 'canteen-table', 'cantine', 40, 25, 2, 2, 0),
+    solid('cantine.table-est-nord', 'canteen-table', 'cantine', 44, 19, 2, 2, 0),
+    solid('cantine.table-est-centre', 'canteen-table', 'cantine', 44, 22, 2, 2, 0),
+    solid('cantine.table-est-sud', 'canteen-table', 'cantine', 44, 25, 2, 2, 0),
+    // Chaque chaise REGARDE sa table. Celles des figurants occupent leur case
+    // (un cadet y est assis) ; celle de Franklyn reste franchissable, on s'y assoit.
+    solid('cantine.chaise-abraham', 'canteen-chair', 'cantine', 39, 22, 1, 1, 270, {
       entityId: 'cantine.figurant-abraham',
-      roomId: 'cantine',
-    },
-    {
-      id: 'cantine.chaise-betty',
-      model: 'canteen-chair',
-      cell: { x: 46, y: 23 },
-      rotation: 180,
-      footprint: [{ x: 46, y: 23 }],
+    }),
+    solid('cantine.chaise-betty', 'canteen-chair', 'cantine', 43, 23, 1, 1, 270, {
       entityId: 'cantine.figurant-betty',
-      roomId: 'cantine',
-    },
+    }),
+    solid('cantine.chaise-calvin', 'canteen-chair', 'cantine', 46, 26, 1, 1, 90, {
+      entityId: 'cantine.figurant-calvin',
+    }),
     {
       id: 'cantine.chaise-franklyn',
       model: 'canteen-chair',
-      cell: { x: 43, y: 21 },
+      cell: { x: 42, y: 22 },
+      footprint: [{ x: 42, y: 22 }],
       rotation: 90,
-      footprint: [{ x: 43, y: 21 }],
       entityId: 'cantine.place-franklyn',
       roomId: 'cantine',
     },
-    {
-      id: 'cantine.table-3',
-      model: 'canteen-table',
-      cell: anchor(47, 26, 2, 2),
-      footprint: rect(47, 26, 2, 2),
-      replaces: rect(47, 26, 2, 2),
-      roomId: 'cantine',
-    },
-    {
-      id: 'cantine.chaise-calvin',
-      model: 'canteen-chair',
-      cell: { x: 46, y: 27 },
-      rotation: 270,
-      footprint: [{ x: 46, y: 27 }],
-      entityId: 'cantine.figurant-calvin',
-      roomId: 'cantine',
-    },
-    {
-      id: 'cantine.comptoir',
-      model: 'service-counter',
-      cell: anchor(49, 19, 1, 9),
-      footprint: rect(49, 19, 1, 9),
-      replaces: rect(49, 19, 1, 9),
-      roomId: 'cantine',
-    },
-    {
-      id: 'entrainement.agrès',
-      model: 'training-rig',
-      cell: { x: 27, y: 46 },
-      footprint: rect(27, 46, 3, 3),
-      replaces: rect(27, 46, 3, 3),
-      roomId: 'salles-entrainement',
-    },
-    {
-      id: 'entrainement.sac-de-frappe',
-      model: 'punching-bag',
-      cell: { x: 31, y: 47 },
-      footprint: [{ x: 31, y: 47 }],
-      entityId: 'entrainement.sac-de-frappe',
-      roomId: 'salles-entrainement',
-    },
-    {
-      id: 'entrainement.bancs',
-      model: 'bench-bank',
-      cell: { x: 46, y: 46 },
-      footprint: rect(46, 46, 4, 3),
-      replaces: rect(46, 46, 4, 3),
-      roomId: 'salles-entrainement',
-    },
+    solid('cantine.estrade', 'canteen-podium', 'cantine', 41, 30, 3, 1, 180),
+    solid('cantine.comptoir', 'service-counter', 'cantine', 50, 18, 1, 7, 0),
+    // La seule lumière franche de la salle tombe sur l'estrade : c'est l'ancre.
+    light('cantine.reglette-estrade', 'strip-light', 'cantine', 41, 28, 2, 1, 0),
+    light('cantine.reglette-allee', 'strip-light', 'cantine', 42, 20, 2, 1, 0),
+
+    /* -- Salles d'entraînement : les rangs au nord, le cercle au sud ------ */
+    solid('entrainement.bureau-examinateur', 'admin-desk', 'salles-entrainement', 37, 33, 3, 1, 0),
     examDesk(38, 39, 'entrainement.pupitre-franklyn'),
-    ...[35, 37, 39, 41, 43, 45].flatMap((y) =>
-      [30, 34, 38, 42, 46]
-        .filter((x) => x !== 38 || y !== 39)
-        .map((x) => examDesk(x, y)),
+    ...[35, 37, 39, 41].flatMap((y) =>
+      [30, 32, 34, 36, 38, 40, 42].filter((x) => x !== 38 || y !== 39).map((x) => examDesk(x, y)),
     ),
-    {
-      id: 'garage.fourgon-ouest',
-      model: 'police-van',
-      cell: { x: 32, y: 54 },
-      footprint: rect(32, 54, 3, 5),
-      replaces: rect(32, 54, 3, 5),
-      roomId: 'garage',
-    },
-    {
-      id: 'garage.fourgon-est',
-      model: 'police-van',
-      cell: { x: 42, y: 54 },
-      footprint: rect(42, 54, 3, 5),
-      replaces: rect(42, 54, 3, 5),
-      roomId: 'garage',
-    },
+    solid('entrainement.agres', 'training-rig', 'salles-entrainement', 26, 44, 3, 3, 0),
+    solid('entrainement.sac-de-frappe', 'punching-bag', 'salles-entrainement', 30, 46, 1, 1, 0, {
+      entityId: 'entrainement.sac-de-frappe',
+    }),
+    solid('entrainement.banc-nord', 'waiting-bench', 'salles-entrainement', 50, 43, 1, 3, 90),
+    solid('entrainement.banc-sud', 'waiting-bench', 'salles-entrainement', 50, 47, 1, 3, 90),
+    // Le centre de la moitié sud reste vide parce qu'il porte un marquage : le
+    // cercle de combat justifie son propre vide.
+    light('entrainement.cercle', 'combat-circle', 'salles-entrainement', 35, 44, 5, 5, 0),
+    light('entrainement.reglette-rangs', 'strip-light', 'salles-entrainement', 37, 36, 2, 1, 0),
+
+    /* -- Garage : deux fourgons le long des murs, l'allée au milieu ------- */
+    solid('garage.fourgon-ouest', 'police-van', 'garage', 31, 53, 3, 5, 0),
+    solid('garage.fourgon-est', 'police-van', 'garage', 42, 53, 3, 5, 0, {
+      entityId: 'garage.fourgon',
+    }),
+    solid('garage.etabli', 'workbench', 'garage', 34, 51, 3, 2, 0),
+    solid('garage.futs', 'barrel-stack', 'garage', 45, 51, 2, 2, 0),
+    // Chevrons vers la porte nord : la seule sortie du bâtiment se voit depuis
+    // les deux portières.
+    light('garage.chevrons-sortie', 'exit-chevrons', 'garage', 37, 54, 4, 2, 0),
+    light('garage.reglette-allee', 'strip-light', 'garage', 37, 56, 2, 1, 0),
+    light('garage.conduite', 'pipe-run', 'garage', 37, 59, 4, 1, 0),
   ],
 };

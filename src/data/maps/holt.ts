@@ -125,23 +125,56 @@ punchDoor(11, 0);
 // Porte condamnée vers l'aile seconde génération, dans le mur ouest du couloir ouest — rien au-delà (hors carte).
 punchDoor(0, 25);
 
-// Décor discret des salles de la colonne (mobilier bas/haut, pas d'entité).
-setChar(7, 3, 'o'); // Administration, réception : banc
-setChar(14, 3, 'o'); // Administration, bureau : bureau
-setChar(7, 10, 'o'); // Interface : table
-setChar(7, 13, 'o'); // Interface : table
-setChar(7, 17, 'o'); // Infirmerie : lit
-setChar(7, 21, 'o'); // Infirmerie : lit
-setChar(14, 18, 'T'); // Infirmerie : armoire à pharmacie
-setChar(7, 26, 'o'); // Armurerie : caisse
-setChar(14, 25, 'T'); // Armurerie : râtelier
-setChar(14, 29, 'T'); // Armurerie : râtelier
-setChar(7, 34, 'o'); // Archives : étagère basse
-setChar(14, 33, 'T'); // Archives : rayonnage serveurs
-setChar(14, 37, 'T'); // Archives : rayonnage serveurs
-setChar(7, 42, 'o'); // Local technique : caisse à outils
-setChar(14, 41, 'T'); // Local technique : transformateur
-setChar(14, 45, 'T'); // Local technique : transformateur
+// Décor des salles de la colonne. Passe de cohérence (docs/art/ROOM-COMPOSITION.md) :
+// le mobilier est ADOSSÉ aux murs et GROUPÉ par usage, le centre de chaque salle reste
+// libre — c'est là que se tiennent les cadets au temps libre, et c'est ce qui rend la
+// pièce lisible d'un coup d'œil depuis son seuil. Les emprises correspondent désormais à
+// la taille réelle des modèles (src/data/exploreVisualModels.ts) : un guichet de 2,9 m ne
+// tient pas dans une case d'un mètre (ADR 0017).
+
+// Administration — guichet au nord-est, bancs d'attente au sud, dossiers au mur ouest.
+// La bande y=3..5 reste libre : c'est le passage entre les deux couloirs.
+fillBlock(13, 2, 3, 1, 'o'); // guichet d'accueil, face au sud
+fillBlock(6, 7, 3, 1, 'o'); // bancs d'attente, adossés au mur sud
+fillBlock(5, 6, 1, 2, 'T'); // armoire à dossiers, contre le mur ouest
+
+// Interface — trois postes de netrun EN RANGÉE contre le mur nord, tous face à la salle ;
+// le terminal resté allumé est isolé contre le mur ouest, c'est lui qu'on remarque.
+fillBlock(6, 9, 2, 1, 'o');
+fillBlock(9, 9, 2, 1, 'o');
+fillBlock(12, 9, 2, 1, 'o');
+setChar(5, 12, 'o'); // terminal ouvert (entité interface.terminal)
+
+// Infirmerie & labo — deux lits alignés contre le mur ouest, tête au mur ; paillasse et
+// armoire à pharmacie contre le mur nord ; l'allée de la porte est jusqu'aux lits est libre.
+fillBlock(5, 17, 2, 1, 'o');
+fillBlock(5, 21, 2, 1, 'o');
+fillBlock(12, 16, 3, 2, 'o'); // paillasse du labo
+setChar(16, 16, 'T'); // armoire à pharmacie
+
+// Armurerie — râteliers en rangée contre le mur nord, caisses contre le mur sud.
+// Le centre reste vide : c'est là qu'on forme les rangs, et là que John attend.
+fillBlock(6, 24, 2, 1, 'T');
+fillBlock(9, 24, 2, 1, 'T');
+fillBlock(12, 24, 2, 1, 'T');
+fillBlock(6, 30, 2, 1, 'o');
+fillBlock(9, 30, 2, 1, 'o');
+fillBlock(15, 29, 2, 2, 'T'); // armoire blindée des tasers d'exercice, angle sud-est
+
+// Archives & serveurs — baies de serveurs au nord, rayonnages d'archives au sud,
+// allée centrale y=35 dans l'axe de la porte est.
+fillBlock(6, 32, 2, 1, 'T');
+fillBlock(9, 32, 2, 1, 'T');
+fillBlock(12, 32, 2, 1, 'T');
+fillBlock(6, 38, 2, 1, 'T');
+fillBlock(9, 38, 2, 1, 'T');
+fillBlock(12, 38, 2, 1, 'T');
+
+// Local technique & énergie — les deux transformateurs côte à côte contre le mur ouest
+// (le bourdonnement vient d'un seul endroit), l'établi de maintenance contre le mur sud.
+fillBlock(5, 40, 2, 2, 'T');
+fillBlock(5, 44, 2, 2, 'T');
+fillBlock(12, 45, 3, 2, 'o');
 
 /* ------------------------------------------------------------------ */
 /* Couloir de ceinture (aile est) + les deux liaisons vers le bloc ouest */
@@ -174,62 +207,90 @@ punchDoor(31, 16);
 punchDoor(44, 16);
 // Cour intérieure <-> Cantine (lien direct, comme sur le plan du MJ).
 punchDoor(38, 23);
-// Cour intérieure / Cantine -> Salles d'entraînement.
+// Cour intérieure / Cantine -> Salles d'entraînement. DEUX rangées de mur à percer, et
+// non une : la cour et la cantine se terminent à y=31 tandis que les salles d'entraînement
+// commencent leur anneau à y=32 (contrairement aux autres jonctions de la carte, qui
+// partagent un seul mur). Ne percer que y=32 laissait ces deux portes ouvertes sur du
+// béton plein -- défaut réel : le joueur voyait une porte et se cognait, et tout le trafic
+// cour <-> entraînement passait par le couloir de ceinture.
+punchDoor(31, 31);
 punchDoor(31, 32);
+punchDoor(44, 31);
 punchDoor(44, 32);
 // Salles d'entraînement -> Garage (seule sortie vers l'extérieur).
 punchDoor(38, 50);
 
-// Dortoirs : quatre travées de vrais lits (2 x 3 m), casiers au mur et
-// passage central dégagé. Le sas au sud-ouest cadre la sortie vers la cantine.
+// Dortoirs — « lits en rangées ouest et est, pièce commune au centre » (09-MAPS).
+// Huit lits de 2 x 3 m, TÊTE AU MUR, quatre contre le mur ouest et quatre contre le mur
+// est : c'est ce qui distingue un dortoir d'un entrepôt. Les deux bancs de casiers sont
+// adossés au mur nord, au-dessus de la pièce commune. Le centre (x33-43) reste vide :
+// on s'y habille, on s'y croise, et l'allée vers le sas de sortie est lisible.
 for (const [x, y] of [
-  [27, 2], [27, 7], [31, 2], [31, 7], [45, 2], [45, 7], [48, 2], [48, 7],
+  [26, 1], [26, 4], [26, 9], [26, 12], // travée ouest, tête au mur x=25
+  [48, 1], [48, 4], [48, 9], [48, 12], // travée est, tête au mur x=51
 ] as const) {
-  fillBlock(x, y, 2, 3, 'o');
+  fillBlock(x, y, 3, 2, 'o');
 }
-fillBlock(35, 2, 1, 4, 'T');
-fillBlock(43, 2, 1, 4, 'T');
-fillBlock(27, 13, 4, 1, 'T'); // sas et console de présence
+fillBlock(34, 1, 4, 1, 'T'); // casiers nord-ouest (celui de Franklyn)
+fillBlock(40, 1, 4, 1, 'T'); // casiers nord-est
+fillBlock(34, 15, 3, 1, 'o'); // banc de la pièce commune, adossé au mur sud
+fillBlock(41, 15, 3, 1, 'o'); // banc de la pièce commune, adossé au mur sud
+fillBlock(27, 15, 4, 1, 'T'); // sas et console de présence, adossé au mur sud
 
-// Cour intérieure : jardin (végétation), arbre, bassin carré.
-setChar(31, 20, 'T'); // arbre
+// Cour intérieure — le bassin carré occupe le centre parce que c'est SA fonction : c'est
+// le point d'orientation de toute l'aile est. L'arbre le flanque au nord, les bancs sont
+// sur les bords et REGARDENT le bassin, les massifs tiennent les quatre coins. Les axes
+// nord-sud (x=31, entre les deux portes) et est-ouest (y=21..23) restent traversables.
+fillBlock(30, 22, 3, 3, 'o'); // bassin carré (habillage : cour.bassin)
+setChar(34, 19, 'T'); // arbre
 // `o` (mobilier bas -- bloque le passage, pas la vue), pas `=` (vitre/grille) : `=` rend une
 // vitre VERTICALE de 3 m (voir `ExploreView`, "structurelle... jamais cachée par la
 // découverte, comme les murs"), ce qui donne un panneau de verre plat qui semble flotter au
-// milieu de la cour sans mur pour le porter -- défaut réel constaté en jeu. Le rendu du bassin
-// vient de l'habillage déclaratif (`cour.bassin`, src/data/exploreVisuals/holt.ts), posé au
-// niveau du sol ; `o` ne sert plus ici qu'à la collision, la géométrie générique est retirée du
-// rendu par `replaces` sur ce placement.
-fillBlock(30, 25, 3, 3, 'o'); // bassin carré (voir cour.bassin dans exploreVisuals/holt.ts)
+// milieu de la cour sans mur pour le porter -- défaut réel constaté en jeu.
+setChar(28, 20, 'o'); // banc ouest, face au bassin
+setChar(28, 21, 'o');
+setChar(28, 22, 'o');
+fillBlock(33, 27, 3, 1, 'o'); // banc sud-est, dans l'alcôve de conversation
 for (const [x, y] of [
-  [27, 18],
-  [36, 18],
-  [27, 29],
-  [36, 29],
-  [28, 28],
-  [35, 19],
+  [26, 17], [27, 17], [26, 18], // massif nord-ouest
+  [36, 17], [37, 17], [37, 18], // massif nord-est
+  [26, 29], [26, 30], [27, 30], // massif sud-ouest
+  [37, 29], [36, 30], [37, 30], // massif sud-est
 ] as const) {
   setChar(x, y, '~');
 }
 
-// Cantine : trois îlots de tables de 2 x 2 m, allées de deux cases, estrade
-// à l'ouest et comptoir de service continu à l'est.
-fillBlock(40, 18, 2, 2, 'o');
-fillBlock(44, 21, 2, 2, 'o');
-fillBlock(47, 26, 2, 2, 'o');
-fillBlock(40, 28, 3, 1, 'T'); // estrade du directeur
-fillBlock(49, 19, 1, 9, 'o'); // comptoir
+// Cantine — DEUX RANGÉES de tables parallèles avec une allée franche entre elles (x42-43),
+// l'estrade du directeur adossée au mur sud (on l'écoute assis, face à lui), le comptoir
+// de service continu le long du mur est. Plus de tables semées en diagonale.
+for (const y of [19, 22, 25]) {
+  fillBlock(40, y, 2, 2, 'o'); // rangée ouest
+  fillBlock(44, y, 2, 2, 'o'); // rangée est
+}
+setChar(39, 22, 'o'); // chaise d'Abraham, face à l'est
+setChar(43, 23, 'o'); // chaise de Betty
+setChar(46, 26, 'o'); // chaise de Calvin
+fillBlock(41, 30, 3, 1, 'T'); // estrade du directeur, adossée au mur sud
+fillBlock(50, 18, 1, 7, 'o'); // comptoir de service, le long du mur est
 
-// Salles d'entraînement : trentaine de pupitres en rangées régulières (la case de Franklyn reste du sol nu),
-// agrès au sud-ouest, cercle de combat dégagé au centre, bancs au sud-est.
-placeGrid([30, 34, 38, 42, 46], [35, 37, 39, 41, 43, 45], 'o', [[38, 39]]);
-fillBlock(27, 46, 3, 3, 'T'); // agrès, sud-ouest
-fillBlock(46, 46, 4, 3, 'o'); // bancs, sud-est
-// (le centre, x36-41 / y43-46, reste dégagé : c'est le cercle de combat)
+// Salles d'entraînement — deux usages dans une seule salle, séparés en deux moitiés :
+// au NORD les rangs de pupitres, tous tournés vers le bureau de l'examinateur adossé au
+// mur nord ; au SUD le cercle de combat, dégagé, les agrès contre le mur ouest, le sac de
+// frappe à côté d'eux et les bancs contre le mur est, qui regardent le cercle.
+fillBlock(37, 33, 3, 1, 'o'); // bureau de l'examinateur, face aux rangs
+placeGrid([30, 32, 34, 36, 38, 40, 42], [35, 37, 39, 41], 'o', [[38, 39]]);
+fillBlock(26, 44, 3, 3, 'T'); // cage d'agrès, contre le mur ouest
+setChar(30, 46, 'o'); // sac de frappe
+fillBlock(50, 43, 1, 3, 'o'); // bancs, contre le mur est
+fillBlock(50, 47, 1, 3, 'o');
+// (le cercle de combat, x34-42 / y44-48, reste dégagé : c'est son marquage au sol qui le dit)
 
-// Garage : deux véhicules, allée centrale dégagée jusqu'à la sortie.
-fillBlock(32, 54, 3, 5, 'T');
-fillBlock(42, 54, 3, 5, 'T');
+// Garage — les deux fourgons garés LE LONG des murs ouest et est, nez au sud, allée
+// centrale libre du seuil nord jusqu'aux portières. Établi et fûts au fond nord-est.
+fillBlock(31, 53, 3, 5, 'T');
+fillBlock(42, 53, 3, 5, 'T');
+fillBlock(34, 51, 3, 2, 'o'); // établi de maintenance
+fillBlock(45, 51, 2, 2, 'T'); // fûts empilés
 
 /* ------------------------------------------------------------------ */
 /* Conversion en ASCII, avec vérification de largeur au chargement     */
@@ -282,7 +343,9 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'dortoir.casier',
     type: 'object',
-    cell: { x: 35, y: 3 },
+    // Devant le banc de casiers du mur nord (x34-37, y1) : c'est le sien, et on le voit
+    // depuis le lit de Franklyn sans traverser la pièce commune.
+    cell: { x: 35, y: 2 },
     line: 'Un casier métallique cabossé, initiales gravées au couteau.',
     label: 'Ouvrir le casier',
     condition: etape('reveil'),
@@ -326,8 +389,9 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.directeur',
     type: 'npc',
-    // Devant l'estrade (x40-42, y28), jamais à l'intérieur de son volume.
-    cell: { x: 41, y: 27 },
+    // Devant l'estrade (x41-43, y30), jamais à l'intérieur de son volume : les deux
+    // rangées de tables lui font face, c'est lui qu'on voit en entrant par le nord.
+    cell: { x: 42, y: 29 },
     line: 'Asseyez-vous, cadet. Je ne commence pas deux fois.',
     label: 'Parler au directeur',
     condition: etape('reveil'),
@@ -335,8 +399,9 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.place-franklyn',
     type: 'seat',
-    // Chaise côté allée de la table 2 (la table occupe x44-45, y21-22).
-    cell: { x: 43, y: 21 },
+    // Chaise côté allée centrale de la table du milieu (rangée ouest, x40-41 / y22-23).
+    // Sa case reste FRANCHISSABLE : un `seat` s'occupe, on s'assoit dessus (08-EXPLORATION).
+    cell: { x: 42, y: 22 },
     dialogueId: 'ch1.discours',
     label: "S'asseoir à la table de la promotion",
     condition: etape('reveil'),
@@ -344,7 +409,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.figurant-abraham',
     type: 'npc',
-    cell: { x: 41, y: 21 },
+    cell: { x: 39, y: 22 }, // chaise ouest de la table du milieu, face a l est
     line: 'Vingt-huit. On était trente à l’entrée, en première année.',
     label: 'Parler à Abraham',
     condition: etape('reveil'),
@@ -352,7 +417,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.figurant-betty',
     type: 'npc',
-    cell: { x: 46, y: 23 },
+    cell: { x: 43, y: 23 }, // chaise cote allee de la rangee est
     line: 'J’ai recopié les questions de l’an dernier sur ma manche. Ça vaut ce que ça vaut.',
     label: 'Parler à Betty',
     condition: etape('reveil'),
@@ -360,7 +425,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.figurant-calvin',
     type: 'npc',
-    cell: { x: 46, y: 27 },
+    cell: { x: 46, y: 26 }, // chaise est de la table sud
     line: 'Debout à cinq heures pour écouter un discours. Superbe journée.',
     label: 'Parler à Calvin',
     condition: etape('reveil'),
@@ -370,7 +435,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cour.grover',
     type: 'npc',
-    cell: { x: 29, y: 22 },
+    cell: { x: 29, y: 22 }, // entre le banc ouest et le bassin : son alcove
     dialogueId: 'ch1.hub.grover',
     label: 'Parler à Grover',
     condition: etape('temps-libre'),
@@ -378,7 +443,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cour.theodore',
     type: 'npc',
-    cell: { x: 34, y: 26 },
+    cell: { x: 34, y: 26 }, // debout pres du banc sud-est
     line: 'Grover dit qu’on part à six. Grover se trompe rarement.',
     label: 'Parler à Theodore',
     condition: etape('temps-libre'),
@@ -412,14 +477,14 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'entrainement.sac-de-frappe',
     type: 'object',
-    cell: { x: 31, y: 47 },
+    cell: { x: 30, y: 46 }, // le sac lui-meme, accroche a cote des agres
     line: 'Un sac de frappe éventré à un endroit, rafistolé au chatterton.',
     label: 'Examiner le sac de frappe',
   },
   {
     id: 'entrainement.zachary',
     type: 'npc',
-    cell: { x: 32, y: 46 },
+    cell: { x: 31, y: 46 }, // juste a cote du sac
     dialogueId: 'ch1.hub.zachary',
     label: 'Parler à Zachary',
     condition: etape('temps-libre'),
@@ -459,14 +524,14 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'interface.terminal',
     type: 'object',
-    cell: { x: 10, y: 11 },
+    cell: { x: 5, y: 12 }, // le terminal reste allume, contre le mur ouest
     line: "Un terminal ouvert sur un réseau qu'il n'a pas le droit de consulter.",
     label: 'Examiner le terminal',
   },
   {
     id: 'local-technique.transformateurs',
     type: 'object',
-    cell: { x: 10, y: 43 },
+    cell: { x: 7, y: 41 }, // au pied des transformateurs du mur ouest
     line: 'Le bourdonnement sourd des transformateurs couvre presque toute autre pensée.',
     label: 'Écouter le local technique',
   },
@@ -491,7 +556,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'garage.fourgon',
     type: 'object',
-    cell: { x: 38, y: 59 },
+    cell: { x: 42, y: 57 }, // la portiere arriere du fourgon gare a l est
     dialogueId: 'ch1.fourgon',
     line: 'Le fourgon de police, moteur déjà tournant.',
     label: 'Monter dans le fourgon',
@@ -511,11 +576,13 @@ const ENTITIES: EntityDef[] = [
 /* ------------------------------------------------------------------ */
 
 const SPAWNS: Record<string, { x: number; y: number }> = {
-  'lit-franklyn': { x: 29, y: 6 }, // étape 1 · Réveil
-  cantine: { x: 41, y: 20 }, // étape 2 · Discours
-  pupitre: { x: 37, y: 37 }, // étapes 3/4 · Examen, Tirage
+  // Au pied de son lit (travée ouest, x26-28 / y4-5) : le premier regard tombe sur le lit,
+  // puis sur l'allée centrale et le banc de casiers du mur nord.
+  'lit-franklyn': { x: 29, y: 5 }, // étape 1 · Réveil
+  cantine: { x: 42, y: 19 }, // étape 2 · Discours — dans l'allée centrale, l'estrade en face
+  pupitre: { x: 37, y: 37 }, // étapes 3/4 · Examen, Tirage — allée entre deux rangs
   'temps-libre': { x: 23, y: 20 }, // étape 5, dans le couloir de ceinture
-  garage: { x: 37, y: 60 }, // étape 6 · Départ
+  garage: { x: 37, y: 60 }, // étape 6 · Départ — allée centrale, entre les deux fourgons
 };
 
 /* ------------------------------------------------------------------ */
