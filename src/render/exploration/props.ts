@@ -81,6 +81,18 @@ function bed(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.G
   box(group, kit, metal, 0, 0.66, 1.05, 1.5, 0.05, 0.64);
   return group;
 }
+/** Table de chevet : caisson bas, façade de tiroir, petite lampe — sans elle, un lit de cadet fait chambrée nue. */
+function bedsideTable(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  box(group, kit, materials.get('wood'), 0, 0.28, 0, 0.5, 0.56, 0.46);
+  box(group, kit, materials.get('darkMetal'), 0, 0.32, 0.235, 0.34, 0.2, 0.02);
+  const lamp = new THREE.Mesh(kit.drum, materials.get('linen'));
+  lamp.scale.set(0.34, 0.32, 0.34);
+  lamp.position.set(0, 0.7, 0);
+  lamp.castShadow = true;
+  group.add(lamp);
+  return group;
+}
 function lockerBank(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
   const group = new THREE.Group();
   const metal = materials.get('wornMetal');
@@ -98,6 +110,18 @@ function table(materials: EnvironmentMaterials, kit: PropGeometryLibrary, wide =
   box(group, kit, materials.get('wood'), 0, 0.78, 0, width, 0.14, 1.25);
   for (const x of [-width / 2 + 0.16, width / 2 - 0.16])
     for (const z of [-0.45, 0.45]) post(group, kit, materials.get('darkMetal'), x, z, 0.72);
+  return group;
+}
+/** Table de réfectoire avec ses plateaux-repas : une cantine se lit servie, pas nue. */
+function canteenTable(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = table(materials, kit);
+  for (const [x, z] of [
+    [-0.38, -0.24],
+    [0.32, 0.3],
+  ] as const) {
+    box(group, kit, materials.get('linen'), x, 0.855, z, 0.42, 0.03, 0.3);
+    box(group, kit, materials.get('wornMetal'), x, 0.875, z, 0.36, 0.012, 0.24);
+  }
   return group;
 }
 /**
@@ -713,9 +737,11 @@ export function createEnvironmentProp(
     case 'locker-bank':
       return lockerBank(materials, kit);
     case 'canteen-table':
-      return table(materials, kit);
+      return canteenTable(materials, kit);
     case 'canteen-chair':
       return chair(materials, kit);
+    case 'bedside-table':
+      return bedsideTable(materials, kit);
     case 'access-console-bank':
       return accessConsoleBank(materials, kit);
     case 'exam-terminal':

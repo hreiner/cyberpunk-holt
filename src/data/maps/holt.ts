@@ -236,6 +236,13 @@ fillBlock(40, 1, 4, 1, 'T'); // casiers nord-est
 fillBlock(34, 15, 3, 1, 'o'); // banc de la pièce commune, adossé au mur sud
 fillBlock(41, 15, 3, 1, 'o'); // banc de la pièce commune, adossé au mur sud
 fillBlock(27, 15, 4, 1, 'T'); // sas et console de présence, adossé au mur sud
+// Table de chevet entre deux lits de chaque travée : posée dans le renfoncement d'une
+// case entre deux lits, jamais dans le grand vide central ni dans le passage de la porte
+// de ceinture (25,7), qui tombe dans le renfoncement du milieu — laissé libre exprès.
+setChar(27, 3, 'o'); // chevet, travée ouest, entre lit-1 et lit-2
+setChar(27, 11, 'o'); // chevet, travée ouest, entre lit-3 et lit-4
+setChar(49, 3, 'o'); // chevet, travée est, entre lit-1 et lit-2
+setChar(49, 11, 'o'); // chevet, travée est, entre lit-3 et lit-4
 
 // Cour intérieure — le bassin carré occupe le centre parce que c'est SA fonction : c'est
 // le point d'orientation de toute l'aile est. L'arbre le flanque au nord, les bancs sont
@@ -270,6 +277,14 @@ for (const y of [19, 22, 25]) {
 setChar(39, 22, 'o'); // chaise d'Abraham, face à l'est
 setChar(43, 23, 'o'); // chaise de Betty
 setChar(46, 26, 'o'); // chaise de Calvin
+// Les trois autres tables n'avaient encore aucun siège (on y mangeait debout) : deux
+// chaises inoccupées chacune, sur les côtés encore libres, jamais dans l'allée x=42-43.
+setChar(39, 19, 'o'); // chaise, table ouest-nord, côté allée ouest
+setChar(40, 18, 'o'); // chaise, table ouest-nord, côté nord
+setChar(39, 25, 'o'); // chaise, table ouest-sud, côté allée ouest
+setChar(40, 27, 'o'); // chaise, table ouest-sud, côté sud
+setChar(46, 19, 'o'); // chaise, table est-nord, côté comptoir
+setChar(45, 18, 'o'); // chaise, table est-nord, côté nord
 fillBlock(41, 30, 3, 1, 'T'); // estrade du directeur, adossée au mur sud
 fillBlock(50, 18, 1, 7, 'o'); // comptoir de service, le long du mur est
 

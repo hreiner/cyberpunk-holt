@@ -177,6 +177,11 @@ export const HOLT_VISUALS: ExploreVisualMapDef = {
     solid('dortoir.banc-commun-ouest', 'waiting-bench', 'dortoirs', 34, 15, 3, 1, 0),
     solid('dortoir.banc-commun-est', 'waiting-bench', 'dortoirs', 41, 15, 3, 1, 0),
     solid('dortoir.sas-controle', 'access-console-bank', 'dortoirs', 27, 15, 4, 1, 0),
+    // Chevets entre les lits : sans eux, un lit fait chambrée nue plutôt que dortoir vécu.
+    solid('dortoir.chevet-ouest-1', 'bedside-table', 'dortoirs', 27, 3, 1, 1, 0),
+    solid('dortoir.chevet-ouest-2', 'bedside-table', 'dortoirs', 27, 11, 1, 1, 0),
+    solid('dortoir.chevet-est-1', 'bedside-table', 'dortoirs', 49, 3, 1, 1, 0),
+    solid('dortoir.chevet-est-2', 'bedside-table', 'dortoirs', 49, 11, 1, 1, 0),
     light('dortoir.reglette-allee', 'strip-light', 'dortoirs', 37, 7, 2, 1, 0),
     light('dortoir.gaine-commune', 'vent-duct', 'dortoirs', 38, 11, 3, 1, 0),
     // Affaires personnelles devant le casier de Franklyn (entité `dortoir.casier`) : sans ce
@@ -227,6 +232,15 @@ export const HOLT_VISUALS: ExploreVisualMapDef = {
       entityId: 'cantine.place-franklyn',
       roomId: 'cantine',
     },
+    // Les trois autres tables restaient sans un seul siège — on y mangeait debout, le
+    // genre de manque qui saute aux yeux avant même la qualité des modèles. Deux chaises
+    // inoccupées par table, sur les côtés encore libres ; jamais dans l'allée x=42-43.
+    solid('cantine.chaise-nord-ouest-1', 'canteen-chair', 'cantine', 39, 19, 1, 1, 270),
+    solid('cantine.chaise-nord-ouest-2', 'canteen-chair', 'cantine', 40, 18, 1, 1, 180),
+    solid('cantine.chaise-sud-ouest-1', 'canteen-chair', 'cantine', 39, 25, 1, 1, 270),
+    solid('cantine.chaise-sud-ouest-2', 'canteen-chair', 'cantine', 40, 27, 1, 1, 0),
+    solid('cantine.chaise-nord-est-1', 'canteen-chair', 'cantine', 46, 19, 1, 1, 90),
+    solid('cantine.chaise-nord-est-2', 'canteen-chair', 'cantine', 45, 18, 1, 1, 180),
     solid('cantine.estrade', 'canteen-podium', 'cantine', 41, 30, 3, 1, 180),
     solid('cantine.comptoir', 'service-counter', 'cantine', 50, 18, 1, 7, 0),
     // La seule lumière franche de la salle tombe sur l'estrade : c'est l'ancre.

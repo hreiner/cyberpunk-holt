@@ -42,6 +42,7 @@ export interface ExploreVisualModelDef {
 export const EXPLORE_VISUAL_MODELS = {
   /* -- Dortoirs et vie commune ------------------------------------------ */
   'bed-cadet': { occupancy: 'solid', cells: [2, 3], reads: 'un lit de cadet, tete au mur' },
+  'bedside-table': { occupancy: 'solid', cells: [1, 1], reads: 'une table de chevet, entre deux lits' },
   'locker-bank': { occupancy: 'solid', cells: [1, 4], reads: 'une rangee de casiers' },
   'waiting-bench': { occupancy: 'solid', cells: [3, 1], reads: 'un banc adosse' },
   'canteen-table': { occupancy: 'solid', cells: [2, 2], reads: 'une table de refectoire' },
