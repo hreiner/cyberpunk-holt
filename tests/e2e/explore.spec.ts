@@ -40,6 +40,30 @@ async function exploreCanvasSize(page: Page): Promise<{ width: number; height: n
 }
 
 /**
+ * Trouve une entité à partir du vrai survol du canvas. La caméra isométrique reste privée à
+ * `ExploreView` : le test ne duplique donc ni sa projection ni le raycast, il reproduit les
+ * événements navigateur que reçoit le joueur et lit l'étiquette de survol publique du HUD.
+ */
+async function canvasPointForLabel(page: Page, label: string): Promise<{ x: number; y: number }> {
+  const point = await page.evaluate((expectedLabel) => {
+    const canvas = document.querySelector<HTMLCanvasElement>('.chapter-host-explore canvas');
+    const hoverLabel = document.querySelector<HTMLElement>('[data-testid=explore-hover-label]');
+    if (!canvas || !hoverLabel) return null;
+    const rect = canvas.getBoundingClientRect();
+    for (let y = rect.top; y < rect.bottom; y += 4) {
+      for (let x = rect.left; x < rect.right; x += 4) {
+        canvas.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: x, clientY: y }));
+        if (hoverLabel.textContent === expectedLabel && hoverLabel.style.display !== 'none') return { x, y };
+      }
+    }
+    return null;
+  }, label);
+  expect(point, `entité « ${label} » introuvable au survol du canvas`).not.toBeNull();
+  if (!point) throw new Error(`entité « ${label} » introuvable au survol du canvas`);
+  return point;
+}
+
+/**
  * Traverse le dialogue courant en choisissant toujours le premier choix
  * REELLEMENT propose (copie simplifiee de `narrative.spec.ts` -- voir ce
  * fichier pour la justification de chaque cas). S'arrete des qu'un noeud
@@ -161,7 +185,7 @@ test('le chapitre 1 se joue de bout en bout par l’API de debug (réveil -> fou
   const leaderAtSpawn = explore?.leader;
 
   /* --- 2. Marche jusqu'à la place de la cantine, s'assoit -> ch1.discours (dialogue) --- */
-  scene = await walkAndInteract(page, 'cantine.place-franklyn', { x: 41, y: 15 }); // SPAWNS.cantine
+  scene = await walkAndInteract(page, 'cantine.place-franklyn', { x: 41, y: 20 }); // SPAWNS.cantine
   expect(scene).toMatchObject({ id: 'ch1.discours', kind: 'dialogue' });
 
   /* --- 3. Discours -> "Rejoindre les salles d'entraînement" (explore, MÊME carte) --- */
@@ -182,7 +206,7 @@ test('le chapitre 1 se joue de bout en bout par l’API de debug (réveil -> fou
   expect(canvasAfterDiscours?.height).toBeGreaterThan(0);
 
   /* --- 4. Marche jusqu'au pupitre, s'assoit -> ch1.exam (dialogue) --- */
-  scene = await walkAndInteract(page, 'entrainement.pupitre-franklyn', { x: 37, y: 34 }); // SPAWNS.pupitre
+  scene = await walkAndInteract(page, 'entrainement.pupitre-franklyn', { x: 37, y: 37 }); // SPAWNS.pupitre
   expect(scene).toMatchObject({ id: 'ch1.exam', kind: 'dialogue' });
 
   /* --- 5. Examen -> tirage -> "Rejoindre le garage" (explore, étape temps-libre) --- */
@@ -219,7 +243,7 @@ test('le chapitre 1 se joue de bout en bout par l’API de debug (réveil -> fou
   expect(node, 'la conversation déjà jouée ne doit pas se rejouer').toBeNull();
 
   /* --- 7. Marche jusqu'au garage, monte dans le fourgon -> ch1.fourgon (dialogue) --- */
-  scene = await walkAndInteract(page, 'garage.fourgon', { x: 37, y: 57 }); // SPAWNS.garage
+  scene = await walkAndInteract(page, 'garage.fourgon', { x: 37, y: 60 }); // SPAWNS.garage
   expect(scene).toMatchObject({ id: 'ch1.fourgon', kind: 'dialogue' });
 });
 
@@ -232,6 +256,48 @@ test('completeStep() (outil de développement) saute directement à la scène su
     return window.__game.scene();
   });
   expect(next).toMatchObject({ id: 'ch1.discours', kind: 'dialogue' });
+});
+
+test('les clics canvas sur le panneau puis la porte traversent les salles 1 et 2', async ({ page }) => {
+  await boot(page, 'ch1.salle1', 'e2e-explore-semantic-pick');
+  // La salle doit avoir été découverte avant que son contenu soit une cible visuelle.
+  await page.evaluate(() => window.__game.walkTo(22, 47));
+  const point = await canvasPointForLabel(page, 'Pirater le panneau de la porte');
+
+  // Vrai clic navigateur : ce test protège le raccord objet 3D -> raycast -> interaction,
+  // que `window.__game.interact()` contourne volontairement.
+  await page.mouse.click(point.x, point.y);
+  await page.waitForFunction(() => window.__game.node() !== null);
+  const node = await page.evaluate(() => window.__game.node());
+  expect(node?.nodeId).toBe('arrivee');
+
+  await traverseDialogue(page);
+  expect(await advanceScene(page)).toMatchObject({ id: 'ch1.salle2', kind: 'explore' });
+  // L'entrée de la nouvelle salle recentre la caméra pendant 450 ms. Un point obtenu au
+  // survol pendant ce mouvement n'est plus sous la souris au moment du vrai clic.
+  await page.waitForTimeout(500);
+  const doorPoint = await canvasPointForLabel(page, 'Franchir la porte nord');
+  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.tagName, doorPoint)).toBe('CANVAS');
+  await page.mouse.click(doorPoint.x, doorPoint.y);
+  await page.waitForFunction(() => window.__game.node()?.nodeId === 'porte');
+  await traverseDialogue(page);
+  expect(await advanceScene(page)).toMatchObject({ id: 'ch1.salle3', kind: 'explore' });
+});
+
+test('la porte ouverte depuis l’armoire reste franchissable après une reprise', async ({ page }) => {
+  await boot(page, 'ch1.salle2', 'e2e-salle2-resume');
+  await page.evaluate(() => window.__game.interact('salle2.armoire'));
+  await traverseDialogue(page);
+  expect(await advanceScene(page)).toMatchObject({ id: 'ch1.salle2', kind: 'explore' });
+
+  await page.goto('/?ai=0');
+  await page.waitForFunction(() => '__game' in window);
+  await page.getByTestId('title-resume').click();
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle2');
+  await page.evaluate(() => window.__game.walkTo(26, 31));
+  expect((await page.evaluate(() => window.__game.explore()))?.leader).toEqual({ x: 26, y: 31 });
+  await page.evaluate(() => window.__game.interact('salle2.porte-nord'));
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle3');
 });
 
 test('une partie reprise directement sur une étape d’exploration repart au bon endroit', async ({ page }) => {

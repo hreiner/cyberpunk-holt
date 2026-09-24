@@ -202,6 +202,10 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
   await traverseDialogue(page);
   await page.evaluate(() => window.__game.advance());
   expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle2'); // conversation annexe : pas d'avancee
+  // Le dialogue de l'armoire raconte l'ouverture de la porte : le passage doit déjà être
+  // physiquement libre avant le clic qui termine l'objectif.
+  await page.evaluate(() => window.__game.walkTo(26, 31));
+  expect((await page.evaluate(() => window.__game.explore()))?.leader).toEqual({ x: 26, y: 31 });
   await page.evaluate(() => window.__game.interact('salle2.porte-nord'));
   expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle3'); // deja "faite" via l'armoire -> avance directement
 

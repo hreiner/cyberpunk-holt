@@ -18,6 +18,9 @@ import type { ItemId } from '@/tactical/types';
 /** Etats d'animation demandes par le gameplay, volontairement peu nombreux. */
 export type RigAnimation = 'idle' | 'walk' | 'run' | 'shoot' | 'down' | 'revive';
 
+/** Poses de presentation propres a l'exploration, sans effet sur le gameplay. */
+export type ExplorationPose = 'sit' | 'lean' | 'talk' | 'inspect';
+
 export interface CharacterRig {
   readonly id: string;
   readonly object: THREE.Object3D;
@@ -43,6 +46,24 @@ export interface CharacterRig {
   /** Avance les animations internes (balancement de marche, pulsation) de `dt` secondes. */
   update(dt: number): void;
   dispose(): void;
+}
+
+/**
+ * Capacite optionnelle des rigs employes en exploration : le combat conserve
+ * le contrat `CharacterRig` historique et n'a pas a connaitre ces poses.
+ */
+export interface ExplorationCharacterRig extends CharacterRig {
+  playExplorationPose(pose: ExplorationPose | null): void;
+  /** Cadence d'un clip sur place, sans jamais déplacer le rig hors du gameplay. */
+  setExplorationMotionSpeed(metresPerSecond: number): void;
+  /** Réduit les animations de présentation sans modifier le déplacement de jeu. */
+  setReducedMotion(reduced: boolean): void;
+  getEquipmentAnchor(item: ItemId): THREE.Object3D | null;
+}
+
+/** Evite de faire dependre les appelants du rig concret choisi par le pipeline art. */
+export function isExplorationCharacterRig(rig: CharacterRig): rig is ExplorationCharacterRig {
+  return 'playExplorationPose' in rig && 'getEquipmentAnchor' in rig;
 }
 
 const BODY_HEIGHT = 1.1;

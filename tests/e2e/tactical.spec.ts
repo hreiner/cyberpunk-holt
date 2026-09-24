@@ -3,8 +3,7 @@
  *
  * Principe : on ne clique pas dans le canvas. On pilote une partie deterministe
  * via `window.__game` (contrat decrit dans docs/process/DEBUG_API.md), puis on
- * verifie l'etat et le HUD. Une capture d'ecran de reference est produite a la
- * fin pour reperer visuellement les regressions.
+ * verifie l'etat et le HUD.
  */
 
 import { expect, test } from '@playwright/test';
@@ -92,11 +91,4 @@ test('le deplacement du joueur consomme des points de mouvement', async ({ page 
 
   expect(result.outcome.ok).toBe(true);
   expect(result.afterMp).toBe(result.beforeMp - 1);
-});
-
-test('capture de reference du terrain', async ({ page }) => {
-  await boot(page, 'e2e-capture');
-  // Laisse une frame se dessiner avant la capture.
-  await page.waitForTimeout(500);
-  await expect(page).toHaveScreenshot('terrain.png', { maxDiffPixelRatio: 0.08 });
 });

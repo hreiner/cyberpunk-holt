@@ -17,15 +17,25 @@
 
 import * as THREE from 'three';
 import type { Rng } from '@/core/rng';
-import type { CharacterSheet } from '@/rules/character';
-import { ExploreMap, posKey, roomAt } from '@/explore';
+import { CHARACTER_IDS, getCharacter, type CharacterId, type CharacterSheet } from '@/rules/character';
+import { ExploreMap, LEADER_SPEED, posKey, roomAt } from '@/explore';
 import type { Cell, DoorEntity, EntityDef, MapDef, RoomDef } from '@/explore';
-import { PlaceholderRig, type CharacterRig } from './characterRig';
+import { isExplorationCharacterRig, type CharacterRig } from './characterRig';
+import { createCadetExplorationRig } from './exploration/cadetRig';
+import { createExploreNpcRig, type ExploreNpcRig } from './exploration/npcRig';
+import { ExploreDressing } from './exploration/dressing';
+import { createDoorControl, createSurveillanceCamera, createTechnicalConduit, createWallBand } from './exploration/architecture';
+import { addExplorationLighting } from './exploration/atmosphere';
+import { EnvironmentMaterials } from './exploration/materials';
+import { EnvironmentPropFactory } from './exploration/props';
+import { HOLT_VISUALS } from '@/data/exploreVisuals/holt';
+import { CENTRE_EXAMEN_VISUALS } from '@/data/exploreVisuals/centreExamen';
+import type { ExploreVisualMapDef } from '@/data/exploreVisualTypes';
 import { CAMERA_DISTANCE, ISO_ELEVATION_DEG, IsoCamera } from './isoCamera';
 
 export const EXPLORE_CELL_SIZE_METERS = 1;
 const WALL_HEIGHT = 3;
-const WALL_CUT_HEIGHT = 0.4;
+const WALL_CUT_HEIGHT = 0.24;
 const FURNITURE_LOW_HEIGHT = 1.0;
 const FURNITURE_HIGH_HEIGHT = 2.6;
 const GLASS_HEIGHT = 3;
@@ -37,8 +47,6 @@ const VEGETATION_HEIGHT = 0.5;
  * elles ET du mur. Repris/adapté de `YardView` (containers/caisses) plutôt
  * qu'inventé : mêmes trois lumières, même logique de contraste.
  */
-const GROUND_COLOR = 0x44464e;
-const WALL_COLOR = 0x201f24;
 const DOOR_FRAME_COLOR = 0x8a8d99;
 const DOOR_PANEL_COLOR = 0x35343a;
 const FURNITURE_LOW_COLOR = 0xb98a4f; // mobilier bas : bois clair (table, pupitre...)
@@ -83,6 +91,8 @@ const HIDDEN_ROOM_COLOR = 0x121218;
  */
 const ZOOM_MIN = 10;
 const ZOOM_MAX = 96;
+/** Cadrage d'entrée exploration : cadet d'environ 50 px à 900p, sans toucher à la tactique. */
+const EXPLORE_INITIAL_ZOOM = 16;
 /** Molette : sensibilité (unités de zoom par cran `deltaY`, valeur navigateur typique ~100). */
 const WHEEL_ZOOM_SENSITIVITY = 0.045;
 /** `+`/`-` maintenus : vitesse de zoom continue. */
@@ -167,83 +177,17 @@ function clampAxisToFrame(value: number, mapMin: number, mapMax: number, halfExt
   return THREE.MathUtils.clamp(value, mapMin + halfExtent, mapMax - halfExtent);
 }
 
-/**
- * Teintes de sol par pièce, pour l'académie HOLT : une petite palette dessinée à la main
- * (même esprit que `CONTAINER_PALETTE` de `YardView`), pas un calcul générique — un écart de
- * teinte pertinent (bureau, clinique, atelier, réfectoire...) se choisit, il ne se déduit pas
- * d'un hash. Chaque valeur reste proche de `GROUND_COLOR` (même famille grise sourde, léger
- * écart de teinte/luminosité) : sobre, jamais un sol "arc-en-ciel". Clé = `RoomDef.id`.
- */
-const ROOM_FLOOR_PALETTE: Record<string, number> = {
-  administration: 0x4a4650, // gris chaud — bureaucratie
-  interface: 0x424b52, // gris-bleu neutre — salle informatique
-  infirmerie: 0x3f4f54, // gris-vert froid — clinique
-  armurerie: 0x3a4048, // gris-acier sombre — sécurité
-  archives: 0x454654, // gris-violet sourd — stockage
-  'local-technique': 0x3c3f46, // gris industriel sombre
-  dortoirs: 0x4a4a58, // gris-lavande doux — vie commune
-  'cour-interieure': 0x3f4f46, // gris-vert — jardin
-  cantine: 0x50473f, // gris-brun chaud — réfectoire
-  'salles-entrainement': 0x46433c, // gris-sable — sport
-  garage: 0x36363c, // gris-anthracite — mécanique
-};
-
-/** Hash déterministe d'une chaîne (FNV-1a) : aucun aléa, juste un écart stable (AGENTS.md règle 1). */
-function hashRoomId(id: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < id.length; i++) {
-    h ^= id.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-
-/**
- * Teinte de sol propre à une pièce : `ROOM_FLOOR_PALETTE` pour l'académie HOLT ; pour toute
- * pièce hors de cette liste (autre carte, `exploreLabMap.ts`...), un léger écart
- * teinte/luminosité déterministe autour de `GROUND_COLOR` — dégradé, jamais une couleur au
- * hasard, et jamais l'absence totale de distinction.
- */
-function roomFloorColor(id: string): THREE.Color {
-  const preset = ROOM_FLOOR_PALETTE[id];
-  if (preset !== undefined) return new THREE.Color(preset);
-  const hash = hashRoomId(id);
-  const base = new THREE.Color(GROUND_COLOR);
-  const hsl = { h: 0, s: 0, l: 0 };
-  base.getHSL(hsl);
-  const hueShift = (((hash >> 4) % 49) - 24) / 360; // ± ~24°
-  const lightShift = (((hash >> 12) % 11) - 5) / 100; // ± 5 % de luminosité
-  const out = new THREE.Color();
-  out.setHSL(
-    (((hsl.h + hueShift) % 1) + 1) % 1,
-    THREE.MathUtils.clamp(hsl.s + 0.1, 0, 1),
-    THREE.MathUtils.clamp(hsl.l + lightShift, 0.08, 0.9),
-  );
-  return out;
-}
-
-/**
- * Sol d'une pièce DÉCOUVERTE, effectivement rendu (`buildRoomFloors`/`setDiscoveredRooms`) :
- * `roomFloorColor(id)` relevé en luminosité, jamais sa teinte -- correctif verification visuelle
- * du lot 3.7c. `roomFloorColor` seule (proche de `GROUND_COLOR`, § "sobre, jamais un sol
- * arc-en-ciel") se lit à peine plus clair qu'une pièce NON découverte une fois éclairée par la
- * scène (ombres portées, faible ambiante) : à l'écran, connu et inconnu se confondaient. La
- * découverte doit se lire comme un ALLUMAGE, pas une nuance -- 08-EXPLORATION.md dit "nettement
- * plus sombre" pour l'inconnu, ce qui implique la réciproque : le connu doit se lire éclairé.
- */
-function discoveredFloorColor(id: string): THREE.Color {
-  const base = roomFloorColor(id);
-  const hsl = { h: 0, s: 0, l: 0 };
-  base.getHSL(hsl);
-  const out = new THREE.Color();
-  out.setHSL(hsl.h, THREE.MathUtils.clamp(hsl.s + 0.05, 0, 1), THREE.MathUtils.clamp(hsl.l + 0.24, 0, 0.62));
-  return out;
-}
-
 interface WallCellInfo {
   mesh: THREE.Mesh;
   topEdge: THREE.Mesh;
+  band: THREE.Mesh;
+  isContainer: boolean;
+  control?: THREE.Group;
+  /** Ornements fixés à cette face : disparaissent avec le mur coupé, jamais au travers. */
+  ornaments?: THREE.Object3D[];
   sides: Side[];
+  /** Une case `+` est une ouverture structurelle même sans entité `door` interactive. */
+  isDoorCell: boolean;
   door?: DoorEntity;
   panel?: THREE.Mesh;
 }
@@ -282,8 +226,23 @@ export class ExploreView {
   private readonly entityVisualParts = new Map<string, THREE.Object3D[]>();
   /** Entités npc/object/seat actuellement actives ET découvertes (nourri par `setVisibleEntities`). */
   private visibleEntityIds = new Set<string>();
+  /** Les portes font partie de l'architecture et restent des cibles directes, hors découverte de pièce. */
+  private readonly doorEntityIds = new Set<string>();
+  /** Habillage uniquement : `MapDef` reste la vérité pour collision et interactions. */
+  private readonly dressing: ExploreDressing;
+  private readonly replacedFurnitureCells = new Set<string>();
+  /** PNJ ayant une chaise déclarative : seule condition qui autorise la pose assise. */
+  private readonly seatedNpcIds = new Set<string>();
+  private readonly discoveredRoomIds = new Set<string>();
+  private readonly architectureMaterials: EnvironmentMaterials;
+  /** Ressources propres aux cellules, portes et sols ; les props et rigs ont leur propriétaire. */
+  private readonly cellGeometries = new Set<THREE.BufferGeometry>();
+  private readonly cellMaterials = new Set<THREE.Material>();
+  private readonly cellTextures = new Set<THREE.Texture>();
 
   private readonly rigs = new Map<string, CharacterRig>();
+  /** PNJ décoratifs : leur visibilité reste pilotée par registerVisualEntity. */
+  private readonly npcRigs = new Map<string, ExploreNpcRig>();
   private readonly lastRigPos = new Map<string, { x: number; z: number }>();
   /** Dernière case connue du meneur (alimentée par `updateRigPosition`) : sert à `centerOnLeader()`. */
   private leaderCell: Cell | null = null;
@@ -321,7 +280,9 @@ export class ExploreView {
   ) {
     this.def = def;
     this.map = new ExploreMap(def);
+    for (const entity of def.entities) if (entity.type === 'door') this.doorEntityIds.add(entity.id);
     this.camera = new IsoCamera(aspect, { min: ZOOM_MIN, max: ZOOM_MAX });
+    this.camera.zoomBy(EXPLORE_INITIAL_ZOOM - this.camera.getZoom(), aspect);
 
     const halfW = (this.map.width * EXPLORE_CELL_SIZE_METERS) / 2;
     const halfH = (this.map.height * EXPLORE_CELL_SIZE_METERS) / 2;
@@ -337,32 +298,26 @@ export class ExploreView {
     this.scene.fog = new THREE.Fog(0x14151a, 60, 160);
     this.scene.add(this.root);
 
-    // Trois sources, comme ART-DIRECTION.md "Lumière" (mêmes valeurs que `YardView`) :
-    // hémisphérique, directionnelle chaude avec ombres, contre-jour froid.
-    this.scene.add(new THREE.HemisphereLight(0x8899bb, 0x20202a, 0.85));
-    const sun = new THREE.DirectionalLight(0xfff0d8, 1.1);
-    sun.position.set(24, 40, 18);
-    sun.castShadow = true;
-    // Le frustum d'ombre par défaut (±5) est bien plus petit qu'une carte d'exploration :
-    // sans ce réglage, l'essentiel du sol tombe hors de la shadow map et rend uniformément
-    // sombre. On le dimensionne sur la carte, comme `YardView` le fait sur la cour.
-    const shadowHalf = (Math.max(this.map.width, this.map.height) * EXPLORE_CELL_SIZE_METERS) / 2 + 6;
-    sun.shadow.mapSize.set(2048, 2048);
-    sun.shadow.camera.left = -shadowHalf;
-    sun.shadow.camera.right = shadowHalf;
-    sun.shadow.camera.top = shadowHalf;
-    sun.shadow.camera.bottom = -shadowHalf;
-    this.scene.add(sun);
-    const rim = new THREE.DirectionalLight(0x4cc9f0, 0.35);
-    rim.position.set(-20, 12, -24);
-    this.scene.add(rim);
+    const isCentre = def.id === 'centre-examen';
+    addExplorationLighting(this.scene, Math.max(this.map.width, this.map.height), isCentre);
+    this.architectureMaterials = new EnvironmentMaterials(rng.fork(`explore:${def.id}:architecture`));
+    const visualDef = this.visualDefinition(def.id);
+    for (const placement of visualDef.placements) {
+      for (const cell of placement.replaces ?? []) this.replacedFurnitureCells.add(posKey(cell));
+      if (placement.model === 'canteen-chair' && placement.entityId) this.seatedNpcIds.add(placement.entityId);
+    }
+    this.dressing = new ExploreDressing(
+      visualDef,
+      new EnvironmentPropFactory((cell) => cellToWorld(this.map, cell), rng.fork(`explore:${def.id}`)),
+    );
+    this.root.add(this.dressing.root);
 
     const w = this.map.width * EXPLORE_CELL_SIZE_METERS;
     const h = this.map.height * EXPLORE_CELL_SIZE_METERS;
-    this.floorPlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(w, h),
-      new THREE.MeshStandardMaterial({ color: GROUND_COLOR, roughness: 0.95 }),
-    );
+    const groundGeometry = new THREE.PlaneGeometry(w, h);
+    const groundMaterial = this.floorMaterial(true, w, h);
+    this.cellGeometries.add(groundGeometry);
+    this.floorPlane = new THREE.Mesh(groundGeometry, groundMaterial);
     this.floorPlane.rotation.x = -Math.PI / 2;
     this.floorPlane.receiveShadow = true;
     this.root.add(this.floorPlane);
@@ -379,7 +334,12 @@ export class ExploreView {
 
     this.pingMarker = new THREE.Mesh(
       new THREE.RingGeometry(0.3, 0.58, 28),
-      new THREE.MeshBasicMaterial({ color: HOVER_COLOR, transparent: true, opacity: 0.85, depthWrite: false }),
+      new THREE.MeshBasicMaterial({
+        color: HOVER_COLOR,
+        transparent: true,
+        opacity: 0.85,
+        depthWrite: false,
+      }),
     );
     this.pingMarker.rotation.x = -Math.PI / 2;
     this.pingMarker.position.y = 0.05;
@@ -393,8 +353,19 @@ export class ExploreView {
     this.computeRoomSides();
     this.computeGarageCells();
     this.buildCells();
+    this.buildDormitoryArchitecture();
     this.buildEntityMarkers();
+    this.dressing.syncVisibility({
+      discoveredRoomIds: this.discoveredRoomIds,
+      visibleEntityIds: this.visibleEntityIds,
+    });
     this.updateFog();
+  }
+
+  private visualDefinition(mapId: string): ExploreVisualMapDef {
+    if (mapId === HOLT_VISUALS.mapId) return HOLT_VISUALS;
+    if (mapId === CENTRE_EXAMEN_VISUALS.mapId) return CENTRE_EXAMEN_VISUALS;
+    return { mapId, placements: [] };
   }
 
   /* ------------------------------------------------------------------ */
@@ -416,11 +387,10 @@ export class ExploreView {
       // Pessimiste par défaut (pièce non découverte, sauf `alwaysDiscovered`) : `setDiscoveredRooms`
       // corrige AVANT le premier rendu (appelée synchroniquement par l'appelant juste après la
       // construction), donc jamais de flash "tout éclairé" à l'écran.
-      const initialColor = room.alwaysDiscovered ? discoveredFloorColor(room.id) : HIDDEN_ROOM_COLOR;
-      const plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(width * EXPLORE_CELL_SIZE_METERS, height * EXPLORE_CELL_SIZE_METERS),
-        new THREE.MeshStandardMaterial({ color: initialColor, roughness: 0.95 }),
-      );
+      const initialColor = room.alwaysDiscovered === true;
+      const geometry = new THREE.PlaneGeometry(width * EXPLORE_CELL_SIZE_METERS, height * EXPLORE_CELL_SIZE_METERS);
+      this.cellGeometries.add(geometry);
+      const plane = new THREE.Mesh(geometry, this.floorMaterial(initialColor, width, height));
       plane.rotation.x = -Math.PI / 2;
       plane.position.set(wx, 0.006, wz);
       plane.receiveShadow = true;
@@ -484,14 +454,41 @@ export class ExploreView {
 
   private buildCells(): void {
     const unitBox = new THREE.BoxGeometry(1, 1, 1);
-    const wallMat = new THREE.MeshStandardMaterial({ color: WALL_COLOR, roughness: 0.9 });
-    const frameMat = new THREE.MeshStandardMaterial({ color: DOOR_FRAME_COLOR, roughness: 0.7, metalness: 0.2 });
+    this.cellGeometries.add(unitBox);
+    const containerBox = unitBox.clone();
+    const containerColors = new Float32Array(containerBox.getAttribute('position').count * 3).fill(1);
+    // BoxGeometry : +Y occupe les sommets 8–11. Assombrir le toit sans six matériaux
+    // évite plusieurs appels de dessin par case de container dans la grande cour.
+    for (let i = 8; i < 12; i++) {
+      containerColors[i * 3] = 0.54;
+      containerColors[i * 3 + 1] = 0.58;
+      containerColors[i * 3 + 2] = 0.59;
+    }
+    containerBox.setAttribute('color', new THREE.BufferAttribute(containerColors, 3));
+    this.cellGeometries.add(containerBox);
+    const wallMat = this.architectureMaterials.get(this.def.id === 'centre-examen' ? 'coldConcreteWall' : 'creamConcrete');
+    const containerSteel = this.architectureMaterials.get('containerSteel');
+    const containerSides = [0x536f7e, 0x8a5549, 0x93805c].map((color) => {
+      const material = containerSteel.clone();
+      material.color.setHex(color);
+      material.vertexColors = true;
+      this.cellMaterials.add(material);
+      return material;
+    });
+    const frameMat = new THREE.MeshStandardMaterial({
+      color: DOOR_FRAME_COLOR,
+      roughness: 0.7,
+      metalness: 0.2,
+    });
+    this.cellMaterials.add(frameMat);
     const furnitureLowMat = new THREE.MeshStandardMaterial({ color: FURNITURE_LOW_COLOR, roughness: 0.9 });
     const furnitureHighMat = new THREE.MeshStandardMaterial({
       color: FURNITURE_HIGH_COLOR,
       roughness: 0.8,
       metalness: 0.15,
     });
+    this.cellMaterials.add(furnitureLowMat);
+    this.cellMaterials.add(furnitureHighMat);
     const glassMat = new THREE.MeshStandardMaterial({
       color: GLASS_COLOR,
       transparent: true,
@@ -499,7 +496,9 @@ export class ExploreView {
       roughness: 0.2,
       metalness: 0.6,
     });
+    this.cellMaterials.add(glassMat);
     const vegetationMat = new THREE.MeshStandardMaterial({ color: VEGETATION_COLOR, roughness: 1 });
+    this.cellMaterials.add(vegetationMat);
     // Matériau lit (pas `MeshBasicMaterial`) et semi-transparent : sur une grande carte, une arête
     // pleinement lumineuse et uniforme sur CHAQUE mur coupé lit comme un filaire qui écrase tout
     // le reste (voir le commentaire de `CUT_EDGE_COLOR`). Ici l'éclairage de la scène la nuance.
@@ -509,6 +508,7 @@ export class ExploreView {
       transparent: true,
       opacity: 0.55,
     });
+    this.cellMaterials.add(edgeMat);
     const vehicleMat = new THREE.MeshStandardMaterial({
       color: VEHICLE_COLOR,
       roughness: 0.45,
@@ -516,11 +516,13 @@ export class ExploreView {
       emissive: VEHICLE_COLOR,
       emissiveIntensity: 0.1,
     });
+    this.cellMaterials.add(vehicleMat);
     const vehicleGlassMat = new THREE.MeshStandardMaterial({
       color: VEHICLE_GLASS_COLOR,
       roughness: 0.2,
       metalness: 0.6,
     });
+    this.cellMaterials.add(vehicleGlassMat);
 
     for (let y = 0; y < this.map.height; y++) {
       for (let x = 0; x < this.map.width; x++) {
@@ -531,7 +533,9 @@ export class ExploreView {
         const sides = this.roomSidesByCell.get(key) ?? [];
 
         if (kind === 'wall' || kind === 'door') {
-          const mesh = new THREE.Mesh(unitBox, kind === 'door' ? frameMat : wallMat);
+          const isContainer = this.def.id === 'centre-examen' && x >= 7 && x < 37 && y >= 1 && y < 21 && kind === 'wall';
+          const side = containerSides[(Math.floor(x / 7) + Math.floor(y / 5)) % containerSides.length] as THREE.Material;
+          const mesh = new THREE.Mesh(isContainer ? containerBox : unitBox, isContainer ? side : kind === 'door' ? frameMat : wallMat);
           mesh.castShadow = true;
           mesh.receiveShadow = true;
           mesh.position.x = wx;
@@ -544,7 +548,10 @@ export class ExploreView {
           topEdge.visible = false;
           this.root.add(topEdge);
 
-          const info: WallCellInfo = { mesh, topEdge, sides };
+          const band = createWallBand(this.architectureMaterials, this.def.id === 'centre-examen');
+          band.position.set(wx, band.position.y, wz);
+          this.root.add(band);
+          const info: WallCellInfo = { mesh, topEdge, band, sides, isContainer, isDoorCell: kind === 'door' };
 
           if (kind === 'door') {
             const door = this.doorAt({ x, y });
@@ -553,6 +560,7 @@ export class ExploreView {
                 unitBox,
                 new THREE.MeshStandardMaterial({ color: DOOR_PANEL_COLOR, roughness: 0.85 }),
               );
+              this.cellMaterials.add(panel.material);
               panel.scale.set(0.86, 1, 0.16);
               panel.position.x = wx;
               panel.position.z = wz;
@@ -562,6 +570,10 @@ export class ExploreView {
               this.pickables.push(panel);
               info.door = door;
               info.panel = panel;
+              const control = createDoorControl(this.architectureMaterials);
+              control.position.set(wx, 0, wz);
+              this.root.add(control);
+              info.control = control;
               // Le cadre (fixe, toujours visible) sert aussi de cible de clic.
               mesh.userData.entityId = door.id;
               this.pickables.push(mesh);
@@ -573,6 +585,7 @@ export class ExploreView {
         }
 
         if (kind === 'furnitureLow') {
+          if (this.replacedFurnitureCells.has(key)) continue;
           const mesh = new THREE.Mesh(unitBox, furnitureLowMat);
           mesh.scale.set(0.8, FURNITURE_LOW_HEIGHT, 0.8);
           mesh.position.set(wx, FURNITURE_LOW_HEIGHT / 2, wz);
@@ -580,6 +593,7 @@ export class ExploreView {
           this.root.add(mesh);
           this.trackRoomDecor(x, y, [mesh]);
         } else if (kind === 'furnitureHigh') {
+          if (this.replacedFurnitureCells.has(key)) continue;
           if (this.garageCells.has(key)) {
             // Véhicule du garage : même case ('T') que l'agrès/l'arbre ailleurs sur la carte,
             // mais rendu distinct (carrosserie + pavillon vitré) pour que les deux véhicules du
@@ -615,10 +629,9 @@ export class ExploreView {
         } else if (kind === 'vegetation') {
           const jitterX = (this.rng.next() - 0.5) * 0.3;
           const jitterZ = (this.rng.next() - 0.5) * 0.3;
-          const mesh = new THREE.Mesh(
-            new THREE.SphereGeometry(0.42, 8, 6),
-            vegetationMat,
-          );
+          const geometry = new THREE.SphereGeometry(0.42, 8, 6);
+          this.cellGeometries.add(geometry);
+          const mesh = new THREE.Mesh(geometry, vegetationMat);
           mesh.position.set(wx + jitterX, VEGETATION_HEIGHT / 2, wz + jitterZ);
           mesh.castShadow = true;
           this.root.add(mesh);
@@ -628,6 +641,36 @@ export class ExploreView {
     }
 
     this.recomputeCutaway();
+  }
+
+  /** Première tranche HOLT : surveillance et câblage concentrés sur le sas du dortoir. */
+  private buildDormitoryArchitecture(): void {
+    if (this.def.id !== 'holt') return;
+    const add = (cell: Cell, detail: THREE.Group) => {
+      const wall = this.wallCells.get(posKey(cell));
+      if (!wall) return;
+      const { x, z } = cellToWorld(this.map, cell);
+      // Les props peuvent déjà porter un décalage local vers la face intérieure du mur.
+      detail.position.set(x + detail.position.x, detail.position.y, z + detail.position.z);
+      this.root.add(detail);
+      const ornaments = wall.ornaments ?? [];
+      ornaments.push(detail);
+      wall.ornaments = ornaments;
+    };
+    // Mur ouest du dortoir : le triplet encadre la porte 25,7 et avance vers la salle,
+    // donc il reste lisible depuis l'iso au lieu de se perdre derrière le mur nord ou le HUD.
+    const camera = createSurveillanceCamera(this.architectureMaterials);
+    camera.rotation.y = Math.PI / 2;
+    camera.position.x = 0.42;
+    add({ x: 25, y: 6 }, camera);
+    const control = createDoorControl(this.architectureMaterials);
+    control.rotation.y = Math.PI / 2;
+    control.position.x = 0.42;
+    add({ x: 25, y: 7 }, control);
+    const conduit = createTechnicalConduit(this.architectureMaterials, 1.7);
+    conduit.rotation.y = Math.PI / 2;
+    conduit.position.x = 0.42;
+    add({ x: 25, y: 8 }, conduit);
   }
 
   /** Anneau discret au sol sous un interactable : le repère même quand le prop lui-même est petit. */
@@ -659,23 +702,27 @@ export class ExploreView {
       const { x: wx, z: wz } = cellToWorld(this.map, e.cell);
 
       if (e.type === 'npc') {
-        const capsule = new THREE.Mesh(
-          new THREE.CapsuleGeometry(0.26, 0.6, 4, 8),
-          new THREE.MeshStandardMaterial({ color: EXTRA_COLOR, roughness: 0.7 }),
-        );
-        capsule.position.set(wx, 0.6, wz);
-        capsule.castShadow = true;
-        capsule.userData.entityId = e.id;
-        this.root.add(capsule);
-        this.pickables.push(capsule);
+        const rig = this.createNpcRig(e.id, wx, wz);
+        rig.object.userData.entityId = e.id;
+        this.root.add(rig.object);
+        this.pickables.push(rig.object);
+        this.npcRigs.set(e.id, rig);
         const marker = this.addGroundMarker(wx, wz, EXTRA_COLOR);
-        this.registerVisualEntity(e, [capsule, marker]);
+        this.registerVisualEntity(e, [rig.object, marker]);
         continue;
       }
 
       // Objet/siège : plus gros et légèrement lumineux qu'un simple bloc de mobilier --
       // ce sont des interactables, ils doivent se remarquer (comme le matériel au sol en
       // combat, `YardView.setGroundItems`), pas se confondre avec le décor.
+      const semanticObject = this.dressing.objectForEntity(e.id);
+      if (semanticObject) {
+        this.pickables.push(semanticObject);
+        const marker = this.addGroundMarker(wx, wz, e.type === 'seat' ? SEAT_COLOR : OBJECT_COLOR);
+        this.registerVisualEntity(e, [semanticObject, marker]);
+        continue;
+      }
+
       if (e.type === 'object') {
         const box = new THREE.Mesh(
           new THREE.BoxGeometry(0.62, 0.62, 0.62),
@@ -719,7 +766,12 @@ export class ExploreView {
       if (e.type === 'exit') {
         const ring = new THREE.Mesh(
           new THREE.RingGeometry(0.55, 0.72, 24),
-          new THREE.MeshBasicMaterial({ color: EXIT_COLOR, transparent: true, opacity: 0.75, depthWrite: false }),
+          new THREE.MeshBasicMaterial({
+            color: EXIT_COLOR,
+            transparent: true,
+            opacity: 0.75,
+            depthWrite: false,
+          }),
         );
         ring.rotation.x = -Math.PI / 2;
         ring.position.set(wx, 0.02, wz);
@@ -728,6 +780,23 @@ export class ExploreView {
         this.pickables.push(ring);
       }
     }
+  }
+
+  /** Les cinq cadets nommés réemploient leur vrai rig; le chien garde une silhouette quadrupède. */
+  private createNpcRig(entityId: string, x: number, z: number): ExploreNpcRig {
+    const candidate = entityId.split('.').at(-1);
+    if (candidate && (CHARACTER_IDS as readonly string[]).includes(candidate)) {
+      const sheet = getCharacter(candidate as CharacterId);
+      const rig = createCadetExplorationRig(sheet, EXTRA_COLOR);
+      rig.setEquipment([]);
+      rig.setEquipmentLineVisible(false);
+      rig.setWorldPosition(x, z);
+      rig.playExplorationPose('talk');
+      return rig;
+    }
+    const rig = createExploreNpcRig(entityId, this.seatedNpcIds.has(entityId));
+    rig.object.position.set(x, 0, z);
+    return rig;
   }
 
   /* ------------------------------------------------------------------ */
@@ -749,7 +818,7 @@ export class ExploreView {
     for (const info of this.wallCells.values()) {
       const cut = this.isCut(info.sides);
       const height = cut ? WALL_CUT_HEIGHT : WALL_HEIGHT;
-      if (info.door) {
+      if (info.isDoorCell) {
         // Porte : un simple linteau en haut de l'ouverture, jamais un bloc plein -- sinon
         // une porte OUVERTE lirait comme un mur (08-EXPLORATION.md "Pas de plafond. Les
         // portes ouvertes sont des trouées"). Le panneau (`info.panel`) porte l'état fermé.
@@ -761,6 +830,11 @@ export class ExploreView {
       }
       info.topEdge.visible = cut;
       info.topEdge.position.y = height;
+      info.band.visible = !cut && !info.isContainer;
+      if (info.control) info.control.visible = !cut;
+      if (info.ornaments) {
+        for (const ornament of info.ornaments) ornament.visible = !cut;
+      }
       if (info.panel) {
         info.panel.scale.set(0.86, height, 0.16);
         info.panel.position.y = height / 2;
@@ -770,7 +844,7 @@ export class ExploreView {
 
   /** Tourne la caméra d'un quart de tour et recalcule immédiatement les murs coupés (ADR 0013 §6). */
   rotate(step: number): void {
-    this.quarter = ((this.quarter + step) % 4 + 4) % 4;
+    this.quarter = (((this.quarter + step) % 4) + 4) % 4;
     this.camera.rotate(step);
     this.recomputeCutaway();
   }
@@ -897,7 +971,12 @@ export class ExploreView {
     ];
     const rCorners = corners.map((c) => c.x * right.x + c.z * right.z);
     const uCorners = corners.map((c) => c.x * up.x + c.z * up.z);
-    const r = clampAxisToFrame(x * right.x + z * right.z, Math.min(...rCorners), Math.max(...rCorners), halfR);
+    const r = clampAxisToFrame(
+      x * right.x + z * right.z,
+      Math.min(...rCorners),
+      Math.max(...rCorners),
+      halfR,
+    );
     const u = clampAxisToFrame(x * up.x + z * up.z, Math.min(...uCorners), Math.max(...uCorners), halfU);
 
     return { x: r * right.x + u * up.x, z: r * right.z + u * up.z };
@@ -966,31 +1045,19 @@ export class ExploreView {
     this.addRig(id, sheet, false);
   }
 
-  /**
-   * `PlaceholderRig` porte déjà la couleur d'accent du cadet (`sheet.placeholderColor`,
-   * ART-DIRECTION.md "Couleurs de cadets") et un anneau au sol (ici en `--comm`, la couleur
-   * "équipe du joueur" plutôt qu'une couleur d'équipe de combat). Le meneur est mis en
-   * évidence via `setHighlighted` (même mécanisme que l'unité active en tactique) ; les
-   * étiquettes des coéquipiers sont masquées pour ne pas former un bloc illisible quand le
-   * groupe se serre (elles restent identifiables par leur couleur de capsule).
-   */
+  /** Cadets exploration : squelette/mixer local, clips sans root motion et anneau d'équipe. */
   private addRig(id: string, sheet: CharacterSheet, isLeader: boolean): void {
     const existing = this.rigs.get(id);
     if (existing) {
       existing.dispose();
       this.root.remove(existing.object);
     }
-    const rig = new PlaceholderRig(sheet, PARTY_RING_COLOR);
-    rig.setEquipment(null);
-    // Exploration : pas d'arme ni d'equipe adverse a deviner -- la plaque ne porte que le nom
-    // (contrat 08-EXPLORATION.md, correctif verification visuelle du lot 3.6b).
+    const rig = createCadetExplorationRig(sheet, PARTY_RING_COLOR);
+    rig.setEquipment([]);
     rig.setEquipmentLineVisible(false);
     rig.setHighlighted(isLeader);
-    if (!isLeader) {
-      for (const child of rig.object.children) {
-        if ((child as THREE.Sprite).isSprite) child.visible = false;
-      }
-    }
+    rig.setReducedMotion(this.reducedMotion);
+    if (!isLeader) rig.object.getObjectByName('cadet-label')!.visible = false;
     this.root.add(rig.object);
     this.rigs.set(id, rig);
   }
@@ -1006,7 +1073,8 @@ export class ExploreView {
       rig.faceTowards(x, z);
     }
     rig.setWorldPosition(x, z);
-    rig.play(moving ? 'walk' : 'idle');
+    rig.play(moving ? 'run' : 'idle');
+    if (isExplorationCharacterRig(rig)) rig.setExplorationMotionSpeed(LEADER_SPEED);
     rig.update(dt);
     this.lastRigPos.set(id, { x, z });
   }
@@ -1056,6 +1124,10 @@ export class ExploreView {
       for (const part of parts) part.visible = visible;
     }
     this.visibleEntityIds = next;
+    this.dressing.syncVisibility({
+      discoveredRoomIds: this.discoveredRoomIds,
+      visibleEntityIds: this.visibleEntityIds,
+    });
   }
 
   /**
@@ -1066,15 +1138,21 @@ export class ExploreView {
    */
   setDiscoveredRooms(ids: Iterable<string>): void {
     const discovered = new Set(ids);
+    this.discoveredRoomIds.clear();
+    for (const id of discovered) this.discoveredRoomIds.add(id);
     for (const [roomId, floor] of this.roomFloors) {
       const room = this.roomsById.get(roomId);
       const shown = room?.alwaysDiscovered === true || discovered.has(roomId);
-      (floor.material as THREE.MeshStandardMaterial).color.set(shown ? discoveredFloorColor(roomId) : HIDDEN_ROOM_COLOR);
+      (floor.material as THREE.MeshStandardMaterial).color.setHex(shown ? 0xffffff : HIDDEN_ROOM_COLOR);
     }
     for (const [roomId, parts] of this.roomDecor) {
       const shown = discovered.has(roomId);
       for (const part of parts) part.visible = shown;
     }
+    this.dressing.syncVisibility({
+      discoveredRoomIds: this.discoveredRoomIds,
+      visibleEntityIds: this.visibleEntityIds,
+    });
   }
 
   /* ------------------------------------------------------------------ */
@@ -1120,9 +1198,15 @@ export class ExploreView {
     this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera.camera);
 
     const directHits = this.raycaster.intersectObjects(this.pickables, true);
-    if (directHits.length > 0) {
-      const entityId = this.entityIdOfObject((directHits[0] as THREE.Intersection).object);
-      if (entityId) return { type: 'entity', id: entityId };
+    for (const hit of directHits) {
+      const entityId = this.entityIdOfObject(hit.object);
+      // Les meshes des pièces non découvertes restent dans le graphe Three afin de pouvoir
+      // suivre leur découverte. Ils ne doivent toutefois jamais absorber le clic d'un objet
+      // actif placé derrière eux. Les portes sont l'exception structurelle : elles sont
+      // visibles hors découverte et ne passent donc pas par `visibleEntityIds`.
+      if (entityId && (this.visibleEntityIds.has(entityId) || this.doorEntityIds.has(entityId))) {
+        return { type: 'entity', id: entityId };
+      }
     }
 
     const floorHits = this.raycaster.intersectObject(this.floorPlane, false);
@@ -1173,6 +1257,10 @@ export class ExploreView {
 
   setReducedMotion(reduced: boolean): void {
     this.reducedMotion = reduced;
+    for (const rig of this.rigs.values()) {
+      if (isExplorationCharacterRig(rig)) rig.setReducedMotion(reduced);
+    }
+    for (const rig of this.npcRigs.values()) rig.setReducedMotion?.(reduced);
   }
 
   /** Case de destination de l'objectif principal ; `null` = pas d'objectif (marqueur masqué). */
@@ -1198,6 +1286,11 @@ export class ExploreView {
   tick(dt: number): void {
     this.camera.tick(dt);
     this.updateFog();
+    // Pendant un dialogue, ExploreSession arrête cette boucle : les poses restent alors
+    // figées. Un PNJ masqué ne consomme pas d'animation avant sa synchronisation narrative.
+    for (const rig of this.npcRigs.values()) {
+      if (rig.object.visible) rig.update(dt);
+    }
     if (this.pingActive && !this.reducedMotion) {
       this.pingClock += dt;
       const s = 1 + Math.sin(this.pingClock * 5) * 0.18;
@@ -1212,5 +1305,33 @@ export class ExploreView {
   dispose(): void {
     for (const rig of this.rigs.values()) rig.dispose();
     this.rigs.clear();
+    for (const rig of this.npcRigs.values()) rig.dispose();
+    this.npcRigs.clear();
+    this.dressing.dispose();
+    for (const material of this.cellMaterials) material.dispose();
+    for (const texture of this.cellTextures) texture.dispose();
+    for (const geometry of this.cellGeometries) geometry.dispose();
+    this.architectureMaterials.dispose();
   }
+
+  /** Clone la matière architecturale pour que l'état de découverte teinte chaque sol indépendamment. */
+  private floorMaterial(discovered: boolean, width: number, height: number): THREE.MeshStandardMaterial {
+    const key = this.def.id === 'centre-examen' ? 'coldConcrete' : 'creamConcrete';
+    const material = this.architectureMaterials.get(key).clone();
+    const texture = material.map?.clone();
+    if (texture) {
+      // Une répétition par grande plage suffit : les précédentes répétitions tous les 3 m
+      // faisaient lire le sol comme une grille de rectangles indépendante du lieu.
+      const textureSpan = this.def.id === 'centre-examen' ? 29 : 12;
+      texture.repeat.set(Math.max(1, width / textureSpan), Math.max(1, height / textureSpan));
+      texture.needsUpdate = true;
+      material.map = texture;
+      this.cellTextures.add(texture);
+    }
+    material.color.setHex(discovered ? 0xffffff : HIDDEN_ROOM_COLOR);
+    material.roughness = 0.9;
+    this.cellMaterials.add(material);
+    return material;
+  }
+
 }

@@ -18,6 +18,20 @@ describe('carte du centre d’examen désaffecté', () => {
     expect(result.ok).toBe(true);
   });
 
+  it('refuse une armoire qui prétend ouvrir une porte absente', () => {
+    const invalid = {
+      ...CENTRE_EXAMEN_MAP,
+      entities: CENTRE_EXAMEN_MAP.entities.map((entity) =>
+        entity.id === 'salle2.armoire' && entity.type === 'object'
+          ? { ...entity, opensDoorAfterDialogue: 'porte.absente' }
+          : entity,
+      ),
+    };
+    expect(validateMap(invalid).errors).toContain(
+      'L\'objet "salle2.armoire" doit désigner une porte existante à ouvrir après son dialogue',
+    );
+  });
+
   it('est rectangulaire, toutes les lignes de la même largeur', () => {
     const widths = new Set(CENTRE_EXAMEN_MAP.ascii.map((row) => row.length));
     expect(widths.size).toBe(1);

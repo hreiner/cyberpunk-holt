@@ -26,6 +26,7 @@ import { BriefLineView } from '@/ui/briefLine';
 import { EXPLORE_LAB_MAP } from './exploreLabMap';
 import { HOLT_MAP } from '@/data/maps/holt';
 import { CENTRE_EXAMEN_MAP } from '@/data/maps/centre-examen';
+import { preloadCadetAssets } from '@/render/exploration/characterAssets';
 
 /**
  * Carte affichée : `?map=holt` pour l'académie HOLT (lot 3.6a), `?map=centre-examen`
@@ -60,6 +61,9 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.08;
 
 let state: ExploreState;
 let view: ExploreView;
@@ -351,5 +355,6 @@ function frame(now: number): void {
 }
 
 renderer.setSize(viewport.clientWidth, viewport.clientHeight, false);
+await preloadCadetAssets();
 buildScene();
 requestAnimationFrame(frame);

@@ -299,6 +299,8 @@ export interface E2EGameApi {
   /* --- exploration (ADR 0013, lot 3.6b) --- */
   /** Voir `GameDebugApi.explore` dans src/debug/gameApi.ts. `null` hors d'une scène `explore`. */
   explore(): E2EExploreSnapshot | null;
+  /** Compteurs WebGL de la dernière image d'exploration ; `null` hors exploration. */
+  exploreRenderStats(): { drawCalls: number; triangles: number; geometries: number; textures: number } | null;
   /** Voir `GameDebugApi.walkTo` dans src/debug/gameApi.ts : déplacement instantané, sans animation. */
   walkTo(x: number, y: number): void;
   /** Voir `GameDebugApi.interact` dans src/debug/gameApi.ts : déclenche l'entité sans marcher jusqu'à elle. */

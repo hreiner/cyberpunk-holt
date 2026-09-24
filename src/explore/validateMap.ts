@@ -35,6 +35,13 @@ export function validateMap(def: MapDef): ValidationResult {
     if (seenIds.has(e.id)) errors.push(`Identifiant d'entité dupliqué : "${e.id}"`);
     seenIds.add(e.id);
   }
+  const entitiesById = new Map(def.entities.map((entity) => [entity.id, entity]));
+  for (const entity of def.entities) {
+    if (entity.type !== 'object' || !entity.opensDoorAfterDialogue) continue;
+    if (entitiesById.get(entity.opensDoorAfterDialogue)?.type !== 'door') {
+      errors.push(`L'objet "${entity.id}" doit désigner une porte existante à ouvrir après son dialogue`);
+    }
+  }
   const seenRoomIds = new Set<string>();
   for (const r of def.rooms) {
     if (seenRoomIds.has(r.id)) errors.push(`Identifiant de pièce dupliqué : "${r.id}"`);

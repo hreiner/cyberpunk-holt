@@ -12,7 +12,7 @@ Formats et règles communes : [`STYLE-BIBLE.md`](STYLE-BIBLE.md). Références :
 
 | ID | Image | Fichier livré | Références d'identité | État |
 |---|---|---|---|---|
-| P01 | Portrait de Franklyn — **ancre de style** | `public/assets/portraits/franklyn.webp` | `Frankly.png`, `cadets.png` | à faire |
+| P01 | Portrait de Franklyn — **ancre de style** | `public/assets/portraits/franklyn.webp` | `Frankly.png`, `cadets.png` | à valider |
 
 **Arrêt obligatoire** après P01 : validation humaine du style avant toute autre image.
 

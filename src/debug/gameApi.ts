@@ -25,6 +25,7 @@ import type { CharacterId } from '@/rules/character';
 import type { Dossier } from '@/core/dossier';
 import type { DraftState, NarrativeOutcome, PresentedNode, RadioCue, RunState } from '@/narrative';
 import type { ExploreDebugSnapshot, InteractOutcome } from '@/explore';
+import type { ExploreRenderStats } from '@/exploreSession';
 
 /**
  * Version 2 (epic 3, lot 3.6b) : `hub()`/`pickHub(dialogueId)`/`leaveHub()` ont disparu avec
@@ -141,6 +142,8 @@ export interface GameDebugApi {
   /* --- exploration (ADR 0013, epic 3 lot 3.6b) --- */
   /** Instantane de l'exploration en cours (08-EXPLORATION.md "L'API de debug"), `null` hors d'une scene `explore`. */
   explore(): ExploreDebugSnapshot | null;
+  /** Compteurs WebGL de la dernière image d'exploration ; `null` hors de l'exploration. */
+  exploreRenderStats(): ExploreRenderStats | null;
   /** Deplacement instantane du meneur (et du groupe, en formation), sans animation. */
   walkTo(x: number, y: number): void;
   /**
@@ -277,6 +280,7 @@ export function installDebugApi(chapter: ChapterApp): GameDebugApi {
     pickTeammate: (cadetId: CharacterId) => chapter.pickTeammate(cadetId),
 
     explore: () => chapter.exploreSnapshot(),
+    exploreRenderStats: () => chapter.exploreRenderStats(),
 
     walkTo: (x: number, y: number) => chapter.exploreWalkTo(x, y),
 

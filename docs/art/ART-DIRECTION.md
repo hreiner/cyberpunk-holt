@@ -2,9 +2,15 @@
 
 ## Le principe
 
-**Low-poly stylisé, lisible avant d'être beau.** Le jeu est en vue isométrique fixe : le
-joueur regarde des figurines de 1,80 m dans une cour de 45 × 30 m. Tout ce qui ne sert pas
-la lecture du combat est du bruit.
+**Lisible avant d'être beau.** Le combat conserve son low-poly stylisé et sa grille ;
+l'exploration du chapitre 1 vise une **3D picturale cyberpunk** : volumes stylisés crédibles,
+matières peintes en grandes touches et atmosphère concrète. La vue isométrique reste fixe :
+le joueur doit reconnaître lieux, passages et silhouettes avant de remarquer le détail.
+
+Les décors d'exploration utilisent un petit kit réemployable (béton peint, métal peint,
+tissu, sol, cadres, mobilier et consoles), des atlas légers 512–1024 px et des ombres de
+contact sobres. Les accents lumineux servent une fonction visible — lecteur, terminal,
+signalétique, néon défaillant — et ne transforment pas chaque mur en cyan ou rose.
 
 Conséquence directe, et c'est ce qui rend le projet faisable en solo : **personne ne voit
 les visages**. Pas d'animation faciale, pas de topologie de visage à soigner, pas de
@@ -29,8 +35,8 @@ Cible technique : **60 fps en 1080p sur une GTX 1070**.
 tirée par un générateur **seedé** : la cour est toujours identique pour une graine donnée.
 
 **Couleurs de cadets** : chaque cadet a une couleur d'accent (`placeholderColor` dans
-`characters.json`) qui l'identifie d'un coup d'œil. Elle survivra aux modèles 3D, sur un
-détail d'uniforme.
+`characters.json`) qui l'identifie d'un coup d'œil. Elle survit aux modèles 3D, sur un détail
+d'uniforme, mais la silhouette, coiffure, uniforme et attitude doivent aussi les distinguer.
 
 ## Lumière
 
@@ -80,5 +86,6 @@ Pas de voix, sous-titres uniquement. Bruitages et musique issus de banques libre
 - Le sang et les blessures visibles — c'est un examen, pas une fusillade.
 - Les effets de post-traitement coûteux (bloom lourd, SSAO) tant que la cible GTX 1070 n'est
   pas atteinte confortablement.
-- Les textures haute résolution : couleurs à plat et géométrie simple.
+- Les textures lourdes ou décoratives sans rôle : préférer des atlas peints légers aux
+  détails photo et aux shaders généraux coûteux.
 - Le texte dessiné dans le canvas.

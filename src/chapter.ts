@@ -389,6 +389,11 @@ export class ChapterApp {
     return this.exploreSession.state.explore();
   }
 
+  /** Compteurs WebGL de la dernière image d'exploration, réservés à la mesure de performance. */
+  exploreRenderStats() {
+    return this.currentSceneDef?.kind === 'explore' ? this.exploreSession.renderStats() : null;
+  }
+
   /** Deplacement instantane du meneur (`window.__game.walkTo(x, y)`), sans animation. */
   exploreWalkTo(x: number, y: number): void {
     this.exploreSession.state?.walkTo(x, y);
@@ -424,19 +429,24 @@ export class ChapterApp {
   /* --------------------------------- pilotage -------------------------------- */
 
   /**
-   * Selectionne le choix `index` (l'index D'ORIGINE, voir `PresentedChoice.index`)
-   * du dialogue ou de la conversation annexe en cours. Repercute tel quel le
-   * `NarrativeOutcome` du runner : un choix indisponible ne fait jamais rien
-   * en silence (defaut 1 du rapport de cloture epic 2, regle 3 d'AGENTS.md).
+   * Applique `action` au `DialogueRunner` actuellement actif -- celui d'un dialogue de
+   * scene OU d'une conversation annexe d'exploration, jamais les deux a la fois -- puis
+   * rafraichit la vue correspondante (`renderDialogue`/`renderExploreConversation`, qui
+   * ne se ressemblent que pour cette raison precise : meme `NarrativeView` derriere les
+   * deux). Repercute tel quel le `NarrativeOutcome` renvoye par `action` : un choix
+   * indisponible ne fait jamais rien en silence (defaut 1 du rapport de cloture epic 2,
+   * regle 3 d'AGENTS.md) -- d'ou le refus explicite si aucun des deux n'est actif.
+   * Factorise `chooseOption`/`rollInsight`/`spendLuck`/`acceptRoll`, qui ne sont que
+   * quatre `action` differentes sur ce meme aiguillage.
    */
-  chooseOption(index: number): NarrativeOutcome {
+  private withActiveRunner(action: (runner: DialogueRunner) => NarrativeOutcome): NarrativeOutcome {
     if (this.activeDialogue) {
-      const outcome = this.activeDialogue.choose(index);
+      const outcome = action(this.activeDialogue);
       this.renderDialogue();
       return outcome;
     }
     if (this.activeExploreConversation) {
-      const outcome = this.activeExploreConversation.runner.choose(index);
+      const outcome = action(this.activeExploreConversation.runner);
       this.renderExploreConversation();
       return outcome;
     }
@@ -444,57 +454,34 @@ export class ChapterApp {
   }
 
   /**
-   * Resout le jet de reflexion du noeud courant (ADR 0012, `DialogueRunner.rollInsight`) :
-   * meme garde-fou et meme forme de retour que `chooseOption`. Ajout minimal et isole
-   * (lot examen ecrit) pour que `window.__game.rollInsight()` puisse piloter le dialogue
-   * en cours -- le rendu du jet cote interface (de 3D, etc.) reste a brancher plus tard.
+   * Selectionne le choix `index` (l'index D'ORIGINE, voir `PresentedChoice.index`)
+   * du dialogue ou de la conversation annexe en cours.
+   */
+  chooseOption(index: number): NarrativeOutcome {
+    return this.withActiveRunner((runner) => runner.choose(index));
+  }
+
+  /**
+   * Resout le jet de reflexion du noeud courant (ADR 0012, `DialogueRunner.rollInsight`).
+   * Ajout minimal et isole (lot examen ecrit) pour que `window.__game.rollInsight()`
+   * puisse piloter le dialogue en cours -- le rendu du jet cote interface (de 3D, etc.)
+   * reste a brancher plus tard.
    */
   rollInsight(): NarrativeOutcome {
-    if (this.activeDialogue) {
-      const outcome = this.activeDialogue.rollInsight();
-      this.renderDialogue();
-      return outcome;
-    }
-    if (this.activeExploreConversation) {
-      const outcome = this.activeExploreConversation.runner.rollInsight();
-      this.renderExploreConversation();
-      return outcome;
-    }
-    return { ok: false, reason: 'Aucun dialogue en cours.' };
+    return this.withActiveRunner((runner) => runner.rollInsight());
   }
 
   /**
    * Depense `n` points de Chance sur le jet en attente du dialogue ou de la
-   * conversation annexe en cours (ADR 0015 §2, `DialogueRunner.spendLuck`) :
-   * meme garde-fou et meme forme de retour que `rollInsight`.
+   * conversation annexe en cours (ADR 0015 §2, `DialogueRunner.spendLuck`).
    */
   spendLuck(n: number): NarrativeOutcome {
-    if (this.activeDialogue) {
-      const outcome = this.activeDialogue.spendLuck(n);
-      this.renderDialogue();
-      return outcome;
-    }
-    if (this.activeExploreConversation) {
-      const outcome = this.activeExploreConversation.runner.spendLuck(n);
-      this.renderExploreConversation();
-      return outcome;
-    }
-    return { ok: false, reason: 'Aucun dialogue en cours.' };
+    return this.withActiveRunner((runner) => runner.spendLuck(n));
   }
 
   /** Accepte l'echec du jet en attente de Chance (ADR 0015 §2, `DialogueRunner.acceptRoll`). */
   acceptRoll(): NarrativeOutcome {
-    if (this.activeDialogue) {
-      const outcome = this.activeDialogue.acceptRoll();
-      this.renderDialogue();
-      return outcome;
-    }
-    if (this.activeExploreConversation) {
-      const outcome = this.activeExploreConversation.runner.acceptRoll();
-      this.renderExploreConversation();
-      return outcome;
-    }
-    return { ok: false, reason: 'Aucun dialogue en cours.' };
+    return this.withActiveRunner((runner) => runner.acceptRoll());
   }
 
   /**
@@ -652,14 +639,25 @@ export class ChapterApp {
     this.renderDialogue();
   }
 
-  private renderDialogue(): void {
-    const runner = this.activeDialogue;
-    if (!runner) return;
+  /**
+   * Rendu partage par un dialogue de scene et une conversation annexe d'exploration --
+   * meme `NarrativeView`, meme HUD, meme verification radio, les deux seules choses que
+   * `renderDialogue` et `renderExploreConversation` ont vraiment en commun. Chacune garde
+   * sa propre methode (plutot qu'un parametre "et aussi verifier la recompense hors champ
+   * ou pas") : `checkOffscreenReward` est une verification propre au dialogue de scene,
+   * elle doit rester visible dans `renderDialogue`, pas cachee derriere un booleen ici.
+   */
+  private renderRunner(runner: DialogueRunner): void {
     const node = runner.current();
     const sceneId = this.currentSceneDef?.id ?? '';
     this.view.render(node, this.currentSceneDef?.title ?? '', sceneId, this.buildHud(runner.context.run, sceneId));
     this.checkRadio(runner.context);
-    this.checkOffscreenReward(runner.context);
+  }
+
+  private renderDialogue(): void {
+    if (!this.activeDialogue) return;
+    this.renderRunner(this.activeDialogue);
+    this.checkOffscreenReward(this.activeDialogue.context);
   }
 
   /**
@@ -732,6 +730,18 @@ export class ChapterApp {
 
     const mapDef = getMap(scene.mapId ?? '');
     this.exploreSession.enterStep(mapDef, this.ctx, scene, exploreFollowerIds(this.ctx.run));
+    // Une conversation d'objet peut avoir ouvert une porte avant la sauvegarde. L'état du
+    // dialogue est persistant ; reconstruire l'état visuel et franchissable de la porte aussi.
+    for (const entity of mapDef.entities) {
+      if (
+        entity.type === 'object' &&
+        entity.opensDoorAfterDialogue &&
+        entity.dialogueId &&
+        this.ctx.run.flags[this.conversationDoneFlagKey(entity.dialogueId)]
+      ) {
+        this.unlockDoorIfNeeded(entity.opensDoorAfterDialogue);
+      }
+    }
 
     this.setActiveHost('explore'); // -> exploreSession.resume()
     this.exploreSession.centerCameraOnLeader();
@@ -792,6 +802,9 @@ export class ChapterApp {
     if (entityCell) this.exploreSession.faceLeaderTowards(entityCell);
 
     if (this.isObjectiveTrigger(entityId)) {
+      // Une porte déjà ouverte par une conversation annexe marque le passage, elle ne doit pas
+      // se refermer au clic qui termine l'objectif (cas de l'armoire en salle 2).
+      if (outcome.kind === 'door-toggled' && !outcome.open) this.unlockDoorIfNeeded(entityId);
       // Lot 3.7b (centre d'examen) : contrairement au lot 3.6b, le declencheur peut porter un
       // dialogue qui n'est PAS celui de la scene suivante (ex. salle1.panneau-porte joue
       // ch1.salle1 depuis "arrivee" -- c'est la piece ELLE-MEME, pas la scene d'apres). On le
@@ -977,6 +990,10 @@ export class ChapterApp {
     };
     this.mergeContext(ctx);
     this.activeExploreConversation = null;
+    const source = this.exploreSession.entity(entry.entityId);
+    if (source?.type === 'object' && source.opensDoorAfterDialogue) {
+      this.unlockDoorIfNeeded(source.opensDoorAfterDialogue);
+    }
     if (entry.advancesRouter) {
       // Lot 3.7b : ce dialogue etait celui du declencheur d'objectif lui-meme (pas une simple
       // conversation annexe) -- pas de retour a l'exploration, on enchaine directement, comme

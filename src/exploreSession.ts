@@ -74,6 +74,14 @@ export interface ExploreSessionCallbacks {
   onEvent(ev: ExploreEvent): void;
 }
 
+/** Compteurs WebGL de la dernière image d'exploration, pour la validation visuelle L7. */
+export interface ExploreRenderStats {
+  drawCalls: number;
+  triangles: number;
+  geometries: number;
+  textures: number;
+}
+
 export class ExploreSession {
   /**
    * Etat + rendu de l'exploration : construits UNE FOIS (comme `tacticalApp` dans
@@ -109,6 +117,17 @@ export class ExploreSession {
   private lastFrameTime = 0;
   /** `true` tant que les ecouteurs clavier d'exploration sont attaches (voir `attachKeyboard`/`detachKeyboard`). */
   private keyboardAttached = false;
+
+  renderStats(): ExploreRenderStats | null {
+    if (!this.renderer || !this.view) return null;
+    const { render, memory } = this.renderer.info;
+    return {
+      drawCalls: render.calls,
+      triangles: render.triangles,
+      geometries: memory.geometries,
+      textures: memory.textures,
+    };
+  }
 
   private readonly onKeyDown = (e: KeyboardEvent): void => {
     const panKey = EXPLORE_PAN_KEYS[e.key];
@@ -206,6 +225,9 @@ export class ExploreSession {
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       this.renderer.outputColorSpace = THREE.SRGBColorSpace;
       this.renderer.shadowMap.enabled = true;
+      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      this.renderer.toneMappingExposure = 1.08;
       this.wireCanvasInput(this.canvas);
     }
 
@@ -218,6 +240,9 @@ export class ExploreSession {
       },
       onInteract: (entityId) => this.requestInteract(entityId),
     });
+    // La préférence système concerne les animations de présentation (caméra, repère,
+    // poses d'attente), jamais l'avancée de `ExploreState` ni sa vitesse de déplacement.
+    this.view.setReducedMotion(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
     this.view.setLeader(getCharacter('franklyn'));
     this.view.updateRigPosition('leader', this.state.leaderCell(), false, 0);
     this.view.centerOn(this.state.leaderCell());

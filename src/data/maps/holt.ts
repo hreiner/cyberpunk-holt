@@ -156,63 +156,73 @@ punchDoor(21, 20); // liaison milieu, au niveau de la cour intérieure : idem
 /* Aile est : Dortoirs, Cour intérieure / Cantine, Salles d'entraînement, Garage */
 /* ------------------------------------------------------------------ */
 
-carveRoom(26, 1, 25, 12); // Dortoirs 13-17 ans, toute la largeur
-carveRoom(26, 14, 12, 15); // Cour intérieure (ouest)
-carveRoom(39, 14, 12, 15); // Cantine 13-17 ans (est)
-carveRoom(26, 30, 25, 19); // Salles d'entraînement, toute la largeur
-carveRoom(30, 50, 17, 13); // Garage véhicules
+// Le dortoir n'est plus une salle vide bordée de cubes : ses travées acceptent
+// des lits de 2 x 3 m et laissent une allée centrale de quatre cases vers le sas.
+carveRoom(26, 1, 25, 15); // Dortoirs 13-17 ans, toute la largeur
+carveRoom(26, 17, 12, 14); // Cour intérieure (ouest)
+carveRoom(39, 17, 12, 14); // Cantine 13-17 ans (est)
+carveRoom(26, 33, 25, 17); // Salles d'entraînement, toute la largeur
+carveRoom(30, 51, 17, 11); // Garage véhicules
 
 // Couloir de ceinture <-> Dortoirs / Cour intérieure / Salles d'entraînement.
-punchDoor(25, 6); // -> Dortoirs (prolonge la liaison nord jusque dans la pièce)
-punchDoor(25, 20); // -> Cour intérieure (prolonge la liaison milieu)
-punchDoor(25, 39); // -> Salles d'entraînement
+punchDoor(25, 7); // -> Dortoirs (prolonge la liaison nord jusque dans la pièce)
+punchDoor(25, 21); // -> Cour intérieure (prolonge la liaison milieu)
+punchDoor(25, 40); // -> Salles d'entraînement
 
 // Dortoirs -> Cour intérieure / Cantine.
-punchDoor(31, 13);
-punchDoor(44, 13);
+punchDoor(31, 16);
+punchDoor(44, 16);
 // Cour intérieure <-> Cantine (lien direct, comme sur le plan du MJ).
-punchDoor(38, 21);
+punchDoor(38, 23);
 // Cour intérieure / Cantine -> Salles d'entraînement.
-punchDoor(31, 29);
-punchDoor(44, 29);
+punchDoor(31, 32);
+punchDoor(44, 32);
 // Salles d'entraînement -> Garage (seule sortie vers l'extérieur).
-punchDoor(38, 49);
+punchDoor(38, 50);
 
-// Dortoirs : lits en rangées ouest et est, pièce commune dégagée au centre.
-for (const y of [2, 4, 6, 8, 10]) {
-  setChar(27, y, 'o');
-  setChar(49, y, 'o');
+// Dortoirs : quatre travées de vrais lits (2 x 3 m), casiers au mur et
+// passage central dégagé. Le sas au sud-ouest cadre la sortie vers la cantine.
+for (const [x, y] of [
+  [27, 2], [27, 7], [31, 2], [31, 7], [45, 2], [45, 7], [48, 2], [48, 7],
+] as const) {
+  fillBlock(x, y, 2, 3, 'o');
 }
+fillBlock(35, 2, 1, 4, 'T');
+fillBlock(43, 2, 1, 4, 'T');
+fillBlock(27, 13, 4, 1, 'T'); // sas et console de présence
 
 // Cour intérieure : jardin (végétation), arbre, bassin carré.
-setChar(31, 17, 'T'); // arbre
-fillBlock(30, 23, 3, 3, '='); // bassin carré
+setChar(31, 20, 'T'); // arbre
+fillBlock(30, 25, 3, 3, '='); // bassin carré
 for (const [x, y] of [
-  [27, 15],
-  [36, 15],
-  [27, 27],
-  [36, 27],
-  [28, 26],
-  [35, 16],
+  [27, 18],
+  [36, 18],
+  [27, 29],
+  [36, 29],
+  [28, 28],
+  [35, 19],
 ] as const) {
   setChar(x, y, '~');
 }
 
-// Cantine : une vingtaine de places (grille de tables), comptoir à l'est.
-placeGrid([40, 42, 44, 46, 48], [17, 20, 23, 26], 'o');
-setChar(49, 15, 'o'); // comptoir
-setChar(49, 16, 'o'); // comptoir
+// Cantine : trois îlots de tables de 2 x 2 m, allées de deux cases, estrade
+// à l'ouest et comptoir de service continu à l'est.
+fillBlock(40, 18, 2, 2, 'o');
+fillBlock(44, 21, 2, 2, 'o');
+fillBlock(47, 26, 2, 2, 'o');
+fillBlock(40, 28, 3, 1, 'T'); // estrade du directeur
+fillBlock(49, 19, 1, 9, 'o'); // comptoir
 
 // Salles d'entraînement : trentaine de pupitres en rangées régulières (la case de Franklyn reste du sol nu),
 // agrès au sud-ouest, cercle de combat dégagé au centre, bancs au sud-est.
-placeGrid([30, 34, 38, 42, 46], [32, 34, 36, 38, 40, 42], 'o', [[38, 36]]);
-fillBlock(27, 44, 3, 3, 'T'); // agrès, sud-ouest
-fillBlock(46, 44, 4, 3, 'o'); // bancs, sud-est
+placeGrid([30, 34, 38, 42, 46], [35, 37, 39, 41, 43, 45], 'o', [[38, 39]]);
+fillBlock(27, 46, 3, 3, 'T'); // agrès, sud-ouest
+fillBlock(46, 46, 4, 3, 'o'); // bancs, sud-est
 // (le centre, x36-41 / y43-46, reste dégagé : c'est le cercle de combat)
 
 // Garage : deux véhicules, allée centrale dégagée jusqu'à la sortie.
-fillBlock(33, 53, 2, 4, 'T');
-fillBlock(41, 53, 2, 4, 'T');
+fillBlock(32, 54, 3, 5, 'T');
+fillBlock(42, 54, 3, 5, 'T');
 
 /* ------------------------------------------------------------------ */
 /* Conversion en ASCII, avec vérification de largeur au chargement     */
@@ -241,19 +251,19 @@ const ROOMS: RoomDef[] = [
     title: 'Local technique & énergie',
     rect: { origin: { x: 5, y: 40 }, width: 12, height: 7 },
   },
-  { id: 'dortoirs', title: 'Dortoirs', rect: { origin: { x: 26, y: 1 }, width: 25, height: 12 } },
+  { id: 'dortoirs', title: 'Dortoirs', rect: { origin: { x: 26, y: 1 }, width: 25, height: 15 } },
   {
     id: 'cour-interieure',
     title: 'Cour intérieure',
-    rect: { origin: { x: 26, y: 14 }, width: 12, height: 15 },
+    rect: { origin: { x: 26, y: 17 }, width: 12, height: 14 },
   },
-  { id: 'cantine', title: 'Cantine', rect: { origin: { x: 39, y: 14 }, width: 12, height: 15 } },
+  { id: 'cantine', title: 'Cantine', rect: { origin: { x: 39, y: 17 }, width: 12, height: 14 } },
   {
     id: 'salles-entrainement',
     title: "Salles d'entraînement",
-    rect: { origin: { x: 26, y: 30 }, width: 25, height: 19 },
+    rect: { origin: { x: 26, y: 33 }, width: 25, height: 17 },
   },
-  { id: 'garage', title: 'Garage véhicules', rect: { origin: { x: 30, y: 50 }, width: 17, height: 13 } },
+  { id: 'garage', title: 'Garage véhicules', rect: { origin: { x: 30, y: 51 }, width: 17, height: 11 } },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -265,7 +275,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'dortoir.casier',
     type: 'object',
-    cell: { x: 32, y: 3 },
+    cell: { x: 35, y: 3 },
     line: 'Un casier métallique cabossé, initiales gravées au couteau.',
     label: 'Ouvrir le casier',
     condition: etape('reveil'),
@@ -273,7 +283,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'dortoir.figurant-1',
     type: 'npc',
-    cell: { x: 40, y: 4 },
+    cell: { x: 39, y: 8 },
     line: 'Deux minutes. Laisse-moi deux minutes.',
     label: 'Parler au cadet',
     condition: etape('reveil'),
@@ -281,7 +291,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'dortoir.figurant-2',
     type: 'npc',
-    cell: { x: 45, y: 8 },
+    cell: { x: 41, y: 11 },
     line: 'Lit au carré, casier fermé. Ils notent tout, aujourd’hui.',
     label: 'Parler à la cadette',
     condition: etape('reveil'),
@@ -291,7 +301,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'couloir.figurant-1',
     type: 'npc',
-    cell: { x: 23, y: 9 },
+    cell: { x: 33, y: 13 },
     line: 'Avance. Ils ferment les portes quand le directeur monte.',
     label: 'Parler au cadet',
     condition: etape('reveil'),
@@ -299,7 +309,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'couloir.figurant-2',
     type: 'npc',
-    cell: { x: 23, y: 11 },
+    cell: { x: 36, y: 13 },
     line: 'Si tu cherches une place, il n’en reste plus au fond.',
     label: 'Parler aux cadettes',
     condition: etape('reveil'),
@@ -309,7 +319,8 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.directeur',
     type: 'npc',
-    cell: { x: 43, y: 15 },
+    // Devant l'estrade (x40-42, y28), jamais à l'intérieur de son volume.
+    cell: { x: 41, y: 27 },
     line: 'Asseyez-vous, cadet. Je ne commence pas deux fois.',
     label: 'Parler au directeur',
     condition: etape('reveil'),
@@ -317,7 +328,8 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.place-franklyn',
     type: 'seat',
-    cell: { x: 43, y: 20 },
+    // Chaise côté allée de la table 2 (la table occupe x44-45, y21-22).
+    cell: { x: 43, y: 21 },
     dialogueId: 'ch1.discours',
     label: "S'asseoir à la table de la promotion",
     condition: etape('reveil'),
@@ -325,7 +337,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.figurant-abraham',
     type: 'npc',
-    cell: { x: 41, y: 18 },
+    cell: { x: 41, y: 21 },
     line: 'Vingt-huit. On était trente à l’entrée, en première année.',
     label: 'Parler à Abraham',
     condition: etape('reveil'),
@@ -333,7 +345,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.figurant-betty',
     type: 'npc',
-    cell: { x: 45, y: 22 },
+    cell: { x: 46, y: 23 },
     line: 'J’ai recopié les questions de l’an dernier sur ma manche. Ça vaut ce que ça vaut.',
     label: 'Parler à Betty',
     condition: etape('reveil'),
@@ -341,7 +353,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.figurant-calvin',
     type: 'npc',
-    cell: { x: 47, y: 26 },
+    cell: { x: 46, y: 27 },
     line: 'Debout à cinq heures pour écouter un discours. Superbe journée.',
     label: 'Parler à Calvin',
     condition: etape('reveil'),
@@ -351,7 +363,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cour.grover',
     type: 'npc',
-    cell: { x: 29, y: 19 },
+    cell: { x: 29, y: 22 },
     dialogueId: 'ch1.hub.grover',
     label: 'Parler à Grover',
     condition: etape('temps-libre'),
@@ -359,7 +371,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cour.theodore',
     type: 'npc',
-    cell: { x: 34, y: 24 },
+    cell: { x: 34, y: 26 },
     line: 'Grover dit qu’on part à six. Grover se trompe rarement.',
     label: 'Parler à Theodore',
     condition: etape('temps-libre'),
@@ -369,7 +381,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'entrainement.pupitre-franklyn',
     type: 'seat',
-    cell: { x: 38, y: 36 },
+    cell: { x: 38, y: 39 },
     dialogueId: 'ch1.exam',
     label: "S'asseoir à son pupitre",
     condition: etape('examen'),
@@ -377,7 +389,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'entrainement.figurant-woodrow',
     type: 'npc',
-    cell: { x: 32, y: 33 },
+    cell: { x: 32, y: 36 },
     line: 'Ne me parle pas. Je relis.',
     label: 'Parler à Woodrow',
     condition: etape('examen'),
@@ -385,7 +397,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'entrainement.figurant-nancy',
     type: 'npc',
-    cell: { x: 44, y: 39 },
+    cell: { x: 44, y: 42 },
     line: 'Fini. Il reste quarante minutes et j’ai fini.',
     label: 'Parler à Nancy',
     condition: etape('examen'),
@@ -393,14 +405,14 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'entrainement.sac-de-frappe',
     type: 'object',
-    cell: { x: 31, y: 45 },
+    cell: { x: 31, y: 47 },
     line: 'Un sac de frappe éventré à un endroit, rafistolé au chatterton.',
     label: 'Examiner le sac de frappe',
   },
   {
     id: 'entrainement.zachary',
     type: 'npc',
-    cell: { x: 32, y: 44 },
+    cell: { x: 32, y: 46 },
     dialogueId: 'ch1.hub.zachary',
     label: 'Parler à Zachary',
     condition: etape('temps-libre'),
@@ -472,7 +484,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'garage.fourgon',
     type: 'object',
-    cell: { x: 38, y: 58 },
+    cell: { x: 38, y: 59 },
     dialogueId: 'ch1.fourgon',
     line: 'Le fourgon de police, moteur déjà tournant.',
     label: 'Monter dans le fourgon',
@@ -493,10 +505,10 @@ const ENTITIES: EntityDef[] = [
 
 const SPAWNS: Record<string, { x: number; y: number }> = {
   'lit-franklyn': { x: 29, y: 6 }, // étape 1 · Réveil
-  cantine: { x: 41, y: 15 }, // étape 2 · Discours
-  pupitre: { x: 37, y: 34 }, // étapes 3/4 · Examen, Tirage
+  cantine: { x: 41, y: 20 }, // étape 2 · Discours
+  pupitre: { x: 37, y: 37 }, // étapes 3/4 · Examen, Tirage
   'temps-libre': { x: 23, y: 20 }, // étape 5, dans le couloir de ceinture
-  garage: { x: 37, y: 57 }, // étape 6 · Départ
+  garage: { x: 37, y: 60 }, // étape 6 · Départ
 };
 
 /* ------------------------------------------------------------------ */

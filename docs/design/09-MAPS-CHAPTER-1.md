@@ -5,9 +5,10 @@ d'emploi du déplacement et des entités : [`08-EXPLORATION.md`](08-EXPLORATION.
 
 ## Format des cartes
 
-Même principe que la cour de containers (`src/data/yard-map.ts`) : un **plan ASCII éditable
-à la main**, plus une **liste d'entités** typée. Une carte = un fichier
-`src/data/maps/<id>.ts`.
+Même légende que la cour de containers (`src/data/yard-map.ts`) : un **plan ASCII** et une
+**liste d'entités** typée. Les deux cartes du chapitre construisent leurs rangées ASCII
+par des fonctions `carveRoom`, `punchDoor` et `fillBlock`, afin de garder lisibles leurs
+rectangles et leurs accès. Une carte = un fichier `src/data/maps/<id>.ts`.
 
 ```ts
 interface MapDef {
@@ -39,19 +40,20 @@ lue par le moteur de combat sur le seul rectangle `tacticalArea`.
 
 Un test unitaire valide chaque carte : rectangularité, portes sur un mur, toutes les
 entités sur une case accessible ou adjacente à une case accessible, **toute case
-d'interaction atteignable depuis chaque point d'apparition**, identifiants uniques.
+d'interaction atteignable depuis chaque point d'apparition**, identifiants uniques et
+références `opensDoorAfterDialogue` vers une porte existante.
 
-**Implémentation (lot 3.5)** : `MapDef`, `EntityDef` (une variante par type, chacune avec
-une `condition` facultative) et `Cell` sont définis dans
-[`src/explore/types.ts`](../../src/explore/types.ts), qui recopie ce contrat exactement (voir
-`AGENTS.md` règle 7 : le code suit le design, pas l'inverse). `validateMap()`
-([`src/explore/validateMap.ts`](../../src/explore/validateMap.ts)) implémente les règles
-ci-dessus ; le socle d'exploration lui-même (état, déplacement continu, interactions,
-objectifs) est décrit par l'[ADR 0013](../process/adr/0013-exploration-temps-reel-sur-grille.md)
-§5 et testé dans `tests/unit/explore*.test.ts`. Les deux cartes du chapitre 1 ci-dessous
-restent à écrire dans `src/data/maps/` (hors lot 3.5 — voir la portée de
-`docs/process/ROADMAP.md`) ; `src/dev/exploreLabMap.ts` n'est qu'un banc d'essai technique,
-pas une ébauche de l'une de ces deux cartes.
+**Implémentation actuelle** : `MapDef`, `EntityDef` et `Cell` sont définis dans
+[`src/explore/types.ts`](../../src/explore/types.ts). `validateMap()`
+([`src/explore/validateMap.ts`](../../src/explore/validateMap.ts)) vérifie la structure et
+l'accessibilité ; les tests de cartes couvrent les parcours du chapitre. Les deux cartes
+jouables sont [`holt.ts`](../../src/data/maps/holt.ts) et
+[`centre-examen.ts`](../../src/data/maps/centre-examen.ts). Leur habillage 3D est décrit
+séparément par [`src/data/exploreVisuals/`](../../src/data/exploreVisuals/) : les cellules
+ASCII restent la source de collision et les placements visuels ne créent aucune règle.
+L'[ADR 0013](../process/adr/0013-exploration-temps-reel-sur-grille.md) décrit le socle
+d'exploration et l'[ADR 0017](../process/adr/0017-habillage-exploration-declaratif.md)
+fixe ce partage entre carte et rendu.
 
 ---
 
@@ -66,8 +68,8 @@ hors carte, derrière une porte condamnée (`door` verrouillée, réplique brèv
 la seconde génération. Accès réservé. »). Dans le schéma ci-dessous, « colonne ouest »
 désigne donc la colonne centrale du plan général.
 
-Schéma de principe (1 caractère ≈ 4 m ; nord en haut). L'agent qui dessine la carte à 1 m
-**respecte la topologie et les proportions**, pas ce tracé caractère par caractère.
+Schéma de principe (1 caractère ≈ 4 m ; nord en haut). La carte réelle garde cette
+topologie ; consulter les rectangles de `holt.ts` pour les coordonnées exactes.
 
 ```
             ┌──────────┐     ╔═══════ zone première génération ═══════╗
@@ -105,7 +107,7 @@ Topologie à respecter :
   au sud, seule sortie vers l'extérieur.
 - Un **couloir de ceinture** fait le tour de l'aile est, relie les deux blocs par le nord
   (près de l'Administration) et par le milieu (entre la colonne ouest et la cour).
-- Taille cible à 1 m par case : **environ 52 × 64**. Les pièces doivent rester lisibles à
+- Taille actuelle à 1 m par case : **52 × 64**. Les pièces doivent rester lisibles à
   l'écran : la Cantine peut accueillir la promotion (une vingtaine de figurants assis), les
   Salles d'entraînement une trentaine de pupitres d'examen.
 
@@ -164,8 +166,8 @@ au nord.
    └───────────────────────────────────────────┘
 ```
 
-Taille cible : environ **40 × 70** (la cour fait 30 × 20 ; le bâtiment et le parking
-s'étendent au sud). L'équipe adverse entre par un autre accès, hors carte : on ne la voit
+Taille actuelle : **44 × 72** (la cour fait 30 × 20 et commence en `(7, 1)` ; le bâtiment
+et le parking s'étendent au sud). L'équipe adverse entre par un autre accès, hors carte : on ne la voit
 qu'à la radio, puis à la vidéo de la salle 3, puis dans la cour.
 
 ### Les salles deviennent des lieux
@@ -189,3 +191,9 @@ en scène qui change :
 
 Le format de dialogue gagne pour cela un **nœud d'entrée** choisi par l'entité
 (`dialogueId` + `startNode`), voir [`07-DIALOGUE-FORMAT.md`](07-DIALOGUE-FORMAT.md).
+L'armoire de la salle 2 joue aussi le piratage de la porte dans son dialogue : son champ
+`opensDoorAfterDialogue` désigne `salle2.porte-nord`. Le passage s'ouvre réellement à la
+fin de la conversation ; un clic sur la porte fait ensuite avancer vers la salle 3 sans
+refermer le battant. Après un rechargement en salle 2, la porte retrouve son état ouvert
+si cette conversation est déjà terminée. La porte peut aussi être abordée directement
+sans ouvrir l'armoire.

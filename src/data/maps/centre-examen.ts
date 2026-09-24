@@ -87,8 +87,8 @@ function etape(value: Ch1Etape): Condition {
   return { flag: CH1_ETAPE_FLAG, equals: value };
 }
 
-const WIDTH = 40;
-const HEIGHT = 70;
+const WIDTH = 44;
+const HEIGHT = 72;
 
 /* ------------------------------------------------------------------ */
 /* Assemblage de la grille                                             */
@@ -133,7 +133,7 @@ function fillBlock(x0: number, y0: number, w: number, h: number, ch: string): vo
 /* ------------------------------------------------------------------ */
 
 /** Coin nord-ouest de la cour dans la grille du centre d'examen. */
-const TACTICAL_ORIGIN = { x: 5, y: 1 };
+const TACTICAL_ORIGIN = { x: 7, y: 1 };
 
 /**
  * Traduit un caractère de la légende TACTIQUE (`src/tactical/grid.ts`) dans la légende
@@ -174,38 +174,38 @@ pasteYard();
 /* Le bâtiment : quatre salles empilées + le hall, du nord au sud        */
 /* ------------------------------------------------------------------ */
 
-// Chaque salle fait 12 cases de large (x14-25), centrée sous la cour (x5-34, centre 19,5).
-// `next.y0 = prev.y0 + prev.h + 1` (même règle que holt.ts) pour que chaque paire de
-// salles partage une seule rangée de mur — et pour que le mur nord de la salle 3
-// commence exactement là où s'arrête le sol de la cour (y = TACTICAL_ORIGIN.y +
-// YARD_SIZE_HEIGHT = 1 + 20 = 21).
-carveRoom(14, 22, 12, 8); // Salle 3 — le gaz et la vidéo (interieur y22-29)
-carveRoom(14, 31, 12, 8); // Salle 2 — le choix coûteux (interieur y31-38)
-carveRoom(14, 40, 12, 8); // Salle 1 — la porte et le chien (interieur y40-47)
-carveRoom(14, 49, 12, 8); // Hall d'entrée (interieur y49-56)
+// Des sas légèrement plus larges et des seuils décalés donnent des vues obliques
+// sur les décisions à venir sans transformer les salles en labyrinthe. Le mur nord
+// de salle 3 reste au contact exact de la cour (y = 21).
+carveRoom(13, 22, 18, 9); // Salle 3 — le gaz et la vidéo
+carveRoom(13, 32, 18, 9); // Salle 2 — le choix coûteux
+carveRoom(13, 42, 18, 9); // Salle 1 — la porte et le chien
+carveRoom(13, 52, 18, 9); // Hall d'entrée
 
-// Parking : aire extérieure plus large que le bâtiment (x8-31), au sud, arrivée du fourgon.
-carveRoom(8, 58, 24, 11); // interieur y58-68
+// Parking : l'approche garde la façade dans le cadre, avec une vraie zone de fourgon.
+carveRoom(8, 62, 28, 8);
 
-// Portail (sud de la cour -> salle 3) et portes entre les salles, toutes sur l'axe x=19
-// (centre des salles 14-25). Aucune n'est verrouillée par défaut : la carte reste
+// Portail et portes entre les salles. Les seuils alternés font lire les masses de
+// mobilier avant la pièce suivante. Aucune n'est verrouillée par défaut : la carte reste
 // structurellement franchissable de bout en bout (le verrouillage narratif, s'il y en a
 // un, est une décision du lot 3.7b sur l'entité `door`, pas sur le tracé).
-punchDoor(19, 21); // cour <-> salle 3 (entité salle3.porte-nord)
-punchDoor(19, 30); // salle 3 <-> salle 2 (entité salle2.porte-nord)
-punchDoor(19, 39); // salle 2 <-> salle 1 (connexion structurelle, pas d'entité dans le tableau du design)
-punchDoor(19, 48); // salle 1 <-> hall (entité salle1.panneau-porte posée sur cette case)
-punchDoor(19, 57); // hall <-> parking (entrée du bâtiment, pas d'entité dans le tableau du design)
+punchDoor(21, 21); // cour <-> salle 3 (entité salle3.porte-nord)
+punchDoor(26, 31); // salle 3 <-> salle 2 (entité salle2.porte-nord)
+punchDoor(17, 41); // salle 2 <-> salle 1
+punchDoor(26, 51); // salle 1 <-> hall (entité salle1.panneau-porte)
+punchDoor(21, 61); // hall <-> parking
 
 /* ------------------------------------------------------------------ */
 /* Décor discret (mobilier, pas d'entité)                              */
 /* ------------------------------------------------------------------ */
 
-fillBlock(17, 61, 5, 3, 'T'); // parking : le fourgon, moteur coupé
-setChar(16, 50, 'o'); // hall : banc d'attente
-setChar(23, 50, 'o'); // hall : banc d'attente
-setChar(15, 34, 'T'); // salle 2 : l'armoire sécurisée (mobilier haut, coïncide avec l'entité)
-setChar(17, 25, 'o'); // salle 3 : la console de l'ordinateur (mobilier bas, coïncide avec l'entité)
+fillBlock(18, 65, 6, 3, 'T'); // parking : fourgon en une pièce, moteur coupé
+fillBlock(15, 54, 4, 1, 'o'); // hall : banc d'attente
+fillBlock(26, 57, 3, 1, 'o'); // hall : banc d'attente
+fillBlock(15, 35, 2, 3, 'T'); // salle 2 : armoire sécurisée
+fillBlock(24, 25, 2, 2, 'o'); // salle 3 : console de l'ordinateur
+fillBlock(15, 45, 3, 1, 'o'); // salle 1 : mobilier qui cadre l'otage
+fillBlock(27, 47, 2, 2, 'T'); // salle 1 : ancien poste de sécurité
 
 /* ------------------------------------------------------------------ */
 /* Conversion en ASCII, avec vérification de largeur au chargement     */
@@ -233,11 +233,11 @@ const ROOMS: RoomDef[] = [
     // venir". `RoomDef` sert ici aux murs en coupe/au titre, pas à la découverte pièce par pièce.
     alwaysDiscovered: true,
   },
-  { id: 'salle3', title: 'Salle 3 — le gaz et la vidéo', rect: { origin: { x: 14, y: 22 }, width: 12, height: 8 } },
-  { id: 'salle2', title: 'Salle 2 — le choix coûteux', rect: { origin: { x: 14, y: 31 }, width: 12, height: 8 } },
-  { id: 'salle1', title: 'Salle 1 — la porte et le chien', rect: { origin: { x: 14, y: 40 }, width: 12, height: 8 } },
-  { id: 'hall', title: "Hall d'entrée", rect: { origin: { x: 14, y: 49 }, width: 12, height: 8 } },
-  { id: 'parking', title: 'Parking', rect: { origin: { x: 8, y: 58 }, width: 24, height: 11 } },
+  { id: 'salle3', title: 'Salle 3 — le gaz et la vidéo', rect: { origin: { x: 13, y: 22 }, width: 18, height: 9 } },
+  { id: 'salle2', title: 'Salle 2 — le choix coûteux', rect: { origin: { x: 13, y: 32 }, width: 18, height: 9 } },
+  { id: 'salle1', title: 'Salle 1 — la porte et le chien', rect: { origin: { x: 13, y: 42 }, width: 18, height: 9 } },
+  { id: 'hall', title: "Hall d'entrée", rect: { origin: { x: 13, y: 52 }, width: 18, height: 9 } },
+  { id: 'parking', title: 'Parking', rect: { origin: { x: 8, y: 62 }, width: 28, height: 8 } },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -249,7 +249,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'hall.instructeur',
     type: 'npc',
-    cell: { x: 19, y: 52 },
+    cell: { x: 21, y: 57 },
     label: "Parler à l'instructeur",
     condition: etape('hall'),
   },
@@ -258,14 +258,14 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle1.entree',
     type: 'zone',
-    cell: { x: 19, y: 47 },
-    area: { origin: { x: 14, y: 46 }, width: 12, height: 2 },
+    cell: { x: 26, y: 51 },
+    area: { origin: { x: 13, y: 50 }, width: 18, height: 2 },
     condition: etape('salle1'),
   },
   {
     id: 'salle1.panneau-porte',
     type: 'object',
-    cell: { x: 19, y: 48 }, // sur la case de la porte hall <-> salle 1
+    cell: { x: 26, y: 51 }, // sur la case de la porte hall <-> salle 1
     label: 'Pirater le panneau de la porte',
     condition: etape('salle1'),
     // Complète l'objectif de la salle (lot 3.7b, voir CHAPTER_1_SCENES "ch1.salle1") : joue
@@ -278,7 +278,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle1.chien',
     type: 'npc',
-    cell: { x: 17, y: 43 },
+    cell: { x: 19, y: 46 },
     label: 'Regarder le chien',
     condition: etape('salle1'),
     // Même dialogue que le panneau, entrée plus tardive (voir en-tête : deux entités, une seule
@@ -289,7 +289,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle1.otage',
     type: 'npc',
-    cell: { x: 22, y: 43 },
+    cell: { x: 23, y: 47 },
     label: "Parler à l'otage",
     condition: etape('salle1'),
     dialogueId: 'ch1.salle1',
@@ -300,17 +300,20 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle2.armoire',
     type: 'object',
-    cell: { x: 15, y: 34 },
+    cell: { x: 15, y: 35 },
     label: "Forcer l'armoire sécurisée",
     condition: etape('salle2'),
     // Détour facultatif ("le choix coûteux") : conversation annexe, n'avance pas le routeur.
     dialogueId: 'ch1.salle2',
     startNode: 'choix-armoire',
+    // Ce dialogue comprend aussi le piratage de la porte : elle doit être réellement ouverte
+    // avant que le joueur la franchisse, même si l'armoire n'est pas le déclencheur d'objectif.
+    opensDoorAfterDialogue: 'salle2.porte-nord',
   },
   {
     id: 'salle2.porte-nord',
     type: 'door',
-    cell: { x: 19, y: 30 },
+    cell: { x: 26, y: 31 },
     label: 'Franchir la porte nord',
     condition: etape('salle2'),
     // Verrouillée par défaut (boîtier électronique, voir ch1.salle2.json "porte") : c'est ce qui
@@ -327,14 +330,14 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle3.entree',
     type: 'zone',
-    cell: { x: 19, y: 29 },
-    area: { origin: { x: 14, y: 28 }, width: 12, height: 2 },
+    cell: { x: 26, y: 31 },
+    area: { origin: { x: 13, y: 30 }, width: 18, height: 2 },
     condition: etape('salle3'),
   },
   {
     id: 'salle3.ordinateur',
     type: 'object',
-    cell: { x: 17, y: 25 },
+    cell: { x: 24, y: 25 },
     label: "Utiliser l'ordinateur",
     condition: etape('salle3'),
     // Détour facultatif ("rester malgré le gaz") : conversation annexe, n'avance pas le routeur.
@@ -344,7 +347,7 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'salle3.porte-nord',
     type: 'door',
-    cell: { x: 19, y: 21 },
+    cell: { x: 21, y: 21 },
     label: 'Franchir la porte nord',
     condition: etape('salle3'),
     // Même mécanique que salle2.porte-nord ci-dessus (verrouillée -> dialogue -> déverrouillée
@@ -358,8 +361,8 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cour.portail',
     type: 'zone',
-    cell: { x: 19, y: 20 },
-    area: { origin: { x: 14, y: 19 }, width: 12, height: 2 },
+    cell: { x: 21, y: 20 },
+    area: { origin: { x: 13, y: 19 }, width: 18, height: 2 },
     condition: etape('cour'),
   },
 ];
@@ -369,12 +372,12 @@ const ENTITIES: EntityDef[] = [
 /* ------------------------------------------------------------------ */
 
 const SPAWNS: Record<string, { x: number; y: number }> = {
-  parking: { x: 19, y: 65 }, // arrivée du fourgon (minimum requis par le design)
-  hall: { x: 19, y: 53 },
-  salle1: { x: 19, y: 44 },
-  salle2: { x: 19, y: 35 },
-  salle3: { x: 19, y: 25 },
-  cour: { x: 19, y: 10 },
+  parking: { x: 21, y: 68 }, // arrivée du fourgon (minimum requis par le design)
+  hall: { x: 21, y: 57 },
+  salle1: { x: 22, y: 47 },
+  salle2: { x: 22, y: 37 },
+  salle3: { x: 22, y: 27 },
+  cour: { x: 21, y: 10 },
 };
 
 /* ------------------------------------------------------------------ */

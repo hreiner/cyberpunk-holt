@@ -12,6 +12,9 @@ Thumbs.db
 !.vscode/extensions.json
 !.vscode/settings.json
 /tmp/
+
+# Boucle visuelle locale ; décisions durables et provenance dans docs/.
+/.dream-loop/
 *.log
 
 # Masters des illustrations (lourds, hors dépôt) — voir docs/art/image-generation/ORCHESTRATOR.md

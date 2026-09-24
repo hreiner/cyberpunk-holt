@@ -76,6 +76,8 @@ export interface NpcEntity extends EntityBase, Labeled, BriefLine, DialogueEntry
 
 export interface ObjectEntity extends EntityBase, Labeled, BriefLine, DialogueEntry {
   type: 'object';
+  /** Porte à ouvrir quand le dialogue de cet objet se termine (parcours d'examen). */
+  opensDoorAfterDialogue?: string;
 }
 
 export interface SeatEntity extends EntityBase, Labeled, DialogueEntry {
@@ -144,4 +146,3 @@ export interface ValidationResult {
  * un cycle `narrative` -> `explore` -> `narrative`). Réexportés ci-dessus
  * pour ne rien changer côté appelants de `src/explore`.
  */
-
