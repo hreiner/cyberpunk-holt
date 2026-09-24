@@ -42,11 +42,17 @@ d'uniforme, mais la silhouette, coiffure, uniforme et attitude doivent aussi les
 
 Trois sources globales, pas une de plus, pour la cour tactique :
 
-1. **Hémisphérique** `#8899bb` / `#20202a`, intensité 0,85 — l'ambiance générale.
-2. **Directionnelle chaude** `#fff0d8`, intensité 1,1, avec ombres portées — le soleil bas
+1. **Hémisphérique** `#8899bb` / `#20202a`, intensité 1,05 — l'ambiance générale.
+2. **Directionnelle chaude** `#fff0d8`, intensité 2,2, avec ombres portées — le soleil bas
    des Badlands, qui donne les ombres longues des containers.
 3. **Contre-jour froid** `#4cc9f0`, intensité 0,35 — le néon lointain de Night City, qui
    détache les silhouettes du fond sombre.
+
+Intensités relevées (0,85/1,1 → 1,05/2,2, `src/render/yardView.ts`) pour rejoindre l'énergie de
+l'académie en exploration (ci-dessous) : à valeurs identiques, les mêmes cadets se lisaient en
+exploration et se découpaient en ombre chinoise en tactique (revue du 24/09,
+`07-john-tete-hires.png`). Toujours trois sources globales, aucune ajoutée ; l'anneau et le
+contre-jour n'ont pas bougé.
 
 Brouillard entre 60 et 160 unités, de la couleur du fond : il efface les bords de la carte
 sans mur artificiel.

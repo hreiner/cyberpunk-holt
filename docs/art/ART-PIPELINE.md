@@ -61,7 +61,16 @@ ont été comparés par SHA-256.
 | `cadet-male.glb`         | Ultimate Modular Men, tête casual masculine greffée à l'uniforme | 1 430 660 o |            5 776 | `fea7e71271203e7073f1a073fa1208de7402df276f87f80e149bf7589b5d46b4` |
 | `cadet-male-uniform.glb` | Ultimate Modular Men, tenue SWAT recolorée bleu-noir             | 1 560 900 o |            7 752 | `a835107bac833eb916c494e10997ae1709e85957ea6f6c59ace3c9a66f6d1fec` |
 | `cadet-female.glb`       | Ultimate Modular Women, tenue Suit                               | 1 537 776 o |            6 482 | `12aece21fecd08fb079d2fa390faa40c705e26ea8f779b5005b8bf6cbe501837` |
-| `concrete-diff-1k.jpg`   | Poly Haven, Concrete, texture de béton du centre d'examen        |   543 902 o |                — | `046c0e2aebe31e6043a6bc074e779f6a345f1d823d0ca1c69446c5cabadefa8a` |
+| `concrete-diff-1k.jpg`   | Poly Haven, Concrete, texture de béton (académie ET centre d'examen, teintée par lieu) |   543 902 o |                — | `046c0e2aebe31e6043a6bc074e779f6a345f1d823d0ca1c69446c5cabadefa8a` |
+| `wood-laminate-cantine-1k.jpg` | ambientCG, Wood Floor 051, sol de la cantine            |    89 872 o |                — | `2c9b0edd014f1e5e6e6bf819da331ffca27fbad7188a5ab55d86ad9aef1edb6f` |
+| `tile-infirmerie-1k.jpg` | ambientCG, Tiles 133 A, sol de l'infirmerie                      |    58 969 o |                — | `d4784dede788c21f2142e196912be591659507caced0360948e50a09642bc783` |
+| `asphalt-parking-1k.jpg` | ambientCG, Asphalt 033, sol du parking (centre d'examen)         |    64 247 o |                — | `adcdb2e813805def5aae39540ae8431dd3483ce0e0b423f6f2b924b53288a846` |
+| `corrugated-steel-garage-1k.jpg` | ambientCG, Corrugated Steel 009, murs du garage (académie) |    73 384 o |                — | `d9944465f617c942545c1892187d23a876246a63f806b10c68a8c30dc2dbcdf6` |
+
+Les quatre fichiers ambientCG (passe D, 24 septembre 2026) ne gardent que la carte couleur du
+set PBR téléchargé (`_Color.jpg`), redimensionnée à 1024 px et recompressée en JPEG qualité 78
+(mozjpeg) : les cartes de normale/rugosité/déplacement d'ambientCG ne sont pas utilisées. Detail
+complet, choix d'échelle et de répétition : [ADR 0019](../process/adr/0019-matieres-photo-pour-les-sols-dexploration.md).
 
 Les modèles et animations sont de **Quaternius**. Les packs officiels sont annoncés sous
 [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). Les pages officielles confirment le format glTF,

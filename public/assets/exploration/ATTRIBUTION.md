@@ -25,11 +25,33 @@ de Quaternius. Aucun soutien ou aval de l'auteur n'est impliqué.
 
 Provenance détaillée, empreintes SHA-256 et budgets : `docs/art/ART-PIPELINE.md` du dépôt.
 
-## Matière du centre d'examen
+## Matières photo des sols d'exploration
 
 `concrete-diff-1k.jpg` est la texture **Concrete** de [Poly Haven](https://polyhaven.com/a/concrete),
-publiée sous [CC0 1.0](https://polyhaven.com/license). Elle habille les sols en béton
-du centre d'examen ; les murs utilisent une peinture procédurale HOLT.
+publiée sous [CC0 1.0](https://polyhaven.com/license). Passe B : sol en béton du centre
+d'examen. Passe D : le même fichier habille aussi le sol par défaut de l'académie (un second
+`THREE.Texture` chargé depuis la même URL, teinté crème par `ExploreView.floorMaterial` au lieu
+d'un second fichier téléchargé — « peu de matières, bien réemployées »). Les murs des deux
+lieux gardent une peinture procédurale HOLT (`creamConcreteWall`/`coldConcreteWall`).
+
+Passe D ajoute quatre matières photo CC0 d'[ambientCG](https://ambientcg.com/), une par usage
+identifié dans `docs/art/ROOM-COMPOSITION.md` : le stratifié de la cantine, le carrelage de
+l'infirmerie, l'asphalte du parking, la tôle du garage. Chaque fichier ne conserve que la carte
+couleur (`_Color.jpg`) du set PBR téléchargé ; les cartes de normale/rugosité/déplacement ne sont
+pas utilisées et n'ont pas été committées. Redimensionnées et recompressées (mozjpeg, qualité 78)
+depuis l'original 1K-JPG d'ambientCG pour tenir le budget de `docs/art/ART-PIPELINE.md`.
+
+| Fichier | Source ambientCG | Licence | Usage | Octets |
+|---|---|---|---|---:|
+| `wood-laminate-cantine-1k.jpg` | [Wood Floor 051](https://ambientcg.com/a/WoodFloor051) | [CC0 1.0](https://ambientcg.com/view?category=&method=&sort=Popular&type=&q=&sortDir=asc) | sol de la cantine (« stratifié chaud ») | 89 872 |
+| `tile-infirmerie-1k.jpg` | [Tiles 133 A](https://ambientcg.com/a/Tiles133A) | CC0 1.0 | sol de l'infirmerie (carrelage clinique) | 58 969 |
+| `asphalt-parking-1k.jpg` | [Asphalt 033](https://ambientcg.com/a/Asphalt033) | CC0 1.0 | sol du parking, centre d'examen | 64 247 |
+| `corrugated-steel-garage-1k.jpg` | [Corrugated Steel 009](https://ambientcg.com/a/CorrugatedSteel009) | CC0 1.0 | murs du garage de l'académie | 73 384 |
+
+Toutes les ressources ambientCG sont publiées sous [CC0 1.0](https://ambientcg.com/list?type=Material)
+(domaine public, aucune attribution requise ; elle est donnée ici par transparence). Ensemble des
+quatre fichiers : 286 472 octets (≈ 280 Kio), sous le budget de 5 Mio de
+`EXPLORATION-VISUAL-DESIGN.md` §5.
 
 ## Kit industriel du centre d'examen
 

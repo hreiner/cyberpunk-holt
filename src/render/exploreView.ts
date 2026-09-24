@@ -212,6 +212,8 @@ export class ExploreView {
   private readonly roomSidesByCell = new Map<string, Side[]>();
   /** Cases de mobilier haut ('T') situées dans la pièce 'garage' : rendues comme des véhicules (voir `buildCells`). */
   private readonly garageCells = new Set<string>();
+  /** Cases de mur ('wall') formant l'anneau du garage : tôle plutôt que béton peint (voir `buildCells`). */
+  private readonly garageWallCells = new Set<string>();
   private readonly pickables: THREE.Object3D[] = [];
   private readonly floorPlane: THREE.Mesh;
   private readonly hoverOutline: THREE.Mesh;
@@ -415,6 +417,14 @@ export class ExploreView {
       for (let y = origin.y; y < origin.y + height; y++) {
         for (let x = origin.x; x < origin.x + width; x++) this.garageCells.add(`${x},${y}`);
       }
+      // L'anneau de mur qui entoure le rectangle intérieur : `room.rect` ne couvre que le sol
+      // (voir `computeRoomSides`, qui pose les murs à `origin - 1`/`origin + dimension`). Filtré
+      // par `kindAt === 'wall'` pour ne pas confondre une porte du garage (qui garde son cadre).
+      for (let y = origin.y - 1; y <= origin.y + height; y++) {
+        for (let x = origin.x - 1; x <= origin.x + width; x++) {
+          if (this.map.kindAt({ x, y }) === 'wall') this.garageWallCells.add(`${x},${y}`);
+        }
+      }
     }
   }
 
@@ -476,6 +486,11 @@ export class ExploreView {
     containerBox.setAttribute('color', new THREE.BufferAttribute(containerColors, 3));
     this.cellGeometries.add(containerBox);
     const wallMat = this.architectureMaterials.get(this.def.id === 'centre-examen' ? 'coldConcreteWall' : 'creamConcreteWall');
+    // Le garage est un hangar, pas une salle de béton peint : ses murs portent une tôle ondulée
+    // photo CC0 (`corrugatedSteel`) plutôt que la même peinture que le reste de l'académie --
+    // ROOM-COMPOSITION.md "Garage" demande une matière distincte ("tôle mate"), et c'est une
+    // grande surface (les murs occupent l'écran), priorité du mandat passe D.
+    const garageWallMat = this.architectureMaterials.get('corrugatedSteel');
     const containerSteel = this.architectureMaterials.get('containerSteel');
     const containerSides = [0x536f7e, 0x8a5549, 0x93805c].map((color) => {
       const material = containerSteel.clone();
@@ -544,7 +559,8 @@ export class ExploreView {
         if (kind === 'wall' || kind === 'door') {
           const isContainer = this.def.id === 'centre-examen' && x >= 7 && x < 37 && y >= 1 && y < 21 && kind === 'wall';
           const side = containerSides[(Math.floor(x / 7) + Math.floor(y / 5)) % containerSides.length] as THREE.Material;
-          const mesh = new THREE.Mesh(isContainer ? containerBox : unitBox, isContainer ? side : kind === 'door' ? frameMat : wallMat);
+          const plainWallMat = this.garageWallCells.has(key) ? garageWallMat : wallMat;
+          const mesh = new THREE.Mesh(isContainer ? containerBox : unitBox, isContainer ? side : kind === 'door' ? frameMat : plainWallMat);
           mesh.castShadow = true;
           mesh.receiveShadow = true;
           mesh.position.x = wx;
@@ -1331,12 +1347,34 @@ export class ExploreView {
   /**
    * Revêtement par pièce (EXPLORATION-VISUAL-DESIGN.md "Valeurs, lumière et matières" :
    * "les pièces doivent se différencier par leur revêtement autant que par leur teinte") --
-   * la cantine et l'infirmerie sont les deux pièces où la référence attend un sol "stratifié
-   * chaud"/propre plutôt que du béton brut ; le reste de l'académie garde le béton crème.
+   * la cantine attend un sol "stratifié chaud", l'infirmerie un carrelage propre ; le reste de
+   * l'académie garde le béton. Passe D : les deux sont désormais des photos CC0 dédiées
+   * (`materials.ts` PHOTO_URL) plutôt qu'une même peinture procédurale `warmLinoleum` --
+   * « peu de matières, bien réemployées », mais pas une seule pour deux usages très différents
+   * (bois verni vs faïence).
    */
-  private static readonly ACADEMY_FLOOR_BY_ROOM: Partial<Record<string, 'creamConcrete' | 'warmLinoleum'>> = {
-    cantine: 'warmLinoleum',
-    infirmerie: 'warmLinoleum',
+  private static readonly ACADEMY_FLOOR_BY_ROOM: Partial<Record<string, 'creamConcrete' | 'warmLaminate' | 'clinicTile'>> = {
+    cantine: 'warmLaminate',
+    infirmerie: 'clinicTile',
+  };
+
+  /** Le parking du centre est une aire extérieure : bitume plutôt que le béton intérieur des salles. */
+  private static readonly CENTRE_FLOOR_BY_ROOM: Partial<Record<string, 'coldConcrete' | 'asphalt'>> = {
+    parking: 'asphalt',
+  };
+
+  /**
+   * Teinte de base par matière : le béton photo (`coldConcrete` dans `materials.ts`) est réemployé
+   * TEL QUEL pour le sol par défaut des deux lieux -- même fichier, même décodage -- mais coloré
+   * différemment ici plutôt que dupliqué en un second fichier (mandat passe D, « variations de
+   * teinte et d'échelle plutôt qu'un fichier par pièce ») : crème et net pour l'académie diurne,
+   * neutre et froid pour le centre désaffecté (ART-DIRECTION.md "Lumière"). Les matières déjà
+   * colorées par leur propre photo (carrelage, stratifié, bitume) restent proches du blanc : leur
+   * teinte vient de l'image, pas d'un recolorage supplémentaire.
+   */
+  private static readonly BASE_FLOOR_TINT: Partial<Record<string, THREE.Color>> = {
+    creamConcrete: new THREE.Color(1.16, 1.05, 0.88),
+    coldConcrete: new THREE.Color(0.93, 0.97, 1.04),
   };
 
   /**
@@ -1346,36 +1384,42 @@ export class ExploreView {
    * même matière étaient rigoureusement identiques (blanc pur une fois découvertes) : aucune
    * variation d'entretien/d'usure d'une pièce à l'autre, ce qui est une bonne part du "beige plat"
    * constaté. L'écart reste faible (quelques % par canal) : une nuance, jamais une nouvelle couleur.
+   * `base` porte la teinte de la matière elle-même (voir `BASE_FLOOR_TINT`) ; la nuance de pièce se
+   * multiplie par-dessus.
    */
-  private roomFloorTint(roomId: string | undefined): THREE.Color {
-    if (!roomId) return new THREE.Color(0xffffff);
+  private roomFloorTint(roomId: string | undefined, base: THREE.Color): THREE.Color {
+    if (!roomId) return base.clone();
     const local = this.rng.fork(`explore:${this.def.id}:room-tint:${roomId}`);
     const d = () => (local.next() - 0.5) * 0.09;
-    return new THREE.Color(1 + d(), 1 + d(), 1 + d());
+    return new THREE.Color(base.r * (1 + d()), base.g * (1 + d()), base.b * (1 + d()));
   }
 
   /** Clone la matière architecturale pour que l'état de découverte teinte chaque sol indépendamment. */
   private floorMaterial(discovered: boolean, width: number, height: number, roomId?: string): THREE.MeshStandardMaterial {
     const isCentre = this.def.id === 'centre-examen';
     const key = isCentre
-      ? 'coldConcrete'
+      ? (roomId && ExploreView.CENTRE_FLOOR_BY_ROOM[roomId]) || 'coldConcrete'
       : (roomId && ExploreView.ACADEMY_FLOOR_BY_ROOM[roomId]) || 'creamConcrete';
     const material = this.architectureMaterials.get(key).clone();
     const source = material.map;
     const texture = source?.clone();
     if (texture) {
       // Une répétition par grande plage suffit : les précédentes répétitions tous les 3 m
-      // faisaient lire le sol comme une grille de rectangles indépendante du lieu. Le linoléum
-      // (dalles 0,5 m dessinées dans la texture elle-même) garde une répétition plus resserrée
-      // pour que ses joints restent à une échelle de dalle, pas de plaque de béton.
-      const textureSpan = isCentre ? 29 : key === 'warmLinoleum' ? 6 : 12;
+      // faisaient lire le sol comme une grille de rectangles indépendante du lieu. Le béton (photo,
+      // marqué par des blessures et coulures reconnaissables) reste à répétition quasi nulle --
+      // une seule image étirée sur la pièce -- pour ne jamais faire lire une tache deux fois.
+      // Carrelage, stratifié et bitume ont des motifs réguliers (joint, lame, grain) que la
+      // répétition ne trahit pas : ils gardent une échelle proche de leur module réel.
+      const textureSpan =
+        key === 'clinicTile' ? 3 : key === 'warmLaminate' ? 5 : key === 'asphalt' ? 22 : isCentre ? 29 : 18;
       texture.repeat.set(Math.max(1, width / textureSpan), Math.max(1, height / textureSpan));
       this.cellTextures.add(texture);
     }
     material.userData.floorTexture = texture ?? null;
-    material.userData.discoveredColor = this.roomFloorTint(roomId);
+    const baseTint = ExploreView.BASE_FLOOR_TINT[key] ?? new THREE.Color(0xffffff);
+    material.userData.discoveredColor = this.roomFloorTint(roomId, baseTint);
     material.map = null; // `applyFloorVisibility` (appelée juste en dessous) pose l'état réel.
-    material.roughness = key === 'warmLinoleum' ? 0.62 : 0.9;
+    if (key === 'creamConcrete' || key === 'coldConcrete') material.roughness = 0.9;
     this.cellMaterials.add(material);
     this.applyFloorVisibility(material, discovered);
     return material;

@@ -5,9 +5,12 @@ import type { Rng } from '@/core/rng';
 type MaterialKey =
   | 'creamConcrete'
   | 'creamConcreteWall'
-  | 'warmLinoleum'
   | 'coldConcrete'
   | 'coldConcreteWall'
+  | 'warmLaminate'
+  | 'clinicTile'
+  | 'asphalt'
+  | 'corrugatedSteel'
   | 'petrolPaint'
   | 'darkMetal'
   | 'wornMetal'
@@ -31,9 +34,14 @@ const PALETTE: Record<
 > = {
   creamConcrete: { base: '#a89d85', stroke: '#cabfa4', dark: '#7d7669', grain: 0.5 },
   creamConcreteWall: { base: '#9c937f', stroke: '#bcb096', dark: '#726b5c', grain: 0.4, seams: 'wall' },
-  warmLinoleum: { base: '#b7936a', stroke: '#d4ae82', dark: '#8a6a49', seams: 'floorTile' },
   coldConcrete: { base: '#53676a', stroke: '#77888a', dark: '#354246', grain: 0.5 },
   coldConcreteWall: { base: '#586269', stroke: '#76838a', dark: '#37414a', grain: 0.4, seams: 'wall' },
+  // Repli procédural des quatre matières photo ci-dessous (`PHOTO_URL`) : couleurs et motifs
+  // approximatifs, utilisés seulement si le fichier réseau échoue à charger (`loadPhotoTexture`).
+  warmLaminate: { base: '#b58a5c', stroke: '#d9b384', dark: '#8a6540', grain: 0.15 },
+  clinicTile: { base: '#c7d2d3', stroke: '#e6eeee', dark: '#9aabac', seams: 'floorTile' },
+  asphalt: { base: '#38352f', stroke: '#4c4841', dark: '#221f1b', grain: 0.7 },
+  corrugatedSteel: { base: '#8b9296', stroke: '#c3cace', dark: '#565d61', metalness: 0.4, seams: 'wall' },
   petrolPaint: { base: '#214655', stroke: '#46717a', dark: '#13313c', metalness: 0.1 },
   darkMetal: { base: '#293036', stroke: '#53616a', dark: '#161a1e', metalness: 0.55 },
   wornMetal: { base: '#57636a', stroke: '#8a9695', dark: '#30383d', metalness: 0.48 },
@@ -45,6 +53,45 @@ const PALETTE: Record<
   alarmRed: { base: '#b64037', stroke: '#ef8171', dark: '#5e2527', metalness: 0.25 },
   rust: { base: '#714a36', stroke: '#a36a48', dark: '#442c25', metalness: 0.3 },
   containerSteel: { base: '#b7b7ae', stroke: '#e0dfd2', dark: '#737a78', metalness: 0.5 },
+};
+
+/**
+ * Sources CC0 des quatre matières photo ajoutées en passe D (ambientCG, voir
+ * `public/assets/exploration/ATTRIBUTION.md`) et de la matière déjà présente depuis la passe B
+ * (`coldConcrete`, Poly Haven). Une seule image de béton, réemployée avec des teintes différentes
+ * par `ExploreView.floorMaterial` plutôt qu'un second fichier : « peu de matières, bien
+ * réemployées » (mandat de la passe D), déjà la pratique pour `coldConcrete` dans `props.ts`.
+ */
+const PHOTO_URL: Partial<Record<MaterialKey, string>> = {
+  coldConcrete: '/assets/exploration/concrete-diff-1k.jpg',
+  // Même fichier que `coldConcrete`, teinté différemment par `ExploreView.floorMaterial` --
+  // un second `THREE.Texture` (donc un second décodage/upload GPU, ~0,5 Mo de VRAM), pas un
+  // second téléchargement (le navigateur sert la deuxième requête depuis son cache HTTP).
+  creamConcrete: '/assets/exploration/concrete-diff-1k.jpg',
+  warmLaminate: '/assets/exploration/wood-laminate-cantine-1k.jpg',
+  clinicTile: '/assets/exploration/tile-infirmerie-1k.jpg',
+  asphalt: '/assets/exploration/asphalt-parking-1k.jpg',
+  corrugatedSteel: '/assets/exploration/corrugated-steel-garage-1k.jpg',
+};
+
+const ROUGHNESS_OVERRIDE: Partial<Record<MaterialKey, number>> = {
+  cyanSignal: 0.42,
+  amberSignal: 0.42,
+  alarmRed: 0.42,
+  clinicTile: 0.42,
+  warmLaminate: 0.55,
+  corrugatedSteel: 0.58,
+  asphalt: 0.96,
+};
+
+/**
+ * Teinte froide pour `corrugatedSteel` : sous le soleil chaud de la scène (ART-DIRECTION.md
+ * "Lumière", directionnelle `#fff0d8`), la photo se lisait trop proche du béton crème voisin
+ * (même famille de gris-brun -- vérifié à l'écran). Un léger virage bleuté la détache comme
+ * « la tôle du garage », sans changer son grain ni ses nervures.
+ */
+const BASE_COLOR: Partial<Record<MaterialKey, THREE.Color>> = {
+  corrugatedSteel: new THREE.Color(0.82, 0.88, 0.96),
 };
 
 const CANVAS_SIZE = 256;
@@ -153,6 +200,23 @@ function paintedTexture(key: MaterialKey, rng: Rng): THREE.CanvasTexture {
   return texture;
 }
 
+/**
+ * Charge une matière photo CC0 (`PHOTO_URL`) avec repli procédural réel : si le fichier réseau
+ * échoue (hors ligne, 404), `onError` remplace l'image de la texture par la peinture procédurale
+ * de la même clé au lieu de laisser `texture.image` indéfiniment absent -- la surface reste
+ * correcte (mandat passe D), elle ne redevient jamais blanche ou noire de façon permanente.
+ * Chargement réussi : comportement par défaut de three.js, voir le commentaire de `get` ci-dessous.
+ */
+function loadPhotoTexture(url: string, key: MaterialKey, rng: Rng): THREE.Texture {
+  const texture = new THREE.TextureLoader().load(url, undefined, undefined, () => {
+    const fallback = paintedTexture(key, rng);
+    texture.image = fallback.image;
+    texture.needsUpdate = true;
+    fallback.dispose();
+  });
+  return texture;
+}
+
 /** Ressources communes, possédées par la factory d'une carte. */
 export class EnvironmentMaterials {
   private readonly textures: THREE.Texture[] = [];
@@ -164,20 +228,22 @@ export class EnvironmentMaterials {
     const existing = this.values.get(key);
     if (existing) return existing;
     const palette = PALETTE[key];
-    // Le centre reçoit une seule matière photo CC0, à basse répétition : elle casse les grands aplats
-    // sans introduire un atlas lourd ni des variations aléatoires dans le rendu. Chargement réseau
-    // asynchrone : l'image n'existe pas encore à cet instant, `TextureLoader` la posera elle-même
-    // sur `texture.image` et marquera `needsUpdate` UNE FOIS chargée (comportement par défaut de
-    // three.js). Les consommateurs qui ont besoin d'un clone indépendant (ex. `ExploreView.floorMaterial`,
-    // un `repeat` propre par pièce) doivent attendre `texture.image` avant de l'attribuer ou de
-    // forcer `needsUpdate` sur LEUR clone : `Texture.clone()` n'est qu'un instantané des propriétés
-    // au moment de l'appel, pas un lien vivant vers cette texture partagée -- un clone pris trop tôt
-    // ne recevrait jamais l'image chargée par la suite, et marquer `needsUpdate` sur un clone sans
-    // image déclenche "Texture marked for update but no image data found" (défaut réel constaté).
-    const texture =
-      key === 'coldConcrete'
-        ? new THREE.TextureLoader().load('/assets/exploration/concrete-diff-1k.jpg')
-        : paintedTexture(key, this.rng.fork(`material:${key}`));
+    // Cinq matières (sur dix-neuf) sont des photos CC0 à basse répétition (`PHOTO_URL`) plutôt que
+    // peintes : elles cassent les grands aplats sans introduire d'atlas lourd ni de variation
+    // aléatoire dans le rendu. Chargement réseau asynchrone : l'image n'existe pas encore à cet
+    // instant, `TextureLoader` la pose elle-même sur `texture.image` et marque `needsUpdate` UNE
+    // FOIS chargée (comportement par défaut de three.js) ; `loadPhotoTexture` ajoute un repli
+    // procédural réel si le réseau échoue. Les consommateurs qui ont besoin d'un clone indépendant
+    // (ex. `ExploreView.floorMaterial`, un `repeat` propre par pièce) doivent attendre
+    // `texture.image` avant de l'attribuer ou de forcer `needsUpdate` sur LEUR clone :
+    // `Texture.clone()` n'est qu'un instantané des propriétés au moment de l'appel, pas un lien
+    // vivant vers cette texture partagée -- un clone pris trop tôt ne recevrait jamais l'image
+    // chargée par la suite, et marquer `needsUpdate` sur un clone sans image déclenche "Texture
+    // marked for update but no image data found" (défaut réel constaté).
+    const photoUrl = PHOTO_URL[key];
+    const texture = photoUrl
+      ? loadPhotoTexture(photoUrl, key, this.rng.fork(`material:${key}:fallback`))
+      : paintedTexture(key, this.rng.fork(`material:${key}`));
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
@@ -185,14 +251,9 @@ export class EnvironmentMaterials {
     texture.minFilter = THREE.LinearMipmapLinearFilter;
     this.textures.push(texture);
     const material = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
+      color: BASE_COLOR[key] ?? 0xffffff,
       map: texture,
-      roughness:
-        key === 'cyanSignal' || key === 'amberSignal' || key === 'alarmRed'
-          ? 0.42
-          : key === 'warmLinoleum'
-            ? 0.62
-            : 0.86,
+      roughness: ROUGHNESS_OVERRIDE[key] ?? 0.86,
       metalness: palette.metalness ?? 0,
       emissive:
         key === 'cyanSignal'
