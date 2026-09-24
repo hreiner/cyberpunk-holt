@@ -23,9 +23,9 @@ Lecture obligatoire avant de coder : [`docs/INDEX.md`](docs/INDEX.md).
 
 | | |
 |---|---|
-| **Epic en cours** | Epic 2 — contenu narratif du chapitre 1 |
+| **Epic en cours** | Epic 3 — le chapitre 1 devient un CRPG explorable, puis sa refonte visuelle |
 | **Epic suivant** | rien de planifié — voir « Après le chapitre 1 » dans la feuille de route |
-| **État** | Epic 1 clos. Epic 2 quasi clos : les neuf scènes du chapitre 1 s'enchaînent de bout en bout ; restent les portraits/musique (2.11) et l'export du dossier au joueur (2.12) |
+| **État** | Epics 1 et 2 clos. Epic 3 : les lots 3.1 à 3.7 sont livrés — on traverse l'académie et le centre d'examen à pied, les scènes se déclenchent sur place, le combat suit le portail. Reste 3.8 (revue de bout en bout). En parallèle, la refonte visuelle : habillage déclaratif (ADR 0017), composition des pièces, matières et lumières locales (ADR 0018), vrais personnages en combat. Restent de l'epic 2 : les portraits et la musique (2.11), l'export du dossier au joueur (2.12) |
 | **Détail** | [`docs/process/ROADMAP.md`](docs/process/ROADMAP.md) |
 
 ## 3. Les huit règles à ne pas enfreindre
