@@ -20,7 +20,8 @@ import { samePos } from '@/tactical/grid';
 import { computeReach, pathTo } from '@/tactical/pathfinding';
 import { reachableCellsFor } from '@/tactical/queries';
 import type { Action, CombatEvent, TacticalSetup, TeamId, Vec2 } from '@/tactical/types';
-import { PlaceholderRig, type CharacterRig } from '@/render/characterRig';
+import type { CharacterRig } from '@/render/characterRig';
+import { createCadetExplorationRig } from '@/render/exploration/cadetRig';
 import { EffectQueue } from '@/render/effectQueue';
 import { EffectsLayer } from '@/render/effects';
 import { IsoCamera } from '@/render/isoCamera';
@@ -153,6 +154,9 @@ export class GameApp {
     this.bindEvents();
     this.resize();
     this.refresh();
+    // Le premier `resize()` mesure un HUD encore vide (bande d'initiative sans vignettes) :
+    // `refresh()` vient de le peupler, on relit donc les marges reelles avant le premier rendu.
+    this.resize();
     this.loop();
     saveSession({ ...session, lastSeed: setup.seed });
   }
@@ -198,7 +202,7 @@ export class GameApp {
     this.effects = new EffectsLayer();
     this.view.root.add(this.effects.group);
     for (const unit of Object.values(this.combat.state.units)) {
-      const rig = new PlaceholderRig(getCharacter(unit.id), TEAM_COLORS[unit.team]);
+      const rig = createCadetExplorationRig(getCharacter(unit.id), TEAM_COLORS[unit.team], { tactical: true });
       this.view.root.add(rig.object);
       this.rigs.set(unit.id, rig);
       const animator = new RigAnimator(rig);
@@ -384,7 +388,31 @@ export class GameApp {
     const w = this.container.clientWidth;
     const h = this.container.clientHeight;
     this.renderer.setSize(w, h, false);
-    this.iso.resize(this.aspect());
+    this.iso.resize(this.aspect(), h);
+    this.iso.setSafeAreaInsetsPx(this.hudInsetsPx());
+  }
+
+  /**
+   * Marges (en pixels) occupees par les panneaux HUD opaques et fixes (fiche a
+   * gauche, journal a droite sur toute la hauteur, bandeaux haut/bas) : voir
+   * `IsoCamera.setSafeAreaInsetsPx`. Sans ce recentrage, un cadet proche d'un
+   * bord de carte peut se retrouver rendu SOUS le panneau (etiquette coupee).
+   * Largeurs lues sur le DOM plutot que dupliquees depuis `styles.css` : elles
+   * suivent le design system sans jamais s'en decaler silencieusement.
+   */
+  private hudInsetsPx(): { left: number; right: number; top: number; bottom: number } {
+    const containerRect = this.container.getBoundingClientRect();
+    const rectOf = (selector: string) => this.container.querySelector(selector)?.getBoundingClientRect();
+    const sheet = rectOf('[data-testid="sheet"]');
+    const log = rectOf('[data-testid="log"]');
+    const top = rectOf('.hud-top');
+    const bottomChrome = rectOf('[data-testid="footer"]') ?? rectOf('[data-testid="actions"]');
+    return {
+      left: sheet ? Math.max(0, sheet.right - containerRect.left) : 0,
+      right: log ? Math.max(0, containerRect.right - log.left) : 0,
+      top: top ? Math.max(0, top.bottom - containerRect.top) : 0,
+      bottom: bottomChrome ? Math.max(0, containerRect.bottom - bottomChrome.top) : 0,
+    };
   }
 
   private pickCell(event: PointerEvent): Vec2 | null {
@@ -558,6 +586,18 @@ export class GameApp {
   /** Rafraichit HUD et scene apres une mutation faite hors du flux d'entree (API debug). */
   refreshFromDebug(): void {
     this.refresh();
+  }
+
+  /**
+   * Compteurs Three/WebGL de la derniere image tactique -- meme forme que
+   * `ExploreSession.renderStats()` (`src/exploreSession.ts`), pour mesurer le cout des
+   * vrais personnages en combat sur un materiel et un parcours documentes (voir
+   * docs/process/DEBUG_API.md). Un rendu headless peut utiliser un rasteriseur logiciel :
+   * ces chiffres comptent les appels de dessin et triangles reels, independamment du GPU.
+   */
+  renderStats(): { drawCalls: number; triangles: number; geometries: number; textures: number } {
+    const { render, memory } = this.renderer.info;
+    return { drawCalls: render.calls, triangles: render.triangles, geometries: memory.geometries, textures: memory.textures };
   }
 
   /* -------------------------------- rendu ---------------------------------- */

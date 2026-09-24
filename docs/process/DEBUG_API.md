@@ -44,6 +44,7 @@ silence.
 | `log()` | `string[]` | journal complet, en français |
 | `score()` | note | barème calculé sur le combat seul (sans le parcours intérieur — voir `dossier().practicalScore` pour la note complète une fois la scène tactique terminée dans le parcours normal) |
 | `setAiDelay(ms)` | — | délai entre actions de l'IA ; `0` en test |
+| `tacticalRenderStats()` | `{ drawCalls, triangles, geometries, textures }`, ou `null` | compteurs Three/WebGL de la dernière image tactique, même forme que `exploreRenderStats()` ; hors scène tactique, renvoie `null` |
 
 ## Méthodes narratives (ADR 0011)
 

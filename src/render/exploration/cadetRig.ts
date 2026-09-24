@@ -6,7 +6,7 @@ import {
   type CadetHair,
   type CadetVisualProfile,
 } from '@/data/exploreVisuals/characterProfiles';
-import { ITEM_COLORS } from '@/data/items';
+import { CARRIED_ITEMS, ITEM_COLORS, ITEM_ICONS } from '@/data/items';
 import type { CharacterSheet } from '@/rules/character';
 import type { ItemId } from '@/tactical/types';
 import type { ExplorationCharacterRig, ExplorationPose, RigAnimation } from '../characterRig';
@@ -24,6 +24,16 @@ export interface HumanRigOptions {
   readonly adult?: boolean;
   readonly showLabel?: boolean;
   readonly showRing?: boolean;
+  /**
+   * Lisibilite propre a la vue tactique (docs/design/05-TACTICAL-COMBAT.md,
+   * docs/art/ART-DIRECTION.md "Regles de lisibilite") : ligne de materiel sur
+   * l'etiquette flottante (pictogrammes, "materiel inconnu"/"sans materiel"),
+   * epaulettes a la couleur d'equipe (l'anneau au sol seul ne suffit pas a
+   * distance de jeu) et silhouette visible a travers un conteneur qui masque
+   * le cadet. Toujours `false` en exploration : pas d'arme ni d'equipe
+   * adverse a deviner, et les couloirs coupent deja les murs bas.
+   */
+  readonly tactical?: boolean;
 }
 
 const CADET_HEIGHT = 1.75;
@@ -32,7 +42,16 @@ const TRANSITION_SECONDS = 0.18;
 const WALK_METRES_PER_CYCLE = 1.5;
 const RUN_METRES_PER_CYCLE = 2.35;
 const LABEL_CANVAS = { width: 224, height: 56 } as const;
+/** Etiquette agrandie en tactique : deux lignes (nom + materiel), cf. `drawLabel`. */
+const TACTICAL_LABEL_CANVAS = { width: 256, height: 96 } as const;
+const LABEL_WORLD_WIDTH = 2.35;
+const TACTICAL_LABEL_WORLD_WIDTH = 2.9;
+/** Silhouette "rayon X" : capsule generique dessinee uniquement la ou un conteneur masque le cadet. */
+const XRAY_RADIUS = 0.3;
 const DEFAULT_RING_COLOR = 0xa1433e;
+/** Emissif leger de l'unite active (tactique) -- ART-DIRECTION.md, regle de lisibilite 2 :
+ *  "L'unite active est mise en evidence -- emissif leger ET anneau opaque", pas l'un ou l'autre. */
+const HIGHLIGHT_EMISSIVE = 0x2a2200;
 const CLIP_NAME: Record<RigAnimation, string> = {
   idle: 'Idle_Neutral',
   walk: 'Walk',
@@ -45,8 +64,9 @@ const CLIP_NAME: Record<RigAnimation, string> = {
 export function createCadetExplorationRig(
   sheet: CharacterSheet,
   teamColor = DEFAULT_RING_COLOR,
+  options: HumanRigOptions = {},
 ): CadetExplorationRig {
-  return new CadetRig(sheet, teamColor);
+  return new CadetRig(sheet, teamColor, options);
 }
 
 /** The same skinned factory also makes adult staff and background cadets. */
@@ -70,7 +90,12 @@ export class CadetRig implements CadetExplorationRig {
   private readonly attachments = new Map<THREE.Object3D, THREE.Group>();
   private readonly ring: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>;
   private readonly label: THREE.Sprite;
+  private readonly labelCanvas: HTMLCanvasElement;
   private readonly labelTexture: THREE.CanvasTexture;
+  private readonly labelWorldWidth: number;
+  private readonly name: string;
+  private readonly teamColor: number;
+  private readonly tactical: boolean;
   private readonly head: THREE.Object3D;
   private readonly chest: THREE.Object3D;
   private readonly hips: THREE.Object3D;
@@ -86,9 +111,16 @@ export class CadetRig implements CadetExplorationRig {
   private motionSpeed = 0;
   private reducedMotion = false;
   private disposed = false;
+  private highlighted = false;
+  private items: readonly ItemId[] | null = [];
+  private equipmentLineVisible: boolean;
 
   constructor(actor: VisualActor, teamColor: number, options: HumanRigOptions = {}) {
     this.id = actor.id;
+    this.name = actor.name;
+    this.teamColor = teamColor;
+    this.tactical = options.tactical ?? false;
+    this.equipmentLineVisible = this.tactical;
     const profile = options.profile ?? CADET_VISUAL_PROFILES[actor.id as keyof typeof CADET_VISUAL_PROFILES];
     if (!profile) throw new Error(`Profil visuel manquant pour ${actor.id}`);
     const modelType = options.model ?? (actor.id === 'abigail' || actor.id === 'letitia' ? 'female' : 'male');
@@ -130,7 +162,7 @@ export class CadetRig implements CadetExplorationRig {
       this.neutralPose.set(bone, bone.quaternion.clone());
     }
     this.addHair(profile.hairStyle, profile.hair);
-    this.addUniformDetails(profile, modelType);
+    this.addUniformDetails(profile, modelType, this.tactical ? teamColor : undefined);
     this.addEquipment();
 
     const ringMaterial = new THREE.MeshBasicMaterial({
@@ -146,25 +178,31 @@ export class CadetRig implements CadetExplorationRig {
     this.ring.visible = options.showRing !== false;
     this.object.add(this.ring);
 
-    const canvas = document.createElement('canvas');
-    canvas.width = LABEL_CANVAS.width;
-    canvas.height = LABEL_CANVAS.height;
-    const context = canvas.getContext('2d');
-    if (context) {
-      context.fillStyle = 'rgba(10, 12, 18, 0.88)';
-      context.strokeStyle = `#${teamColor.toString(16).padStart(6, '0')}`;
-      context.lineWidth = 4;
-      context.beginPath();
-      context.roundRect(4, 4, LABEL_CANVAS.width - 8, LABEL_CANVAS.height - 8, 12);
-      context.fill();
-      context.stroke();
-      context.fillStyle = '#f4f2ea';
-      context.font = '700 27px "Barlow Semi Condensed", sans-serif';
-      context.textAlign = 'center';
-      context.textBaseline = 'middle';
-      context.fillText(actor.name, LABEL_CANVAS.width / 2, LABEL_CANVAS.height / 2 + 1);
+    // Silhouette "rayon X" (tactique seulement) : dessinee uniquement la ou un conteneur
+    // masque le cadet -- ART-DIRECTION.md, regle de lisibilite 5, "rien ne masque un personnage".
+    if (this.tactical) {
+      const xrayMaterial = new THREE.MeshBasicMaterial({
+        color: teamColor,
+        transparent: true,
+        opacity: 0.5,
+        depthFunc: THREE.GreaterDepth,
+        depthWrite: false,
+      });
+      this.ownedMaterials.push(xrayMaterial);
+      const xrayGeometry = new THREE.CapsuleGeometry(XRAY_RADIUS, Math.max(0.1, height - 2 * XRAY_RADIUS), 4, 8);
+      this.ownedGeometries.push(xrayGeometry);
+      const xray = new THREE.Mesh(xrayGeometry, xrayMaterial);
+      xray.position.y = height / 2;
+      xray.renderOrder = 10;
+      this.object.add(xray);
     }
-    this.labelTexture = new THREE.CanvasTexture(canvas);
+
+    const labelCanvasSize = this.tactical ? TACTICAL_LABEL_CANVAS : LABEL_CANVAS;
+    this.labelWorldWidth = this.tactical ? TACTICAL_LABEL_WORLD_WIDTH : LABEL_WORLD_WIDTH;
+    this.labelCanvas = document.createElement('canvas');
+    this.labelCanvas.width = labelCanvasSize.width;
+    this.labelCanvas.height = labelCanvasSize.height;
+    this.labelTexture = new THREE.CanvasTexture(this.labelCanvas);
     this.labelTexture.colorSpace = THREE.SRGBColorSpace;
     this.label = new THREE.Sprite(
       new THREE.SpriteMaterial({
@@ -175,11 +213,12 @@ export class CadetRig implements CadetExplorationRig {
       }),
     );
     this.label.name = 'cadet-label';
-    this.label.scale.set(2.35, (2.35 * LABEL_CANVAS.height) / LABEL_CANVAS.width, 1);
-    this.label.position.y = height + 0.42;
+    this.label.scale.set(this.labelWorldWidth, (this.labelWorldWidth * labelCanvasSize.height) / labelCanvasSize.width, 1);
+    this.label.position.y = height + (this.tactical ? 0.52 : 0.42);
     this.label.visible = options.showLabel !== false;
     this.label.renderOrder = 20;
     this.object.add(this.label);
+    this.drawLabel();
 
     this.mixer = new THREE.AnimationMixer(this.model);
     for (const name of Object.keys(CLIP_NAME) as RigAnimation[]) {
@@ -206,8 +245,10 @@ export class CadetRig implements CadetExplorationRig {
   play(animation: RigAnimation): void {
     if (this.disposed) return;
     if (animation === 'revive') {
+      const wasDown = this.current === 'down';
       this.current = 'idle';
       this.crossFadeTo('idle');
+      if (this.tactical && wasDown) this.drawLabel();
       return;
     }
     if (animation === this.current && this.currentPose === null) return;
@@ -215,9 +256,11 @@ export class CadetRig implements CadetExplorationRig {
       this.visual.position.y = 0;
       this.resetPose();
     }
+    const wasDown = this.current === 'down';
     this.currentPose = null;
     this.current = animation;
     this.crossFadeTo(animation);
+    if (this.tactical && (animation === 'down' || wasDown)) this.drawLabel();
   }
 
   setExplorationMotionSpeed(metresPerSecond: number): void {
@@ -237,12 +280,85 @@ export class CadetRig implements CadetExplorationRig {
   }
 
   setHighlighted(on: boolean): void {
+    if (on === this.highlighted) return;
+    this.highlighted = on;
     this.ring.material.opacity = on ? 1 : 0.55;
+    // Anneau opaque ET emissif leger sur tout le modele (tactique seulement -- l'exploration
+    // n'a pas d'unite "active" a signaler de cette facon).
+    if (this.tactical) {
+      const tint = on ? HIGHLIGHT_EMISSIVE : 0x000000;
+      for (const material of this.ownedMaterials) {
+        if (material instanceof THREE.MeshStandardMaterial) material.emissive.setHex(tint);
+      }
+      this.drawLabel();
+    }
   }
   setEquipment(items: readonly ItemId[] | null): void {
     for (const [item, node] of this.equipment) node.visible = items?.includes(item) ?? false;
+    const same =
+      items === null || this.items === null
+        ? items === this.items
+        : items.length === this.items.length && items.every((item, i) => item === this.items?.[i]);
+    this.items = items === null ? null : [...items];
+    if (!same && this.tactical) this.drawLabel();
   }
-  setEquipmentLineVisible(_visible: boolean): void {}
+  setEquipmentLineVisible(visible: boolean): void {
+    if (this.equipmentLineVisible === visible) return;
+    this.equipmentLineVisible = visible;
+    this.drawLabel();
+  }
+
+  /**
+   * Etiquette flottante : nom du cadet (bord a la couleur d'equipe), "(à terre)" quand
+   * neutralise, et, en tactique (`equipmentLineVisible`), une ligne de pictogrammes du
+   * materiel -- meme convention que l'ancien `PlaceholderRig`. En exploration, la plaque
+   * ne porte que le nom, jamais redessinee en cours de jeu (voir `tactical`).
+   */
+  private drawLabel(): void {
+    const ctx = this.labelCanvas.getContext('2d');
+    if (!ctx) return;
+    const width = this.labelCanvas.width;
+    const height = this.labelCanvas.height;
+    const down = this.current === 'down';
+    ctx.clearRect(0, 0, width, height);
+
+    const boxHeight = this.equipmentLineVisible ? height - 8 : Math.min(56, height - 8);
+    ctx.globalAlpha = down ? 0.65 : 1;
+    ctx.fillStyle = 'rgba(10, 12, 18, 0.88)';
+    ctx.strokeStyle = `#${this.teamColor.toString(16).padStart(6, '0')}`;
+    ctx.lineWidth = this.highlighted ? 6 : 4;
+    ctx.beginPath();
+    ctx.roundRect(4, 4, width - 8, boxHeight, 12);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#f4f2ea';
+    ctx.font = '700 27px "Barlow Semi Condensed", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const nameY = this.equipmentLineVisible ? 26 : boxHeight / 2 + 1;
+    ctx.fillText(down ? `${this.name} (à terre)` : this.name, width / 2, nameY, width - 20);
+
+    if (this.equipmentLineVisible) {
+      const items = this.items;
+      const carried = items ? CARRIED_ITEMS.filter((item) => items.includes(item)) : [];
+      if (items === null || carried.length === 0) {
+        ctx.fillStyle = '#9aa0ad';
+        ctx.font = '400 19px "Barlow Semi Condensed", sans-serif';
+        ctx.fillText(items === null ? 'matériel inconnu' : 'sans matériel', width / 2, 68);
+      } else {
+        ctx.font = '400 30px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
+        const step = 46;
+        const start = width / 2 - ((carried.length - 1) * step) / 2;
+        carried.forEach((item, i) => {
+          ctx.fillStyle = `#${ITEM_COLORS[item].toString(16).padStart(6, '0')}`;
+          ctx.fillText(ITEM_ICONS[item], start + i * step, 68);
+        });
+      }
+    }
+    ctx.globalAlpha = 1;
+    this.labelTexture.needsUpdate = true;
+  }
 
   playExplorationPose(pose: ExplorationPose | null): void {
     if (this.disposed || pose === this.currentPose) return;
@@ -473,12 +589,18 @@ export class CadetRig implements CadetExplorationRig {
     }
   }
 
-  private addUniformDetails(profile: CadetVisualProfile, modelType: HumanModel): void {
+  /**
+   * `teamBadge` (tactique seulement) : les epaulettes, normalement noires, passent a la
+   * couleur d'equipe -- l'anneau au sol seul ne suffit pas a distinguer bleu/rouge a la
+   * distance de jeu une fois l'uniforme peint (ART-DIRECTION.md, regle de lisibilite 1).
+   */
+  private addUniformDetails(profile: CadetVisualProfile, modelType: HumanModel, teamBadge?: number): void {
     const trim = this.material(profile.trim, 0.6);
     const black = this.material(0x111a23, 0.72);
     const metal = this.material(0x85918f, 0.35);
+    const shoulder = teamBadge !== undefined ? this.material(teamBadge, 0.5) : black;
     for (const side of [-1, 1]) {
-      this.part(this.chest, new THREE.BoxGeometry(0.14, 0.035, 0.105), black, side * 0.18, 0.07, 0.02);
+      this.part(this.chest, new THREE.BoxGeometry(0.14, 0.035, 0.105), shoulder, side * 0.18, 0.07, 0.02);
     }
     this.part(this.chest, new THREE.BoxGeometry(0.15, 0.038, 0.014), trim, -0.13, -0.08, 0.24);
     this.part(this.chest, new THREE.BoxGeometry(0.12, 0.038, 0.014), trim, 0.13, -0.08, 0.24);

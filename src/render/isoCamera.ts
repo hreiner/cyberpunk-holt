@@ -36,6 +36,15 @@ export class IsoCamera {
   private target = new THREE.Vector3(0, 0, 0);
   /** Recentrage amorti en cours (`animateTargetTo`), `null` si aucun. */
   private recenter: { from: THREE.Vector3; to: THREE.Vector3; t: number } | null = null;
+  /**
+   * Marge reservee a un HUD opaque fixe en pixels (panneaux lateraux, bandeaux
+   * haut/bas) : `target` reste le centre LOGIQUE du gameplay, mais le rendu se
+   * recentre dans la zone encore visible pour qu'aucune etiquette flottante ne
+   * finisse sous un panneau. Nul par defaut (exploration, qui n'appelle jamais
+   * `setSafeAreaInsetsPx`) : voir `GameApp` pour l'unique appelant.
+   */
+  private insetsPx = { left: 0, right: 0, top: 0, bottom: 0 };
+  private viewportHeightPx = 1;
 
   constructor(aspect: number, zoomBounds?: ZoomBounds) {
     this.minZoom = zoomBounds?.min ?? MIN_ZOOM;
@@ -125,8 +134,23 @@ export class IsoCamera {
     return { x: Math.sin(azimuth), z: -Math.cos(azimuth) };
   }
 
-  resize(aspect: number): void {
+  /** `viewportHeightPx` : hauteur reelle du canevas, necessaire pour convertir les marges de
+   *  `setSafeAreaInsetsPx` (en pixels) en unites monde. Optionnel : l'exploration ne le fournit
+   *  pas et n'appelle jamais `setSafeAreaInsetsPx`, donc l'omission est sans effet pour elle. */
+  resize(aspect: number, viewportHeightPx?: number): void {
+    if (viewportHeightPx !== undefined) this.viewportHeightPx = viewportHeightPx;
     this.applyZoom(aspect);
+  }
+
+  /**
+   * Reserve des marges opaques de HUD (panneaux lateraux fixes en pixels) : la cible logique
+   * (`target`, `lookAtCell`...) ne bouge pas, mais le point rendu au centre de l'ecran se decale
+   * pour que le gameplay tienne dans la zone encore visible. Sans cet appel (exploration),
+   * marges nulles -- comportement inchange. Voir `GameApp.resize`.
+   */
+  setSafeAreaInsetsPx(insets: { left: number; right: number; top: number; bottom: number }): void {
+    this.insetsPx = insets;
+    this.update();
   }
 
   private applyZoom(aspect: number): void {
@@ -143,12 +167,33 @@ export class IsoCamera {
     const elevation = THREE.MathUtils.degToRad(ISO_ELEVATION_DEG);
     const distance = CAMERA_DISTANCE;
     const horizontal = Math.cos(elevation) * distance;
+    const { x: effX, z: effZ } = this.effectiveTarget();
     this.camera.position.set(
-      this.target.x + Math.cos(azimuth) * horizontal,
+      effX + Math.cos(azimuth) * horizontal,
       Math.sin(elevation) * distance,
-      this.target.z + Math.sin(azimuth) * horizontal,
+      effZ + Math.sin(azimuth) * horizontal,
     );
-    this.camera.lookAt(this.target);
+    this.camera.lookAt(effX, 0, effZ);
     this.camera.updateMatrixWorld();
+  }
+
+  /**
+   * `target` decale de la moitie de la difference des marges opposees (voir
+   * `setSafeAreaInsetsPx`), pour que le POINT VISE (rendu au centre exact de
+   * l'ecran) laisse `target` apparaitre au centre de la zone encore libre au
+   * lieu du centre du canevas entier.
+   */
+  private effectiveTarget(): { x: number; z: number } {
+    const { left, right: rightPx, top, bottom } = this.insetsPx;
+    if (left === 0 && rightPx === 0 && top === 0 && bottom === 0) return { x: this.target.x, z: this.target.z };
+    const worldPerPixel = this.zoom / Math.max(1, this.viewportHeightPx);
+    const dPxRight = (left - rightPx) / 2;
+    const dPxDown = (top - bottom) / 2;
+    const rightDir = this.screenRightXZ();
+    const upDir = this.screenUpXZ();
+    return {
+      x: this.target.x - dPxRight * worldPerPixel * rightDir.x + dPxDown * worldPerPixel * upDir.x,
+      z: this.target.z - dPxRight * worldPerPixel * rightDir.z + dPxDown * worldPerPixel * upDir.z,
+    };
   }
 }

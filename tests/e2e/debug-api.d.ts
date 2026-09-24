@@ -268,6 +268,7 @@ export interface E2EGameApi {
   log(): string[];
   score(): E2EScore;
   setAiDelay(ms: number): void;
+  tacticalRenderStats(): { drawCalls: number; triangles: number; geometries: number; textures: number } | null;
 
   /* --- narratif (ADR 0011) --- */
   scene(): E2ESceneSnapshot;

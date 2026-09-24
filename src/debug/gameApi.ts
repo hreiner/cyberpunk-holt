@@ -79,6 +79,8 @@ export interface GameDebugApi {
   log(): string[];
   score(): ExerciseScore;
   setAiDelay(ms: number): void;
+  /** Compteurs WebGL de la dernière image tactique (voir `GameApp.renderStats`) ; `null` hors de la scène tactique. */
+  tacticalRenderStats(): { drawCalls: number; triangles: number; geometries: number; textures: number } | null;
 
   /* --- narratif (ADR 0011) --- */
   scene(): NarrativeSceneSnapshot;
@@ -246,6 +248,8 @@ export function installDebugApi(chapter: ChapterApp): GameDebugApi {
       scoreExercise(combatOutcome(requireTactical(chapter).combat, requireTactical(chapter).playerTeam)),
 
     setAiDelay: (ms: number) => requireTactical(chapter).setAiDelay(ms),
+
+    tacticalRenderStats: () => chapter.tactical?.renderStats() ?? null,
 
     scene: () => chapter.sceneSnapshot(),
 
