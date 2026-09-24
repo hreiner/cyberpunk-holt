@@ -129,6 +129,27 @@ et 3.4 ; puis 3.6 ; puis 3.7 ; enfin 3.8.
 
 ---
 
+## Epic 4 — la refonte visuelle
+
+Le chapitre 1 est jouable de bout en bout ; il ne ressemble pas encore à grand-chose.
+Cette epic ne touche pas au gameplay : elle habille ce qui existe. Décisions :
+[ADR 0017](adr/0017-habillage-exploration-declaratif.md),
+[ADR 0018](adr/0018-lumieres-locales-luminaires-et-matieres-procedurales.md).
+Références : [`../art/EXPLORATION-VISUAL-DESIGN.md`](../art/EXPLORATION-VISUAL-DESIGN.md),
+[`../art/ROOM-COMPOSITION.md`](../art/ROOM-COMPOSITION.md).
+
+| Passe | Contenu | État |
+|---|---|---|
+| A | **Cohérence du décor** : un document d'usage par pièce, les dix-sept pièces recomposées dessus ; catalogue de modèles avec emprise déclarée et test d'accord avec la carte de collision | fait |
+| B | **Personnages en combat** : les humanoïdes animés de l'exploration remplacent les capsules ; couleur d'équipe aux épaulettes, émissif sur l'unité active, échelle et éclairage revus | fait |
+| C | **Matières et lumières locales** : murs distincts des sols, linoléum des pièces propres, les luminaires du décor éclairent vraiment | fait |
+| D | **Matières photo** : textures CC0 pour les grandes surfaces, échelle et répétition traitées | en cours |
+| E | **La cour tactique** : conteneurs et terrain, palette désaturée conforme à la direction artistique | à faire |
+| F | **Revue visuelle de bout en bout** : une partie complète regardée écran par écran, performances sur la cible | à faire |
+
+Ce qui reste hors de cette epic et attend toujours : les portraits et la musique (lot 2.11),
+l'export du dossier au joueur (lot 2.12).
+
 ## Après le chapitre 1
 
 Rien n'est décidé, et c'est volontaire. Les questions qui se poseront :
