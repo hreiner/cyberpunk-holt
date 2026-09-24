@@ -73,6 +73,19 @@
  *   cour.portail (zone)     -> pas un dialogue : tampon "CONTACT" + passage au mode
  *                              tactique (08-EXPLORATION.md "Passer au combat"), câblage
  *                              dans `ChapterApp.completeExploreScene` (src/chapter.ts).
+ *                              Type et id inchangés à dessein (voir 09-MAPS-CHAPTER-1.md et
+ *                              tests/unit/sceneRouterExplore.test.ts, "la cour mène au combat
+ *                              tactique") : la zone reste le déclencheur officiel, "un filet".
+ *   cour.portail-porte (object) -> aucun dialogue, aucun effet propre : une affordance VISIBLE
+ *                              (survol + clic) posée à l'intérieur de la cour, au-delà du seuil,
+ *                              pour qu'il y ait quelque chose à viser au lieu de marcher au
+ *                              hasard jusqu'à franchir une zone invisible (correctif, voir
+ *                              l'orchestrateur). Sa case d'interaction la plus proche retombe
+ *                              TOUJOURS dans l'aire de `cour.portail` (vérifié par construction :
+ *                              la case posée est au-delà de la zone, ses voisines franchissables
+ *                              aussi) : cliquer dessus fait marcher le meneur À TRAVERS la zone,
+ *                              qui se déclenche donc normalement au passage -- aucun second
+ *                              chemin de complétion d'objectif à maintenir.
  *
  * `tacticalArea` : la cour (voir ci-dessus). Le reste du lieu n'a pas de combat propre.
  */
@@ -266,6 +279,10 @@ const ENTITIES: EntityDef[] = [
     id: 'salle1.panneau-porte',
     type: 'object',
     cell: { x: 26, y: 51 }, // sur la case de la porte hall <-> salle 1
+    // Posée sur le seuil : `roomAt` n'y trouve aucune pièce (mur/porte), donc sans ce champ
+    // l'entité serait traitée comme un couloir, "toujours visible" -- fuite réelle constatée en
+    // arrivant à l'étape 'salle1' encore côté hall (voir EntityBase.thresholdRoomId).
+    thresholdRoomId: 'salle1',
     label: 'Pirater le panneau de la porte',
     condition: etape('salle1'),
     // Complète l'objectif de la salle (lot 3.7b, voir CHAPTER_1_SCENES "ch1.salle1") : joue
@@ -365,6 +382,17 @@ const ENTITIES: EntityDef[] = [
     area: { origin: { x: 13, y: 19 }, width: 18, height: 2 },
     condition: etape('cour'),
   },
+  {
+    // Affordance visible du seuil (voir l'en-tête) : au-delà de la zone (y = 19-20), donc
+    // toute case d'interaction adjacente reste DANS la zone ou juste avant elle en venant du
+    // sud -- cliquer dessus fait traverser `cour.portail` au meneur, qui se déclenche alors
+    // normalement. Pas de dialogue, pas de `label` de porte : un point à viser, rien de plus.
+    id: 'cour.portail-porte',
+    type: 'object',
+    cell: { x: 21, y: 19 },
+    label: 'Franchir le portail',
+    condition: etape('cour'),
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -377,7 +405,11 @@ const SPAWNS: Record<string, { x: number; y: number }> = {
   salle1: { x: 22, y: 47 },
   salle2: { x: 22, y: 37 },
   salle3: { x: 22, y: 27 },
-  cour: { x: 21, y: 10 },
+  // Au SUD du portail (`cour.portail`, aire y = 19-20), côté salle 3 : un joueur qui recharge
+  // pendant cette étape réapparaît avant le déclencheur, jamais déjà au-delà (défaut réel
+  // constaté par l'orchestrateur -- l'ancien spawn {21,10} était au nord de la zone, donc déjà
+  // "franchi" à froid, avec l'objectif "Franchir le portail" derrière soi).
+  cour: { x: 21, y: 24 },
 };
 
 /* ------------------------------------------------------------------ */

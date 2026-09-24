@@ -187,7 +187,7 @@ en scène qui change :
 | Salle 3 | `zone` à l'entrée | la porte se verrouille, le gaz |
 | Salle 3 | `object` ordinateur | rester : jets de Résistance, la vidéo du parcours adverse |
 | Salle 3 | `door` nord | sortir vite |
-| Cour | `zone` portail | « CONTACT » → combat |
+| Cour | `zone` portail (déclencheur officiel) + `object` affordance visible juste au-delà | « CONTACT » → combat |
 
 Le format de dialogue gagne pour cela un **nœud d'entrée** choisi par l'entité
 (`dialogueId` + `startNode`), voir [`07-DIALOGUE-FORMAT.md`](07-DIALOGUE-FORMAT.md).
@@ -197,3 +197,12 @@ fin de la conversation ; un clic sur la porte fait ensuite avancer vers la salle
 refermer le battant. Après un rechargement en salle 2, la porte retrouve son état ouvert
 si cette conversation est déjà terminée. La porte peut aussi être abordée directement
 sans ouvrir l'armoire.
+
+Le portail de la cour reste porté par une `zone` (`cour.portail`, déclencheur officiel de
+l'objectif — inchangé, voir `tests/unit/sceneRouterExplore.test.ts`) : « le portail est un seuil,
+pas une porte, et l'affrontement doit se voir venir » (08-EXPLORATION.md). Une entité `object`
+supplémentaire (`cour.portail-porte`), sans dialogue ni effet propre, est posée juste au-delà du
+seuil pour donner au joueur quelque chose à voir, survoler et cliquer — sa case d'interaction
+retombe dans l'aire de la zone, donc y marcher pour l'atteindre la déclenche normalement. Le point
+d'apparition à froid de l'étape (`SPAWNS.cour`) reste au sud du portail, côté salle 3 : un
+rechargement pendant cette étape ne doit jamais replacer le joueur déjà au-delà du déclencheur.

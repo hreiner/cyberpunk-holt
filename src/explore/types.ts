@@ -52,6 +52,18 @@ interface EntityBase {
   cell: Cell;
   /** Condition d'apparition/activation (format des dialogues, réutilisé tel quel). */
   condition?: Condition;
+  /**
+   * Pièce dont la découverte gouverne la visibilité de cette entité, pour une entité posée sur
+   * un SEUIL (case de mur/porte) : `roomAt(cell)` n'y trouve alors aucune pièce (les rectangles
+   * de `MapDef.rooms` couvrent l'intérieur, jamais les murs), et `isEntityVisible` la traiterait
+   * par défaut comme un couloir/extérieur, "toujours visible" -- fuite réelle constatée pour
+   * `salle1.panneau-porte`, posé exactement sur la porte hall <-> salle 1 (08-EXPLORATION.md "La
+   * découverte des lieux" : "une entité posée sur le seuil d'une pièce suit la découverte de la
+   * pièce qu'elle ouvre"). Sans effet si l'entité est déjà dans une pièce (`roomAt` la trouve
+   * directement), et sans effet sur `door`/`exit`/`zone` : ces types restent structurels, jamais
+   * gouvernés par la découverte (voir `ExploreState.isEntityVisible`).
+   */
+  thresholdRoomId?: string;
 }
 
 /** Verbe + cible affichés au survol, ex. "Parler à John". Absent : un libellé par défaut est dérivé du type. */

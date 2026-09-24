@@ -20,6 +20,7 @@ import type {
   MapDef,
   ObjectiveDef,
   ObjectiveTask,
+  RoomDef,
 } from './types';
 
 /** Cases parcourues par seconde. Leader : 08-EXPLORATION.md "Contrôles". */
@@ -391,9 +392,20 @@ export class ExploreState {
   private isEntityVisible(e: EntityDef): boolean {
     if (!this.isEntityActive(e)) return false;
     if (e.type !== 'npc' && e.type !== 'object' && e.type !== 'seat') return true;
-    const room = roomAt(this.map.def, e.cell);
+    const room = roomAt(this.map.def, e.cell) ?? this.thresholdRoom(e);
     if (!room) return true;
     return this.isRoomDiscovered(room.id);
+  }
+
+  /**
+   * Repli de `isEntityVisible` pour une entité posée sur un seuil (`e.thresholdRoomId`, voir
+   * `EntityBase`) : `roomAt` ne trouve rien sur une case de mur/porte, donc cette entité
+   * resterait sans ça "toujours visible" comme un couloir, au lieu de suivre la découverte de
+   * la pièce qu'elle ouvre.
+   */
+  private thresholdRoom(e: EntityDef): RoomDef | undefined {
+    if (!e.thresholdRoomId) return undefined;
+    return this.map.def.rooms.find((r) => r.id === e.thresholdRoomId);
   }
 
   private checkZones(): void {

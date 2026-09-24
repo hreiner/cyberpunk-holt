@@ -212,6 +212,9 @@ export const HOLT_VISUALS: ExploreVisualMapDef = {
       model: 'square-basin',
       cell: anchor(30, 25, 3, 3),
       footprint: rect(30, 25, 3, 3),
+      // Sans `replaces`, le rendu générique des cases (désormais `o`, mobilier bas -- voir
+      // holt.ts) restait dessiné SOUS/À CÔTÉ du modèle "square-basin", d'où un doublon visuel.
+      replaces: rect(30, 25, 3, 3),
       roomId: 'cour-interieure',
     },
     {

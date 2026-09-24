@@ -76,12 +76,21 @@ const PARTY_RING_COLOR = 0x4cc9f0;
  * Sol d'une pièce NON découverte (08-EXPLORATION.md "La découverte des lieux") : une masse
  * sombre UNIFORME, jamais teintée par pièce ("une pièce vide et une pièce pleine doivent se
  * ressembler tant qu'on n'y est pas entré, sinon la découverte ne cache rien") -- nettement
- * plus sombre que `GROUND_COLOR`, mais pas un noir pur : on doit lire "masse sombre", pas "trou".
- * Ce côté-ci n'a pas bougé au correctif du lot 3.7c (`discoveredFloorColor`) : la vérification
- * visuelle initiale le lisait déjà bien comme une forme sombre, pas un trou -- seul le côté
- * "découvert" manquait de punch.
+ * plus sombre que le sol éclairé d'une pièce connue, mais pas un noir pur : on doit lire "masse
+ * sombre", pas "trou".
+ *
+ * Valeur choisie nettement AU-DESSUS de la couleur de fond/brouillard de la scène
+ * (`0x14151a`, voir le constructeur) : l'ancienne valeur (`0x121218`) en était si proche (à
+ * quelques crans de 255 près sur chaque canal) qu'une pièce cachée se fondait purement et
+ * simplement dans le vide derrière elle -- un vrai trou, exactement ce que la règle interdit,
+ * mesuré en jeu par lecture de pixel sur le rendu (`toDataURL`/`getImageData`), pas seulement à
+ * l'œil. `0x121218` restait pourtant correct tant que le sol de base était encore un simple
+ * `THREE.MeshStandardMaterial` sans texture ni brouillard à l'échelle de l'académie (comparaison
+ * historique plus haute que celle-ci, avant le lot d'habillage déclaratif) : le défaut n'était
+ * pas visible à l'époque du correctif du lot 3.7c cité plus haut, il l'est devenu avec le fond/
+ * brouillard actuels.
  */
-const HIDDEN_ROOM_COLOR = 0x121218;
+const HIDDEN_ROOM_COLOR = 0x34363c;
 
 /**
  * Zoom continu (08-EXPLORATION.md "Contrôles") : bornes propres à l'exploration, distinctes
@@ -1140,10 +1149,15 @@ export class ExploreView {
     const discovered = new Set(ids);
     this.discoveredRoomIds.clear();
     for (const id of discovered) this.discoveredRoomIds.add(id);
+    // Le sol de base (couloirs/extérieurs, toujours éclairé) n'est reconstruit qu'une fois
+    // (`buildRoomFloors`/`floorMaterial` à la construction) : sans repasser ici à chaque image,
+    // sa texture réseau (`coldConcrete`) resterait indéfiniment absente une fois chargée après
+    // coup -- voir `applyFloorVisibility`.
+    this.applyFloorVisibility(this.floorPlane.material as THREE.MeshStandardMaterial, true);
     for (const [roomId, floor] of this.roomFloors) {
       const room = this.roomsById.get(roomId);
       const shown = room?.alwaysDiscovered === true || discovered.has(roomId);
-      (floor.material as THREE.MeshStandardMaterial).color.setHex(shown ? 0xffffff : HIDDEN_ROOM_COLOR);
+      this.applyFloorVisibility(floor.material as THREE.MeshStandardMaterial, shown);
     }
     for (const [roomId, parts] of this.roomDecor) {
       const shown = discovered.has(roomId);
@@ -1318,20 +1332,49 @@ export class ExploreView {
   private floorMaterial(discovered: boolean, width: number, height: number): THREE.MeshStandardMaterial {
     const key = this.def.id === 'centre-examen' ? 'coldConcrete' : 'creamConcrete';
     const material = this.architectureMaterials.get(key).clone();
-    const texture = material.map?.clone();
+    const source = material.map;
+    const texture = source?.clone();
     if (texture) {
       // Une répétition par grande plage suffit : les précédentes répétitions tous les 3 m
       // faisaient lire le sol comme une grille de rectangles indépendante du lieu.
       const textureSpan = this.def.id === 'centre-examen' ? 29 : 12;
       texture.repeat.set(Math.max(1, width / textureSpan), Math.max(1, height / textureSpan));
-      texture.needsUpdate = true;
-      material.map = texture;
       this.cellTextures.add(texture);
     }
-    material.color.setHex(discovered ? 0xffffff : HIDDEN_ROOM_COLOR);
+    material.userData.floorTexture = texture ?? null;
+    material.map = null; // `applyFloorVisibility` (appelée juste en dessous) pose l'état réel.
     material.roughness = 0.9;
     this.cellMaterials.add(material);
+    this.applyFloorVisibility(material, discovered);
     return material;
   }
 
+  /**
+   * Pose la couleur ET la texture d'un sol de pièce selon sa découverte -- construction
+   * (`floorMaterial`) et bascule en cours de partie (`setDiscoveredRooms`) partagent cette
+   * même règle. Deux raisons de ne PAS attribuer la texture telle quelle :
+   * - Sol d'une pièce NON découverte : une masse sombre UNIFORME, sans la texture de matière
+   *   (08-EXPLORATION.md "une pièce vide et une pièce pleine doivent se ressembler" -- même la
+   *   matière ne doit pas se deviner). Sans ça, `HIDDEN_ROOM_COLOR` se MULTIPLIE à l'albédo de
+   *   la texture (elle-même loin du blanc) et le résultat lit comme un trou noir, pas une masse
+   *   sombre lisible -- défaut réel constaté en jeu.
+   * - La matière du centre d'examen (`coldConcrete`) charge son image en réseau
+   *   (`EnvironmentMaterials.get`) : à la construction, son clone n'a PAS encore d'image.
+   *   Attribuer quand même la texture (et forcer `needsUpdate`) déclenche "Texture marked for
+   *   update but no image data found" -- le rendu tente d'envoyer une image qui n'existe pas
+   *   encore. Ne l'attribuer qu'une fois `texture.image` prêt règle les deux à la fois : la
+   *   pièce garde sa teinte plate le temps très bref du chargement (aucun `Math.random()`
+   *   concerné, juste une latence réseau), puis reçoit sa matière dès que `setDiscoveredRooms`
+   *   la revoit prête -- appelée à chaque image de la boucle de rendu (`ExploreSession.syncVisibility`),
+   *   donc au plus une image de retard, jamais un état figé sans texture.
+   */
+  private applyFloorVisibility(material: THREE.MeshStandardMaterial, discovered: boolean): void {
+    const texture = (material.userData.floorTexture as THREE.Texture | null | undefined) ?? null;
+    const nextMap = discovered && texture?.image ? texture : null;
+    if (material.map !== nextMap) {
+      material.map = nextMap;
+      material.needsUpdate = true;
+    }
+    material.color.setHex(discovered ? 0xffffff : HIDDEN_ROOM_COLOR);
+  }
 }

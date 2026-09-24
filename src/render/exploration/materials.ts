@@ -85,7 +85,15 @@ export class EnvironmentMaterials {
     if (existing) return existing;
     const palette = PALETTE[key];
     // Le centre reçoit une seule matière photo CC0, à basse répétition : elle casse les grands aplats
-    // sans introduire un atlas lourd ni des variations aléatoires dans le rendu.
+    // sans introduire un atlas lourd ni des variations aléatoires dans le rendu. Chargement réseau
+    // asynchrone : l'image n'existe pas encore à cet instant, `TextureLoader` la posera elle-même
+    // sur `texture.image` et marquera `needsUpdate` UNE FOIS chargée (comportement par défaut de
+    // three.js). Les consommateurs qui ont besoin d'un clone indépendant (ex. `ExploreView.floorMaterial`,
+    // un `repeat` propre par pièce) doivent attendre `texture.image` avant de l'attribuer ou de
+    // forcer `needsUpdate` sur LEUR clone : `Texture.clone()` n'est qu'un instantané des propriétés
+    // au moment de l'appel, pas un lien vivant vers cette texture partagée -- un clone pris trop tôt
+    // ne recevrait jamais l'image chargée par la suite, et marquer `needsUpdate` sur un clone sans
+    // image déclenche "Texture marked for update but no image data found" (défaut réel constaté).
     const texture =
       key === 'coldConcrete'
         ? new THREE.TextureLoader().load('/assets/exploration/concrete-diff-1k.jpg')

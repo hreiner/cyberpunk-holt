@@ -193,7 +193,14 @@ fillBlock(27, 13, 4, 1, 'T'); // sas et console de présence
 
 // Cour intérieure : jardin (végétation), arbre, bassin carré.
 setChar(31, 20, 'T'); // arbre
-fillBlock(30, 25, 3, 3, '='); // bassin carré
+// `o` (mobilier bas -- bloque le passage, pas la vue), pas `=` (vitre/grille) : `=` rend une
+// vitre VERTICALE de 3 m (voir `ExploreView`, "structurelle... jamais cachée par la
+// découverte, comme les murs"), ce qui donne un panneau de verre plat qui semble flotter au
+// milieu de la cour sans mur pour le porter -- défaut réel constaté en jeu. Le rendu du bassin
+// vient de l'habillage déclaratif (`cour.bassin`, src/data/exploreVisuals/holt.ts), posé au
+// niveau du sol ; `o` ne sert plus ici qu'à la collision, la géométrie générique est retirée du
+// rendu par `replaces` sur ce placement.
+fillBlock(30, 25, 3, 3, 'o'); // bassin carré (voir cour.bassin dans exploreVisuals/holt.ts)
 for (const [x, y] of [
   [27, 18],
   [36, 18],

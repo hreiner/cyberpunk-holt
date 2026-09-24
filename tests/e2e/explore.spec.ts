@@ -43,22 +43,60 @@ async function exploreCanvasSize(page: Page): Promise<{ width: number; height: n
  * Trouve une entité à partir du vrai survol du canvas. La caméra isométrique reste privée à
  * `ExploreView` : le test ne duplique donc ni sa projection ni le raycast, il reproduit les
  * événements navigateur que reçoit le joueur et lit l'étiquette de survol publique du HUD.
+ *
+ * Réessaie le balayage entier (borné, voir `attempts`) plutôt que de le lancer une seule fois :
+ * l'entrée d'une étape recentre la caméra pendant 450 ms (`RECENTER_DURATION_S`,
+ * src/render/isoCamera.ts) -- amorti, donc en mouvement continu tant que ce n'est pas fini. Le
+ * balayage dispatche ses `pointermove` de façon SYNCHRONE (une seule tâche JS, aucune image ne
+ * s'affiche pendant son déroulement) : lancé pendant ce recentrage, il pique la caméra à une
+ * position intermédiaire qui n'est déjà plus la bonne l'instant d'après -- pas un défaut de
+ * picking en jeu (aucun joueur réel ne clique dans les premières millisecondes d'une scène), un
+ * artefact du balayage instantané. Une seule pause fixe avant le balayage est fragile sous
+ * charge (plusieurs navigateurs Playwright en parallèle peuvent retarder la première image bien
+ * au-delà de 450 ms) ; réessayer jusqu'à ce que la caméra soit réellement stable est la version
+ * fiable de la même idée.
  */
-async function canvasPointForLabel(page: Page, label: string): Promise<{ x: number; y: number }> {
-  const point = await page.evaluate((expectedLabel) => {
-    const canvas = document.querySelector<HTMLCanvasElement>('.chapter-host-explore canvas');
-    const hoverLabel = document.querySelector<HTMLElement>('[data-testid=explore-hover-label]');
-    if (!canvas || !hoverLabel) return null;
-    const rect = canvas.getBoundingClientRect();
-    for (let y = rect.top; y < rect.bottom; y += 4) {
-      for (let x = rect.left; x < rect.right; x += 4) {
-        canvas.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: x, clientY: y }));
-        if (hoverLabel.textContent === expectedLabel && hoverLabel.style.display !== 'none') return { x, y };
+async function canvasPointForLabel(page: Page, label: string, attempts = 20): Promise<{ x: number; y: number }> {
+  const sweepOnce = (expectedLabel: string) =>
+    page.evaluate((lbl) => {
+      const canvas = document.querySelector<HTMLCanvasElement>('.chapter-host-explore canvas');
+      const hoverLabel = document.querySelector<HTMLElement>('[data-testid=explore-hover-label]');
+      if (!canvas || !hoverLabel) return null;
+      const rect = canvas.getBoundingClientRect();
+      for (let y = rect.top; y < rect.bottom; y += 4) {
+        for (let x = rect.left; x < rect.right; x += 4) {
+          canvas.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: x, clientY: y }));
+          if (hoverLabel.textContent === lbl && hoverLabel.style.display !== 'none') return { x, y };
+        }
       }
-    }
-    return null;
-  }, label);
-  expect(point, `entité « ${label} » introuvable au survol du canvas`).not.toBeNull();
+      return null;
+    }, expectedLabel);
+
+  let point: { x: number; y: number } | null = null;
+  for (let i = 0; i < attempts && !point; i++) {
+    if (i > 0) await page.waitForTimeout(150);
+    const candidate = await sweepOnce(label);
+    if (!candidate) continue;
+    // Un survol trouvé n'est pas forcément encore VALIDE une image plus tard : un coéquipier en
+    // train de rattraper sa position de filature (08-EXPLORATION.md "Le groupe") peut glisser
+    // devant la case visée entre le balayage et le clic réel, qui arrive après ce balayage
+    // synchrone -- défaut réel constaté (le même pixel change de cible d'une image à l'autre).
+    // Laisser passer une image puis revérifier CE point précis filtre ces faux positifs sans
+    // reprendre tout le balayage à chaque fois.
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    const stillThere = await page.evaluate(
+      ({ x, y, expectedLabel }) => {
+        const canvas = document.querySelector<HTMLCanvasElement>('.chapter-host-explore canvas');
+        const hoverLabel = document.querySelector<HTMLElement>('[data-testid=explore-hover-label]');
+        if (!canvas || !hoverLabel) return false;
+        canvas.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: x, clientY: y }));
+        return hoverLabel.textContent === expectedLabel && hoverLabel.style.display !== 'none';
+      },
+      { x: candidate.x, y: candidate.y, expectedLabel: label },
+    );
+    if (stillThere) point = candidate;
+  }
+  expect(point, `entité « ${label} » introuvable (ou instable) au survol du canvas après ${attempts} balayages`).not.toBeNull();
   if (!point) throw new Error(`entité « ${label} » introuvable au survol du canvas`);
   return point;
 }
@@ -262,6 +300,9 @@ test('les clics canvas sur le panneau puis la porte traversent les salles 1 et 2
   await boot(page, 'ch1.salle1', 'e2e-explore-semantic-pick');
   // La salle doit avoir été découverte avant que son contenu soit une cible visuelle.
   await page.evaluate(() => window.__game.walkTo(22, 47));
+  // Voir la docstring de `canvasPointForLabel` : l'entrée d'étape recentre la caméra pendant
+  // 450 ms, en cours juste après `boot()`. Le balayage réessaie donc jusqu'à ce qu'elle soit
+  // stable plutôt que de dépendre d'une pause fixe.
   const point = await canvasPointForLabel(page, 'Pirater le panneau de la porte');
 
   // Vrai clic navigateur : ce test protège le raccord objet 3D -> raycast -> interaction,
@@ -273,9 +314,22 @@ test('les clics canvas sur le panneau puis la porte traversent les salles 1 et 2
 
   await traverseDialogue(page);
   expect(await advanceScene(page)).toMatchObject({ id: 'ch1.salle2', kind: 'explore' });
-  // L'entrée de la nouvelle salle recentre la caméra pendant 450 ms. Un point obtenu au
-  // survol pendant ce mouvement n'est plus sous la souris au moment du vrai clic.
-  await page.waitForTimeout(500);
+  // Salle 1 -> salle 2 ne téléporte pas (même carte, voir `ExploreSession.enterStep`) : Franklyn
+  // reste au SEUIL sud de "salle2" (là où le panneau vient de le faire entrer), à l'autre bout
+  // de la pièce (9 cases) de la porte nord visée ensuite. Recentrer la caméra à cet instant
+  // (`enterExploreScene`) la centre donc sur ce seuil, PAS sur la porte -- une salle 2 entière
+  // (18 x 9) déborde largement du cadre d'exploration à ce zoom, portant la porte tout au bord,
+  // voire hors champ. Un vrai joueur marcherait d'abord vers la pièce avant de viser la porte
+  // suivante ; `walkTo` + `C` (recentrage manuel, 08-EXPLORATION.md "Contrôles") reproduit
+  // exactement ce geste, plutôt que de laisser le balayage chasser un pixel à peine visible dans
+  // un coin -- défaut réel de cadrage identifié en jeu (pas un picking mort), corrigé ici où il
+  // se manifeste plutôt que dans le rendu, faute de contrat public pour le recentrage automatique.
+  // (23, 37) plutôt qu'une case collée à la porte : trop près, le meneur ET ses deux coéquipiers
+  // (filature, 08-EXPLORATION.md "Le groupe") finissent masser exactement devant elle et la
+  // recouvrent à l'écran -- constaté en jeu, un vrai joueur ne resterait de toute façon pas planté
+  // sur le seuil qu'il vient de viser.
+  await page.evaluate(() => window.__game.walkTo(23, 37));
+  await page.keyboard.press('c');
   const doorPoint = await canvasPointForLabel(page, 'Franchir la porte nord');
   expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.tagName, doorPoint)).toBe('CANVAS');
   await page.mouse.click(doorPoint.x, doorPoint.y);
