@@ -15,6 +15,8 @@ class PropGeometryLibrary {
   readonly drum = new THREE.CylinderGeometry(0.29, 0.29, 0.86, 12);
   readonly ring = new THREE.TorusGeometry(2.1, 0.07, 6, 40);
   readonly routeArrow = new THREE.BufferGeometry();
+  /** Tache de contact au sol, réutilisée par les objets suspendus (voir `attachGroundContact`). */
+  readonly groundBlob = new THREE.PlaneGeometry(1, 1);
   constructor() {
     // Chevron pointant vers -Z : c'est la rotation du placement qui choisit la sortie visée.
     this.routeArrow.setAttribute('position', new THREE.Float32BufferAttribute([
@@ -32,6 +34,7 @@ class PropGeometryLibrary {
     this.drum.dispose();
     this.ring.dispose();
     this.routeArrow.dispose();
+    this.groundBlob.dispose();
   }
 }
 function box(
@@ -342,12 +345,24 @@ function pipeRun(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THR
  * Réglette : c'est une LUMIÈRE, donc le tube émissif doit primer et le corps
  * rester mince. Un boîtier épais vu de dessus en isométrie ne lit que comme une
  * barre noire suspendue — défaut constaté sur la première manche de captures.
+ *
+ * Passe C (matières et lumière) : elle porte maintenant une vraie `THREE.PointLight`, pas
+ * seulement un matériau émissif -- ADR 0018 "un émissif seul n'éclaire pas les surfaces
+ * voisines" (EXPLORATION-VISUAL-DESIGN.md). Portée courte, pas d'ombre projetée (une de plus
+ * coûterait cher pour un gain minime à cette échelle) : c'est la lumière la moins chère qui
+ * obtient l'effet. Elle est enfant du groupe du placement, donc `ExploreDressing.syncVisibility`
+ * l'éteint gratuitement avec la pièce (objet masqué = lumière ignorée par le renderer).
+ * Climat différent par lieu : blanc froid institutionnel à l'académie, cyan plus sourd et plus
+ * faible au centre ("ce qui marche encore", pas une ambiance uniforme).
  */
-function stripLight(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+function stripLight(materials: EnvironmentMaterials, kit: PropGeometryLibrary, isCentre: boolean): THREE.Group {
   const group = new THREE.Group();
   box(group, kit, materials.get('darkMetal'), 0, 2.54, 0, 1.5, 0.07, 0.18);
   box(group, kit, materials.get('cyanSignal'), 0, 2.44, 0, 1.62, 0.1, 0.3);
   for (const x of [-0.6, 0.6]) box(group, kit, materials.get('darkMetal'), x, 2.7, 0, 0.05, 0.3, 0.05);
+  const light = new THREE.PointLight(isCentre ? 0x49c7d6 : 0xe9f6ff, isCentre ? 1.1 : 1.6, isCentre ? 3.6 : 4.6, 2);
+  light.position.set(0, 2.4, 0);
+  group.add(light);
   return group;
 }
 /**
@@ -355,6 +370,12 @@ function stripLight(materials: EnvironmentMaterials, kit: PropGeometryLibrary): 
  * indispensables : sans eux, le globe rouge flotte en l'air au milieu de la
  * pièce, sans rien dessous — défaut constaté au hall du centre sur la manche de
  * captures. Ce modèle se pose donc TOUJOURS sur une case au contact d'un mur.
+ */
+/**
+ * Gyrophare mural. Porte désormais une vraie lumière (voir `stripLight`) : "une balise pose
+ * une lueur" (ADR 0018). Rouge et rare par construction -- une poignée d'instances par carte
+ * (UI-DESIGN-SYSTEM.md "le rouge est rare" : la règle vaut d'abord pour l'encre du HUD, mais la
+ * même discipline s'applique ici, on ne sème pas de rouge partout).
  */
 function warningBeacon(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
   const group = new THREE.Group();
@@ -369,6 +390,9 @@ function warningBeacon(materials: EnvironmentMaterials, kit: PropGeometryLibrary
   globe.position.set(0, 2.14, -0.08);
   group.add(globe);
   box(group, kit, dark, 0, 2.3, -0.08, 0.3, 0.09, 0.28);
+  const light = new THREE.PointLight(0xff4a3c, 0.95, 3.2, 2);
+  light.position.set(0, 2.14, -0.08);
+  group.add(light);
   return group;
 }
 function equipmentCage(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
@@ -533,7 +557,33 @@ function signalPylon(materials: EnvironmentMaterials, kit: PropGeometryLibrary):
   box(group, kit, materials.get('darkMetal'), 0, 0.12, 0, 0.92, 0.16, 0.72);
   return group;
 }
-function simple(model: string, materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+/**
+ * Casier ouvert de Franklyn : porte entrouverte penchée contre la rangée, sac de sport et
+ * vêtement plié au pied. C'est le fantôme du dortoir (`OBJECT_COLOR` flottant, aucun modèle
+ * dédié) devenu lisible -- "les traces personnelles des cadets" (EXPLORATION-VISUAL-DESIGN.md
+ * §1). Posé sur une case franchissable (occupancy `flat`) : bas et hors de l'allée, on marche
+ * à côté, jamais au travers d'un meuble plein qui n'existe pas ici.
+ */
+function personalLocker(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  box(group, kit, materials.get('wornMetal'), -0.26, 0.58, -0.36, 0.46, 1.14, 0.04);
+  box(group, kit, materials.get('petrolPaint'), 0.2, 0.14, -0.06, 0.44, 0.26, 0.24);
+  box(group, kit, materials.get('darkMetal'), 0.2, 0.29, -0.06, 0.28, 0.045, 0.15);
+  box(group, kit, materials.get('linen'), -0.08, 0.045, 0.26, 0.32, 0.055, 0.22);
+  return group;
+}
+/**
+ * Grille de sol technique, au pied des transformateurs : le second fantôme (entité
+ * "Écouter le local technique" sans modèle dédié). Basse et posée, elle ne prétend pas être un
+ * meuble -- juste le repère au sol d'un point d'écoute, cohérent avec le bourdonnement du texte.
+ */
+function floorVent(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  box(group, kit, materials.get('darkMetal'), 0, 0.02, 0, 0.6, 0.03, 0.42);
+  for (let x = -0.22; x <= 0.22; x += 0.11) box(group, kit, materials.get('wornMetal'), x, 0.032, 0, 0.035, 0.012, 0.36);
+  return group;
+}
+function simple(model: string, materials: EnvironmentMaterials, kit: PropGeometryLibrary, isCentre: boolean): THREE.Group {
   const group = new THREE.Group();
   if (model === 'courtyard-tree') {
     post(group, kit, materials.get('wood'), 0, 0, 1.35);
@@ -603,8 +653,10 @@ function simple(model: string, materials: EnvironmentMaterials, kit: PropGeometr
     return group;
   }
   if (model === 'pipe-run') return pipeRun(materials, kit);
-  if (model === 'strip-light') return stripLight(materials, kit);
+  if (model === 'strip-light') return stripLight(materials, kit, isCentre);
   if (model === 'warning-beacon') return warningBeacon(materials, kit);
+  if (model === 'locker-open') return personalLocker(materials, kit);
+  if (model === 'floor-grate') return floorVent(materials, kit);
   if (model === 'equipment-cage') return equipmentCage(materials, kit);
   if (model === 'k9-course-gate') return k9CourseGate(materials, kit);
   if (model === 'gas-rack') return gasRack(materials, kit);
@@ -653,6 +705,7 @@ export function createEnvironmentProp(
   placement: ExploreVisualPlacement,
   materials: EnvironmentMaterials,
   kit: PropGeometryLibrary,
+  isCentre: boolean,
 ): THREE.Group {
   switch (placement.model) {
     case 'bed-cadet':
@@ -725,33 +778,78 @@ export function createEnvironmentProp(
     case 'overhead-service-gantry':
     case 'signal-pylon':
     case 'exit-chevrons':
-      return simple(placement.model, materials, kit);
+    case 'locker-open':
+    case 'floor-grate':
+      return simple(placement.model, materials, kit, isCentre);
     default:
       throw new Error(`Modèle d’habillage inconnu : ${placement.model as string}`);
   }
 }
+/**
+ * Modèles suspendus qui n'ont, par ailleurs, aucun élément qui touche le sol ni de lumière
+ * propre : sans un repère, ils se lisent comme des barres qui traînent au sol plutôt que comme
+ * un objet accroché en hauteur -- défaut réel constaté (rapporté "des barres sombres traînent
+ * au sol"), racine commune avec le commentaire de `vent-duct` plus haut ("une gaine sombre ne se
+ * lit que comme une barre flottante"). `strip-light`/`warning-beacon` n'en ont pas besoin : leur
+ * lumière propre (voir plus haut) crée déjà une flaque au sol qui les ancre.
+ */
+const OVERHEAD_GROUND_CONTACT = new Set(['vent-duct', 'pipe-run', 'overhead-service-gantry']);
+
+/**
+ * Tache de contact au sol sous un objet suspendu : un disque sombre et doux, sans lumière ni
+ * relief, qui donne un "en dessous, séparé" -- la lecture la moins chère d'une suspension sans
+ * plafond ni ombre projetée (celle-ci est désactivée juste au-dessus, voir le commentaire sur
+ * `castShadow`). Dimensionnée sur l'emprise déclarée du modèle (`EXPLORE_VISUAL_MODELS`), donc
+ * cohérente avec la légende affichée dans `docs/art/ROOM-COMPOSITION.md`.
+ */
+function attachGroundContact(
+  object: THREE.Object3D,
+  kit: PropGeometryLibrary,
+  material: THREE.Material,
+  cells: readonly [number, number],
+  rotation: number,
+): void {
+  const [w, h] = rotation === 90 || rotation === 270 ? [cells[1], cells[0]] : cells;
+  const blob = new THREE.Mesh(kit.groundBlob, material);
+  blob.scale.set(Math.max(0.7, w * 0.6), Math.max(0.7, h * 0.6), 1);
+  blob.rotation.x = -Math.PI / 2;
+  blob.position.y = 0.015;
+  object.add(blob);
+}
+
 /** Factory par carte : géométries et matières partagées, ancrage au centre réel de l'emprise. */
 export class EnvironmentPropFactory {
   private readonly kit = new PropGeometryLibrary();
   private readonly factoryModels = new FactoryModels();
   private readonly materials: EnvironmentMaterials;
+  private readonly groundContactMaterial = new THREE.MeshBasicMaterial({
+    color: 0x08090b,
+    transparent: true,
+    opacity: 0.22,
+    depthWrite: false,
+  });
   constructor(
     private readonly cellToWorld: (cell: ExploreVisualPlacement['cell']) => { x: number; z: number },
     rng: Rng,
+    private readonly isCentre: boolean = false,
   ) {
     this.materials = new EnvironmentMaterials(rng);
   }
   create(placement: ExploreVisualPlacement): THREE.Object3D {
     const object = placement.model.startsWith('factory:')
       ? this.factoryModels.create(placement.model)
-      : createEnvironmentProp(placement, this.materials, this.kit);
+      : createEnvironmentProp(placement, this.materials, this.kit, this.isCentre);
+    const model = EXPLORE_VISUAL_MODELS[placement.model];
     // Un objet suspendu au plafond ne projette pas d'ombre : la scène n'a pas de
     // plafond, donc son ombre tomberait en pleine lumière au milieu de la pièce
     // sous forme d'une barre noire posée sur rien -- défaut réel constaté.
-    if (EXPLORE_VISUAL_MODELS[placement.model].occupancy === 'overhead') {
+    if (model.occupancy === 'overhead') {
       object.traverse((child) => {
         if (child instanceof THREE.Mesh) child.castShadow = false;
       });
+      if (OVERHEAD_GROUND_CONTACT.has(placement.model)) {
+        attachGroundContact(object, this.kit, this.groundContactMaterial, model.cells, placement.rotation ?? 0);
+      }
     }
     // Ces petits détails sont montés sur le meuble qui occupe déjà la case :
     // une seule emprise, une seule règle de découverte et aucun obstacle fantôme.
@@ -787,5 +885,6 @@ export class EnvironmentPropFactory {
     this.factoryModels.dispose();
     this.kit.dispose();
     this.materials.dispose();
+    this.groundContactMaterial.dispose();
   }
 }

@@ -317,7 +317,7 @@ export class ExploreView {
     }
     this.dressing = new ExploreDressing(
       visualDef,
-      new EnvironmentPropFactory((cell) => cellToWorld(this.map, cell), rng.fork(`explore:${def.id}`)),
+      new EnvironmentPropFactory((cell) => cellToWorld(this.map, cell), rng.fork(`explore:${def.id}`), isCentre),
     );
     this.root.add(this.dressing.root);
 
@@ -399,7 +399,7 @@ export class ExploreView {
       const initialColor = room.alwaysDiscovered === true;
       const geometry = new THREE.PlaneGeometry(width * EXPLORE_CELL_SIZE_METERS, height * EXPLORE_CELL_SIZE_METERS);
       this.cellGeometries.add(geometry);
-      const plane = new THREE.Mesh(geometry, this.floorMaterial(initialColor, width, height));
+      const plane = new THREE.Mesh(geometry, this.floorMaterial(initialColor, width, height, room.id));
       plane.rotation.x = -Math.PI / 2;
       plane.position.set(wx, 0.006, wz);
       plane.receiveShadow = true;
@@ -475,7 +475,7 @@ export class ExploreView {
     }
     containerBox.setAttribute('color', new THREE.BufferAttribute(containerColors, 3));
     this.cellGeometries.add(containerBox);
-    const wallMat = this.architectureMaterials.get(this.def.id === 'centre-examen' ? 'coldConcreteWall' : 'creamConcrete');
+    const wallMat = this.architectureMaterials.get(this.def.id === 'centre-examen' ? 'coldConcreteWall' : 'creamConcreteWall');
     const containerSteel = this.architectureMaterials.get('containerSteel');
     const containerSides = [0x536f7e, 0x8a5549, 0x93805c].map((color) => {
       const material = containerSteel.clone();
@@ -1328,22 +1328,54 @@ export class ExploreView {
     this.architectureMaterials.dispose();
   }
 
+  /**
+   * Revêtement par pièce (EXPLORATION-VISUAL-DESIGN.md "Valeurs, lumière et matières" :
+   * "les pièces doivent se différencier par leur revêtement autant que par leur teinte") --
+   * la cantine et l'infirmerie sont les deux pièces où la référence attend un sol "stratifié
+   * chaud"/propre plutôt que du béton brut ; le reste de l'académie garde le béton crème.
+   */
+  private static readonly ACADEMY_FLOOR_BY_ROOM: Partial<Record<string, 'creamConcrete' | 'warmLinoleum'>> = {
+    cantine: 'warmLinoleum',
+    infirmerie: 'warmLinoleum',
+  };
+
+  /**
+   * Teinte discrète par pièce, dérivée du RNG visuel (jamais `Math.random()`, AGENTS.md règle 1)
+   * et propre à chaque `roomId` (`fork` stable, comme le reste du décor -- EXPLORATION-VISUAL-
+   * DESIGN.md §4.7 "RNG visuel... fork par placement stable"). Sans elle, toutes les pièces d'une
+   * même matière étaient rigoureusement identiques (blanc pur une fois découvertes) : aucune
+   * variation d'entretien/d'usure d'une pièce à l'autre, ce qui est une bonne part du "beige plat"
+   * constaté. L'écart reste faible (quelques % par canal) : une nuance, jamais une nouvelle couleur.
+   */
+  private roomFloorTint(roomId: string | undefined): THREE.Color {
+    if (!roomId) return new THREE.Color(0xffffff);
+    const local = this.rng.fork(`explore:${this.def.id}:room-tint:${roomId}`);
+    const d = () => (local.next() - 0.5) * 0.09;
+    return new THREE.Color(1 + d(), 1 + d(), 1 + d());
+  }
+
   /** Clone la matière architecturale pour que l'état de découverte teinte chaque sol indépendamment. */
-  private floorMaterial(discovered: boolean, width: number, height: number): THREE.MeshStandardMaterial {
-    const key = this.def.id === 'centre-examen' ? 'coldConcrete' : 'creamConcrete';
+  private floorMaterial(discovered: boolean, width: number, height: number, roomId?: string): THREE.MeshStandardMaterial {
+    const isCentre = this.def.id === 'centre-examen';
+    const key = isCentre
+      ? 'coldConcrete'
+      : (roomId && ExploreView.ACADEMY_FLOOR_BY_ROOM[roomId]) || 'creamConcrete';
     const material = this.architectureMaterials.get(key).clone();
     const source = material.map;
     const texture = source?.clone();
     if (texture) {
       // Une répétition par grande plage suffit : les précédentes répétitions tous les 3 m
-      // faisaient lire le sol comme une grille de rectangles indépendante du lieu.
-      const textureSpan = this.def.id === 'centre-examen' ? 29 : 12;
+      // faisaient lire le sol comme une grille de rectangles indépendante du lieu. Le linoléum
+      // (dalles 0,5 m dessinées dans la texture elle-même) garde une répétition plus resserrée
+      // pour que ses joints restent à une échelle de dalle, pas de plaque de béton.
+      const textureSpan = isCentre ? 29 : key === 'warmLinoleum' ? 6 : 12;
       texture.repeat.set(Math.max(1, width / textureSpan), Math.max(1, height / textureSpan));
       this.cellTextures.add(texture);
     }
     material.userData.floorTexture = texture ?? null;
+    material.userData.discoveredColor = this.roomFloorTint(roomId);
     material.map = null; // `applyFloorVisibility` (appelée juste en dessous) pose l'état réel.
-    material.roughness = 0.9;
+    material.roughness = key === 'warmLinoleum' ? 0.62 : 0.9;
     this.cellMaterials.add(material);
     this.applyFloorVisibility(material, discovered);
     return material;
@@ -1375,6 +1407,8 @@ export class ExploreView {
       material.map = nextMap;
       material.needsUpdate = true;
     }
-    material.color.setHex(discovered ? 0xffffff : HIDDEN_ROOM_COLOR);
+    const discoveredColor = (material.userData.discoveredColor as THREE.Color | undefined) ?? null;
+    if (discovered && discoveredColor) material.color.copy(discoveredColor);
+    else material.color.setHex(discovered ? 0xffffff : HIDDEN_ROOM_COLOR);
   }
 }

@@ -1,11 +1,20 @@
-/** Lumière commune : trois sources seulement, calibrées pour les deux contrastes de lieu. */
+/**
+ * Lumière commune : trois sources globales, plus des lumières locales bon marché posées par
+ * les luminaires du décor (réglettes, balises -- voir `EnvironmentPropFactory`/`props.ts`,
+ * ADR 0018). Les trois globales restent calibrées pour DEUX climats bien séparés
+ * (ART-DIRECTION.md "Lumière", EXPLORATION-VISUAL-DESIGN.md "Valeurs, lumière et matières") :
+ * l'académie institutionnelle, propre, éclairée d'en haut, contre le centre d'examen abandonné
+ * et contrasté, où l'ambiance globale est délibérément SOUS le niveau de l'académie afin que ce
+ * soit visiblement "ce qui marche encore" (les luminaires locaux) qui porte la lecture des
+ * pièces, pas le soleil général.
+ */
 import * as THREE from 'three';
 
 export function addExplorationLighting(scene: THREE.Scene, extent: number, centre: boolean): void {
   // Les trois sources restent fixes : hémisphère, soleil et contre-jour. Le soleil porte
   // désormais les valeurs principales afin que mobilier et seuils dessinent le sol.
-  scene.add(new THREE.HemisphereLight(centre ? 0x80989b : 0xd9d5c9, centre ? 0x27363a : 0x5c5650, centre ? 0.9 : 1.05));
-  const sun = new THREE.DirectionalLight(centre ? 0xdbe7e3 : 0xffeed1, centre ? 3.25 : 4.2);
+  scene.add(new THREE.HemisphereLight(centre ? 0x6c8184 : 0xd9d5c9, centre ? 0x1c2729 : 0x5c5650, centre ? 0.62 : 1.05));
+  const sun = new THREE.DirectionalLight(centre ? 0xc9d9d6 : 0xffeed1, centre ? 2.4 : 4.2);
   // Angle bas : les ombres traversent les pièces et portent la composition au sol.
   sun.position.set(28, 26, 16);
   sun.castShadow = true;

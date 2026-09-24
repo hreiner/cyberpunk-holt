@@ -76,3 +76,5 @@ aucune conversation à retrouver.
 | [0014](process/adr/0014-tirage-franklyn-capitaine-equipes-dynamiques.md)     | Le tirage : Franklyn capitaine, équipes composées par le joueur                                  |
 | [0015](process/adr/0015-concentration-chance-et-triche.md)                   | Concentration, Chance et triche à l'examen                                                       |
 | [0016](process/adr/0016-vue-tactique-ecran-separe.md)                        | Le passage au combat reste une coupure vers un écran tactique séparé                             |
+| [0017](process/adr/0017-habillage-exploration-declaratif.md)                 | Habillage d'exploration déclaratif, séparé du gameplay                                           |
+| [0018](process/adr/0018-lumieres-locales-luminaires-et-matieres-procedurales.md) | Lumières locales bon marché pour les luminaires, matières procédurales enrichies              |

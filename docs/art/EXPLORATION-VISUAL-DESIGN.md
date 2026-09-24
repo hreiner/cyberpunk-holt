@@ -339,9 +339,13 @@ aucun mobilier traversé, interface lisible à 720p, aucun crash ni ressource ou
 ## 7. Décisions à formaliser pendant l'implémentation
 
 - Nouvel ADR, prochain numéro libre : habillage séparé du gameplay et remplacement des
-  blocs ; frontières de responsabilités et gestion de la visibilité.
+  blocs ; frontières de responsabilités et gestion de la visibilité. **Fait** : ADR 0017.
 - Complément d'ART-DIRECTION : exploration picturale, atlas basse résolution autorisés,
   maintien des contraintes de lisibilité ; le texte actuel interdit toutes les textures.
+- Lumières locales pour les luminaires du décor (réglette, balise), au-delà des trois sources
+  globales, avec mise à jour explicite de la règle des trois sources : **fait**, ADR 0018 et
+  ART-DIRECTION.md « Lumière ». Portée courte, sans ombre projetée, désactivées gratuitement
+  avec la pièce (enfant du groupe du placement, suit `ExploreDressing.syncVisibility`).
 - Complément d'ART-PIPELINE : humanoïdes, variantes et poses contextuelles, échelle d'exploration de 1 m contre
   l'échelle tactique existante, propriété et provenance des assets. Ne pas modifier
   globalement l'échelle sous prétexte d'unifier les commentaires anciens.

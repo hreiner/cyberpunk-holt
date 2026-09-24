@@ -40,7 +40,7 @@ d'uniforme, mais la silhouette, coiffure, uniforme et attitude doivent aussi les
 
 ## Lumière
 
-Trois sources, pas une de plus :
+Trois sources globales, pas une de plus, pour la cour tactique :
 
 1. **Hémisphérique** `#8899bb` / `#20202a`, intensité 0,85 — l'ambiance générale.
 2. **Directionnelle chaude** `#fff0d8`, intensité 1,1, avec ombres portées — le soleil bas
@@ -50,6 +50,21 @@ Trois sources, pas une de plus :
 
 Brouillard entre 60 et 160 unités, de la couleur du fond : il efface les bords de la carte
 sans mur artificiel.
+
+**L'exploration** (académie et centre d'examen) garde le même principe de trois sources
+globales (hémisphère, soleil avec ombres, contre-jour froid), mais calibrées pour DEUX climats
+distincts plutôt qu'un seul — voir `EXPLORATION-VISUAL-DESIGN.md` « Valeurs, lumière et
+matières » et `src/render/exploration/atmosphere.ts` pour les valeurs. L'académie reste
+institutionnelle et lumineuse ; l'ambiance globale du centre d'examen est délibérément plus
+basse, pour que ce soit visiblement ce qui fonctionne encore qui porte la lecture des pièces.
+
+**Quatrième catégorie, locale celle-ci** (ADR 0018) : les luminaires du décor déclaratif
+(réglette `strip-light`, balise `warning-beacon` de `src/render/exploration/props.ts`) portent
+chacun une vraie `THREE.PointLight` courte portée, sans ombre projetée, enfant du même groupe
+que leur géométrie — elle s'éteint donc gratuitement avec la pièce, via le même mécanisme de
+découverte que le reste du décor. Un émissif seul n'éclaire pas les surfaces voisines : c'est
+la lumière la moins chère qui obtient l'effet inverse, réservée aux luminaires eux-mêmes, jamais
+une lumière ambiante générale de plus.
 
 ## Règles de lisibilité
 

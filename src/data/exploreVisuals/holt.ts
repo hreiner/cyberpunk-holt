@@ -149,6 +149,17 @@ export const HOLT_VISUALS: ExploreVisualMapDef = {
     light('local-technique.gaine', 'vent-duct', 'local-technique', 12, 43, 3, 1, 0),
     light('local-technique.conduite', 'pipe-run', 'local-technique', 8, 42, 4, 1, 0),
     light('local-technique.balise', 'warning-beacon', 'local-technique', 8, 40, 1, 1, 180),
+    // Point d'écoute du bourdonnement (entité "Écouter le local technique") : sans ce
+    // placement l'entité retombait sur le cube générique flottant (fantôme signalé en revue).
+    {
+      id: 'local-technique.grille-sol',
+      model: 'floor-grate',
+      cell: { x: 7, y: 41 },
+      footprint: [{ x: 7, y: 41 }],
+      entityId: 'local-technique.transformateurs',
+      roomId: 'local-technique',
+      offset: { x: -0.16, y: 0, z: 0 },
+    },
 
     /* -- Dortoirs : deux travées au mur, pièce commune au centre ---------- */
     bed('dortoir.lit-ouest-1', 26, 1, 90),
@@ -168,6 +179,18 @@ export const HOLT_VISUALS: ExploreVisualMapDef = {
     solid('dortoir.sas-controle', 'access-console-bank', 'dortoirs', 27, 15, 4, 1, 0),
     light('dortoir.reglette-allee', 'strip-light', 'dortoirs', 37, 7, 2, 1, 0),
     light('dortoir.gaine-commune', 'vent-duct', 'dortoirs', 38, 11, 3, 1, 0),
+    // Affaires personnelles devant le casier de Franklyn (entité `dortoir.casier`) : sans ce
+    // placement, l'entité retombait sur le cube jaune générique flottant au milieu de la pièce
+    // commune (fantôme signalé en revue visuelle) au lieu de son casier réel, juste au nord.
+    {
+      id: 'dortoir.casier-affaires',
+      model: 'locker-open',
+      cell: { x: 35, y: 2 },
+      footprint: [{ x: 35, y: 2 }],
+      entityId: 'dortoir.casier',
+      roomId: 'dortoirs',
+      offset: { x: 0, y: 0, z: -0.32 },
+    },
 
     /* -- Cour intérieure : le bassin est le point d'orientation ----------- */
     solid('cour.bassin', 'square-basin', 'cour-interieure', 30, 22, 3, 3, 0),

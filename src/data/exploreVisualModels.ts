@@ -49,6 +49,8 @@ export const EXPLORE_VISUAL_MODELS = {
   'canteen-podium': { occupancy: 'solid', cells: [3, 1], reads: 'l’estrade du directeur' },
   'service-counter': { occupancy: 'solid', cells: [1, 7], reads: 'le comptoir de service' },
   'access-console-bank': { occupancy: 'solid', cells: [4, 1], reads: 'un sas de controle de presence' },
+  'locker-open': { occupancy: 'flat', cells: [1, 1], reads: 'un casier entrouvert, affaires personnelles au sol' },
+  'floor-grate': { occupancy: 'flat', cells: [1, 1], reads: 'une grille de sol technique, vibre sous les pieds' },
 
   /* -- Colonne ouest : services de l'academie ---------------------------- */
   'admin-desk': { occupancy: 'solid', cells: [3, 1], reads: 'un guichet d’accueil' },
