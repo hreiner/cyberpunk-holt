@@ -92,6 +92,16 @@ interface DialogueNode {
   lines?: DialogueLine[];          // répliques
   effects?: Effect[];              // appliqués à l'entrée du nœud, une seule fois
   insight?: InsightSpec;           // jet de réflexion prélable aux choix (ADR 0012)
+  /**
+   * RAPPEL : identifiant d'un autre nœud dont les RÉPLIQUES sont réaffichées en tête de
+   * celui-ci, estompées, avant son propre contenu. À l'examen écrit, la question est posée
+   * sur un nœud et la triche (regarder la copie voisine, glisser une réponse) emmène le
+   * joueur sur un AUTRE nœud où il ne restait que « Reste à répondre » et trois réponses
+   * sans énoncé. On POINTE le nœud source plutôt que de recopier son texte : une question
+   * réécrite ne peut pas se désynchroniser de son rappel. Seules les `lines` sont reprises,
+   * jamais la narration — c'est l'énoncé qu'on rappelle, pas la mise en place.
+   */
+  recall?: string;
   choices?: DialogueChoice[];      // si absent : enchaînement automatique via `to`
   to?: string;                     // nœud suivant ; absent et sans choix = fin
 }

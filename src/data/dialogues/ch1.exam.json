@@ -263,6 +263,7 @@
       "to": "question4-reponses-pris"
     },
     "question4-reponses": {
+      "recall": "question4",
       "text": "Reste à répondre, noir sur blanc.",
       "insight": {
         "skill": "piratage",
@@ -322,6 +323,7 @@
       ]
     },
     "question4-reponses-pris": {
+      "recall": "question4",
       "text": "Franklyn répond quand même, sous le regard du surveillant — mais cette copie-là ne comptera pas.",
       "choices": [
         {
@@ -412,6 +414,7 @@
       "to": "question5-reponses-pris"
     },
     "question5-reponses": {
+      "recall": "question5",
       "text": "Reste à répondre.",
       "insight": {
         "skill": "perception",
@@ -471,6 +474,7 @@
       ]
     },
     "question5-reponses-pris": {
+      "recall": "question5",
       "text": "Franklyn répond quand même, sous l'œil du surveillant — mais cette copie-là ne comptera pas.",
       "choices": [
         {

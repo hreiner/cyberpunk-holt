@@ -841,6 +841,34 @@ canvas {
   font-size: var(--fs-sm);
 }
 
+/* Rappel d'énoncé (`renderRecall`) : l'énoncé d'une question d'examen, gardé sous les yeux
+   une fois qu'on a quitté le nœud qui le posait. Une note épinglée en marge -- filet en
+   pointillé, pas le filet plein d'une vraie narration, et jamais de portrait : ce n'est pas
+   le surveillant qui reprend la parole. */
+.narrative-recall {
+  margin: 0 0 4px;
+  padding: 6px 0 6px 14px;
+  border-left: 2px dashed var(--rule);
+  color: var(--bone-faint, var(--bone-dim));
+  font-size: var(--fs-sm);
+  line-height: var(--lh-text);
+  max-width: 68ch;
+}
+
+.narrative-recall-line {
+  margin: 0;
+}
+
+.narrative-recall-line + .narrative-recall-line {
+  margin-top: 4px;
+}
+
+.narrative-recall-name {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border-bottom: 1px solid currentColor;
+}
+
 .narrative-text {
   margin: 0;
   padding-left: 14px;

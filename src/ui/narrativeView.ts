@@ -200,6 +200,7 @@ export class NarrativeView {
   private readonly heroPortraitsEl: HTMLElement;
   private readonly heroNameEl: HTMLElement;
   private readonly statusEl: HTMLElement;
+  private readonly recallEl: HTMLElement;
   private readonly narrationEl: HTMLElement;
   private readonly linesEl: HTMLElement;
   private readonly offscreenEl: HTMLElement;
@@ -258,6 +259,7 @@ export class NarrativeView {
         </div>
         <div class="narrative-panel panel">
           <div class="narrative-status" data-testid="status"></div>
+          <div class="narrative-recall" data-testid="recall" hidden></div>
           <p class="narrative-text" data-testid="narration" hidden></p>
           <div class="narrative-lines" data-testid="lines"></div>
           <div class="narrative-offscreen" data-testid="offscreen-log" hidden></div>
@@ -279,6 +281,7 @@ export class NarrativeView {
     this.heroPortraitsEl = this.q('.narrative-hero-portraits');
     this.heroNameEl = this.q('.narrative-hero-name');
     this.statusEl = this.q('[data-testid="status"]');
+    this.recallEl = this.q('[data-testid="recall"]');
     this.narrationEl = this.q('[data-testid="narration"]');
     this.linesEl = this.q('[data-testid="lines"]');
     this.offscreenEl = this.q('[data-testid="offscreen-log"]');
@@ -592,7 +595,36 @@ export class NarrativeView {
     );
   }
 
+  /**
+   * Rappel d'enonce (`PresentedNode.recall`) : la question qu'on continue a avoir sous les
+   * yeux apres etre alle regarder la copie voisine. Estompe et sans portrait -- c'est une
+   * note en marge de la copie, pas le surveillant qui repete.
+   */
+  private renderRecall(node: PresentedNode): void {
+    const recall = node.recall;
+    if (!recall || recall.length === 0) {
+      this.recallEl.hidden = true;
+      this.recallEl.innerHTML = '';
+      return;
+    }
+    this.recallEl.innerHTML = '';
+    for (const line of recall) {
+      const row = document.createElement('p');
+      row.className = 'narrative-recall-line';
+      const name = document.createElement('span');
+      name.className = 'narrative-recall-name';
+      // Meme code couleur que les vraies repliques : sans lui, "Le surveillant Question
+      // quatre : ..." se lit d'un seul tenant et on bute sur le nom.
+      name.style.borderBottomColor = portraitFor(line.who).color;
+      name.textContent = this.scenePortraitName(line.who);
+      row.append(name, document.createTextNode(` ${line.text}`));
+      this.recallEl.appendChild(row);
+    }
+    this.recallEl.hidden = false;
+  }
+
   private renderNarration(node: PresentedNode): void {
+    this.renderRecall(node);
     this.narrationEl.textContent = node.text ?? '';
     this.narrationEl.hidden = !node.text;
 

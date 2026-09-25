@@ -117,6 +117,8 @@ export interface E2EPresentedNode {
   speaker?: string;
   speakerLabel?: string;
   text?: string;
+  /** Repliques d'un noeud precedent, rappelees en tete (`DialogueNode.recall`) : l'enonce d'une question d'examen. */
+  recall?: E2EDialogueLine[];
   lines: E2EDialogueLine[];
   choices: E2EPresentedChoice[];
   lastRoll: string | null;

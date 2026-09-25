@@ -51,6 +51,20 @@ export interface DialogueNode {
    * noeud (`PresentedChoice.best`), son echec ne revele rien.
    */
   insight?: InsightSpec;
+  /**
+   * RAPPEL : identifiant d'un autre noeud dont les repliques sont reaffichees en tete de
+   * celui-ci, estompees, avant son propre contenu. Repond a un defaut constate en jeu pendant
+   * l'examen ecrit : la question du surveillant est posee sur un noeud, et la triche
+   * (regarder la copie voisine, glisser une reponse) emmene le joueur sur un AUTRE noeud, ou
+   * il ne reste plus que "Reste a repondre" et trois reponses sans enonce. "Prevoir que la
+   * question reste visible apres les interactions/jets de des."
+   *
+   * On POINTE le noeud source plutot que de recopier son texte : une question reecrite ne peut
+   * pas se desynchroniser de son rappel. Seules les `lines` sont reprises, jamais la narration
+   * -- c'est l'enonce qu'on rappelle, pas la mise en place, qui elle appartient au moment ou
+   * elle a ete jouee. Le validateur verifie que la cible existe et porte bien des repliques.
+   */
+  recall?: string;
   /** Si absent : enchainement automatique via `to`. */
   choices?: DialogueChoice[];
   /** Noeud suivant ; absent et sans choix = fin. */

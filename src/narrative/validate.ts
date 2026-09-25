@@ -83,7 +83,7 @@ export function validateDialogue(file: unknown): string[] {
       errors.push(`${id}#${nodeId} : le noeud n'est pas un objet valide.`);
       continue;
     }
-    validateNode(id, nodeId, node, nodeIds, errors);
+    validateNode(id, nodeId, node, nodeIds, nodes, errors);
   }
 
   if (typeof start === 'string' && nodeIds.includes(start)) {
@@ -106,6 +106,7 @@ function validateNode(
   nodeId: string,
   node: Record<string, unknown>,
   nodeIds: string[],
+  nodes: Record<string, unknown>,
   errors: string[],
 ): void {
   const prefix = `${fileId}#${nodeId}`;
@@ -115,6 +116,17 @@ function validateNode(
   }
 
   validateTemplates(prefix, 'la narration', node.text, errors);
+
+  // Rappel d'enonce (`DialogueNode.recall`) : on POINTE un noeud, donc la cible doit exister
+  // et avoir quelque chose a rappeler. Un rappel qui ne rappelle rien disparait en silence,
+  // et la question redevient invisible sans que personne ne s'en apercoive.
+  if (node.recall !== undefined) {
+    if (typeof node.recall !== 'string' || !nodeIds.includes(node.recall)) {
+      errors.push(`${prefix} : "recall" pointe vers un noeud inexistant ("${String(node.recall)}").`);
+    } else if (asArray((nodes[node.recall] as Record<string, unknown> | undefined)?.lines).length === 0) {
+      errors.push(`${prefix} : "recall" cible un noeud sans replique ("${node.recall}") -- il n'y a rien a rappeler.`);
+    }
+  }
 
   for (const line of asArray(node.lines)) {
     if (!isRecord(line)) continue;

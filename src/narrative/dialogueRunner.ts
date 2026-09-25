@@ -155,6 +155,12 @@ export interface PresentedNode {
   speaker?: SpeakerId;
   speakerLabel?: string;
   text?: string;
+  /**
+   * Repliques d'un noeud precedent, rappelees en tete de celui-ci (`DialogueNode.recall`) :
+   * l'enonce d'une question d'examen qu'on continue a avoir sous les yeux apres etre alle
+   * regarder la copie voisine. Vide (absent) sur l'immense majorite des noeuds.
+   */
+  recall?: PresentedLine[];
   lines: PresentedLine[];
   choices: PresentedChoice[];
   /** Resume lisible du dernier jet, ex. "Perception 14 vs DV 13 — reussite". */
@@ -359,6 +365,7 @@ export class DialogueRunner {
       speaker: this.file.speaker,
       speakerLabel: this.file.speaker ? SPEAKER_LABELS[this.file.speaker] : undefined,
       text: node?.text !== undefined ? applyTemplates(node.text, this.ctx.run) : undefined,
+      recall: node ? this.presentRecall(node) : undefined,
       lines: node ? this.presentLines(node) : [],
       choices: node ? this.presentChoices(node) : [],
       lastRoll: this.lastRoll,
@@ -761,6 +768,18 @@ export class DialogueRunner {
       who: resolveSpeakerAlias(line.who, this.ctx.run),
       text: applyTemplates(line.text, this.ctx.run),
     }));
+  }
+
+  /**
+   * Repliques du noeud rappele (`DialogueNode.recall`), alias resolus comme partout ailleurs.
+   * Une cible absente ou sans replique ne rappelle rien : le validateur signale le cas en
+   * amont, le moteur n'en fait jamais une exception (entete du fichier).
+   */
+  private presentRecall(node: DialogueNode): PresentedLine[] | undefined {
+    if (!node.recall) return undefined;
+    const source = this.file.nodes[node.recall];
+    if (!source || !source.lines || source.lines.length === 0) return undefined;
+    return this.presentLines(source);
   }
 
   private presentChoices(node: DialogueNode): PresentedChoice[] {

@@ -339,3 +339,26 @@ describe('les affinites de la triche comptent immediatement pour le tirage qui s
     expect(tirageRunner.context.dossier.affinities.zachary).toBe(zacharyApresTriche);
   });
 });
+
+/**
+ * L'enonce reste sous les yeux du joueur (`DialogueNode.recall`). Defaut constate en jeu :
+ * tricher a la question 4 ou 5 emmene sur un noeud qui ne dit plus que "Reste a repondre",
+ * l'enonce du surveillant ayant disparu avec le noeud precedent. On teste ce que le CONTENU
+ * produit -- l'enonce present sur le noeud de reponse --, pas le mecanisme qui le porte.
+ */
+describe('examen ecrit : la question reste lisible apres la triche', () => {
+  const CHEAT_NODES: Array<{ reponses: string; enonce: string }> = [
+    { reponses: 'question4-reponses', enonce: 'question4' },
+    { reponses: 'question4-reponses-pris', enonce: 'question4' },
+    { reponses: 'question5-reponses', enonce: 'question5' },
+    { reponses: 'question5-reponses-pris', enonce: 'question5' },
+  ];
+
+  it.each(CHEAT_NODES)('$reponses rappelle l enonce de $enonce', ({ reponses, enonce }) => {
+    const runner = new DialogueRunner(EXAM, context(), createRng('g-rappel'), { startNode: reponses });
+    const recall = runner.current().recall ?? [];
+    const attendu = (EXAM.nodes[enonce]?.lines ?? []).find((l) => l.who === 'instructeur');
+    expect(attendu, `${enonce} n'a pas de réplique du surveillant`).toBeDefined();
+    expect(recall.map((l) => l.text)).toContain(attendu?.text);
+  });
+});
