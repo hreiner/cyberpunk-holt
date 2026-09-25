@@ -20,6 +20,8 @@ import type { PresentedChoice, PresentedNode, PresentedRoll, RadioCue, SpeakerId
 import { CHAPTERS, chapterOfScene } from '@/data/chapters';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { Sfx } from '@/audio/sfx';
+import { GaugeView } from '@/ui/gaugeView';
+import type { GaugeStatus } from '@/ui/gaugeView';
 
 /**
  * Ressources persistantes affichees en permanence pendant un dialogue (ADR
@@ -36,6 +38,8 @@ export interface NarrativeHud {
   concentration?: { remaining: number; max: number };
   /** Vigilance du surveillant (ADR 0015 §3) -- absent hors `ch1.exam`. */
   vigilance?: { level: number; max: number; dvLabel: string };
+  /** Jauge d'etat du chapitre courant (ADR 0025 §1, lot 5.4) -- absent si le chapitre n'en declare pas, ou avant sa scene `from`. */
+  gauge?: GaugeStatus;
 }
 
 export interface NarrativeViewCallbacks {
@@ -240,6 +244,7 @@ export class NarrativeView {
   private readonly choicesEl: HTMLElement;
   private readonly advanceEl: HTMLButtonElement;
   private readonly sceneCardEl: HTMLElement;
+  private readonly gaugeView: GaugeView;
 
   private lastSceneCardKey: string | null = null;
   private lastRenderedSceneId: string | null = null;
@@ -300,6 +305,7 @@ export class NarrativeView {
         </div>
         <div class="narrative-panel panel">
           <div class="narrative-status" data-testid="status"></div>
+          <div class="narrative-gauge-slot" data-testid="gauge-slot"></div>
           <div class="narrative-recall" data-testid="recall" hidden></div>
           <p class="narrative-text" data-testid="narration" hidden></p>
           <div class="narrative-lines" data-testid="lines"></div>
@@ -332,6 +338,7 @@ export class NarrativeView {
     this.choicesEl = this.q('[data-testid="choices"]');
     this.advanceEl = this.q('[data-testid="advance"]') as HTMLButtonElement;
     this.sceneCardEl = this.q('[data-testid="scene-card"]');
+    this.gaugeView = new GaugeView(this.q('[data-testid="gauge-slot"]'));
 
     this.sceneCardEl.addEventListener('click', () => this.dismissSceneCard());
     window.addEventListener('keydown', this.onKeyDown);
@@ -561,6 +568,7 @@ export class NarrativeView {
    * du panneau, sobrement : trois pastilles/notches, jamais un chiffre nu.
    */
   private renderStatus(hud: NarrativeHud): void {
+    this.gaugeView.render(hud.gauge ?? null);
     this.statusEl.innerHTML = '';
 
     const luckChip = document.createElement('div');
@@ -1048,6 +1056,7 @@ export class NarrativeView {
     window.removeEventListener('keydown', this.onKeyDown);
     window.clearTimeout(this.sceneCardTimer);
     this.radioTimers.forEach((t) => window.clearTimeout(t));
+    this.gaugeView.dispose();
     this.root.remove();
   }
 

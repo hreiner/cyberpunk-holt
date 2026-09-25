@@ -30,6 +30,6 @@ export function chapterOfScene(sceneId: string): ChapterId | null {
 }
 
 export { CHAPTER_1 } from './ch1';
-export { CHAPTER_2, CHAPTER_2_SCENES, CH2_ETAPE_FLAG, CH2_INITIAL_LUCK } from './ch2';
+export { CHAPTER_2, CHAPTER_2_SCENES, CH2_ETAPE_FLAG, CH2_INITIAL_LUCK, CH2_GAUGES, CH2_END } from './ch2';
 export type { ProfileId, DossierProfile } from './ch2Profiles';
 export { NEUTRAL_PROFILE, CH2_PROFILES } from './ch2Profiles';

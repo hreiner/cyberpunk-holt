@@ -14,6 +14,11 @@
 import type { Dossier } from '@/core/dossier';
 import type { ExerciseScore, WrittenScore } from '@/rules/scoring';
 import { writtenScoreTags } from '@/rules/scoring';
+import type { ResolvedChapterEnd } from '@/narrative';
+import { CHARACTER_IDS } from '@/rules/character';
+import type { CharacterId } from '@/rules/character';
+import { portraitElement } from '@/ui/portraits';
+import { BACKDROPS } from '@/data/backdrops';
 
 export interface ReportViewCallbacks {
   onContinueExercise(): void;
@@ -124,6 +129,36 @@ function notesMarkup(heading: string, tags: string[]): string {
   `;
 }
 
+/**
+ * Bilan de nuit (ADR 0025 §1, "Photo au bilan") : lignes `{ label, value }`
+ * deja resolues par `resolveChapterEnd` -- ce module n'y choisit plus rien,
+ * il ne fait qu'aligner label/valeur comme les notes d'instructeur ci-dessus.
+ */
+function bilanLinesMarkup(lines: { label: string; value: string }[]): string {
+  if (lines.length === 0) return '';
+  const items = lines
+    .map((l) => `<div class="report-bilan-line"><span class="report-bilan-label">${l.label}</span><span class="report-bilan-value">${l.value}</span></div>`)
+    .join('');
+  return `<div class="report-bilan-lines">${items}</div>`;
+}
+
+/**
+ * Photo souvenir plein cadre (ADR 0025 §4.6) : le decor de `photo.backdrop`
+ * (`src/data/backdrops.ts`), au-dessus d'une rangee de portraits des cinq
+ * amis jouables -- `faded` les estompe (`.report-photo-faded`), sans les
+ * retirer : la photo garde tout le monde, mais pas tout le monde pareil.
+ */
+function photoMarkup(photo: { backdrop: string; faded: CharacterId[] }): string {
+  const src = BACKDROPS[photo.backdrop]?.src;
+  const img = src ? `<img class="report-photo-image" src="${src}" alt="Photo de classe" />` : '';
+  return `
+    <div class="report-photo" data-testid="report-photo">
+      ${img}
+      <div class="report-photo-cast" data-testid="report-photo-cast"></div>
+    </div>
+  `;
+}
+
 export class ReportView {
   private readonly root: HTMLElement;
   private readonly sheetEl: HTMLElement;
@@ -193,6 +228,50 @@ export class ReportView {
         Nouvelle partie
       </button>
     `;
+    (this.sheetEl.querySelector('[data-testid="report-newgame"]') as HTMLButtonElement).onclick = () =>
+      this.callbacks.onNewGame();
+    const nextBtn = this.sheetEl.querySelector('[data-testid="report-next-chapter"]') as HTMLButtonElement | null;
+    if (nextBtn) nextBtn.onclick = () => this.callbacks.onNextChapter();
+  }
+
+  /**
+   * Bilan declare en donnees (ADR 0025 §1, lot 5.4) : meme feuille que
+   * `renderChapterEnd`, cette fois entierement pilotee par `resolveChapterEnd`
+   * -- kicker, titre, photo souvenir facultative, lignes deja resolues. Le
+   * chapitre 1 ne passe jamais ici (voir `ChapterApp.showChapterEnd`, qui
+   * garde `renderChapterEnd` pour `'ch1-report'`) : ce rendu n'a donc aucune
+   * contrainte de retro-compatibilite visuelle a tenir.
+   */
+  renderChapterBilan(resolved: ResolvedChapterEnd, next: NextChapterAction | null = null): void {
+    this.sheetEl.innerHTML = `
+      <header class="report-head">
+        <p class="report-kicker">${resolved.kicker}</p>
+        <h1>${resolved.title}</h1>
+      </header>
+      ${resolved.photo ? photoMarkup(resolved.photo) : ''}
+      ${bilanLinesMarkup(resolved.lines)}
+      ${
+        next
+          ? `<button type="button" class="btn btn--primary report-next-chapter" data-testid="report-next-chapter">
+              ${next.title}
+            </button>`
+          : ''
+      }
+      <button type="button" class="btn ${next ? '' : 'btn--primary'} report-newgame" data-testid="report-newgame">
+        Nouvelle partie
+      </button>
+    `;
+
+    const cast = this.sheetEl.querySelector('[data-testid="report-photo-cast"]') as HTMLElement | null;
+    if (cast && resolved.photo) {
+      for (const id of CHARACTER_IDS) {
+        if (id === 'franklyn') continue; // derriere l'appareil, jamais sur la photo (voir la scene ch2.photo).
+        const thumb = portraitElement(id, 'thumb');
+        if (resolved.photo.faded.includes(id)) thumb.classList.add('report-photo-faded');
+        cast.appendChild(thumb);
+      }
+    }
+
     (this.sheetEl.querySelector('[data-testid="report-newgame"]') as HTMLButtonElement).onclick = () =>
       this.callbacks.onNewGame();
     const nextBtn = this.sheetEl.querySelector('[data-testid="report-next-chapter"]') as HTMLButtonElement | null;

@@ -26,7 +26,7 @@ moitié faite.** Le chapitre 1 entier tient presque tout en 🟢 sur quatre syst
 |---|---|---|---|---|
 | STR-01 | **Suite linéaire de scènes** de trois sortes : `dialogue`, `explore`, `tactical` | l'ossature du chapitre ; l'ordre est fixe, les variations passent par l'état | 🟢 (ajouter une scène) | [ARCHITECTURE](../process/ARCHITECTURE.md), ADR 0011 |
 | STR-02 | **Sauvegarde automatique** à chaque début de scène ; reprise au point d'apparition de l'étape | jamais de sauvegarde libre ; une scène doit pouvoir reprendre à froid | gratuit | [08](../design/08-EXPLORATION.md) « Sauvegarde » |
-| STR-03 | **Écran titre**, **procès-verbal** (bilan d'exercice entre deux écrans) | réutilisables tels quels | gratuit | ARCHITECTURE |
+| STR-03 | **Écran titre**, **procès-verbal** (bilan d'exercice entre deux écrans), **bilan de fin de chapitre déclaré en données** (`ChapterDef.end`, kicker/titre/photo/lignes à premier cas vrai) | réutilisables tels quels ; le bilan de clôture se décrit sans code au-delà du premier chapitre | gratuit (écran titre, procès-verbal) · 🟢 (un bilan de plus, en données) | ARCHITECTURE, ADR 0025 §1 |
 | STR-04 | **Graine** : toute partie est rejouable à l'identique (`?seed=`) | les jets sont aléatoires mais reproductibles ; aucun hasard « caché » | gratuit | ADR 0002 |
 
 **Limite** : pas d'embranchement de scènes (pas d'« acte B » alternatif). Deux chemins
@@ -63,6 +63,7 @@ choix « silencieux » à la Telltale.
 | RES-03 | **Tempo, minuteur invisible** : avancé par les actions, jamais par l'horloge ; déclenche des **répliques radio** à seuil, avec canal (`radio`/`pression`) et bruitage — vérifiées en dialogue ET en exploration (ADR 0024 §2, lot 5.7 : une zone à effets peut avancer le tempo en marchant) | pression temporelle sans barre de temps, y compris hors dialogue | 🟢 | 07 « La radio », 08 « Fuite qui s'entend » |
 | RES-04 | **Matériel d'équipe** porté jusqu'au combat : kits de soin, taser en plus, cadets gazés | un choix en exploration change la bataille qui suit | 🟢 (ces trois) · 🟡 (un nouveau) | [03](../design/03-CHAPTER-1.md) scène 7 |
 | RES-05 | **Affinités** −3 à +3 avec les cinq cadets, persistantes | relations qui bougent et qui se lisent plus tard | 🟢 | [04](../design/04-CHARACTERS.md) |
+| RES-06 | **Jauge d'état visible** (`ChapterDef.gauges`) : un compteur borné affiché **en mots** (jamais un chiffre), avec un tampon bref au changement de niveau ; visible en dialogue et en exploration à partir d'une scène donnée | montrer ce que coûte un jet raté sans exposer de barre de vie chiffrée ; se retire en vidant `gauges` | 🟢 (une jauge de plus, en données) | ADR 0025 §1, `src/ui/gaugeView.ts` |
 
 ## DOS — La trace (dossier du candidat)
 

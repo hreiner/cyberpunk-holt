@@ -280,6 +280,8 @@ export interface E2EGameApi {
   /** Voir `GameDebugApi.startChapter` dans src/debug/gameApi.ts (ADR 0021/0022). */
   startChapter(id: 1 | 2, options?: { seed?: string; profile?: string; useArchive?: boolean }): E2ESceneSnapshot;
   runState(): E2ERunState;
+  /** Voir `GameDebugApi.setCounter` dans src/debug/gameApi.ts (ADR 0025 §1, lot 5.4). */
+  setCounter(key: string, value: number): void;
   dossier(): E2EDossier;
   node(): E2EPresentedNode | null;
   /**

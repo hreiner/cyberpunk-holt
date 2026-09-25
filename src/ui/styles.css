@@ -1789,6 +1789,114 @@ canvas {
   align-self: flex-end;
 }
 
+/* ---------------------------------------------------------------------- */
+/* Photo souvenir + lignes du bilan de nuit (src/ui/reportView.ts,         */
+/* `renderChapterBilan`, docs/art/UI-DESIGN-SYSTEM.md "Bilan de nuit").    */
+/* ---------------------------------------------------------------------- */
+
+.report-photo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.report-photo-image {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--rule);
+}
+
+.report-photo-cast {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Cadet absent/marqué de la nuit (ADR 0025 §4.6, "Zachary estompé") : reste sur la
+   photo, mais s'efface -- jamais retiré (la photo garde tout le monde). */
+.report-photo-faded {
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+
+.report-bilan-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.report-bilan-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--fs-sm);
+}
+
+.report-bilan-label {
+  color: var(--bone-dim);
+}
+
+.report-bilan-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-align: right;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Jauge d'etat (src/ui/gaugeView.ts, ADR 0025 §1, docs/art/               */
+/* UI-DESIGN-SYSTEM.md "Jauge d'etat") : meme vocabulaire que .status-chip */
+/* (narrativeView.ts) -- pastilles rondes, libelle en mots.                */
+/* ---------------------------------------------------------------------- */
+
+.gauge-hud {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.gauge-hud__label {
+  color: var(--bone-dim);
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+}
+
+.gauge-hud__level {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  color: var(--red);
+  text-transform: uppercase;
+}
+
+.gauge-hud__pips {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.gauge-hud__pip {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid var(--red);
+  background: transparent;
+}
+
+.gauge-hud__pip.is-filled {
+  background: var(--red);
+}
+
+/* Tampon bref au changement de niveau (ADR 0025 §1) : meme animation que
+   `.stamp` (theme.css), rejouee seulement le temps du changement -- jamais un
+   overlay permanent. */
+.gauge-hud--stamp .gauge-hud__level {
+  animation: stamp-impact 180ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
 /* -- Responsive : 375px -> 1920px. Le hero passe en bandeau au-dessus du -- */
 /* panneau des que la largeur ne peut plus l'accueillir en chevauchement.  */
 

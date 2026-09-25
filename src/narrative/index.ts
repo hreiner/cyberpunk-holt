@@ -65,7 +65,16 @@ export {
   exploreFollowerIds,
 } from './sceneRouter';
 
-export type { ChapterId, ChapterDef, ChapterEndRef } from './chapter';
+export type { ChapterId, ChapterDef, ChapterEndRef, GaugeDef } from './chapter';
+
+export type {
+  ChapterEndDef,
+  ChapterEndPhotoDef,
+  ChapterEndLineDef,
+  ResolvedChapterEnd,
+  ResolvedChapterEndLine,
+} from './chapterEnd';
+export { resolveChapterEnd } from './chapterEnd';
 
 export type { ObjectiveDef, ObjectiveTask } from './objective';
 

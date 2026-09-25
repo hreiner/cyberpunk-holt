@@ -307,6 +307,38 @@ l'examen pratique », tableau du barème (poste, détail, points) aligné en chi
 total sur 20, puis la **mention tamponnée** en travers. Les étiquettes gagnées listées en
 dessous comme des notes d'instructeur.
 
+### Jauge d'état (ADR 0025 §1, lot 5.4)
+
+Un enjeu suivi (l'état de Letitia, chapitre 2) se montre **en mots, jamais en chiffres** —
+même risque explicitement écarté que celui noté dans les risques du chapitre 2 : « la jauge
+rend le chapitre comptable ». Même vocabulaire que les encarts persistants du dialogue
+(`.status-chip`/`.status-pips`, "Écrans > Dialogue" plus haut) : une puce sobre avec le nom
+de l'enjeu (« Letitia »), le libellé du niveau courant en `--font-display` (« BLESSURE
+GRAVE »), et une rangée de pastilles rondes `--red` pleines/vides (jamais `--tape` : ce n'est
+pas une ressource dépensable, comme la Chance, c'est une menace qui monte — même logique que
+la vigilance de l'examen). Se pose au même endroit dans le panneau de dialogue et dans
+l'encart d'objectif de l'exploration (`src/ui/gaugeView.ts`, une seule vue montée aux deux
+endroits) — coin opposé à l'encart d'objectif en exploration, pour ne jamais le recouvrir.
+Un **tampon bref** (même animation que `.stamp`, 180 ms) marque chaque CHANGEMENT de niveau,
+jamais un rendu ordinaire. Se retire entièrement si la donnée du chapitre ne déclare aucune
+jauge (`ChapterDef.gauges` vide ou absent) : rien à afficher, rien à l'écran.
+
+### Bilan de nuit (ADR 0025 §1, lot 5.4)
+
+Un bilan **déclaré en données** (`ChapterEndDef`, `resolveChapterEnd`) partage la même feuille
+`--ink-2` que le procès-verbal d'examen (`ReportView.renderChapterBilan`), avec un habillage
+plus sobre : un kicker (« Rapport de nuit ») et un titre (« Fin du chapitre 2 ») en tête,
+comme `.report-head`/`.report-kicker`. Sous l'en-tête, la **photo souvenir** en plein cadre
+(même décor plein cadre que les dialogues, `src/data/backdrops.ts`), avec une rangée de
+portraits `thumb` des cinq amis jouables sous l'image — celui ou ceux marqués par la donnée
+(`photo.faded`, ex. Zachary) restent sur la photo mais **s'estompent** (opacité réduite,
+niveaux de gris) : jamais retirés, la photo garde tout le monde. En dessous, les **lignes du
+bilan** (label/valeur déjà résolues) s'alignent comme les notes d'instructeur du procès-verbal
+— une ligne par enjeu qui a une réponse ce chapitre-ci, silencieusement absente sinon (voir
+`resolveChapterEnd`, "premier cas vrai, ligne sans cas vrai omise"). Le bouton d'action
+primaire reste « Nouvelle partie » (ou « Chapitre suivant », si la donnée en déclare un) — même
+idiome que `renderChapterEnd`, dont le rendu reste inchangé pour le chapitre 1.
+
 ### HUD tactique
 
 **Pas de refonte de la mise en page** : on remplace les couleurs, polices, formes et
@@ -323,6 +355,7 @@ portrait `card`, la bande d'initiative ses vignettes `thumb`. Les couleurs d'éq
 | `src/ui/styles.css` | styles des écrans, n'utilise que les jetons |
 | `src/ui/narrativeView.ts` | dialogue, radio, tampon, transition |
 | `src/ui/hubView.ts`, `titleView.ts`, `reportView.ts` | si l'écran justifie son propre fichier |
+| `src/ui/gaugeView.ts` | jauge d'état (ADR 0025 §1) — montée en dialogue (`narrativeView.ts`) et en exploration (`objectiveHud.ts`) |
 
 `src/ui/` peut toucher le DOM ; il n'importe jamais `three`. Les classes CSS utilisées par
 les tests e2e (`tests/e2e/`) et les `data-testid` existants sont conservés.

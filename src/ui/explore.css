@@ -14,6 +14,16 @@
   font-family: var(--font-text);
 }
 
+/* Jauge d'etat en exploration (ADR 0025 §1, lot 5.4) : cote oppose de l'encart
+   d'objectif, memes 20px de marge -- le `.gauge-hud` qu'elle contient vient
+   de src/ui/gaugeView.ts/styles.css, ce conteneur ne fait que la placer. */
+.explore-gauge-slot {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  pointer-events: none;
+}
+
 .objective-hud__title {
   font-family: var(--font-display);
   font-weight: 700;

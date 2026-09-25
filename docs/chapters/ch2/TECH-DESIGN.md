@@ -525,7 +525,10 @@ l'autre sens : changer cette seule constante suffit, aucun autre fichier à touc
 - **Lire** : GAME-DESIGN §4 (scènes 2, 4), §4.4 à 4.6 ; `src/data/maps/holt.ts` ;
   `src/data/exploreVisuals/holt.ts` ; [`ROOM-COMPOSITION.md`](../../art/ROOM-COMPOSITION.md)
   (salles d'entraînement, dortoirs).
-- **Toucher** : `src/data/maps/holt-nuit.ts`, `src/data/exploreVisuals/holtNuit.ts`,
+- **Reporté du lot 5.4** : la jauge n'est pas encore montée en exploration (`ObjectiveHud.setGauge`
+  est prêt, `exploreSession.ts` ne l'appelle pas) ; ce lot, le premier à jouer une scène
+  `explore` du chapitre 2, la câble.
+- **Toucher** : `src/data/maps/holt-nuit.ts`, `src/exploreSession.ts` (jauge), `src/data/exploreVisuals/holtNuit.ts`,
   `data/maps/index.ts`, `ch2.bal*.json`, `ch2.grille.json`, `data/chapters/ch2.ts` et
   `ch2Radio.ts` (répliques de pression).
 - **Fini quand** :

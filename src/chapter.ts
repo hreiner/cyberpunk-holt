@@ -35,6 +35,7 @@ import {
   offscreenFlags,
   pendingRadio,
   pick as pickDraftCadet,
+  resolveChapterEnd,
   resolveOffscreenRun,
   setFlag,
   withEtape,
@@ -44,6 +45,7 @@ import type {
   ChapterId,
   DraftState,
   FollowerId,
+  GaugeDef,
   NarrativeContext,
   NarrativeOutcome,
   OffscreenOutcome,
@@ -65,6 +67,7 @@ import { GameApp } from './app';
 import type { TacticalOutcome } from './app';
 import { NarrativeView } from './ui/narrativeView';
 import type { NarrativeHud } from './ui/narrativeView';
+import type { GaugeStatus } from './ui/gaugeView';
 import { ReportView } from './ui/reportView';
 import { DraftView } from './ui/draftView';
 
@@ -580,6 +583,20 @@ export class ChapterApp {
     // Rien a avancer sinon : exploration hors conversation, scene tactique, ou chapitre termine.
   }
 
+  /**
+   * Debug uniquement (ADR 0025 §1, lot 5.4 -- captures et tests d'une jauge) :
+   * pose un COMPTEUR numerique directement dans le `RunState` courant, hors
+   * de toute regle -- utile pour montrer l'etat d'une jauge sans rejouer tout
+   * le contenu qui le fait bouger (le compteur de Letitia, par ex., n'est pas
+   * encore avance par le contenu avant le lot 5.5). N'affecte PAS un
+   * dialogue DEJA en cours (voir `liveCtx`, qui garde son propre `RunState`
+   * "en vol" jusqu'a la fin de la scene) : rappeler `goToScene`/`startChapter`
+   * ensuite pour qu'un nouveau rendu la reflete.
+   */
+  setCounter(key: string, value: number): void {
+    this.ctx = { ...this.ctx, run: setFlag(this.ctx.run, key, value) };
+  }
+
   goToScene(id: string): void {
     // Peut cibler une scene d'un AUTRE chapitre que celui en cours (ADR 0021, "?scene= en deduit
     // le chapitre") : on bascule alors `chapterDef`/`run.chapter` avant de sauter, sans quoi le
@@ -748,6 +765,8 @@ export class ChapterApp {
    */
   private buildHud(run: RunState, sceneId: string): NarrativeHud {
     const hud: NarrativeHud = { luck: run.luck };
+    const gauge = this.resolveGaugeStatus(run, sceneId);
+    if (gauge) hud.gauge = gauge;
     if (sceneId !== EXAM_SCENE_ID) return hud;
 
     const concentration = run.flags[EXAM_CONCENTRATION_COUNTER];
@@ -765,6 +784,43 @@ export class ChapterApp {
       dvLabel: EXAM_VIGILANCE_LEVELS[levelIdx] ?? EXAM_VIGILANCE_LEVELS[0],
     };
     return hud;
+  }
+
+  /**
+   * Jauge d'etat visible du chapitre courant (ADR 0025 §1, lot 5.4) : la
+   * premiere de `ChapterDef.gauges` deja visible a `sceneId` (voir `GaugeDef.from`
+   * -- absent = visible des le debut). `null` si le chapitre n'en declare
+   * pas, ou si `sceneId` precede la scene `from` de toutes celles declarees.
+   * Lecture seule de `run.flags`, jamais un effet de bord -- meme esprit que
+   * `buildHud`.
+   */
+  private resolveGaugeStatus(run: RunState, sceneId: string): GaugeStatus | null {
+    const gauges = this.chapterDef.gauges;
+    if (!gauges || gauges.length === 0) return null;
+    const scenes = this.chapterDef.scenes;
+    const currentIndex = scenes.findIndex((s) => s.id === sceneId);
+
+    for (const gauge of gauges) {
+      if (gauge.from) {
+        const fromIndex = scenes.findIndex((s) => s.id === gauge.from);
+        if (fromIndex === -1 || currentIndex === -1 || currentIndex < fromIndex) continue;
+      }
+      return this.gaugeStatusFor(gauge, run);
+    }
+    return null;
+  }
+
+  private gaugeStatusFor(gauge: GaugeDef, run: RunState): GaugeStatus {
+    const raw = run.flags[gauge.counter];
+    const value = typeof raw === 'number' ? Math.max(0, raw) : 0;
+    const levelIndex = Math.min(value, gauge.levels.length - 1);
+    return {
+      id: gauge.id,
+      label: gauge.label,
+      levelIndex,
+      levelLabel: gauge.levels[levelIndex] ?? gauge.levels[0] ?? '',
+      levelsCount: gauge.levels.length,
+    };
   }
 
   private completeDialogueScene(finalCtx: NarrativeContext): void {
@@ -1379,9 +1435,21 @@ export class ChapterApp {
     this.hideAllViews();
     this.setActiveHost('report');
     this.reportView.show();
-    const nextId = this.nextChapterId(this.chapterDef.id);
-    const next = nextId ? { title: `Chapitre ${nextId} — ${CHAPTERS[nextId].title}` } : null;
-    this.reportView.renderChapterEnd(this.ctx.dossier, next);
+
+    // 'ch1-report' (ADR 0025 §1) : repli inchange, le chapitre 1 ne passe jamais par
+    // `resolveChapterEnd`/`renderChapterBilan`. Tout `ChapterEndDef` (chapitre 2 et
+    // suivants) decrit son propre en-tete/photo/lignes en donnees -- `next` y est lu
+    // depuis la donnee elle-meme, pas depuis `nextChapterId` (reserve au repli).
+    if (this.chapterDef.end === 'ch1-report') {
+      const nextId = this.nextChapterId(this.chapterDef.id);
+      const next = nextId ? { title: `Chapitre ${nextId} — ${CHAPTERS[nextId].title}` } : null;
+      this.reportView.renderChapterEnd(this.ctx.dossier, next);
+      return;
+    }
+
+    const resolved = resolveChapterEnd(this.chapterDef.end, this.ctx);
+    const next = resolved.next ? { title: `Chapitre ${resolved.next} — ${CHAPTERS[resolved.next].title}` } : null;
+    this.reportView.renderChapterBilan(resolved, next);
   }
 
   /**

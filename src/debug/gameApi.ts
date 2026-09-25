@@ -98,6 +98,15 @@ export interface GameDebugApi {
     options?: { seed?: string; profile?: ProfileId; useArchive?: boolean },
   ): NarrativeSceneSnapshot;
   runState(): RunState;
+  /**
+   * Debug uniquement (ADR 0025 §1, lot 5.4) : pose un COMPTEUR numerique
+   * directement dans le `RunState` du chapitre courant, hors de toute regle
+   * -- pense pour capturer/tester une jauge (`ChapterDef.gauges`) sans
+   * rejouer le contenu qui la fait bouger. Sans effet sur un dialogue DEJA en
+   * cours : rappeler `goToScene`/`startChapter` ensuite pour que le nouveau
+   * rendu en tienne compte.
+   */
+  setCounter(key: string, value: number): void;
   dossier(): Dossier;
   node(): PresentedNode | null;
   /**
@@ -276,6 +285,8 @@ export function installDebugApi(chapter: ChapterApp): GameDebugApi {
     },
 
     runState: () => chapter.run,
+
+    setCounter: (key: string, value: number) => chapter.setCounter(key, value),
 
     dossier: () => chapter.dossier,
 

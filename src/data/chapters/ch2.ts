@@ -13,7 +13,7 @@
  * par scene aux lots 5.5 et suivants (voir TECH-DESIGN §6).
  */
 
-import type { ChapterDef, SceneDef } from '@/narrative';
+import type { ChapterDef, ChapterEndDef, GaugeDef, SceneDef } from '@/narrative';
 
 /** Drapeau d'etape du chapitre 2 (ADR 0021) -- pas encore utilise au lot 5.1 (aucune scene `explore` ici). */
 export const CH2_ETAPE_FLAG = 'ch2.etape';
@@ -38,6 +38,68 @@ export const CHAPTER_2_SCENES: SceneDef[] = [
   { id: 'ch2.charcudoc', kind: 'dialogue', title: 'Le charcudoc', dialogueId: 'ch2.charcudoc', number: 11 },
 ];
 
+/**
+ * Jauge de l'etat de Letitia (ADR 0025 §1, B18, lot 5.4) : lit le compteur
+ * `ch2.letitia.etat` (borne 0-3 par les effets qui le font bouger, ADR 0023 --
+ * pose pour l'instant par `ch2.slow.json`, la montee reelle arrive scene par
+ * scene aux lots 5.5+). Visible a partir de `ch2.slow` (la rafale) : avant, il
+ * n'y a rien a montrer, Letitia est simplement "stable" comme tout le monde.
+ * `levels[2]` ("blessure grave") est le niveau demande par la capture du lot.
+ */
+export const CH2_GAUGES: GaugeDef[] = [
+  {
+    id: 'letitia',
+    counter: 'ch2.letitia.etat',
+    label: 'Letitia',
+    levels: ['stable', 'blessure sérieuse', 'blessure grave', 'état critique'],
+    from: 'ch2.slow',
+  },
+];
+
+/**
+ * Bilan de nuit PROVISOIRE (ADR 0025 §1, B23, lot 5.4) : contenu minimal qui
+ * exerce reellement le format (premier cas vrai, ligne omise sans cas vrai,
+ * photo souvenir) avec les seules donnees deja posees par le squelette du
+ * lot 5.1 (`ch2Profiles.ts`) et `ch2.slow.json` -- pas encore les quatre
+ * entrees "Letitia/Abigail/l'enfant/la voiture/le fusil" de GAME-DESIGN §11
+ * ("Photo au bilan"), qui arrivent avec le contenu complet au lot 5.6.
+ * `faded: ['zachary']` anticipe sa mort possible (scene 7, lot 5.5) : un
+ * choix visuel fixe pour l'instant, pas encore conditionne (voir le rapport
+ * du lot pour la reserve).
+ */
+export const CH2_END: ChapterEndDef = {
+  kicker: 'Rapport de nuit',
+  title: 'Fin du chapitre 2',
+  photo: { backdrop: 'photo-souvenir', faded: ['zachary'] },
+  lines: [
+    {
+      label: 'État de Letitia',
+      cases: [
+        { when: { flag: 'ch2.letitia.etat', equals: 3 }, value: 'état critique' },
+        { when: { flag: 'ch2.letitia.etat', atLeast: 2 }, value: 'blessure grave' },
+        { when: { flag: 'ch2.letitia.etat', atLeast: 1 }, value: 'blessure sérieuse' },
+        { value: 'stable' },
+      ],
+    },
+    {
+      label: 'Profil de départ',
+      cases: [
+        { when: { tag: 'loyal-bande' }, value: 'loyal à la bande' },
+        { when: { tag: 'solitaire' }, value: 'solitaire' },
+        { value: 'neutre' },
+      ],
+    },
+    {
+      // Sans repli : disparait du bilan si Franklyn n'a pas fait ce choix au
+      // slow -- demonstration, dans le contenu reel, de "une ligne sans cas
+      // vrai est omise" (voir tests/unit/chapterEnd.test.ts pour la garantie
+      // generique).
+      label: 'Au slow',
+      cases: [{ when: { tag: 'protecteur-bal' }, value: 'a fait rempart devant Letitia' }],
+    },
+  ],
+};
+
 export const CHAPTER_2: ChapterDef = {
   id: 2,
   title: 'La nuit du bal',
@@ -46,7 +108,6 @@ export const CHAPTER_2: ChapterDef = {
   initialLuck: CH2_INITIAL_LUCK,
   // Pas de repliques radio propres au chapitre 2 avant le lot 5.7 (pression, ADR 0024).
   radio: [],
-  // Bilan provisoire : reutilise l'ecran de cloture du chapitre 1 (voir src/narrative/chapter.ts,
-  // ChapterEndRef) tant que l'ADR 0025 (lot 5.4) n'introduit pas de bilan propre.
-  end: 'ch1-report',
+  gauges: CH2_GAUGES,
+  end: CH2_END,
 };

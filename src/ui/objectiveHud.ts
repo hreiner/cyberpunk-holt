@@ -12,6 +12,8 @@
 
 import './explore.css';
 import type { ObjectiveStatus } from '@/explore';
+import { GaugeView } from '@/ui/gaugeView';
+import type { GaugeStatus } from '@/ui/gaugeView';
 
 export interface HudInteractable {
   id: string;
@@ -36,6 +38,8 @@ export class ObjectiveHud {
   private readonly panel: HTMLElement;
   private readonly hoverLabel: HTMLElement;
   private readonly selectedLabel: HTMLElement;
+  private readonly gaugeSlot: HTMLElement;
+  private readonly gaugeView: GaugeView;
 
   private holdTimer: ReturnType<typeof setTimeout> | null = null;
   private pinging = false;
@@ -74,8 +78,23 @@ export class ObjectiveHud {
 
     container.appendChild(this.root);
 
+    // Jauge d'etat (ADR 0025 §1, lot 5.4) : meme composant qu'en dialogue
+    // (`NarrativeView`), pose au-dessus de l'encart d'objectif pour rester
+    // visible pendant l'exploration (TECH-DESIGN §4.6 : "s'affiche en dialogue
+    // comme en exploration"). Cablage reel depuis `ExploreSession` : voir `setGauge`.
+    this.gaugeSlot = document.createElement('div');
+    this.gaugeSlot.className = 'explore-gauge-slot';
+    this.gaugeSlot.dataset.testid = 'gauge-slot';
+    this.root.insertBefore(this.gaugeSlot, this.panel);
+    this.gaugeView = new GaugeView(this.gaugeSlot);
+
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('keyup', this.onKeyUp);
+  }
+
+  /** Jauge d'etat courante (ADR 0025 §1) -- `null` : rien a afficher (absente du chapitre, ou avant sa scene `from`). */
+  setGauge(status: GaugeStatus | null): void {
+    this.gaugeView.render(status);
   }
 
   /* ------------------------------------------------------------------ */
@@ -226,6 +245,7 @@ export class ObjectiveHud {
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
     if (this.holdTimer) clearTimeout(this.holdTimer);
+    this.gaugeView.dispose();
     this.root.remove();
     this.hoverLabel.remove();
     this.selectedLabel.remove();
