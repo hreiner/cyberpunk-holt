@@ -87,11 +87,16 @@ export interface GameDebugApi {
   scene(): NarrativeSceneSnapshot;
   goToScene(id: string): NarrativeSceneSnapshot;
   /**
-   * Demarre (ou redemarre) un chapitre precis (ADR 0021) : `?chapter=2` en URL passe par ici.
-   * Lot 5.1 : seul le profil Neutre existe pour le chapitre 2 (`options.profile` reserve au
-   * lot 5.2, qui ajoute l'archive du chapitre 1 et les deux autres profils).
+   * Demarre (ou redemarre) un chapitre precis (ADR 0021/0022) : `?chapter=2` en URL passe par
+   * ici. `options.profile` choisit un profil de depart explicite du chapitre 2 (`loyal` |
+   * `solitaire` | `neutre`, `ch2Profiles.ts`) ; `options.useArchive` reprend l'archive du
+   * chapitre 1 si elle existe (`core/save.ts`, `loadArchivedDossier`). Sans l'un ni l'autre,
+   * repli sur le profil Neutre. Sans effet sur le chapitre 1 (toujours un dossier vierge).
    */
-  startChapter(id: ChapterId, options?: { seed?: string; profile?: ProfileId }): NarrativeSceneSnapshot;
+  startChapter(
+    id: ChapterId,
+    options?: { seed?: string; profile?: ProfileId; useArchive?: boolean },
+  ): NarrativeSceneSnapshot;
   runState(): RunState;
   dossier(): Dossier;
   node(): PresentedNode | null;

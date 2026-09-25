@@ -269,6 +269,31 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
   const dossierAfterCombat = await page.evaluate(() => window.__game.dossier());
   expect(dossierAfterCombat.practicalScore).not.toBeNull();
   expect(dossierAfterCombat.practicalScore?.tags).toContain('renseignement');
+
+  /* --- 6. Bilan de l'exercice -> bal -> fin de chapitre -> "Chapitre 2" (ADR 0022 §2, lot
+   * 5.2, "suite directe") : le seul point de ce test qui clique reellement dans le DOM
+   * (les deux boutons du proces-verbal), le reste restant pilote par `window.__game`. */
+  await page.getByTestId('report-continue').click();
+  await page.waitForFunction(() => window.__game.scene().id === 'ch1.bal');
+  await traverseDialogue(page);
+  const afterBal = await advanceToNextScene(page);
+  expect(afterBal.finished).toBe(true); // plus de scene apres ch1.bal -> ecran de cloture
+
+  await expect(page.getByTestId('report-newgame')).toBeVisible();
+  await expect(page.getByTestId('report-next-chapter')).toBeVisible();
+  const dossierAtChapterEnd = await page.evaluate(() => window.__game.dossier());
+  expect(dossierAtChapterEnd.tags.length).toBeGreaterThan(0);
+
+  await page.getByTestId('report-next-chapter').click();
+  await page.waitForFunction(() => window.__game.scene().id === 'ch2.photo');
+
+  const runAfterChapter2: E2ERunState = await page.evaluate(() => window.__game.runState());
+  expect(runAfterChapter2.chapter).toBe(2);
+  // "Chapitre 2" demarre avec le dossier du chapitre 1 EN MEMOIRE (ADR 0022 : suite directe,
+  // identique a l'archive) -- memes etiquettes que juste avant de cliquer, pas un profil
+  // de depart generique.
+  const dossierAtChapter2 = await page.evaluate(() => window.__game.dossier());
+  expect(dossierAtChapter2.tags).toEqual(dossierAtChapterEnd.tags);
 });
 
 test(

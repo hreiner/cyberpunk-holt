@@ -61,7 +61,7 @@ Reportés, sans bloquer la clôture :
 | 2.9 | Branchement de l'état du parcours sur la phase tactique | fait |
 | 2.10 | Scène 9 : bal de promo, conséquences, note complète | fait |
 | 2.11 | Portraits 2D, ambiance sonore, musique | à faire |
-| 2.12 | Export du dossier pour le chapitre 2 | à faire |
+| 2.12 | Export du dossier au joueur (fichier) — plus bloquant : le chapitre 2 lit une archive locale depuis le lot 5.2 (ADR 0022) | à faire |
 
 ### Dépendances entre lots
 
@@ -179,7 +179,7 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | Lot | Contenu | Dépend de | État |
 |---|---|---|---|
 | 5.1 | **Le chapitre 2 se lance** : `ChapterDef` et registre des chapitres, `RunState.chapter`, clés par chapitre (étape, Chance, entrées), `?chapter=2`, `startChapter` ; 14 scènes en dialogues squelettes, profil Neutre, bilan provisoire ; `ch1.bal` harmonisé (Smith, Zachary) | — | fait |
-| 5.2 | **Le dossier passe** : archive en fin de chapitre 1, « Chapitre 2 » depuis l'écran de fin et l'écran titre, trois profils de départ | 5.1 | à faire |
+| 5.2 | **Le dossier passe** : archive en fin de chapitre 1, « Chapitre 2 » depuis l'écran de fin et l'écran titre, trois profils de départ | 5.1 | fait |
 | 5.3 | **Format de dialogue étendu** : décor et bruitage par nœud, compteur borné, condition `tempo`, six locuteurs, registre des décors | 5.1 | à faire |
 | 5.4 | **Jauge et bilan** : état de Letitia visible, bilan déclaré en données avec la photo souvenir | 5.3 | à faire |
 | 5.5 | **Scènes dites** : photo, slow et rafale en suite d'images, égouts, adieu à Zachary | 5.3, 5.4 | à faire |

@@ -1558,6 +1558,78 @@ canvas {
   margin-top: 12px;
 }
 
+/* « Chapitre 2 » (ADR 0022) : lien discret vers le choix de profil quand une archive du
+   chapitre 1 existe deja (le bouton principal la reprend directement). */
+.title-link {
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: none;
+  border: none;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.title-link:hover,
+.title-link:focus-visible {
+  color: var(--bone);
+}
+
+/* Choix de profil du chapitre 2 (ADR 0022 §3) : trois cartes, meme feuille que le reste de
+   l'ecran titre -- pas un nouvel ecran plein cadre, une deuxieme vue du meme composant. */
+.profile-picker {
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.profile-picker-title {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-xl);
+}
+
+.profile-picker-subtitle {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+}
+
+.profile-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  width: 100%;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 260px;
+  padding: 18px;
+  text-align: left;
+}
+
+.profile-card h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-lg);
+}
+
+.profile-card p {
+  margin: 0;
+  flex: 1 1 auto;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+}
+
 /* ---------------------------------------------------------------------- */
 /* Bilan de l'exercice et fin de chapitre (src/ui/reportView.ts,           */
 /* docs/art/UI-DESIGN-SYSTEM.md, "Bilan de l'exercice") : un                */

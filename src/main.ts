@@ -11,9 +11,10 @@ import './ui/styles.css';
 import { ChapterApp } from './chapter';
 import { installDebugApi } from './debug/gameApi';
 import { TitleView } from './ui/titleView';
-import { loadSession } from './core/save';
+import { loadArchivedDossier, loadSession } from './core/save';
 import type { ChapterId } from './narrative';
 import { CHAPTERS } from './data/chapters';
+import type { ProfileId } from './data/chapters';
 import { preloadCadetAssets } from './render/exploration/characterAssets';
 
 const container = document.getElementById('app');
@@ -56,6 +57,14 @@ if (characterAssetsReady) {
   const startSceneId = params.get('scene') ?? undefined;
   const rawChapter = Number(params.get('chapter'));
   const chapterId: ChapterId | undefined = rawChapter === 1 || rawChapter === 2 ? rawChapter : undefined;
+  /**
+   * `?profile=<id>` choisit un profil de depart du chapitre 2 (ADR 0022 §6, dev/tests) -- sans
+   * effet si `?chapter=2` n'est pas aussi donne. Une valeur inconnue est ignoree (repli sur le
+   * profil Neutre, voir `ChapterApp.startingDossier`).
+   */
+  const rawProfile = params.get('profile');
+  const profileId: ProfileId | undefined =
+    rawProfile === 'loyal' || rawProfile === 'solitaire' || rawProfile === 'neutre' ? rawProfile : undefined;
   /** `?dice=0` desactive la mise en scene du de 3D (voir docs/process/DEBUG_API.md) : utile pour un parcours de test. */
   const diceEnabled = params.get('dice') !== '0';
 
@@ -86,6 +95,7 @@ if (characterAssetsReady) {
     aiDelayMs: Number.isFinite(aiDelay) ? aiDelay : 450,
     startSceneId,
     diceEnabled,
+    profile: profileId,
   });
   installDebugApi(chapter);
 
@@ -96,7 +106,11 @@ if (characterAssetsReady) {
     const resumeSceneTitle = hadResumableRun
       ? (CHAPTERS[chapter.run.chapter].scenes.find((s) => s.id === chapter.run.sceneId)?.title ?? chapter.run.sceneId)
       : null;
-    const title = new TitleView(container, resumeSceneTitle, {
+    // ADR 0022 §3 : decide si « Chapitre 2 » reprend l'archive du chapitre 1 directement, ou
+    // ouvre le choix de profil -- lu AVANT tout demarrage de chapitre 2, jamais influence par
+    // `chapter` (construit sur le chapitre 1 tant que l'ecran titre est a l'ecran).
+    const hasChapter1Archive = loadArchivedDossier(1) !== null;
+    const title = new TitleView(container, resumeSceneTitle, hasChapter1Archive, {
       onNewGame: () => {
         // Graine fraiche, jamais celle (eventuellement reprise) avec laquelle
         // `chapter` vient d'etre construit -- voir `ChapterApp.startNewGame`.
@@ -104,6 +118,14 @@ if (characterAssetsReady) {
         title.dismiss();
       },
       onResume: () => title.dismiss(),
+      onContinueChapter2: () => {
+        chapter.startChapter(2, { useArchive: true });
+        title.dismiss();
+      },
+      onChooseProfile: (profile) => {
+        chapter.startChapter(2, { profile });
+        title.dismiss();
+      },
     });
   }
 }

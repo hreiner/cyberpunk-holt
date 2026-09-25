@@ -18,6 +18,11 @@ import { migrateRunState, type RunState } from '@/narrative/runState';
 const DOSSIER_KEY = 'holt.dossier.v1';
 const SESSION_KEY = 'holt.session.v1';
 
+/** Cle d'archive d'un chapitre termine (ADR 0022) : `holt.archive.ch1.v1`, `holt.archive.ch2.v1`, ... */
+function archiveKey(chapter: number): string {
+  return `holt.archive.ch${chapter}.v1`;
+}
+
 export interface SessionSave {
   lastSeed: string;
   /** Vrai si le joueur a active l'affichage de debug. */
@@ -94,6 +99,39 @@ export function saveSession(session: SessionSave): boolean {
     return true;
   } catch {
     return false;
+  }
+}
+
+/**
+ * Archive locale d'un chapitre termine (ADR 0022) : atteindre la fin d'un chapitre copie le
+ * dossier sous une cle a part (`holt.archive.ch<N>.v1`), distincte de `holt.dossier.v1`
+ * (la partie EN COURS). Une nouvelle partie du meme chapitre n'y touche pas -- seule une
+ * nouvelle FIN la remplace (voir `ChapterApp.showChapterEnd`). Memes gardes de panne que le
+ * reste du stockage : ne leve jamais, renvoie `false`/`null` en cas d'echec.
+ */
+export function archiveDossier(chapter: number, dossier: Dossier): boolean {
+  const s = storage();
+  if (!s) return false;
+  try {
+    s.setItem(archiveKey(chapter), JSON.stringify(dossier));
+    return true;
+  } catch (error) {
+    console.warn('Archive du dossier impossible.', error);
+    return false;
+  }
+}
+
+/** Relit l'archive de `chapter` (ADR 0022), `null` si absente ou illisible (JSON invalide). */
+export function loadArchivedDossier(chapter: number): Dossier | null {
+  const s = storage();
+  if (!s) return null;
+  try {
+    const raw = s.getItem(archiveKey(chapter));
+    if (!raw) return null;
+    return migrateDossier(JSON.parse(raw));
+  } catch (error) {
+    console.warn('Archive du dossier illisible.', error);
+    return null;
   }
 }
 

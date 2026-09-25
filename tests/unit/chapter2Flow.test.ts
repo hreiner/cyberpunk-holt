@@ -1,15 +1,16 @@
 /**
- * « Aucun cul-de-sac » du chapitre 2 (lot 5.1) -- meme esprit que
- * tests/unit/narrativeDeadEnds.test.ts pour le chapitre 1, mais balaye ici
- * TOUTE combinaison de choix sur les 14 scenes du squelette (ADR 0021,
- * docs/chapters/ch2/TECH-DESIGN.md §4.4), pas seulement les noeuds
+ * « Aucun cul-de-sac » du chapitre 2 (lot 5.1, etendu au lot 5.2) -- meme
+ * esprit que tests/unit/narrativeDeadEnds.test.ts pour le chapitre 1, mais
+ * balaye ici TOUTE combinaison de choix sur les 14 scenes du squelette (ADR
+ * 0021, docs/chapters/ch2/TECH-DESIGN.md §4.4), pas seulement les noeuds
  * conditionnes : le chapitre 2 n'a encore aucune condition de choix a ce lot
  * (contenu complet aux lots 5.5+), donc chaque scene doit, par construction,
  * amener TOUT chemin jusqu'a son noeud terminal.
  *
- * Depart : le profil Neutre (ADR 0022, `ch2Profiles.ts`), seul profil
- * implemente a ce lot. Verifie aussi que toute etiquette posee au passage
- * appartient a la liste fermee de docs/chapters/ch2/GAME-DESIGN.md §7.
+ * Depart : les TROIS profils du chapitre 2 (ADR 0022, `ch2Profiles.ts`) --
+ * Loyal a la bande, Solitaire, Neutre -- chacun doit atteindre la fin sans
+ * cul-de-sac (conclusion de l'ADR 0022 : "le test de flux du chapitre 2
+ * balaie les trois profils").
  */
 
 import { describe, expect, it } from 'vitest';
@@ -20,7 +21,8 @@ import type { NarrativeContext } from '@/narrative/dialogueRunner';
 import type { DialogueFile } from '@/narrative/types';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_2 } from '@/data/chapters/ch2';
-import { NEUTRAL_PROFILE } from '@/data/chapters/ch2Profiles';
+import { CH2_PROFILES } from '@/data/chapters/ch2Profiles';
+import type { DossierProfile } from '@/data/chapters/ch2Profiles';
 
 /** Liste fermee de docs/chapters/ch2/GAME-DESIGN.md §7 ("Ce que le chapitre ecrit"). */
 const CH2_CLOSED_TAGS = [
@@ -79,52 +81,71 @@ function outcomesOf(file: DialogueFile, ctx: NarrativeContext, decisions: number
   return results;
 }
 
-describe('chapitre 2 (lot 5.1) : le squelette de 14 scenes s enchaine jusqu a la fin', () => {
-  it('depuis le profil Neutre, toute suite de choix atteint la fin ; les etiquettes posees sont dans la liste fermee du §7', () => {
-    const tagsSeen = new Set<string>();
-    let completedPaths = 0;
+describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu a la fin', () => {
+  const profiles = Object.values(CH2_PROFILES) as DossierProfile[];
 
-    const initialCtx: NarrativeContext = {
-      dossier: NEUTRAL_PROFILE.build(),
-      run: createRunState('chapter2Flow-seed', {
-        chapter: 2,
-        sceneId: CHAPTER_2.scenes[0]?.id ?? '',
-        luck: CHAPTER_2.initialLuck,
-      }),
-    };
-    // Le profil Neutre pose deja `equipe-tactique`/`vainqueur-exercice` (etiquettes du
-    // CHAPITRE 1, voir ch2Profiles.ts) : seules les etiquettes NOUVELLES, posees PAR le
-    // chapitre 2, doivent appartenir a la liste fermee du §7 -- pas l'heritage du profil.
-    const inheritedTags = new Set(initialCtx.dossier.tags);
+  it.each(profiles.map((p) => [p.id, p] as const))(
+    'depuis le profil %s, toute suite de choix atteint la fin ; les etiquettes posees sont dans la liste fermee du §7',
+    (_id, profile) => {
+      const tagsSeen = new Set<string>();
+      let completedPaths = 0;
 
-    const walk = (sceneIndex: number, ctx: NarrativeContext): void => {
-      if (sceneIndex >= CHAPTER_2.scenes.length) {
-        completedPaths++;
-        for (const tag of ctx.dossier.tags) {
-          if (!inheritedTags.has(tag)) tagsSeen.add(tag);
+      const initialCtx: NarrativeContext = {
+        dossier: profile.build(),
+        run: createRunState(`chapter2Flow-seed-${profile.id}`, {
+          chapter: 2,
+          sceneId: CHAPTER_2.scenes[0]?.id ?? '',
+          luck: CHAPTER_2.initialLuck,
+        }),
+      };
+      // Chaque profil pose deja ses propres etiquettes (etiquettes du CHAPITRE 1, voir
+      // ch2Profiles.ts) : seules les etiquettes NOUVELLES, posees PAR le chapitre 2, doivent
+      // appartenir a la liste fermee du §7 -- pas l'heritage du profil.
+      const inheritedTags = new Set(initialCtx.dossier.tags);
+
+      const walk = (sceneIndex: number, ctx: NarrativeContext): void => {
+        if (sceneIndex >= CHAPTER_2.scenes.length) {
+          completedPaths++;
+          for (const tag of ctx.dossier.tags) {
+            if (!inheritedTags.has(tag)) tagsSeen.add(tag);
+          }
+          return;
         }
-        return;
+        const scene = CHAPTER_2.scenes[sceneIndex];
+        if (!scene) throw new Error('scene introuvable : index hors bornes.');
+        const dialogueId = scene.dialogueId ?? scene.id;
+        const file = DIALOGUES[dialogueId];
+        expect(file, `dialogue "${dialogueId}" manquant pour la scene "${scene.id}"`).toBeDefined();
+
+        const outcomes = outcomesOf(file as DialogueFile, ctx);
+        expect(outcomes.length, `${scene.id} : aucun chemin n'atteint la fin du dialogue`).toBeGreaterThan(0);
+        for (const outcome of outcomes) walk(sceneIndex + 1, outcome);
+      };
+
+      walk(0, initialCtx);
+
+      expect(completedPaths).toBeGreaterThan(0);
+      for (const tag of tagsSeen) {
+        expect(CH2_CLOSED_TAGS, `etiquette "${tag}" hors de la liste fermee du §7`).toContain(tag);
       }
-      const scene = CHAPTER_2.scenes[sceneIndex];
-      if (!scene) throw new Error('scene introuvable : index hors bornes.');
-      const dialogueId = scene.dialogueId ?? scene.id;
-      const file = DIALOGUES[dialogueId];
-      expect(file, `dialogue "${dialogueId}" manquant pour la scene "${scene.id}"`).toBeDefined();
+    },
+  );
 
-      const outcomes = outcomesOf(file as DialogueFile, ctx);
-      expect(outcomes.length, `${scene.id} : aucun chemin n'atteint la fin du dialogue`).toBeGreaterThan(0);
-      for (const outcome of outcomes) walk(sceneIndex + 1, outcome);
-    };
+  it('les trois profils sont bien distincts (ADR 0022 §4.2) : etiquettes ET affinites de depart', () => {
+    const [loyal, solitaire, neutre] = [CH2_PROFILES.loyal, CH2_PROFILES.solitaire, CH2_PROFILES.neutre];
+    const loyalDossier = loyal.build();
+    const solitaireDossier = solitaire.build();
+    const neutreDossier = neutre.build();
 
-    walk(0, initialCtx);
-
-    expect(completedPaths).toBeGreaterThan(0);
-    for (const tag of tagsSeen) {
-      expect(CH2_CLOSED_TAGS, `etiquette "${tag}" hors de la liste fermee du §7`).toContain(tag);
-    }
-    // Preuve que le squelette exerce vraiment le vocabulaire (pas un test qui passerait
-    // trivialement avec zero etiquette posee) : au moins une des sept doit apparaitre.
-    expect(tagsSeen.size).toBeGreaterThan(0);
+    expect(loyalDossier.tags).not.toEqual(solitaireDossier.tags);
+    expect(loyalDossier.tags).not.toEqual(neutreDossier.tags);
+    expect(solitaireDossier.tags).not.toEqual(neutreDossier.tags);
+    // La bande (Zachary, Abigail) monte pour Loyal, redescend a 0 pour Solitaire.
+    expect(loyalDossier.affinities.zachary).toBeGreaterThan(neutreDossier.affinities.zachary ?? 0);
+    expect(solitaireDossier.affinities.zachary).toBeLessThan(neutreDossier.affinities.zachary ?? 0);
+    // Letitia se rapproche dans les deux profils qui s'ecartent de la bande, plus encore
+    // en Solitaire (ADR 0022 §4.2 : "bande +2, Letitia +1" / "bande 0, Letitia +2").
+    expect(solitaireDossier.affinities.letitia).toBeGreaterThan(loyalDossier.affinities.letitia ?? 0);
   });
 
   it('les 14 scenes du chapitre 2 sont toutes des dialogues squelettes a ce lot (ADR 0021, TECH-DESIGN §4.4/§6)', () => {

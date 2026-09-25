@@ -277,8 +277,8 @@ export interface E2EGameApi {
   /* --- narratif (ADR 0011) --- */
   scene(): E2ESceneSnapshot;
   goToScene(id: string): E2ESceneSnapshot;
-  /** Voir `GameDebugApi.startChapter` dans src/debug/gameApi.ts (ADR 0021). */
-  startChapter(id: 1 | 2, options?: { seed?: string; profile?: string }): E2ESceneSnapshot;
+  /** Voir `GameDebugApi.startChapter` dans src/debug/gameApi.ts (ADR 0021/0022). */
+  startChapter(id: 1 | 2, options?: { seed?: string; profile?: string; useArchive?: boolean }): E2ESceneSnapshot;
   runState(): E2ERunState;
   dossier(): E2EDossier;
   node(): E2EPresentedNode | null;

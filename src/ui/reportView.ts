@@ -18,6 +18,14 @@ import { writtenScoreTags } from '@/rules/scoring';
 export interface ReportViewCallbacks {
   onContinueExercise(): void;
   onNewGame(): void;
+  /** "Chapitre 2 — La nuit du bal" sur l'ecran de cloture (ADR 0022 §2, "suite directe"). */
+  onNextChapter(): void;
+}
+
+/** Bouton "Chapitre suivant" du bilan de cloture (ADR 0022 §2), absent en fin de dernier chapitre. */
+export interface NextChapterAction {
+  /** Libelle affiche, ex. « Chapitre 2 — La nuit du bal ». */
+  title: string;
 }
 
 /**
@@ -159,8 +167,13 @@ export class ReportView {
       this.callbacks.onContinueExercise();
   }
 
-  /** Ecran de cloture du chapitre : meme feuille, dossier complet plutot que le seul exercice. */
-  renderChapterEnd(dossier: Dossier): void {
+  /**
+   * Ecran de cloture du chapitre : meme feuille, dossier complet plutot que le seul exercice.
+   * `next` (ADR 0022 §2, absent en fin du dernier chapitre) ajoute "Chapitre 2 — La nuit du
+   * bal" en action PRIMAIRE -- "Nouvelle partie" reste possible mais rejoue le meme chapitre
+   * (voir `ChapterApp.startNewGame`), ce n'est pas la suite naturelle quand il y en a une.
+   */
+  renderChapterEnd(dossier: Dossier, next: NextChapterAction | null = null): void {
     const score = dossier.practicalScore;
     this.sheetEl.innerHTML = `
       <header class="report-head">
@@ -169,12 +182,21 @@ export class ReportView {
       </header>
       ${score ? scoreTableMarkup(score) : '<p class="report-empty">Exercice pratique non evalue.</p>'}
       ${notesMarkup('Dossier du candidat', dossier.tags)}
-      <button type="button" class="btn btn--primary report-newgame" data-testid="report-newgame">
+      ${
+        next
+          ? `<button type="button" class="btn btn--primary report-next-chapter" data-testid="report-next-chapter">
+              ${next.title}
+            </button>`
+          : ''
+      }
+      <button type="button" class="btn ${next ? '' : 'btn--primary'} report-newgame" data-testid="report-newgame">
         Nouvelle partie
       </button>
     `;
     (this.sheetEl.querySelector('[data-testid="report-newgame"]') as HTMLButtonElement).onclick = () =>
       this.callbacks.onNewGame();
+    const nextBtn = this.sheetEl.querySelector('[data-testid="report-next-chapter"]') as HTMLButtonElement | null;
+    if (nextBtn) nextBtn.onclick = () => this.callbacks.onNextChapter();
   }
 
   show(): void {

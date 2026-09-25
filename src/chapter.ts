@@ -9,7 +9,7 @@
  */
 
 import { createRng, randomSeedLabel } from '@/core/rng';
-import { loadDossier, loadSession, saveDossier, saveSession } from '@/core/save';
+import { archiveDossier, loadArchivedDossier, loadDossier, loadSession, saveDossier, saveSession } from '@/core/save';
 import type { SessionSave } from '@/core/save';
 import type { Dossier } from '@/core/dossier';
 import { createDossier, setPracticalScore } from '@/core/dossier';
@@ -121,6 +121,14 @@ export interface ChapterOptions {
    * pour un parcours de test qui n'a pas besoin de la mise en scene.
    */
   diceEnabled?: boolean;
+  /**
+   * Profil de depart du chapitre 2 (ADR 0022) -- sans effet sur le chapitre 1. `?profile=`
+   * en URL passe par ici (voir main.ts). Ignore si `useArchive` est aussi donne et qu'une
+   * archive du chapitre 1 existe : le profil est reserve a qui N'A PAS d'archive.
+   */
+  profile?: ProfileId;
+  /** Reprend l'archive du chapitre 1 si elle existe (ADR 0022) -- sans effet sur le chapitre 1. */
+  useArchive?: boolean;
 }
 
 /** Resume affichable de la scene courante, expose au debug (`window.__game.scene()`). */
@@ -169,15 +177,21 @@ function isResumingRun(session: SessionSave, options: ChapterOptions, seed: stri
 const EXPLORE_REPEAT_LINE_FALLBACK = "Il n'y a plus rien à ajouter.";
 
 /**
- * Dossier de depart d'une NOUVELLE partie sur `chapterId` (ADR 0022) : vierge pour le chapitre 1
- * (regle inchangee, voir `isResumingRun`) ; profil Neutre pour le chapitre 2 tant que l'archive du
- * chapitre 1 et le choix d'un profil (lot 5.2) ne sont pas branches -- `CH2_PROFILES.neutre` est
- * garanti present (seul profil implemente au lot 5.1, voir `ch2Profiles.ts`).
+ * Dossier de depart d'une NOUVELLE partie sur `chapterId` (ADR 0022) :
+ *  - chapitre 1 : toujours vierge (regle inchangee, voir `isResumingRun`) ;
+ *  - chapitre 2 : un profil explicite (`options.profile`) l'emporte ; sinon, `options.useArchive`
+ *    reprend l'archive du chapitre 1 si elle existe (`loadArchivedDossier`, ADR 0022 §1) ; sinon,
+ *    ou si l'archive est illisible, repli sur le profil Neutre -- jamais un dossier vierge, qui
+ *    ferait manquer au chapitre 2 les etiquettes qu'il lit inconditionnellement (GAME-DESIGN §7).
  */
-function startingDossier(chapterId: ChapterId): Dossier {
+function startingDossier(chapterId: ChapterId, options: { profile?: ProfileId; useArchive?: boolean } = {}): Dossier {
   if (chapterId !== 2) return createDossier();
-  const neutre = CH2_PROFILES.neutre;
-  return neutre ? neutre.build() : createDossier();
+  if (options.profile) return CH2_PROFILES[options.profile].build();
+  if (options.useArchive) {
+    const archived = loadArchivedDossier(1);
+    if (archived) return archived;
+  }
+  return CH2_PROFILES.neutre.build();
 }
 
 export class ChapterApp {
@@ -274,7 +288,9 @@ export class ChapterApp {
       options.chapter ??
       (resuming ? (session.run?.chapter ?? 1) : 1);
     this.chapterDef = CHAPTERS[chapterId];
-    const dossier = resuming ? loadDossier() : startingDossier(chapterId);
+    const dossier = resuming
+      ? loadDossier()
+      : startingDossier(chapterId, { profile: options.profile, useArchive: options.useArchive });
     const run =
       resuming && session.run
         ? migrateRunState(session.run, seed)
@@ -338,6 +354,7 @@ export class ChapterApp {
     this.reportView = new ReportView(this.reportHost, {
       onContinueExercise: () => this.continueFromReport(),
       onNewGame: () => this.startNewGame(),
+      onNextChapter: () => this.continueToNextChapter(),
     });
     this.draftView = new DraftView(this.draftHost, {
       onPick: (id) => this.pickTeammate(id),
@@ -1303,41 +1320,52 @@ export class ChapterApp {
   }
 
   /**
+   * Chapitre suivant de `id`, s'il existe (ADR 0021/0022) -- seul `1 -> 2` est defini a ce
+   * jour. `null` en fin de chapitre 2 : pas de bouton "Chapitre suivant" sur son bilan (le
+   * chapitre 3 n'existe pas).
+   */
+  private nextChapterId(id: ChapterId): ChapterId | null {
+    return id === 1 ? 2 : null;
+  }
+
+  /**
    * Ecran de cloture : restyle par le meme lot que le bilan de l'exercice
    * (docs/art/UI-DESIGN-SYSTEM.md, "Bilan de l'exercice") -- la meme feuille
    * `--ink-2`, cette fois avec le dossier complet (etiquettes + note
    * pratique) plutot que le seul exercice, et l'action "Nouvelle partie" au
    * lieu de "Continuer" (voir `ReportView.renderChapterEnd`).
+   *
+   * ADR 0022 §1 : atteindre la fin d'un chapitre l'archive AVANT tout affichage -- une archive
+   * plus recente remplace toujours la precedente, une nouvelle PARTIE du meme chapitre n'y
+   * touche jamais (voir `startNewGame`, qui n'appelle pas `archiveDossier`).
    */
   private showChapterEnd(): void {
+    archiveDossier(this.chapterDef.id, this.ctx.dossier);
     this.hideAllViews();
     this.setActiveHost('report');
     this.reportView.show();
-    this.reportView.renderChapterEnd(this.ctx.dossier);
+    const nextId = this.nextChapterId(this.chapterDef.id);
+    const next = nextId ? { title: `Chapitre ${nextId} — ${CHAPTERS[nextId].title}` } : null;
+    this.reportView.renderChapterEnd(this.ctx.dossier, next);
   }
 
   /**
-   * "Nouvelle partie" (ecran titre ou fin de chapitre) : repart d'un dossier
-   * ET d'un `RunState` vierges sur une graine fraiche -- jamais une reprise
-   * (voir `isResumingRun`, meme regle qu'au demarrage). N'existait pas avant
-   * ce lot : le seul point d'entree "nouvelle partie" etait jusqu'ici un
-   * rechargement de page (`main.ts`).
+   * Demarre (ou redemarre) `def` avec `dossier`, sur une nouvelle traversee (graine `seed`) --
+   * factorise le geste commun a `startNewGame`, `startChapter` et `continueToNextChapter` :
+   * jamais une reprise (voir `isResumingRun`), toujours un `RunState` frais a la premiere scene
+   * du chapitre.
    */
-  startNewGame(seed: string = randomSeedLabel()): void {
+  private beginChapter(def: ChapterDef, dossier: Dossier, seed: string): void {
     this.activeDialogue = null;
     this.activeExploreConversation = null;
     this.hideAllViews();
-    // Nouvelle partie, nouvelle graine : l'etat d'exploration de la
-    // precedente (position de Franklyn, decor seede sur l'ancienne graine)
-    // ne doit pas survivre -- `enterExploreScene` en reconstruira un neuf des
-    // la prochaine etape `explore` (voir `ExploreSession.enterStep`/`resetWorld`).
+    // Etat d'exploration de la traversee precedente (position de Franklyn, decor seede sur
+    // l'ancienne graine) : ne doit pas survivre -- `enterExploreScene` en reconstruira un neuf
+    // des la prochaine etape `explore` (voir `ExploreSession.enterStep`/`resetWorld`).
     this.exploreSession.resetWorld();
-    // Rejoue le MEME chapitre (ADR 0021) : "Nouvelle partie" depuis l'ecran de cloture du
-    // chapitre 2 rejoue le chapitre 2, pas le chapitre 1 -- `startChapter` gere le cas ou on
-    // veut vraiment CHANGER de chapitre (ecran titre, lot 5.2).
-    const def = this.chapterDef;
+    this.chapterDef = def;
     this.ctx = {
-      dossier: startingDossier(def.id),
+      dossier,
       run: createRunState(seed, { chapter: def.id, sceneId: def.scenes[0]?.id ?? '', luck: def.initialLuck }),
     };
     this.router = new SceneRouter(def.scenes, this.ctx, def.etapeFlag);
@@ -1346,30 +1374,45 @@ export class ChapterApp {
   }
 
   /**
-   * Demarre (ou redemarre) un chapitre precis (ADR 0021, `window.__game.startChapter`).
-   * Lot 5.1 : seul le profil Neutre existe (`startingDossier`) -- l'archive du chapitre 1 et le
-   * choix explicite d'un profil arrivent au lot 5.2 (`options.profile` reserve a cet usage).
+   * "Nouvelle partie" (ecran titre ou fin de chapitre) : repart d'un dossier
+   * ET d'un `RunState` vierges sur une graine fraiche -- jamais une reprise
+   * (voir `isResumingRun`, meme regle qu'au demarrage). N'existait pas avant
+   * ce lot : le seul point d'entree "nouvelle partie" etait jusqu'ici un
+   * rechargement de page (`main.ts`).
+   *
+   * Rejoue le MEME chapitre (ADR 0021) : "Nouvelle partie" depuis l'ecran de cloture du
+   * chapitre 2 rejoue le chapitre 2, pas le chapitre 1 -- `startChapter` gere le cas ou on veut
+   * vraiment CHANGER de chapitre (ecran titre, lot 5.2).
    */
-  startChapter(id: ChapterId, options: { seed?: string; profile?: ProfileId } = {}): void {
-    this.activeDialogue = null;
-    this.activeExploreConversation = null;
-    this.hideAllViews();
-    this.exploreSession.resetWorld();
-    const def = CHAPTERS[id];
-    this.chapterDef = def;
-    // `options.profile` est reserve a l'ecran de choix de profil (lot 5.2) : seul le profil
-    // Neutre existe a ce lot, `startingDossier` le donne deja par defaut pour le chapitre 2.
-    this.ctx = {
-      dossier: startingDossier(id),
-      run: createRunState(options.seed ?? randomSeedLabel(), {
-        chapter: id,
-        sceneId: def.scenes[0]?.id ?? '',
-        luck: def.initialLuck,
-      }),
-    };
-    this.router = new SceneRouter(def.scenes, this.ctx, def.etapeFlag);
-    this.ctx = this.router.context;
-    this.enterScene(this.router.finished ? null : this.router.current());
+  startNewGame(seed: string = randomSeedLabel()): void {
+    const def = this.chapterDef;
+    this.beginChapter(def, startingDossier(def.id), seed);
+  }
+
+  /**
+   * Demarre (ou redemarre) un chapitre precis (ADR 0021/0022, `window.__game.startChapter`) :
+   * `options.profile` choisit un profil de depart explicite (ecran de choix de profil, lot
+   * 5.2) ; sinon `options.useArchive` reprend l'archive du chapitre 1 si elle existe (bouton
+   * "Chapitre 2" de l'ecran titre) ; sans l'un ni l'autre, repli sur le profil Neutre -- voir
+   * `startingDossier`. Sans effet sur le chapitre 1 (toujours un dossier vierge).
+   */
+  startChapter(id: ChapterId, options: { seed?: string; profile?: ProfileId; useArchive?: boolean } = {}): void {
+    const dossier = startingDossier(id, { profile: options.profile, useArchive: options.useArchive });
+    this.beginChapter(CHAPTERS[id], dossier, options.seed ?? randomSeedLabel());
+  }
+
+  /**
+   * "Chapitre 2 — La nuit du bal" sur l'ecran de cloture du chapitre 1 (ADR 0022 §2, "suite
+   * directe") : demarre le chapitre suivant avec le dossier DEJA EN MEMOIRE (celui qui vient
+   * d'etre archive par `showChapterEnd`), sans repasser par le stockage -- identique a
+   * l'archive par construction, mais sans dependre de `localStorage` pour enchainer tout de
+   * suite. Absent si `this.chapterDef` n'a pas de chapitre suivant (voir `nextChapterId`) :
+   * `ReportView` ne montre alors pas ce bouton, cette methode n'est donc jamais appelee.
+   */
+  continueToNextChapter(): void {
+    const nextId = this.nextChapterId(this.chapterDef.id);
+    if (!nextId) return;
+    this.beginChapter(CHAPTERS[nextId], this.ctx.dossier, randomSeedLabel());
   }
 
   /* ------------------------------ routeur / radio / sauvegarde ------------------ */

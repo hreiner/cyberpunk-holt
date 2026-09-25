@@ -171,13 +171,20 @@ export type ProfileId = 'loyal' | 'solitaire' | 'neutre';
 export interface DossierProfile { id: ProfileId; title: string; summary: string; build(): Dossier }
 ```
 
-Profils (valeurs à affiner au lot 5.2, dans l'esprit suivant) :
+Profils (valeurs affinées au lot 5.2, `src/data/chapters/ch2Profiles.ts`, source de vérité) :
 
 | Profil | Étiquettes | Affinités | Pensé pour |
 |---|---|---|---|
 | Loyal à la bande | `loyal-bande`, `equipe-bande`, `vainqueur-exercice`, `sauveteur` | bande +2, Letitia +1 | voir la bande porter Franklyn |
 | Solitaire | `solitaire`, `equipe-tactique`, `defaite-exercice`, `bluffeur`, `tricheur` | bande 0, Letitia +2 | voir les options froides |
 | Neutre | `equipe-tactique`, `vainqueur-exercice` | valeurs de départ des fiches | B2 : le dossier moyen |
+
+« La bande » : parmi les cinq amis jouables, seuls Zachary et Abigail forment la bande de
+Franklyn (docs/design/04-CHARACTERS.md, "Les bandes") ; Letitia appartient au trio critique,
+John reste solitaire. « bande +2 »/« +1 »/« +2 » (Loyal, Letitia des deux profils) sont des
+**deltas** sur l'affinité de départ des fiches ; « bande 0 » (Solitaire) est en revanche une
+**valeur absolue** — la fiche de Zachary et d'Abigail donnent toutes deux +2 de base, un delta
+n'aurait donc pas suffi à marquer la distance voulue par ce profil.
 
 ### 4.3 Format de dialogue (ADR 0023)
 
