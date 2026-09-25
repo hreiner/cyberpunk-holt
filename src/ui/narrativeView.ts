@@ -17,6 +17,7 @@ import { backdropFor, backdropMarkup, sceneZone, splitTitle } from '@/ui/sceneCh
 import { DIFFICULTY_LABELS } from '@/rules/attributes';
 import { INITIAL_LUCK } from '@/narrative';
 import type { PresentedChoice, PresentedNode, PresentedRoll, RadioCue, SpeakerId } from '@/narrative';
+import { CHAPTERS, chapterOfScene } from '@/data/chapters';
 
 /**
  * Ressources persistantes affichees en permanence pendant un dialogue (ADR
@@ -63,6 +64,11 @@ export interface NarrativeViewCallbacks {
  * 3) est une seule scene (la 7) deployee en trois entrees dans
  * CHAPTER_1_SCENES (sceneRouter.ts), et le combat tactique (scene 8) ne passe
  * jamais par cette vue -- absent de la table, sans consequence.
+ *
+ * Table de REPLI pour le chapitre 1 uniquement (ADR 0021, generalise par
+ * `SceneDef.number` -- voir `sceneNumberFor`) : le chapitre 2 porte deja son
+ * numero directement sur chaque `SceneDef` (`src/data/chapters/ch2.ts`), pas
+ * besoin d'une seconde table a maintenir en double.
  */
 const SCENE_NUMBERS: Record<string, number> = {
   'ch1.intro': 1,
@@ -78,6 +84,28 @@ const SCENE_NUMBERS: Record<string, number> = {
   'ch1.bal': 9,
 };
 const TOTAL_SCENES = 9;
+/** Le plus grand `SceneDef.number` du chapitre 2 (docs/chapters/ch2/TECH-DESIGN.md §4.4). */
+const CH2_TOTAL_SCENES = 11;
+
+/** Numero de scene affichable, d'apres `SceneDef.number` (chapitre 2+) ou la table de repli (chapitre 1). */
+function sceneNumberFor(sceneId: string): number | undefined {
+  const chapterId = chapterOfScene(sceneId);
+  if (chapterId !== null) {
+    const scene = CHAPTERS[chapterId].scenes.find((s) => s.id === sceneId);
+    if (scene?.number !== undefined) return scene.number;
+  }
+  return SCENE_NUMBERS[sceneId];
+}
+
+/** Total de scenes affiche ("Scène n / total"), selon le chapitre de `sceneId`. */
+function totalScenesFor(sceneId: string): number {
+  return chapterOfScene(sceneId) === 2 ? CH2_TOTAL_SCENES : TOTAL_SCENES;
+}
+
+/** « CHAPITRE 1 »/« CHAPITRE 2 » : tampon de la carte de titre (docs/art/UI-DESIGN-SYSTEM.md, "Transition de scène"). */
+function chapterStampFor(sceneId: string): string {
+  return `CHAPITRE ${chapterOfScene(sceneId) ?? 1}`;
+}
 
 interface SceneMoment {
   key: string;
@@ -887,13 +915,13 @@ export class NarrativeView {
     if (!cardKey || cardKey === this.lastSceneCardKey) return;
     this.lastSceneCardKey = cardKey;
 
-    const number = moment?.showSceneNumber === false ? undefined : SCENE_NUMBERS[sceneId];
+    const number = moment?.showSceneNumber === false ? undefined : sceneNumberFor(sceneId);
     const [room, name] = splitTitle(sceneTitle);
     this.sceneCardEl.innerHTML = `
       <div class="scene-card-inner">
-        ${number ? `<p class="scene-card-count">Scène ${number} / ${TOTAL_SCENES}</p>` : ''}
+        ${number ? `<p class="scene-card-count">Scène ${number} / ${totalScenesFor(sceneId)}</p>` : ''}
         <h1 class="scene-card-title">${room ? `<span class="narrative-scene-room">${room}</span> — ${name}` : name}</h1>
-        <div class="stamp scene-card-stamp">CHAPITRE 1</div>
+        <div class="stamp scene-card-stamp">${chapterStampFor(sceneId)}</div>
       </div>
     `;
     this.sceneCardEl.hidden = false;

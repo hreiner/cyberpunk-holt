@@ -43,15 +43,28 @@ export interface SceneDef {
    */
   spawn?: string;
   /**
-   * Valeur posee dans `RunState.flags['ch1.etape']` a l'entree de la scene
+   * Valeur posee dans `RunState.flags[etapeFlag]` a l'entree de la scene
    * (voir `withEtape`) : c'est elle qui fait apparaitre/disparaitre les
    * entites de la carte (`condition` de `src/data/maps/holt.ts`).
+   *
+   * Generalise en simple `string` par l'ADR 0021 (etait `Ch1Etape`) : chaque
+   * chapitre exporte sa propre union de valeurs (`Ch1Etape` pour le premier),
+   * mais le champ lui-meme ne connait plus qu'une chaine -- c'est
+   * `ChapterDef.etapeFlag` qui dit dans QUEL drapeau elle s'ecrit.
    */
-  etape?: Ch1Etape;
+  etape?: string;
   /** Objectif principal (+ facultatifs) affiche pendant l'etape (`ObjectiveHud`). */
   objective?: ObjectiveDef;
   /** Scene sautee si la condition est fausse. */
   when?: Condition;
+  /**
+   * Numero de scene affiche par la carte de titre (ADR 0021, generalise depuis
+   * la table `SCENE_NUMBERS` de `src/ui/narrativeView.ts`) : plusieurs `SceneDef`
+   * peuvent partager le meme numero (ex. les scenes 4, 5 et 9 du chapitre 2, qui
+   * se declinent en une etape d'exploration et son dialogue). Absent pour le
+   * chapitre 1, qui garde sa table dediee en repli (voir `sceneNumberFor`).
+   */
+  number?: number;
 }
 
 /**
@@ -79,23 +92,28 @@ export type Ch1Etape =
 export const CH1_ETAPE_FLAG = 'ch1.etape';
 
 /**
- * Pose `ch1.etape` dans le contexte a l'entree d'une scene `explore` (ADR
- * 0013 §4, contrat du lot 3.6b : "posé... à l'entrée de la scène"). Pure,
- * sans effet sur une scene d'un autre type (`scene.etape` est alors absent).
+ * Pose `scene.etape` dans le contexte a l'entree d'une scene `explore` (ADR
+ * 0013 §4, contrat du lot 3.6b : "posé... à l'entrée de la scène"), sous le
+ * drapeau `etapeFlag` (`ChapterDef.etapeFlag`, ADR 0021 -- repli sur
+ * `CH1_ETAPE_FLAG` si omis, pour ne rien casser au chapitre 1). Pure, sans
+ * effet sur une scene d'un autre type (`scene.etape` est alors absent).
  */
-export function withEtape(ctx: NarrativeContext, scene: SceneDef): NarrativeContext {
+export function withEtape(ctx: NarrativeContext, scene: SceneDef, etapeFlag: string = CH1_ETAPE_FLAG): NarrativeContext {
   if (!scene.etape) return ctx;
-  return { ...ctx, run: setFlag(ctx.run, CH1_ETAPE_FLAG, scene.etape) };
+  return { ...ctx, run: setFlag(ctx.run, etapeFlag, scene.etape) };
 }
 
 export class SceneRouter {
   private readonly scenes: SceneDef[];
   private ctx: NarrativeContext;
   private index: number;
+  /** Drapeau d'etape de CE chapitre (ADR 0021) -- voir `withEtape`. */
+  readonly etapeFlag: string;
 
-  constructor(scenes: SceneDef[], ctx: NarrativeContext) {
+  constructor(scenes: SceneDef[], ctx: NarrativeContext, etapeFlag: string = CH1_ETAPE_FLAG) {
     this.scenes = scenes;
     this.ctx = ctx;
+    this.etapeFlag = etapeFlag;
     this.index = this.nextEligibleIndex(0);
     this.applyCurrentScene();
   }

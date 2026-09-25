@@ -1,0 +1,16 @@
+{
+  "id": "ch2.campement",
+  "start": "arrivee",
+  "nodes": {
+    "arrivee": {
+      "text": "Un campement de fortune, aux abords des Badlands.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Des insignes au scorpion, abandonnés près d'un feu éteint.",
+      "effects": [
+        { "entry": { "key": "ch2.campement.insignes", "label": "Insignes au scorpion", "value": "trouvés au campement" } }
+      ]
+    }
+  }
+}

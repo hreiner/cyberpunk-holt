@@ -1,0 +1,14 @@
+{
+  "id": "ch2.egouts",
+  "start": "chute",
+  "nodes": {
+    "chute": {
+      "text": "La chute dans les égouts. Zachary ne se relève pas.",
+      "to": "constat"
+    },
+    "constat": {
+      "text": "Il n'y a plus rien à faire pour lui.",
+      "effects": [{ "entry": { "key": "ch2.zachary", "label": "Zachary", "value": "mort le soir du bal" } }]
+    }
+  }
+}

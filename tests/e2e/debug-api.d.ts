@@ -144,6 +144,8 @@ export interface E2ETeamRoster {
 }
 
 export interface E2ERunState {
+  /** Chapitre de cette traversee (ADR 0021). */
+  chapter: 1 | 2;
   sceneId: string;
   flags: Record<string, string | number | boolean>;
   tempo: number;
@@ -275,6 +277,8 @@ export interface E2EGameApi {
   /* --- narratif (ADR 0011) --- */
   scene(): E2ESceneSnapshot;
   goToScene(id: string): E2ESceneSnapshot;
+  /** Voir `GameDebugApi.startChapter` dans src/debug/gameApi.ts (ADR 0021). */
+  startChapter(id: 1 | 2, options?: { seed?: string; profile?: string }): E2ESceneSnapshot;
   runState(): E2ERunState;
   dossier(): E2EDossier;
   node(): E2EPresentedNode | null;

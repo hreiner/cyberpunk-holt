@@ -1,0 +1,27 @@
+{
+  "id": "ch2.murano",
+  "start": "confrontation",
+  "nodes": {
+    "confrontation": {
+      "text": "Murano, seul, acculé contre le grillage.",
+      "choices": [
+        {
+          "text": "Tirer.",
+          "to": "tue",
+          "effects": [
+            { "tag": "a-tue" },
+            { "entry": { "key": "ch2.campement.tueur", "label": "Qui a tué Murano", "value": "Franklyn" } }
+          ]
+        },
+        { "text": "Le laisser filer.", "to": "fin" }
+      ]
+    },
+    "tue": {
+      "text": "Murano s'effondre.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Le campement retombe dans le silence."
+    }
+  }
+}

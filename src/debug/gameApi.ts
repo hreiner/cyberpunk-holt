@@ -23,9 +23,10 @@ import type { ExerciseScore } from '@/rules/scoring';
 import type { Action, CombatState, TeamId } from '@/tactical/types';
 import type { CharacterId } from '@/rules/character';
 import type { Dossier } from '@/core/dossier';
-import type { DraftState, NarrativeOutcome, PresentedNode, RadioCue, RunState } from '@/narrative';
+import type { ChapterId, DraftState, NarrativeOutcome, PresentedNode, RadioCue, RunState } from '@/narrative';
 import type { ExploreDebugSnapshot, InteractOutcome } from '@/explore';
 import type { ExploreRenderStats } from '@/exploreSession';
+import type { ProfileId } from '@/data/chapters';
 
 /**
  * Version 2 (epic 3, lot 3.6b) : `hub()`/`pickHub(dialogueId)`/`leaveHub()` ont disparu avec
@@ -85,6 +86,12 @@ export interface GameDebugApi {
   /* --- narratif (ADR 0011) --- */
   scene(): NarrativeSceneSnapshot;
   goToScene(id: string): NarrativeSceneSnapshot;
+  /**
+   * Demarre (ou redemarre) un chapitre precis (ADR 0021) : `?chapter=2` en URL passe par ici.
+   * Lot 5.1 : seul le profil Neutre existe pour le chapitre 2 (`options.profile` reserve au
+   * lot 5.2, qui ajoute l'archive du chapitre 1 et les deux autres profils).
+   */
+  startChapter(id: ChapterId, options?: { seed?: string; profile?: ProfileId }): NarrativeSceneSnapshot;
   runState(): RunState;
   dossier(): Dossier;
   node(): PresentedNode | null;
@@ -255,6 +262,11 @@ export function installDebugApi(chapter: ChapterApp): GameDebugApi {
 
     goToScene(id: string) {
       chapter.goToScene(id);
+      return chapter.sceneSnapshot();
+    },
+
+    startChapter(id: ChapterId, options = {}) {
+      chapter.startChapter(id, options);
       return chapter.sceneSnapshot();
     },
 

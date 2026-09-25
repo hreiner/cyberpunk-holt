@@ -19,7 +19,9 @@ méthodes narratives (epic 2) n'a rien cassé côté tactique : la version n'a p
 3.6b (exploration, epic 3) l'a fait passer de 1 à 2 : `hub()`/`pickHub(dialogueId)`/
 `leaveHub()` ont disparu avec la scène `hub` (liste des cadets) elle-même, remplacée par la
 scène `explore` (les cadets sont désormais abordés sur la carte) -- voir `explore()`/
-`walkTo()`/`interact()`/`completeStep()` plus bas.
+`walkTo()`/`interact()`/`completeStep()` plus bas. Le lot 5.1 (plusieurs chapitres, ADR 0021)
+ajoute `startChapter()` et le champ `chapter` de `runState()` -- purement additif, la version
+n'a pas bougé.
 
 ## Deux familles de méthodes
 
@@ -51,8 +53,9 @@ silence.
 | Méthode | Renvoie | Effet |
 |---|---|---|
 | `scene()` | `{ id, kind, title, finished }` | scène courante du chapitre (`kind` : `'dialogue' \| 'explore' \| 'tactical' \| 'debrief'`) |
-| `goToScene(id)` | scène | saute à une scène du chapitre (`ch1.intro`, `ch1.vers-cantine`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, ...) ; construit le `TacticalSetup` depuis le `RunState` si la cible est la scène tactique ; démarre directement sur la carte, au spawn de l'étape, si la cible est une scène `explore` (voir "Méthodes d'exploration" plus bas) |
-| `runState()` | `RunState` | drapeaux (dont `ch1.etape`, posé à l'entrée de chaque étape d'exploration — ADR 0013 §4), tempo, `TeamState` des deux équipes (matériel), `roster` (composition des équipes, ADR 0014 §7 — distinct de `teams`), `luck` (Chance restante de Franklyn, ADR 0015 §2), répliques radio déjà entendues, pièces d'exploration découvertes (`discoveredRooms`, clé composite `"mapId:roomId"` — 08-EXPLORATION.md "La découverte des lieux"), graine |
+| `goToScene(id)` | scène | saute à une scène du chapitre (`ch1.intro`, `ch1.vers-cantine`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, `ch2.photo`, ...) ; construit le `TacticalSetup` depuis le `RunState` si la cible est la scène tactique ; démarre directement sur la carte, au spawn de l'étape, si la cible est une scène `explore` (voir "Méthodes d'exploration" plus bas) ; si `id` appartient à un AUTRE chapitre que celui en cours (ADR 0021), bascule d'abord dessus (`chapterOfScene`), en conservant dossier et `RunState` tels quels |
+| `startChapter(id, options?)` | scène | démarre (ou redémarre) le chapitre `id` (1 ou 2, ADR 0021) sur une graine fraîche (`options.seed`, sinon aléatoire) : dossier vierge pour le chapitre 1, profil Neutre pour le chapitre 2 (seul profil implémenté au lot 5.1 — `options.profile` est réservé au lot 5.2, qui ajoute l'archive du chapitre 1 et les profils Loyal/Solitaire) |
+| `runState()` | `RunState` | `chapter` (1 ou 2, ADR 0021 — absent d'une sauvegarde antérieure à ce lot, migré à 1), drapeaux (dont `ch1.etape`, posé à l'entrée de chaque étape d'exploration — ADR 0013 §4), tempo, `TeamState` des deux équipes (matériel), `roster` (composition des équipes, ADR 0014 §7 — distinct de `teams`), `luck` (Chance restante de Franklyn, ADR 0015 §2 — `ch<N>.chance`/`ch<N>.chance.total` selon `chapter` à la dépense), répliques radio déjà entendues, pièces d'exploration découvertes (`discoveredRooms`, clé composite `"mapId:roomId"` — 08-EXPLORATION.md "La découverte des lieux"), graine |
 | `dossier()` | `Dossier` | étiquettes, affinités, entrées, note pratique une fois posée |
 | `node()` | noeud présenté, ou `null` | le noeud de dialogue affiché (scène `dialogue`, ou conversation annexe en cours pendant une scène `explore` — un cadet abordé sur la carte) ; `null` en scène tactique ou en exploration hors conversation |
 | `choose(index)` | `{ ok, reason? }` | sélectionne le choix `index` du noeud courant ; appeler `node()` ensuite pour lire le noeud à jour |
@@ -191,7 +194,8 @@ raison étant un texte français affichable tel quel.
 |---|---|
 | `?seed=xxx` | rejoue exactement la même partie |
 | `?ai=0` | supprime le délai entre actions de l'IA, **et coupe animations, effets et sons** (placement instantané des cadets) |
-| `?scene=<id>` | démarre directement sur une scène du chapitre (`ch1.intro`, `ch1.vers-cantine`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, ...) plutôt qu'au début — indispensable pour développer et tester une scène sans rejouer les précédentes. Sur une scène `explore`, démarre directement sur la carte, au point d'apparition de l'étape (`SceneDef.spawn`, une entrée à froid — voir "Méthodes d'exploration") |
+| `?chapter=N` | choisit le chapitre à jouer (1 ou 2, ADR 0021) ; sans effet si `?scene=` est aussi donné, qui déduit déjà son chapitre (`chapterOfScene`) ; saute l'écran titre comme `?seed=`/`?scene=` |
+| `?scene=<id>` | démarre directement sur une scène du chapitre (`ch1.intro`, `ch1.vers-cantine`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, `ch2.photo`, ...) plutôt qu'au début — indispensable pour développer et tester une scène sans rejouer les précédentes. Sur une scène `explore`, démarre directement sur la carte, au point d'apparition de l'étape (`SceneDef.spawn`, une entrée à froid — voir "Méthodes d'exploration") |
 | `?dice=0` | désactive la mise en scène du dé 3D (`src/render/dice3d.ts`) pour tout jet narratif : `NarrativeView.playRoll()` résout alors immédiatement, sans overlay ni clic requis. Sans effet sur `window.__game` (`choose()`/`rollInsight()`/`advance()` sont déjà synchrones, avec ou sans mise en scène — voir plus bas) ; utile pour un parcours de test qui n'a pas besoin de l'animation |
 
 ## Exemples
@@ -326,6 +330,23 @@ __game.scene();                 // { id: 'ch1.affrontement', kind: 'tactical', .
 __game.runState().teams.blue;   // TeamState construit a partir du parcours interieur
 __game.runToEnd();
 __game.dossier().practicalScore; // note complete, parcours interieur inclus
+```
+
+Traverser le squelette du chapitre 2 (lot 5.1, ADR 0021) jusqu'à l'écran de fin :
+
+```js
+// http://localhost:5173/?ai=0&chapter=2&seed=e2e
+let scene = __game.scene();
+while (!scene.finished) {
+  let node = __game.node();
+  while (node && !node.finished) {
+    if (node.choices.length > 0) __game.choose(node.choices[0].index);
+    else __game.advance();
+    node = __game.node();
+  }
+  __game.advance();
+  scene = __game.scene();
+}
 ```
 
 ## Rapporter un bug

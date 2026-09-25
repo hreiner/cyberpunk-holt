@@ -1,0 +1,17 @@
+{
+  "id": "ch2.adieu",
+  "start": "adieu",
+  "nodes": {
+    "adieu": {
+      "text": "Un moment, avant de repartir, pour dire au revoir à Zachary.",
+      "choices": [
+        { "text": "Laisser Abigail seule avec sa colère.", "to": "fin", "effects": [{ "tag": "abigail-brisee" }] },
+        { "text": "Rester près d'elle.", "to": "fin" }
+      ]
+    },
+    "fin": {
+      "text": "Les mots ne suffisent pas, ce soir.",
+      "effects": [{ "entry": { "key": "ch2.zachary.adieu", "label": "Adieu à Zachary", "value": "dit" } }]
+    }
+  }
+}

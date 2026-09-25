@@ -1,0 +1,21 @@
+{
+  "id": "ch2.decharges",
+  "start": "arrivee",
+  "nodes": {
+    "arrivee": {
+      "text": "Les décharges, à la lisière de la ville. Une voiture, immobile, sans surveillance.",
+      "choices": [
+        { "text": "Fouiller la voiture.", "to": "pillage", "effects": [{ "tag": "voiture-pillee" }] },
+        { "text": "Monter la garde plutôt.", "to": "fin" }
+      ]
+    },
+    "pillage": {
+      "text": "Un fusil, dans le coffre.",
+      "effects": [{ "entry": { "key": "ch2.fusil", "label": "Le fusil", "value": "récupéré à la décharge" } }],
+      "to": "fin"
+    },
+    "fin": {
+      "text": "La nuit s'installe, il faut tenir jusqu'au matin."
+    }
+  }
+}

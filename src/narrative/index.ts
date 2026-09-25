@@ -31,7 +31,7 @@ export {
 } from './runState';
 
 export { evaluateCondition, evaluateAll } from './conditions';
-export { applyEffect, applyEffects, NARRATIVE_CHAPTER } from './effects';
+export { applyEffect, applyEffects } from './effects';
 export { successChance } from './odds';
 export { isTeamAlias, resolveTeamAlias, resolveSpeakerAlias, resolveWhoAlias, applyTemplates } from './aliases';
 
@@ -56,6 +56,8 @@ export { validateDialogue } from './validate';
 
 export type { SceneKind, SceneDef, Ch1Etape } from './sceneRouter';
 export { SceneRouter, CHAPTER_1_SCENES, CH1_ETAPE_FLAG, TIRAGE_SCENE_ID, withEtape, exploreFollowerIds } from './sceneRouter';
+
+export type { ChapterId, ChapterDef, ChapterEndRef } from './chapter';
 
 export type { ObjectiveDef, ObjectiveTask } from './objective';
 

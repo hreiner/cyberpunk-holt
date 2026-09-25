@@ -1,0 +1,24 @@
+{
+  "id": "ch2.conduits",
+  "start": "entree",
+  "nodes": {
+    "entree": {
+      "text": "Les conduits de l'académie, étroits, à peine éclairés.",
+      "choices": [
+        { "text": "Suivre le tracé du plan sans s'arrêter.", "to": "fin" },
+        {
+          "text": "S'attarder sur la simulation entraperçue par une trappe.",
+          "to": "simulation",
+          "effects": [{ "tag": "vu-simulation" }]
+        }
+      ]
+    },
+    "simulation": {
+      "text": "Un écran, une simulation qui n'aurait pas dû tourner cette nuit-là.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Le conduit débouche sur une bifurcation."
+    }
+  }
+}

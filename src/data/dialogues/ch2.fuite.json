@@ -1,0 +1,13 @@
+{
+  "id": "ch2.fuite",
+  "start": "depart",
+  "nodes": {
+    "depart": {
+      "text": "Courir. Le dortoir est loin, la nuit est pleine de bruit.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "La grille du dortoir, enfin en vue."
+    }
+  }
+}

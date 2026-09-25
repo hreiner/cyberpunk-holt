@@ -178,7 +178,7 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 
 | Lot | Contenu | Dépend de | État |
 |---|---|---|---|
-| 5.1 | **Le chapitre 2 se lance** : `ChapterDef` et registre des chapitres, `RunState.chapter`, clés par chapitre (étape, Chance, entrées), `?chapter=2`, `startChapter` ; 14 scènes en dialogues squelettes, profil Neutre, bilan provisoire ; `ch1.bal` harmonisé (Smith, Zachary) | — | à faire |
+| 5.1 | **Le chapitre 2 se lance** : `ChapterDef` et registre des chapitres, `RunState.chapter`, clés par chapitre (étape, Chance, entrées), `?chapter=2`, `startChapter` ; 14 scènes en dialogues squelettes, profil Neutre, bilan provisoire ; `ch1.bal` harmonisé (Smith, Zachary) | — | fait |
 | 5.2 | **Le dossier passe** : archive en fin de chapitre 1, « Chapitre 2 » depuis l'écran de fin et l'écran titre, trois profils de départ | 5.1 | à faire |
 | 5.3 | **Format de dialogue étendu** : décor et bruitage par nœud, compteur borné, condition `tempo`, six locuteurs, registre des décors | 5.1 | à faire |
 | 5.4 | **Jauge et bilan** : état de Letitia visible, bilan déclaré en données avec la photo souvenir | 5.3 | à faire |

@@ -1,0 +1,137 @@
+/**
+ * « Aucun cul-de-sac » du chapitre 2 (lot 5.1) -- meme esprit que
+ * tests/unit/narrativeDeadEnds.test.ts pour le chapitre 1, mais balaye ici
+ * TOUTE combinaison de choix sur les 14 scenes du squelette (ADR 0021,
+ * docs/chapters/ch2/TECH-DESIGN.md §4.4), pas seulement les noeuds
+ * conditionnes : le chapitre 2 n'a encore aucune condition de choix a ce lot
+ * (contenu complet aux lots 5.5+), donc chaque scene doit, par construction,
+ * amener TOUT chemin jusqu'a son noeud terminal.
+ *
+ * Depart : le profil Neutre (ADR 0022, `ch2Profiles.ts`), seul profil
+ * implemente a ce lot. Verifie aussi que toute etiquette posee au passage
+ * appartient a la liste fermee de docs/chapters/ch2/GAME-DESIGN.md §7.
+ */
+
+import { describe, expect, it } from 'vitest';
+import { createRng } from '@/core/rng';
+import { createRunState } from '@/narrative/runState';
+import { DialogueRunner } from '@/narrative/dialogueRunner';
+import type { NarrativeContext } from '@/narrative/dialogueRunner';
+import type { DialogueFile } from '@/narrative/types';
+import { DIALOGUES } from '@/data/dialogues/registry';
+import { CHAPTER_2 } from '@/data/chapters/ch2';
+import { NEUTRAL_PROFILE } from '@/data/chapters/ch2Profiles';
+
+/** Liste fermee de docs/chapters/ch2/GAME-DESIGN.md §7 ("Ce que le chapitre ecrit"). */
+const CH2_CLOSED_TAGS = [
+  'cavalier-letitia',
+  'protecteur-bal',
+  'vu-simulation',
+  'enfant-confiance',
+  'abigail-brisee',
+  'a-tue',
+  'voiture-pillee',
+];
+
+/**
+ * Pousse le runner au-dela de tout noeud sans choix et non termine (simple
+ * enchainement via `to`, comme le ferait un clic "Continuer.") jusqu'a un
+ * noeud termine ou a choix. Garde-fou anti-boucle : ce squelette n'a aucun
+ * cycle, une vingtaine de "Continuer." d'affilee est deja trop.
+ */
+function advanceThroughAutoNodes(runner: DialogueRunner, fileId: string): void {
+  let guard = 0;
+  let node = runner.current();
+  while (!node.finished && node.choices.length === 0) {
+    runner.advance();
+    node = runner.current();
+    guard++;
+    if (guard > 20) throw new Error(`${fileId} : plus de 20 "Continuer." d'affilee, boucle suspectee.`);
+  }
+}
+
+/**
+ * Toutes les issues (contextes finaux) d'un dialogue depuis `ctx`, en
+ * essayant CHAQUE choix de CHAQUE noeud rencontre -- un nouveau
+ * `DialogueRunner` est reconstruit depuis `ctx` a chaque tentative (le runner
+ * ne peut pas se "brancher" en cours de route) et rejoue la sequence de
+ * decisions deja prises avant d'essayer l'option suivante.
+ */
+function outcomesOf(file: DialogueFile, ctx: NarrativeContext, decisions: number[] = []): NarrativeContext[] {
+  const rng = createRng(`chapter2Flow::${file.id}`);
+  const runner = new DialogueRunner(file, ctx, rng);
+  advanceThroughAutoNodes(runner, file.id);
+  for (const decisionIndex of decisions) {
+    const presented = runner.current().choices[decisionIndex];
+    if (!presented) throw new Error(`${file.id} : decision "${decisionIndex}" invalide au rejeu.`);
+    const outcome = runner.choose(presented.index);
+    if (!outcome.ok) throw new Error(`${file.id} : choix refuse au rejeu ("${outcome.reason}").`);
+    advanceThroughAutoNodes(runner, file.id);
+  }
+
+  const node = runner.current();
+  if (node.finished) return [runner.context];
+
+  const results: NarrativeContext[] = [];
+  for (let i = 0; i < node.choices.length; i++) {
+    results.push(...outcomesOf(file, ctx, [...decisions, i]));
+  }
+  return results;
+}
+
+describe('chapitre 2 (lot 5.1) : le squelette de 14 scenes s enchaine jusqu a la fin', () => {
+  it('depuis le profil Neutre, toute suite de choix atteint la fin ; les etiquettes posees sont dans la liste fermee du §7', () => {
+    const tagsSeen = new Set<string>();
+    let completedPaths = 0;
+
+    const initialCtx: NarrativeContext = {
+      dossier: NEUTRAL_PROFILE.build(),
+      run: createRunState('chapter2Flow-seed', {
+        chapter: 2,
+        sceneId: CHAPTER_2.scenes[0]?.id ?? '',
+        luck: CHAPTER_2.initialLuck,
+      }),
+    };
+    // Le profil Neutre pose deja `equipe-tactique`/`vainqueur-exercice` (etiquettes du
+    // CHAPITRE 1, voir ch2Profiles.ts) : seules les etiquettes NOUVELLES, posees PAR le
+    // chapitre 2, doivent appartenir a la liste fermee du §7 -- pas l'heritage du profil.
+    const inheritedTags = new Set(initialCtx.dossier.tags);
+
+    const walk = (sceneIndex: number, ctx: NarrativeContext): void => {
+      if (sceneIndex >= CHAPTER_2.scenes.length) {
+        completedPaths++;
+        for (const tag of ctx.dossier.tags) {
+          if (!inheritedTags.has(tag)) tagsSeen.add(tag);
+        }
+        return;
+      }
+      const scene = CHAPTER_2.scenes[sceneIndex];
+      if (!scene) throw new Error('scene introuvable : index hors bornes.');
+      const dialogueId = scene.dialogueId ?? scene.id;
+      const file = DIALOGUES[dialogueId];
+      expect(file, `dialogue "${dialogueId}" manquant pour la scene "${scene.id}"`).toBeDefined();
+
+      const outcomes = outcomesOf(file as DialogueFile, ctx);
+      expect(outcomes.length, `${scene.id} : aucun chemin n'atteint la fin du dialogue`).toBeGreaterThan(0);
+      for (const outcome of outcomes) walk(sceneIndex + 1, outcome);
+    };
+
+    walk(0, initialCtx);
+
+    expect(completedPaths).toBeGreaterThan(0);
+    for (const tag of tagsSeen) {
+      expect(CH2_CLOSED_TAGS, `etiquette "${tag}" hors de la liste fermee du §7`).toContain(tag);
+    }
+    // Preuve que le squelette exerce vraiment le vocabulaire (pas un test qui passerait
+    // trivialement avec zero etiquette posee) : au moins une des sept doit apparaitre.
+    expect(tagsSeen.size).toBeGreaterThan(0);
+  });
+
+  it('les 14 scenes du chapitre 2 sont toutes des dialogues squelettes a ce lot (ADR 0021, TECH-DESIGN §4.4/§6)', () => {
+    expect(CHAPTER_2.scenes).toHaveLength(14);
+    for (const scene of CHAPTER_2.scenes) {
+      expect(scene.kind, `${scene.id} devrait etre un dialogue au lot 5.1`).toBe('dialogue');
+      expect(scene.dialogueId, `${scene.id} : dialogueId manquant`).toBeTruthy();
+    }
+  });
+});

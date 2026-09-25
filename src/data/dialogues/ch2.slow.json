@@ -1,0 +1,27 @@
+{
+  "id": "ch2.slow",
+  "start": "danse",
+  "nodes": {
+    "danse": {
+      "text": "Le slow commence. Puis la musique s'arrête net.",
+      "choices": [
+        {
+          "text": "Se placer devant Letitia.",
+          "to": "protection",
+          "effects": [
+            { "tag": "protecteur-bal" },
+            { "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "stable" } }
+          ]
+        },
+        { "text": "Chercher la sortie des yeux.", "to": "rafale" }
+      ]
+    },
+    "protection": {
+      "text": "Franklyn fait rempart, l'espace d'un instant.",
+      "to": "rafale"
+    },
+    "rafale": {
+      "text": "Une rafale. Les tables se renversent. Ce n'est plus un bal."
+    }
+  }
+}

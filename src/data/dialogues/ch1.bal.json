@@ -320,7 +320,7 @@
       ]
     },
     "zachary-chaleureux": {
-      "text": "Zacharie le soulève presque de terre en le serrant contre lui, hilare, avant d'apostropher toute la bande pour qu'elle vienne voir.",
+      "text": "Zachary le soulève presque de terre en le serrant contre lui, hilare, avant d'apostropher toute la bande pour qu'elle vienne voir.",
       "lines": [{ "who": "zachary", "text": "Voilà mon binôme ! On l'a fait, les gars !" }],
       "choices": [
         {
@@ -344,7 +344,7 @@
       ]
     },
     "zachary-neutre": {
-      "text": "Zacharie lève son verre dans sa direction depuis l'autre bout de la salle, capitaine content de son équipe, sans plus s'attarder.",
+      "text": "Zachary lève son verre dans sa direction depuis l'autre bout de la salle, capitaine content de son équipe, sans plus s'attarder.",
       "lines": [{ "who": "zachary", "text": "Bien joué, Franklyn." }],
       "choices": [
         {
@@ -368,7 +368,7 @@
       ]
     },
     "zachary-froid": {
-      "text": "Zacharie reste avec sa bande, un sourire plus poli que sincère, et ne l'invite pas à s'approcher.",
+      "text": "Zachary reste avec sa bande, un sourire plus poli que sincère, et ne l'invite pas à s'approcher.",
       "lines": [{ "who": "zachary", "text": "Content que t'en sois sorti." }],
       "choices": [
         {
@@ -507,7 +507,7 @@
     },
     "grover-froid": {
       "text": "Grover ne se détourne même pas de sa conversation avec Letitia et Théodore pour le saluer, comme d'habitude.",
-      "lines": [{ "who": "grover", "text": "Encore un jour où la bande de Zacharie a eu de la chance." }],
+      "lines": [{ "who": "grover", "text": "Encore un jour où la bande de Zachary a eu de la chance." }],
       "choices": [
         { "text": "Continuer.", "conditions": [{ "tag": "legaliste" }], "to": "echo-principes" },
         {
@@ -525,14 +525,14 @@
       ]
     },
     "echo-principes": {
-      "text": "L'instructeur Smith, qui garde toujours un œil sur ses copies d'examen, s'arrête près de Franklyn avec un sourire en coin. Il n'a pas oublié la réponse qu'il a lue ce matin.",
+      "text": "L'instructrice Smith, qui garde toujours un œil sur ses copies d'examen, s'arrête près de Franklyn avec un sourire en coin. Elle n'a pas oublié la réponse qu'elle a lue ce matin.",
       "lines": [
         { "who": "instructeur", "text": "Les textes, toujours les textes. Ça tient encore, sur le papier." }
       ],
       "to": "echo-cynique-technicien"
     },
     "echo-pragmatique": {
-      "text": "Zacharie repense tout haut à la copie d'examen de Franklyn, qu'il a surprise du coin de l'œil ce matin — une réponse qui ne s'embarrassait pas de grands principes.",
+      "text": "Zachary repense tout haut à la copie d'examen de Franklyn, qu'il a surprise du coin de l'œil ce matin — une réponse qui ne s'embarrassait pas de grands principes.",
       "lines": [{ "who": "zachary", "text": "Toi, au moins, tu vises le résultat. J'aime ça." }],
       "to": "echo-cynique-technicien"
     },
@@ -558,7 +558,7 @@
       ]
     },
     "echo-double": {
-      "text": "Abigail passe un bras autour du cou de Franklyn pendant que l'instructeur Smith, non loin, referme une copie avec un petit rire.",
+      "text": "Abigail passe un bras autour du cou de Franklyn pendant que l'instructrice Smith, non loin, referme une copie avec un petit rire.",
       "lines": [
         {
           "who": "instructeur",
@@ -586,7 +586,7 @@
       "to": "echo-copie"
     },
     "echo-technicien-smith": {
-      "text": "L'instructeur Smith s'attarde près de Franklyn, une copie qu'il semble connaître par cœur toujours à la main.",
+      "text": "L'instructrice Smith s'attarde près de Franklyn, une copie qu'elle semble connaître par cœur toujours à la main.",
       "lines": [
         {
           "who": "instructeur",
@@ -725,7 +725,7 @@
       "to": "echo-equipe"
     },
     "echo-distrait": {
-      "text": "Zacharie passe un bras autour des épaules de Franklyn, hilare.",
+      "text": "Zachary passe un bras autour des épaules de Franklyn, hilare.",
       "lines": [
         {
           "who": "zachary",

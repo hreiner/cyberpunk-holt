@@ -1,0 +1,13 @@
+{
+  "id": "ch2.grille",
+  "start": "grille",
+  "nodes": {
+    "grille": {
+      "text": "La grille résiste. Il faut trouver un moyen de la franchir avant que les poursuivants ne rattrapent le groupe.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "La grille cède, enfin."
+    }
+  }
+}

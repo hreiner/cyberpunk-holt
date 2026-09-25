@@ -1,0 +1,16 @@
+{
+  "id": "ch2.charcudoc",
+  "start": "rencontre",
+  "nodes": {
+    "rencontre": {
+      "text": "Le charcudoc, dans son échoppe de fortune, écoute avant de soigner.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Il glisse un nom, presque à contrecœur, avant de refermer sa trousse.",
+      "effects": [
+        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "le charcudoc" } }
+      ]
+    }
+  }
+}

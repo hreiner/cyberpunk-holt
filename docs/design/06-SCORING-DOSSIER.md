@@ -80,6 +80,43 @@ scène doit être lue quelque part : au bal, ou explicitement réservée au chap
 réservées aujourd'hui sont `loyal-bande` et `solitaire`, qui portent sur la bande de Franklyn
 et ne se paient qu'après le stage.
 
+### Vocabulaire des étiquettes et entrées du chapitre 2 (ADR 0021, lot 5.1)
+
+Liste **fermée**, décidée au game design du chapitre 2
+([`docs/chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md) §7, "La trace") — recopiée
+ici pour que ce document reste la référence unique du vocabulaire du dossier, tous chapitres
+confondus. Le chapitre 2 **lit** aussi une partie du vocabulaire du chapitre 1 ci-dessus
+(`loyal-bande`, `solitaire`, `equipe-bande`/`equipe-tactique`, `tricheur`/`pris-a-tricher`/
+`copie-brillante`, `sauveteur`, `bluffeur`, `vainqueur-exercice`/`defaite-exercice`, les
+affinités) : voir GAME-DESIGN §7, "Ce que le chapitre lit".
+
+| Étiquette nouvelle | Posée par (scène) | Lue par |
+|---|---|---|
+| `cavalier-letitia` | 2 (le bal) | 3, 7, 11 ; réservée au chapitre 3 |
+| `protecteur-bal` | 3 (le slow) | réservée au chapitre 3 (survivants témoins) |
+| `vu-simulation` | 5 (les conduits) | 10 ; réservée au chapitre 3 (Smith) |
+| `enfant-confiance` | 5 (l'enfant) | 10 |
+| `abigail-brisee` | 8 (l'adieu) | 9, 10 ; réservée au chapitre 3 |
+| `a-tue` | 9 (Murano) | 10 ; réservée au chapitre 3 |
+| `voiture-pillee` | 10 (les décharges) | 11 ; réservée au chapitre 3 |
+
+| Entrée | Posée par (scène) |
+|---|---|
+| `ch2.letitia.etat` | 3 (le slow) — repère provisoire au lot 5.1 (texte libre) ; devient une jauge bornée [0, 3] à l'ADR 0025 (lot 5.4) |
+| `ch2.zachary` | 7 (les égouts) |
+| `ch2.zachary.adieu` | 8 (l'adieu) |
+| `ch2.campement.insignes` | 9 (le campement) |
+| `ch2.campement.tueur` | 9 (Murano) |
+| `ch2.fusil` | 10 (les décharges) |
+| `ch2.rendezvous.source` | 11 (le charcudoc) |
+
+Au lot 5.1, ce vocabulaire n'est encore posé que par le **squelette** de dialogues (un à trois
+nœuds par scène, `src/data/dialogues/ch2.*.json`) : les choix qui les posent y figurent déjà, à
+titre d'exemple, mais sans jet — le contenu complet (et un gardien dédié,
+`tests/unit/ch2Content.test.ts`) arrive aux lots 5.5 et suivants
+([`TECH-DESIGN.md`](../chapters/ch2/TECH-DESIGN.md) §6). `tests/unit/chapter2Flow.test.ts`
+vérifie dès ce lot que toute étiquette posée par le chapitre 2 appartient à cette liste fermée.
+
 ## La note écrite
 
 Poste séparé du barème de l'affrontement (20 points) : la copie de l'examen écrit

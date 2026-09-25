@@ -11,6 +11,7 @@
 import type { TeamId, TeamState } from '@/tactical/types';
 import { DEFAULT_BLUE, DEFAULT_RED, defaultTeamState } from '@/tactical/combat';
 import type { CharacterId } from '@/rules/character';
+import type { ChapterId } from './chapter';
 
 /**
  * `TeamEffect` (types.ts) avec `gassed` DEJA RESOLU (alias d'equipe converti
@@ -52,6 +53,8 @@ function defaultRoster(): TeamRoster {
 }
 
 export interface RunState {
+  /** Chapitre de cette traversee (ADR 0021). Absent d'une vieille sauvegarde : `migrateRunState` le met a 1. */
+  chapter: ChapterId;
   sceneId: string;
   flags: Record<string, string | number | boolean>;
   tempo: number;
@@ -72,14 +75,20 @@ export interface RunState {
   seed: string;
 }
 
-export function createRunState(seed: string): RunState {
+/**
+ * `start` (ADR 0021) : scene initiale et Chance du chapitre. Sans argument,
+ * garde le comportement du chapitre 1 (`INITIAL_SCENE_ID`, `INITIAL_LUCK`) --
+ * aucun appelant existant n'a besoin de changer.
+ */
+export function createRunState(seed: string, start?: { chapter: ChapterId; sceneId: string; luck: number }): RunState {
   return {
-    sceneId: INITIAL_SCENE_ID,
+    chapter: start?.chapter ?? 1,
+    sceneId: start?.sceneId ?? INITIAL_SCENE_ID,
     flags: {},
     tempo: 0,
     teams: { blue: defaultTeamState(), red: defaultTeamState() },
     roster: defaultRoster(),
-    luck: INITIAL_LUCK,
+    luck: start?.luck ?? INITIAL_LUCK,
     heardRadio: [],
     discoveredRooms: [],
     seed,
@@ -94,6 +103,8 @@ export function migrateRunState(raw: unknown, seed: string): RunState {
 
   return {
     ...base,
+    // Absent (vieille sauvegarde d'avant l'ADR 0021) : migre vers le chapitre 1 (regle exigee par le lot 5.1).
+    chapter: candidate.chapter === 1 || candidate.chapter === 2 ? candidate.chapter : base.chapter,
     sceneId: typeof candidate.sceneId === 'string' ? candidate.sceneId : base.sceneId,
     flags: isRecord(candidate.flags) ? { ...candidate.flags } : base.flags,
     tempo: typeof candidate.tempo === 'number' ? candidate.tempo : base.tempo,

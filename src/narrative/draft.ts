@@ -22,7 +22,6 @@ import { getCharacter } from '@/rules/character';
 import type { TeamId } from '@/tactical/types';
 import type { TeamRoster } from './runState';
 import type { NarrativeContext } from './dialogueRunner';
-import { NARRATIVE_CHAPTER } from './effects';
 
 /** Les quatre cadets disputes, dans l'ordre d'apparition a l'ecran (ADR 0014 §3). */
 export const DRAFT_POOL: readonly CharacterId[] = ['zachary', 'letitia', 'john', 'grover'];
@@ -204,7 +203,9 @@ export function applyDraftResult(ctx: NarrativeContext, state: DraftState): Narr
     key: DRAFT_DOSSIER_ENTRY_KEY,
     label: 'Tirage des équipes',
     value: consequences.summary,
-    chapter: NARRATIVE_CHAPTER,
+    // Le tirage n'existe qu'au chapitre 1 (ADR 0021) : `ctx.run.chapter` vaut toujours 1 ici,
+    // mais on le lit plutot que de le durcir -- une seule regle, generalisee, voir effects.ts.
+    chapter: ctx.run.chapter,
   });
   dossier = addTags(dossier, [consequences.tag]);
 

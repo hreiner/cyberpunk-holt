@@ -19,7 +19,7 @@ Deux tests d'architecture (`tests/unit/architecture.test.ts`) font respecter cet
                  └──────┬───────┘
                         │
                  ┌──────▼───────┐
-                 │  chapter.ts  │  enchaine les neuf scenes (SceneRouter), pilote
+                 │  chapter.ts  │  enchaine les scenes du chapitre courant (SceneRouter), pilote
                  │              │  DialogueRunner ou GameApp selon la scene
                  └──┬────────┬──┘
           ┌─────────┘        └─────────┐
@@ -109,6 +109,36 @@ Voir l'[ADR 0011](adr/0011-moteur-narratif-etat-de-partie-et-radio.md) et
 Comme `tactical`, ce module **n'importe ni `three` ni le DOM** : un dialogue se rejoue à
 l'identique dans Node, à la graine près. `src/data/dialogues/*.json` porte le contenu (texte
 français), `src/data/radio.ts` les répliques de l'instructeur.
+
+### Les chapitres (ADR 0021)
+
+Un chapitre est une **donnée**, pas du code différent par chapitre : `ChapterDef { id, title,
+scenes, etapeFlag, initialLuck, radio, end }` (`src/narrative/chapter.ts`, pur, mêmes garanties
+que le reste de `src/narrative`). `src/data/chapters/` range le contenu :
+
+| Fichier | Rôle |
+|---|---|
+| `ch1.ts` | enveloppe `CHAPTER_1_SCENES` (inchangé) dans une `ChapterDef` |
+| `ch2.ts` | les 14 `SceneDef` du chapitre 2 (squelette, lot 5.1 — voir `docs/chapters/ch2/TECH-DESIGN.md` §4.4) |
+| `ch2Profiles.ts` | profils de départ pour qui commence directement au chapitre 2 (ADR 0022) — seul `neutre` est implémenté au lot 5.1 |
+| `index.ts` | registre `CHAPTERS: Record<ChapterId, ChapterDef>` et `chapterOfScene(sceneId)` |
+
+`ChapterApp` (`src/chapter.ts`) ne connaît que ce registre : son constructeur choisit une
+`ChapterDef` (`options.chapter`, ou le chapitre déduit de `options.startSceneId` via
+`chapterOfScene`, ou celui d'une reprise de session, 1 par défaut) et la garde dans
+`this.chapterDef` pour toute la durée de vie de l'instance — `goToScene(id)` peut cependant
+basculer de chapitre en cours de route si `id` appartient à un autre (`?scene=` en déduit son
+chapitre, ADR 0021). Ce que `ChapterApp` lisait en dur (`CHAPTER_1_SCENES`, `CHAPTER_1_RADIO`,
+`CH1_ETAPE_FLAG`) se lit désormais sur `this.chapterDef` ; les cas particuliers du chapitre 1
+(tirage, examen, procès-verbal, hors champ) **restent en place**, gardés par leurs identifiants
+de scène (`ch1.*`), inertes pour tout autre chapitre — voir ADR 0021 §Décision 5.
+
+`RunState.chapter: ChapterId` porte la traversée en cours (`migrateRunState` le met à 1 si
+absent, toute sauvegarde antérieure à ce lot reste donc une partie du chapitre 1). Les clés qui
+supposaient un seul chapitre se généralisent par `run.chapter` : la Chance dépensée s'écrit sous
+`ch<N>.chance`/`ch<N>.chance.total` (`dialogueRunner.ts`), et le chapitre d'une entrée de dossier
+(`{ entry: ... }`) est celui de la traversée qui la pose (`effects.ts` — l'ancienne constante
+`NARRATIVE_CHAPTER`, qui figeait tout à 1, a disparu).
 
 ### `src/explore` — le socle d'exploration (ADR 0013 §5, lot 3.5)
 
@@ -298,8 +328,8 @@ selon `isResumingRun`), ce qui garantit que l'API de debug fonctionne immédiate
 pendant que le titre est affiché. `TitleView` n'est qu'un calque plein cadre par-dessus, retiré
 du DOM (`dismiss()`) au clic sur « Nouvelle partie » (`chapter.startNewGame()`) ou
 « Reprendre » (rien à faire, la partie tournait déjà). Sauté entièrement si l'URL porte
-`?seed=` ou `?scene=` — indispensable pour que les tests e2e démarrent directement dans la
-partie (voir `docs/process/DEBUG_API.md`).
+`?seed=`, `?scene=` ou `?chapter=` — indispensable pour que les tests e2e démarrent directement
+dans la partie (voir `docs/process/DEBUG_API.md`).
 
 ## Ce qui n'existe pas encore, et où ça ira
 

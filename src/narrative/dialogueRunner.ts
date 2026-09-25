@@ -22,17 +22,27 @@ import { SPEAKER_LABELS } from './types';
 import type { RunState } from './runState';
 import { bumpCounter } from './runState';
 import { evaluateAll } from './conditions';
-import { applyEffects, NARRATIVE_CHAPTER } from './effects';
+import { applyEffects } from './effects';
 import { applyTemplates, resolveSpeakerAlias, resolveWhoAlias } from './aliases';
 import { successChance } from './odds';
 
 /** Candidat par defaut d'un jet sans `who` explicite. */
 const DEFAULT_ROLLER: CharacterId = 'franklyn';
 
-/** Cle de dossier de la Chance depensee (ADR 0015 §2) -- une seule entree, valeur = total cumule. */
-const LUCK_ENTRY_KEY = 'ch1.chance';
+/**
+ * Cles de dossier/compteur de la Chance depensee (ADR 0015 §2, generalisees par
+ * l'ADR 0021 : `ch<N>.chance` / `ch<N>.chance.total` d'apres `run.chapter`) --
+ * une seule entree par chapitre, valeur = total cumule pour CE chapitre. Sans
+ * cette cle par chapitre, la Chance du chapitre 2 ecraserait l'entree du
+ * chapitre 1 (meme dossier, memoire inter-chapitres).
+ */
+function luckEntryKey(chapter: number): string {
+  return `ch${chapter}.chance`;
+}
 /** Compteur de RunState qui porte ce total cumule -- volatil, la trace persistante est l'entree ci-dessus. */
-const LUCK_SPENT_COUNTER = 'ch1.chance.total';
+function luckSpentCounter(chapter: number): string {
+  return `ch${chapter}.chance.total`;
+}
 
 const AWAITING_LUCK_REASON = 'Un jet de Chance est en attente : dépensez-la ou acceptez le résultat.';
 
@@ -591,16 +601,17 @@ export class DialogueRunner {
     };
 
     let run = { ...this.ctx.run, luck: this.ctx.run.luck - n };
-    run = bumpCounter(run, LUCK_SPENT_COUNTER, n);
-    const spentTotal = typeof run.flags[LUCK_SPENT_COUNTER] === 'number' ? (run.flags[LUCK_SPENT_COUNTER] as number) : n;
+    const spentCounter = luckSpentCounter(run.chapter);
+    run = bumpCounter(run, spentCounter, n);
+    const spentTotal = typeof run.flags[spentCounter] === 'number' ? (run.flags[spentCounter] as number) : n;
     this.ctx = {
       ...this.ctx,
       run,
       dossier: addEntry(this.ctx.dossier, {
-        key: LUCK_ENTRY_KEY,
+        key: luckEntryKey(run.chapter),
         label: 'Chance dépensée',
         value: String(spentTotal),
-        chapter: NARRATIVE_CHAPTER,
+        chapter: run.chapter,
       }),
     };
 

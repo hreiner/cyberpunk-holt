@@ -17,9 +17,6 @@ function resolveMember(who: CharacterId | TeamAlias, ctx: NarrativeContext): Cha
   return isTeamAlias(who) ? resolveTeamAlias(who, ctx.run) : who;
 }
 
-/** Chapitre courant : le narratif de l'epic 2 ne concerne que le chapitre 1. Reutilise par dialogueRunner.ts (Chance, ADR 0015). */
-export const NARRATIVE_CHAPTER = 1;
-
 /** Equipe du joueur au chapitre 1 (voir DEFAULT_BLUE dans src/tactical/combat.ts). */
 const PLAYER_TEAM = 'blue' as const;
 
@@ -39,7 +36,9 @@ export function applyEffect(effect: Effect, ctx: NarrativeContext): NarrativeCon
     return { ...ctx, dossier: addTags(ctx.dossier, [effect.tag]) };
   }
   if ('entry' in effect) {
-    return { ...ctx, dossier: addEntry(ctx.dossier, { ...effect.entry, chapter: NARRATIVE_CHAPTER }) };
+    // Chapitre de l'entree : celui de la traversee en cours (ADR 0021, generalise depuis
+    // l'ancienne constante `NARRATIVE_CHAPTER`, soldee -- voir docs/chapters/ENGINE-COUPLING.md).
+    return { ...ctx, dossier: addEntry(ctx.dossier, { ...effect.entry, chapter: ctx.run.chapter }) };
   }
   if ('flag' in effect) {
     return { ...ctx, run: setFlag(ctx.run, effect.flag, effect.value) };

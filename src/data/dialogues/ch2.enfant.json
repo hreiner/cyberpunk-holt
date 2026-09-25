@@ -1,0 +1,20 @@
+{
+  "id": "ch2.enfant",
+  "start": "rencontre",
+  "nodes": {
+    "rencontre": {
+      "text": "Un enfant, seul, accroupi contre une conduite.",
+      "choices": [
+        { "text": "S'accroupir à sa hauteur.", "to": "confiance", "effects": [{ "tag": "enfant-confiance" }] },
+        { "text": "Lui faire signe de suivre, sans un mot.", "to": "fin" }
+      ]
+    },
+    "confiance": {
+      "text": "L'enfant hésite, puis avance.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Un suiveur de plus dans le groupe."
+    }
+  }
+}

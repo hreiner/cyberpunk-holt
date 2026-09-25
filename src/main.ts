@@ -12,7 +12,8 @@ import { ChapterApp } from './chapter';
 import { installDebugApi } from './debug/gameApi';
 import { TitleView } from './ui/titleView';
 import { loadSession } from './core/save';
-import { CHAPTER_1_SCENES } from './narrative';
+import type { ChapterId } from './narrative';
+import { CHAPTERS } from './data/chapters';
 import { preloadCadetAssets } from './render/exploration/characterAssets';
 
 const container = document.getElementById('app');
@@ -46,23 +47,26 @@ if (characterAssetsReady) {
   /**
    * `?seed=xxx` permet de rejouer exactement une partie. `?ai=0` accelere les tests.
    * `?scene=<id>` demarre directement sur une scene precise (developpement, tests e2e) :
-   * voir docs/process/DEBUG_API.md.
+   * voir docs/process/DEBUG_API.md. `?chapter=N` choisit le chapitre (ADR 0021) -- sans
+   * effet si `?scene=` est aussi donne, qui deduit deja son chapitre (`chapterOfScene`).
    */
   const params = new URLSearchParams(window.location.search);
   const seed = params.get('seed') ?? undefined;
   const aiDelay = params.get('ai') === '0' ? 0 : Number(params.get('ai') ?? 450);
   const startSceneId = params.get('scene') ?? undefined;
+  const rawChapter = Number(params.get('chapter'));
+  const chapterId: ChapterId | undefined = rawChapter === 1 || rawChapter === 2 ? rawChapter : undefined;
   /** `?dice=0` desactive la mise en scene du de 3D (voir docs/process/DEBUG_API.md) : utile pour un parcours de test. */
   const diceEnabled = params.get('dice') !== '0';
 
   /**
    * Ecran titre (docs/art/UI-DESIGN-SYSTEM.md, "Écran titre") : saute
-   * entierement des que l'URL porte `?seed=` ou `?scene=` -- ce sont des
-   * outils de dev et de test (voir docs/process/DEBUG_API.md) qui doivent
+   * entierement des que l'URL porte `?seed=`, `?scene=` ou `?chapter=` -- ce sont
+   * des outils de dev et de test (voir docs/process/DEBUG_API.md) qui doivent
    * demarrer DIRECTEMENT dans la partie, jamais derriere un ecran a cliquer
    * (les tests e2e s'appuient explicitement sur ce raccourci).
    */
-  const showTitle = seed === undefined && startSceneId === undefined;
+  const showTitle = seed === undefined && startSceneId === undefined && chapterId === undefined;
   // Lu AVANT la construction de `ChapterApp` : son constructeur reprend
   // silencieusement une session existante des que les parametres le
   // permettent (voir `isResumingRun` dans chapter.ts). C'est donc le seul
@@ -78,6 +82,7 @@ if (characterAssetsReady) {
   // pendant que le titre est a l'ecran.
   const chapter = new ChapterApp(container, {
     seed,
+    chapter: chapterId,
     aiDelayMs: Number.isFinite(aiDelay) ? aiDelay : 450,
     startSceneId,
     diceEnabled,
@@ -85,11 +90,11 @@ if (characterAssetsReady) {
   installDebugApi(chapter);
 
   // Utile en developpement comme pour les rapports de bug.
-  console.info(`[HOLT] chapitre 1 - graine "${chapter.run.seed}" - scene "${chapter.run.sceneId}"`);
+  console.info(`[HOLT] chapitre ${chapter.run.chapter} - graine "${chapter.run.seed}" - scene "${chapter.run.sceneId}"`);
 
   if (showTitle) {
     const resumeSceneTitle = hadResumableRun
-      ? (CHAPTER_1_SCENES.find((s) => s.id === chapter.run.sceneId)?.title ?? chapter.run.sceneId)
+      ? (CHAPTERS[chapter.run.chapter].scenes.find((s) => s.id === chapter.run.sceneId)?.title ?? chapter.run.sceneId)
       : null;
     const title = new TitleView(container, resumeSceneTitle, {
       onNewGame: () => {

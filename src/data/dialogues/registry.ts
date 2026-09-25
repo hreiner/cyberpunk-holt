@@ -25,6 +25,20 @@ import ch1Salle1 from './ch1.salle1.json';
 import ch1Salle2 from './ch1.salle2.json';
 import ch1Salle3 from './ch1.salle3.json';
 import ch1Bal from './ch1.bal.json';
+import ch2Photo from './ch2.photo.json';
+import ch2Bal from './ch2.bal.json';
+import ch2Slow from './ch2.slow.json';
+import ch2Fuite from './ch2.fuite.json';
+import ch2Grille from './ch2.grille.json';
+import ch2Conduits from './ch2.conduits.json';
+import ch2Enfant from './ch2.enfant.json';
+import ch2Cantine from './ch2.cantine.json';
+import ch2Egouts from './ch2.egouts.json';
+import ch2Adieu from './ch2.adieu.json';
+import ch2Campement from './ch2.campement.json';
+import ch2Murano from './ch2.murano.json';
+import ch2Decharges from './ch2.decharges.json';
+import ch2Charcudoc from './ch2.charcudoc.json';
 
 const FILES = [
   ch1Demo,
@@ -44,6 +58,21 @@ const FILES = [
   ch1Salle2,
   ch1Salle3,
   ch1Bal,
+  // Chapitre 2 (ADR 0021, lot 5.1) : squelettes d'un a trois noeuds, contenu complet lots 5.5+.
+  ch2Photo,
+  ch2Bal,
+  ch2Slow,
+  ch2Fuite,
+  ch2Grille,
+  ch2Conduits,
+  ch2Enfant,
+  ch2Cantine,
+  ch2Egouts,
+  ch2Adieu,
+  ch2Campement,
+  ch2Murano,
+  ch2Decharges,
+  ch2Charcudoc,
 ] as unknown as DialogueFile[];
 
 export const DIALOGUES: Record<string, DialogueFile> = FILES.reduce<Record<string, DialogueFile>>(

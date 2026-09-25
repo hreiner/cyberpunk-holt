@@ -1,0 +1,13 @@
+{
+  "id": "ch2.cantine",
+  "start": "cantine",
+  "nodes": {
+    "cantine": {
+      "text": "La cantine brûle déjà, à moitié.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Le vide-ordures, seule issue visible."
+    }
+  }
+}

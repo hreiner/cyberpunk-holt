@@ -19,7 +19,6 @@ import type { ExerciseScore } from '@/rules/scoring';
 import { DEFAULT_BLUE, DEFAULT_RED, DEFAULT_ROUND_LIMIT, defaultTeamState } from '@/tactical/combat';
 import type { TacticalSetup } from '@/tactical/types';
 import {
-  CHAPTER_1_SCENES,
   DialogueRunner,
   FLAG_ADVERSE_TASER,
   SceneRouter,
@@ -39,6 +38,8 @@ import {
   withEtape,
 } from '@/narrative';
 import type {
+  ChapterDef,
+  ChapterId,
   DraftState,
   NarrativeContext,
   NarrativeOutcome,
@@ -52,7 +53,8 @@ import type {
 import type { ExploreDebugSnapshot, ExploreEvent, InteractOutcome } from '@/explore';
 import { getMap } from '@/data/maps';
 import { DIALOGUES } from '@/data/dialogues/registry';
-import { CHAPTER_1_RADIO } from '@/data/radio';
+import { CHAPTERS, CH2_PROFILES, chapterOfScene } from '@/data/chapters';
+import type { ProfileId } from '@/data/chapters';
 import { createDicePlayer } from '@/render/diceAdapter';
 import type { DicePlayer } from '@/render/diceAdapter';
 import { ExploreSession } from './exploreSession';
@@ -108,6 +110,8 @@ const EXAM_VIGILANCE_LEVELS = ['NORMALE', 'DIFFICILE', 'TRES_DIFFICILE', 'EXCEPT
 
 export interface ChapterOptions {
   seed?: string;
+  /** Chapitre a jouer (ADR 0021). Deduit de `startSceneId` si les deux sont donnes et divergent ; 1 par defaut. */
+  chapter?: ChapterId;
   startSceneId?: string;
   aiDelayMs?: number;
   /**
@@ -164,9 +168,23 @@ function isResumingRun(session: SessionSave, options: ChapterOptions, seed: stri
 /** Réplique brève de repli quand une conversation annexe déjà jouée est rabordée (contrat du lot 3.6b §3). */
 const EXPLORE_REPEAT_LINE_FALLBACK = "Il n'y a plus rien à ajouter.";
 
+/**
+ * Dossier de depart d'une NOUVELLE partie sur `chapterId` (ADR 0022) : vierge pour le chapitre 1
+ * (regle inchangee, voir `isResumingRun`) ; profil Neutre pour le chapitre 2 tant que l'archive du
+ * chapitre 1 et le choix d'un profil (lot 5.2) ne sont pas branches -- `CH2_PROFILES.neutre` est
+ * garanti present (seul profil implemente au lot 5.1, voir `ch2Profiles.ts`).
+ */
+function startingDossier(chapterId: ChapterId): Dossier {
+  if (chapterId !== 2) return createDossier();
+  const neutre = CH2_PROFILES.neutre;
+  return neutre ? neutre.build() : createDossier();
+}
+
 export class ChapterApp {
   private ctx: NarrativeContext;
   private router: SceneRouter;
+  /** Chapitre courant (ADR 0021) : scenes, drapeau d'etape, Chance de depart, radio, bilan. */
+  private chapterDef: ChapterDef;
   private currentSceneDef: SceneDef | null = null;
 
   private activeDialogue: DialogueRunner | null = null;
@@ -249,8 +267,22 @@ export class ChapterApp {
     // des affinites, des doctrines...) de la partie precedente -- voir
     // `isResumingRun` pour le critere exact et sa justification.
     const resuming = isResumingRun(session, options, seed);
-    const dossier = resuming ? loadDossier() : createDossier();
-    const run = resuming && session.run ? migrateRunState(session.run, seed) : createRunState(seed);
+    // Chapitre a jouer (ADR 0021) : `?scene=` (ou `startSceneId`) l'emporte -- il DESIGNE un
+    // chapitre precis -- puis `options.chapter`, puis celui d'une reprise, puis 1 par defaut.
+    const chapterId: ChapterId =
+      (options.startSceneId ? chapterOfScene(options.startSceneId) : null) ??
+      options.chapter ??
+      (resuming ? (session.run?.chapter ?? 1) : 1);
+    this.chapterDef = CHAPTERS[chapterId];
+    const dossier = resuming ? loadDossier() : startingDossier(chapterId);
+    const run =
+      resuming && session.run
+        ? migrateRunState(session.run, seed)
+        : createRunState(seed, {
+            chapter: chapterId,
+            sceneId: this.chapterDef.scenes[0]?.id ?? '',
+            luck: this.chapterDef.initialLuck,
+          });
     this.ctx = { dossier, run };
 
     // Etat initial arbitraire : `enterScene()` (appelee a la fin du constructeur)
@@ -312,11 +344,11 @@ export class ChapterApp {
       onContinue: () => this.continueFromDraft(),
     });
 
-    this.router = new SceneRouter(CHAPTER_1_SCENES, this.ctx);
+    this.router = new SceneRouter(this.chapterDef.scenes, this.ctx, this.chapterDef.etapeFlag);
     // `?scene=` (ou une reprise de session) demarre ailleurs qu'au debut : un id
     // inconnu est simplement ignore, on reste sur la premiere scene eligible.
     const startSceneId = options.startSceneId ?? this.ctx.run.sceneId;
-    if (CHAPTER_1_SCENES.some((s) => s.id === startSceneId)) this.router.goTo(startSceneId);
+    if (this.chapterDef.scenes.some((s) => s.id === startSceneId)) this.router.goTo(startSceneId);
     else if (options.startSceneId)
       console.warn(`ChapterApp : scene "${startSceneId}" inconnue, on repart du debut.`);
     this.ctx = this.router.context;
@@ -385,7 +417,7 @@ export class ChapterApp {
 
   /** Repliques radio actuellement dues, sans les marquer entendues (lecture pure, pour le debug). */
   peekRadio(): RadioCue[] {
-    return pendingRadio(CHAPTER_1_RADIO, this.liveCtx);
+    return pendingRadio(this.chapterDef.radio, this.liveCtx);
   }
 
   /**
@@ -529,9 +561,17 @@ export class ChapterApp {
   }
 
   goToScene(id: string): void {
-    if (!CHAPTER_1_SCENES.some((s) => s.id === id)) {
+    // Peut cibler une scene d'un AUTRE chapitre que celui en cours (ADR 0021, "?scene= en deduit
+    // le chapitre") : on bascule alors `chapterDef`/`run.chapter` avant de sauter, sans quoi le
+    // routeur chercherait `id` dans la mauvaise liste de scenes.
+    const targetChapter = chapterOfScene(id);
+    if (targetChapter === null) {
       console.warn(`ChapterApp : scene "${id}" inconnue, ignoree.`);
       return;
+    }
+    if (targetChapter !== this.chapterDef.id) {
+      this.chapterDef = CHAPTERS[targetChapter];
+      this.ctx = { ...this.ctx, run: { ...this.ctx.run, chapter: targetChapter } };
     }
     this.jumpRouter(id);
     this.persistAfterScene();
@@ -555,6 +595,10 @@ export class ChapterApp {
       redState: defaultTeamState(),
       roundLimit: options.roundLimit ?? DEFAULT_ROUND_LIMIT,
     };
+    // Le combat tactique n'existe qu'au chapitre 1 (ADR 0021) : force ce chapitre avant de
+    // sauter, meme si `ChapterApp` jouait le chapitre 2 au moment de l'appel.
+    this.chapterDef = CHAPTERS[1];
+    this.ctx = { ...this.ctx, run: { ...this.ctx.run, chapter: 1 } };
     this.jumpRouter('ch1.affrontement');
     this.persistAfterScene();
     this.activeDialogue = null;
@@ -1288,8 +1332,42 @@ export class ChapterApp {
     // ne doit pas survivre -- `enterExploreScene` en reconstruira un neuf des
     // la prochaine etape `explore` (voir `ExploreSession.enterStep`/`resetWorld`).
     this.exploreSession.resetWorld();
-    this.ctx = { dossier: createDossier(), run: createRunState(seed) };
-    this.router = new SceneRouter(CHAPTER_1_SCENES, this.ctx);
+    // Rejoue le MEME chapitre (ADR 0021) : "Nouvelle partie" depuis l'ecran de cloture du
+    // chapitre 2 rejoue le chapitre 2, pas le chapitre 1 -- `startChapter` gere le cas ou on
+    // veut vraiment CHANGER de chapitre (ecran titre, lot 5.2).
+    const def = this.chapterDef;
+    this.ctx = {
+      dossier: startingDossier(def.id),
+      run: createRunState(seed, { chapter: def.id, sceneId: def.scenes[0]?.id ?? '', luck: def.initialLuck }),
+    };
+    this.router = new SceneRouter(def.scenes, this.ctx, def.etapeFlag);
+    this.ctx = this.router.context;
+    this.enterScene(this.router.finished ? null : this.router.current());
+  }
+
+  /**
+   * Demarre (ou redemarre) un chapitre precis (ADR 0021, `window.__game.startChapter`).
+   * Lot 5.1 : seul le profil Neutre existe (`startingDossier`) -- l'archive du chapitre 1 et le
+   * choix explicite d'un profil arrivent au lot 5.2 (`options.profile` reserve a cet usage).
+   */
+  startChapter(id: ChapterId, options: { seed?: string; profile?: ProfileId } = {}): void {
+    this.activeDialogue = null;
+    this.activeExploreConversation = null;
+    this.hideAllViews();
+    this.exploreSession.resetWorld();
+    const def = CHAPTERS[id];
+    this.chapterDef = def;
+    // `options.profile` est reserve a l'ecran de choix de profil (lot 5.2) : seul le profil
+    // Neutre existe a ce lot, `startingDossier` le donne deja par defaut pour le chapitre 2.
+    this.ctx = {
+      dossier: startingDossier(id),
+      run: createRunState(options.seed ?? randomSeedLabel(), {
+        chapter: id,
+        sceneId: def.scenes[0]?.id ?? '',
+        luck: def.initialLuck,
+      }),
+    };
+    this.router = new SceneRouter(def.scenes, this.ctx, def.etapeFlag);
     this.ctx = this.router.context;
     this.enterScene(this.router.finished ? null : this.router.current());
   }
@@ -1298,7 +1376,7 @@ export class ChapterApp {
 
   /** Positionne `this.router` sur `sceneId` avec le contexte le plus recent, et synchronise `this.ctx`. */
   private jumpRouter(sceneId: string): void {
-    this.router = new SceneRouter(CHAPTER_1_SCENES, this.ctx);
+    this.router = new SceneRouter(this.chapterDef.scenes, this.ctx, this.chapterDef.etapeFlag);
     this.router.goTo(sceneId);
     this.ctx = this.router.context;
   }
@@ -1336,7 +1414,7 @@ export class ChapterApp {
       ...liveCtx,
       run: { ...liveCtx.run, heardRadio: this.ctx.run.heardRadio },
     };
-    const cues = pendingRadio(CHAPTER_1_RADIO, probe);
+    const cues = pendingRadio(this.chapterDef.radio, probe);
     if (cues.length === 0) return;
     this.ctx = {
       ...this.ctx,

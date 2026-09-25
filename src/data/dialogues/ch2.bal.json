@@ -1,0 +1,20 @@
+{
+  "id": "ch2.bal",
+  "start": "salle",
+  "nodes": {
+    "salle": {
+      "text": "La salle d'entraînement, transformée pour une nuit. La musique couvre les voix.",
+      "choices": [
+        { "text": "Inviter Letitia à danser.", "to": "cavalier", "effects": [{ "tag": "cavalier-letitia" }] },
+        { "text": "Rester en retrait, à observer la salle.", "to": "fin" }
+      ]
+    },
+    "cavalier": {
+      "text": "Letitia accepte, un sourire bref.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "La soirée continue, tant qu'elle continue."
+    }
+  }
+}
