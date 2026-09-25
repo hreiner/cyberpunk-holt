@@ -143,9 +143,20 @@ Références : [`../art/EXPLORATION-VISUAL-DESIGN.md`](../art/EXPLORATION-VISUAL
 | A | **Cohérence du décor** : un document d'usage par pièce, les dix-sept pièces recomposées dessus ; catalogue de modèles avec emprise déclarée et test d'accord avec la carte de collision | fait |
 | B | **Personnages en combat** : les humanoïdes animés de l'exploration remplacent les capsules ; couleur d'équipe aux épaulettes, émissif sur l'unité active, échelle et éclairage revus | fait |
 | C | **Matières et lumières locales** : murs distincts des sols, linoléum des pièces propres, les luminaires du décor éclairent vraiment | fait |
-| D | **Matières photo** : textures CC0 pour les grandes surfaces, échelle et répétition traitées | en cours |
-| E | **La cour tactique** : conteneurs et terrain, palette désaturée conforme à la direction artistique | à faire |
-| F | **Revue visuelle de bout en bout** : une partie complète regardée écran par écran, performances sur la cible | à faire |
+| D | **Matières photo** : textures CC0 pour les grandes surfaces, échelle et répétition traitées | fait |
+| E | **La cour tactique** : conteneurs et terrain, palette désaturée conforme à la direction artistique | fait |
+| F | **Le mobilier manquant** : les pièces qui n'avaient aucun siège, aucun poste de travail | fait |
+| G | **Performance et simplification** : murs et décor répétitif fusionnés en instances, accessoires réduits, personnages assis posés sur leur siège, balise sur ce qui fait avancer l'histoire | fait |
+| H | **Revue visuelle de bout en bout** : une partie complète regardée écran par écran, performances sur la cible | à faire |
+
+Mesures de la passe G (mêmes conditions que la mesure de départ) : salle 1 461 → 132 appels de
+dessin, dortoir 493 → 151. Le seuil de [`../art/EXPLORATION-VISUAL-DESIGN.md`](../art/EXPLORATION-VISUAL-DESIGN.md)
+§5 est de 250.
+
+Point ouvert : la photo de béton des sols (`concrete-diff-1k.jpg`) reste le maillon faible de
+l'académie — trop marquée pour être étirée sur une pièce, trop directionnelle pour être répétée.
+La remplacer suppose de télécharger un asset externe, ce que certains agents refusent sans une
+autorisation donnée directement par le propriétaire du projet.
 
 Ce qui reste hors de cette epic et attend toujours : les portraits et la musique (lot 2.11),
 l'export du dossier au joueur (lot 2.12).
