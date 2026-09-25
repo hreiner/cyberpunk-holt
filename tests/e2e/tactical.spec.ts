@@ -92,3 +92,38 @@ test('le deplacement du joueur consomme des points de mouvement', async ({ page 
   expect(result.outcome.ok).toBe(true);
   expect(result.afterMp).toBe(result.beforeMp - 1);
 });
+
+/**
+ * L'IA doit se lancer TOUTE SEULE quand l'initiative met l'equipe adverse en tete. Elle ne
+ * l'etait que sur une action du joueur : au premier tour, si l'ordre commencait par un rouge,
+ * personne ne jouait et rien n'etait cliquable -- defaut constate en jeu ("le combat commence
+ * par le tour de Grover, de l'equipe adverse, il ne fait rien et on ne peut rien cliquer").
+ * Aucun des autres tests ne l'attrapait : tous font passer les tours adverses a la main.
+ *
+ * La graine est choisie pour que l'ordre commence par un cadet rouge (verifie par le test
+ * lui-meme, qui n'aurait sinon plus rien a prouver si l'initiative changeait).
+ */
+test('l IA prend la main d elle-meme quand l equipe adverse ouvre le combat', async ({ page }) => {
+  await page.goto('/?seed=e2e-ia-4&ai=0&scene=ch1.affrontement');
+  await page.waitForFunction(() => '__game' in window);
+
+  const opening = await page.evaluate(() => {
+    const state = window.__game.state();
+    return state.units.find((u) => u.id === state.order[0])?.team;
+  });
+  expect(opening).toBe('red');
+
+  // Personne ne clique : c'est au jeu de derouler les tours adverses et de rendre la main.
+  await page.waitForFunction(
+    () => {
+      const state = window.__game.state();
+      return state.units.find((u) => u.id === state.current)?.team === 'blue';
+    },
+    undefined,
+    { timeout: 10_000 },
+  );
+
+  // Le tour adverse a bien ete JOUE, pas seulement saute.
+  const log = await page.evaluate(() => window.__game.log());
+  expect(log.some((line) => /se déplace|tire sur|corps à corps|pose une mine/.test(line))).toBe(true);
+});

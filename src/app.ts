@@ -168,6 +168,12 @@ export class GameApp {
     // `refresh()` vient de le peupler, on relit donc les marges reelles avant le premier rendu.
     this.resize();
     this.loop();
+    // Le premier a jouer peut appartenir a l'equipe adverse : sans cet appel, rien ne lance
+    // l'IA -- `scheduleAi` n'etait declenche que par une action du JOUEUR -- et le combat
+    // reste fige des la premiere image, manette morte. Defaut constate en jeu : "le combat
+    // commence par le tour de Grover, de l'equipe adverse, il ne fait rien et on ne peut
+    // rien cliquer".
+    this.scheduleAi();
     saveSession({ ...session, lastSeed: setup.seed });
   }
 
@@ -186,6 +192,8 @@ export class GameApp {
     this.hud.resetLog();
     this.buildScene();
     this.refresh();
+    // Meme raison que dans le constructeur : une nouvelle initiative peut remettre l'IA en tete.
+    this.scheduleAi();
     saveSession({ ...loadSession(), lastSeed: setup.seed });
   }
 
