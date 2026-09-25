@@ -26,6 +26,7 @@ import { EffectQueue } from '@/render/effectQueue';
 import { EffectsLayer } from '@/render/effects';
 import { IsoCamera } from '@/render/isoCamera';
 import { RigAnimator } from '@/render/rigAnimator';
+import { createGameRenderer } from '@/render/rendererSetup';
 import { TEAM_COLORS, YardView, cellToWorld, worldToCell } from '@/render/yardView';
 import { Hud, type HudActionId } from '@/ui/hud';
 
@@ -126,11 +127,7 @@ export class GameApp {
     const seed = options.seed ?? session.lastSeed ?? '';
     const setup = options.setup ?? defaultSetup(seed || randomSeedLabel());
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer = createGameRenderer({ shadows: true });
     container.appendChild(this.renderer.domElement);
 
     // Zoom de depart plus serre que le defaut generique (34) : a la distance de jeu, un

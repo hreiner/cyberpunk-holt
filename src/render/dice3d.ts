@@ -17,6 +17,7 @@
 
 import * as THREE from 'three';
 import './dice3d.css';
+import { createGameRenderer } from './rendererSetup';
 
 /* ------------------------------------------------------------------------ */
 /* API publique                                                              */
@@ -353,9 +354,8 @@ export class DiceRoller {
     this.camera.position.set(0, Math.sin(elevation) * distance, Math.cos(elevation) * distance);
     this.camera.lookAt(0, 0, 0);
 
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true });
+    this.renderer = createGameRenderer({ canvas: this.canvas, alpha: true });
     this.renderer.setClearColor(0x000000, 0);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     this.syncRendererSize();
     this.resizeListener = () => this.syncRendererSize();

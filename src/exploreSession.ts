@@ -31,7 +31,7 @@
  * (`handleExploreInteraction`).
  */
 
-import * as THREE from 'three';
+import type * as THREE from 'three';
 import { createRng } from '@/core/rng';
 import { getCharacter } from '@/rules/character';
 import type { CharacterId } from '@/rules/character';
@@ -41,6 +41,7 @@ import { ExploreState } from '@/explore';
 import type { Cell, EntityDef, ExploreEvent, InteractableInfo, MapDef } from '@/explore';
 import { ExploreView, KEY_ZOOM_SPEED } from '@/render/exploreView';
 import type { HoverTarget } from '@/render/exploreView';
+import { createGameRenderer, rendererDescription } from '@/render/rendererSetup';
 import { ObjectiveHud } from './ui/objectiveHud';
 import { BriefLineView } from './ui/briefLine';
 
@@ -80,6 +81,16 @@ export interface ExploreRenderStats {
   triangles: number;
   geometries: number;
   textures: number;
+  /**
+   * Nom du GPU tel que le pilote le rapporte, `null` si le navigateur masque l'extension. La
+   * question qu'il répond : DEUX navigateurs sur la même machine peuvent choisir deux cartes
+   * différentes (défaut réel : fluide sous Edge, poussif sous Chrome, même build). Sans ce
+   * champ, on ne peut pas distinguer « le jeu est trop lourd » de « ce navigateur rend sur la
+   * carte intégrée, ou en logiciel ».
+   */
+  gpu: string | null;
+  /** Rapport de pixels effectif (voir `MAX_PIXEL_RATIO`) : l'autre moitié du coût par image. */
+  pixelRatio: number;
 }
 
 export class ExploreSession {
@@ -122,6 +133,8 @@ export class ExploreSession {
     if (!this.renderer || !this.view) return null;
     const { render, memory } = this.renderer.info;
     return {
+      gpu: rendererDescription(this.renderer),
+      pixelRatio: this.renderer.getPixelRatio(),
       drawCalls: render.calls,
       triangles: render.triangles,
       geometries: memory.geometries,
@@ -222,13 +235,7 @@ export class ExploreSession {
     if (!this.renderer || !this.canvas) {
       this.canvas = document.createElement('canvas');
       this.host.appendChild(this.canvas);
-      this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true });
-      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      this.renderer.outputColorSpace = THREE.SRGBColorSpace;
-      this.renderer.shadowMap.enabled = true;
-      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      this.renderer.toneMappingExposure = 1.08;
+      this.renderer = createGameRenderer({ canvas: this.canvas, shadows: true, toneMappingExposure: 1.08 });
       this.wireCanvasInput(this.canvas);
     }
 
