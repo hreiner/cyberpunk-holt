@@ -221,7 +221,7 @@ export class Hud {
         <li>État <strong>${statusLabel(unit)}</strong></li>
         <li>Matériel <strong>${known ? unit.items.map((i) => `${itemIconMarkup(i)} ${ITEM_LABELS[i]}`).join(', ') || 'aucun' : 'inconnu'}</strong></li>
       </ul>
-      <h3>${known ? 'Tirs possibles' : 'Équipe adverse'}</h3>
+      <h3>${known ? 'Tirs possibles — chances de toucher' : 'Équipe adverse'}</h3>
       <ul class="shots">${shots}</ul>
     `;
 

@@ -171,10 +171,22 @@ function pipsElement(filled: number, total: number, modifier = ''): HTMLElement 
  * est en minuscules ici (elle qualifie le total, milieu de phrase), en casse
  * normale dans la puce de jet (`chip-check__dv`, voir `renderChoices`/`renderInsight`).
  */
+/**
+ * Chance de reussite d'un jet. Le nombre seul ("85 %") ne disait pas de quoi il parlait --
+ * defaut remonte en jeu : "lors de tous les lances de des il y a un pourcentage indique. Pas
+ * clair : c'est la chance de reussite ?". Le chiffre garde sa taille, le mot la sienne.
+ */
+function chancePercentMarkup(percent: number): string {
+  return `<span class="chip-check__pct">${percent}<span class="chip-check__pct-unit"> % de réussite</span></span>`;
+}
+
 function rollDetailText(roll: PresentedRoll): string {
   const parts = [`${roll.attribute} ${roll.attributeValue}`, `${roll.skillLabel} ${roll.skillValue}`];
   const mods = modifiersText(roll);
   if (mods) parts.push(mods);
+  // Sans cette ligne, le total affiche apres une depense de Chance ne s'explique nulle part :
+  // le de dit 4, la carte dit 15, et rien ne raconte les points depenses entre les deux.
+  if (roll.luckSpent !== undefined) parts.push(`Chance +${roll.luckSpent}`);
   parts.push(`total ${roll.total} contre DV ${roll.dv} (${dvName(roll.dvLabel).toLowerCase()})`);
   return parts.join(' · ');
 }
@@ -426,6 +438,16 @@ export class NarrativeView {
    */
   private ensureRevealed(roll: PresentedRoll, token: number, node: PresentedNode): boolean {
     if (roll === this.revealedRoll) return false;
+    if (roll.luckSpent !== undefined) {
+      // Depenser de la Chance ne relance RIEN : le moteur ajoute les points au total du jet
+      // deja tire (`DialogueRunner.spendLuck`), et n'en publie qu'un nouvel objet. Le rejouer
+      // montrait au joueur les memes faces retomber sur le meme echec, juste avant de lui
+      // annoncer une reussite -- defaut constate en jeu ("si tu dis OK, le jet n'est pas
+      // reussi mais on relance le de"). Un jet porteur de `luckSpent` a donc, par
+      // construction, deja ete mis en scene : l'invite de Chance n'apparait qu'apres.
+      this.revealedRoll = roll;
+      return false;
+    }
     if (this.animatingRoll !== roll) {
       this.animatingRoll = roll;
       const label = `${roll.skillLabel} — DV ${roll.dv}`;
@@ -701,7 +723,7 @@ export class NarrativeView {
         <span class="chip-check">
           <span class="chip-check__skill">${insight.skillLabel}</span>
           <span class="chip-check__dv">DV ${dvName(insight.dvLabel)}</span>
-          <span class="chip-check__pct">${insight.chancePercent}%</span>
+          ${chancePercentMarkup(insight.chancePercent)}
         </span>
         <button type="button" class="btn btn--primary" data-testid="insight-roll">${label}</button>
         ${hint}
@@ -798,7 +820,7 @@ export class NarrativeView {
         chip.innerHTML =
           `<span class="chip-check__skill">${choice.check.skillLabel}</span>` +
           `<span class="chip-check__dv">DV ${dvName(choice.check.dvLabel)}</span>` +
-          `<span class="chip-check__pct">${choice.check.chancePercent}%</span>`;
+          chancePercentMarkup(choice.check.chancePercent);
         btn.appendChild(chip);
       }
 

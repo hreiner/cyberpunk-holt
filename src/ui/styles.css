@@ -993,6 +993,16 @@ canvas {
   font-weight: 800;
   font-size: var(--fs-md);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* "de réussite" : ce que le grand chiffre compte. Assez petit pour ne pas lui voler la
+   vedette, assez lisible pour qu'on n'ait plus a deviner (voir `chancePercentMarkup`). */
+.chip-check__pct-unit {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.01em;
 }
 
 .narrative-advance {
