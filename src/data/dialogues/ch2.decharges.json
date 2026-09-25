@@ -1,21 +1,622 @@
 {
   "id": "ch2.decharges",
+  "backdrop": "decharges",
   "start": "arrivee",
   "nodes": {
     "arrivee": {
-      "text": "Les décharges, à la lisière de la ville. Une voiture, immobile, sans surveillance.",
+      "text": "Les décharges, à la lisière de Night City. Une voiture abandonnée, portière ouverte ; dans le coffre, un fusil, vide.",
+      "effects": [
+        {
+          "entry": {
+            "key": "ch2.fusil",
+            "label": "Le fusil",
+            "value": "vide, récupéré à la décharge"
+          }
+        }
+      ],
       "choices": [
-        { "text": "Fouiller la voiture.", "to": "pillage", "effects": [{ "tag": "voiture-pillee" }] },
-        { "text": "Monter la garde plutôt.", "to": "fin" }
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "tag": "vu-simulation"
+            }
+          ],
+          "to": "rendezvous-confirme"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "tag": "vu-simulation"
+              }
+            }
+          ],
+          "to": "rendezvous-nouveau"
+        }
       ]
     },
-    "pillage": {
-      "text": "Un fusil, dans le coffre.",
-      "effects": [{ "entry": { "key": "ch2.fusil", "label": "Le fusil", "value": "récupéré à la décharge" } }],
+    "rendezvous-confirme": {
+      "text": "John attend déjà, adossé à la carcasse d'une camionnette. « Smith t'a trouvé toi aussi ? Elle m'a donné un endroit, pour demain. »",
+      "to": "gangs"
+    },
+    "rendezvous-nouveau": {
+      "text": "John attend, adossé à la carcasse d'une camionnette. « J'ai un endroit pour demain. On y sera. »",
+      "to": "gangs"
+    },
+    "gangs": {
+      "text": "Des gamins sortent des tas de ferraille, l'œil sur le fusil. Leur demander un coup de main ne mène nulle part — ils ne veulent qu'une chose.",
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "tag": "a-tue"
+            }
+          ],
+          "to": "gangs-froid"
+        },
+        {
+          "text": "[Bluff] Braquer le fusil vide, sans ciller.",
+          "conditions": [
+            {
+              "not": {
+                "tag": "a-tue"
+              }
+            },
+            {
+              "tag": "bluffeur"
+            }
+          ],
+          "check": {
+            "skill": "persuasion",
+            "dv": "NORMALE"
+          },
+          "onSuccess": "gangs-calmes",
+          "onFailure": "gangs-rodent"
+        },
+        {
+          "text": "[Persuasion] Tenir tête, le fusil vide braqué.",
+          "conditions": [
+            {
+              "not": {
+                "tag": "a-tue"
+              }
+            },
+            {
+              "not": {
+                "tag": "bluffeur"
+              }
+            }
+          ],
+          "check": {
+            "skill": "persuasion",
+            "dv": "DIFFICILE"
+          },
+          "onSuccess": "gangs-calmes",
+          "onFailure": "gangs-rodent"
+        }
+      ]
+    },
+    "gangs-calmes": {
+      "text": "Ils reculent, sans un mot de plus, et se fondent dans le noir.",
+      "to": "garde-intro"
+    },
+    "gangs-rodent": {
+      "text": "Ils ne reculent pas vraiment. Ils rôdent, un peu plus loin, dans le noir — ils reviendront.",
+      "effects": [
+        {
+          "counter": "ch2.decharges.gangs-dv",
+          "delta": 1
+        }
+      ],
+      "to": "garde-intro"
+    },
+    "gangs-froid": {
+      "text": "Un regard suffit. Ils reconnaissent quelque chose dans ses yeux, et reculent sans discuter.",
+      "to": "garde-intro"
+    },
+    "garde-intro": {
+      "text": "La nuit à tenir, avant le jour. Quelqu'un doit veiller sur la voiture — et sur Letitia.",
+      "choices": [
+        {
+          "text": "Organiser des tours de garde.",
+          "to": "garde-tour"
+        },
+        {
+          "text": "Laisser tout le monde dormir.",
+          "to": "garde-dormir"
+        }
+      ]
+    },
+    "garde-dormir": {
+      "text": "Personne ne veille. Au matin, la voiture est vide, dépouillée jusqu'aux sièges — mais tout le monde a dormi, pour de bon.",
+      "effects": [
+        {
+          "tag": "voiture-pillee"
+        },
+        {
+          "flag": "ch2.decharges.repos",
+          "value": true
+        }
+      ],
       "to": "fin"
     },
     "fin": {
-      "text": "La nuit s'installe, il faut tenir jusqu'au matin."
+      "text": "Le ciel pâlit à l'est. La nuit est tenue, d'une manière ou d'une autre — il faut repartir, trouver quelqu'un pour soigner Letitia."
+    },
+    "garde-tour": {
+      "text": "Qui prend ce tour de garde, parmi ceux qui ne sont pas encore passés ?",
+      "choices": [
+        {
+          "text": "[Résistance] Franklyn prend ce tour.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.watched.franklyn",
+                "equals": true
+              }
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "franklyn",
+            "dv": "DIFFICILE",
+            "dvByCounter": {
+              "counter": "ch2.decharges.gangs-dv",
+              "levels": [
+                "DIFFICILE",
+                "TRES_DIFFICILE"
+              ]
+            }
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-fail-franklyn",
+          "effects": [
+            {
+              "flag": "ch2.garde.watched.franklyn",
+              "value": true
+            },
+            {
+              "counter": "ch2.garde.tours",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "text": "[Résistance] John prend ce tour.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.watched.john",
+                "equals": true
+              }
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "john",
+            "dv": "DIFFICILE",
+            "dvByCounter": {
+              "counter": "ch2.decharges.gangs-dv",
+              "levels": [
+                "DIFFICILE",
+                "TRES_DIFFICILE"
+              ]
+            }
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-fail-john",
+          "effects": [
+            {
+              "flag": "ch2.garde.watched.john",
+              "value": true
+            },
+            {
+              "counter": "ch2.garde.tours",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "text": "[Résistance] Grover prend ce tour.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.watched.grover",
+                "equals": true
+              }
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "grover",
+            "dv": "DIFFICILE",
+            "dvByCounter": {
+              "counter": "ch2.decharges.gangs-dv",
+              "levels": [
+                "DIFFICILE",
+                "TRES_DIFFICILE"
+              ]
+            }
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-fail-grover",
+          "effects": [
+            {
+              "flag": "ch2.garde.watched.grover",
+              "value": true
+            },
+            {
+              "counter": "ch2.garde.tours",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "text": "[Résistance] Abigail prend ce tour.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.watched.abigail",
+                "equals": true
+              }
+            },
+            {
+              "not": {
+                "tag": "abigail-brisee"
+              }
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "abigail",
+            "dv": "DIFFICILE",
+            "dvByCounter": {
+              "counter": "ch2.decharges.gangs-dv",
+              "levels": [
+                "DIFFICILE",
+                "TRES_DIFFICILE"
+              ]
+            }
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-fail-abigail",
+          "effects": [
+            {
+              "flag": "ch2.garde.watched.abigail",
+              "value": true
+            },
+            {
+              "counter": "ch2.garde.tours",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "text": "[Résistance] Abigail prend ce tour.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.watched.abigail",
+                "equals": true
+              }
+            },
+            {
+              "tag": "abigail-brisee"
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "abigail",
+            "dv": "TRES_DIFFICILE"
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-fail-abigail",
+          "effects": [
+            {
+              "flag": "ch2.garde.watched.abigail",
+              "value": true
+            },
+            {
+              "counter": "ch2.garde.tours",
+              "delta": 1
+            }
+          ]
+        },
+        {
+          "text": "Personne d'autre n'est disponible pour ce tour.",
+          "conditions": [
+            {
+              "flag": "ch2.garde.watched.franklyn",
+              "equals": true
+            },
+            {
+              "flag": "ch2.garde.watched.john",
+              "equals": true
+            },
+            {
+              "flag": "ch2.garde.watched.grover",
+              "equals": true
+            },
+            {
+              "flag": "ch2.garde.watched.abigail",
+              "equals": true
+            }
+          ],
+          "to": "fin"
+        }
+      ]
+    },
+    "garde-continue": {
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.tours",
+                "atLeast": 4
+              }
+            }
+          ],
+          "to": "garde-tour"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "flag": "ch2.garde.tours",
+              "atLeast": 4
+            }
+          ],
+          "to": "fin"
+        }
+      ]
+    },
+    "garde-fail-franklyn": {
+      "text": "Franklyn lutte contre le sommeil, les paupières lourdes.",
+      "choices": [
+        {
+          "text": "L'enfant secoue le veilleur.",
+          "conditions": [
+            {
+              "tag": "enfant-confiance"
+            },
+            {
+              "not": {
+                "flag": "ch2.garde.enfant-utilise",
+                "equals": true
+              }
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "franklyn",
+            "dv": "DIFFICILE",
+            "dvByCounter": {
+              "counter": "ch2.decharges.gangs-dv",
+              "levels": [
+                "DIFFICILE",
+                "TRES_DIFFICILE"
+              ]
+            }
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-echec-franklyn",
+          "effects": [
+            {
+              "flag": "ch2.garde.enfant-utilise",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "Laisser faire.",
+          "to": "garde-echec-franklyn"
+        }
+      ]
+    },
+    "garde-echec-franklyn": {
+      "text": "Franklyn s'assoupit pour de bon. Un bruit de tôle froissée, dehors, qu'il n'entend pas.",
+      "effects": [
+        {
+          "tag": "voiture-pillee"
+        }
+      ],
+      "to": "garde-continue"
+    },
+    "garde-fail-john": {
+      "text": "John somnole, un instant de trop.",
+      "choices": [
+        {
+          "text": "L'enfant secoue le veilleur.",
+          "conditions": [
+            {
+              "tag": "enfant-confiance"
+            },
+            {
+              "not": {
+                "flag": "ch2.garde.enfant-utilise",
+                "equals": true
+              }
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "john",
+            "dv": "DIFFICILE",
+            "dvByCounter": {
+              "counter": "ch2.decharges.gangs-dv",
+              "levels": [
+                "DIFFICILE",
+                "TRES_DIFFICILE"
+              ]
+            }
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-echec-john",
+          "effects": [
+            {
+              "flag": "ch2.garde.enfant-utilise",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "Laisser faire.",
+          "to": "garde-echec-john"
+        }
+      ]
+    },
+    "garde-echec-john": {
+      "text": "John a lâché prise trop tard. Des pas s'éloignent déjà, chargés.",
+      "effects": [
+        {
+          "tag": "voiture-pillee"
+        }
+      ],
+      "to": "garde-continue"
+    },
+    "garde-fail-grover": {
+      "text": "Grover cligne des yeux de trop, une seconde de trop.",
+      "choices": [
+        {
+          "text": "L'enfant secoue le veilleur.",
+          "conditions": [
+            {
+              "tag": "enfant-confiance"
+            },
+            {
+              "not": {
+                "flag": "ch2.garde.enfant-utilise",
+                "equals": true
+              }
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "grover",
+            "dv": "DIFFICILE",
+            "dvByCounter": {
+              "counter": "ch2.decharges.gangs-dv",
+              "levels": [
+                "DIFFICILE",
+                "TRES_DIFFICILE"
+              ]
+            }
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-echec-grover",
+          "effects": [
+            {
+              "flag": "ch2.garde.enfant-utilise",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "Laisser faire.",
+          "to": "garde-echec-grover"
+        }
+      ]
+    },
+    "garde-echec-grover": {
+      "text": "Grover s'en veut, mais le mal est fait : la portière de la voiture bat dans le vent.",
+      "effects": [
+        {
+          "tag": "voiture-pillee"
+        }
+      ],
+      "to": "garde-continue"
+    },
+    "garde-fail-abigail": {
+      "text": "Abigail décroche, le regard vide, ailleurs.",
+      "choices": [
+        {
+          "text": "L'enfant secoue le veilleur.",
+          "conditions": [
+            {
+              "tag": "enfant-confiance"
+            },
+            {
+              "not": {
+                "flag": "ch2.garde.enfant-utilise",
+                "equals": true
+              }
+            },
+            {
+              "not": {
+                "tag": "abigail-brisee"
+              }
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "abigail",
+            "dv": "DIFFICILE",
+            "dvByCounter": {
+              "counter": "ch2.decharges.gangs-dv",
+              "levels": [
+                "DIFFICILE",
+                "TRES_DIFFICILE"
+              ]
+            }
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-echec-abigail",
+          "effects": [
+            {
+              "flag": "ch2.garde.enfant-utilise",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "L'enfant secoue le veilleur.",
+          "conditions": [
+            {
+              "tag": "enfant-confiance"
+            },
+            {
+              "not": {
+                "flag": "ch2.garde.enfant-utilise",
+                "equals": true
+              }
+            },
+            {
+              "tag": "abigail-brisee"
+            }
+          ],
+          "check": {
+            "skill": "resistance",
+            "who": "abigail",
+            "dv": "TRES_DIFFICILE"
+          },
+          "onSuccess": "garde-continue",
+          "onFailure": "garde-echec-abigail",
+          "effects": [
+            {
+              "flag": "ch2.garde.enfant-utilise",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "Laisser faire.",
+          "to": "garde-echec-abigail"
+        }
+      ]
+    },
+    "garde-echec-abigail": {
+      "text": "Abigail sursaute en retard. Il ne reste plus rien à sauver, cette fois.",
+      "effects": [
+        {
+          "tag": "voiture-pillee"
+        }
+      ],
+      "to": "garde-continue"
     }
   }
 }

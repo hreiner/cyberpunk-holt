@@ -57,15 +57,29 @@ export const CH2_GAUGES: GaugeDef[] = [
 ];
 
 /**
- * Bilan de nuit PROVISOIRE (ADR 0025 §1, B23, lot 5.4) : contenu minimal qui
- * exerce reellement le format (premier cas vrai, ligne omise sans cas vrai,
- * photo souvenir) avec les seules donnees deja posees par le squelette du
- * lot 5.1 (`ch2Profiles.ts`) et `ch2.slow.json` -- pas encore les quatre
- * entrees "Letitia/Abigail/l'enfant/la voiture/le fusil" de GAME-DESIGN §11
- * ("Photo au bilan"), qui arrivent avec le contenu complet au lot 5.6.
- * `faded: ['zachary']` anticipe sa mort possible (scene 7, lot 5.5) : un
- * choix visuel fixe pour l'instant, pas encore conditionne (voir le rapport
- * du lot pour la reserve).
+ * Bilan de nuit REEL (ADR 0025 §1, B23, lot 5.6, GAME-DESIGN §4 scene 11 +
+ * §7 "Evaluation" : "un bilan facon proces-verbal (etat de Letitia, voiture,
+ * fusil, enfant, Abigail, « Zachary -- mort le soir du bal ») ; le joueur
+ * juge ce qu'il a sauve"). Remplace le bilan PROVISOIRE du lot 5.4 (Profil de
+ * depart / Au slow), qui n'exercait que le format sans le contenu reel.
+ *
+ * Quatre des cinq lignes ont un repli inconditionnel (dernier cas sans
+ * `when`) : elles sont donc TOUJOURS ecrites, quel que soit le chemin joue
+ * (verifie par `tests/unit/ch2Content.test.ts`, lot 5.6) --
+ * - "État de Letitia" (deja la, lot 5.4) : le compteur `ch2.letitia.etat`,
+ *   toujours dans [0, 3] (garde de contenu du lot 5.5) ;
+ * - "Abigail" : `abigail-brisee`, posee scene 8 (`ch2.adieu`) ;
+ * - "L'enfant" : `enfant-confiance`, posee scene 5 (`ch2.enfant`) ;
+ * - "La voiture" : `voiture-pillee`, posee scene 10 (`ch2.decharges`, le
+ *   relais de garde -- echec de garde OU "Dormir").
+ * "Zachary" est une ligne a cas UNIQUE, sans condition : sa mort (scene 7,
+ * `ch2.egouts`) n'est pas une branche du chapitre 2 (GAME-DESIGN §9, "ecarte
+ * -- sauver Zachary par un jet"), donc rien a brancher ici -- elle est deja
+ * "toujours ecrite" par construction, pas besoin d'un repli pour ca.
+ *
+ * `faded: ['zachary']` reste un choix visuel fixe (voir la note d'origine du
+ * lot 5.4) : coherent avec la ligne "Zachary" ci-dessous, jamais conditionne
+ * puisque sa mort ne l'est pas non plus.
  */
 export const CH2_END: ChapterEndDef = {
   kicker: 'Rapport de nuit',
@@ -82,20 +96,29 @@ export const CH2_END: ChapterEndDef = {
       ],
     },
     {
-      label: 'Profil de départ',
+      label: 'Zachary',
+      cases: [{ value: 'mort le soir du bal' }],
+    },
+    {
+      label: 'Abigail',
       cases: [
-        { when: { tag: 'loyal-bande' }, value: 'loyal à la bande' },
-        { when: { tag: 'solitaire' }, value: 'solitaire' },
-        { value: 'neutre' },
+        { when: { tag: 'abigail-brisee' }, value: 'brisée, cette nuit-là' },
+        { value: 'reste debout' },
       ],
     },
     {
-      // Sans repli : disparait du bilan si Franklyn n'a pas fait ce choix au
-      // slow -- demonstration, dans le contenu reel, de "une ligne sans cas
-      // vrai est omise" (voir tests/unit/chapterEnd.test.ts pour la garantie
-      // generique).
-      label: 'Au slow',
-      cases: [{ when: { tag: 'protecteur-bal' }, value: 'a fait rempart devant Letitia' }],
+      label: "L'enfant",
+      cases: [
+        { when: { tag: 'enfant-confiance' }, value: 'a fait confiance, dans les conduits' },
+        { value: 'est resté distant' },
+      ],
+    },
+    {
+      label: 'La voiture',
+      cases: [
+        { when: { tag: 'voiture-pillee' }, value: 'pillée pendant la nuit' },
+        { value: 'intacte au matin' },
+      ],
     },
   ],
 };

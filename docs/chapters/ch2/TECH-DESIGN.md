@@ -637,3 +637,29 @@ Ordre retenu par le propriétaire : **un lot à la fois, sans parallèle** — 5
 | `docs/art/Reference_pictures/Chapter2/` pèse 31 Mo et n'est pas versionné | décision du propriétaire (l'exception d'AGENTS.md §6 couvre le dossier parent) ; le jeu n'en sert que des dérivés `.webp` légers |
 | La jauge rend le chapitre « comptable » | quatre libellés en mots, pas de chiffres ; tampon bref au changement ; retrait possible par la donnée (`gauges` vide) |
 | `chapter.ts` touché par trois lots parallèles | chaque lot cite les méthodes qu'il touche ; 5.2, 5.3 et 5.7 se rebasent l'un sur l'autre avant de se fusionner |
+
+### Résultats du simulateur (lot 5.6, révision après retour de l'orchestrateur)
+
+`npx tsx scripts/simulate-ch2.ts 500` (graine de base par défaut), sur les trois profils, **nuits
+« Veiller » et « Dormir » séparées** (« Dormir » pille la voiture d'office, mélanger les deux
+rendrait le taux illisible). Les scènes encore des squelettes à ce lot (2, 4, 5, 6, 9 — bal,
+fuite/grille, conduits/enfant, cantine, campement/murano) passent leurs choix sans jet ; la
+distribution ci-dessous ne mesure donc que ce que les scènes 1, 3, 7, 8, 10 et 11 produisent.
+
+| Profil | État de Letitia (0 / 1 / 2 / 3) | `abigail-brisee` (oui) | Nuits « Dormir » | `voiture-pillee` parmi les nuits « Veiller » |
+|---|---|---|---|---|
+| Loyal à la bande | 28,6 % / 55,0 % / 16,4 % / **0,0 %** | 16,4 % | 50,6 % | 99,2 % |
+| Solitaire | 29,6 % / 51,4 % / 19,0 % / **0,0 %** | 21,2 % | 47,6 % | 98,1 % |
+| Neutre | 31,4 % / 52,4 % / 16,2 % / **0,0 %** | 39,2 % | 50,8 % | 98,4 % |
+
+**Deux issues sûres, à traiter différemment :**
+- **L'état de Letitia « critique » (3) n'est plus jamais atteint** (0,0 % sur les trois
+  profils) : ce n'est PAS un DV à ajuster, c'est une consÉquence directe du retrait de la
+  hausse de l'état sur un échec de garde (retour de l'orchestrateur, point 4 — la housse
+  passait de 2 à 3 sur un échec avant sa propre correction). Avec les scènes 3 et 7 seules
+  (les deux qui touchent encore ce compteur), le maximum mécaniquement atteignable est 2. Ce
+  n'est pas une régression de ce lot : c'est un effet de bord signalé, pas corrigé (hors
+  périmètre — `ch2.slow.json`/`ch2.egouts.json` n'en font pas partie).
+- **`voiture-pillee` reste une issue quasi sûre PARMI LES NUITS « VEILLER »** (98,1 à 99,2 %) :
+  la garde échoue presque toujours dès qu'on tente de la tenir. Voir le diagnostic et les
+  options chiffrées dans le rapport du lot 5.6.

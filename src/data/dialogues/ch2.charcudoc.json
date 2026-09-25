@@ -1,16 +1,131 @@
 {
   "id": "ch2.charcudoc",
-  "start": "rencontre",
+  "backdrop": "clinique-rue",
+  "start": "rue",
   "nodes": {
-    "rencontre": {
-      "text": "Le charcudoc, dans son échoppe de fortune, écoute avant de soigner.",
+    "rue": {
+      "text": "Un gamin accepte de guider le groupe, contre paiement, jusqu'à une clinique crasseuse en bordure de Night City.",
+      "to": "marchandage"
+    },
+    "marchandage": {
+      "text": "Le gamin tend la main avant d'aller plus loin. Il faut le payer, maintenant.",
+      "choices": [
+        {
+          "text": "[Persuasion] Payer avec le fusil.",
+          "conditions": [{ "not": { "flag": "ch2.decharges.repos", "equals": true } }],
+          "check": { "skill": "persuasion", "dv": "DIFFICILE" },
+          "onSuccess": "garde-tout",
+          "onFailure": "perd-fusil"
+        },
+        {
+          "text": "[Persuasion] Payer avec le fusil.",
+          "conditions": [{ "flag": "ch2.decharges.repos", "equals": true }],
+          "check": { "skill": "persuasion", "dv": "NORMALE" },
+          "onSuccess": "garde-tout",
+          "onFailure": "perd-fusil"
+        },
+        {
+          "text": "[Persuasion] Payer avec des pièces de la voiture.",
+          "conditions": [
+            { "not": { "tag": "voiture-pillee" } },
+            { "not": { "flag": "ch2.decharges.repos", "equals": true } }
+          ],
+          "check": { "skill": "persuasion", "dv": "DIFFICILE" },
+          "onSuccess": "garde-tout",
+          "onFailure": "perd-voiture"
+        },
+        {
+          "text": "[Persuasion] Payer avec des pièces de la voiture.",
+          "conditions": [
+            { "not": { "tag": "voiture-pillee" } },
+            { "flag": "ch2.decharges.repos", "equals": true }
+          ],
+          "check": { "skill": "persuasion", "dv": "NORMALE" },
+          "onSuccess": "garde-tout",
+          "onFailure": "perd-voiture"
+        }
+      ]
+    },
+    "garde-tout": {
+      "text": "Le gamin marchande à peine, hausse les épaules, et empoche moins qu'annoncé. On garde le reste.",
+      "effects": [{ "entry": { "key": "ch2.fusil", "label": "Le fusil", "value": "gardé, la dette réglée sans tout laisser" } }],
+      "to": "accueil"
+    },
+    "perd-fusil": {
+      "text": "Le gamin ne cède rien. Le fusil vide change de mains, sans un mot de plus.",
+      "effects": [{ "entry": { "key": "ch2.fusil", "label": "Le fusil", "value": "laissé au guide, en paiement" } }],
+      "to": "accueil"
+    },
+    "perd-voiture": {
+      "text": "Le gamin ne cède rien. Les dernières pièces de la voiture partent avec lui.",
+      "effects": [{ "entry": { "key": "ch2.fusil", "label": "Le fusil", "value": "gardé, la voiture a payé le prix" } }],
+      "to": "accueil"
+    },
+    "accueil": {
+      "backdrop": "clinique-accueil",
+      "text": "Le charcudoc, dans son échoppe de fortune, écoute avant d'ausculter Letitia. « Deux mille crédits. En attendant, elle reste ici. » Ce n'est pas une offre : c'est la seule porte encore ouverte, cette nuit. Il glisse un nom, presque à contrecœur — un rendez-vous, pour demain.",
+      "effects": [
+        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "le charcudoc" } }
+      ],
+      "to": "adieux-intro"
+    },
+    "adieux-intro": {
+      "text": "Il faut la laisser là, et repartir sans elle.",
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "cavalier-letitia" }, { "affinity": "letitia", "atLeast": 2 }],
+          "to": "adieu-chaleureux"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "cavalier-letitia" }, { "not": { "affinity": "letitia", "atLeast": 2 } }],
+          "to": "adieu-pudique"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "cavalier-letitia" } }],
+          "to": "adieu-distant"
+        }
+      ]
+    },
+    "adieu-chaleureux": {
+      "text": "Franklyn reste un instant de trop, la main sur la sienne. Elle sourit, à peine : « Va. Reviens me chercher. »",
+      "to": "delai-intro"
+    },
+    "adieu-pudique": {
+      "text": "Il cherche quelque chose à dire, ne trouve qu'un geste maladroit sur son épaule. Elle hoche la tête, ça suffit.",
+      "to": "delai-intro"
+    },
+    "adieu-distant": {
+      "text": "Un signe de tête, rien de plus. Ce n'est pas le moment des mots, et ça ne l'a jamais été entre eux.",
+      "to": "delai-intro"
+    },
+    "delai-intro": {
+      "text": "Le charcudoc referme sa trousse.",
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "flag": "ch2.letitia.etat", "atLeast": 2 }],
+          "to": "delai-urgent"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "flag": "ch2.letitia.etat", "atLeast": 2 } }],
+          "to": "delai-calme"
+        }
+      ]
+    },
+    "delai-urgent": {
+      "text": "« Quelques heures, pas plus. Elle n'a pas le temps d'attendre demain. » Il ne lève même pas les yeux en le disant.",
+      "to": "fin"
+    },
+    "delai-calme": {
+      "text": "« Demain soir. Elle tiendra. » Il referme sa trousse, sans se presser.",
       "to": "fin"
     },
     "fin": {
-      "text": "Il glisse un nom, presque à contrecœur, avant de refermer sa trousse.",
-      "effects": [
-        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "le charcudoc" } }
-      ]
+      "text": "Il faut partir, maintenant, sans elle. La nuit est finie ; ce qu'elle a coûté ne l'est pas encore."
     }
   }
 }

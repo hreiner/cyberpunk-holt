@@ -20,6 +20,20 @@
  * précis de la scène 3), garde la lisibilité du prix annoncé par GAME-DESIGN §4 (scène 3) :
  * "plaquer Letitia" est une blessure moins grave que "crier pour tous". Si un lot futur modifie
  * `ch2.slow.json` au point d'égaliser les deux états, ce test le signale.
+ *
+ * Lot 5.6 ("Fini quand", TECH-DESIGN §6) ajoute deux propriétés, structurelles comme les
+ * trois premières -- lues sur les DONNÉES, jamais en faisant tourner le moteur (économie des
+ * tests, AGENTS.md : un jet de garde a un vrai coût pour le marcheur exhaustif de
+ * `chapter2Flow.test.ts`, inutile de le repayer ici) :
+ *
+ * 4. Le joker de l'enfant (relais de garde, `ch2.decharges.json`) ne sert qu'une fois : tout
+ *    effet qui pose `ch2.garde.enfant-utilise` appartient à un choix dont les conditions
+ *    excluent déjà "le joker est déjà utilisé" -- une fois posé, plus aucun autre choix ne
+ *    peut le reposer sans repasser par cette même garde.
+ * 5. Les quatre lignes du bilan qui doivent toujours se lire (État de Letitia, Abigail,
+ *    L'enfant, La voiture -- TECH-DESIGN §4.6, "Photo au bilan") ont bien un dernier cas SANS
+ *    `when`, donc toujours vrai : `resolveChapterEnd` (testé génériquement dans
+ *    `chapterEnd.test.ts`) ne peut donc jamais les omettre, quel que soit l'état du dossier.
  */
 
 import { describe, expect, it } from 'vitest';
@@ -29,7 +43,7 @@ import { createRunState } from '@/narrative/runState';
 import { DialogueRunner } from '@/narrative/dialogueRunner';
 import type { NarrativeContext } from '@/narrative/dialogueRunner';
 import { DIALOGUES } from '@/data/dialogues/registry';
-import { CHAPTER_2 } from '@/data/chapters/ch2';
+import { CHAPTER_2, CH2_END } from '@/data/chapters/ch2';
 import type { DialogueChoice, DialogueFile, DialogueNode, Effect } from '@/narrative/types';
 
 const EGOUTS_DIALOGUE_ID = 'ch2.egouts';
@@ -159,6 +173,60 @@ describe('chapitre 2 (lot 5.5) : garde de contenu', () => {
       const crie = letitiaStateAfter("Crier pour que tout le monde s'aplatisse.");
       expect(plaque).not.toBe(crie);
       expect(plaque).toBeLessThan(crie);
+    });
+  });
+
+  describe('lot 5.6 : le joker de l\'enfant (relais de garde) ne sert qu\'une fois', () => {
+    const ENFANT_UTILISE_FLAG = 'ch2.garde.enfant-utilise';
+    /** Condition EXACTE posée par chaque choix qui ARME le joker (voir ch2.decharges.json). */
+    const GUARD_CONDITION = { not: { flag: ENFANT_UTILISE_FLAG, equals: true } };
+
+    function choicesSettingEnfantUtilise(file: DialogueFile): DialogueChoice[] {
+      const all: DialogueChoice[] = [];
+      for (const node of Object.values(file.nodes)) {
+        all.push(...(node.choices ?? []));
+      }
+      return all.filter((c) =>
+        (c.effects ?? []).some((e) => 'flag' in e && e.flag === ENFANT_UTILISE_FLAG && e.value === true),
+      );
+    }
+
+    it('ch2.decharges pose bien au moins un choix qui arme le joker (sinon ce test ne prouve rien)', () => {
+      const file = DIALOGUES['ch2.decharges'] as DialogueFile;
+      expect(choicesSettingEnfantUtilise(file).length).toBeGreaterThan(0);
+    });
+
+    it.each(Object.entries(DIALOGUES).filter(([id]) => id.startsWith('ch2.')).map(([id]) => id))(
+      '%s : tout choix qui pose "%s" est gardé par "pas déjà utilisé"',
+      (id) => {
+        const file = DIALOGUES[id] as DialogueFile;
+        for (const choice of choicesSettingEnfantUtilise(file)) {
+          expect(
+            choice.conditions,
+            `${id} : un choix pose ${ENFANT_UTILISE_FLAG} sans condition -- il pourrait le reposer indéfiniment`,
+          ).toBeDefined();
+          const hasGuard = (choice.conditions ?? []).some(
+            (cond) => JSON.stringify(cond) === JSON.stringify(GUARD_CONDITION),
+          );
+          expect(hasGuard, `${id} : le choix qui pose ${ENFANT_UTILISE_FLAG} n'exclut pas "déjà utilisé"`).toBe(true);
+        }
+      },
+    );
+  });
+
+  describe('lot 5.6 : quatre lignes du bilan (CH2_END) sont TOUJOURS écrites', () => {
+    const ALWAYS_WRITTEN_LABELS = ['État de Letitia', 'Abigail', "L'enfant", 'La voiture'];
+
+    it.each(ALWAYS_WRITTEN_LABELS)('"%s" a un dernier cas sans "when" (repli toujours vrai)', (label) => {
+      const line = CH2_END.lines.find((l) => l.label === label);
+      expect(line, `CH2_END ne contient pas de ligne "${label}"`).toBeDefined();
+      const lastCase = line!.cases[line!.cases.length - 1];
+      expect(lastCase?.when, `"${label}" : le dernier cas porte encore un "when" -- la ligne peut disparaître`).toBeUndefined();
+    });
+
+    it('les quatre lignes ci-dessus existent bien dans CH2_END (sinon ce test ne prouve rien)', () => {
+      const labels = CH2_END.lines.map((l) => l.label);
+      for (const label of ALWAYS_WRITTEN_LABELS) expect(labels).toContain(label);
     });
   });
 });
