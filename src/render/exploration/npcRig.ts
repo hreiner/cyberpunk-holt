@@ -19,19 +19,15 @@ export interface ExploreNpcRig {
 
 const DOG_FUR_COLOR = 0x725c48;
 
-/**
- * `seatedFacing` : orientation (radians, convention `faceTowards`) d'un PNJ assis -- celle de
- * sa chaise, pour qu'il regarde sa table et non une direction arbitraire. `undefined` = debout.
- */
-export function createExploreNpcRig(entityId: string, seatedFacing?: number): ExploreNpcRig {
-  return entityId === 'salle1.chien' ? new DogNpcRig(entityId) : new HumanNpcRig(entityId, seatedFacing);
+export function createExploreNpcRig(entityId: string): ExploreNpcRig {
+  return entityId === 'salle1.chien' ? new DogNpcRig(entityId) : new HumanNpcRig(entityId);
 }
 
 class HumanNpcRig implements ExploreNpcRig {
   readonly object: THREE.Object3D;
   private readonly rig: CadetRig;
 
-  constructor(entityId: string, seatedFacing: number | undefined) {
+  constructor(entityId: string) {
     const adult = entityId.includes('directeur') || entityId.includes('instructeur');
     const female = /betty|nancy|otage/.test(entityId);
     const sample = female ? CADET_VISUAL_PROFILES.abigail : CADET_VISUAL_PROFILES.grover;
@@ -56,10 +52,6 @@ class HumanNpcRig implements ExploreNpcRig {
     );
     this.object = this.rig.object;
     this.object.name = `npc:${entityId}`;
-    if (seatedFacing !== undefined) {
-      this.rig.playExplorationPose('sit');
-      this.object.rotation.y = seatedFacing;
-    }
   }
 
   update(dt: number): void {

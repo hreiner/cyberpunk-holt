@@ -124,13 +124,6 @@ export const KEY_ZOOM_SPEED = 30;
 const PAN_SPEED_M_S = 18;
 /** Marge de panoramique au-delà du bord de la carte, "une pièce" (08-EXPLORATION.md "La caméra et les murs"). */
 const PAN_MARGIN_METERS = 12;
-/**
- * Demi-tour entre une chaise et son occupant : le dossier de `chair()` est posé en +Z local,
- * donc un cadet assis regarde le -Z de sa chaise -- et le rig, lui, regarde son +Z
- * (`CadetRig.faceTowards`). Sans cette rotation, les figurants de la cantine étaient assis de
- * travers, parfois dos à leur table.
- */
-const SEATED_FACING_OFFSET_DEG = 180;
 
 export type Side = 'north' | 'south' | 'east' | 'west';
 
@@ -276,8 +269,6 @@ export class ExploreView {
   /** Habillage uniquement : `MapDef` reste la vérité pour collision et interactions. */
   private readonly dressing: ExploreDressing;
   private readonly replacedFurnitureCells = new Set<string>();
-  /** PNJ ayant une chaise déclarative -> orientation de cette chaise (radians). Seule condition qui autorise la pose assise. */
-  private readonly seatedNpcFacing = new Map<string, number>();
   private readonly discoveredRoomIds = new Set<string>();
   private readonly architectureMaterials: EnvironmentMaterials;
   /** Ressources propres aux cellules, portes et sols ; les props et rigs ont leur propriétaire. */
@@ -373,12 +364,6 @@ export class ExploreView {
     const visualDef = this.visualDefinition(def.id);
     for (const placement of visualDef.placements) {
       for (const cell of placement.replaces ?? []) this.replacedFurnitureCells.add(posKey(cell));
-      if (placement.model === 'canteen-chair' && placement.entityId) {
-        this.seatedNpcFacing.set(
-          placement.entityId,
-          THREE.MathUtils.degToRad((placement.rotation ?? 0) + SEATED_FACING_OFFSET_DEG),
-        );
-      }
     }
     this.dressing = new ExploreDressing(
       visualDef,
@@ -978,9 +963,7 @@ export class ExploreView {
       rig.playExplorationPose('talk');
       return rig;
     }
-    // Toujours au sol : c'est le rig qui pose son bassin sur l'assise (`CadetRig.dropHipsTo`),
-    // parce que lui seul connaît la hauteur de hanche réelle de son modèle.
-    const rig = createExploreNpcRig(entityId, this.seatedNpcFacing.get(entityId));
+    const rig = createExploreNpcRig(entityId);
     rig.object.position.set(x, 0, z);
     return rig;
   }

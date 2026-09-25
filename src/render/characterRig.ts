@@ -25,7 +25,14 @@ import type { ItemId } from '@/tactical/types';
 export type RigAnimation = 'idle' | 'walk' | 'run' | 'shoot' | 'down' | 'revive';
 
 /** Poses de presentation propres a l'exploration, sans effet sur le gameplay. */
-export type ExplorationPose = 'sit' | 'lean' | 'talk' | 'inspect';
+/**
+ * `sit` a existé puis a été retirée : le rig Quaternius, dont la racine est aux pieds, ne donne
+ * pas une assise crédible en pliant simplement les hanches et les genoux -- jambes écartées,
+ * bassin de travers, et un corps qui ne repose visiblement sur rien. Poser correctement un
+ * personnage sur un siège demande une vraie animation d'assise, pas une pose calculée ; tant
+ * qu'elle n'existe pas, les figurants se tiennent DEBOUT (décision du propriétaire du projet).
+ */
+export type ExplorationPose = 'lean' | 'talk' | 'inspect';
 
 export interface CharacterRig {
   readonly id: string;

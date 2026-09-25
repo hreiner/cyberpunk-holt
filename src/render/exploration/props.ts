@@ -152,12 +152,11 @@ function accessConsoleBank(materials: EnvironmentMaterials, kit: PropGeometryLib
 }
 /**
  * Hauteur de l'ASSISE d'une chaise, en mètres : la face supérieure du plateau ci-dessous
- * (centre 0,50 + demi-épaisseur 0,06). Un cadet assis y pose son bassin -- `CadetRig` s'en
- * sert pour ancrer sa pose `sit` (voir `playExplorationPose`) au lieu d'un décalage en dur,
- * qui laissait les figurants de la cantine au niveau du sol, à travers leur chaise. Si le
- * plateau bouge, l'assise bouge avec lui : un seul chiffre, une seule fois.
+ * (centre 0,50 + demi-épaisseur 0,06). Nommée plutôt que répétée en clair, parce que c'est la
+ * cote de référence d'un siège -- ce qu'il faudra viser le jour où un personnage s'y assoira
+ * vraiment (la pose `sit` calculée a été retirée, voir `ExplorationPose`).
  */
-export const CHAIR_SEAT_HEIGHT = 0.56;
+const CHAIR_SEAT_HEIGHT = 0.56;
 
 function chair(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
   const group = new THREE.Group();

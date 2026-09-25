@@ -212,17 +212,9 @@ export const HOLT_VISUALS: ExploreVisualMapDef = {
     solid('cantine.table-est-nord', 'canteen-table', 'cantine', 44, 19, 2, 2, 0),
     solid('cantine.table-est-centre', 'canteen-table', 'cantine', 44, 22, 2, 2, 0),
     solid('cantine.table-est-sud', 'canteen-table', 'cantine', 44, 25, 2, 2, 0),
-    // Chaque chaise REGARDE sa table. Celles des figurants occupent leur case
-    // (un cadet y est assis) ; celle de Franklyn reste franchissable, on s'y assoit.
-    solid('cantine.chaise-abraham', 'canteen-chair', 'cantine', 39, 22, 1, 1, 270, {
-      entityId: 'cantine.figurant-abraham',
-    }),
-    solid('cantine.chaise-betty', 'canteen-chair', 'cantine', 43, 23, 1, 1, 270, {
-      entityId: 'cantine.figurant-betty',
-    }),
-    solid('cantine.chaise-calvin', 'canteen-chair', 'cantine', 46, 26, 1, 1, 90, {
-      entityId: 'cantine.figurant-calvin',
-    }),
+    // Chaque chaise REGARDE sa table. Aucune n'est occupée : les trois figurants se tiennent
+    // DEBOUT à leur table (la pose assise est retirée, voir `playExplorationPose`), et celle de
+    // Franklyn reste franchissable -- c'est sa place, on s'y rend.
     {
       id: 'cantine.chaise-franklyn',
       model: 'canteen-chair',

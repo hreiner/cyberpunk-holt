@@ -274,10 +274,11 @@ for (const y of [19, 22, 25]) {
   fillBlock(40, y, 2, 2, 'o'); // rangée ouest
   fillBlock(44, y, 2, 2, 'o'); // rangée est
 }
-setChar(39, 22, 'o'); // chaise d'Abraham, face à l'est
-setChar(43, 23, 'o'); // chaise de Betty
-setChar(46, 26, 'o'); // chaise de Calvin
-// Les trois autres tables n'avaient encore aucun siège (on y mangeait debout) : deux
+// Les trois figurants sont DEBOUT à leur table : leur case reste du sol (c'est l'entité
+// elle-même qui empêche de marcher dessus, voir 08-EXPLORATION.md « On ne marche jamais sur
+// une entité »). Ils avaient une chaise sous eux tant qu'ils étaient assis -- pose retirée,
+// voir la note de `playExplorationPose` dans src/render/exploration/cadetRig.ts.
+// Les tables sans figurant ont, elles, leurs sièges : deux
 // chaises inoccupées chacune, sur les côtés encore libres, jamais dans l'allée x=42-43.
 setChar(39, 19, 'o'); // chaise, table ouest-nord, côté allée ouest
 setChar(40, 18, 'o'); // chaise, table ouest-nord, côté nord
