@@ -198,6 +198,7 @@ export class ExploreSession {
     this.state?.setFollowers(followerIds);
     this.syncFollowerRigs(followerIds);
     this.state?.setObjective(scene.objective ?? null);
+    this.objectiveTriggerId = scene.objective?.completionTrigger ?? null;
     this.view?.setPingTarget(this.objectiveTargetCell(scene));
     this.syncVisibility();
   }
@@ -253,6 +254,15 @@ export class ExploreSession {
   }
 
   /** Case cible du repere "Tab maintenu" (08-EXPLORATION.md "Les objectifs") : celle du `completionTrigger`. */
+  /**
+   * Entite qui termine l'etape courante (`completionTrigger`) : porte la balise permanente de
+   * l'objectif, reposee a chaque `syncVisibility` parce que la balise ne se montre que lorsque
+   * l'entite elle-meme est visible -- une piece non decouverte ne doit rien laisser fuiter
+   * (08-EXPLORATION.md "La decouverte des lieux"). Le repere "Tab maintenu", lui, reste la
+   * reponse a la demande quand la salle suivante est encore fermee.
+   */
+  private objectiveTriggerId: string | null = null;
+
   private objectiveTargetCell(scene: SceneDef): Cell | null {
     const triggerId = scene.objective?.completionTrigger;
     if (!triggerId) return null;
@@ -490,6 +500,12 @@ export class ExploreSession {
       .map((i) => i.id);
     this.view.setVisibleEntities(entityIds);
     this.view.setDiscoveredRooms(this.state.discoveredRoomIds());
+    const trigger = this.objectiveTriggerId;
+    // Une porte/zone n'est pas dans `entityIds` (elles ne sont pas des "contenus" de piece) mais
+    // reste visible des que sa piece l'est : la balise suit donc la presence dans `list`, seule
+    // source qui tienne compte a la fois de la condition d'etape et de la decouverte.
+    const target = trigger && list.some((i) => i.id === trigger) ? (this.entity(trigger)?.cell ?? null) : null;
+    this.view.setObjectiveTarget(target);
   }
 
   /** Ajoute/retire les rigs des coequipiers pour correspondre exactement a `ids` (ordre du roster). */

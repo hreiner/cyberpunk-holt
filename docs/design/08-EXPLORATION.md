@@ -197,8 +197,17 @@ d'exploration porte **un objectif principal** et, éventuellement, des **faculta
 
 - Encart en haut à gauche, sur le design system (`.panel`, Big Shoulders pour le titre).
 - `Tab` maintenu : un **repère au sol** pulse sur la destination de l'objectif principal, et
-  une flèche au bord de l'écran si elle est hors champ. Rien n'est affiché en permanence :
-  on apprend les lieux.
+  une flèche au bord de l'écran si elle est hors champ. C'est la réponse **à la demande**, y
+  compris quand la salle visée n'est pas encore découverte.
+- **Ce qui fait avancer l'histoire se voit.** L'entité qui termine l'étape porte une **balise**
+  permanente — un anneau rouge qui respire au sol et un chevron flottant au-dessus, rendu
+  par-dessus le décor pour ne jamais se perdre derrière un mur coupé. Le rouge est réservé à
+  ça sur la carte : il n'y en a **jamais qu'une à l'écran**, et le joueur n'a plus à essayer
+  les quinze anneaux d'une pièce pour trouver lequel compte. Les interactions facultatives
+  gardent leur anneau discret — la différence entre les deux est le message.
+- La balise **ne se montre que lorsque son entité se montre** : une pièce non découverte ne
+  laisse rien fuiter (voir « La découverte des lieux »). Tant qu'on n'y est pas entré, c'est
+  `Tab` qui répond.
 - Un objectif atteint se raye avec un petit tampon « FAIT », puis le suivant apparaît.
 
 ## Le groupe

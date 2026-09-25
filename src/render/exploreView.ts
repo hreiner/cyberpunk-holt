@@ -73,6 +73,18 @@ const VEHICLE_COLOR = 0xc9863a;
 const VEHICLE_GLASS_COLOR = 0x8ea6b8;
 /** Anneau au sol du groupe du joueur : `--comm` est réservé à la radio (ART-DIRECTION.md "Couleurs"), on reprend l'accent d'interface. */
 const PARTY_RING_COLOR = 0x4cc9f0;
+/**
+ * Balise de l'objectif : le rouge RED, « titre de scène, tampon, action principale »
+ * (UI-DESIGN-SYSTEM.md "Couleurs"). Il n'y en a jamais qu'UNE sur la carte -- l'entité qui fait
+ * avancer l'histoire --, donc le rouge reste rare comme le veut la direction artistique, et le
+ * joueur n'a plus à deviner lequel des quinze anneaux au sol est celui qui compte.
+ */
+const OBJECTIVE_COLOR = 0xe2262f;
+/** Hauteur du chevron au-dessus de la case, en mètres : au-dessus d'un cadet debout (1,75 m). */
+const OBJECTIVE_CHEVRON_HEIGHT = 2.25;
+/** Amplitude et période du balancement du chevron -- une respiration, pas un clignotement. */
+const OBJECTIVE_BOB_METERS = 0.14;
+const OBJECTIVE_BOB_SPEED = 2.2;
 
 /**
  * Sol d'une pièce NON découverte (08-EXPLORATION.md "La découverte des lieux") : une masse
@@ -301,6 +313,15 @@ export class ExploreView {
   /** Repère au sol de l'objectif, "Tab maintenu" (08-EXPLORATION.md "Les objectifs"). */
   private readonly pingMarker: THREE.Mesh;
   private pingActive = false;
+  /**
+   * Balise permanente de l'entité qui termine l'étape (voir `setObjectiveTarget`). Distincte du
+   * repère "Tab maintenu" (`pingMarker`), qui reste un coup d'œil à la demande : celle-ci est
+   * toujours là, pour qu'on sache d'un regard par où l'histoire continue.
+   */
+  private readonly objectiveBeacon = new THREE.Group();
+  private readonly objectiveRing: THREE.Mesh;
+  private readonly objectiveChevron: THREE.Mesh;
+  private objectiveClock = 0;
   private pingClock = 0;
   private reducedMotion = false;
 
@@ -398,6 +419,56 @@ export class ExploreView {
     this.pingMarker.position.y = 0.05;
     this.pingMarker.visible = false;
     this.root.add(this.pingMarker);
+
+    // Deux pièces : un anneau au sol, qui dit QUELLE CASE, et un chevron flottant rendu
+    // par-dessus tout (`depthTest: false`) qui dit OÙ REGARDER -- sans lui, la balise disparaît
+    // derrière un mur coupé ou une armoire dès qu'on tourne la caméra, c'est-à-dire exactement
+    // quand on la cherche.
+    const objectiveRingGeometry = new THREE.RingGeometry(0.42, 0.6, 32);
+    const objectiveRingMaterial = new THREE.MeshBasicMaterial({
+      color: OBJECTIVE_COLOR,
+      transparent: true,
+      opacity: 0.6,
+      depthWrite: false,
+    });
+    this.objectiveRing = new THREE.Mesh(objectiveRingGeometry, objectiveRingMaterial);
+    this.objectiveRing.rotation.x = -Math.PI / 2;
+    this.objectiveRing.position.y = 0.04;
+    const chevronGeometry = new THREE.ConeGeometry(0.17, 0.34, 4);
+    const chevronMaterial = new THREE.MeshBasicMaterial({
+      color: OBJECTIVE_COLOR,
+      transparent: true,
+      opacity: 0.92,
+      depthWrite: false,
+      depthTest: false,
+    });
+    this.objectiveChevron = new THREE.Mesh(chevronGeometry, chevronMaterial);
+    this.objectiveChevron.rotation.x = Math.PI; // pointe vers le bas, vers la case
+    this.objectiveChevron.renderOrder = 10;
+    this.objectiveChevron.position.y = OBJECTIVE_CHEVRON_HEIGHT;
+    // Une hampe très fine relie le chevron à sa case : en isométrie, un marqueur flottant seul
+    // se lit à deux cases de l'objet qu'il désigne. Elle traverse le décor comme le chevron,
+    // sinon elle ne relierait plus rien dès qu'une table passe devant.
+    const stemGeometry = new THREE.CylinderGeometry(0.022, 0.022, OBJECTIVE_CHEVRON_HEIGHT - 0.24, 6);
+    const stemMaterial = new THREE.MeshBasicMaterial({
+      color: OBJECTIVE_COLOR,
+      transparent: true,
+      opacity: 0.3,
+      depthWrite: false,
+      depthTest: false,
+    });
+    const stem = new THREE.Mesh(stemGeometry, stemMaterial);
+    stem.position.y = (OBJECTIVE_CHEVRON_HEIGHT - 0.24) / 2;
+    stem.renderOrder = 9;
+    this.cellGeometries.add(stemGeometry);
+    this.cellMaterials.add(stemMaterial);
+    this.objectiveBeacon.add(this.objectiveRing, this.objectiveChevron, stem);
+    this.objectiveBeacon.visible = false;
+    this.root.add(this.objectiveBeacon);
+    this.cellGeometries.add(objectiveRingGeometry);
+    this.cellGeometries.add(chevronGeometry);
+    this.cellMaterials.add(objectiveRingMaterial);
+    this.cellMaterials.add(chevronMaterial);
 
     for (const e of def.entities) {
       if (e.type === 'door') this.doorsOpenDefault.set(e.id, !e.locked);
@@ -1449,6 +1520,21 @@ export class ExploreView {
     this.pingMarker.scale.setScalar(1);
   }
 
+  /**
+   * Case de l'entité qui fait avancer l'histoire (le `completionTrigger` de l'étape), ou `null`
+   * quand l'étape n'en a pas. Toujours visible, contrairement au repère "Tab maintenu" : c'est la
+   * réponse permanente à « et maintenant, je clique où ? ».
+   */
+  setObjectiveTarget(cell: Cell | null): void {
+    if (!cell) {
+      this.objectiveBeacon.visible = false;
+      return;
+    }
+    const { x, z } = cellToWorld(this.map, cell);
+    this.objectiveBeacon.position.set(x, 0, z);
+    this.objectiveBeacon.visible = true;
+  }
+
   /** Tab maintenu ou relâché : montre/masque le repère (sans jamais rester affiché en continu). */
   setPingActive(active: boolean): void {
     this.pingActive = active;
@@ -1463,6 +1549,16 @@ export class ExploreView {
     // figées. Un PNJ masqué ne consomme pas d'animation avant sa synchronisation narrative.
     for (const rig of this.npcRigs.values()) {
       if (rig.object.visible) rig.update(dt);
+    }
+    if (this.objectiveBeacon.visible && !this.reducedMotion) {
+      this.objectiveClock += dt;
+      // Une respiration lente : l'œil la retrouve sans qu'elle tire l'attention en continu.
+      const breath = (Math.sin(this.objectiveClock * 1.6) + 1) / 2;
+      this.objectiveRing.scale.setScalar(1 + breath * 0.12);
+      (this.objectiveRing.material as THREE.MeshBasicMaterial).opacity = 0.42 + breath * 0.26;
+      this.objectiveChevron.position.y =
+        OBJECTIVE_CHEVRON_HEIGHT + Math.sin(this.objectiveClock * OBJECTIVE_BOB_SPEED) * OBJECTIVE_BOB_METERS;
+      this.objectiveChevron.rotation.y = this.objectiveClock * 0.9;
     }
     if (this.pingActive && !this.reducedMotion) {
       this.pingClock += dt;
