@@ -171,7 +171,8 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
   banque technique et cage à matériel au mur nord, de part et d'autre de la porte de la
   salle 1 ; caisses dans l'angle sud-ouest. Le centre est vide et marqué : les deux bancs
   le regardent, l'instructeur s'y tient. Circulation directe du sas sud au centre, puis à
-  la porte nord, fléchée par des chevrons.
+  la porte nord — que la **balise d'objectif** désigne, les chevrons peints n'étant qu'une
+  redite (voir « Moins d'accessoires » plus bas).
 
 ### Salle 1 — la porte et le chien — `salle1`
 
@@ -182,9 +183,9 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
 - **Espace** : tout le mobilier est sur les bords. Le mur ouest porte l'enclos cynophile,
   grille ouverte — c'est la silhouette qui raconte le chien avant qu'on le voie — avec
   l'obstacle de parcours et les barrières rangées à côté. Le mur est porte le poste de
-  sécurité. Le mur nord porte la banque technique et la cage à matériel. Le centre reste
-  vide ; la traversée est **oblique**, du seuil sud-est au seuil nord-ouest, ce qui donne
-  la vue en biais que le design demande sans cacher les sorties.
+  sécurité. Le mur nord reste **nu** : la salle 1 est la salle du chien, pas une réserve
+  de plus. Le centre reste vide ; la traversée est **oblique**, du seuil sud-est au seuil
+  nord-ouest, ce qui donne la vue en biais que le design demande sans cacher les sorties.
 
 ### Salle 2 — le choix coûteux — `salle2`
 
@@ -192,10 +193,9 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
 - **Coup d'œil** : l'armoire sécurisée, **seule** contre le mur ouest et éclairée ; puis la
   porte nord, à l'opposé.
 - **Espace** : l'armoire occupe le mur ouest à elle seule, avec ses caisses au sud ; tout
-  le reste du matériel est aligné au mur est (deux cages) et au mur nord (banque
-  technique). Le centre est traversé en diagonale du seuil sud-ouest au seuil nord-est, et
-  des chevrons peints y conduisent. La composition pose le choix : l'armoire d'un côté, la
-  porte de l'autre, rien entre les deux.
+  le reste du matériel est aligné au mur est (deux cages). Le centre est traversé en
+  diagonale du seuil sud-ouest au seuil nord-est. La composition pose le choix : l'armoire
+  d'un côté, la porte de l'autre, rien entre les deux.
 
 ### Salle 3 — le gaz et la vidéo — `salle3`
 
@@ -216,8 +216,24 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
 - **Espace** : **intouchable**. La cour est l'empreinte de [`yard-map.ts`](../../src/data/yard-map.ts)
   recopiée case pour case, et le test de correspondance de
   [`centreExamenMap.test.ts`](../../tests/unit/centreExamenMap.test.ts) en dépend. Le seul
-  habillage admis y est **plat ou suspendu** — des chevrons peints et un portique au-dessus
-  du portail — parce que ni l'un ni l'autre ne touche une case de collision.
+  habillage admis y est **plat ou suspendu** — un portique au-dessus du portail — parce
+  qu'il ne touche aucune case de collision.
+
+---
+
+## Moins d'accessoires
+
+Une règle apprise en regardant le centre d'examen fini : **la même « banque technique + cage
+à matériel + pylône de signalisation » posée dans chaque salle ne meuble rien, elle efface
+les salles les unes dans les autres.** Un accessoire se garde s'il dit ce qu'on FAIT dans la
+pièce — l'enclos cynophile en salle 1, l'armoire en salle 2, la filtration en salle 3 — et se
+retire sinon, même s'il « remplit » un mur. Un mur nu se lit ; un mur meublé au hasard, non.
+
+Même chose pour la signalétique. Depuis que l'entité qui fait avancer l'étape porte une
+**balise** (08-EXPLORATION.md « Les objectifs »), les chevrons de sortie et les gyrophares
+posés dans chaque pièce ne disaient rien de plus qu'elle et lui faisaient concurrence : ils
+sont retirés, sauf là où la fiction les demande (le gyrophare de la salle 3, que le gaz
+justifie). **Un seul signal rouge à l'écran**, et c'est celui qui compte.
 
 ---
 

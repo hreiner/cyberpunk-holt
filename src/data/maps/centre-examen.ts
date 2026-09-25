@@ -231,6 +231,14 @@ punchDoor(21, 61); // hall <-> parking
 /* Décor discret (mobilier, pas d'entité)                              */
 /* ------------------------------------------------------------------ */
 
+// Passe de simplification (au-delà de la passe de cohérence ci-dessous) : la même « banque
+// technique + cage à matériel + pylône de signalisation » se retrouvait dans presque chaque
+// salle, si bien qu'aucune ne se distinguait des autres et que l'œil ne savait plus quoi
+// regarder. Ne reste dans chaque pièce que le mobilier qui dit CE QU'ON Y FAIT : le chenil
+// et le poste de sécurité en salle 1, l'armoire et ses cages en salle 2, la filtration et les
+// bouteilles en salle 3, les bancs d'attente au hall. Un décor de moins vaut mieux qu'un décor
+// de plus quand il ne raconte rien.
+//
 // Passe de cohérence du décor (docs/art/ROOM-COMPOSITION.md). Le centre est DÉSAFFECTÉ :
 // le mobilier n'y est pas « rangé » comme à l'académie, il est poussé contre les murs et
 // abandonné là. Chaque salle garde donc ses bords chargés et son centre vide — c'est ce
@@ -252,7 +260,6 @@ fillBlock(30, 55, 1, 3, 'o'); // banc d'attente est, face à l'ouest
 fillBlock(14, 52, 3, 1, 'T'); // banque technique, mur nord
 fillBlock(28, 52, 2, 1, 'T'); // cage à matériel, mur nord
 fillBlock(13, 59, 2, 2, 'T'); // caisses, angle sud-ouest
-setChar(30, 52, 'T'); // pylône de signalisation, angle nord-est
 
 // Salle 1 — la porte et le chien. On entre au sud-est (26,51), on ressort au nord-ouest
 // (17,41) : la traversée est oblique, et tout le mobilier est sur les bords pour que le
@@ -261,16 +268,12 @@ fillBlock(13, 45, 3, 2, 'T'); // enclos cynophile, mur ouest — le chien en est
 fillBlock(14, 48, 2, 1, 'o'); // obstacle du parcours, rangé contre le mur ouest
 fillBlock(14, 50, 3, 1, 'o'); // barrières d'exercice empilées, mur sud
 fillBlock(29, 46, 2, 2, 'T'); // poste de sécurité, mur est — l'otage s'abrite derrière
-fillBlock(27, 42, 3, 1, 'T'); // banque technique, mur nord
-fillBlock(13, 42, 2, 1, 'T'); // cage à matériel, angle nord-ouest
-setChar(30, 42, 'T'); // pylône de signalisation, angle nord-est
 
 // Salle 2 — le choix coûteux. L'armoire est SEULE contre le mur ouest, éclairée : c'est
 // le détour qu'on voit et qu'on décide. Le reste du matériel est aligné au mur est.
 fillBlock(13, 35, 2, 3, 'T'); // armoire sécurisée
 fillBlock(30, 34, 1, 2, 'T'); // cage à matériel nord
 fillBlock(30, 37, 1, 2, 'T'); // cage à matériel sud
-fillBlock(27, 32, 3, 1, 'T'); // banque technique, mur nord
 fillBlock(13, 39, 2, 2, 'T'); // caisses, angle sud-ouest
 
 // Salle 3 — le gaz et la vidéo. L'ordinateur est un ÎLOT au centre (c'est une ancienne
@@ -281,7 +284,6 @@ fillBlock(13, 26, 1, 3, 'T'); // banque de filtration, mur ouest
 fillBlock(29, 28, 2, 2, 'T'); // trémie de filtration, angle sud-est
 fillBlock(29, 22, 2, 2, 'T'); // fûts, angle nord-est
 fillBlock(13, 23, 2, 1, 'T'); // bouteilles sous pression, mur nord
-setChar(13, 30, 'T'); // pylône d'évacuation, angle sud-ouest
 
 /* ------------------------------------------------------------------ */
 /* Conversion en ASCII, avec vérification de largeur au chargement     */
