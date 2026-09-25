@@ -1617,7 +1617,11 @@ export class ExploreView {
    * teinte vient de l'image, pas d'un recolorage supplémentaire.
    */
   private static readonly BASE_FLOOR_TINT: Partial<Record<string, THREE.Color>> = {
-    creamConcrete: new THREE.Color(1.16, 1.05, 0.88),
+    // 1,16/1,05/0,88 chauffait le béton d'un cran de trop : multiplié par le soleil de
+    // l'académie, lui-même chaud (0xffeed1), le sol virait au sable tassé -- on lisait une cour
+    // en terre battue au milieu du dortoir. La teinte revient près du neutre : c'est la LUMIÈRE
+    // qui réchauffe la pièce, pas l'albédo, et le béton redevient du béton.
+    creamConcrete: new THREE.Color(1.06, 1.01, 0.95),
     coldConcrete: new THREE.Color(0.93, 0.97, 1.04),
   };
 
@@ -1652,6 +1656,8 @@ export class ExploreView {
       // faisaient lire le sol comme une grille de rectangles indépendante du lieu. Le béton (photo,
       // marqué par des blessures et coulures reconnaissables) reste à répétition quasi nulle --
       // une seule image étirée sur la pièce -- pour ne jamais faire lire une tache deux fois.
+      // (Essayé puis abandonné : 7 m / 9 m redonnent du grain, mais la coulure diagonale de la
+      // photo se met alors à rayer tout le sol en bandes régulières -- pire que le flou.)
       // Carrelage, stratifié et bitume ont des motifs réguliers (joint, lame, grain) que la
       // répétition ne trahit pas : ils gardent une échelle proche de leur module réel.
       const textureSpan =
