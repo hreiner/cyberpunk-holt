@@ -18,6 +18,8 @@ export const CAMERA_DISTANCE = 120;
 const ROTATE_SHARPNESS = 12;
 /** Duree du recentrage amorti (`animateTargetTo`, `prefers-reduced-motion` mis a part). */
 const RECENTER_DURATION_S = 0.45;
+/** Part minimale de l'ecran consideree comme libre, quoi que couvre le HUD (voir `applyZoom`). */
+const MIN_FREE_FRACTION = 0.3;
 
 export interface ZoomBounds {
   min: number;
@@ -45,6 +47,8 @@ export class IsoCamera {
    */
   private insetsPx = { left: 0, right: 0, top: 0, bottom: 0 };
   private viewportHeightPx = 1;
+  /** Dernier `aspect` recu : `setSafeAreaInsetsPx` doit pouvoir refaire l'echelle sans qu'on le lui repasse. */
+  private lastAspect = 1;
 
   /**
    * `initialZoom` : point de depart different du defaut (34), sans toucher aux bornes
@@ -167,22 +171,44 @@ export class IsoCamera {
    */
   setSafeAreaInsetsPx(insets: { left: number; right: number; top: number; bottom: number }): void {
     this.insetsPx = insets;
+    // Les marges changent la taille de la zone libre, donc l'echelle -- pas seulement le centre.
+    this.applyZoom(this.lastAspect);
     this.update();
   }
 
   /**
-   * `zoom` est l'etendue visible le long du COTE LE PLUS COURT de l'ecran.
+   * `zoom` est l'etendue visible, en metres, le long du cote le plus court de la ZONE LIBRE --
+   * l'ecran moins les panneaux opaques du HUD (`setSafeAreaInsetsPx`).
    *
-   * Il gouvernait auparavant la hauteur, quelle que soit la forme de la fenetre. Sur un ecran
-   * large (16:9, aspect ~1,8) cela donne un cadrage genereux ; sur une tablette tenue en
-   * PORTRAIT (aspect 0,75), la meme valeur ne laissait plus voir que 25 m de large -- deux
-   * pieces, et l'on jouait dans un couloir. En indexant le zoom sur le cote court, une valeur
-   * donnee montre la meme chose des deux cotes de la rotation de l'appareil. Rien ne change
-   * pour les ecrans larges (aspect >= 1) : la branche est exactement l'ancien calcul.
+   * Deux corrections en une, dictees par le jeu sur tablette :
+   *
+   * 1. Le zoom gouvernait la HAUTEUR de l'ecran, quelle que soit la forme de la fenetre. En
+   *    portrait (aspect 0,75) la meme valeur ne laissait voir que 25 m de large -- on jouait
+   *    dans un couloir. Indexe sur le cote court, un meme zoom montre la meme chose que
+   *    l'appareil soit tenu dans un sens ou dans l'autre.
+   * 2. Les marges de HUD ne decalaient que le CENTRE de l'image (`effectiveTarget`), jamais
+   *    l'echelle : sur une tablette en paysage, la fiche a gauche et le journal a droite
+   *    mangeaient plus de la moitie de la largeur, et il restait une fente ou le terrain
+   *    paraissait minuscule. En calculant l'echelle sur la zone REELLEMENT visible, le terrain
+   *    y garde la taille qu'il aurait eue sur un ecran nu.
+   *
+   * Tout se calcule en "unites de hauteur d'ecran" (hauteur = 1, largeur = `aspect`) : seuls
+   * les rapports comptent, et les marges en pixels s'y ramenent via `viewportHeightPx`. Sans
+   * marges (l'exploration n'en pose aucune), la formule redonne exactement la regle du cote
+   * court.
    */
   private applyZoom(aspect: number): void {
-    const half = this.zoom / 2;
-    const halfHeight = aspect >= 1 ? half : half / aspect;
+    this.lastAspect = aspect;
+    const perUnit = Math.max(1, this.viewportHeightPx); // pixels par unite de hauteur
+    const insetLeft = this.insetsPx.left / perUnit;
+    const insetRight = this.insetsPx.right / perUnit;
+    const insetTop = this.insetsPx.top / perUnit;
+    const insetBottom = this.insetsPx.bottom / perUnit;
+    // Plancher : un HUD qui couvrirait (presque) tout ne doit pas faire exploser l'echelle.
+    const freeWidth = Math.max(MIN_FREE_FRACTION * aspect, aspect - insetLeft - insetRight);
+    const freeHeight = Math.max(MIN_FREE_FRACTION, 1 - insetTop - insetBottom);
+    const metresPerUnit = this.zoom / Math.min(freeWidth, freeHeight);
+    const halfHeight = metresPerUnit / 2;
     const halfWidth = halfHeight * aspect;
     this.camera.left = -halfWidth;
     this.camera.right = halfWidth;

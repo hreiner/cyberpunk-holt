@@ -51,8 +51,11 @@ jets, le dé 3D, la radio, le combat restent ce qu'ils sont.
 geste n'existe qu'au clavier, la fonction n'existe pas là-bas. D'où la règle qui gouverne la
 colonne tactile : **appui court = un ordre, glissé = la caméra.** Le verdict tombe au
 relâchement, jamais à la pose — sans quoi le moindre début de panoramique enverrait Franklyn
-marcher. Le même partage vaut sur le terrain tactique, où un glissé horizontal fait pivoter
-d'un quart de tour (l'équivalent de `A`/`E`).
+marcher. **Le même partage vaut sur le terrain tactique** : appui = ordre, glissé = la vue se
+déplace, pincement = zoom. Le glissé y a d'abord fait *pivoter* la caméra ; c'était une erreur,
+et elle s'est vue tout de suite sur tablette — c'est le même doigt sur le même genre de carte,
+il doit faire la même chose des deux côtés. La rotation garde les boutons « Caméra » du HUD,
+qui la nomment.
 
 Ce qui reste au clavier seul (recentrage, rotation en exploration, objectif, journal) est du
 CONFORT : on joue sans. Ce qui ne l'est pas — se déplacer, interagir, cadrer — a toujours un

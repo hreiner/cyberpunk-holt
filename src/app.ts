@@ -27,7 +27,7 @@ import { EffectsLayer } from '@/render/effects';
 import { IsoCamera } from '@/render/isoCamera';
 import { RigAnimator } from '@/render/rigAnimator';
 import { createGameRenderer } from '@/render/rendererSetup';
-import { SWIPE_ROTATE_PX, TAP_SLOP_PX } from '@/render/pointerGestures';
+import { TAP_SLOP_PX } from '@/render/pointerGestures';
 import { TEAM_COLORS, YardView, cellToWorld, worldToCell } from '@/render/yardView';
 import { Hud, type HudActionId } from '@/ui/hud';
 
@@ -83,6 +83,11 @@ const HIT_COLOR = 0xffffff;
 const MINE_COLOR = 0xff8a1f;
 /** Zoom (`IsoCamera`) au tout premier rendu de la vue tactique -- voir `IsoCamera.MIN_ZOOM` (18). */
 const TACTICAL_INITIAL_ZOOM = 20;
+/**
+ * Marge de panoramique au-delà du bord du terrain, en mètres : de quoi cadrer un cadet posté
+ * tout au bord sans le coller à l'arête de l'écran, sans laisser partir la caméra dans le vide.
+ */
+const TACTICAL_PAN_MARGIN_M = 8;
 
 export class GameApp {
   combat: TacticalCombat;
@@ -389,21 +394,19 @@ export class GameApp {
   /**
    * Gestes du terrain tactique -- pensés pour une tablette, où il n'y a ni clavier ni molette.
    *
-   * L'action était déclenchée sur `pointerdown` : au doigt, le moindre effleurement engageait
-   * donc un ordre irréversible (un cadet part, un tir est tiré), et il n'existait aucun moyen de
-   * tourner ou de zoomer sans les touches A/E et la molette. Désormais, comme en exploration, le
-   * verdict tombe au RELÂCHEMENT : appui court = ordre, glissé = caméra.
+   * L'action était déclenchée sur `pointerdown` : au doigt, le moindre effleurement engageait un
+   * ordre irréversible (un cadet part, un tir est tiré). Le verdict tombe désormais au
+   * RELÂCHEMENT, comme en exploration : appui court = ordre, glissé = caméra.
    *
-   * - un doigt qui traîne horizontalement fait PIVOTER d'un quart de tour tous les
-   *   `SWIPE_ROTATE_PX` -- l'équivalent tactile de A/E, indispensable pour regarder derrière un
-   *   conteneur ;
-   * - deux doigts PINCENT pour zoomer.
+   * **Le glissé DÉPLACE la carte** -- il la faisait d'abord pivoter, et c'était une erreur :
+   * c'est le même doigt, sur le même genre de carte, que dans l'exploration, et il y déplace.
+   * Un joueur qui veut simplement voir plus loin faisait tourner tout le terrain sans l'avoir
+   * demandé. La rotation garde ses deux boutons « Caméra » du HUD (et A/E au clavier), qui la
+   * disent explicitement ; deux doigts PINCENT pour zoomer.
    */
   private bindCanvasGestures(canvas: HTMLCanvasElement): void {
     const down = new Map<number, { x: number; y: number }>();
     let travelPx = 0;
-    /** Déplacement horizontal non encore converti en quart de tour (signé). */
-    let swipeCarryPx = 0;
     let pinchPx = 0;
 
     const span = (): { distance: number } | null => {
@@ -414,10 +417,7 @@ export class GameApp {
     canvas.addEventListener('pointerdown', (e: PointerEvent) => {
       canvas.setPointerCapture(e.pointerId);
       down.set(e.pointerId, { x: e.clientX, y: e.clientY });
-      if (down.size === 1) {
-        travelPx = 0;
-        swipeCarryPx = 0;
-      }
+      if (down.size === 1) travelPx = 0;
       if (down.size === 2) {
         travelPx = Number.POSITIVE_INFINITY; // un pincement n'est jamais un ordre
         pinchPx = span()?.distance ?? 0;
@@ -443,16 +443,9 @@ export class GameApp {
         return;
       }
 
-      const dx = e.clientX - previous.x;
-      travelPx += Math.hypot(dx, e.clientY - previous.y);
+      travelPx += Math.hypot(e.clientX - previous.x, e.clientY - previous.y);
       if (travelPx <= TAP_SLOP_PX) return;
-      swipeCarryPx += dx;
-      while (Math.abs(swipeCarryPx) >= SWIPE_ROTATE_PX) {
-        // Glisser vers la DROITE fait tourner le décor vers la droite, donc la caméra vers la
-        // gauche : on suit la main, comme un plateau qu'on pousse.
-        this.iso.rotate(swipeCarryPx > 0 ? -1 : 1);
-        swipeCarryPx -= Math.sign(swipeCarryPx) * SWIPE_ROTATE_PX;
-      }
+      this.dragGround(previous.x, previous.y, e.clientX, e.clientY);
     });
 
     const release = (e: PointerEvent, cancelled: boolean): void => {
@@ -465,7 +458,6 @@ export class GameApp {
       const wasTap = !cancelled && travelPx <= TAP_SLOP_PX;
       pinchPx = 0;
       travelPx = 0;
-      swipeCarryPx = 0;
       if (!wasTap) return;
       // Au doigt, rien n'a survolé la case : poser le survol d'abord, pour que la case visée
       // et son aperçu soient ceux qu'on vient de toucher.
@@ -509,6 +501,35 @@ export class GameApp {
       top: top ? Math.max(0, top.bottom - containerRect.top) : 0,
       bottom: bottomChrome ? Math.max(0, containerRect.bottom - bottomChrome.top) : 0,
     };
+  }
+
+  /** Point du sol (monde) sous un pixel écran, ou `null` hors terrain. Base de `pickCell` et du glissé. */
+  private groundPointAt(clientX: number, clientY: number): { x: number; z: number } | null {
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    this.pointer.set(((clientX - rect.left) / rect.width) * 2 - 1, -((clientY - rect.top) / rect.height) * 2 + 1);
+    this.raycaster.setFromCamera(this.pointer, this.iso.camera);
+    const hit = this.raycaster.intersectObject(this.view.groundPlane, false)[0];
+    return hit ? { x: hit.point.x, z: hit.point.z } : null;
+  }
+
+  /**
+   * Glissé : le point du sol saisi reste sous le doigt (même technique qu'en exploration -- deux
+   * lancers de rayon avec la MÊME caméra, aucune conversion pixels/mètres à recalibrer au zoom).
+   * Borné au terrain plus une marge, pour qu'on ne parte jamais regarder le vide.
+   */
+  private dragGround(fromX: number, fromY: number, toX: number, toY: number): void {
+    const from = this.groundPointAt(fromX, fromY);
+    const to = this.groundPointAt(toX, toY);
+    if (!from || !to) return;
+    const target = this.iso.getTarget();
+    const min = cellToWorld(this.combat.map, { x: 0, y: 0 });
+    const max = cellToWorld(this.combat.map, { x: this.combat.map.width - 1, y: this.combat.map.height - 1 });
+    const clamp = (value: number, a: number, b: number) =>
+      THREE.MathUtils.clamp(value, Math.min(a, b) - TACTICAL_PAN_MARGIN_M, Math.max(a, b) + TACTICAL_PAN_MARGIN_M);
+    this.iso.setTarget(
+      clamp(target.x + (from.x - to.x), min.x, max.x),
+      clamp(target.z + (from.z - to.z), min.z, max.z),
+    );
   }
 
   private pickCell(event: PointerEvent): Vec2 | null {
