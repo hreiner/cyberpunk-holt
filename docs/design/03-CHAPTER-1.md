@@ -118,6 +118,10 @@ Chaque conversation :
 Fourgon de police à travers les Badlands, jusqu'à un **centre d'examen de police désaffecté**
 en périphérie de Night City. Graffitis, épaves, un campement de pillards au loin.
 
+Le dialogue `ch1.fourgon` commence dans le garage, au moment où les cadets montent à bord
+(décor D09). La route montre les Badlands (D10). Son dernier nœud, `arrivee`, cadre le
+parking et les quais du centre d'examen (D11) avant que l'exploration reprenne au parking.
+
 Fonction : montrer le monde sans combat, et faire monter l'inquiétude.
 
 ## Scène 7 — Le parcours intérieur

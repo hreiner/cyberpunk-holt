@@ -185,7 +185,7 @@ interface PortraitSpec {
   name: string;          // « Zachary », « Le directeur », « Instructeur (radio) »
   color: string;         // couleur du personnage
   badge: string;         // matricule affiché sous le portrait, ex. « HOLT 2077-014 »
-  src?: string;          // image définitive, ex. /assets/portraits/zachary.webp — absente pour l'instant
+  src?: string;          // image livrée, ex. /assets/portraits/zachary.webp
 }
 function portraitFor(id: SpeakerId): PortraitSpec;
 function portraitElement(id: SpeakerId, size: 'thumb' | 'card' | 'hero'): HTMLElement;
@@ -193,8 +193,12 @@ function portraitElement(id: SpeakerId, size: 'thumb' | 'card' | 'hero'): HTMLEl
 
 - Cadets : nom et couleur lus dans `characters.json`. Autres locuteurs :
   `directeur` or terni `#c9a44c`, `instructeur` et `radio` `--comm`, `otage` gris `#9a9a9a`.
-- **Remplacer un placeholder = déposer `public/assets/portraits/<id>.webp` et renseigner
-  `src`.** Aucun autre code ne change. Format cible : 3:4, 600 × 800, fond non transparent.
+- Les portraits P01–P12 sont branchés depuis `public/assets/portraits/`. `radio` reprend
+  Murphy (`instructeur`). Pendant l'examen écrit, les répliques de `instructeur` montrent
+  Keith : son expression suit la vigilance (neutre, méfiant, alerté). Smith (P13) reste
+  disponible pour une future réplique : aucun `SpeakerId` actuel ne la représente.
+- Pour un nouveau locuteur, déposer son WebP dans `public/assets/portraits/` et renseigner
+  `src`. Format cible : 3:4, 600 × 800, fond non transparent.
 
 ### Le placeholder
 
@@ -225,14 +229,20 @@ large (dialogues et hub ; le tactique peut exiger ≥ 1024).
 ### Dialogue
 
 Le panneau est **ancré en bas**, comme dans un RPG, pas collé en haut : la moitié haute de
-l'écran est occupée par le décor de la scène.
+l'écran est occupée par le décor de la scène. `src/ui/sceneChrome.ts` associe le lieu et,
+pour les conversations du temps libre, le dialogue actif aux images de
+`public/assets/backdrops/`. Le ciel graphique reste le repli d'une scène non mappée.
+Le terminal de la salle Interface utilise D08 dans un dialogue facultatif ; le trajet passe
+de D09 (garage) à D10 (Badlands), puis D11 (arrivée) selon le nœud actif.
+L'infirmerie D05 est affichée provisoirement : son contrôle qualité reste `rejeté` dans le
+manifeste en raison de plusieurs accents rouges.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │ ▛ SALLE 1                                         ┌── radio ───────┐ │
 │   La porte et le chien                            │[◉] Instructeur │ │
 │                                                   │ « Deux minutes.»│ │
-│        décor : dégradé de ciel rouge + trame      └────────────────┘ │
+│        décor : illustration du lieu              └────────────────┘ │
 │                                                                      │
 │ ┌──────────┐ ┌─────────────────────────────────────────────────────┐ │
 │ │          │ │ La porte du premier module d'examen résiste…  (ital)│ │
@@ -285,7 +295,8 @@ repérage). Un cadet déjà vu reçoit un petit tampon « VU ». Bouton principa
 ### Écran titre
 
 Nouvelle entrée, sans jeu de mots ni slogan : « HOLT Academy » en Big Shoulders très grand,
-sur le ciel rouge tramé ; dessous « Chapitre 1 — Le dernier examen » ; deux actions :
+sur l'illustration nocturne de l'académie (`/assets/ui/title.webp`), avec l'emblème
+`/assets/ui/emblem.png` ; dessous « Chapitre 1 — Le dernier examen » ; deux actions :
 **Nouvelle partie** et **Reprendre** (seulement si une session reprenable existe, avec le
 nom de la scène). Sauté si l'URL contient `?seed=` ou `?scene=` (tests, rejouabilité).
 

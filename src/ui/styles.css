@@ -134,8 +134,22 @@ canvas {
 
 .order-chip .chip-items {
   display: inline-flex;
+  align-items: center;
   gap: 2px;
   font-size: var(--fs-sm);
+}
+
+.item-icon {
+  display: inline-block;
+  width: 1.25em;
+  height: 1.25em;
+  object-fit: contain;
+  vertical-align: -0.22em;
+}
+
+.chip-items .item-icon {
+  width: 1.1em;
+  height: 1.1em;
 }
 
 .icon-taser {
@@ -476,6 +490,20 @@ canvas {
   overflow: hidden;
 }
 
+.scene-backdrop-image:not([hidden]) {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.scene-backdrop-image:not([hidden]) ~ .narrative-skyline {
+  display: none;
+}
+
 /*
  * `.scene-shell` : selecteur de zone partage par les trois ecrans plein
  * cadre qui reutilisent ce decor (NarrativeView, HubView, TitleView -- voir
@@ -524,6 +552,15 @@ canvas {
   left: 20px;
   right: 20px;
   max-width: 68ch;
+}
+
+/* D11 est éclairé par le ciel blanc du centre : ce seul titre reçoit un
+   aplat d'encre compact, pour préserver sa lecture sans assombrir l'image. */
+.narrative[data-moment='ch1.fourgon:arrivee'] .narrative-scene-tag {
+  right: auto;
+  width: fit-content;
+  padding: 4px 8px;
+  background: var(--ink);
 }
 
 /* Titre de scene en une seule ligne (pas de sur-titre en petites capitales,
@@ -1378,22 +1415,25 @@ canvas {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Ecran titre (src/ui/titleView.ts, docs/art/UI-DESIGN-SYSTEM.md,         */
-/* "Écran titre") : "HOLT Academy" tres grand sur le ciel tramé.           */
+/* Ecran titre (src/ui/titleView.ts, docs/art/UI-DESIGN-SYSTEM.md) :         */
+/* illustration nocturne, embleme et titre lisible au premier plan.         */
 /* ---------------------------------------------------------------------- */
 
-/* Le titre se lit directement SUR le ciel (docs : "sur le ciel rouge
-   tramé"), pas en dessous : le decor devient un fond plein cadre et le
-   contenu se pose par-dessus plutot que de se partager la hauteur. */
-.title-screen .narrative-backdrop {
+/* L'illustration couvre le cadre ; le contenu se pose au-dessus. */
+.title-art {
   position: absolute;
   inset: 0;
-  flex: none;
-  /* Specificite superieure a la regle responsive `.narrative-backdrop { height:
-     120px }` (pensee pour le panneau de dialogue ancre en bas, pas pour ce
-     decor plein cadre) : le ciel reste plein cadre a toute largeur, y compris
-     375px -- "sur le ciel rouge tramé", jamais un bandeau court. */
+  width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.72);
+}
+
+.title-emblem {
+  width: clamp(72px, 10vw, 112px);
+  height: clamp(72px, 10vw, 112px);
+  object-fit: contain;
 }
 
 .title-content {

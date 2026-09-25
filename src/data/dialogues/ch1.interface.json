@@ -1,0 +1,15 @@
+{
+  "id": "ch1.interface",
+  "speaker": "franklyn",
+  "start": "ouverture",
+  "nodes": {
+    "ouverture": {
+      "text": "Franklyn laisse ses doigts courir près du terminal sans le toucher. Les fauteuils d'interface attendent, immobiles, sous leurs veilleuses cyan.",
+      "lines": [{ "who": "franklyn", "text": "Juste une minute." }],
+      "to": "profondeur"
+    },
+    "profondeur": {
+      "text": "Il connaît déjà les accès autorisés par cœur. Ce qui l'attire, c'est la promesse d'une couche plus bas, là où personne ne lui demande de regarder."
+    }
+  }
+}

@@ -37,7 +37,7 @@ Lis `STYLE-BIBLE.md` et `REFERENCES.md` **en entier** avant de commencer.
    `icons/`.
 
 ### Étape 1 — l'ancre de style (P01), puis **arrêt**
-1. Produis **quatre** candidats pour P01 (portrait de Franklyn) selon sa fiche.
+1. Produis **deux** candidats pour P01 (portrait de Franklyn) selon sa fiche.
 2. Passe chacun au contrôle qualité (plus bas). Garde le meilleur, et un second choix.
 3. Livre le meilleur, écris sa note, passe P01 à `à valider`.
 4. **Arrête-toi et demande la validation humaine du style.** Montre les deux candidats
@@ -60,7 +60,7 @@ Pour chaque ligne `à faire`, dans l'ordre :
    - pour une variante (P10, P11), le portrait de base validé (P09).
    Pas d'historique des autres images : chaque passe part propre, c'est ce qui évite la
    dérive.
-3. Demande **trois** candidats (quatre pour les portraits des six cadets).
+3. Demande **deux** candidats pour chaque image, y compris les portraits des six cadets.
 4. Contrôle qualité de chaque candidat ; garde le meilleur. Si aucun ne passe, **une seule**
    relance en corrigeant le prompt sur le défaut constaté ; si rien ne passe encore, état
    `rejeté : <défaut>` et passe à la suivante — ne bloque pas le lot.
@@ -73,6 +73,11 @@ images du lot réduites côte à côte, plus l'ancre P01) dans
 `art-masters/planche-<lot>.png`, et vérifie l'**homogénéité** : même trait, même trame, même
 densité de noir, même accent rouge. Refais les images qui détonnent. Puis demande la
 validation humaine du lot.
+
+**Décision du propriétaire (24 septembre 2026)** : le lot B est validé. Pour la suite de cette
+production, l'agent poursuit les lots C et D sans solliciter d'autre validation intermédiaire.
+Les images produites restent marquées `à valider` dans le manifeste tant qu'elles n'ont pas été
+revues par le propriétaire ; cette mention n'interrompt plus la production.
 
 ## Le contrôle qualité — chaque candidat
 

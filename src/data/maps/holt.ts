@@ -541,6 +541,8 @@ const ENTITIES: EntityDef[] = [
     id: 'interface.terminal',
     type: 'object',
     cell: { x: 5, y: 12 }, // le terminal reste allume, contre le mur ouest
+    dialogueId: 'ch1.interface',
+    // Le dialogue ne se joue qu'une fois ; cette ligne devient sa réplique de répétition.
     line: "Un terminal ouvert sur un réseau qu'il n'a pas le droit de consulter.",
     label: 'Examiner le terminal',
   },

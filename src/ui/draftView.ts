@@ -10,7 +10,7 @@
  */
 
 import { portraitElement } from '@/ui/portraits';
-import { backdropMarkup, sceneZone, splitTitle } from '@/ui/sceneChrome';
+import { backdropFor, backdropMarkup, sceneZone, splitTitle } from '@/ui/sceneChrome';
 import type { CharacterId } from '@/rules/character';
 import { TRAITS, getCharacter } from '@/rules/character';
 import type { Dossier } from '@/core/dossier';
@@ -75,6 +75,13 @@ export class DraftView {
       <div class="draft-recap panel panel--lifted" data-testid="draft-recap" hidden></div>
     `;
     container.appendChild(this.root);
+
+    const backdropImage = this.root.querySelector('.scene-backdrop-image') as HTMLImageElement;
+    const backdrop = backdropFor('ch1.tirage');
+    if (backdrop) {
+      backdropImage.src = backdrop.src;
+      backdropImage.hidden = false;
+    }
 
     this.sceneNameEl = this.q('.narrative-scene-name');
     this.poolEl = this.q('[data-testid="draft-pool"]');

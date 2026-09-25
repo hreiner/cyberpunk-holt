@@ -144,10 +144,10 @@ Topologie à respecter :
 | Grover | Cour intérieure | le rassembleur, entouré de son trio (Théodore en figurant) |
 | Zachary | Salles d'entraînement | le fonceur, qui frappe un sac en attendant |
 
-Lieux sans étape, pour la vie et le lore (répliques brèves, un objet chacun) :
-l'**Administration** (porte du bureau du directeur, fermée), l'**Interface** (la salle de
-netrun : Franklyn s'y attarde — un `object` qui prépare son secret du chapitre 2),
-le **Local technique** (bruit des transformateurs).
+Lieux sans étape, pour la vie et le lore : l'**Administration** (porte du bureau du directeur,
+fermée), l'**Interface** (la salle de netrun : le terminal ouvre le court dialogue facultatif
+`ch1.interface`, qui prépare le secret de Franklyn au chapitre 2, puis garde sa réplique brève
+à répétition), le **Local technique** (bruit des transformateurs).
 
 ---
 

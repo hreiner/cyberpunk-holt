@@ -2,17 +2,18 @@
  * Registre des portraits (docs/art/UI-DESIGN-SYSTEM.md, section "Portraits").
  *
  * `portraitFor(id)` donne les metadonnees (nom, couleur, matricule, image
- * definitive eventuelle) ; `portraitElement(id, size)` construit l'element
+ * definitive) ; `portraitElement(id, size)` construit l'element
  * DOM pret a poser dans une vue -- soit une <img> si `PortraitSpec.src` est
  * renseigne, soit un placeholder SVG genere ici.
  *
  * Placeholder **deterministe** : aucun aleatoire (regle 1 d'AGENTS.md), tout
- * depend uniquement de `id`. Remplacer un placeholder = deposer
- * `public/assets/portraits/<id>.webp` et renseigner `src` ci-dessous ; aucun
- * autre code ne change (voir docs/art/ART-PIPELINE.md).
+ * depend uniquement de `id`. Les portraits livres sont declares ci-dessous ;
+ * les placeholders ne servent plus qu'en secours si un futur locuteur n'a pas
+ * encore d'image (voir docs/art/ART-PIPELINE.md).
  */
 
 import { getCharacter } from '@/rules/character';
+import { assetUrl } from '@/ui/assetUrl';
 import type { SpeakerId } from '@/narrative';
 
 export interface PortraitSpec {
@@ -31,7 +32,7 @@ export interface PortraitSpec {
    * du prenom).
    */
   initial?: string;
-  /** Image definitive, ex. /assets/portraits/zachary.webp -- absente pour l'instant. */
+  /** Image definitive servie depuis `public/assets/portraits/`, si le locuteur en a une. */
   src?: string;
 }
 
@@ -49,6 +50,26 @@ const COMM_COLOR = '#45d4e6'; // = --comm (src/ui/theme.css)
 const OTAGE_COLOR = '#9a9a9a';
 /** Le narrateur n'est jamais rendu (ce n'est pas une voix, voir le document), couleur de secours seulement. */
 const NARRATEUR_COLOR = '#7d7064'; // = --bone-faint
+
+/** Portraits valides du manifeste P01 a P12. La radio est la voix de Murphy. */
+const PORTRAIT_SOURCES: Partial<Record<SpeakerId, string>> = {
+  franklyn: assetUrl('portraits/franklyn.webp'),
+  abigail: assetUrl('portraits/abigail.webp'),
+  letitia: assetUrl('portraits/letitia.webp'),
+  john: assetUrl('portraits/john.webp'),
+  grover: assetUrl('portraits/grover.webp'),
+  zachary: assetUrl('portraits/zachary.webp'),
+  directeur: assetUrl('portraits/directeur.webp'),
+  instructeur: assetUrl('portraits/instructeur.webp'),
+  otage: assetUrl('portraits/otage.webp'),
+  radio: assetUrl('portraits/instructeur.webp'),
+};
+
+const SURVEILLANT_PORTRAIT_SOURCES = {
+  neutre: assetUrl('portraits/surveillant.webp'),
+  mefiant: assetUrl('portraits/surveillant-mefiant.webp'),
+  alerte: assetUrl('portraits/surveillant-alerte.webp'),
+} as const;
 
 const INK = '#140d0e'; // = --ink
 const BONE = '#efe4d4'; // = --bone
@@ -91,9 +112,23 @@ function registryEntry(id: SpeakerId): Omit<PortraitSpec, 'badge'> {
   }
 }
 
-/** Fiche de portrait d'un locuteur : nom, couleur, matricule, image eventuelle. */
+/**
+ * Source du portrait de Keith, surveillant de l'examen ecrit.
+ *
+ * Keith n'est pas un `SpeakerId` : cette fonction sert a la puce de vigilance.
+ * Les niveaux 0 et 1 gardent son expression neutre, 2 devient mefiant, 3 et
+ * au-dela utilisent l'expression alertee.
+ */
+export function surveillantPortraitSource(vigilance: number): string {
+  if (vigilance >= 3) return SURVEILLANT_PORTRAIT_SOURCES.alerte;
+  if (vigilance >= 2) return SURVEILLANT_PORTRAIT_SOURCES.mefiant;
+  return SURVEILLANT_PORTRAIT_SOURCES.neutre;
+}
+
+/** Fiche de portrait d'un locuteur : nom, couleur, matricule et image livree. */
 export function portraitFor(id: SpeakerId): PortraitSpec {
-  return { ...registryEntry(id), badge: badgeFor(id) };
+  const src = PORTRAIT_SOURCES[id];
+  return { ...registryEntry(id), badge: badgeFor(id), ...(src ? { src } : {}) };
 }
 
 /* ---------------------------------- couleur -------------------------------- */

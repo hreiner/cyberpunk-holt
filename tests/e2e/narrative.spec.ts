@@ -186,13 +186,21 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
   expect(centreHall.id).toBe('ch1.centre-hall');
   expect(centreHall.kind).toBe('explore');
 
-  // Salle 1 : le panneau de porte PORTE ch1.salle1 (declencheur d'objectif, lot 3.7b) --
-  // sa fin fait directement avancer vers la salle 2, sans repasser par l'exploration.
+  // Le briefing de l'instructeur termine le hall et ouvre la porte vers la salle 1.
   await page.evaluate(() => window.__game.interact('hall.instructeur'));
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.centre-hall');
+  await traverseDialogue(page);
+  await page.evaluate(() => window.__game.advance());
   expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle1');
+
+  // Salle 1 : le panneau est une conversation annexe ; la porte nord termine l'etape.
   await page.evaluate(() => window.__game.interact('salle1.panneau-porte'));
   const salle1End = await traverseDialogue(page);
   expect(salle1End?.finished).toBe(true);
+  await page.evaluate(() => window.__game.advance());
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle1');
+  await page.evaluate(() => window.__game.interact('salle1.porte-nord'));
+  await traverseDialogue(page);
   await page.evaluate(() => window.__game.advance());
   expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle2');
 
@@ -212,6 +220,14 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
   // Salle 3 : choisit explicitement de rester malgre le gaz (2e choix de "choix-rester")
   // pour garantir la video (`renseignement`), plutot que le 1er choix par defaut ("foncer").
   await page.evaluate(() => window.__game.interact('salle3.ordinateur'));
+  await page.evaluate(() => {
+    const api = window.__game;
+    for (let i = 0; i < 3 && api.node()?.nodeId !== 'choix-rester'; i++) {
+      const first = api.node()?.choices[0];
+      if (first) api.choose(first.index);
+      else api.advance();
+    }
+  });
   const choixRester = await page.evaluate(() => window.__game.node());
   const resterChoice = choixRester?.choices[1];
   expect(resterChoice, 'choix "rester" introuvable sur choix-rester').toBeDefined();
@@ -226,7 +242,9 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
   // interieur" du bareme (docs/design/06-SCORING-DOSSIER.md), desormais atteignable pour de bon.
   expect(runAfterSalle3.flags['ch1.salle3.video-vue']).toBe(true);
 
-  await page.evaluate(() => window.__game.interact('salle3.porte-nord')); // deja "faite" -> avance directement
+  await page.evaluate(() => window.__game.interact('salle3.porte-nord'));
+  await traverseDialogue(page);
+  await page.evaluate(() => window.__game.advance());
   expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.cour');
 
   const runBeforeCombat: E2ERunState = await page.evaluate(() => window.__game.runState());

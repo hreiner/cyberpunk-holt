@@ -12,8 +12,8 @@
  * `dialogue` et conversation d'un cadet choisi au hub).
  */
 
-import { portraitElement, portraitFor } from '@/ui/portraits';
-import { backdropMarkup, sceneZone, splitTitle } from '@/ui/sceneChrome';
+import { portraitElement, portraitFor, surveillantPortraitSource } from '@/ui/portraits';
+import { backdropFor, backdropMarkup, sceneZone, splitTitle } from '@/ui/sceneChrome';
 import { DIFFICULTY_LABELS } from '@/rules/attributes';
 import { INITIAL_LUCK } from '@/narrative';
 import type { PresentedChoice, PresentedNode, PresentedRoll, RadioCue, SpeakerId } from '@/narrative';
@@ -78,6 +78,29 @@ const SCENE_NUMBERS: Record<string, number> = {
   'ch1.bal': 9,
 };
 const TOTAL_SCENES = 9;
+
+interface SceneMoment {
+  key: string;
+  title: string;
+  showSceneNumber: boolean;
+}
+
+/** Les lieux qui jalonnent un dialogue sans créer une nouvelle scène de chapitre. */
+function sceneMomentFor(dialogueId: string, nodeId: string): SceneMoment | null | undefined {
+  if (dialogueId === 'ch1.interface') {
+    return { key: 'ch1.interface', title: 'Interface — accès réservé', showSceneNumber: false };
+  }
+  if (dialogueId === 'ch1.fourgon' && nodeId === 'depart') {
+    return { key: 'ch1.fourgon:depart', title: 'Garage — Départ', showSceneNumber: true };
+  }
+  if (dialogueId === 'ch1.fourgon' && nodeId === 'arrivee') {
+    return { key: 'ch1.fourgon:arrivee', title: "Centre d'examen — Arrivée", showSceneNumber: false };
+  }
+  // Le trajet conserve son décor D10 entre le départ et l'arrivée, sans
+  // introduire une troisième carte ni répéter « Scène 6 / 9 ».
+  if (dialogueId === 'ch1.fourgon') return null;
+  return undefined;
+}
 
 const SCENE_CARD_MS = 1200;
 const SCENE_CARD_REDUCED_MS = 600;
@@ -158,6 +181,7 @@ function rollDetailText(roll: PresentedRoll): string {
 
 export class NarrativeView {
   private readonly root: HTMLElement;
+  private readonly backdropImageEl: HTMLImageElement;
   private readonly sceneNameEl: HTMLElement;
   private readonly radioStackEl: HTMLElement;
   private readonly heroFrameEl: HTMLElement;
@@ -174,8 +198,9 @@ export class NarrativeView {
   private readonly advanceEl: HTMLButtonElement;
   private readonly sceneCardEl: HTMLElement;
 
-  private lastSceneId: string | null = null;
-  private heroSpeaker: SpeakerId | null = null;
+  private lastSceneCardKey: string | null = null;
+  private lastRenderedSceneId: string | null = null;
+  private heroPortraitKey: string | null = null;
   /** Reference du dernier jet (choix a jet ordinaire) deja "vu" -- sert a detecter un NOUVEAU jet. */
   private seenCheck: PresentedRoll | null = null;
   /** Id du noeud ou ce jet a ete resolu : la carte de resultat ne s'affiche que sur CE noeud. */
@@ -194,6 +219,7 @@ export class NarrativeView {
   private currentNode: PresentedNode | null = null;
   private currentSceneTitle = '';
   private currentSceneId = '';
+  private currentDialogueId = '';
   /** Dernier HUD recu (Chance/concentration/vigilance) -- reutilise par le re-rendu interne de `ensureRevealed`. */
   private currentHud: NarrativeHud = { luck: 0 };
   /** Incremente a chaque `render()` : detecte un rendu externe perime pendant qu'une mise en scene tourne. */
@@ -234,6 +260,7 @@ export class NarrativeView {
     `;
     container.appendChild(this.root);
 
+    this.backdropImageEl = this.q('.scene-backdrop-image') as HTMLImageElement;
     this.sceneNameEl = this.q('.narrative-scene-name');
     this.radioStackEl = this.q('[data-testid="radio"]');
     this.heroFrameEl = this.q('[data-testid="hero"]');
@@ -277,12 +304,19 @@ export class NarrativeView {
    *   reste affichee (narration/lignes), seuls le verdict et le choix `best`
    *   restent masques -- voir `renderInsight`.
    */
-  render(node: PresentedNode, sceneTitle: string, sceneId = '', hud: NarrativeHud = { luck: 0 }): void {
+  render(
+    node: PresentedNode,
+    sceneTitle: string,
+    sceneId = '',
+    hud: NarrativeHud = { luck: 0 },
+    dialogueId = '',
+  ): void {
     const token = ++this.renderToken;
     const wasAnimating = this.animatingRoll !== null && this.animatingRoll !== this.revealedRoll;
     this.currentNode = node;
     this.currentSceneTitle = sceneTitle;
     if (sceneId) this.currentSceneId = sceneId;
+    this.currentDialogueId = dialogueId;
     this.currentHud = hud;
 
     if (wasAnimating) {
@@ -295,8 +329,13 @@ export class NarrativeView {
     }
 
     if (sceneId) this.root.dataset.zone = sceneZone(sceneId);
-    this.renderSceneTag(sceneTitle);
-    this.maybeShowSceneCard(sceneTitle, sceneId);
+    const moment = sceneMomentFor(dialogueId, node.nodeId);
+    const displayedTitle = moment?.title ?? sceneTitle;
+    if (moment?.key === 'ch1.fourgon:arrivee') this.root.dataset.moment = moment.key;
+    else delete this.root.dataset.moment;
+    this.renderBackdrop(sceneId, dialogueId, node.nodeId);
+    this.renderSceneTag(displayedTitle);
+    this.maybeShowSceneCard(displayedTitle, sceneId, moment);
     this.renderStatus(hud);
 
     const relevantCheck = this.checkJustResolvedThisNode(node);
@@ -309,6 +348,18 @@ export class NarrativeView {
     this.renderRollCard(insight.reveal ? insight.reveal.roll : relevantCheck, insight.reveal?.text);
     const luckLocked = this.renderLuckPrompt(node);
     this.renderChoices(node.choices, insight.locked || luckLocked, revealBest);
+  }
+
+  /** Pose l'illustration du lieu, ou rétablit le ciel graphique en l'absence de correspondance. */
+  private renderBackdrop(sceneId: string, dialogueId: string, nodeId: string): void {
+    const backdrop = backdropFor(sceneId, dialogueId, nodeId);
+    if (!backdrop) {
+      this.backdropImageEl.hidden = true;
+      this.backdropImageEl.removeAttribute('src');
+      return;
+    }
+    if (this.backdropImageEl.getAttribute('src') !== backdrop.src) this.backdropImageEl.src = backdrop.src;
+    this.backdropImageEl.hidden = false;
   }
 
   /**
@@ -385,7 +436,13 @@ export class NarrativeView {
         if (token !== this.renderToken) return;
         this.revealedRoll = roll;
         this.animatingRoll = null;
-        this.render(node, this.currentSceneTitle, this.currentSceneId, this.currentHud);
+        this.render(
+          node,
+          this.currentSceneTitle,
+          this.currentSceneId,
+          this.currentHud,
+          this.currentDialogueId,
+        );
       });
     }
     return true;
@@ -437,10 +494,15 @@ export class NarrativeView {
       const vigChip = document.createElement('div');
       vigChip.className = 'status-chip status-chip--vigilance';
       vigChip.dataset.testid = 'status-vigilance';
-      // Le surveillant n'a pas de portrait dedie (SpeakerId n'en prevoit pas) :
-      // reutilise celui de l'instructeur, qui EST le surveillant dans cette
-      // scene (voir le rapport de la tache pour ce choix).
-      vigChip.appendChild(portraitElement('instructeur', 'thumb'));
+      // Keith n'est pas un SpeakerId : sa puce suit les trois expressions
+      // produites pour les niveaux de vigilance de l'examen.
+      const portrait = portraitElement('instructeur', 'thumb');
+      const image = portrait.querySelector('img');
+      if (image) {
+        image.src = surveillantPortraitSource(hud.vigilance.level);
+        image.alt = 'Keith, le surveillant';
+      }
+      vigChip.appendChild(portrait);
       const text = document.createElement('span');
       text.className = 'status-vigilance-text';
       const vigLabel = document.createElement('span');
@@ -455,6 +517,27 @@ export class NarrativeView {
     }
   }
 
+  /** Keith parle sous l'id generique `instructeur` pendant l'examen ecrit. */
+  private scenePortraitSource(speaker: SpeakerId): string | undefined {
+    if (this.currentSceneId !== 'ch1.exam' || speaker !== 'instructeur') return undefined;
+    return surveillantPortraitSource(this.currentHud.vigilance?.level ?? 0);
+  }
+
+  private scenePortraitElement(speaker: SpeakerId, size: 'thumb' | 'hero'): HTMLElement {
+    const portrait = portraitElement(speaker, size);
+    const source = this.scenePortraitSource(speaker);
+    const image = portrait.querySelector('img');
+    if (source && image) {
+      image.src = source;
+      image.alt = 'Keith, le surveillant';
+    }
+    return portrait;
+  }
+
+  private scenePortraitName(speaker: SpeakerId): string {
+    return this.scenePortraitSource(speaker) ? 'Le surveillant' : portraitFor(speaker).name;
+  }
+
   /** Portrait "hero" : le dernier locuteur du noeud, repli sur `speaker` (fichier) si narration pure. */
   private renderHero(node: PresentedNode): void {
     const lastLine = node.lines[node.lines.length - 1];
@@ -464,18 +547,19 @@ export class NarrativeView {
       // on garde le dernier portrait affiche plutot que de faire clignoter le hero.
       return;
     }
-    if (speaker === this.heroSpeaker) return;
-    this.heroSpeaker = speaker;
+    const portraitKey = `${speaker}:${this.scenePortraitSource(speaker) ?? ''}`;
+    if (portraitKey === this.heroPortraitKey) return;
+    this.heroPortraitKey = portraitKey;
 
     const spec = portraitFor(speaker);
     this.heroFrameEl.hidden = false;
-    this.heroNameEl.textContent = spec.name;
+    this.heroNameEl.textContent = this.scenePortraitName(speaker);
     this.heroNameEl.style.color = spec.color;
     this.heroNameEl.style.borderBottomColor = spec.color;
 
     // Fondu croise 160ms (section "Mouvement") : le nouveau portrait se pose
     // par-dessus l'ancien puis celui-ci est retire une fois la transition finie.
-    const el = portraitElement(speaker, 'hero');
+    const el = this.scenePortraitElement(speaker, 'hero');
     el.classList.add('narrative-hero-portrait', 'is-entering');
     const previous = Array.from(this.heroPortraitsEl.children);
     this.heroPortraitsEl.appendChild(el);
@@ -511,7 +595,7 @@ export class NarrativeView {
         spacer.style.setProperty('--speaker-color', spec.color);
         row.appendChild(spacer);
       } else {
-        row.appendChild(portraitElement(line.who, 'thumb'));
+        row.appendChild(this.scenePortraitElement(line.who, 'thumb'));
       }
       const body = document.createElement('span');
       body.className = 'narrative-line-body';
@@ -525,7 +609,7 @@ export class NarrativeView {
         name.className = 'narrative-line-name';
         name.style.color = spec.color;
         name.style.borderBottomColor = spec.color;
-        name.textContent = spec.name;
+        name.textContent = this.scenePortraitName(line.who);
         body.append(name, document.createTextNode(' '), text);
       }
       row.appendChild(body);
@@ -740,11 +824,16 @@ export class NarrativeView {
    * `window.__game`, qui pilote `ChapterApp`/`DialogueRunner` directement,
    * jamais via cette vue (voir docs/process/DEBUG_API.md).
    */
-  private maybeShowSceneCard(sceneTitle: string, sceneId: string): void {
-    if (!sceneId || sceneId === this.lastSceneId) return;
-    this.lastSceneId = sceneId;
+  private maybeShowSceneCard(sceneTitle: string, sceneId: string, moment?: SceneMoment | null): void {
+    const sceneChanged = Boolean(sceneId) && sceneId !== this.lastRenderedSceneId;
+    if (sceneId) this.lastRenderedSceneId = sceneId;
+    if (moment === null) return;
+    if (!moment && !sceneChanged) return;
+    const cardKey = moment?.key ?? sceneId;
+    if (!cardKey || cardKey === this.lastSceneCardKey) return;
+    this.lastSceneCardKey = cardKey;
 
-    const number = SCENE_NUMBERS[sceneId];
+    const number = moment?.showSceneNumber === false ? undefined : SCENE_NUMBERS[sceneId];
     const [room, name] = splitTitle(sceneTitle);
     this.sceneCardEl.innerHTML = `
       <div class="scene-card-inner">

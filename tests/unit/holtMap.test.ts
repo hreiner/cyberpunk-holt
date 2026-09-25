@@ -64,6 +64,7 @@ describe('carte de l’académie HOLT', () => {
   const expected: Array<{ id: string; type: EntityType; dialogueId?: string }> = [
     { id: 'cantine.place-franklyn', type: 'seat', dialogueId: 'ch1.discours' },
     { id: 'entrainement.pupitre-franklyn', type: 'seat', dialogueId: 'ch1.exam' },
+    { id: 'interface.terminal', type: 'object', dialogueId: 'ch1.interface' },
     { id: 'garage.fourgon', type: 'object', dialogueId: 'ch1.fourgon' },
     { id: 'infirmerie.abigail', type: 'npc', dialogueId: 'ch1.hub.abigail' },
     { id: 'armurerie.john', type: 'npc', dialogueId: 'ch1.hub.john' },

@@ -12,8 +12,9 @@
  * usage generique de ce cyan ici (survol, etat actif...).
  */
 
-import { CARRIED_ITEMS, ITEM_ICONS } from '@/data/items';
+import { CARRIED_ITEMS } from '@/data/items';
 import { getCharacter } from '@/rules/character';
+import { assetUrl } from '@/ui/assetUrl';
 import type { CharacterId } from '@/rules/character';
 import type { CheckResult, D10Result, RollModifier } from '@/rules/dice';
 import { ITEM_LABELS } from '@/tactical/combat';
@@ -112,7 +113,7 @@ export class Hud {
     }
     const current = getCharacter(state.order[state.turnIndex] as CharacterId).name;
     const kits = (team: 'blue' | 'red', label: string) =>
-      `<span class="kit team-${team}" title="Kits de soin de l'équipe ${label}">${ITEM_ICONS.healkit} ${label} ×${state.teams[team].healkits}</span>`;
+      `<span class="kit team-${team}" title="Kits de soin de l'équipe ${label}">${itemIconMarkup('healkit')} ${label} ×${state.teams[team].healkits}</span>`;
     this.banner.innerHTML = `<span>Round ${state.round}/${state.roundLimit}</span><span>Au tour de <strong>${current}</strong></span>${kits(playerTeam, playerTeam === 'blue' ? 'bleue' : 'rouge')}`;
   }
 
@@ -188,7 +189,7 @@ export class Hud {
         <li>PM restants <strong data-testid="mp">${unit.mp}</strong></li>
         <li>Action <strong>${unit.actionUsed ? 'utilisée' : 'disponible'}</strong></li>
         <li>État <strong>${statusLabel(unit)}</strong></li>
-        <li>Matériel <strong>${known ? unit.items.map((i) => `${ITEM_ICONS[i]} ${ITEM_LABELS[i]}`).join(', ') || 'aucun' : 'inconnu'}</strong></li>
+        <li>Matériel <strong>${known ? unit.items.map((i) => `${itemIconMarkup(i)} ${ITEM_LABELS[i]}`).join(', ') || 'aucun' : 'inconnu'}</strong></li>
       </ul>
       <h3>${known ? 'Tirs possibles' : 'Équipe adverse'}</h3>
       <ul class="shots">${shots}</ul>
@@ -283,8 +284,19 @@ function statusLabel(unit: Unit): string {
 /** Pictogrammes du materiel porte, dans un ordre stable. */
 function itemIcons(items: readonly ItemId[]): string {
   return CARRIED_ITEMS.filter((i) => items.includes(i))
-    .map((i) => `<span class="icon icon-${i}">${ITEM_ICONS[i]}</span>`)
+    .map((i) => `<span class="icon icon-${i}">${itemIconMarkup(i)}</span>`)
     .join('');
+}
+
+/** Icones peintes du materiel : le texte alternatif conserve leur sens hors rendu visuel. */
+function itemIconMarkup(item: ItemId): string {
+  const asset: Record<ItemId, string> = {
+    taser: 'taser',
+    healkit: 'kit-soin',
+    hackingTool: 'outil-piratage',
+    mine: 'mine',
+  };
+  return `<img class="item-icon item-icon--${item}" src="${assetUrl(`icons/${asset[item]}.png`)}" alt="${ITEM_LABELS[item]}" />`;
 }
 
 function itemsSentence(items: readonly ItemId[]): string {

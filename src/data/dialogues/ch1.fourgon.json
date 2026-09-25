@@ -1,7 +1,11 @@
 {
   "id": "ch1.fourgon",
-  "start": "route",
+  "start": "depart",
   "nodes": {
+    "depart": {
+      "text": "Dans le garage, les cadets montent dans le fourgon. La porte ouverte découpe au fond une bande de désert blanc, au-delà de la lumière crue.",
+      "to": "route"
+    },
     "route": {
       "text": "Le fourgon quitte l'académie dans un nuage de poussière. Par les vitres grillagées, les Badlands défilent : carcasses de véhicules, panneaux publicitaires éventrés, un silence rompu seulement par le moteur.",
       "choices": [
@@ -136,7 +140,7 @@
       "to": "arrivee"
     },
     "arrivee": {
-      "text": "Le fourgon s'arrête dans un nuage de poussière. L'instructeur ouvre les portes d'un geste sec et désigne, sans un mot de trop, qui ira avec qui : deux équipes de trois, prêtes à entrer."
+      "text": "Le fourgon s'arrête sur le parking fissuré. Devant le portail ouvert, les quais du centre d'examen se découpent derrière le grillage. L'instructeur ouvre les portes d'un geste sec et désigne, sans un mot de trop, qui ira avec qui : deux équipes de trois, prêtes à entrer."
     }
   }
 }

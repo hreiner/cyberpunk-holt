@@ -657,10 +657,16 @@ export class ChapterApp {
    * ou pas") : `checkOffscreenReward` est une verification propre au dialogue de scene,
    * elle doit rester visible dans `renderDialogue`, pas cachee derriere un booleen ici.
    */
-  private renderRunner(runner: DialogueRunner): void {
+  private renderRunner(runner: DialogueRunner, dialogueId = this.currentSceneDef?.dialogueId ?? ''): void {
     const node = runner.current();
     const sceneId = this.currentSceneDef?.id ?? '';
-    this.view.render(node, this.currentSceneDef?.title ?? '', sceneId, this.buildHud(runner.context.run, sceneId));
+    this.view.render(
+      node,
+      this.currentSceneDef?.title ?? '',
+      sceneId,
+      this.buildHud(runner.context.run, sceneId),
+      dialogueId,
+    );
     this.checkRadio(runner.context);
   }
 
@@ -999,7 +1005,13 @@ export class ChapterApp {
     if (!entry) return;
     const node = entry.runner.current();
     const sceneId = this.currentSceneDef?.id ?? '';
-    this.view.render(node, this.currentSceneDef?.title ?? '', sceneId, this.buildHud(entry.runner.context.run, sceneId));
+    this.view.render(
+      node,
+      this.currentSceneDef?.title ?? '',
+      sceneId,
+      this.buildHud(entry.runner.context.run, sceneId),
+      entry.dialogueId,
+    );
     this.checkRadio(entry.runner.context);
   }
 

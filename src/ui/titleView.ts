@@ -1,14 +1,14 @@
 /**
  * Ecran titre (docs/art/UI-DESIGN-SYSTEM.md, "Écran titre") : « HOLT Academy »
- * en tres grand sur le ciel rouge tramé (meme decor que le reste, voir
- * `sceneChrome.ts`), sous-titre, et les deux actions -- « Nouvelle partie »
+ * en tres grand sur l'illustration nocturne de l'academie, sous-titre,
+ * embleme et les deux actions -- « Nouvelle partie »
  * toujours, « Reprendre » seulement si une session reprenable existe.
  *
  * Sauté entierement si l'URL contient `?seed=` ou `?scene=` (voir main.ts) :
  * cette vue n'est donc jamais instanciee dans ce cas, ni par les tests e2e.
  */
 
-import { backdropMarkup } from '@/ui/sceneChrome';
+import { assetUrl } from '@/ui/assetUrl';
 
 export interface TitleViewCallbacks {
   onNewGame(): void;
@@ -28,8 +28,9 @@ export class TitleView {
     this.root.className = 'title-screen scene-shell';
     this.root.dataset.zone = 'academy';
     this.root.innerHTML = `
-      ${backdropMarkup()}
+      <img class="title-art" src="${assetUrl('ui/title.webp')}" alt="" aria-hidden="true" />
       <div class="title-content">
+        <img class="title-emblem" src="${assetUrl('ui/emblem.png')}" alt="Emblème de l’académie HOLT" />
         <h1 class="title-name">HOLT Academy</h1>
         <p class="title-subtitle">Chapitre 1 — Le dernier examen</p>
         <div class="title-actions">
