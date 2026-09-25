@@ -8,7 +8,7 @@ matière chaque lieu doit avoir ; celui-ci dit **où poser les objets et pourquo
 Il sert à deux choses : décider une implantation sans la réinventer à chaque lot, et
 vérifier qu'on n'a pas dérivé. Trois lignes par pièce, pas un traité.
 
-## Les six règles de composition
+## Les sept règles de composition
 
 Elles valent pour les deux cartes, et le décor de chaque pièce ci-dessous s'y réfère.
 
@@ -30,6 +30,13 @@ Elles valent pour les deux cartes, et le décor de chaque pièce ci-dessous s'y 
    modèle est un cube anonyme. Les deux sont interdits, et
    [`tests/unit/exploreVisualPlacements.test.ts`](../../tests/unit/exploreVisualPlacements.test.ts)
    le vérifie case par case.
+7. **Le décor ne parle pas la langue de l'interface.** L'ambre lumineux, l'anneau au sol, le
+   rouge de la balise : ce vocabulaire dit « ceci se clique ». Un accessoire qui l'emprunte
+   donne un ordre que personne n'a écrit. Le cercle de combat des salles d'entraînement était
+   tracé en `amberSignal`, une matière **émissive** : cinq mètres d'ambre lumineux au sol, que
+   le joueur sortant de l'examen lisait comme une consigne — « un gros rond jaune, on ne sait
+   pas ce que c'est et s'il faut mettre notre équipe dans le cercle ». Un marquage au sol se
+   peint (`linen`, `petrolPaint`) ; il ne brille pas.
 
 **Cohérence d'état.** L'académie est **entretenue** : le mobilier y est rangé, aligné,
 symétrique, et le vide est un vide d'usage (on s'y met en rang, on s'y croise). Le centre

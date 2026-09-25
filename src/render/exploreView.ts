@@ -85,6 +85,16 @@ const OBJECTIVE_CHEVRON_HEIGHT = 2.25;
 /** Amplitude et période du balancement du chevron -- une respiration, pas un clignotement. */
 const OBJECTIVE_BOB_METERS = 0.14;
 const OBJECTIVE_BOB_SPEED = 2.2;
+/**
+ * Rayon de SAISIE d'un interactable, en mètres, quand le rayon a manqué son maillage et que la
+ * case visée ne porte rien. La case seule (1 m) donne, au zoom de jeu, un losange d'environ
+ * 55 x 42 px : sous la cible tactile confortable de 44 x 44 px, et pointu aux quatre coins --
+ * mesuré en jeu sur la chaise de la cantine, la toute première interaction du chapitre, celle
+ * dont on a dit qu'elle n'était "pas simple à cliquer". Un disque de 0,7 m fait la moitié de
+ * surface en plus, sans les coins, et laisse malgré tout 0,3 m autour du centre d'une case
+ * voisine : on peut toujours demander à marcher juste à côté d'un cadet.
+ */
+const INTERACT_GRAB_RADIUS_M = 0.7;
 
 /**
  * Sol d'une pièce NON découverte (08-EXPLORATION.md "La découverte des lieux") : une masse
@@ -260,6 +270,8 @@ export class ExploreView {
    * Porte/sortie n'y figurent pas : déjà bien visées par leur volume de clic direct (voir `pick`).
    */
   private readonly entityCellIndex = new Map<string, string>();
+  /** id d'entité npc/object/seat -> centre de sa case en monde : base de la saisie par distance (`pick`). */
+  private readonly entityAnchors = new Map<string, { x: number; z: number }>();
   /** id d'entité npc/object/seat -> ses parties visuelles (marqueur + repère au sol), togglées ensemble. */
   private readonly entityVisualParts = new Map<string, THREE.Object3D[]>();
   /** Entités npc/object/seat actuellement actives ET découvertes (nourri par `setVisibleEntities`). */
@@ -842,10 +854,15 @@ export class ExploreView {
     add({ x: 25, y: 8 }, conduit);
   }
 
-  /** Anneau discret au sol sous un interactable : le repère même quand le prop lui-même est petit. */
+  /**
+   * Anneau au sol sous un interactable : le repère même quand le prop lui-même est petit -- et
+   * surtout, il DIT où viser. Il était plus petit que la case qu'il annonçait (0,44 m de rayon
+   * pour une case d'un mètre) : l'œil visait l'anneau, le clic tombait à côté du meuble. Il
+   * dessine maintenant le rayon de saisie réel (`INTERACT_GRAB_RADIUS_M`, voir `pick`).
+   */
   private addGroundMarker(wx: number, wz: number, color: number): THREE.Mesh {
     const ring = new THREE.Mesh(
-      new THREE.RingGeometry(0.36, 0.44, 20),
+      new THREE.RingGeometry(INTERACT_GRAB_RADIUS_M - 0.1, INTERACT_GRAB_RADIUS_M, 24),
       new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.45, depthWrite: false }),
     );
     ring.rotation.x = -Math.PI / 2;
@@ -862,6 +879,7 @@ export class ExploreView {
   private registerVisualEntity(e: EntityDef, parts: THREE.Object3D[]): void {
     for (const part of parts) part.visible = false;
     this.entityCellIndex.set(posKey(e.cell), e.id);
+    this.entityAnchors.set(e.id, cellToWorld(this.map, e.cell));
     this.entityVisualParts.set(e.id, parts);
   }
 
@@ -1474,7 +1492,29 @@ export class ExploreView {
     if (!cell) return null;
     const entityId = this.visibleEntityAt(cell);
     if (entityId) return { type: 'entity', id: entityId };
+    const near = this.nearestInteractable(point.x, point.z);
+    if (near) return { type: 'entity', id: near };
     return { type: 'floor', cell };
+  }
+
+  /**
+   * Interactable visible le plus proche du point du sol visé, dans `INTERACT_GRAB_RADIUS_M`.
+   * Troisième et dernier temps de `pick` : la case exacte l'emporte toujours (temps 2), ceci
+   * n'ajoute qu'une marge autour d'elle, pour que viser une chaise ne demande pas de viser un
+   * losange de 50 px. La PLUS PROCHE gagne : deux figurants voisins ne se volent pas le clic.
+   */
+  private nearestInteractable(wx: number, wz: number): string | null {
+    let best: string | null = null;
+    let bestDistance = INTERACT_GRAB_RADIUS_M;
+    for (const [id, anchor] of this.entityAnchors) {
+      if (!this.visibleEntityIds.has(id)) continue;
+      const distance = Math.hypot(anchor.x - wx, anchor.z - wz);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        best = id;
+      }
+    }
+    return best;
   }
 
   handlePointerMove(ndcX: number, ndcY: number): void {

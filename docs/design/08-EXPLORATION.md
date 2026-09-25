@@ -82,6 +82,17 @@ geste.
   dessus » interagit. Sans cette règle, un clic manqué d'un cheveu devient un ordre de
   déplacement **vers la case de l'objet**, et le personnage finit planté dedans — exactement
   ce qu'on ne veut pas voir.
+  La case seule ne suffisait pas : au zoom de jeu, un mètre projette un **losange d'environ
+  55 × 42 px**, sous la cible tactile confortable de 44 × 44 px et pointu aux quatre coins.
+  Mesuré sur la chaise de la cantine — la toute première interaction du chapitre, celle dont
+  on a dit qu'elle n'était « pas simple à cliquer ». La saisie est donc un **disque de 0,7 m
+  autour du centre de la case** (`INTERACT_GRAB_RADIUS_M`) : moitié de surface en plus, pas de
+  coins, et la plus proche l'emporte quand deux entités se touchent. Le rayon reste sous la
+  distance entre deux centres de case (1 m) : on peut toujours demander à marcher juste à
+  côté de quelqu'un.
+  **L'anneau au sol dessine exactement ce disque.** Il était plus petit que la case qu'il
+  annonçait : l'œil visait l'anneau, le clic tombait à côté du meuble. Ce qu'on montre et ce
+  qu'on accepte doivent être la même chose.
 - **On ne marche jamais sur une entité.** Une destination qui tombe sur la case d'un
   personnage ou d'un objet est ramenée à sa case d'interaction. Seul un `seat` s'occupe :
   on s'assoit dessus, c'est le geste.

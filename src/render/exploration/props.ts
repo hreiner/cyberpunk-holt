@@ -675,13 +675,19 @@ function simple(model: string, materials: EnvironmentMaterials, kit: PropGeometr
   if (model === 'crate-stack') return crateStack(materials, kit);
   if (model === 'combat-circle') {
     // Cercle peint : le seul marquage qui justifie un centre de pièce vide.
-    const ring = new THREE.Mesh(kit.ring, materials.get('amberSignal'));
+    //
+    // En peinture usée, jamais en couleur de signalisation. Il était tracé en `amberSignal`,
+    // qui est ÉMISSIVE : cinq mètres d'ambre lumineux au sol, exactement le langage que le jeu
+    // réserve à ce qui se clique (survol, repère d'objet, jalon d'objectif). Le joueur en
+    // sortant de l'examen y lisait une consigne -- "un gros rond jaune, on ne sait pas ce que
+    // c'est et s'il faut mettre notre équipe dans le cercle". Un marquage au sol ne brille pas.
+    const ring = new THREE.Mesh(kit.ring, materials.get('linen'));
     ring.rotation.x = Math.PI / 2;
     ring.position.y = 0.024;
     ring.scale.set(1, 1, 3.2);
     group.add(ring);
     for (const [x, z] of [[-2.1, 0], [2.1, 0], [0, -2.1], [0, 2.1]] as const)
-      box(group, kit, materials.get('alarmRed'), x, 0.026, z, 0.5, 0.02, 0.5);
+      box(group, kit, materials.get('petrolPaint'), x, 0.026, z, 0.5, 0.02, 0.5);
     return group;
   }
   if (model === 'pipe-run') return pipeRun(materials, kit);
