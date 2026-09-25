@@ -17,11 +17,13 @@
 import * as THREE from 'three';
 import type { Rng } from '@/core/rng';
 import { CHARACTER_IDS, getCharacter, type CharacterId, type CharacterSheet } from '@/rules/character';
-import { ExploreMap, LEADER_SPEED, posKey, roomAt } from '@/explore';
+import { ExploreMap, LEADER_SPEED, posKey, roomAt, YARD_SIZE } from '@/explore';
 import type { Cell, DoorEntity, EntityDef, MapDef, RoomDef } from '@/explore';
 import { isExplorationCharacterRig, type CharacterRig } from './characterRig';
-import { createCadetExplorationRig } from './exploration/cadetRig';
+import { createCadetExplorationRig, createHumanExplorationRig } from './exploration/cadetRig';
 import { createExploreNpcRig, type ExploreNpcRig } from './exploration/npcRig';
+import { CHILD_VISUAL_PROFILE } from '@/data/exploreVisuals/characterProfiles';
+import { exploreVisualsFor, type ExploreVisuals } from '@/data/exploreVisuals';
 import { ExploreDressing, type ExploreDressingFactory } from './exploration/dressing';
 import {
   createDoorControl,
@@ -359,6 +361,9 @@ export class ExploreView {
 
   private readonly raycaster = new THREE.Raycaster();
 
+  /** Réglages de rendu propres à `def.id` (ADR 0024 §4) : palette froide, architecture du dortoir. */
+  private readonly visuals: ExploreVisuals;
+
   constructor(
     def: MapDef,
     private readonly rng: Rng,
@@ -386,7 +391,8 @@ export class ExploreView {
     this.scene.fog = new THREE.Fog(0x14151a, 60, 160);
     this.scene.add(this.root);
 
-    const isCentre = def.id === 'centre-examen';
+    this.visuals = exploreVisualsFor(def.id);
+    const isCentre = this.visuals.coldPalette;
     addExplorationLighting(this.scene, Math.max(this.map.width, this.map.height), isCentre);
     this.architectureMaterials = new EnvironmentMaterials(rng.fork(`explore:${def.id}:architecture`));
     const visualDef = this.visualDefinition(def.id);
@@ -508,6 +514,22 @@ export class ExploreView {
     return { mapId, placements: [] };
   }
 
+  /**
+   * Case du mur habillée en conteneur empilé (cour de combat embarquée, ADR 0024 §4) : dérivé
+   * directement de `MapDef.tacticalArea` -- toute carte qui embarque la cour tactique (30×20,
+   * `YARD_SIZE`) hérite du même habillage, sans registre séparé à tenir synchronisé.
+   */
+  private isContainerYardCell(x: number, y: number): boolean {
+    const area = this.def.tacticalArea;
+    if (!area) return false;
+    return (
+      x >= area.origin.x &&
+      x < area.origin.x + YARD_SIZE.width &&
+      y >= area.origin.y &&
+      y < area.origin.y + YARD_SIZE.height
+    );
+  }
+
   /* ------------------------------------------------------------------ */
   /* Construction du décor                                               */
   /* ------------------------------------------------------------------ */
@@ -617,9 +639,7 @@ export class ExploreView {
     }
     containerBox.setAttribute('color', new THREE.BufferAttribute(containerColors, 3));
     this.cellGeometries.add(containerBox);
-    const wallMat = this.architectureMaterials.get(
-      this.def.id === 'centre-examen' ? 'coldConcreteWall' : 'creamConcreteWall',
-    );
+    const wallMat = this.architectureMaterials.get(this.visuals.coldPalette ? 'coldConcreteWall' : 'creamConcreteWall');
     // Le garage est un hangar, pas une salle de béton peint : ses murs portent une tôle ondulée
     // photo CC0 (`corrugatedSteel`) plutôt que la même peinture que le reste de l'académie --
     // ROOM-COMPOSITION.md "Garage" demande une matière distincte ("tôle mate"), et c'est une
@@ -705,8 +725,7 @@ export class ExploreView {
 
         if (kind === 'wall' || kind === 'door') {
           const isDoorCell = kind === 'door';
-          const isContainer =
-            this.def.id === 'centre-examen' && x >= 7 && x < 37 && y >= 1 && y < 21 && kind === 'wall';
+          const isContainer = kind === 'wall' && this.isContainerYardCell(x, y);
           const side = containerSides[
             (Math.floor(x / 7) + Math.floor(y / 5)) % containerSides.length
           ] as THREE.Material;
@@ -850,7 +869,7 @@ export class ExploreView {
     // Arêtes de coupe et bandes décoratives : partagées par TOUTES les cases mur/porte de la
     // carte (voir `topEdgeInstances`/`bandInstances`) -- capacité au nombre total de cases,
     // `count` réduit à chaque rotation par `recomputeCutaway` à celles réellement affichées.
-    const bandTemplate = createWallBand(this.architectureMaterials, this.def.id === 'centre-examen');
+    const bandTemplate = createWallBand(this.architectureMaterials, this.visuals.coldPalette);
     this.bandHeightY = bandTemplate.position.y;
     this.topEdgeInstances = new THREE.InstancedMesh(unitBox, edgeMat, this.wallCells.size);
     this.topEdgeInstances.count = 0;
@@ -871,7 +890,7 @@ export class ExploreView {
 
   /** Première tranche HOLT : surveillance et câblage concentrés sur le sas du dortoir. */
   private buildDormitoryArchitecture(): void {
-    if (this.def.id !== 'holt' && !this.art.dormitoryArchitecture) return;
+    if (!this.visuals.dormitoryArchitecture && !this.art.dormitoryArchitecture) return;
     const add = (cell: Cell, detail: THREE.Group) => {
       const wall = this.wallCells.get(posKey(cell));
       if (!wall) return;
@@ -1405,24 +1424,38 @@ export class ExploreView {
   /* ------------------------------------------------------------------ */
 
   setLeader(sheet: CharacterSheet): void {
-    this.addRig('leader', sheet, true);
+    this.addRig(
+      'leader',
+      () => (this.art.leaderRig ? this.art.leaderRig(sheet, PARTY_RING_COLOR) : createCadetExplorationRig(sheet, PARTY_RING_COLOR)),
+      true,
+    );
   }
 
   setFollower(id: string, sheet: CharacterSheet): void {
-    this.addRig(id, sheet, false);
+    this.addRig(id, () => createCadetExplorationRig(sheet, PARTY_RING_COLOR), false);
+  }
+
+  /**
+   * Le suiveur `enfant` (ADR 0024 §3, `FollowerId = CharacterId | 'enfant'`) n'a pas de
+   * `CharacterSheet` : silhouette dédiée (`CHILD_VISUAL_PROFILE`, échelle 0,7), même montage
+   * (anneau d'équipe, animation) que les coéquipiers.
+   */
+  setChildFollower(id: 'enfant'): void {
+    this.addRig(
+      id,
+      () => createHumanExplorationRig({ id, name: "L'enfant" }, { profile: CHILD_VISUAL_PROFILE, teamColor: PARTY_RING_COLOR }),
+      false,
+    );
   }
 
   /** Cadets exploration : squelette/mixer local, clips sans root motion et anneau d'équipe. */
-  private addRig(id: string, sheet: CharacterSheet, isLeader: boolean): void {
+  private addRig(id: string, makeRig: () => CharacterRig, isLeader: boolean): void {
     const existing = this.rigs.get(id);
     if (existing) {
       existing.dispose();
       this.root.remove(existing.object);
     }
-    const rig =
-      isLeader && this.art.leaderRig
-        ? this.art.leaderRig(sheet, PARTY_RING_COLOR)
-        : createCadetExplorationRig(sheet, PARTY_RING_COLOR);
+    const rig = makeRig();
     rig.setEquipment([]);
     rig.setEquipmentLineVisible(false);
     rig.setHighlighted(isLeader);
@@ -1804,7 +1837,7 @@ export class ExploreView {
     height: number,
     roomId?: string,
   ): THREE.MeshStandardMaterial {
-    const isCentre = this.def.id === 'centre-examen';
+    const isCentre = this.visuals.coldPalette;
     const key = isCentre
       ? (roomId && ExploreView.CENTRE_FLOOR_BY_ROOM[roomId]) || 'coldConcrete'
       : (roomId && ExploreView.ACADEMY_FLOOR_BY_ROOM[roomId]) || 'creamConcrete';

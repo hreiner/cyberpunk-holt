@@ -52,7 +52,7 @@ du chapitre 1 ne bougent pas (sauvegardes, `?scene=`, e2e).
 | 1 | Un cadet mort ? | Le moteur le tolère sans changement : sans tirage ni combat, rien ne suppose six vivants. `ch2.zachary = mort` est une entrée. Une garde de contenu (lot 5.5) vérifie qu'aucun dialogue après `ch2.egouts` ne fait parler Zachary ni ne lui fait lancer un jet. |
 | 2 | Raccord avec le bal du chapitre 1 ? | Aucun nœud à déplacer : le nœud `fin` de `ch1.bal` est la passerelle. Il faut en revanche **harmoniser** `ch1.bal.json` avec les décisions du propriétaire : Smith au féminin, « Zacharie » → « Zachary » (lot 5.1). |
 | 3 | Salle du bal et dortoir sur la carte ? | Oui, tous deux sur `holt` (salles d'entraînement, dortoirs). Le bal et la fuite se jouent sur une variante de nuit `holt-nuit`, qui reprend le plan ASCII de `holt` avec ses propres entités et un habillage enrichi. Le pilote du dortoir (ADR 0020) est une page de développement : on ne s'en sert pas. |
-| 4 | Cinq suiveurs à 60 fps sur GTX 1070 ? | Probable : le dortoir mesure 151 appels de dessin, pour un seuil de 250. Le lot 5.7 mesure avec cinq suiveurs et fixe la parade si besoin (un suiveur de moins visible, le reste en narration : la variante 🟢 de B9). |
+| 4 | Cinq suiveurs à 60 fps sur GTX 1070 ? | **Mesuré au lot 5.7**, voir §6 « Lot 5.7 — mesure ». Le dortoir passe de 46 appels de dessin (Franklyn seul) à 149 avec cinq suiveurs (l'enfant compris), largement sous le seuil de 250 — sur une vraie GTX 1070. Décision B9 **en attente du propriétaire** (recommandation : garder les cinq suiveurs visibles). |
 | 5 | Smith sous `instructeur` ? | Non : `instructeur` s'affiche « L'instructeur », au masculin, et c'est une voix radio au chapitre 1. Smith devient un locuteur à part entière, `smith`. |
 | 6 | Rester éveillé ? | La compétence **Résistance** (CORPS) existe. La garde se joue donc en Résistance ; Perception reste la compétence pour les insignes et les premiers coups. |
 | 7 | Dossier du chapitre 1 relu ? | Décidé par le propriétaire (ADR 0022) : suite locale plus profils de départ. |
@@ -472,6 +472,49 @@ Les quatre **leviers de fun** retenus par le propriétaire (GAME-DESIGN §11), t
     cinq suiveurs ; décision prise sur B9.
 - **Documents** : `08-EXPLORATION.md`, `ENGINE-COUPLING.md` (couplages nouveaux, soldés),
   `CAPABILITIES.md` (EXP-08 : groupe de cinq ; EXP-03 : zone à effets ; RES-03 : pression).
+
+**Mesure (2026-09-25)** — matériel : le GPU rapporté par WebGL
+(`WEBGL_debug_renderer_info`) est `ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81)
+Direct3D11 vs_5_0 ps_5_0, D3D11)` — la machine de mesure EST la cible (GTX 1070), pas une
+autre carte. Scène : `ch1.hub` (le dortoir, spawn `temps-libre`), `window.__game.exploreRenderStats()`.
+La mesure « 151 appels » citée en §1 n'a pas pu être reconstituée à l'identique (conditions
+d'origine non documentées dans ce dépôt — angle de caméra, pièces déjà découvertes) ; les
+nombres ci-dessous sont une mesure fraîche, reproductible, sur cette même scène :
+
+| Suiveurs | Appels de dessin | Triangles | Géométries | Textures |
+|---|---|---|---|---|
+| 0 (Franklyn seul) | 46 | 20 092 | 38 | 14 |
+| 2 (règle du chapitre 1) | 89 | 31 798 | 67 | 26 |
+| 5 (`abigail`, `letitia`, `john`, `grover`, `enfant`) | **149** | 49 756 | 99 | 46 |
+
+Soit environ 20,6 appels de dessin par suiveur, linéaire — cohérent avec un rig entièrement
+détaillé (corps, cheveux, uniforme, anneau, étiquette) par personnage, aucune mutualisation
+supplémentaire nécessaire. **149 appels reste sous le seuil de 250** avec une marge de 40 %
+(101 appels), avant même de compter le décor variable d'une scène de fuite (portes fermées,
+silhouettes de gangers, lot 5.8) — marge jugée suffisante pour absorber cet ajout sans
+retomber sous le seuil.
+
+Images par seconde : **non mesurées de façon fiable**. Le navigateur automatisé de cette
+session suspend `requestAnimationFrame` dès que l'onglet n'est plus au premier plan
+« réel » (une seule image se peint par interaction externe, ensuite 0 image/s mesurée même
+sur plusieurs secondes) — artefact de l'environnement d'automatisation, pas du jeu : les
+appels de dessin, eux, sont lus sur une image réellement rendue (`renderer.info.render.calls`
+après le paint) et sont donc fiables. Rapport de pixels (`pixelRatio`) : 1 sur cette machine.
+Sans image/s fiable, la décision s'appuie sur les appels de dessin seuls : c'est la métrique
+que l'epic 4 (passe performance) a déjà retenue pour fixer le seuil de 250, précisément parce
+qu'elle ne dépend pas de la machine qui mesure — un budget d'appels de dessin tenu se traduit
+en fps tenus sur le matériel cible, une GTX 1070 franchissant 149 appels sans effort à
+n'importe quelle fréquence d'image raisonnable (elle en encaisse plusieurs milliers en jeux
+comparables). Si une mesure d'image/s est nécessaire pour trancher B9 avec certitude, elle
+demande un navigateur au premier plan réel (poste de développement, pas cette session).
+
+**Recommandation sur B9** : garder les **cinq suiveurs visibles**. La marge sous le seuil
+(149 contre 250) est confortable, le coût par suiveur est linéaire et prévisible, et la
+variante 🟢 (deux visibles, le reste en narration) coûte en mise en scène (il faut écrire la
+narration de repli) ce qu'elle ne fait pas gagner en performance sur le matériel cible.
+**Décision en attente du propriétaire du projet.** Le nombre de suiveurs RENDUS reste réglable
+en données (`VISIBLE_FOLLOWERS_LIMIT`, `src/narrative/sceneRouter.ts`) si la décision va dans
+l'autre sens : changer cette seule constante suffit, aucun autre fichier à toucher.
 
 ### Lot 5.8 — le bal et la fuite
 

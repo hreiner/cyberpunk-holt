@@ -23,7 +23,9 @@ import {
   FLAG_ADVERSE_TASER,
   SceneRouter,
   TIRAGE_SCENE_ID,
+  VISIBLE_FOLLOWERS_LIMIT,
   applyDraftResult,
+  applyEffects,
   createDraftState,
   createRunState,
   discoverRoom,
@@ -41,6 +43,7 @@ import type {
   ChapterDef,
   ChapterId,
   DraftState,
+  FollowerId,
   NarrativeContext,
   NarrativeOutcome,
   OffscreenOutcome,
@@ -806,7 +809,7 @@ export class ChapterApp {
     this.exploreHost.style.display = '';
 
     const mapDef = getMap(scene.mapId ?? '');
-    this.exploreSession.enterStep(mapDef, this.ctx, scene, exploreFollowerIds(this.ctx.run));
+    this.exploreSession.enterStep(mapDef, this.ctx, scene, this.exploreFollowers(scene));
     // Une conversation d'objet (l'armoire) ou de npc (l'instructeur du hall, correctif du
     // briefing bloquant) peut avoir ouvert une porte avant la sauvegarde. L'état du dialogue est
     // persistant ; reconstruire l'état visuel et franchissable de la porte aussi.
@@ -825,6 +828,18 @@ export class ChapterApp {
     this.exploreSession.centerCameraOnLeader();
   }
 
+  /**
+   * Suiveurs de `scene` (ADR 0024 §3) : `SceneDef.followers` explicite l'emporte (le chapitre
+   * 2 declare l'enfant a un moment precis de l'histoire, pas au tirage) ; absent, la regle du
+   * chapitre 1 s'applique (`exploreFollowerIds`, les coequipiers du tirage). Borne a
+   * `VISIBLE_FOLLOWERS_LIMIT` : le nombre de suiveurs RENDUS reste reglable en donnees (mesure
+   * de performance, lot 5.7, decision B9 en attente du proprietaire).
+   */
+  private exploreFollowers(scene: SceneDef): FollowerId[] {
+    const followers = scene.followers ?? exploreFollowerIds(this.ctx.run);
+    return followers.slice(0, VISIBLE_FOLLOWERS_LIMIT);
+  }
+
   /* -- evenements/interactions (contrat du lot 3.6b §3, "comment une etape se termine") -- */
 
   private handleExploreEvent(ev: ExploreEvent): void {
@@ -833,6 +848,7 @@ export class ChapterApp {
         this.handleExploreInteraction(ev.entityId, ev.outcome);
         break;
       case 'zone-triggered':
+        this.applyZoneEffects(ev.entityId);
         // Aucune zone n'est `completionTrigger` au chapitre 1 (toutes des `seat`/`object`) --
         // couvert par symetrie avec `interaction-fired`, utile des le lot 3.7 (le portail de la cour).
         if (this.isObjectiveTrigger(ev.entityId)) this.completeExploreScene();
@@ -857,6 +873,25 @@ export class ChapterApp {
 
   private isObjectiveTrigger(entityId: string): boolean {
     return this.currentSceneDef?.kind === 'explore' && this.currentSceneDef.objective?.completionTrigger === entityId;
+  }
+
+  /**
+   * Applique UNE FOIS les effets d'une zone (ADR 0024 §1) : `ExploreState.checkZones` ne pose
+   * l'evenement `zone-triggered` qu'au premier passage (`firedZones`), donc cet appel ne
+   * s'execute lui aussi qu'une fois par zone. Limite a `tempo`/`flag`/`counter`
+   * (`validateMap`) -- le reste de l'etat continue de changer par des choix de dialogue (ADR
+   * 0011), jamais en marchant. Repercute le nouveau contexte sur `ExploreState` (les
+   * conditions des entites en dependent, ex. une porte qui se ferme au tempo) et verifie les
+   * repliques de pression echues (ADR 0024 §2 : "verifiees aussi pendant l'exploration, apres
+   * chaque changement de tempo").
+   */
+  private applyZoneEffects(entityId: string): void {
+    const entity = this.exploreSession.entity(entityId);
+    if (!entity || entity.type !== 'zone' || !entity.effects || entity.effects.length === 0) return;
+    this.ctx = applyEffects(entity.effects, this.ctx);
+    this.exploreSession.state?.updateContext(this.ctx);
+    this.checkExploreRadio();
+    this.persistAfterScene();
   }
 
   /**
@@ -1467,6 +1502,30 @@ export class ChapterApp {
       ),
     };
     this.view.showRadio(cues);
+  }
+
+  /**
+   * Meme verification que `checkRadio`, pour l'exploration (ADR 0024 §2) : `this.ctx` EST le
+   * contexte a jour ici (pas de "probe", contrairement a `checkRadio` -- aucun `DialogueRunner`
+   * n'est en jeu). Une replique de pression n'a pas de locuteur : rendue en ligne de brief
+   * (`ExploreSession.playBriefLine`, meme mecanique qu'un `object`/`zone` sans entite associee
+   * -- `entity(cue.id)` ne trouve rien sur la carte, donc toujours une narration, jamais une
+   * bulle parlee).
+   */
+  private checkExploreRadio(): void {
+    const cues = pendingRadio(this.chapterDef.radio, this.ctx);
+    if (cues.length === 0) return;
+    this.ctx = {
+      ...this.ctx,
+      run: markHeard(
+        this.ctx.run,
+        cues.map((c) => c.id),
+      ),
+    };
+    for (const cue of cues) {
+      this.exploreSession.playBriefLine(cue.id, cue.text);
+      if (cue.sfx) this.exploreSession.playSfx(cue.sfx);
+    }
   }
 
   /** Sauvegarde apres une scene complete, jamais au milieu d'un dialogue (ADR 0011). */

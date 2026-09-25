@@ -37,6 +37,8 @@ export interface HumanRigOptions {
   readonly tactical?: boolean;
   /** Isolated dormitory study: a new tailored silhouette over the shared animated skeleton. */
   readonly pilotFranklyn?: boolean;
+  /** Ring/badge color; `DEFAULT_RING_COLOR` when omitted (see `createHumanExplorationRig`). */
+  readonly teamColor?: number;
 }
 
 const CADET_HEIGHT = 1.75;
@@ -95,7 +97,7 @@ export function createCadetExplorationRig(
 
 /** The same skinned factory also makes adult staff and background cadets. */
 export function createHumanExplorationRig(actor: VisualActor, options: HumanRigOptions): CadetRig {
-  return new CadetRig(actor, DEFAULT_RING_COLOR, options);
+  return new CadetRig(actor, options.teamColor ?? DEFAULT_RING_COLOR, options);
 }
 
 export class CadetRig implements CadetExplorationRig {
@@ -164,7 +166,7 @@ export class CadetRig implements CadetExplorationRig {
     this.visual.add(this.model);
     const baseHeight = options.adult ? ADULT_HEIGHT : CADET_HEIGHT;
     const height = this.tactical ? baseHeight * TACTICAL_HEIGHT_BOOST : baseHeight;
-    this.visual.scale.setScalar(height / (modelType === 'female' ? 1.803 : 1.824));
+    this.visual.scale.setScalar((height / (modelType === 'female' ? 1.803 : 1.824)) * (profile.scale ?? 1));
     this.visual.scale.x *= profile.build === 'athletic' ? 1.07 : profile.build === 'slim' ? 0.94 : 1;
     if (options.pilotFranklyn) {
       this.visual.scale.x *= 0.95;

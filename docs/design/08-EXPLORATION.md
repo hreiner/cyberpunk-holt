@@ -137,11 +137,20 @@ Tout ce qui réagit dans une carte est une **entité** déclarée dans les donn�
 | `seat` | une scène, en s'asseyant | le pupitre de Franklyn, sa place au réfectoire |
 | `door` | ouverture, ou un dialogue si verrouillée | portes des salles, portail de la cour |
 | `exit` | changement de lieu | (voir la note ci-dessous — aucune carte du chapitre 1 ne s'en sert) |
-| `zone` | invisible, se déclenche **une fois** en y entrant | l'entrée de la salle 3 (le gaz), l'arrivée dans la cour de containers |
+| `zone` | invisible, se déclenche **une fois** en y entrant | l'entrée de la salle 3 (le gaz), l'arrivée dans la cour de containers, un seuil de fuite (chapitre 2) |
 
 Chaque entité peut porter une **condition** (format `Condition` des dialogues) : un cadet
 n'est au réfectoire qu'avant le discours, la porte du garage ne s'ouvre qu'une fois
 l'objectif atteint. Même vocabulaire que les dialogues, aucun langage de plus.
+
+**Une zone peut porter des effets (ADR 0024 §1, chapitre 2).** `ZoneEntity.effects?: Effect[]`
+— appliqués **une seule fois**, au déclenchement, par `ChapterApp` (`applyZoneEffects`).
+Vocabulaire volontairement restreint, vérifié par `validateMap` : seuls `tempo`, `flag` et
+`counter` sont permis sur une zone — le reste de l'état continue de changer par des choix de
+dialogue (ADR 0011), jamais en marchant dedans. C'est ce qui fait avancer le tempo de la fuite
+sans exiger un dialogue à chaque couloir. Après un effet de zone, `ChapterApp` vérifie aussi
+les répliques radio échues (voir « Fuite qui s'entend » ci-dessous) : une réplique de pression
+apparaît donc en exploration, pas seulement en dialogue.
 
 **`exit` : au format, pas en usage (décision du lot 3.7a).** Le chapitre 1 n'a que deux
 lieux (l'académie, le centre d'examen) et le passage de l'un à l'autre se fait **à la
@@ -172,6 +181,13 @@ Deux formes, selon le porteur — et l'écriture suit :
 
 Écrire une description dans la `line` d'un `npc` (« Un cadet enfile ses bottes ») la fait
 sortir de sa bouche entre guillemets : une entité `npc` parle, toujours.
+
+**Fuite qui s'entend (ADR 0024 §2, chapitre 2).** Une réplique radio à seuil de tempo
+(`RadioCue`, jusqu'ici affichée seulement pendant un dialogue) est désormais vérifiée aussi
+en exploration, après chaque effet de zone. Une réplique au canal `channel: 'pression'` n'a
+pas de locuteur — pas l'encart « Instructeur » d'une réplique radio ordinaire — elle se rend
+en **ligne de brief**, comme un `object`/`zone` sans entité associée (« Des pas, deux couloirs
+plus loin. »), avec son bruitage éventuel (`RadioCue.sfx`, ex. un tir lointain synthétisé).
 
 ### Une salle se joue beat par beat
 
@@ -251,11 +267,20 @@ d'exploration porte **un objectif principal** et, éventuellement, des **faculta
 ## Le groupe
 
 - Avant le tirage, Franklyn est **seul**.
-- Après, ses **deux coéquipiers le suivent** en file, à 1,5 case derrière lui, en évitant de
+- Après, ses **coéquipiers le suivent** en file, à 1,5 case derrière lui, en évitant de
   lui barrer la route. On ne les dirige pas en exploration ; on les dirige en tactique
   (ADR 0008 inchangé).
 - Cliquer sur un coéquipier ouvre une **réplique brève** contextuelle (commentaire sur le
   lieu), ou un dialogue s'il en a un en attente.
+- **Qui suit** (ADR 0024 §3, chapitre 2) : par défaut, les deux coéquipiers du tirage
+  (`exploreFollowerIds`, règle inchangée du chapitre 1). Une étape déclare sa propre liste
+  via `SceneDef.followers` (`FollowerId = CharacterId | 'enfant'`) quand elle en a besoin —
+  le chapitre 2 y ajoute l'enfant recueilli, à un moment précis de l'histoire, pas au tirage.
+  L'enfant n'a pas de fiche de personnage : silhouette dédiée, échelle réduite (0,7). Le
+  chapitre 2 peut déclarer jusqu'à **cinq** suiveurs ; le nombre effectivement RENDU reste
+  borné par `VISIBLE_FOLLOWERS_LIMIT` (`src/narrative/sceneRouter.ts`), réglable en données —
+  voir la mesure de performance et la décision B9 dans
+  [`TECH-DESIGN.md`](../chapters/ch2/TECH-DESIGN.md) §6 (lot 5.7).
 
 ## Passer au combat
 

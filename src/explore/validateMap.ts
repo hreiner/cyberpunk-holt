@@ -44,6 +44,18 @@ export function validateMap(def: MapDef): ValidationResult {
       errors.push(`L'entité "${entity.id}" doit désigner une porte existante à ouvrir après son dialogue`);
     }
   }
+  // Vocabulaire des effets de zone (ADR 0024 §1) : seuls tempo/flag/counter, le reste de
+  // l'etat change par des choix de dialogue (ADR 0011), jamais en marchant dans une zone.
+  for (const e of def.entities) {
+    if (e.type !== 'zone' || !e.effects) continue;
+    for (const effect of e.effects) {
+      const allowed = 'tempo' in effect || 'flag' in effect || 'counter' in effect;
+      if (!allowed) {
+        errors.push(`Zone "${e.id}" : effet non autorisé (seuls tempo, flag et counter sont permis sur une zone)`);
+      }
+    }
+  }
+
   const seenRoomIds = new Set<string>();
   for (const r of def.rooms) {
     if (seenRoomIds.has(r.id)) errors.push(`Identifiant de pièce dupliqué : "${r.id}"`);

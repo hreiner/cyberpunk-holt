@@ -34,15 +34,16 @@
 import type * as THREE from 'three';
 import { createRng } from '@/core/rng';
 import { getCharacter } from '@/rules/character';
-import type { CharacterId } from '@/rules/character';
 import { discoveredRoomIdsForMap, exploreFollowerIds } from '@/narrative';
-import type { NarrativeContext, SceneDef } from '@/narrative';
+import type { FollowerId, NarrativeContext, SceneDef } from '@/narrative';
 import { ExploreState } from '@/explore';
 import type { Cell, EntityDef, ExploreEvent, InteractableInfo, MapDef } from '@/explore';
 import { ExploreView, KEY_ZOOM_SPEED } from '@/render/exploreView';
 import type { HoverTarget } from '@/render/exploreView';
 import { createGameRenderer, rendererDescription } from '@/render/rendererSetup';
 import { TAP_SLOP_PX } from '@/render/pointerGestures';
+import { Sfx } from '@/audio/sfx';
+import type { SfxId } from '@/audio/sfx';
 import { ObjectiveHud } from './ui/objectiveHud';
 import { BriefLineView } from './ui/briefLine';
 
@@ -115,6 +116,8 @@ export class ExploreSession {
   private hoveredEntityId: string | null = null;
   private lastPointerClient = { x: 0, y: 0 };
   private followerRigIds: string[] = [];
+  /** Bruitages d'exploration (ADR 0024 §2, ex. les repliques de pression) -- meme instance que `NarrativeView`. */
+  private readonly sfx = new Sfx(true);
   private readonly heldKeys: ExploreHeldKeys = {
     up: false,
     down: false,
@@ -200,7 +203,7 @@ export class ExploreSession {
    * `exploreHost` rendu visible) et ne demarre pas la boucle d'image (voir `resume`) --
    * les deux restent a la charge de l'appelant, exactement comme avant l'extraction.
    */
-  enterStep(mapDef: MapDef, ctx: NarrativeContext, scene: SceneDef, followerIds: string[]): void {
+  enterStep(mapDef: MapDef, ctx: NarrativeContext, scene: SceneDef, followerIds: FollowerId[]): void {
     if (!this.state || !this.view || this.state.map.id !== mapDef.id) {
       this.buildWorld(mapDef, ctx, scene);
     } else {
@@ -602,13 +605,16 @@ export class ExploreSession {
   }
 
   /** Ajoute/retire les rigs des coequipiers pour correspondre exactement a `ids` (ordre du roster). */
-  private syncFollowerRigs(ids: string[]): void {
+  private syncFollowerRigs(ids: FollowerId[]): void {
     if (!this.view) return;
     for (const id of this.followerRigIds) {
-      if (!ids.includes(id)) this.view.removeRig(id);
+      if (!ids.includes(id as FollowerId)) this.view.removeRig(id);
     }
     for (const id of ids) {
-      if (!this.followerRigIds.includes(id)) this.view.setFollower(id, getCharacter(id as CharacterId));
+      if (this.followerRigIds.includes(id)) continue;
+      // L'enfant (ADR 0024 §3) n'a pas de `CharacterSheet` -- silhouette dediee.
+      if (id === 'enfant') this.view.setChildFollower(id);
+      else this.view.setFollower(id, getCharacter(id));
     }
     this.followerRigIds = [...ids];
   }
@@ -630,6 +636,11 @@ export class ExploreSession {
     const entity = this.entity(entityId);
     if (entity?.type === 'npc') this.briefLine.showSpeech(entityId, text);
     else this.briefLine.showNarration(text);
+  }
+
+  /** Bruitage(s) d'une replique radio/pression echue (ADR 0024 §2, `RadioCue.sfx`). */
+  playSfx(ids: readonly SfxId[]): void {
+    for (const id of ids) this.sfx.play(id);
   }
 
   setDoorOpen(entityId: string, open: boolean): void {

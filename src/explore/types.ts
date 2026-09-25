@@ -8,7 +8,7 @@
  * testable dans Node, comme `src/tactical` et `src/narrative`.
  */
 
-import type { Condition, ObjectiveDef, ObjectiveTask } from '@/narrative';
+import type { Condition, Effect, ObjectiveDef, ObjectiveTask } from '@/narrative';
 
 export type { ObjectiveDef, ObjectiveTask };
 
@@ -130,6 +130,13 @@ export interface ExitEntity extends EntityBase, Labeled {
 export interface ZoneEntity extends EntityBase, BriefLine {
   type: 'zone';
   area: Rect;
+  /**
+   * Consequences appliquees une seule fois, au declenchement de la zone (ADR 0024 §1,
+   * chapitre 2 -- la fuite fait avancer le tempo en marchant). `validateMap` limite le
+   * vocabulaire a `tempo`, `flag` et `counter` : le reste de l'etat continue de changer
+   * par des choix de dialogue (ADR 0011), jamais en marchant dans une zone.
+   */
+  effects?: Effect[];
 }
 
 export type EntityDef = NpcEntity | ObjectEntity | SeatEntity | DoorEntity | ExitEntity | ZoneEntity;

@@ -54,8 +54,16 @@ export { pendingRadio, markHeard } from './radio';
 
 export { validateDialogue } from './validate';
 
-export type { SceneKind, SceneDef, Ch1Etape } from './sceneRouter';
-export { SceneRouter, CHAPTER_1_SCENES, CH1_ETAPE_FLAG, TIRAGE_SCENE_ID, withEtape, exploreFollowerIds } from './sceneRouter';
+export type { SceneKind, SceneDef, Ch1Etape, FollowerId } from './sceneRouter';
+export {
+  SceneRouter,
+  CHAPTER_1_SCENES,
+  CH1_ETAPE_FLAG,
+  TIRAGE_SCENE_ID,
+  VISIBLE_FOLLOWERS_LIMIT,
+  withEtape,
+  exploreFollowerIds,
+} from './sceneRouter';
 
 export type { ChapterId, ChapterDef, ChapterEndRef } from './chapter';
 

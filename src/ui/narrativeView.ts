@@ -991,18 +991,22 @@ export class NarrativeView {
       while (this.radioStackEl.children.length >= RADIO_MAX) {
         this.dismissRadioCue(this.radioStackEl.firstElementChild as HTMLElement | null);
       }
+      // Replique de pression (ADR 0024 §2) : pas de locuteur -- une ligne de narration, sans
+      // portrait ni etiquette "Instructeur" (contrairement a une replique radio ordinaire).
+      const pression = cue.channel === 'pression';
       const el = document.createElement('div');
-      el.className = 'narrative-radio-cue panel';
+      el.className = pression ? 'narrative-radio-cue narrative-radio-cue--pression panel' : 'narrative-radio-cue panel';
       el.dataset.cueId = cue.id;
-      el.appendChild(portraitElement('radio', 'thumb'));
+      if (!pression) el.appendChild(portraitElement('radio', 'thumb'));
       const body = document.createElement('div');
       body.className = 'narrative-radio-body';
-      body.innerHTML = `<span class="radio-tag">Instructeur</span><p>${cue.text}</p>`;
+      body.innerHTML = pression ? `<p>${cue.text}</p>` : `<span class="radio-tag">Instructeur</span><p>${cue.text}</p>`;
       el.appendChild(body);
       el.addEventListener('click', () => this.dismissRadioCue(el));
       this.radioStackEl.appendChild(el);
       const timer = window.setTimeout(() => this.dismissRadioCue(el), RADIO_CUE_MS);
       this.radioTimers.set(el, timer);
+      for (const name of cue.sfx ?? []) this.sfx.play(name);
     }
   }
 

@@ -24,6 +24,20 @@ import type { ObjectiveDef } from './objective';
  */
 export type SceneKind = 'dialogue' | 'tactical' | 'explore' | 'debrief';
 
+/**
+ * Suiveur d'exploration (ADR 0024 §3) : un cadet du roster, ou l'enfant recueilli au
+ * chapitre 2 (pas de `CharacterSheet`, silhouette dediee -- voir `CHILD_VISUAL_PROFILE`).
+ */
+export type FollowerId = CharacterId | 'enfant';
+
+/**
+ * Nombre de suiveurs effectivement RENDUS derriere Franklyn (08-EXPLORATION.md "Le groupe").
+ * Reglable en donnees plutot qu'en dur dans `chapter.ts` : le chapitre 2 peut en declarer
+ * jusqu'a cinq (ADR 0024, mesure au lot 5.7) ; si le propriétaire tranche pour la variante a
+ * deux suiveurs visibles (le reste en narration, "B9"), seule cette constante change.
+ */
+export const VISIBLE_FOLLOWERS_LIMIT = 5;
+
 export interface SceneDef {
   id: string;
   kind: SceneKind;
@@ -42,6 +56,13 @@ export interface SceneDef {
    * "Le groupe", contrat du lot 3.6b).
    */
   spawn?: string;
+  /**
+   * Suiveurs de cette etape (ADR 0024 §3), dans l'ordre d'affichage. Absent : la regle du
+   * chapitre 1 s'applique (`exploreFollowerIds`, les coequipiers du tirage). Le chapitre 2
+   * declare la sienne explicitement (l'enfant rejoint le groupe a un moment precis de
+   * l'histoire, pas au tirage) -- voir `ChapterApp.enterExploreScene`.
+   */
+  followers?: FollowerId[];
   /**
    * Valeur posee dans `RunState.flags[etapeFlag]` a l'entree de la scene
    * (voir `withEtape`) : c'est elle qui fait apparaitre/disparaitre les

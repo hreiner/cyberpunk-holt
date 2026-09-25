@@ -60,7 +60,7 @@ choix « silencieux » à la Telltale.
 |---|---|---|---|---|
 | RES-01 | **Chance** : réserve pour le chapitre ; après un jet raté de peu, le joueur peut payer la différence | arbitrage « maintenant ou plus tard » ; réglable par chapitre | 🟢 (montant) | ADR 0015 §2 |
 | RES-02 | **Compteurs et drapeaux** de partie (volatils, perdus en fin de chapitre) | concentration, vigilance, « déjà vu », étapes | 🟢 | ADR 0011 |
-| RES-03 | **Tempo, minuteur invisible** : avancé par les actions, jamais par l'horloge ; déclenche des **répliques radio** à seuil | pression temporelle sans barre de temps | 🟢 | 07 « La radio » |
+| RES-03 | **Tempo, minuteur invisible** : avancé par les actions, jamais par l'horloge ; déclenche des **répliques radio** à seuil, avec canal (`radio`/`pression`) et bruitage — vérifiées en dialogue ET en exploration (ADR 0024 §2, lot 5.7 : une zone à effets peut avancer le tempo en marchant) | pression temporelle sans barre de temps, y compris hors dialogue | 🟢 | 07 « La radio », 08 « Fuite qui s'entend » |
 | RES-04 | **Matériel d'équipe** porté jusqu'au combat : kits de soin, taser en plus, cadets gazés | un choix en exploration change la bataille qui suit | 🟢 (ces trois) · 🟡 (un nouveau) | [03](../design/03-CHAPTER-1.md) scène 7 |
 | RES-05 | **Affinités** −3 à +3 avec les cinq cadets, persistantes | relations qui bougent et qui se lisent plus tard | 🟢 | [04](../design/04-CHARACTERS.md) |
 
@@ -82,12 +82,12 @@ choix « silencieux » à la Telltale.
 |---|---|---|---|---|
 | EXP-01 | **Carte à la case de 1 m** en ASCII : murs, portes, vitres, mobilier bas/haut, végétation ; pièces nommées | un lieu jouable ; deux cartes au chapitre 1 (académie 52 × 64, centre d'examen) | 🟢 (carte) + habillage 3D à composer | [09](../design/09-MAPS-CHAPTER-1.md) |
 | EXP-02 | **Découverte des pièces** : contenu caché tant qu'on n'est pas entré | suspense, envie de pousser la porte suivante | gratuit | 08 |
-| EXP-03 | **Entités** : `npc` (dialogue ou bulle), `object` (examiner, souvent un jet), `seat` (s'asseoir déclenche une scène), `door` (verrouillée, avec réplique, ouverte par un dialogue), `zone` (invisible, déclenchée une fois en y entrant) | tout ce qui réagit dans un lieu | 🟢 | 08 « Les objets du monde » |
+| EXP-03 | **Entités** : `npc` (dialogue ou bulle), `object` (examiner, souvent un jet), `seat` (s'asseoir déclenche une scène), `door` (verrouillée, avec réplique, ouverte par un dialogue), `zone` (invisible, déclenchée une fois en y entrant, effets bornés à `tempo`/`flag`/`counter` — ADR 0024 §1) | tout ce qui réagit dans un lieu | 🟢 | 08 « Les objets du monde » |
 | EXP-04 | **Entités conditionnelles** (même vocabulaire que les dialogues) | un personnage présent seulement à telle étape, une porte qui s'ouvre après un objectif | 🟢 | 08 |
 | EXP-05 | **Répliques brèves** : bulle de figurant, ligne de narration d'objet ou de zone | des lieux habités à peu de frais ; sans effet sur l'état | 🟢 | 08 |
 | EXP-06 | **Une salle se joue beat par beat** : chaque entité porte son moment, la sortie clôt l'étape | le joueur choisit l'ordre et ce qu'il laisse ; fouiller nourrit la note sans être un péage | 🟢 | 08 |
 | EXP-07 | **Objectif** principal + facultatifs (compteur « 2/5 »), balise rouge unique sur ce qui fait avancer, repère `Tab` | guider sans tenir la main | 🟢 | 08 « Les objectifs » |
-| EXP-08 | **Le groupe suit** : deux coéquipiers en file derrière Franklyn | la bande est présente physiquement | gratuit | 08 « Le groupe » |
+| EXP-08 | **Le groupe suit** : les coéquipiers en file derrière Franklyn — jusqu'à cinq déclarés (`SceneDef.followers`, l'enfant compris, ADR 0024 §3), rendus dans la limite de `VISIBLE_FOLLOWERS_LIMIT` (données) | la bande est présente physiquement, y compris au grand complet | gratuit (2) · mesuré (5, lot 5.7 — voir TECH-DESIGN §6) | 08 « Le groupe » |
 | EXP-09 | **Passage au combat** : franchir un seuil → tampon « CONTACT » → écran tactique sur le **même terrain** | enchaîner exploration et affrontement sans rupture de décor | 🟢 si le terrain tactique existe (voir TAC) | ADR 0016 |
 | EXP-10 | **Jouable au doigt** : appui = ordre, glissé = caméra, pincement = zoom | toute nouvelle interaction doit avoir un geste tactile | contrainte | 08 « Contrôles » |
 

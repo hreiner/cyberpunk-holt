@@ -21,6 +21,8 @@ Rayer une ligne quand elle est soldée.
 | Décor plein cadre par dialogue | `src/ui/sceneChrome.ts` (table `dialogueId → image`), zones `SceneZone` fermées (`academy`, `transit`, `interior`, `bal`) | à généraliser au lot 5.3 (`backdrop` par nœud, registre `src/data/backdrops.ts`) ; nouvelles zones `nuit`/`ville` |
 | Encarts de l'examen (concentration, vigilance) | `src/ui/narrativeView.ts` | sans objet, le chapitre 2 ne réemploie pas le mécanisme |
 | Registre des dialogues et des cartes | `src/data/dialogues/registry.ts`, `src/data/maps/index.ts`, `src/data/exploreVisuals/` | ajouter des entrées suffit — pas un couplage, un point d'extension ; les 14 dialogues squelettes du chapitre 2 y sont depuis le lot 5.1 |
+| ~~Les suiveurs d'exploration sont toujours « les deux coéquipiers du tirage » (`exploreFollowerIds`)~~ **soldé (lot 5.7, ADR 0024 §3)** | `src/narrative/sceneRouter.ts` (`FollowerId`, `SceneDef.followers`, `VISIBLE_FOLLOWERS_LIMIT`), `src/chapter.ts` (`exploreFollowers`) | `SceneDef.followers` déclare la liste par étape (jusqu'à l'enfant, `FollowerId = CharacterId \| 'enfant'`) ; absent, la règle du chapitre 1 s'applique telle quelle |
+| ~~`ExploreView` compare `MapDef.id` à `'holt'`/`'centre-examen'` pour choisir palette, mur, architecture~~ **soldé (lot 5.7, ADR 0024 §4)** | `src/render/exploreView.ts` (`this.visuals`), `src/data/exploreVisuals/index.ts` (`EXPLORE_VISUALS`) | une carte nouvelle déclare son habillage dans le registre (`coldPalette`, `dormitoryArchitecture`) ; le rectangle de conteneurs empilés se déduit de `MapDef.tacticalArea` (pas de champ séparé à tenir synchronisé) |
 
 ## 2. L'état de partie et le dossier
 
@@ -67,6 +69,7 @@ Rayer une ligne quand elle est soldée.
 
 Pour ne pas le réécrire par excès de prudence : le moteur de dialogue (format, conditions,
 effets, jets, Chance, alias), le socle d'exploration (`MapDef`, entités, découverte,
-objectifs), le rendu d'exploration déclaratif (ADR 0017), le dé 3D, la radio indexée sur le
-tempo, le RNG, la sauvegarde tolérante aux pannes. Le chapitre 2 les **alimente**, il ne les
-modifie pas — sauf besoin identifié par le game design.
+objectifs, zones à effets), le rendu d'exploration déclaratif (ADR 0017), le dé 3D, la radio
+indexée sur le tempo (dialogue et exploration, canal `radio`/`pression`, ADR 0024 §2), le RNG,
+la sauvegarde tolérante aux pannes. Le chapitre 2 les **alimente**, il ne les modifie pas —
+sauf besoin identifié par le game design.
