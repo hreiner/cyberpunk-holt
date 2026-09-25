@@ -13,10 +13,14 @@
  * `backdrop`, rien n'y change pour lui. Un futur dialogue du chapitre 1 qui
  * migrerait vers `backdrop` pourrait réutiliser ces clés telles quelles.
  *
- * Le chapitre 2 n'a pas encore ses images définitives (lot 5.A, manifeste et
- * substituts) : les deux clés marquées "substitut" réutilisent un fichier
- * existant en attendant — seul le fichier changera au lot 5.A, jamais la clé
- * (les dialogues qui la citent n'ont donc rien à réécrire).
+ * Le chapitre 2 (lot 5.A, manifeste `docs/art/image-generation/MANIFEST.md`,
+ * fiches `docs/art/image-generation/briefs/D18-*` à `D28-*`) a désormais
+ * toutes ses clés et un **substitut** `.webp` léger, visiblement provisoire,
+ * au chemin définitif de chaque décor. Le propriétaire remplacera chaque
+ * fichier un par un lors de la passe de génération : la clé ne change jamais.
+ * Exception : `bal-entree` réutilise intentionnellement `hall.webp` du
+ * chapitre 1 (même corridor d'académie) — ce n'est pas un des dix décors du
+ * manifeste, donc pas de fiche dédiée ; voir ART-PIPELINE.md.
  */
 
 import { assetUrl } from '@/ui/assetUrl';
@@ -47,15 +51,37 @@ export const BACKDROPS: Record<string, Backdrop> = {
   'cour-containers': { src: `${BACKDROP_ASSET}cour-containers.webp` },
   bal: { src: `${BACKDROP_ASSET}bal.webp` },
 
-  // -- Chapitre 2 : substituts provisoires (lot 5.A remplace le fichier, jamais la clé). --
-  /** Scène 1 (`ch2.photo`) : la photo de classe, réutilisée au bilan (B23, lot 5.4/5.6). */
-  'photo-souvenir': { src: `${BACKDROP_ASSET}bal.webp` },
+  // -- Chapitre 2 : manifeste et substituts du lot 5.A (docs/art/image-generation/MANIFEST.md, lot E). --
+  /** Scène 1 (`ch2.photo`), D18 : la photo de classe, réutilisée au bilan (B23, lot 5.4/5.6). */
+  'photo-souvenir': { src: `${BACKDROP_ASSET}photo-souvenir.webp` },
   /**
-   * Fin de `ch2.photo` : le couloir vers la salle, juste avant `ch2.bal`. Un
-   * fichier DIFFÉRENT de `photo-souvenir` (même si tous deux provisoires) --
-   * sinon la coupe franche entre les deux nœuds ne se verrait pas à l'écran.
+   * Fin de `ch2.photo` : le couloir vers la salle, juste avant `ch2.bal`.
+   * Réutilise intentionnellement le fichier `hall.webp` du chapitre 1 (même
+   * type de corridor d'académie) -- ce n'est pas un des décors du manifeste
+   * (pas de fiche dédiée), et un fichier DIFFÉRENT de `photo-souvenir` est
+   * nécessaire pour que la coupe franche entre les deux nœuds se voie à
+   * l'écran.
    */
   'bal-entree': { src: `${BACKDROP_ASSET}hall.webp` },
+  /** Scène 3 (`ch2.slow`), D19/D20 : les deux images du slow, selon `cavalier-letitia`. */
+  'slow-abigail-zachary': { src: `${BACKDROP_ASSET}slow-abigail-zachary.webp` },
+  'slow-franklyn-letitia': { src: `${BACKDROP_ASSET}slow-franklyn-letitia.webp` },
+  /** Scène 3 (`ch2.slow`), nœud `rafale`, D21 : la rafale qui coupe la musique. */
+  attaque: { src: `${BACKDROP_ASSET}attaque.webp` },
+  /** Scène 7 (`ch2.egouts`), D22 : la mort de Zachary. */
+  egouts: { src: `${BACKDROP_ASSET}egouts.webp` },
+  /** Scène 8 (`ch2.adieu`), D23 : l'académie qui brûle au loin, vue des Badlands. */
+  'academie-en-feu': { src: `${BACKDROP_ASSET}academie-en-feu.webp` },
+  /** Scène 10 (`ch2.decharges`), D24 : l'arrivée de nuit aux décharges de Night City. */
+  decharges: { src: `${BACKDROP_ASSET}decharges.webp` },
+  /** Scène 11 (`ch2.charcudoc`), D25 : l'intérieur de la clinique du charcudoc. */
+  'clinique-accueil': { src: `${BACKDROP_ASSET}clinique-accueil.webp` },
+  /** Scène 11 (`ch2.charcudoc`), D26 : la rue de Night City qui mène à la clinique. */
+  'clinique-rue': { src: `${BACKDROP_ASSET}clinique-rue.webp` },
+  /** Scène 9 (`ch2.campement`/`ch2.murano`), D27 : le campement de pillards dans les Badlands. */
+  campement: { src: `${BACKDROP_ASSET}campement.webp` },
+  /** Scène 5 (`ch2.conduits`), détour facultatif B14, D28 : le labo de Smith. */
+  'labo-smith': { src: `${BACKDROP_ASSET}labo-smith.webp` },
 };
 
 /** Liste des clés valides, pour `validateDialogue(file, BACKDROP_KEYS)` (voir sa doc). */

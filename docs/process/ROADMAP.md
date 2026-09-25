@@ -188,7 +188,7 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.8 | **Le bal et la fuite** : carte `holt-nuit`, conversations du bal et leurs échos, fuite sous tempo jusqu'à la grille | 5.5, 5.7 | à faire |
 | 5.9 | **Conduits et cantine** : carte `conduits`, détour chez Smith, ventilateur, l'enfant, la cantine en feu | 5.7, 5.8 | à faire |
 | 5.10 | **Le campement** : carte `campement`, insignes, matériel, qui tue Murano | 5.5, 5.7 | à faire |
-| 5.A | **Illustrations** : décors et six portraits du chapitre 2 inscrits au manifeste de génération, avec des substituts `.webp` en attendant la passe du propriétaire | 5.3 | à faire |
+| 5.A | **Illustrations** : décors et six portraits du chapitre 2 inscrits au manifeste de génération, avec des substituts `.webp` en attendant la passe du propriétaire | 5.3 | fait |
 | 5.11 | **Revue de bout en bout** : une nuit par profil et depuis une vraie archive, performances, `CH2-LEGACY.md`, `CAPABILITIES.md` | tout | à faire |
 | 5.12 | *(facultatif)* **Musique du slow**, coupée par la rafale | 5.5, la piste | à faire |
 

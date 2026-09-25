@@ -1,13 +1,14 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { validateDialogue } from '@/narrative/validate';
 // Cles connues du registre de decors (ADR 0023) : ce test lit les fichiers
 // JSON directement (donnee brute, hors src/narrative), il peut donc importer
 // src/data librement -- voir la doc de `knownBackdrops` dans validate.ts.
-import { BACKDROP_KEYS } from '@/data/backdrops';
+import { BACKDROPS, BACKDROP_KEYS } from '@/data/backdrops';
 
 const DIALOGUES_DIR = join(process.cwd(), 'src', 'data', 'dialogues');
+const PUBLIC_DIR = join(process.cwd(), 'public');
 
 describe('validateDialogue', () => {
   it('accepte un graphe correct', () => {
@@ -318,6 +319,17 @@ describe('validateDialogue', () => {
         validateDialogue(parsed, BACKDROP_KEYS),
         `${file} : ${validateDialogue(parsed, BACKDROP_KEYS).join(' | ')}`,
       ).toEqual([]);
+    }
+  });
+
+  it('chaque entree de BACKDROPS pointe vers un fichier present dans public/ (lot 5.A)', () => {
+    expect(BACKDROP_KEYS.length).toBeGreaterThan(0);
+    for (const [key, backdrop] of Object.entries(BACKDROPS)) {
+      // `backdrop.src` = `${import.meta.env.BASE_URL}assets/backdrops/<fichier>` :
+      // on retombe sur le chemin servi depuis public/, quel que soit BASE_URL.
+      const servedPath = backdrop.src.slice(backdrop.src.indexOf('assets/'));
+      const diskPath = join(PUBLIC_DIR, servedPath);
+      expect(existsSync(diskPath), `${key} -> ${backdrop.src} (${diskPath} absent)`).toBe(true);
     }
   });
 });

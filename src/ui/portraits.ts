@@ -77,9 +77,15 @@ const PORTRAIT_SOURCES: Partial<Record<SpeakerId, string>> = {
   instructeur: assetUrl('portraits/instructeur.webp'),
   otage: assetUrl('portraits/otage.webp'),
   radio: assetUrl('portraits/instructeur.webp'),
-  // Chapitre 2 (ADR 0023) : Smith a deja son image livree (les cinq autres
-  // locuteurs nouveaux restent au placeholder, voir registryEntry ci-dessus).
+  // Chapitre 2 (ADR 0023) : Smith a deja son image livree ; les cinq autres
+  // locuteurs nouveaux ont leur substitut depuis le lot 5.A (manifeste
+  // docs/art/image-generation/MANIFEST.md, fiches P14 a P18).
   smith: assetUrl('portraits/smith.webp'),
+  enfant: assetUrl('portraits/enfant.webp'),
+  murano: assetUrl('portraits/murano.webp'),
+  guide: assetUrl('portraits/guide.webp'),
+  charcudoc: assetUrl('portraits/charcudoc.webp'),
+  ganger: assetUrl('portraits/ganger.webp'),
 };
 
 const SURVEILLANT_PORTRAIT_SOURCES = {

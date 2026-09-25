@@ -165,6 +165,34 @@ Pour l'améliorer sans rien casser : remplacer les `BoxGeometry` par des GLB de 
 usés dans `YardView.buildObstacles()`. **La carte ASCII reste la source de vérité** du
 gameplay — le décor l'habille, il ne la définit pas.
 
+## Chapitre 2 : manifeste étendu, substituts en attente (lot 5.A)
+
+Comme au chapitre 1, le lot 5.A **n'a pas généré** d'illustrations : il a inscrit chaque décor et
+chaque portrait nouveaux du chapitre 2 au manifeste (`docs/art/image-generation/MANIFEST.md`, lot
+E), écrit leur fiche (`briefs/D18-*` à `D28-*`, `briefs/P14-*` à `P18-*`), et posé au chemin
+définitif un **substitut** `.webp` léger (fond sombre uni, clé lisible, mention « SUBSTITUT »),
+généré avec le Chromium de Playwright déjà installé (`canvas.toDataURL('image/webp')`, aucune
+dépendance ajoutée). Le propriétaire remplacera chaque fichier un par un ; ni la clé, ni le code
+qui la sert ne changent à ce moment-là.
+
+| Portrait/décor | Statut | Remplace |
+|---|---|---|
+| P14 enfant, P15 murano, P16 guide, P17 charcudoc, P18 ganger | substitut posé, en attente de génération | placeholder SVG déterministe (`src/ui/portraits.ts`) |
+| D18 photo-souvenir | substitut posé, en attente de génération | réemploi provisoire de `bal.webp` (lot 5.3) |
+| D19 slow-abigail-zachary, D20 slow-franklyn-letitia, D21 attaque, D22 égouts, D23 académie-en-feu, D24 décharges, D25 clinique-accueil, D26 clinique-rue, D27 campement, D28 labo-smith | substitut posé, en attente de génération | rien (clés nouvelles) |
+
+Smith (chapitre 2) n'a pas de nouveau brief : elle réutilise le portrait déjà livré et validé
+`P13` (`public/assets/portraits/smith.webp`), déjà branché dans `PORTRAIT_SOURCES`
+(`src/ui/portraits.ts`).
+
+Deux clés restent des **réutilisations assumées**, pas des substituts en attente : `badlands`
+(chapitre 1, `D10`, disponible pour un futur nœud du chapitre 2) et `bal-entree` (réutilise
+`hall.webp` du chapitre 1 pour le corridor entre `ch2.photo` et `ch2.bal`, hors manifeste).
+
+**Question ouverte** : `docs/art/Reference_pictures/Chapter2/` ne contient aucune image
+légendée pour **le guide** (le gamin de la scène 11, `briefs/P16-guide.md`) — sa fiche part d'une
+description textuelle seule. À combler avant la génération, ou à confirmer tel quel.
+
 ## Ordre de travail conseillé
 
 1. Portraits 2D des six cadets — fort impact, faible risque.
