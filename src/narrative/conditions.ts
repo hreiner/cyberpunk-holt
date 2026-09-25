@@ -15,6 +15,7 @@ export function evaluateCondition(cond: Condition, ctx: NarrativeContext): boole
   if ('tag' in cond) return ctx.dossier.tags.includes(cond.tag);
   if ('affinity' in cond) return evaluateAffinity(cond, ctx);
   if ('teammate' in cond) return ctx.run.roster.blue.includes(cond.teammate);
+  if ('tempo' in cond) return evaluateTempo(cond, ctx);
   return false;
 }
 
@@ -36,5 +37,16 @@ function evaluateAffinity(
   const value = ctx.dossier.affinities[cond.affinity] ?? 0;
   if (cond.atLeast !== undefined && value < cond.atLeast) return false;
   if (cond.atMost !== undefined && value > cond.atMost) return false;
+  return true;
+}
+
+/** Lit `RunState.tempo` (ADR 0023) -- memes bornes facultatives qu'`affinity`, voir types.ts. */
+function evaluateTempo(
+  cond: Extract<Condition, { tempo: { atLeast?: number; atMost?: number } }>,
+  ctx: NarrativeContext,
+): boolean {
+  const value = ctx.run.tempo;
+  if (cond.tempo.atLeast !== undefined && value < cond.tempo.atLeast) return false;
+  if (cond.tempo.atMost !== undefined && value > cond.tempo.atMost) return false;
   return true;
 }

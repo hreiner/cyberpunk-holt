@@ -8,8 +8,27 @@
 import type { Attribute, DifficultyName, Skill } from '@/rules/attributes';
 import type { CharacterId } from '@/rules/character';
 import { CHARACTER_IDS, getCharacter } from '@/rules/character';
+// Import de TYPE seul (efface a la compilation) : voir le commentaire de
+// `SfxId` dans src/audio/sfx.ts -- ne rend jamais src/narrative dependant du
+// DOM/Web Audio (regle d'AGENTS.md n°2, testabilite Node, ADR 0023).
+import type { SfxId } from '@/audio/sfx';
 
-export type SpeakerId = CharacterId | 'narrateur' | 'directeur' | 'instructeur' | 'otage' | 'radio';
+export type SpeakerId =
+  | CharacterId
+  | 'narrateur'
+  | 'directeur'
+  | 'instructeur'
+  | 'otage'
+  | 'radio'
+  // Chapitre 2 (ADR 0023) : six locuteurs non-cadets nouveaux. Faute de
+  // portrait livre, src/ui/portraits.ts affiche l'initiale sur une couleur
+  // (Smith a deja son image, voir PORTRAIT_SOURCES).
+  | 'smith'
+  | 'enfant'
+  | 'murano'
+  | 'guide'
+  | 'charcudoc'
+  | 'ganger';
 
 /**
  * Alias de locuteur/jet resolus a l'execution depuis `RunState.roster` (ADR
@@ -36,6 +55,13 @@ export interface DialogueFile {
    */
   entries?: string[];
   nodes: Record<string, DialogueNode>;
+  /**
+   * Decor plein cadre par defaut de tout le fichier (ADR 0023) : une cle de
+   * `src/data/backdrops.ts`. Un `DialogueNode.backdrop` sur le noeud courant
+   * l'emporte (voir sa doc) ; sans aucun des deux, l'ancienne table de
+   * src/ui/sceneChrome.ts reste le repli (chapitre 1, inchange).
+   */
+  backdrop?: string;
 }
 
 export interface DialogueNode {
@@ -69,6 +95,21 @@ export interface DialogueNode {
   choices?: DialogueChoice[];
   /** Noeud suivant ; absent et sans choix = fin. */
   to?: string;
+  /**
+   * Remplace le decor a l'entree de CE noeud (ADR 0023) : une cle de
+   * `src/data/backdrops.ts`, prioritaire sur `DialogueFile.backdrop`. Un
+   * changement de decor entre deux noeuds se fait en coupe franche (jamais de
+   * fondu) -- c'est ce qui permet une suite d'images (le slow, la rafale)
+   * sans nouveau type de noeud.
+   */
+  backdrop?: string;
+  /**
+   * Bruitages synthetises joues a l'entree du noeud (ADR 0023), une seule
+   * fois -- memes recettes que le combat tactique (`src/audio/sfx.ts`, ADR
+   * 0010). `music` est reserve a la piste du slow (lot 5.12) : absent du
+   * type tant qu'elle n'existe pas.
+   */
+  sound?: { sfx?: SfxId[] };
 }
 
 export interface DialogueLine {
@@ -174,6 +215,13 @@ export type Condition =
    * faux pour l'autre, mais aucun garde-fou moteur ne l'empeche.
    */
   | { teammate: CharacterId }
+  /**
+   * Vrai selon `RunState.tempo`, le minuteur invisible avance par l'effet
+   * `{ tempo: n }` (ADR 0023, chapitre 2 -- une consequence qui depend du
+   * temps perdu pendant la fuite). Les deux bornes sont facultatives, comme
+   * `affinity` ; sans aucune des deux, la condition est toujours vraie.
+   */
+  | { tempo: { atLeast?: number; atMost?: number } }
   | { not: Condition }
   | { all: Condition[] }
   | { any: Condition[] };
@@ -183,7 +231,13 @@ export type Effect =
   | { tag: string } // etiquette de dossier
   | { entry: { key: string; label: string; value: string } }
   | { flag: string; value: string | number | boolean } // drapeau de partie (volatil)
-  | { counter: string; delta: number } // drapeau numerique incremente
+  /**
+   * Drapeau numerique incremente de `delta` ; `min`/`max` (ADR 0023,
+   * facultatifs) bornent la valeur APRES le delta -- l'etat de blessure de
+   * Letitia (0 a 3, chapitre 2) en est le premier usage. Sans les deux, le
+   * compteur reste illimite comme avant l'ADR.
+   */
+  | { counter: string; delta: number; min?: number; max?: number }
   | { tempo: number } // avance le minuteur invisible
   | { team: TeamEffect } // materiel de l'equipe du joueur
   | { writtenScore: { counterKey: string; total: number } }; // finalise la note ecrite (ADR 0012)
@@ -204,6 +258,13 @@ const STATIC_SPEAKER_LABELS: Record<Exclude<SpeakerId, CharacterId>, string> = {
   instructeur: "L'instructeur",
   otage: "L'otage",
   radio: 'Radio',
+  // Chapitre 2 (ADR 0023).
+  smith: 'Smith',
+  enfant: "L'enfant",
+  murano: 'Murano',
+  guide: 'Le guide',
+  charcudoc: 'Le charcudoc',
+  ganger: 'Le ganger',
 };
 
 function buildSpeakerLabels(): Record<SpeakerId, string> {

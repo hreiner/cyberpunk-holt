@@ -56,7 +56,10 @@ Un fichier de dialogue = un graphe de nœuds, en JSON, typé par `DialogueFile`.
 ### Types (contrat exact)
 
 ```ts
-type SpeakerId = CharacterId | 'narrateur' | 'directeur' | 'instructeur' | 'otage' | 'radio';
+type SpeakerId = CharacterId | 'narrateur' | 'directeur' | 'instructeur' | 'otage' | 'radio'
+  // Chapitre 2 (ADR 0023) : six locuteurs non-cadets. Faute de portrait livre,
+  // src/ui/portraits.ts affiche l'initiale sur une couleur (Smith a deja le sien).
+  | 'smith' | 'enfant' | 'murano' | 'guide' | 'charcudoc' | 'ganger';
 
 /**
  * Alias resolus a l'execution depuis `RunState.roster` (ADR 0014 §7, lot 3.1) :
@@ -72,6 +75,9 @@ type SpeakerId = CharacterId | 'narrateur' | 'directeur' | 'instructeur' | 'otag
  */
 type TeamAlias = 'equipier1' | 'equipier2' | 'rivale';
 
+/** Alias de `SfxName` (ADR 0023) : voir `src/audio/sfx.ts`, les mêmes recettes synthétisées que le combat (ADR 0010). */
+type SfxId = 'click' | 'shot' | 'miss' | 'hit' | 'fall' | 'melee' | 'mine' | 'revive' | 'burst' | 'distant-shot' | 'cut';
+
 interface DialogueFile {
   id: string;                      // ex. "ch1.hub.john"
   speaker?: SpeakerId;             // interlocuteur principal, pour le portrait
@@ -85,6 +91,7 @@ interface DialogueFile {
    */
   entries?: string[];
   nodes: Record<string, DialogueNode>;
+  backdrop?: string;                // clé de src/data/backdrops.ts (ADR 0023) ; le nœud l'emporte
 }
 
 interface DialogueNode {
@@ -92,6 +99,8 @@ interface DialogueNode {
   lines?: DialogueLine[];          // répliques
   effects?: Effect[];              // appliqués à l'entrée du nœud, une seule fois
   insight?: InsightSpec;           // jet de réflexion prélable aux choix (ADR 0012)
+  backdrop?: string;                // remplace le décor à l'entrée du nœud (ADR 0023), coupe franche
+  sound?: { sfx?: SfxId[] };        // bruitages synthétisés joués à l'entrée (ADR 0023) ; `music` réservé (lot 5.12)
   /**
    * RAPPEL : identifiant d'un autre nœud dont les RÉPLIQUES sont réaffichées en tête de
    * celui-ci, estompées, avant son propre contenu. À l'examen écrit, la question est posée
@@ -164,6 +173,7 @@ type Condition =
   | { tag: string }
   | { affinity: CharacterId; atLeast?: number; atMost?: number }
   | { teammate: CharacterId }             // cadet present dans l'equipe bleue (lot 3.4, ADR 0014 §7)
+  | { tempo: { atLeast?: number; atMost?: number } }      // lit RunState.tempo (ADR 0023)
   | { not: Condition }
   | { all: Condition[] }
   | { any: Condition[] };
@@ -173,7 +183,7 @@ type Effect =
   | { tag: string }                                      // étiquette de dossier
   | { entry: { key: string; label: string; value: string } }
   | { flag: string; value: string | number | boolean }   // drapeau de partie (volatil)
-  | { counter: string; delta: number }                   // drapeau numérique incrémenté
+  | { counter: string; delta: number; min?: number; max?: number }  // borné, après le delta (ADR 0023)
   | { tempo: number }                                    // avance le minuteur invisible
   | { team: TeamEffect }                                 // matériel de l'équipe du joueur
   | { writtenScore: { counterKey: string; total: number } }; // finalise la note écrite (ADR 0012)
@@ -384,6 +394,30 @@ Exceptionnelle), soit quatre copies de la même question à maintenir en parall�
 `check`/`insight` avec `dvByCounter` couvre tous les paliers ; c'est le contenu (le
 compteur qui monte) qui varie, pas le graphe.
 
+## Décor et bruitage par nœud (ADR 0023)
+
+Le décor plein cadre d'un dialogue était jusqu'ici choisi en code, une table de
+`src/ui/sceneChrome.ts` indexée par `dialogueId` (et parfois `dialogueId:nodeId`). Depuis
+le chapitre 2, c'est aussi une **donnée** : `DialogueFile.backdrop` et `DialogueNode.backdrop`
+citent une clé de `src/data/backdrops.ts`. Résolution, dans cet ordre :
+
+1. le décor du **nœud** courant (`DialogueNode.backdrop`) ;
+2. à défaut, celui du **fichier** (`DialogueFile.backdrop`) ;
+3. à défaut, l'ancienne table de `sceneChrome.ts` (`dialogueId`/nœud/scène) — conservée en
+   repli **pour le chapitre 1 seul**, qu'il n'y a aucune urgence à migrer.
+
+Un changement de décor entre deux nœuds se fait en **coupe franche**, jamais un fondu : c'est
+ce qui permet une scène montrée en suite d'images (le slow, puis la rafale, ADR 0023) sans
+nouveau type de nœud. Une clé absente du registre est une anomalie de `validateDialogue` (voir
+Validation) ; elle ne fait jamais planter le rendu, qui retombe silencieusement sur la suite de
+la résolution.
+
+`DialogueNode.sound = { sfx?: SfxId[] }` joue, à l'entrée du nœud et une seule fois, des
+bruitages synthétisés qui réemploient les recettes du combat (`src/audio/sfx.ts`, ADR 0010) :
+`burst` (une rafale), `distant-shot` (un tir lointain, étouffé), `cut` (la musique qui
+s'arrête net). L'emplacement `sound.music` est **réservé** à la piste du slow (lot 5.12,
+facultatif) ; il n'entrera dans le type qu'avec la piste elle-même.
+
 ## La radio
 
 Les répliques de l'instructeur ne sont **pas** des nœuds. Elles vivent dans `src/data/radio.ts` :
@@ -402,6 +436,11 @@ interface RadioCue {
 Le **tempo** est un compteur invisible avancé par les effets `{ tempo: n }` : forcer l'armoire,
 s'attarder en salle 3, échouer un jet coûteux. Le routeur remonte les répliques échues ;
 l'interface les affiche par-dessus la scène. Aucune barre de temps n'est jamais affichée.
+
+Depuis l'ADR 0023 (chapitre 2, la fuite), le tempo est aussi lisible depuis un graphe de
+dialogue : la condition `{ tempo: { atLeast?, atMost? } }` compare directement
+`RunState.tempo`, mêmes bornes facultatives qu'`affinity` — une conséquence qui dépend du
+temps perdu sans passer par un compteur nommé séparé.
 
 ## Validation
 
@@ -424,7 +463,11 @@ sur **tous** les fichiers de `src/data/dialogues/` et doit trouver zéro anomali
 - un `entries` qui référence un nœud inexistant (lot 3.1) ;
 - un gabarit `{...}` inconnu dans un texte (narration, réplique, choix, `successText`/
   `failureText`) — seuls `{equipier1}`, `{equipier2}`, `{rivale}` et `{franklyn}` sont
-  reconnus (lot 3.1, ADR 0014 §7).
+  reconnus (lot 3.1, ADR 0014 §7) ;
+- une clé `backdrop` (fichier ou nœud) absente de `src/data/backdrops.ts` (ADR 0023, lot
+  5.3) — `validateDialogue(file, knownBackdrops)` prend cette liste en second argument
+  plutôt que de l'importer (`src/narrative` ne dépend jamais de `src/data`, voir
+  ARCHITECTURE.md) ; l'appelant (tests, contenu) la lui passe explicitement.
 
 `equipier1`/`equipier2`/`rivale` sont acceptés comme locuteur (`DialogueLine.who`) et
 comme `who` de jet/effet partout où un `CharacterId` l'est, mais jamais comme

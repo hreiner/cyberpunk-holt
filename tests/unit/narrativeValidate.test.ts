@@ -2,6 +2,10 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { validateDialogue } from '@/narrative/validate';
+// Cles connues du registre de decors (ADR 0023) : ce test lit les fichiers
+// JSON directement (donnee brute, hors src/narrative), il peut donc importer
+// src/data librement -- voir la doc de `knownBackdrops` dans validate.ts.
+import { BACKDROP_KEYS } from '@/data/backdrops';
 
 const DIALOGUES_DIR = join(process.cwd(), 'src', 'data', 'dialogues');
 
@@ -310,7 +314,10 @@ describe('validateDialogue', () => {
     for (const file of files) {
       const raw = readFileSync(join(DIALOGUES_DIR, file), 'utf8');
       const parsed: unknown = JSON.parse(raw);
-      expect(validateDialogue(parsed), `${file} : ${validateDialogue(parsed).join(' | ')}`).toEqual([]);
+      expect(
+        validateDialogue(parsed, BACKDROP_KEYS),
+        `${file} : ${validateDialogue(parsed, BACKDROP_KEYS).join(' | ')}`,
+      ).toEqual([]);
     }
   });
 });

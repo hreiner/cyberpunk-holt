@@ -20,6 +20,13 @@ const KNOWN_SPEAKERS: string[] = [
   'instructeur',
   'otage',
   'radio',
+  // Chapitre 2 (ADR 0023).
+  'smith',
+  'enfant',
+  'murano',
+  'guide',
+  'charcudoc',
+  'ganger',
 ];
 /** Alias d'equipe (ADR 0014 §7, lot 3.1) : valides comme locuteur de replique et comme `who` de jet/effet, jamais comme `DialogueFile.speaker`. */
 const KNOWN_TEAM_ALIASES: string[] = ['equipier1', 'equipier2', 'rivale'];
@@ -30,7 +37,18 @@ const KNOWN_SKILLS: string[] = [...SKILLS];
 const KNOWN_ATTRIBUTES: string[] = [...ATTRIBUTES];
 const KNOWN_DV: string[] = Object.keys(DV);
 
-export function validateDialogue(file: unknown): string[] {
+/**
+ * `knownBackdrops` : cles valides de `src/data/backdrops.ts` (ADR 0023). Ne
+ * peut pas etre importe ici -- `src/data` est une couche AU-DESSUS de
+ * `src/narrative` (docs/process/ARCHITECTURE.md, "Les couches" : les fleches
+ * vont vers le bas uniquement, `data/` importe les types narratifs, jamais
+ * l'inverse) -- l'appelant l'injecte donc explicitement, comme les fichiers
+ * de `src/data/dialogues/` le font deja pour se valider eux-memes (voir
+ * tests/unit/narrativeValidate.test.ts). Sans argument (repli `[]`), toute
+ * cle posee est signalee inconnue -- un fichier qui ne pose jamais `backdrop`
+ * (tout le chapitre 1 aujourd'hui) n'est jamais concerne.
+ */
+export function validateDialogue(file: unknown, knownBackdrops: readonly string[] = []): string[] {
   const errors: string[] = [];
 
   if (!isRecord(file)) {
@@ -59,6 +77,10 @@ export function validateDialogue(file: unknown): string[] {
     errors.push(`${id} : le locuteur principal "${String(file.speaker)}" est inconnu.`);
   }
 
+  if (file.backdrop !== undefined && !isKnownBackdrop(file.backdrop, knownBackdrops)) {
+    errors.push(`${id} : la cle de decor "${String(file.backdrop)}" est inconnue.`);
+  }
+
   /**
    * Points d'entree alternatifs (`startNode` d'une entite d'exploration, lot
    * 3.5+) : un noeud qui n'est atteignable QUE depuis l'un d'eux ne doit pas
@@ -83,7 +105,7 @@ export function validateDialogue(file: unknown): string[] {
       errors.push(`${id}#${nodeId} : le noeud n'est pas un objet valide.`);
       continue;
     }
-    validateNode(id, nodeId, node, nodeIds, nodes, errors);
+    validateNode(id, nodeId, node, nodeIds, nodes, knownBackdrops, errors);
   }
 
   if (typeof start === 'string' && nodeIds.includes(start)) {
@@ -107,12 +129,17 @@ function validateNode(
   node: Record<string, unknown>,
   nodeIds: string[],
   nodes: Record<string, unknown>,
+  knownBackdrops: readonly string[],
   errors: string[],
 ): void {
   const prefix = `${fileId}#${nodeId}`;
 
   if (typeof node.to === 'string' && !nodeIds.includes(node.to)) {
     errors.push(`${prefix} : "to" pointe vers un noeud inexistant ("${node.to}").`);
+  }
+
+  if (node.backdrop !== undefined && !isKnownBackdrop(node.backdrop, knownBackdrops)) {
+    errors.push(`${prefix} : la cle de decor "${String(node.backdrop)}" est inconnue.`);
   }
 
   validateTemplates(prefix, 'la narration', node.text, errors);
@@ -384,6 +411,11 @@ function reachableFrom(start: string, nodes: Record<string, unknown>): Set<strin
 
 function isKnownSpeaker(value: unknown): value is SpeakerId {
   return typeof value === 'string' && KNOWN_SPEAKERS.includes(value);
+}
+
+/** Cle de `DialogueFile.backdrop`/`DialogueNode.backdrop` (ADR 0023) : voir la doc de `knownBackdrops` plus haut. */
+function isKnownBackdrop(value: unknown, knownBackdrops: readonly string[]): boolean {
+  return typeof value === 'string' && knownBackdrops.includes(value);
 }
 
 function isCharacterId(value: unknown): value is CharacterId {

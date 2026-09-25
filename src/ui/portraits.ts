@@ -51,6 +51,20 @@ const OTAGE_COLOR = '#9a9a9a';
 /** Le narrateur n'est jamais rendu (ce n'est pas une voix, voir le document), couleur de secours seulement. */
 const NARRATEUR_COLOR = '#7d7064'; // = --bone-faint
 
+/**
+ * Chapitre 2 (ADR 0023) : six locuteurs non-cadets nouveaux, couleurs choisies
+ * pour ne pas se confondre avec celles des cadets (`characters.json`,
+ * `placeholderColor`) ni avec celles ci-dessus. Smith a deja son portrait
+ * livre (voir `PORTRAIT_SOURCES`) ; les cinq autres restent au placeholder
+ * jusqu'a leur lot d'illustrations.
+ */
+const SMITH_COLOR = '#6fae8c';
+const ENFANT_COLOR = '#f4d35e';
+const MURANO_COLOR = '#a65c32';
+const GUIDE_COLOR = '#7d93a8';
+const CHARCUDOC_COLOR = '#b0567c';
+const GANGER_COLOR = '#5a5a5a';
+
 /** Portraits valides du manifeste P01 a P12. La radio est la voix de Murphy. */
 const PORTRAIT_SOURCES: Partial<Record<SpeakerId, string>> = {
   franklyn: assetUrl('portraits/franklyn.webp'),
@@ -63,6 +77,9 @@ const PORTRAIT_SOURCES: Partial<Record<SpeakerId, string>> = {
   instructeur: assetUrl('portraits/instructeur.webp'),
   otage: assetUrl('portraits/otage.webp'),
   radio: assetUrl('portraits/instructeur.webp'),
+  // Chapitre 2 (ADR 0023) : Smith a deja son image livree (les cinq autres
+  // locuteurs nouveaux restent au placeholder, voir registryEntry ci-dessus).
+  smith: assetUrl('portraits/smith.webp'),
 };
 
 const SURVEILLANT_PORTRAIT_SOURCES = {
@@ -105,6 +122,21 @@ function registryEntry(id: SpeakerId): Omit<PortraitSpec, 'badge'> {
       return { id, name: 'Radio', color: COMM_COLOR };
     case 'otage':
       return { id, name: "L'otage", color: OTAGE_COLOR, initial: 'O' };
+    // Chapitre 2 (ADR 0023) : `initial` explicite chaque fois que le premier
+    // caractere du nom collisionnerait -- meme piege que D/I/O ci-dessus.
+    case 'smith':
+      return { id, name: 'Smith', color: SMITH_COLOR };
+    case 'enfant':
+      return { id, name: "L'enfant", color: ENFANT_COLOR, initial: 'E' };
+    case 'murano':
+      return { id, name: 'Murano', color: MURANO_COLOR };
+    case 'guide':
+      return { id, name: 'Le guide', color: GUIDE_COLOR, initial: 'G' };
+    case 'charcudoc':
+      return { id, name: 'Le charcudoc', color: CHARCUDOC_COLOR, initial: 'C' };
+    case 'ganger':
+      // 'G' est deja pris par "guide" ci-dessus : initiale sur la 2e lettre du mot.
+      return { id, name: 'Le ganger', color: GANGER_COLOR, initial: 'N' };
     default: {
       const sheet = getCharacter(id);
       return { id, name: sheet.name, color: sheet.placeholderColor };

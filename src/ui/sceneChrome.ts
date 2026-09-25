@@ -10,6 +10,11 @@
  */
 
 import { assetUrl } from '@/ui/assetUrl';
+import { BACKDROPS } from '@/data/backdrops';
+// Import de TYPE seul (efface a la compilation, voir src/audio/sfx.ts pour le
+// meme motif) : sceneChrome.ts reste pur DOM/SVG, il ne prend que la FORME du
+// graphe, jamais une dependance d'execution a src/narrative.
+import type { DialogueFile } from '@/narrative/types';
 
 export type SceneZone = 'academy' | 'transit' | 'interior' | 'bal';
 
@@ -61,11 +66,38 @@ const BACKDROPS_BY_SCENE: Record<string, SceneBackdrop> = {
 };
 
 /**
- * Renvoie le décor associé, ou `undefined` pour conserver le décor de repli.
- * Le dialogue reste prioritaire sur le noeud afin qu'une conversation annexe
- * garde son lieu, puis le noeud affine une scène à plusieurs étapes.
+ * Résout la clé de décor EXPLICITE d'un dialogue (ADR 0023) : le noeud
+ * l'emporte sur le fichier. `undefined` si ni l'un ni l'autre n'en pose une
+ * -- dans ce cas `backdropFor` retombe entièrement sur les tables ci-dessus
+ * (chapitre 1, repli inchangé).
  */
-export function backdropFor(sceneId: string, dialogueId = '', nodeId = ''): SceneBackdrop | undefined {
+export function dialogueBackdropKey(file: DialogueFile, nodeId: string): string | undefined {
+  return file.nodes[nodeId]?.backdrop ?? file.backdrop;
+}
+
+/**
+ * Renvoie le décor associé, ou `undefined` pour conserver le décor de repli.
+ *
+ * `explicitKey` (ADR 0023, lot 5.3) est la clé résolue par
+ * `dialogueBackdropKey` : une clé du registre `src/data/backdrops.ts`
+ * (`BACKDROPS`), prioritaire sur TOUT le reste dès qu'elle est connue -- une
+ * clé inconnue (donnée invalide, signalée par `validateDialogue`) ne fait
+ * jamais planter le rendu, elle retombe silencieusement sur la suite de la
+ * résolution. Sans `explicitKey` (aucun dialogue du chapitre 1 n'en pose),
+ * comportement inchangé : le dialogue reste prioritaire sur le noeud afin
+ * qu'une conversation annexe garde son lieu, puis le noeud affine une scène à
+ * plusieurs étapes.
+ */
+export function backdropFor(
+  sceneId: string,
+  dialogueId = '',
+  nodeId = '',
+  explicitKey?: string,
+): SceneBackdrop | undefined {
+  if (explicitKey !== undefined) {
+    const registered = BACKDROPS[explicitKey];
+    if (registered) return registered;
+  }
   return (
     BACKDROPS_BY_DIALOGUE[dialogueId] ??
     BACKDROPS_BY_NODE[`${dialogueId}:${nodeId}`] ??

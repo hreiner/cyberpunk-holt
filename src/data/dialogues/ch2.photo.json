@@ -1,13 +1,15 @@
 {
   "id": "ch2.photo",
+  "backdrop": "photo-souvenir",
   "start": "photo",
   "nodes": {
     "photo": {
       "text": "La photo de classe. Une dernière image du dernier jour, avant que la nuit ne commence vraiment.",
-      "to": "fin"
+      "to": "salle"
     },
-    "fin": {
-      "text": "L'objectif se referme sur la promotion au complet."
+    "salle": {
+      "backdrop": "bal-entree",
+      "text": "L'objectif se referme. Déjà, la musique du bal résonne au bout du couloir : la promotion se disperse vers la salle."
     }
   }
 }

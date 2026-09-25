@@ -572,6 +572,22 @@ canvas {
   background: linear-gradient(180deg, var(--ink) 0%, var(--ink) 68%, var(--red-deep) 95%, var(--ink-3) 100%);
 }
 
+/*
+ * Zones du chapitre 2 (ADR 0023, lot 5.3) : declarees ici a l'avance, comme
+ * 'interior'/'transit'/'bal' ci-dessus -- `sceneZone()` (src/ui/sceneChrome.ts)
+ * ne les pose encore sur aucune scene, c'est le contenu des lots 5.7/5.8
+ * (la fuite sur `holt-nuit`, les Badlands/decharges) qui les cablera.
+ */
+.scene-shell[data-zone='nuit'] .narrative-backdrop {
+  /* La nuit du bal et la fuite : ciel encore plus sombre, presque plus de rouge. */
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink-3) 70%, var(--rule) 95%, var(--ink) 100%);
+}
+
+.scene-shell[data-zone='ville'] .narrative-backdrop {
+  /* Badlands, decharges, clinique : poussiere claire, liseret rouge plus large qu'en interieur. */
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink) 70%, var(--red-deep) 92%, var(--ink-2) 100%);
+}
+
 .narrative-backdrop.halftone::before {
   /* Trame a faible opacite (regle "Formes") : la valeur par defaut de .halftone
      (8%) reste trop presente sur un ciel aussi sombre. */

@@ -40,17 +40,18 @@ serait 🔴.
 | DLG-01 | **Graphe de nœuds** : narration, répliques, choix, enchaînements | toute conversation, toute scène lue | 🟢 | [07](../design/07-DIALOGUE-FORMAT.md) |
 | DLG-02 | **Choix à jet** `[Compétence]` avec chance de réussite affichée ; l'échec mène toujours ailleurs | le cœur du pilier « le dé raconte » ; un jet raté ouvre une autre suite, jamais un mur | 🟢 | 07 |
 | DLG-03 | **Jet lancé par un coéquipier** (`who`) | faire briller un compagnon sur sa compétence | 🟢 | 07 |
-| DLG-04 | **Conditions** sur un choix : drapeau, étiquette, affinité (seuils), coéquipier présent, combinaisons `not/all/any` | options qui n'existent que pour certains joueurs ; branchements silencieux (idiome « Continuer. ») | 🟢 | 07 |
-| DLG-05 | **Effets** : affinité, étiquette de dossier, entrée de dossier, drapeau, compteur, tempo, matériel d'équipe, note écrite | toute conséquence d'un choix | 🟢 (combinaison) · 🟡 (nouvel effet) | 07 |
+| DLG-04 | **Conditions** sur un choix : drapeau, étiquette, affinité (seuils), coéquipier présent, tempo (seuils), combinaisons `not/all/any` | options qui n'existent que pour certains joueurs ; branchements silencieux (idiome « Continuer. ») ; une conséquence de fuite qui dépend du temps perdu | 🟢 | 07, ADR 0023 |
+| DLG-05 | **Effets** : affinité, étiquette de dossier, entrée de dossier, drapeau, compteur **borné** (`min`/`max`), tempo, matériel d'équipe, note écrite | toute conséquence d'un choix ; un état qui monte et descend entre deux limites (l'état de Letitia, 0 à 3) sans jamais déborder | 🟢 (combinaison) · 🟡 (nouvel effet) | 07, ADR 0023 |
 | DLG-06 | **Jet de réflexion** (`insight`) qui révèle la meilleure réponse (`best`) ; obligatoire, ou facultatif et payé sur un compteur | un examen, un interrogatoire, une énigme : savoir contre instinct | 🟢 | ADR 0012, 0015 |
 | DLG-07 | **DV variable** selon un compteur (`dvByCounter`) | une tension qui monte : vigilance, alerte, méfiance | 🟢 | ADR 0015 §3 |
 | DLG-08 | **Alias** `{equipier1}`, `{equipier2}`, `{rivale}` et variantes par cadet (`teammate`) | écrire une fois pour toutes les compositions d'équipe | 🟢 | ADR 0014 §7 |
 | DLG-09 | **Points d'entrée multiples** d'un même fichier (`startNode`) | plusieurs objets d'une pièce partagent un fichier, chacun son moment | 🟢 | 07 |
-| DLG-10 | **Portrait** du locuteur, **décor plein cadre** par dialogue | chaque dialogue a son image de lieu | 🟢 si l'image existe · art à produire sinon | [UI-DESIGN-SYSTEM](../art/UI-DESIGN-SYSTEM.md) |
+| DLG-10 | **Portrait** du locuteur, **décor plein cadre** par dialogue **ou par nœud** (registre `src/data/backdrops.ts`, coupe franche), **bruitage** de nœud (`sound.sfx`, synthétisé) | chaque dialogue a son image de lieu ; une scène en suite d'images (le slow, la rafale) ; un coup de feu entendu sans monter un système audio dédié | 🟢 si l'image/la clé existe · art ou nouveau bruitage à produire sinon | [UI-DESIGN-SYSTEM](../art/UI-DESIGN-SYSTEM.md), ADR 0023 |
 | DLG-11 | **Dé 3D** qui roule à l'écran, chaîne d'explosion visible | gratuit sur tout jet | gratuit | ADR 0012 |
 
-**Limites** : locuteurs en liste fermée (six cadets, narrateur, directeur, instructeur,
-otage, radio) — un nouveau personnage parlant est 🟡. Pas de minuterie de choix, pas de
+**Limites** : locuteurs en liste fermée — six cadets, narrateur, directeur, instructeur,
+otage, radio, et depuis l'ADR 0023 (chapitre 2) smith, enfant, murano, guide, charcudoc,
+ganger — un nouveau personnage parlant reste 🟡. Pas de minuterie de choix, pas de
 choix « silencieux » à la Telltale.
 
 ## RES — Les ressources et l'état

@@ -12,7 +12,27 @@
 
 import { createRng } from '@/core/rng';
 
-export type SfxName = 'click' | 'shot' | 'miss' | 'hit' | 'fall' | 'melee' | 'mine' | 'revive';
+export type SfxName =
+  | 'click'
+  | 'shot'
+  | 'miss'
+  | 'hit'
+  | 'fall'
+  | 'melee'
+  | 'mine'
+  | 'revive'
+  | 'burst'
+  | 'distant-shot'
+  | 'cut';
+
+/**
+ * Alias du meme type, nomme comme le contrat de `DialogueNode.sound.sfx`
+ * (ADR 0023, docs/design/07-DIALOGUE-FORMAT.md). `src/narrative/types.ts`
+ * n'importe que ce type (jamais la classe `Sfx` ni `TONES`) : un import de
+ * type est efface a la compilation, il ne rend donc pas le moteur narratif
+ * dependant du DOM/Web Audio (regle d'AGENTS.md n°2, testabilite Node).
+ */
+export type SfxId = SfxName;
 
 const MASTER_VOLUME = 0.35;
 const NOISE_SECONDS = 0.6;
@@ -42,6 +62,17 @@ const TONES: Record<SfxName, Tone[]> = {
     { type: 'triangle', from: 440, to: 440, seconds: 0.12, gain: 0.3 },
     { type: 'triangle', from: 660, to: 660, seconds: 0.18, gain: 0.3, delay: 0.12 },
   ],
+  // -- Bruitages narratifs (ADR 0023, chapitre 2) : joues par DialogueNode.sound.sfx. --
+  // Rafale : trois departs rapproches, meme famille spectrale que "shot".
+  burst: [
+    { type: 'sawtooth', from: 1400, to: 200, seconds: 0.05, gain: 0.5 },
+    { type: 'sawtooth', from: 1400, to: 200, seconds: 0.05, gain: 0.45, delay: 0.08 },
+    { type: 'sawtooth', from: 1400, to: 200, seconds: 0.05, gain: 0.4, delay: 0.16 },
+  ],
+  // Tir lointain : un seul depart, grave et etouffe (gain faible, pas d'aigu).
+  'distant-shot': [{ type: 'sine', from: 300, to: 80, seconds: 0.3, gain: 0.22 }],
+  // Coupure : la musique s'arrete net (voir l'exemple de l'ADR 0023, noeud "rafale").
+  cut: [{ type: 'square', from: 400, to: 40, seconds: 0.08, gain: 0.4 }],
 };
 
 /** Salves de bruit blanc (en secondes) ajoutees a certains sons. */
@@ -51,6 +82,9 @@ const NOISE: Partial<Record<SfxName, { seconds: number; gain: number; delay?: nu
   melee: { seconds: 0.1, gain: 0.5 },
   mine: { seconds: 0.45, gain: 0.7 },
   fall: { seconds: 0.08, gain: 0.25 },
+  burst: { seconds: 0.3, gain: 0.4 },
+  'distant-shot': { seconds: 0.15, gain: 0.15, delay: 0.05 },
+  cut: { seconds: 0.06, gain: 0.3 },
 };
 
 export class Sfx {

@@ -44,7 +44,18 @@ export function applyEffect(effect: Effect, ctx: NarrativeContext): NarrativeCon
     return { ...ctx, run: setFlag(ctx.run, effect.flag, effect.value) };
   }
   if ('counter' in effect) {
-    return { ...ctx, run: bumpCounter(ctx.run, effect.counter, effect.delta) };
+    // Bornes facultatives (ADR 0023), appliquees APRES le delta -- l'etat de
+    // blessure de Letitia (chapitre 2) en est le premier usage. Sans `min`/
+    // `max`, comportement inchange (bumpCounter seul).
+    if (effect.min === undefined && effect.max === undefined) {
+      return { ...ctx, run: bumpCounter(ctx.run, effect.counter, effect.delta) };
+    }
+    const current = ctx.run.flags[effect.counter];
+    const base = typeof current === 'number' ? current : 0;
+    let next = base + effect.delta;
+    if (effect.min !== undefined) next = Math.max(effect.min, next);
+    if (effect.max !== undefined) next = Math.min(effect.max, next);
+    return { ...ctx, run: setFlag(ctx.run, effect.counter, next) };
   }
   if ('tempo' in effect) {
     return { ...ctx, run: addTempo(ctx.run, effect.tempo) };

@@ -13,11 +13,13 @@
  */
 
 import { portraitElement, portraitFor, surveillantPortraitSource } from '@/ui/portraits';
-import { backdropFor, backdropMarkup, sceneZone, splitTitle } from '@/ui/sceneChrome';
+import { backdropFor, backdropMarkup, dialogueBackdropKey, sceneZone, splitTitle } from '@/ui/sceneChrome';
 import { DIFFICULTY_LABELS } from '@/rules/attributes';
 import { INITIAL_LUCK } from '@/narrative';
 import type { PresentedChoice, PresentedNode, PresentedRoll, RadioCue, SpeakerId } from '@/narrative';
 import { CHAPTERS, chapterOfScene } from '@/data/chapters';
+import { DIALOGUES } from '@/data/dialogues/registry';
+import { Sfx } from '@/audio/sfx';
 
 /**
  * Ressources persistantes affichees en permanence pendant un dialogue (ADR
@@ -267,6 +269,17 @@ export class NarrativeView {
   private renderToken = 0;
   private sceneCardTimer: number | undefined;
   private readonly radioTimers = new Map<HTMLElement, number>();
+  /**
+   * Bruitages de noeud (ADR 0023, `DialogueNode.sound.sfx`) : memes recettes
+   * synthetisees que le combat (`src/audio/sfx.ts`, ADR 0010). Instance
+   * propre a la vue narrative -- distincte de celle d'`app.ts` (tactique),
+   * jamais partagee, dans le meme esprit que `dice`/`view` separes par
+   * ecran. Debloquee au premier geste sur cette vue (voir le constructeur),
+   * comme `app.ts` le fait pour le combat.
+   */
+  private readonly sfx = new Sfx(true);
+  /** Cle `dialogueId#nodeId` du dernier noeud dont le bruitage a ete joue -- pour ne jouer qu'une fois par entree (voir `playNodeSound`). */
+  private lastSfxNodeKey: string | null = null;
 
   constructor(
     container: HTMLElement,
@@ -322,6 +335,9 @@ export class NarrativeView {
 
     this.sceneCardEl.addEventListener('click', () => this.dismissSceneCard());
     window.addEventListener('keydown', this.onKeyDown);
+    // Leve le blocage de lecture automatique (memes regles que app.ts) : le
+    // premier clic/touche sur cette vue suffit, avant meme un bruitage de noeud.
+    this.root.addEventListener('pointerdown', () => this.sfx.unlock(), { once: true });
   }
 
   private q(selector: string): HTMLElement {
@@ -377,6 +393,7 @@ export class NarrativeView {
     if (moment?.key === 'ch1.fourgon:arrivee') this.root.dataset.moment = moment.key;
     else delete this.root.dataset.moment;
     this.renderBackdrop(sceneId, dialogueId, node.nodeId);
+    this.playNodeSound(dialogueId, node.nodeId);
     this.renderSceneTag(displayedTitle);
     this.maybeShowSceneCard(displayedTitle, sceneId, moment);
     this.renderStatus(hud);
@@ -393,9 +410,17 @@ export class NarrativeView {
     this.renderChoices(node.choices, insight.locked || luckLocked, revealBest);
   }
 
-  /** Pose l'illustration du lieu, ou rétablit le ciel graphique en l'absence de correspondance. */
+  /**
+   * Pose l'illustration du lieu, ou rétablit le ciel graphique en l'absence
+   * de correspondance. `explicitKey` (ADR 0023) est lu sur le graphe BRUT
+   * (`DIALOGUES`, pas `PresentedNode` -- le format de dialogue n'expose pas
+   * `backdrop` au joueur, c'est une clé de registre, pas du texte) : le noeud
+   * l'emporte sur le fichier, voir `dialogueBackdropKey`.
+   */
   private renderBackdrop(sceneId: string, dialogueId: string, nodeId: string): void {
-    const backdrop = backdropFor(sceneId, dialogueId, nodeId);
+    const file = dialogueId ? DIALOGUES[dialogueId] : undefined;
+    const explicitKey = file ? dialogueBackdropKey(file, nodeId) : undefined;
+    const backdrop = backdropFor(sceneId, dialogueId, nodeId, explicitKey);
     if (!backdrop) {
       this.backdropImageEl.hidden = true;
       this.backdropImageEl.removeAttribute('src');
@@ -403,6 +428,21 @@ export class NarrativeView {
     }
     if (this.backdropImageEl.getAttribute('src') !== backdrop.src) this.backdropImageEl.src = backdrop.src;
     this.backdropImageEl.hidden = false;
+  }
+
+  /**
+   * Joue `DialogueNode.sound.sfx` (ADR 0023) UNE SEULE fois par entree dans
+   * ce noeud precis -- `render()` est rappele plusieurs fois pour le meme
+   * noeud (mise en scene de de, re-rendu apres depense de Chance...), voir
+   * `lastSfxNodeKey`. Lu sur le graphe brut, comme `renderBackdrop` : le
+   * format ne l'expose jamais dans `PresentedNode`.
+   */
+  private playNodeSound(dialogueId: string, nodeId: string): void {
+    const key = `${dialogueId}#${nodeId}`;
+    if (key === this.lastSfxNodeKey) return;
+    this.lastSfxNodeKey = key;
+    const sfx = dialogueId ? DIALOGUES[dialogueId]?.nodes[nodeId]?.sound?.sfx : undefined;
+    for (const name of sfx ?? []) this.sfx.play(name);
   }
 
   /**
