@@ -11,6 +11,7 @@ import type { CharacterSheet } from '@/rules/character';
 import type { ItemId } from '@/tactical/types';
 import type { ExplorationCharacterRig, ExplorationPose, RigAnimation } from '../characterRig';
 import { acquireCadetAssets, getMaleHeadAsset, releaseCadetAssets, type HumanModel } from './characterAssets';
+import { CHAIR_SEAT_HEIGHT } from './props';
 
 export type CadetExplorationRig = ExplorationCharacterRig;
 interface VisualActor {
@@ -36,6 +37,11 @@ export interface HumanRigOptions {
   readonly tactical?: boolean;
 }
 
+const HALF_PI = Math.PI / 2;
+/** Écartement des genoux d'un personnage assis, en radians : assez pour ne pas lire « jambes soudées ». */
+const SIT_KNEE_SPLAY = 0.12;
+/** Hauteur du centre du bassin au-dessus de l'assise, en mètres (l'os `Hips` est le milieu du bassin). */
+const SIT_PELVIS_ABOVE_SEAT = 0.09;
 const CADET_HEIGHT = 1.75;
 const ADULT_HEIGHT = 1.85;
 /**
@@ -403,15 +409,22 @@ export class CadetRig implements CadetExplorationRig {
       bone.quaternion.multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(x, y, z)));
     };
     if (pose === 'sit') {
-      // Le modèle repose normalement sur ses pieds. Abaisser seulement son bassin et plier
-      // réellement les jambes place le cadet SUR l'assise, au lieu d'enfoncer un corps debout
-      // sous la chaise.
-      this.visual.position.y = -0.5;
-      rotate(this.chest, 0.08);
-      rotate(this.leftUpperLeg, -1.35);
-      rotate(this.rightUpperLeg, -1.35);
-      rotate(this.leftLowerLeg, 1.35);
-      rotate(this.rightLowerLeg, 1.35);
+      // Cuisses à l'horizontale, tibias à la verticale : une vraie assise, pas un corps debout
+      // aux jambes vaguement pliées. Le léger écart (`SIT_KNEE_SPLAY`) évite les deux genoux
+      // collés, qui se lisent comme une erreur de rig à la distance isométrique.
+      rotate(this.leftUpperLeg, -HALF_PI, 0, SIT_KNEE_SPLAY);
+      rotate(this.rightUpperLeg, -HALF_PI, 0, -SIT_KNEE_SPLAY);
+      rotate(this.leftLowerLeg, HALF_PI);
+      rotate(this.rightLowerLeg, HALF_PI);
+      rotate(this.chest, 0.1);
+      rotate(this.leftArm, -0.5);
+      rotate(this.rightArm, -0.5);
+      // Puis POSER le bassin sur l'assise. Plier les jambes ne déplace pas les hanches (elles
+      // sont le parent) : sans ce recalage le cadet garderait ses hanches à hauteur debout,
+      // cuisses tendues dans le vide au-dessus de la chaise -- et l'ancien décalage fixe de
+      // -0,5 m, lui, l'enfonçait sous son siège. Mesurer plutôt que deviner : la hauteur de
+      // hanche dépend du modèle (homme/femme) et de l'échelle appliquée plus haut.
+      this.dropHipsTo(CHAIR_SEAT_HEIGHT + SIT_PELVIS_ABOVE_SEAT);
     } else if (pose === 'lean') {
       rotate(this.chest, 0, 0, -0.18);
       rotate(this.leftArm, -0.35);
@@ -423,6 +436,22 @@ export class CadetRig implements CadetExplorationRig {
       rotate(this.head, 0.14);
       rotate(this.rightArm, -0.5);
     }
+  }
+
+  /**
+   * Décale le visuel verticalement pour que l'os `Hips` se retrouve exactement à `targetY`
+   * mètres au-dessus de la racine du rig (le sol de la case). Mesure la position réelle des
+   * hanches APRÈS la pose, dans le repère de `this.object` : le résultat vaut donc pour
+   * n'importe quel modèle et n'importe quelle échelle, y compris le boost tactique. Ne dépend
+   * pas de la présence du rig dans la scène (`updateMatrixWorld` local suffit), ce qui permet
+   * de poser un PNJ assis dès sa construction.
+   */
+  private dropHipsTo(targetY: number): void {
+    this.visual.position.y = 0;
+    this.object.updateMatrixWorld(true);
+    const hips = this.hips.getWorldPosition(new THREE.Vector3());
+    this.object.worldToLocal(hips);
+    this.visual.position.y = targetY - hips.y;
   }
 
   getEquipmentAnchor(item: ItemId): THREE.Object3D | null {

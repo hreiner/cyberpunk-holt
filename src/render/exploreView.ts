@@ -34,6 +34,8 @@ import type { ExploreVisualMapDef } from '@/data/exploreVisualTypes';
 import { CAMERA_DISTANCE, ISO_ELEVATION_DEG, IsoCamera } from './isoCamera';
 
 export const EXPLORE_CELL_SIZE_METERS = 1;
+/** Rotation nulle réutilisée pour composer les matrices d'instance des murs (passe G, performance). */
+const IDENTITY_QUATERNION = new THREE.Quaternion();
 const WALL_HEIGHT = 3;
 const WALL_CUT_HEIGHT = 0.24;
 const FURNITURE_LOW_HEIGHT = 1.0;
@@ -110,6 +112,13 @@ export const KEY_ZOOM_SPEED = 30;
 const PAN_SPEED_M_S = 18;
 /** Marge de panoramique au-delà du bord de la carte, "une pièce" (08-EXPLORATION.md "La caméra et les murs"). */
 const PAN_MARGIN_METERS = 12;
+/**
+ * Demi-tour entre une chaise et son occupant : le dossier de `chair()` est posé en +Z local,
+ * donc un cadet assis regarde le -Z de sa chaise -- et le rig, lui, regarde son +Z
+ * (`CadetRig.faceTowards`). Sans cette rotation, les figurants de la cantine étaient assis de
+ * travers, parfois dos à leur table.
+ */
+const SEATED_FACING_OFFSET_DEG = 180;
 
 export type Side = 'north' | 'south' | 'east' | 'west';
 
@@ -186,10 +195,23 @@ function clampAxisToFrame(value: number, mapMin: number, mapMax: number, halfExt
   return THREE.MathUtils.clamp(value, mapMin + halfExtent, mapMax - halfExtent);
 }
 
+/**
+ * Emplacement d'une cellule (mur ou porte) dans un `THREE.InstancedMesh` partagé -- voir
+ * `WallInstanceBatch` et la note au-dessus de `recomputeCutaway`. Une seule matrice à réécrire
+ * par case et par rotation, au lieu de muter un `Object3D` séparé par case.
+ */
+interface WallInstanceSlot {
+  instancedMesh: THREE.InstancedMesh;
+  index: number;
+}
+
 interface WallCellInfo {
-  mesh: THREE.Mesh;
-  topEdge: THREE.Mesh;
-  band: THREE.Mesh;
+  wx: number;
+  wz: number;
+  /** Uniquement les portes : cadre individuel, cible de clic dédiée (`userData.entityId`). */
+  doorMesh?: THREE.Mesh;
+  /** Corps du mur, hors porte : position dans le lot fusionné par (géométrie, matière). */
+  bodyBatch?: WallInstanceSlot;
   isContainer: boolean;
   control?: THREE.Group;
   /** Ornements fixés à cette face : disparaissent avec le mur coupé, jamais au travers. */
@@ -242,14 +264,29 @@ export class ExploreView {
   /** Habillage uniquement : `MapDef` reste la vérité pour collision et interactions. */
   private readonly dressing: ExploreDressing;
   private readonly replacedFurnitureCells = new Set<string>();
-  /** PNJ ayant une chaise déclarative : seule condition qui autorise la pose assise. */
-  private readonly seatedNpcIds = new Set<string>();
+  /** PNJ ayant une chaise déclarative -> orientation de cette chaise (radians). Seule condition qui autorise la pose assise. */
+  private readonly seatedNpcFacing = new Map<string, number>();
   private readonly discoveredRoomIds = new Set<string>();
   private readonly architectureMaterials: EnvironmentMaterials;
   /** Ressources propres aux cellules, portes et sols ; les props et rigs ont leur propriétaire. */
   private readonly cellGeometries = new Set<THREE.BufferGeometry>();
   private readonly cellMaterials = new Set<THREE.Material>();
   private readonly cellTextures = new Set<THREE.Texture>();
+  /**
+   * Passe G (performance) : les arêtes de coupe et les bandes décoratives de TOUS les murs/portes
+   * de la carte (des centaines de cases, `docs/art/EXPLORATION-VISUAL-DESIGN.md` §5) partagent
+   * chacune une géométrie et une matière uniques -- un candidat idéal pour deux `InstancedMesh`
+   * uniques, recalculés à chaque rotation plutôt qu'à chaque image (`recomputeCutaway` reste
+   * appelé seulement sur `rotate()`/à la construction, jamais par image). `count` varie d'une
+   * rotation à l'autre (seules les cases actuellement coupées/non coupées y figurent) : capacité
+   * fixée au nombre total de cases mur+porte, jamais dépassée.
+   */
+  private topEdgeInstances!: THREE.InstancedMesh;
+  private bandInstances!: THREE.InstancedMesh;
+  /** Hauteur (fixe, une seule par carte) de la bande décorative -- voir `createWallBand`. */
+  private bandHeightY = 0;
+  /** À libérer explicitement (`dispose()`) : ni leur géométrie ni leur matière ne leur appartient. */
+  private readonly wallInstancedMeshes: THREE.InstancedMesh[] = [];
 
   private readonly rigs = new Map<string, CharacterRig>();
   /** PNJ décoratifs : leur visibilité reste pilotée par registerVisualEntity. */
@@ -315,7 +352,12 @@ export class ExploreView {
     const visualDef = this.visualDefinition(def.id);
     for (const placement of visualDef.placements) {
       for (const cell of placement.replaces ?? []) this.replacedFurnitureCells.add(posKey(cell));
-      if (placement.model === 'canteen-chair' && placement.entityId) this.seatedNpcIds.add(placement.entityId);
+      if (placement.model === 'canteen-chair' && placement.entityId) {
+        this.seatedNpcFacing.set(
+          placement.entityId,
+          THREE.MathUtils.degToRad((placement.rotation ?? 0) + SEATED_FACING_OFFSET_DEG),
+        );
+      }
     }
     this.dressing = new ExploreDressing(
       visualDef,
@@ -548,6 +590,13 @@ export class ExploreView {
     });
     this.cellMaterials.add(vehicleGlassMat);
 
+    // Passe G (performance) : le corps de CHAQUE mur/porte était un `THREE.Mesh` séparé --
+    // des centaines d'appels de dessin rien que pour la coque du bâtiment, avant même le
+    // mobilier (voir la note sur `topEdgeInstances`/`bandInstances`). Les cases non-porte sont
+    // regroupées par (géométrie, matière) et fusionnées après la boucle ; les portes restent
+    // individuelles (cible de clic dédiée, `userData.entityId`).
+    const wallBodyCandidates: { key: string; wx: number; wz: number; geometry: THREE.BufferGeometry; material: THREE.Material }[] = [];
+
     for (let y = 0; y < this.map.height; y++) {
       for (let x = 0; x < this.map.width; x++) {
         const kind = this.map.kindAt({ x, y });
@@ -557,28 +606,30 @@ export class ExploreView {
         const sides = this.roomSidesByCell.get(key) ?? [];
 
         if (kind === 'wall' || kind === 'door') {
+          const isDoorCell = kind === 'door';
           const isContainer = this.def.id === 'centre-examen' && x >= 7 && x < 37 && y >= 1 && y < 21 && kind === 'wall';
           const side = containerSides[(Math.floor(x / 7) + Math.floor(y / 5)) % containerSides.length] as THREE.Material;
           const plainWallMat = this.garageWallCells.has(key) ? garageWallMat : wallMat;
-          const mesh = new THREE.Mesh(isContainer ? containerBox : unitBox, isContainer ? side : kind === 'door' ? frameMat : plainWallMat);
-          mesh.castShadow = true;
-          mesh.receiveShadow = true;
-          mesh.position.x = wx;
-          mesh.position.z = wz;
-          this.root.add(mesh);
+          const geometry = isContainer ? containerBox : unitBox;
+          const material = isContainer ? side : isDoorCell ? frameMat : plainWallMat;
 
-          const topEdge = new THREE.Mesh(unitBox, edgeMat);
-          topEdge.scale.set(0.96, 0.05, 0.96);
-          topEdge.position.set(wx, 0, wz);
-          topEdge.visible = false;
-          this.root.add(topEdge);
+          const info: WallCellInfo = { wx, wz, sides, isContainer, isDoorCell };
 
-          const band = createWallBand(this.architectureMaterials, this.def.id === 'centre-examen');
-          band.position.set(wx, band.position.y, wz);
-          this.root.add(band);
-          const info: WallCellInfo = { mesh, topEdge, band, sides, isContainer, isDoorCell: kind === 'door' };
+          if (isDoorCell) {
+            // Le cadre reste un maillage individuel : cible de clic dédiée (`userData.entityId`)
+            // et linteau qui se réduit indépendamment quand la porte est coupée.
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            mesh.position.x = wx;
+            mesh.position.z = wz;
+            this.root.add(mesh);
+            info.doorMesh = mesh;
+          } else {
+            wallBodyCandidates.push({ key, wx, wz, geometry, material });
+          }
 
-          if (kind === 'door') {
+          if (isDoorCell) {
             const door = this.doorAt({ x, y });
             if (door) {
               const panel = new THREE.Mesh(
@@ -600,8 +651,8 @@ export class ExploreView {
               this.root.add(control);
               info.control = control;
               // Le cadre (fixe, toujours visible) sert aussi de cible de clic.
-              mesh.userData.entityId = door.id;
-              this.pickables.push(mesh);
+              info.doorMesh!.userData.entityId = door.id;
+              this.pickables.push(info.doorMesh!);
             }
           }
 
@@ -664,6 +715,43 @@ export class ExploreView {
         }
       }
     }
+
+    // Corps des murs (hors porte) : un `InstancedMesh` par (géométrie, matière) -- quelques lots
+    // (béton peint, tôle du garage, jusqu'à trois teintes de container) au lieu d'un maillage par
+    // case. Transform recalculée à chaque rotation (`recomputeCutaway`), jamais par image.
+    const bodyBuckets = new Map<string, { geometry: THREE.BufferGeometry; material: THREE.Material; keys: string[] }>();
+    for (const candidate of wallBodyCandidates) {
+      const bucketKey = `${candidate.geometry.uuid}\u0000${candidate.material.uuid}`;
+      const bucket = bodyBuckets.get(bucketKey);
+      if (bucket) bucket.keys.push(candidate.key);
+      else bodyBuckets.set(bucketKey, { geometry: candidate.geometry, material: candidate.material, keys: [candidate.key] });
+    }
+    for (const { geometry, material, keys } of bodyBuckets.values()) {
+      const instancedMesh = new THREE.InstancedMesh(geometry, material, keys.length);
+      instancedMesh.castShadow = true;
+      instancedMesh.receiveShadow = true;
+      this.root.add(instancedMesh);
+      this.wallInstancedMeshes.push(instancedMesh);
+      keys.forEach((key, index) => {
+        const info = this.wallCells.get(key);
+        if (info) info.bodyBatch = { instancedMesh, index };
+      });
+    }
+
+    // Arêtes de coupe et bandes décoratives : partagées par TOUTES les cases mur/porte de la
+    // carte (voir `topEdgeInstances`/`bandInstances`) -- capacité au nombre total de cases,
+    // `count` réduit à chaque rotation par `recomputeCutaway` à celles réellement affichées.
+    const bandTemplate = createWallBand(this.architectureMaterials, this.def.id === 'centre-examen');
+    this.bandHeightY = bandTemplate.position.y;
+    this.topEdgeInstances = new THREE.InstancedMesh(unitBox, edgeMat, this.wallCells.size);
+    this.topEdgeInstances.count = 0;
+    this.root.add(this.topEdgeInstances);
+    this.wallInstancedMeshes.push(this.topEdgeInstances);
+    this.bandInstances = new THREE.InstancedMesh(bandTemplate.geometry, bandTemplate.material as THREE.Material, this.wallCells.size);
+    this.bandInstances.receiveShadow = true;
+    this.bandInstances.count = 0;
+    this.root.add(this.bandInstances);
+    this.wallInstancedMeshes.push(this.bandInstances);
 
     this.recomputeCutaway();
   }
@@ -819,7 +907,9 @@ export class ExploreView {
       rig.playExplorationPose('talk');
       return rig;
     }
-    const rig = createExploreNpcRig(entityId, this.seatedNpcIds.has(entityId));
+    // Toujours au sol : c'est le rig qui pose son bassin sur l'assise (`CadetRig.dropHipsTo`),
+    // parce que lui seul connaît la hauteur de hanche réelle de son modèle.
+    const rig = createExploreNpcRig(entityId, this.seatedNpcFacing.get(entityId));
     rig.object.position.set(x, 0, z);
     return rig;
   }
@@ -838,8 +928,27 @@ export class ExploreView {
     });
   }
 
-  /** Recalcule quels murs sont coupés. Appelé à la construction et à chaque quart de tour. */
+  /** Matrice temporaire réutilisée par `recomputeCutaway` -- pas d'allocation par case ni par rotation. */
+  private readonly cutawayMatrix = new THREE.Matrix4();
+  private readonly cutawayPosition = new THREE.Vector3();
+  private readonly cutawayScale = new THREE.Vector3();
+  private readonly cutawayQuaternion = new THREE.Quaternion();
+
+  /**
+   * Recalcule quels murs sont coupés. Appelé à la construction et à chaque quart de tour
+   * (`rotate()`), JAMAIS par image -- le coût d'une reconstruction complète des lots (quelques
+   * centaines de matrices 4x4) est négligeable à cette fréquence, et bien moindre que de garder
+   * un `Object3D` par case (passe G, performance).
+   *
+   * Le corps de porte (`info.doorMesh`) reste un `THREE.Mesh` individuel, muté directement comme
+   * avant. Le corps de mur (`info.bodyBatch`), l'arête de coupe et la bande décorative vivent
+   * dans des `THREE.InstancedMesh` partagés (voir leurs champs) : on y réécrit une matrice par
+   * case plutôt que de repositionner un objet.
+   */
   recomputeCutaway(): void {
+    const bandMatrices: THREE.Matrix4[] = [];
+    const edgeMatrices: THREE.Matrix4[] = [];
+    const touchedBodies = new Set<THREE.InstancedMesh>();
     for (const info of this.wallCells.values()) {
       const cut = this.isCut(info.sides);
       const height = cut ? WALL_CUT_HEIGHT : WALL_HEIGHT;
@@ -847,15 +956,35 @@ export class ExploreView {
         // Porte : un simple linteau en haut de l'ouverture, jamais un bloc plein -- sinon
         // une porte OUVERTE lirait comme un mur (08-EXPLORATION.md "Pas de plafond. Les
         // portes ouvertes sont des trouées"). Le panneau (`info.panel`) porte l'état fermé.
-        info.mesh.scale.set(0.92, Math.min(0.14, height), 0.92);
-        info.mesh.position.y = height - Math.min(0.07, height / 2);
-      } else {
-        info.mesh.scale.set(0.98, height, 0.98);
-        info.mesh.position.y = height / 2;
+        info.doorMesh!.scale.set(0.92, Math.min(0.14, height), 0.92);
+        info.doorMesh!.position.y = height - Math.min(0.07, height / 2);
+      } else if (info.bodyBatch) {
+        const { instancedMesh, index } = info.bodyBatch;
+        this.cutawayMatrix.compose(
+          this.cutawayPosition.set(info.wx, height / 2, info.wz),
+          this.cutawayQuaternion.identity(),
+          this.cutawayScale.set(0.98, height, 0.98),
+        );
+        instancedMesh.setMatrixAt(index, this.cutawayMatrix);
+        touchedBodies.add(instancedMesh);
       }
-      info.topEdge.visible = cut;
-      info.topEdge.position.y = height;
-      info.band.visible = !cut && !info.isContainer;
+      if (cut) {
+        edgeMatrices.push(
+          new THREE.Matrix4().compose(
+            new THREE.Vector3(info.wx, height, info.wz),
+            IDENTITY_QUATERNION,
+            new THREE.Vector3(0.96, 0.05, 0.96),
+          ),
+        );
+      } else if (!info.isContainer) {
+        bandMatrices.push(
+          new THREE.Matrix4().compose(
+            new THREE.Vector3(info.wx, this.bandHeightY, info.wz),
+            IDENTITY_QUATERNION,
+            new THREE.Vector3(0.987, 0.28, 0.987),
+          ),
+        );
+      }
       if (info.control) info.control.visible = !cut;
       if (info.ornaments) {
         for (const ornament of info.ornaments) ornament.visible = !cut;
@@ -865,6 +994,20 @@ export class ExploreView {
         info.panel.position.y = height / 2;
       }
     }
+    for (const instancedMesh of touchedBodies) {
+      instancedMesh.instanceMatrix.needsUpdate = true;
+      instancedMesh.computeBoundingSphere();
+    }
+    this.applyInstanceMatrices(this.topEdgeInstances, edgeMatrices);
+    this.applyInstanceMatrices(this.bandInstances, bandMatrices);
+  }
+
+  /** Réécrit entièrement un lot fusionné (arête ou bande) : sa composition change à chaque rotation. */
+  private applyInstanceMatrices(instancedMesh: THREE.InstancedMesh, matrices: THREE.Matrix4[]): void {
+    instancedMesh.count = matrices.length;
+    matrices.forEach((matrix, index) => instancedMesh.setMatrixAt(index, matrix));
+    instancedMesh.instanceMatrix.needsUpdate = true;
+    if (matrices.length > 0) instancedMesh.computeBoundingSphere();
   }
 
   /** Tourne la caméra d'un quart de tour et recalcule immédiatement les murs coupés (ADR 0013 §6). */
@@ -1338,6 +1481,11 @@ export class ExploreView {
     for (const rig of this.npcRigs.values()) rig.dispose();
     this.npcRigs.clear();
     this.dressing.dispose();
+    // Tampon d'instances propre à chaque `InstancedMesh` (voir `topEdgeInstances`/`bandInstances`
+    // et les lots du corps des murs) : ni leur géométrie ni leur matière ne leur appartient,
+    // toutes deux libérées juste après via `cellGeometries`/`cellMaterials`/`architectureMaterials`.
+    for (const instancedMesh of this.wallInstancedMeshes) instancedMesh.dispose();
+    this.wallInstancedMeshes.length = 0;
     for (const material of this.cellMaterials) material.dispose();
     for (const texture of this.cellTextures) texture.dispose();
     for (const geometry of this.cellGeometries) geometry.dispose();
