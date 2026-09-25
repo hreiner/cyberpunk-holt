@@ -182,7 +182,7 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.2 | **Le dossier passe** : archive en fin de chapitre 1, « Chapitre 2 » depuis l'écran de fin et l'écran titre, trois profils de départ | 5.1 | fait |
 | 5.3 | **Format de dialogue étendu** : décor et bruitage par nœud, compteur borné, condition `tempo`, six locuteurs, registre des décors | 5.1 | fait |
 | 5.4 | **Jauge et bilan** : état de Letitia visible, bilan déclaré en données avec la photo souvenir | 5.3 | fait |
-| 5.5 | **Scènes dites** : photo, slow et rafale en suite d'images, égouts, adieu à Zachary | 5.3, 5.4 | à faire |
+| 5.5 | **Scènes dites** : photo, slow et rafale en suite d'images, égouts, adieu à Zachary | 5.3, 5.4 | fait |
 | 5.6 | **Décharges et charcudoc** : relais de garde, adieux, bilan rempli ; simulateur de la nuit et ajustement des DV | 5.4, 5.5 | à faire |
 | 5.7 | **L'exploration sait fuir** : habillage par registre, zones à effets, pression en exploration, suiveurs par scène, profil `enfant` ; mesure de cinq suiveurs | 5.1, 5.3 | fait (B9 : décision du propriétaire en attente) |
 | 5.8 | **Le bal et la fuite** : carte `holt-nuit`, conversations du bal et leurs échos, fuite sous tempo jusqu'à la grille | 5.5, 5.7 | à faire |

@@ -11,6 +11,21 @@
  * Loyal a la bande, Solitaire, Neutre -- chacun doit atteindre la fin sans
  * cul-de-sac (conclusion de l'ADR 0022 : "le test de flux du chapitre 2
  * balaie les trois profils").
+ *
+ * Lot 5.5 (revision) : le contenu reel introduit les premiers jets de
+ * Franklyn. Un jet qui echoue de peu (marge <= Chance restante) suspend son
+ * issue (`pendingRoll`, ADR 0015 §2) au lieu de la resoudre -- exactement
+ * comme en jeu, ou l'interface propose alors de depenser la Chance
+ * (`spendLuck`) ou d'accepter l'echec (`acceptRoll`), meme mecanisme que
+ * `narrativeRunner.test.ts` et l'e2e `narrative.spec.ts` (bouton "Accepter
+ * l'echec"). Le marcheur exhaustif doit donc traiter une attente de Chance
+ * comme un DEUXIEME type de point de branchement (en plus d'un choix) :
+ * explorer la branche "on depense" ET la branche "on accepte", sinon un jet
+ * qui suspend son issue rejoue indefiniment le meme noeud sans jamais
+ * avancer (rien dans `choose()`/`advance()` ne le debloque tant que la
+ * Chance n'est pas explicitement tranchee) -- une vraie boucle infinie, pas
+ * juste une lenteur, puisque chaque tentative de rejeu retombe sur le meme
+ * `pendingRoll` avec la meme graine deterministe.
  */
 
 import { describe, expect, it } from 'vitest';
@@ -53,30 +68,70 @@ function advanceThroughAutoNodes(runner: DialogueRunner, fileId: string): void {
 }
 
 /**
+ * Un point de branchement du rejeu : soit un choix ordinaire (position dans
+ * la liste PRESENTEE, voir la mise en garde de `PresentedChoice.index` dans
+ * 07-DIALOGUE-FORMAT.md), soit la resolution d'une Chance en attente
+ * (`pendingRoll`, ADR 0015 §2) -- `spend: true` pour `spendLuck(missingBy)`
+ * (transforme l'echec en reussite), `spend: false` pour `acceptRoll()`
+ * (accepte l'echec sans rien depenser). Les deux sont de VRAIS points de
+ * branchement narratifs (comme un choix) : le marcheur exhaustif doit les
+ * essayer tous les deux, pas en choisir un arbitrairement.
+ */
+type Decision = { kind: 'choice'; position: number } | { kind: 'luck'; spend: boolean };
+
+/** Nombre max de decisions rejouees d'affilee : garde-fou anti-boucle (voir le guard ci-dessous). */
+const MAX_DECISIONS = 60;
+
+/**
  * Toutes les issues (contextes finaux) d'un dialogue depuis `ctx`, en
- * essayant CHAQUE choix de CHAQUE noeud rencontre -- un nouveau
+ * essayant CHAQUE choix (et, quand un jet de Franklyn suspend son issue,
+ * CHAQUE resolution de Chance) de CHAQUE noeud rencontre -- un nouveau
  * `DialogueRunner` est reconstruit depuis `ctx` a chaque tentative (le runner
  * ne peut pas se "brancher" en cours de route) et rejoue la sequence de
  * decisions deja prises avant d'essayer l'option suivante.
  */
-function outcomesOf(file: DialogueFile, ctx: NarrativeContext, decisions: number[] = []): NarrativeContext[] {
+function outcomesOf(file: DialogueFile, ctx: NarrativeContext, decisions: Decision[] = []): NarrativeContext[] {
+  if (decisions.length > MAX_DECISIONS) {
+    throw new Error(`${file.id} : plus de ${MAX_DECISIONS} decisions rejouees, boucle suspectee.`);
+  }
+
   const rng = createRng(`chapter2Flow::${file.id}`);
   const runner = new DialogueRunner(file, ctx, rng);
   advanceThroughAutoNodes(runner, file.id);
-  for (const decisionIndex of decisions) {
-    const presented = runner.current().choices[decisionIndex];
-    if (!presented) throw new Error(`${file.id} : decision "${decisionIndex}" invalide au rejeu.`);
-    const outcome = runner.choose(presented.index);
-    if (!outcome.ok) throw new Error(`${file.id} : choix refuse au rejeu ("${outcome.reason}").`);
+  for (const decision of decisions) {
+    if (decision.kind === 'choice') {
+      const presented = runner.current().choices[decision.position];
+      if (!presented) throw new Error(`${file.id} : decision "${decision.position}" invalide au rejeu.`);
+      const outcome = runner.choose(presented.index);
+      if (!outcome.ok) throw new Error(`${file.id} : choix refuse au rejeu ("${outcome.reason}").`);
+    } else {
+      const pending = runner.current().pendingRoll;
+      if (!pending) throw new Error(`${file.id} : rejeu attend un jet de Chance en attente, aucun trouve.`);
+      const outcome = decision.spend ? runner.spendLuck(pending.missingBy) : runner.acceptRoll();
+      if (!outcome.ok) throw new Error(`${file.id} : resolution de Chance refusee au rejeu ("${outcome.reason}").`);
+    }
     advanceThroughAutoNodes(runner, file.id);
   }
 
   const node = runner.current();
+
+  // Un jet de Franklyn vient de suspendre son issue (ADR 0015 §2) : ce n'est
+  // PAS un cul-de-sac, mais un second type de branchement -- explorer les
+  // deux issues (on depense la Chance / on accepte l'echec) plutot que de
+  // rejouer indefiniment le meme noeud (rien ne le debloque tout seul :
+  // `choose()`/`advance()` refusent tant que la Chance n'est pas tranchee).
+  if (node.pendingRoll) {
+    return [
+      ...outcomesOf(file, ctx, [...decisions, { kind: 'luck', spend: true }]),
+      ...outcomesOf(file, ctx, [...decisions, { kind: 'luck', spend: false }]),
+    ];
+  }
+
   if (node.finished) return [runner.context];
 
   const results: NarrativeContext[] = [];
   for (let i = 0; i < node.choices.length; i++) {
-    results.push(...outcomesOf(file, ctx, [...decisions, i]));
+    results.push(...outcomesOf(file, ctx, [...decisions, { kind: 'choice', position: i }]));
   }
   return results;
 }

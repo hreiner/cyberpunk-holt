@@ -1,13 +1,69 @@
 {
   "id": "ch2.adieu",
-  "start": "adieu",
+  "backdrop": "academie-en-feu",
+  "start": "geste",
   "nodes": {
-    "adieu": {
-      "text": "Un moment, avant de repartir, pour dire au revoir à Zachary.",
+    "geste": {
+      "text": "Il faut partir. On ne peut pas porter son corps plus loin. L'académie brûle au loin ; les phares des patrouilles balaient déjà les Badlands.",
       "choices": [
-        { "text": "Laisser Abigail seule avec sa colère.", "to": "fin", "effects": [{ "tag": "abigail-brisee" }] },
-        { "text": "Rester près d'elle.", "to": "fin" }
+        {
+          "text": "Poser sa veste sur lui.",
+          "to": "argument",
+          "effects": [{ "flag": "ch2.zachary.geste", "value": "veste" }]
+        },
+        {
+          "text": "Laisser Abigail garder un objet à lui.",
+          "to": "argument",
+          "effects": [{ "flag": "ch2.zachary.geste", "value": "objet" }]
+        }
       ]
+    },
+    "argument": {
+      "text": "Abigail ne bouge pas. Il faut la convaincre de repartir.",
+      "choices": [
+        {
+          "text": "« Il est mort pour qu'on vive. »",
+          "conditions": [{ "flag": "ch2.abigail.calmee", "equals": true }],
+          "check": { "skill": "persuasion", "dv": "NORMALE" },
+          "onSuccess": "convaincue",
+          "onFailure": "abigail-muette"
+        },
+        {
+          "text": "« Il est mort pour qu'on vive. »",
+          "conditions": [{ "not": { "flag": "ch2.abigail.calmee", "equals": true } }],
+          "check": { "skill": "persuasion", "dv": "DIFFICILE" },
+          "onSuccess": "convaincue",
+          "onFailure": "abigail-muette"
+        },
+        {
+          "text": "« Pense à la bande. »",
+          "conditions": [{ "tag": "loyal-bande" }],
+          "to": "convaincue-bande"
+        },
+        {
+          "text": "« Reste, si tu veux. »",
+          "conditions": [{ "tag": "solitaire" }],
+          "to": "convaincue-froide",
+          "effects": [{ "affinity": { "who": "abigail", "delta": -2 } }]
+        }
+      ]
+    },
+    "convaincue": {
+      "text": "Abigail se relève, en silence, et suit.",
+      "to": "fin"
+    },
+    "convaincue-bande": {
+      "text": "« Pour la bande » suffit. Abigail hoche la tête, et suit.",
+      "to": "fin"
+    },
+    "convaincue-froide": {
+      "text": "Elle suit, un peu plus loin de lui qu'avant.",
+      "to": "fin"
+    },
+    "abigail-muette": {
+      "text": "Elle suit quand même, muette. Rien ne la touche plus, ce soir.",
+      "effects": [{ "tag": "abigail-brisee" }, { "affinity": { "who": "abigail", "delta": -1 } }],
+      "to": "fin"
     },
     "fin": {
       "text": "Les mots ne suffisent pas, ce soir.",

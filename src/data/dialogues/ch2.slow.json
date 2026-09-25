@@ -1,27 +1,65 @@
 {
   "id": "ch2.slow",
-  "start": "danse",
+  "start": "ouverture",
   "nodes": {
-    "danse": {
-      "text": "Le slow commence. Puis la musique s'arrête net.",
+    "ouverture": {
+      "text": "Le slow commence. Les couples se forment au centre de la piste, les autres regardent depuis les bords.",
       "choices": [
-        {
-          "text": "Se placer devant Letitia.",
-          "to": "protection",
-          "effects": [
-            { "tag": "protecteur-bal" },
-            { "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "stable" } }
-          ]
-        },
-        { "text": "Chercher la sortie des yeux.", "to": "rafale" }
+        { "text": "Continuer.", "conditions": [{ "tag": "cavalier-letitia" }], "to": "image-fl" },
+        { "text": "Continuer.", "conditions": [{ "not": { "tag": "cavalier-letitia" } }], "to": "image-az" }
       ]
     },
-    "protection": {
-      "text": "Franklyn fait rempart, l'espace d'un instant.",
-      "to": "rafale"
+    "image-fl": {
+      "backdrop": "slow-franklyn-letitia",
+      "text": "Letitia pose la tête contre son épaule, un instant hors du temps.",
+      "to": "premiers-coups"
     },
-    "rafale": {
-      "text": "Une rafale. Les tables se renversent. Ce n'est plus un bal."
+    "image-az": {
+      "backdrop": "slow-abigail-zachary",
+      "text": "Sur la piste, Abigail et Zachary tournent lentement, front contre front.",
+      "to": "premiers-coups"
+    },
+    "premiers-coups": {
+      "backdrop": "attaque",
+      "sound": { "sfx": ["cut", "burst"] },
+      "text": "La musique s'arrête net. Des coups sourds contre les portes, puis les vitres explosent vers l'intérieur.",
+      "to": "franklyn-reagit"
+    },
+    "franklyn-reagit": {
+      "text": "Le temps se distend une seconde. Il faut choisir, maintenant.",
+      "choices": [
+        {
+          "text": "[Perception] Repérer d'où vient le danger.",
+          "check": { "skill": "perception", "dv": "DIFFICILE" },
+          "onSuccess": "choix-protection",
+          "onFailure": "touchee-de-plein-fouet"
+        }
+      ]
+    },
+    "choix-protection": {
+      "text": "Une fraction de seconde pour agir.",
+      "choices": [
+        { "text": "Plaquer Letitia au sol.", "to": "plaque" },
+        { "text": "Crier pour que tout le monde s'aplatisse.", "to": "crie" }
+      ]
+    },
+    "plaque": {
+      "text": "Il se jette sur Letitia et la plaque au sol de tout son poids. Elle heurte durement le sol, mais le pire vient d'être évité.",
+      "effects": [{ "counter": "ch2.letitia.etat", "delta": 1, "min": 0, "max": 3 }],
+      "to": "rafale-fin"
+    },
+    "crie": {
+      "text": "Il crie pour que tout le monde s'aplatisse. Une bonne partie de la salle a le temps de réagir — pas Letitia, trop loin, encore debout quand la rafale la cueille.",
+      "effects": [{ "tag": "protecteur-bal" }, { "counter": "ch2.letitia.etat", "delta": 2, "min": 0, "max": 3 }],
+      "to": "rafale-fin"
+    },
+    "touchee-de-plein-fouet": {
+      "text": "Letitia est touchée de plein fouet, projetée en arrière contre une table.",
+      "effects": [{ "counter": "ch2.letitia.etat", "delta": 2, "min": 0, "max": 3 }],
+      "to": "rafale-fin"
+    },
+    "rafale-fin": {
+      "text": "Les tables se renversent. Les gangers entrent, armes hautes. Ce n'est plus un bal."
     }
   }
 }

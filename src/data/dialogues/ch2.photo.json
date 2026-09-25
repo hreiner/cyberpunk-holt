@@ -4,7 +4,37 @@
   "start": "photo",
   "nodes": {
     "photo": {
-      "text": "La photo de classe. Une dernière image du dernier jour, avant que la nuit ne commence vraiment.",
+      "text": "La photo de classe. Une dernière image des six, avant que la nuit ne commence vraiment.",
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "vainqueur-exercice" }], "to": "retour-victoire" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "defaite-exercice" }, { "not": { "tag": "vainqueur-exercice" } }],
+          "to": "retour-defaite"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "vainqueur-exercice" } }, { "not": { "tag": "defaite-exercice" } }],
+          "to": "retour-neutre"
+        }
+      ]
+    },
+    "retour-victoire": {
+      "text": "Dans le couloir, la bande revit encore la fin de l'exercice, haletante et bruyante.",
+      "lines": [
+        { "who": "zachary", "text": "On les a eus. Cette photo, je la garde encadrée toute ma vie." },
+        { "who": "grover", "text": "Bon. Cette fois, je vous l'accorde." }
+      ],
+      "to": "salle"
+    },
+    "retour-defaite": {
+      "text": "L'exercice est fini, perdu, mais personne n'y pense encore vraiment.",
+      "lines": [{ "who": "zachary", "text": "On a merdé, ouais. Mais on est tous là. C'est déjà ça." }],
+      "to": "salle"
+    },
+    "retour-neutre": {
+      "text": "L'écho de l'exercice s'efface déjà derrière eux.",
+      "lines": [{ "who": "zachary", "text": "Une journée comme une autre, à HOLT." }],
       "to": "salle"
     },
     "salle": {

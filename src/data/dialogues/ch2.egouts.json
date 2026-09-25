@@ -1,14 +1,84 @@
 {
   "id": "ch2.egouts",
+  "backdrop": "egouts",
   "start": "chute",
   "nodes": {
     "chute": {
-      "text": "La chute dans les égouts. Zachary ne se relève pas.",
+      "text": "La chute dans les égouts. Zachary ne se relève pas. Aucun geste, aucun jet, ne change ça, cette fois.",
       "to": "constat"
     },
     "constat": {
       "text": "Il n'y a plus rien à faire pour lui.",
-      "effects": [{ "entry": { "key": "ch2.zachary", "label": "Zachary", "value": "mort le soir du bal" } }]
+      "effects": [{ "entry": { "key": "ch2.zachary", "label": "Zachary", "value": "mort le soir du bal" } }],
+      "to": "ordre"
+    },
+    "ordre": {
+      "text": "Abigail est agenouillée près du corps, muette. Letitia saigne, un peu plus loin.",
+      "choices": [
+        { "text": "Calmer Abigail d'abord.", "to": "calmer" },
+        { "text": "Soigner Letitia d'abord.", "to": "soigner-qui" }
+      ]
+    },
+    "calmer": {
+      "text": "Elle ne réagit pas quand on lui parle, les yeux fixés sur Zachary.",
+      "choices": [
+        {
+          "text": "[Persuasion] La ramener à elle.",
+          "conditions": [{ "affinity": "abigail", "atLeast": 2 }],
+          "check": { "skill": "persuasion", "dv": "NORMALE" },
+          "onSuccess": "abigail-soigne",
+          "onFailure": "abigail-prostree"
+        },
+        {
+          "text": "[Persuasion] La ramener à elle.",
+          "conditions": [{ "not": { "affinity": "abigail", "atLeast": 2 } }],
+          "check": { "skill": "persuasion", "dv": "DIFFICILE" },
+          "onSuccess": "abigail-soigne",
+          "onFailure": "abigail-prostree"
+        }
+      ]
+    },
+    "abigail-soigne": {
+      "text": "Abigail se reprend d'un coup, les mains déjà sur la blessure de Letitia.",
+      "effects": [
+        { "flag": "ch2.abigail.calmee", "value": true },
+        { "affinity": { "who": "abigail", "delta": 1 } },
+        { "counter": "ch2.letitia.etat", "delta": -1, "min": 0, "max": 3 }
+      ],
+      "to": "depart"
+    },
+    "abigail-prostree": {
+      "text": "Abigail reste prostrée, incapable de bouger.",
+      "to": "soigner-qui"
+    },
+    "soigner-qui": {
+      "text": "Il faut agir, maintenant, pour Letitia.",
+      "choices": [
+        {
+          "text": "[Premiers soins] Le tenter toi-même.",
+          "check": { "skill": "premiersSoins", "dv": "DIFFICILE" },
+          "onSuccess": "soin-reussi",
+          "onFailure": "soin-rate"
+        },
+        {
+          "text": "[Premiers soins] Demander à Grover de s'en occuper.",
+          "check": { "skill": "premiersSoins", "dv": "DIFFICILE", "who": "grover" },
+          "onSuccess": "soin-reussi",
+          "onFailure": "soin-rate"
+        }
+      ]
+    },
+    "soin-reussi": {
+      "text": "Le saignement ralentit.",
+      "effects": [{ "counter": "ch2.letitia.etat", "delta": -1, "min": 0, "max": 3 }],
+      "to": "depart"
+    },
+    "soin-rate": {
+      "text": "Rien n'y fait, pour l'instant. Il faudra tenir jusqu'à trouver mieux.",
+      "to": "depart"
+    },
+    "depart": {
+      "text": "Il faut repartir. Personne ne dit rien."
     }
   }
 }
