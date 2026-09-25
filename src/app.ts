@@ -155,6 +155,8 @@ export class GameApp {
       onRestart: () => this.restart(),
       onRotateCamera: (step) => this.iso.rotate(step),
       onToggleSound: () => this.toggleSound(),
+      // Le journal replie/deplie change la largeur libre : recadrer le terrain dessus.
+      onToggleLog: () => this.resize(),
     });
     this.hud.setSoundMuted(this.sfx.isMuted);
 
@@ -377,6 +379,7 @@ export class GameApp {
       this.sfx.unlock();
       if (e.key === 'a' || e.key === 'A') this.iso.rotate(-1);
       if (e.key === 'e' || e.key === 'E') this.iso.rotate(1);
+      if (e.key === 'j' || e.key === 'J') this.hud.toggleLog();
       if (e.key === ' ') {
         e.preventDefault();
         // Pendant le tour de l'IA, Espace ne doit pas lui faire sauter son tour.
@@ -490,7 +493,13 @@ export class GameApp {
    */
   private hudInsetsPx(): { left: number; right: number; top: number; bottom: number } {
     const containerRect = this.container.getBoundingClientRect();
-    const rectOf = (selector: string) => this.container.querySelector(selector)?.getBoundingClientRect();
+    const rectOf = (selector: string) => {
+      const rect = this.container.querySelector(selector)?.getBoundingClientRect();
+      // Un panneau masque (`hidden`) rend un rectangle tout a zero : le prendre pour argent
+      // comptant ferait de sa marge la largeur entiere de l'ecran. Il ne cache rien, donc il
+      // ne reserve rien.
+      return rect && rect.width > 0 && rect.height > 0 ? rect : undefined;
+    };
     const sheet = rectOf('[data-testid="sheet"]');
     const log = rectOf('[data-testid="log"]');
     const top = rectOf('.hud-top');

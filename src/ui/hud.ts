@@ -33,6 +33,12 @@ export interface HudCallbacks {
   /** Tourne la camera de `step` quarts de tour (+1 : sens horaire). */
   onRotateCamera(step: number): void;
   onToggleSound(): void;
+  /**
+   * Le journal vient d'apparaître ou de disparaître. `GameApp` s'en sert pour recalculer les
+   * marges opaques du HUD : le terrain se recadre aussitôt sur la place qu'il gagne ou qu'il
+   * perd (`IsoCamera.setSafeAreaInsetsPx`), au lieu de garder un trou à droite.
+   */
+  onToggleLog(): void;
 }
 
 export class Hud {
@@ -44,6 +50,13 @@ export class Hud {
   private readonly logPanel: HTMLElement;
   private readonly footer: HTMLElement;
   private lastLogLength = 0;
+  /**
+   * Le journal est **replié par défaut**. C'est un panneau de consultation, pas un organe de
+   * jeu : sur un écran étroit il prenait une colonne entière pour un texte qu'on lit après
+   * coup, et le terrain, lui, se jouait dans la fente qui restait. Il s'ouvre d'un bouton
+   * (ou de `J`) et se referme pareil.
+   */
+  private logVisible = false;
 
   constructor(
     container: HTMLElement,
@@ -59,6 +72,7 @@ export class Hud {
           <button data-testid="camera-left" title="Pivoter la caméra (A)">⟲</button>
           <span>Caméra</span>
           <button data-testid="camera-right" title="Pivoter la caméra (E)">⟳</button>
+          <button data-testid="log-toggle" title="Afficher le journal (J)" aria-pressed="false">🗒</button>
           <button data-testid="sound" title="Couper le son">🔊</button>
         </div>
       </header>
@@ -78,6 +92,22 @@ export class Hud {
     this.q('[data-testid="camera-left"]').addEventListener('click', () => this.callbacks.onRotateCamera(-1));
     this.q('[data-testid="camera-right"]').addEventListener('click', () => this.callbacks.onRotateCamera(1));
     this.q('[data-testid="sound"]').addEventListener('click', () => this.callbacks.onToggleSound());
+    this.q('[data-testid="log-toggle"]').addEventListener('click', () => this.toggleLog());
+    this.applyLogVisibility();
+  }
+
+  /** Bascule le journal (bouton du HUD, ou `J`). */
+  toggleLog(): void {
+    this.logVisible = !this.logVisible;
+    this.applyLogVisibility();
+    this.callbacks.onToggleLog();
+  }
+
+  private applyLogVisibility(): void {
+    this.logPanel.hidden = !this.logVisible;
+    const button = this.q('[data-testid="log-toggle"]');
+    button.setAttribute('aria-pressed', String(this.logVisible));
+    button.title = this.logVisible ? 'Masquer le journal (J)' : 'Afficher le journal (J)';
   }
 
   setSoundMuted(muted: boolean): void {

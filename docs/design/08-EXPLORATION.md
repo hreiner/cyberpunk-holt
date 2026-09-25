@@ -57,6 +57,12 @@ et elle s'est vue tout de suite sur tablette — c'est le même doigt sur le mê
 il doit faire la même chose des deux côtés. La rotation garde les boutons « Caméra » du HUD,
 qui la nomment.
 
+Et le **journal de combat est replié par défaut**, ouvert d'un bouton du HUD ou de `J`. C'est
+un panneau qu'on consulte après coup, pas un organe de jeu : il tenait une colonne entière
+pendant que le terrain, lui, se jouait dans la fente qui restait. Le repliement lui rend sa
+place pour de bon — la caméra se recadre sur la zone libre à chaque bascule, elle ne se
+contente pas de décaler l'image.
+
 Ce qui reste au clavier seul (recentrage, rotation en exploration, objectif, journal) est du
 CONFORT : on joue sans. Ce qui ne l'est pas — se déplacer, interagir, cadrer — a toujours un
 geste.
