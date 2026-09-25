@@ -225,6 +225,19 @@ cas** — un nœud où aucun choix ne passe est un cul-de-sac que le validateur 
 C'est l'idiome retenu plutôt qu'un type de nœud supplémentaire : zéro surface de moteur en plus,
 et le branchement reste lisible dans les données.
 
+**Un nœud d'aiguillage ne s'affiche pas.** Un nœud qui n'a rien à lire — ni `text`, ni `lines`,
+ni `insight` — n'existe que pour trier. Présenté tel quel, il donne un panneau vide surmonté
+d'un « Continuer » et le joueur clique sans savoir sur quoi ; c'est ce qu'on a constaté en jeu
+dans le fourgon (`ch1.fourgon#avant-dispute`). `DialogueRunner` le traverse donc sans jamais
+s'arrêter, en appliquant les effets du nœud comme ceux de la branche retenue — exactement ce que
+le clic aurait fait.
+
+La traversée est **volontairement prudente** : elle n'a lieu que si les conditions ne laissent
+qu'une **seule** option, sans jet. Deux options encore disponibles, c'est une vraie décision, et
+le moteur ne tranche jamais à la place du joueur — même sur un nœud sans texte, comme
+`ch1.salle3#choix-rester` (sortir, ou rester dans les vapeurs). Ces nœuds-là ne sont pas des
+aiguillages : il leur manque une narration, et c'est du contenu à écrire.
+
 ### Conventions de nommage
 
 | Objet | Forme | Exemple |

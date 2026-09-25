@@ -279,6 +279,25 @@ function isTerminalNode(node: DialogueNode): boolean {
 }
 
 /**
+ * Un noeud d'AIGUILLAGE : rien a lire (ni narration, ni replique, ni jet de reflexion), il
+ * n'existe que pour envoyer le joueur vers la bonne branche selon ses conditions. Affiche tel
+ * quel, il donne un panneau vide surmonte d'un "Continuer" -- defaut constate en jeu dans le
+ * fourgon (noeud `avant-dispute`) : "un ecran vide a un moment ou il faut cliquer Continuer
+ * sans rien du tout". Le runner les traverse donc sans jamais s'arreter (`followRouting`), et
+ * le validateur verifie qu'un noeud muet ne sert bien qu'a ca (voir validate.ts).
+ */
+function isRoutingNode(node: DialogueNode): boolean {
+  if (isTerminalNode(node)) return false;
+  return node.text === undefined && (node.lines?.length ?? 0) === 0 && node.insight === undefined;
+}
+
+/**
+ * Garde-fou : un cycle d'aiguillages (donnee invalide) ne doit pas boucler a l'infini. Au-dela,
+ * on rend la main au noeud courant -- l'ecran sera vide, mais le jeu repond encore.
+ */
+const MAX_ROUTING_HOPS = 16;
+
+/**
  * Ce qu'il faut pour resoudre l'issue DIFFEREE d'un jet en attente de Chance
  * (ADR 0015 §2) : soit un choix a jet ordinaire (navigation `onSuccess`/
  * `onFailure`), soit le jet de reflexion du noeud courant (statut de
@@ -322,6 +341,7 @@ export class DialogueRunner {
     const requestedStart = options.startNode;
     this.nodeId = requestedStart && file.nodes[requestedStart] ? requestedStart : file.start;
     this.enterNode(this.nodeId);
+    this.followRouting();
   }
 
   get context(): NarrativeContext {
@@ -659,6 +679,44 @@ export class DialogueRunner {
     }
     this.nodeId = nodeId;
     this.enterNode(nodeId);
+    this.followRouting();
+  }
+
+  /**
+   * Traverse les noeuds d'aiguillage (voir `isRoutingNode`) jusqu'au premier noeud qui a
+   * quelque chose a montrer. Les effets sont appliques exactement comme si le joueur avait
+   * clique : ceux du noeud traverse (par `enterNode`) et ceux de la branche retenue.
+   *
+   * Prudent par construction : on ne traverse QUE si les conditions ne laissent qu'une seule
+   * option, sans jet. Deux options disponibles, c'est un vrai choix -- meme sur un noeud sans
+   * texte, comme `ch1.salle3#choix-rester` (sortir, ou rester dans les vapeurs) : choisir a la
+   * place du joueur serait un defaut bien pire que celui qu'on corrige. Ces noeuds-la relevent
+   * du contenu : il leur manque une narration, pas un aiguillage.
+   */
+  private followRouting(): void {
+    for (let hop = 0; hop < MAX_ROUTING_HOPS; hop++) {
+      if (this.done) return;
+      const node = this.node();
+      if (!node || !isRoutingNode(node)) return;
+
+      const next = this.routeOf(node);
+      if (!next || !this.file.nodes[next]) return;
+      this.nodeId = next;
+      this.enterNode(next);
+    }
+  }
+
+  /** Destination d'un noeud d'aiguillage, effets de la branche retenue appliques au passage. */
+  private routeOf(node: DialogueNode): string | null {
+    if (node.to) return node.to;
+    const available = this.presentChoices(node);
+    // Plus d'une option : le joueur a une vraie decision a prendre, on la lui laisse.
+    if (available.length !== 1) return null;
+    const raw = (node.choices ?? [])[(available[0] as PresentedChoice).index];
+    // Un jet demande le joueur : on ne le lance jamais a sa place.
+    if (!raw || raw.check || !raw.to) return null;
+    if (raw.effects) this.ctx = applyEffects(raw.effects, this.ctx);
+    return raw.to;
   }
 
   private enterNode(nodeId: string): void {

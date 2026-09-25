@@ -800,3 +800,101 @@ describe('dvByCounter : DV variable pilotee par un compteur (ADR 0015 §3)', () 
     expect(pctBas).toBeGreaterThan(pctHaut);
   });
 });
+
+/**
+ * Noeuds d'AIGUILLAGE : rien a lire, seulement des conditions qui trient. Ils ne doivent jamais
+ * atteindre l'ecran -- affiches tels quels, ils donnent un panneau vide surmonte d'un
+ * "Continuer", et le joueur clique sans savoir sur quoi. Defaut constate en jeu dans le fourgon
+ * (noeud `avant-dispute`), a la racine du correctif `followRouting`.
+ */
+describe('DialogueRunner : noeuds d aiguillage', () => {
+  const graphAvecAiguillage: DialogueFile = {
+    id: 'test.aiguillage',
+    start: 'debut',
+    nodes: {
+      debut: { text: 'Quelque chose a lire.', to: 'aiguillage' },
+      aiguillage: {
+        choices: [
+          { text: 'Continuer.', conditions: [{ tag: 'vip' }], to: 'branche-vip' },
+          { text: 'Continuer.', conditions: [{ not: { tag: 'vip' } }], to: 'branche-ordinaire' },
+        ],
+      },
+      'branche-vip': { text: 'Par la petite porte.' },
+      'branche-ordinaire': { text: 'Par la file, comme tout le monde.' },
+    },
+  };
+
+  it('traverse un noeud muet sans jamais le presenter', () => {
+    const runner = new DialogueRunner(graphAvecAiguillage, context(), createRng('g-aiguillage'));
+    runner.advance();
+    const node = runner.current();
+    expect(node.nodeId).toBe('branche-ordinaire');
+    expect(node.text).toBe('Par la file, comme tout le monde.');
+  });
+
+  it('suit la branche que les conditions designent', () => {
+    const ctx = context();
+    const runner = new DialogueRunner(
+      graphAvecAiguillage,
+      { ...ctx, dossier: addTags(ctx.dossier, ['vip']) },
+      createRng('g-aiguillage-vip'),
+    );
+    runner.advance();
+    expect(runner.current().nodeId).toBe('branche-vip');
+  });
+
+  it('applique les effets de la branche traversee', () => {
+    const graph: DialogueFile = {
+      id: 'test.aiguillage.effets',
+      start: 'aiguillage',
+      nodes: {
+        aiguillage: {
+          effects: [{ counter: 'passages', delta: 1 }],
+          choices: [{ text: 'Continuer.', conditions: [{ not: { tag: 'jamais' } }], effects: [{ tempo: 2 }], to: 'suite' }],
+        },
+        suite: { text: 'Suite.' },
+      },
+    };
+    const runner = new DialogueRunner(graph, context(), createRng('g-aiguillage-effets'));
+    expect(runner.current().nodeId).toBe('suite');
+    expect(runner.context.run.flags.passages).toBe(1);
+    expect(runner.context.run.tempo).toBe(2);
+  });
+
+  it('deux options disponibles restent un choix : on ne tranche pas a la place du joueur', () => {
+    const graph: DialogueFile = {
+      id: 'test.aiguillage.deux',
+      start: 'sans-texte',
+      nodes: {
+        'sans-texte': {
+          choices: [
+            { text: 'Sortir.', to: 'dehors' },
+            { text: 'Rester.', to: 'dedans' },
+          ],
+        },
+        dehors: { text: 'Dehors.' },
+        dedans: { text: 'Dedans.' },
+      },
+    };
+    const runner = new DialogueRunner(graph, context(), createRng('g-aiguillage-deux'));
+    expect(runner.current().nodeId).toBe('sans-texte');
+    expect(runner.current().choices).toHaveLength(2);
+  });
+
+  it('un jet demande toujours le joueur : le noeud reste affiche', () => {
+    const graph: DialogueFile = {
+      id: 'test.aiguillage.jet',
+      start: 'jet',
+      nodes: {
+        jet: {
+          choices: [
+            { text: '[Piratage] Tenter.', check: { skill: 'piratage', dv: 'NORMALE' }, onSuccess: 'b', onFailure: 'b' },
+          ],
+        },
+        b: { text: 'fin' },
+      },
+    };
+    const runner = new DialogueRunner(graph, context(), createRng('g-aiguillage-jet'));
+    expect(runner.current().nodeId).toBe('jet');
+  });
+});
