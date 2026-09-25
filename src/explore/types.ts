@@ -82,14 +82,24 @@ interface DialogueEntry {
   startNode?: string;
 }
 
-export interface NpcEntity extends EntityBase, Labeled, BriefLine, DialogueEntry {
+/**
+ * Porte à déverrouiller pour de bon quand le dialogue de cette entité se termine (parcours
+ * d'examen, `ChapterApp.completeExploreConversation`) : d'abord réservé à `object` (l'armoire de
+ * la salle 2 ouvre sa porte nord), étendu à `npc` au lot de correctif du hall (l'instructeur
+ * distribue le matériel ET déverrouille la sortie du hall une fois son briefing terminé — un
+ * `npc` ne peut pas porter de serrure lui-même, voir `DoorEntity.locked`, donc il désigne la
+ * porte d'à côté comme l'armoire le fait déjà).
+ */
+interface DoorOpener {
+  opensDoorAfterDialogue?: string;
+}
+
+export interface NpcEntity extends EntityBase, Labeled, BriefLine, DialogueEntry, DoorOpener {
   type: 'npc';
 }
 
-export interface ObjectEntity extends EntityBase, Labeled, BriefLine, DialogueEntry {
+export interface ObjectEntity extends EntityBase, Labeled, BriefLine, DialogueEntry, DoorOpener {
   type: 'object';
-  /** Porte à ouvrir quand le dialogue de cet objet se termine (parcours d'examen). */
-  opensDoorAfterDialogue?: string;
 }
 
 export interface SeatEntity extends EntityBase, Labeled, DialogueEntry {
@@ -110,8 +120,14 @@ export interface ExitEntity extends EntityBase, Labeled {
   targetSpawn: string;
 }
 
-/** Invisible, se déclenche une fois en y entrant (ADR 0013 §4) : pas de label, pas de clic. */
-export interface ZoneEntity extends EntityBase {
+/**
+ * Invisible, se déclenche une fois en y entrant (ADR 0013 §4) : pas de label, pas de clic.
+ * `line` (correctif "les salles deviennent des lieux", au-delà du lot 3.7b) : narration courte
+ * jouée en bulle au déclenchement (`ExploreState.checkZones`), au même titre qu'un `object` --
+ * voir 08-EXPLORATION.md "Les objets du monde" (une `zone` était déjà documentée comme pouvant
+ * porter ce genre de flavor, ex. "l'entrée de la salle 3 (le gaz)").
+ */
+export interface ZoneEntity extends EntityBase, BriefLine {
   type: 'zone';
   area: Rect;
 }

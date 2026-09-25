@@ -182,6 +182,16 @@ export class ChapterApp {
   private activeExploreConversation: {
     entityId: string;
     dialogueId: string;
+    /**
+     * Nœud d'entrée de CETTE conversation (`entity.startNode`, voir `DialogueEntry`) -- porté
+     * ici depuis le correctif "les salles deviennent des lieux" : `conversationDoneFlagKey` en a
+     * besoin pour que le drapeau "déjà joué" distingue les DIFFÉRENTS beats d'un même
+     * `dialogueId` partagé par plusieurs entités d'une même pièce (ex. "ch1.salle1" joué depuis
+     * "porte" par le panneau, depuis "chien-approche" par le chien/l'otage) -- sans ce champ,
+     * finir n'importe lequel de ces beats marquait TOUT le fichier "fait", et les autres entités
+     * ne montraient plus qu'une réplique de repli, jamais leur propre contenu.
+     */
+    startNode: string | undefined;
     runner: DialogueRunner;
     /**
      * Lot 3.7b : vrai quand `entityId` est le `completionTrigger` de l'objectif courant --
@@ -730,14 +740,15 @@ export class ChapterApp {
 
     const mapDef = getMap(scene.mapId ?? '');
     this.exploreSession.enterStep(mapDef, this.ctx, scene, exploreFollowerIds(this.ctx.run));
-    // Une conversation d'objet peut avoir ouvert une porte avant la sauvegarde. L'état du
-    // dialogue est persistant ; reconstruire l'état visuel et franchissable de la porte aussi.
+    // Une conversation d'objet (l'armoire) ou de npc (l'instructeur du hall, correctif du
+    // briefing bloquant) peut avoir ouvert une porte avant la sauvegarde. L'état du dialogue est
+    // persistant ; reconstruire l'état visuel et franchissable de la porte aussi.
     for (const entity of mapDef.entities) {
       if (
-        entity.type === 'object' &&
+        (entity.type === 'object' || entity.type === 'npc') &&
         entity.opensDoorAfterDialogue &&
         entity.dialogueId &&
-        this.ctx.run.flags[this.conversationDoneFlagKey(entity.dialogueId)]
+        this.ctx.run.flags[this.conversationDoneFlagKey(entity.dialogueId, entity.startNode)]
       ) {
         this.unlockDoorIfNeeded(entity.opensDoorAfterDialogue);
       }
@@ -914,9 +925,19 @@ export class ChapterApp {
     this.exploreSession.unlockDoor(entityId);
   }
 
-  /** Cle du drapeau "conversation annexe deja jouee cette partie" (contrat du lot 3.6b §3). */
-  private conversationDoneFlagKey(dialogueId: string): string {
-    return `${dialogueId}.fait`;
+  /**
+   * Cle du drapeau "conversation annexe deja jouee cette partie" (contrat du lot 3.6b §3).
+   * Inclut `startNode` depuis le correctif "les salles deviennent des lieux" (lot 3.7b+) : une
+   * seule cle par `dialogueId` suffisait tant que chaque entite avait son propre fichier de
+   * dialogue (lot 3.6b), mais centre-examen.ts fait desormais jouer PLUSIEURS beats d'un meme
+   * fichier par plusieurs entites differentes (ex. "ch1.salle1" depuis "porte" OU depuis
+   * "chien-approche") -- sans le noeud de depart dans la cle, terminer un beat marquait
+   * TOUT le fichier "fait" et privait les autres entites de leur propre contenu (defaut reel,
+   * corrige ici). Absent (`undefined`, point d'entree par defaut du fichier -- ex. les
+   * dialogues du hub, un par cadet) : cle identique a avant, aucune migration necessaire.
+   */
+  private conversationDoneFlagKey(dialogueId: string, startNode?: string): string {
+    return startNode ? `${dialogueId}::${startNode}.fait` : `${dialogueId}.fait`;
   }
 
   /**
@@ -941,7 +962,7 @@ export class ChapterApp {
     startNode?: string,
     advancesRouter = false,
   ): InteractOutcome | null {
-    const doneKey = this.conversationDoneFlagKey(dialogueId);
+    const doneKey = this.conversationDoneFlagKey(dialogueId, startNode);
     if (this.ctx.run.flags[doneKey]) {
       const entity = this.exploreSession.entity(entityId);
       const repeatLine = entity && 'line' in entity && entity.line ? entity.line : EXPLORE_REPEAT_LINE_FALLBACK;
@@ -962,6 +983,7 @@ export class ChapterApp {
     this.activeExploreConversation = {
       entityId,
       dialogueId,
+      startNode,
       advancesRouter,
       runner: new DialogueRunner(file, this.ctx, rng, startNode ? { startNode } : undefined),
     };
@@ -986,12 +1008,12 @@ export class ChapterApp {
     if (!entry) return;
     const ctx: NarrativeContext = {
       ...entry.runner.context,
-      run: setFlag(entry.runner.context.run, this.conversationDoneFlagKey(entry.dialogueId), true),
+      run: setFlag(entry.runner.context.run, this.conversationDoneFlagKey(entry.dialogueId, entry.startNode), true),
     };
     this.mergeContext(ctx);
     this.activeExploreConversation = null;
     const source = this.exploreSession.entity(entry.entityId);
-    if (source?.type === 'object' && source.opensDoorAfterDialogue) {
+    if ((source?.type === 'object' || source?.type === 'npc') && source.opensDoorAfterDialogue) {
       this.unlockDoorIfNeeded(source.opensDoorAfterDialogue);
     }
     if (entry.advancesRouter) {

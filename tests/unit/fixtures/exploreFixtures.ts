@@ -67,6 +67,30 @@ export const CONDITIONED_MAP: MapDef = {
   ],
 };
 
+/**
+ * Couloir rectiligne : un meneur qui marche du bout à l'autre en un seul grand pas (`tick(1000)`)
+ * doit traverser `midzone` (une case, x=3) sans la sauter -- sert au test de sous-échantillonnage
+ * de `ExploreState.tick()` (voir tests/unit/exploreState.test.ts, "un grand pas ne saute pas une
+ * zone").
+ */
+export const CORRIDOR_MAP: MapDef = {
+  id: 'test-corridor',
+  title: 'Couloir de test',
+  ascii: ['##########', '#........#', '##########'],
+  rooms: [],
+  entities: [
+    {
+      id: 'midzone',
+      type: 'zone',
+      cell: { x: 3, y: 1 },
+      area: { origin: { x: 3, y: 1 }, width: 1, height: 1 },
+    },
+  ],
+  spawns: {
+    start: { x: 1, y: 1 },
+  },
+};
+
 export const YARD_ONLY_MAP: MapDef = {
   id: 'test-yard',
   title: 'Cour seule',

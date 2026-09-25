@@ -4,7 +4,7 @@ import { createRunState } from '@/narrative';
 import type { NarrativeContext } from '@/narrative';
 import { ExploreState, LEADER_SPEED } from '@/explore';
 import type { MapDef } from '@/explore';
-import { CONDITIONED_MAP, SMALL_MAP } from './fixtures/exploreFixtures';
+import { CONDITIONED_MAP, CORRIDOR_MAP, SMALL_MAP } from './fixtures/exploreFixtures';
 
 function ctx(): NarrativeContext {
   return { dossier: createDossier(), run: createRunState('test-seed') };
@@ -366,6 +366,46 @@ describe('ExploreState — zones', () => {
       secondPass += events.filter((e) => e.kind === 'zone-triggered').length;
     }
     expect(secondPass).toBe(0);
+  });
+
+  /**
+   * Défaut réel mesuré en jeu (~5 im/s sur la salle 1) : `tick(dtMs)` faisait avancer le meneur
+   * de tout son budget de déplacement puis ne vérifiait les zones qu'une fois, sur la position
+   * d'arrivée -- un grand pas (jeu qui rame, ou simplement un `dtMs` généreux) pouvait donc
+   * traverser une zone sans jamais la déclencher. `CORRIDOR_MAP` place "midzone" (une case, x=3)
+   * entre le spawn (x=1) et une cible bien plus loin (x=8) : à 4 cases/s, un seul `tick(1000)`
+   * fait franchir 4 cases d'un coup, en passant PAR x=3 sans jamais s'y arrêter.
+   */
+  it('un grand pas (tick(1000)) ne saute pas une zone traversée en chemin', () => {
+    const state = new ExploreState(CORRIDOR_MAP, ctx());
+    state.walkLeaderTo({ x: 8, y: 1 });
+    const events = state.tick(1000);
+    expect(events.some((e) => e.kind === 'zone-triggered' && e.entityId === 'midzone')).toBe(true);
+  });
+
+  /**契약 exact de la tâche : un `tick(1000)` déclenche la zone aussi sûrement que dix `tick(100)`. */
+  it('tick(1000) déclenche la même zone que dix tick(100), à la même position finale', () => {
+    const runBigStep = () => {
+      const state = new ExploreState(CORRIDOR_MAP, ctx());
+      state.walkLeaderTo({ x: 8, y: 1 });
+      const fired = state.tick(1000).some((e) => e.kind === 'zone-triggered');
+      return { fired, pos: state.leaderPosition() };
+    };
+    const runSmallSteps = () => {
+      const state = new ExploreState(CORRIDOR_MAP, ctx());
+      state.walkLeaderTo({ x: 8, y: 1 });
+      let fired = false;
+      for (let i = 0; i < 10; i++) {
+        fired = state.tick(100).some((e) => e.kind === 'zone-triggered') || fired;
+      }
+      return { fired, pos: state.leaderPosition() };
+    };
+    const bigStep = runBigStep();
+    const smallSteps = runSmallSteps();
+    expect(bigStep.fired).toBe(true);
+    expect(smallSteps.fired).toBe(true);
+    // Le sous-échantillonnage ne change ni la trajectoire ni la position finale (ADR 0013 §3).
+    expect(bigStep.pos).toEqual(smallSteps.pos);
   });
 });
 

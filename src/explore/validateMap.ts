@@ -37,9 +37,11 @@ export function validateMap(def: MapDef): ValidationResult {
   }
   const entitiesById = new Map(def.entities.map((entity) => [entity.id, entity]));
   for (const entity of def.entities) {
-    if (entity.type !== 'object' || !entity.opensDoorAfterDialogue) continue;
+    // `opensDoorAfterDialogue` : object (l'armoire de la salle 2) ou npc (l'instructeur du hall,
+    // correctif du briefing bloquant) -- voir `DoorOpener` dans src/explore/types.ts.
+    if ((entity.type !== 'object' && entity.type !== 'npc') || !entity.opensDoorAfterDialogue) continue;
     if (entitiesById.get(entity.opensDoorAfterDialogue)?.type !== 'door') {
-      errors.push(`L'objet "${entity.id}" doit désigner une porte existante à ouvrir après son dialogue`);
+      errors.push(`L'entité "${entity.id}" doit désigner une porte existante à ouvrir après son dialogue`);
     }
   }
   const seenRoomIds = new Set<string>();

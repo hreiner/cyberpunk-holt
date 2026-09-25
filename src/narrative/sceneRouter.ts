@@ -303,8 +303,9 @@ export const CHAPTER_1_SCENES: SceneDef[] = [
       id: 'ch1.centre-hall',
       title: "Rejoindre l'instructeur",
       context: 'Le centre désaffecté attend, béton taggé et néons morts.',
-      // hall.instructeur ne porte pas de dialogue (briefing non écrit, hors périmètre de
-      // ce lot) : compléter l'objectif fait directement avancer vers ch1.salle1.
+      // hall.instructeur joue le briefing (ch1.centre-hall.json) puis avance -- et déverrouille
+      // hall.porte-nord au passage (voir centre-examen.ts) : sans lui parler, la porte vers la
+      // salle 1 reste fermée, le briefing est donc bloquant.
       completionTrigger: 'hall.instructeur',
     },
   },
@@ -321,9 +322,11 @@ export const CHAPTER_1_SCENES: SceneDef[] = [
       id: 'ch1.salle1',
       title: 'Franchir la salle 1',
       context: 'La porte résiste, verrouillée par un panneau électronique.',
-      // salle1.panneau-porte porte ch1.salle1 depuis "arrivee" (voir centre-examen.ts) :
-      // le déclencheur JOUE le dialogue lui-même (pas la scène suivante) puis avance.
-      completionTrigger: 'salle1.panneau-porte',
+      // C'est la SORTIE (salle1.porte-nord, nœud "sortie") qui termine l'étape -- pas le premier
+      // objet touché : le panneau d'entrée (salle1.panneau-porte) et le chien/l'otage sont des
+      // beats facultatifs, joués séparément (voir centre-examen.ts), qu'on peut ignorer sans
+      // bloquer la progression.
+      completionTrigger: 'salle1.porte-nord',
     },
   },
   {

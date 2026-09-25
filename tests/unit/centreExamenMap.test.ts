@@ -4,12 +4,14 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { ExploreMap, YARD_SIZE, findPath, validateMap } from '@/explore';
+import { ExploreState, ExploreMap, YARD_SIZE, findPath, validateMap } from '@/explore';
 import type { EntityType } from '@/explore';
 import { CENTRE_EXAMEN_MAP } from '@/data/maps/centre-examen';
 import { YARD_MAP_ASCII } from '@/data/yard-map';
 import { getMap, MAPS } from '@/data/maps';
 import { hasDialogue, DIALOGUES } from '@/data/dialogues/registry';
+import { CH1_ETAPE_FLAG, CHAPTER_1_SCENES, createRunState, setFlag } from '@/narrative';
+import { createDossier } from '@/core/dossier';
 
 describe('carte du centre d’examen désaffecté', () => {
   it('est valide (voir la liste des erreurs en cas d’échec)', () => {
@@ -28,7 +30,21 @@ describe('carte du centre d’examen désaffecté', () => {
       ),
     };
     expect(validateMap(invalid).errors).toContain(
-      'L\'objet "salle2.armoire" doit désigner une porte existante à ouvrir après son dialogue',
+      'L\'entité "salle2.armoire" doit désigner une porte existante à ouvrir après son dialogue',
+    );
+  });
+
+  it('refuse un instructeur qui prétend ouvrir une porte absente (npc, pas seulement object)', () => {
+    const invalid = {
+      ...CENTRE_EXAMEN_MAP,
+      entities: CENTRE_EXAMEN_MAP.entities.map((entity) =>
+        entity.id === 'hall.instructeur' && entity.type === 'npc'
+          ? { ...entity, opensDoorAfterDialogue: 'porte.absente' }
+          : entity,
+      ),
+    };
+    expect(validateMap(invalid).errors).toContain(
+      'L\'entité "hall.instructeur" doit désigner une porte existante à ouvrir après son dialogue',
     );
   });
 
@@ -101,10 +117,12 @@ describe('carte du centre d’examen désaffecté', () => {
   /** Table "Les salles deviennent des lieux" de 09-MAPS-CHAPTER-1.md. */
   const expected: Array<{ id: string; type: EntityType }> = [
     { id: 'hall.instructeur', type: 'npc' },
+    { id: 'hall.porte-nord', type: 'door' },
     { id: 'salle1.entree', type: 'zone' },
     { id: 'salle1.panneau-porte', type: 'object' },
     { id: 'salle1.chien', type: 'npc' },
     { id: 'salle1.otage', type: 'npc' },
+    { id: 'salle1.porte-nord', type: 'door' },
     { id: 'salle2.armoire', type: 'object' },
     { id: 'salle2.porte-nord', type: 'door' },
     { id: 'salle3.entree', type: 'zone' },
@@ -190,6 +208,69 @@ describe('carte du centre d’examen désaffecté', () => {
         expect(dist, `arrivée trop loin de "${label}"`).toBeLessThanOrEqual(1);
       }
     }
+  });
+});
+
+/**
+ * Correctif "les salles deviennent des lieux, pour de bon" : le panneau de la salle 1 jouait
+ * auparavant TOUTE la salle (arrivée, piratage, chien, otage) d'un coup et terminait l'objectif
+ * lui-même -- défaut signalé par le propriétaire du projet ("ça déclenche toute la chaîne
+ * d'events plutôt que salle par salle"), reproduit puis corrigé ici. Ce test attrape exactement
+ * ce défaut : chaque entité doit rendre la main sans compléter l'objectif, seule la porte nord le
+ * fait -- si la coupure des `to` internes de ch1.salle1.json régresse un jour, ce test le
+ * détecte sans dépendre de `ChapterApp` (DOM), au niveau `ExploreState` + `CENTRE_EXAMEN_MAP` +
+ * `CHAPTER_1_SCENES` réels.
+ */
+describe('la salle 1 se joue beat par beat (correctif du hall/des salles chaînées)', () => {
+  function ctxAt(etape: string) {
+    return { dossier: createDossier(), run: setFlag(createRunState('beats'), CH1_ETAPE_FLAG, etape) };
+  }
+
+  function salle1Objective() {
+    const objective = CHAPTER_1_SCENES.find((s) => s.id === 'ch1.salle1')?.objective;
+    if (!objective) throw new Error('scène "ch1.salle1" introuvable dans CHAPTER_1_SCENES');
+    return objective;
+  }
+
+  it('le panneau de porte joue son propre beat ("porte") sans terminer l’objectif', () => {
+    const state = new ExploreState(CENTRE_EXAMEN_MAP, ctxAt('salle1'));
+    state.setObjective(salle1Objective());
+    const outcome = state.interact('salle1.panneau-porte');
+    expect(outcome).toMatchObject({ kind: 'dialogue', dialogueId: 'ch1.salle1', startNode: 'porte' });
+    expect(state.objectiveStatus()?.complete).toBe(false);
+  });
+
+  it('le chien et l’otage jouent leur propre beat ("chien-approche") sans terminer l’objectif', () => {
+    const state = new ExploreState(CENTRE_EXAMEN_MAP, ctxAt('salle1'));
+    state.setObjective(salle1Objective());
+    expect(state.interact('salle1.chien')).toMatchObject({
+      kind: 'dialogue',
+      dialogueId: 'ch1.salle1',
+      startNode: 'chien-approche',
+    });
+    expect(state.objectiveStatus()?.complete).toBe(false);
+    expect(state.interact('salle1.otage')).toMatchObject({
+      kind: 'dialogue',
+      dialogueId: 'ch1.salle1',
+      startNode: 'chien-approche',
+    });
+    expect(state.objectiveStatus()?.complete).toBe(false);
+  });
+
+  it('un joueur qui ignore le chien passe quand même par la porte nord, qui seule termine l’objectif', () => {
+    const state = new ExploreState(CENTRE_EXAMEN_MAP, ctxAt('salle1'));
+    state.setObjective(salle1Objective());
+    state.interact('salle1.panneau-porte'); // ignore le chien/l'otage, comme un joueur pressé
+    expect(state.objectiveStatus()?.complete).toBe(false);
+    const outcome = state.interact('salle1.porte-nord');
+    expect(outcome).toMatchObject({ kind: 'dialogue', dialogueId: 'ch1.salle1', startNode: 'sortie' });
+    expect(state.objectiveStatus()?.complete).toBe(true);
+  });
+
+  it('la porte du hall reste verrouillée tant que le briefing n’a pas eu lieu', () => {
+    const state = new ExploreState(CENTRE_EXAMEN_MAP, ctxAt('hall'));
+    expect(state.isDoorOpen('hall.porte-nord')).toBe(false);
+    expect(state.interact('hall.porte-nord').kind).toBe('door-locked');
   });
 });
 

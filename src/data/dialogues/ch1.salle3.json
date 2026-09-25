@@ -3,7 +3,7 @@
   "start": "arrivee",
   "nodes": {
     "arrivee": {
-      "text": "La porte se referme derrière eux avec un claquement pneumatique et se verrouille aussitôt. Un chuintement monte des bouches d'aération : un gaz irritant, âcre, commence à envahir la pièce. Au centre, un terminal encore allumé ; en face, la sortie.",
+      "text": "Au centre de la pièce, un terminal encore allumé ; en face, la sortie.",
       "choices": [
         { "text": "Continuer.", "conditions": [{ "teammate": "zachary" }], "to": "arrivee-zachary" },
         {

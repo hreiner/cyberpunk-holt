@@ -19,6 +19,7 @@ import ch1HubLetitia from './ch1.hub.letitia.json';
 import ch1HubGrover from './ch1.hub.grover.json';
 import ch1HubAbigail from './ch1.hub.abigail.json';
 import ch1Fourgon from './ch1.fourgon.json';
+import ch1CentreHall from './ch1.centre-hall.json';
 import ch1Salle1 from './ch1.salle1.json';
 import ch1Salle2 from './ch1.salle2.json';
 import ch1Salle3 from './ch1.salle3.json';
@@ -36,6 +37,7 @@ const FILES = [
   ch1HubGrover,
   ch1HubAbigail,
   ch1Fourgon,
+  ch1CentreHall,
   ch1Salle1,
   ch1Salle2,
   ch1Salle3,

@@ -28,6 +28,20 @@ export const LEADER_SPEED = 4;
 /** Distance de filature des coéquipiers, en cases (08-EXPLORATION.md "Le groupe"). */
 export const FOLLOW_GAP = 1.5;
 
+/**
+ * Distance maximale (en cases) parcourue par le meneur entre deux réexamens des zones et de la
+ * découverte de pièce (voir `tick()`) -- correctif du défaut mesuré en jeu (~5 im/s sur la
+ * salle 1) : `tick(dtMs)` faisait avancer le meneur de TOUT son budget de déplacement avant de
+ * vérifier zones/découverte une seule fois, sur la position d'arrivée -- une zone franchie en un
+ * seul appel (plusieurs cases d'un coup quand le jeu rame, ou même une case à vitesse normale si
+ * elle tombe pile entre deux images) pouvait donc être traversée sans jamais se déclencher. En
+ * sous-échantillonnant le déplacement par pas d'au plus une fraction de case, `tick(1000)` en une
+ * fois redonne exactement le même résultat que dix `tick(100)` (voir le test "sous-échantillonnage
+ * des zones" de exploreState.test.ts). Reste déterministe (ADR 0013 §3) : la subdivision ne
+ * dépend que du `dtMs` reçu, jamais de l'horloge.
+ */
+const MAX_STEP_DIST = 0.5;
+
 export type FloatCell = { x: number; y: number };
 
 export interface ExploreStateOptions {
@@ -294,12 +308,32 @@ export class ExploreState {
    * interaction en attente à l'arrivée, déclenchement des zones. Renvoie les
    * événements survenus pendant cet appel (voir `drainEvents` pour les
    * événements posés hors de `tick`, ex. par `interact()`).
+   *
+   * Sous-échantillonne le déplacement en pas d'au plus `MAX_STEP_DIST` case (voir sa
+   * docstring) : zones et découverte de pièce sont réexaminées après CHAQUE pas, pas
+   * seulement une fois le budget de déplacement entier consommé -- sans quoi un `dtMs` généreux
+   * (jeu qui rame, ou simplement un tick un peu long) peut faire traverser une zone entière sans
+   * jamais la déclencher. Boucle bornée par le budget réel : un chemin qui se termine avant
+   * d'avoir consommé tout `dtMs` arrête la boucle normalement (`leaderPath` vide), exactement
+   * comme l'ancien appel unique à `advanceLeader`.
    */
   tick(dtMs: number): ExploreEvent[] {
-    const dt = Math.max(0, dtMs) / 1000;
-    if (dt > 0 && this.leaderPath.length > 0) this.advanceLeader(dt);
-    this.checkRoomDiscovery();
-    this.checkZones();
+    let dt = Math.max(0, dtMs) / 1000;
+    if (dt > 0 && this.leaderPath.length > 0) {
+      const maxStepSeconds = MAX_STEP_DIST / LEADER_SPEED;
+      // Epsilon : évite qu'un résidu de flottant (dt jamais tout à fait à 0 après plusieurs
+      // soustractions) ne boucle une dernière fois pour un pas quasi nul.
+      while (dt > 1e-9 && this.leaderPath.length > 0) {
+        const step = Math.min(dt, maxStepSeconds);
+        this.advanceLeader(step);
+        dt -= step;
+        this.checkRoomDiscovery();
+        this.checkZones();
+      }
+    } else {
+      this.checkRoomDiscovery();
+      this.checkZones();
+    }
     return this.drainEvents();
   }
 
@@ -422,6 +456,16 @@ export class ExploreState {
       ) {
         this.firedZones.add(e.id);
         this.events.push({ kind: 'zone-triggered', entityId: e.id });
+        // `line` (correctif "les salles deviennent des lieux") : narration courte au franchissement,
+        // même mécanique qu'un `object`/`npc` -- réutilise `interaction-fired`/`brief-line`, seul
+        // évènement que `ChapterApp.handleExploreEvent` sait déjà jouer en bulle (`playBriefLine`).
+        if (e.line) {
+          this.events.push({
+            kind: 'interaction-fired',
+            entityId: e.id,
+            outcome: { kind: 'brief-line', entityId: e.id, text: e.line },
+          });
+        }
         this.handleTriggered(e.id);
       }
     }
@@ -634,6 +678,9 @@ export class ExploreState {
         };
 
       case 'zone':
+        // Cohérent avec `checkZones()` (franchissement en marchant) : `interact()` (debug,
+        // clic direct) montre la même narration courte quand la zone en porte une.
+        if (entity.line) return { kind: 'brief-line', entityId: entity.id, text: entity.line };
         return { kind: 'zone-trigger', entityId: entity.id };
     }
   }

@@ -130,9 +130,33 @@ Deux formes, selon le porteur — et l'écriture suit :
 |---|---|---|
 | `npc` | ce que le personnage **dit** | bulle au-dessus de la tête, entre guillemets |
 | `object` | ce que Franklyn **voit** | ligne de narration discrète en bas de l'écran |
+| `zone` | ce que la pièce **impose** en y entrant | même ligne de narration que l'`object` |
 
 Écrire une description dans la `line` d'un `npc` (« Un cadet enfile ses bottes ») la fait
 sortir de sa bouche entre guillemets : une entité `npc` parle, toujours.
+
+### Une salle se joue beat par beat
+
+Une salle du parcours d'examen n'est **jamais** un seul bloc de texte qu'un premier clic
+déroule en entier. Chaque moment de la salle appartient à **l'entité qui le porte** : le
+panneau de la porte joue le piratage, le chien joue l'approche, l'ordinateur joue la vidéo —
+et chacun **rend la main à l'exploration** quand il a fini. Le joueur décide dans quel ordre
+il aborde la pièce, et ce qu'il laisse de côté.
+
+Deux conséquences que le contenu doit respecter :
+
+- **Ce qui termine l'étape, c'est la sortie**, jamais le premier objet touché. La porte nord
+  d'une salle porte le `completionTrigger` ; tout le reste est facultatif et nourrit le
+  barème sans être un péage. Un joueur pressé traverse la salle, un joueur curieux la fouille,
+  les deux avancent.
+- **Un beat ne s'enchaîne pas sur le suivant.** Dans le fichier de dialogue, le nœud terminal
+  d'un beat ne pointe pas (`to`) vers le beat d'une autre entité : il finit. Deux entités
+  peuvent partager un même fichier, chacune avec son `startNode` — le drapeau « déjà joué »
+  est alors indexé sur le couple (fichier, nœud de départ), pas sur le fichier seul.
+
+Et le briefing qui distribue le matériel d'équipe (le hall du centre d'examen) est
+**bloquant** : la porte qui suit reste verrouillée tant qu'il n'a pas été écouté. Un briefing
+qu'on peut contourner fausse tout ce qui vient après.
 
 ## La découverte des lieux
 

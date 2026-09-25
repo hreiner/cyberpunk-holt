@@ -1,0 +1,76 @@
+{
+  "id": "ch1.centre-hall",
+  "speaker": "instructeur",
+  "start": "briefing",
+  "nodes": {
+    "briefing": {
+      "text": "L'instructeur attend au centre du hall, une planchette sous le bras, entouré de béton taggé et de néons morts. Derrière lui, la première porte du parcours, déjà close.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Six cadets, deux équipes, un seul exercice : simulation de libération d'otage en milieu confiné. Vous entrez par vagues de trois, chaque salle notée comme l'écrit de ce matin."
+        },
+        { "who": "instructeur", "text": "Trois objets pour l'équipe. Partagez-les bien, vous ne les retrouverez pas en cours de route." }
+      ],
+      "to": "materiel"
+    },
+    "materiel": {
+      "text": "Il tend les trois objets l'un après l'autre, sans se soucier de savoir qui les prendrait le mieux.",
+      "lines": [
+        { "who": "instructeur", "text": "Le pistolet taser. Touché, la cible reste au sol jusqu'à un soin." },
+        { "who": "franklyn", "text": "Je le prends." },
+        { "who": "instructeur", "text": "Le kit de soin, un seul usage. {equipier2}, à vous." },
+        { "who": "instructeur", "text": "Et l'outil de piratage. {equipier1}, il ouvrira les portes et les systèmes qui résisteront." }
+      ],
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "teammate": "john" }], "to": "reaction-john" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "teammate": "john" } }, { "teammate": "zachary" }],
+          "to": "reaction-zachary"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "teammate": "john" } },
+            { "not": { "teammate": "zachary" } },
+            { "teammate": "letitia" }
+          ],
+          "to": "reaction-letitia"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "teammate": "john" } },
+            { "not": { "teammate": "zachary" } },
+            { "not": { "teammate": "letitia" } }
+          ],
+          "to": "reaction-generic"
+        }
+      ]
+    },
+    "reaction-john": {
+      "lines": [{ "who": "john", "text": "Je le tiens serré. Personne n'y touche avant moi." }],
+      "to": "depart"
+    },
+    "reaction-zachary": {
+      "lines": [
+        { "who": "zachary", "text": "Et moi je fais quoi, je pousse les portes à mains nues ?" },
+        { "who": "instructeur", "text": "Vous poussez, cadet. C'est déjà un talent." }
+      ],
+      "to": "depart"
+    },
+    "reaction-letitia": {
+      "lines": [{ "who": "letitia", "text": "Trois objets pour six personnes. Il va falloir se coordonner, pas foncer." }],
+      "to": "depart"
+    },
+    "reaction-generic": {
+      "text": "Personne ne relève ; l'équipe se contente d'un signe de tête.",
+      "to": "depart"
+    },
+    "depart": {
+      "text": "L'instructeur désigne la première porte du menton et s'écarte.",
+      "lines": [{ "who": "instructeur", "text": "Première salle. La fumée, c'est prévu. Le reste, moins. En route." }]
+    }
+  }
+}

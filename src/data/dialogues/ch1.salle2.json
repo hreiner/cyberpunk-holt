@@ -1,6 +1,7 @@
 {
   "id": "ch1.salle2",
   "start": "arrivee",
+  "entries": ["porte"],
   "nodes": {
     "arrivee": {
       "text": "La deuxième salle s'ouvre sur une armoire blindée à triple combinaison, et sur une porte close droit en face. Le vacarme du parcours voisin filtre à travers les murs.",
@@ -60,16 +61,13 @@
         { "tag": "curieux" },
         { "flag": "ch1.salle2.armoire-forcee", "value": true },
         { "team": { "extraTaser": true } }
-      ],
-      "to": "porte"
+      ]
     },
     "armoire-resistante": {
-      "text": "Le mécanisme tient bon malgré les efforts ; la combinaison reste hors de portée. Il faut lâcher l'affaire et rejoindre la porte.",
-      "to": "porte"
+      "text": "Le mécanisme tient bon malgré les efforts ; la combinaison reste hors de portée. Il faut lâcher l'affaire et rejoindre la porte."
     },
     "armoire-ignoree": {
-      "text": "L'équipe laisse l'armoire fermée et se dirige droit vers la porte, sans un regard en arrière.",
-      "to": "porte"
+      "text": "L'équipe laisse l'armoire fermée et se dirige droit vers la porte, sans un regard en arrière."
     },
     "porte": {
       "text": "La porte est verrouillée par un boîtier électronique standard, semblable à celui de la première salle.",

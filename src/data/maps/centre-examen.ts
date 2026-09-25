@@ -38,38 +38,49 @@
  * PORTÉE DE CE FICHIER (lot 3.7a) : la carte et les entités. Le lot 3.7b (voir
  * `src/chapter.ts`, `src/narrative/sceneRouter.ts`) a branché `dialogueId`/`startNode`
  * sur `ch1.salle1.json` / `ch1.salle2.json` / `ch1.salle3.json` (texte et jets inchangés,
- * seule la mise en scène change) :
+ * seule la mise en scène change). Correctif ultérieur (« les salles deviennent des lieux,
+ * pour de bon ») : le premier passage laissait les nœuds des dialogues ENCHAÎNÉS par leurs
+ * `to` internes, donc une seule entité (le déclencheur d'objectif) jouait toute la salle
+ * d'un coup au lieu d'un beat par entité — voir la table ci-dessous, désormais coupée en
+ * conséquence, et le briefing du hall (absent au premier passage) écrit pour de bon :
  *
- *   hall.instructeur       -> pas de dialogue : complète l'objectif de `ch1.centre-hall`
- *                              (briefing non écrit, hors périmètre décidé par l'orchestrateur
- *                              pour ce lot) et fait directement avancer vers `ch1.salle1`.
- *   salle1.panneau-porte   -> ch1.salle1, nœud "arrivee" (piratage du panneau, jet) ;
- *                              complète l'objectif de la salle (l'entité qui termine
- *                              l'objectif porte le dialogue, lot 3.6b).
- *   salle1.chien           -> ch1.salle1, nœud "chien-identifie" (Perception, tirer ou non) ;
- *                              conversation annexe (n'avance pas le routeur).
+ *   hall.instructeur       -> ch1.centre-hall (briefing + répartition des trois objets) ;
+ *                              complète l'objectif de `ch1.centre-hall` et déverrouille
+ *                              `hall.porte-nord` (`opensDoorAfterDialogue`, voir plus bas).
+ *   hall.porte-nord         -> pas de dialogue propre, verrouillée (`locked: true`) tant que
+ *                              le briefing n'est pas terminé : la porte du hall vers la
+ *                              salle 1 reste physiquement close sans lui, un `npc` ne pouvant
+ *                              pas porter de serrure lui-même (voir `DoorOpener` dans
+ *                              src/explore/types.ts). C'est le moyen retenu pour rendre le
+ *                              briefing bloquant (alternative à un simple avertissement :
+ *                              un vrai mur, cohérent avec les portes verrouillées déjà
+ *                              posées en salle 2/salle 3).
+ *   salle1.entree (zone)    -> ligne courte (`line`) à l'entrée : la fumée, le bruit de
+ *                              course — ne déclenche plus rien du dialogue de la salle.
+ *   salle1.panneau-porte   -> ch1.salle1, nœud "porte" (le panneau résiste, piratage) ;
+ *                              conversation annexe, n'avance PAS le routeur (voir plus bas).
+ *   salle1.chien           -> ch1.salle1, nœud "chien-approche" (Perception, puis tirer ou
+ *                              non) ; conversation annexe.
  *   salle1.otage           -> même scène que le chien, côté otage (kit de soin) — le
  *                              document ("l'otage, puis le chien") en fait un seul
  *                              enchaînement ; deux entités ici pour que le joueur
  *                              puisse cibler l'un ou l'autre du regard, même dialogue.
+ *   salle1.porte-nord       -> ch1.salle1, nœud "sortie" (la deuxième porte, entrouverte) ;
+ *                              verrouillée, complète l'objectif de la salle — c'est la
+ *                              SORTIE qui termine l'étape, pas le panneau d'entrée (défaut
+ *                              corrigé : le panneau jouait auparavant toute la salle et
+ *                              terminait l'objectif à lui seul).
  *   salle2.armoire          -> ch1.salle2, nœud "choix-armoire" (forcer l'armoire, tempo) ;
  *                              conversation annexe.
  *   salle2.porte-nord       -> ch1.salle2, nœud "porte" (continuer sans l'armoire) ;
  *                              verrouillée (`locked: true`) pour que l'interaction ouvre le
  *                              dialogue au lieu d'un simple battant ; complète l'objectif.
- *   salle3.ordinateur       -> ch1.salle3, nœud "choix-rester" (jets de Résistance, vidéo) ;
+ *   salle3.entree (zone)    -> ligne courte (`line`) à l'entrée : la porte qui se verrouille,
+ *                              le gaz.
+ *   salle3.ordinateur       -> ch1.salle3, nœud "arrivee" (jets de Résistance, vidéo) ;
  *                              conversation annexe.
  *   salle3.porte-nord       -> ch1.salle3, nœud "sortie-rapide" (sortir vite) ; verrouillée,
  *                              complète l'objectif.
- *   salle1.entree/salle3.entree (zone) -> `ZoneEntity` ne porte pas de texte (pas de
- *                              `BriefLine`/`DialogueEntry` dans `src/explore/types.ts`) :
- *                              la narration d'entrée ("de la fumée s'infiltre...", "le gaz
- *                              commence à envahir...") reste celle déjà portée par le nœud
- *                              "arrivee" de chaque dialogue, jouée dès qu'on aborde le
- *                              panneau/l'ordinateur. Les deux zones restent posées (calcul
- *                              de la découverte de pièce, cohérence avec 09-MAPS) mais ne
- *                              déclenchent rien de plus par elles-mêmes — décision du lot
- *                              3.7b, pas une refonte du type `ZoneEntity`.
  *   cour.portail (zone)     -> pas un dialogue : tampon "CONTACT" + passage au mode
  *                              tactique (08-EXPLORATION.md "Passer au combat"), câblage
  *                              dans `ChapterApp.completeExploreScene` (src/chapter.ts).
@@ -86,6 +97,14 @@
  *                              aussi) : cliquer dessus fait marcher le meneur À TRAVERS la zone,
  *                              qui se déclenche donc normalement au passage -- aucun second
  *                              chemin de complétion d'objectif à maintenir.
+ *
+ * Chaque salle rend donc la main à l'exploration après CHAQUE beat (le déclencheur qui joue le
+ * dialogue de la salle elle-même ne fait plus qu'avancer, jamais un dialogue annexe) : voir
+ * `conversationDoneFlagKey` dans src/chapter.ts, désormais indexée sur `dialogueId` + `startNode`
+ * pour que deux entités d'une même pièce partageant un `dialogueId` (ex. le panneau et le chien,
+ * tous deux "ch1.salle1") ne se marquent pas "faites" l'une l'autre. Le chien/l'otage, l'armoire
+ * et l'ordinateur restent facultatifs : ignorer ces entités et rejoindre directement la porte
+ * nord fait quand même avancer l'étape (elles nourrissent le barème, pas un péage).
  *
  * `tacticalArea` : la cour (voir ci-dessus). Le reste du lieu n'a pas de combat propre.
  */
@@ -309,6 +328,24 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 21, y: 57 },
     label: "Parler à l'instructeur",
     condition: etape('hall'),
+    // Le briefing (`ch1.centre-hall.json`) complète l'objectif de la scène ET déverrouille
+    // `hall.porte-nord` (voir en-tête) : le briefing distribue le matériel de l'équipe, le
+    // sauter fausserait tout ce qui suit -- rendu bloquant par une vraie porte, pas juste un
+    // avertissement.
+    dialogueId: 'ch1.centre-hall',
+    opensDoorAfterDialogue: 'hall.porte-nord',
+  },
+  {
+    // Porte hall -> salle 1 (même case que `salle1.panneau-porte` ci-dessous, jamais actives en
+    // même temps : conditions mutuellement exclusives sur `ch1.etape`, voir en-tête). Sans
+    // dialogue propre : un pur verrou, ouvert par le briefing de l'instructeur.
+    id: 'hall.porte-nord',
+    type: 'door',
+    cell: { x: 26, y: 51 },
+    label: 'Franchir la porte nord',
+    condition: etape('hall'),
+    locked: true,
+    lockedLine: "Verrouillée. Il faut d'abord écouter le briefing.",
   },
 
   // -- Salle 1 — la porte et le chien (étape 'salle1') -------------------
@@ -318,6 +355,7 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 26, y: 51 },
     area: { origin: { x: 13, y: 50 }, width: 18, height: 2 },
     condition: etape('salle1'),
+    line: "De la fumée s'infiltre par les grilles d'aération, et un bruit de course résonne plus loin dans le bâtiment.",
   },
   {
     id: 'salle1.panneau-porte',
@@ -329,12 +367,10 @@ const ENTITIES: EntityDef[] = [
     thresholdRoomId: 'salle1',
     label: 'Pirater le panneau de la porte',
     condition: etape('salle1'),
-    // Complète l'objectif de la salle (lot 3.7b, voir CHAPTER_1_SCENES "ch1.salle1") : joue
-    // ch1.salle1 depuis son tout début (arrivée, piratage, chien) si rien d'autre n'a encore
-    // été déclenché dans la pièce -- sinon (chien/otage abordés en premier) une réplique brève
-    // de repli suffit, la scène a déjà tout dit (voir `openExploreConversation`, chapter.ts).
+    // Le SEUL beat du piratage (nœud "porte") : ne joue plus la salle entière -- conversation
+    // annexe, n'avance PAS le routeur. C'est `salle1.porte-nord` (plus bas) qui termine l'étape.
     dialogueId: 'ch1.salle1',
-    startNode: 'arrivee',
+    startNode: 'porte',
   },
   {
     id: 'salle1.chien',
@@ -345,7 +381,7 @@ const ENTITIES: EntityDef[] = [
     // Même dialogue que le panneau, entrée plus tardive (voir en-tête : deux entités, une seule
     // scène) -- conversation annexe, n'avance PAS le routeur (ce n'est pas le completionTrigger).
     dialogueId: 'ch1.salle1',
-    startNode: 'chien-identifie',
+    startNode: 'chien-approche',
   },
   {
     id: 'salle1.otage',
@@ -354,7 +390,20 @@ const ENTITIES: EntityDef[] = [
     label: "Parler à l'otage",
     condition: etape('salle1'),
     dialogueId: 'ch1.salle1',
-    startNode: 'chien-identifie',
+    startNode: 'chien-approche',
+  },
+  {
+    // Sortie nord de la salle 1, vers la salle 2 (même case que `punchDoor(17, 41)`). Verrouillée
+    // comme les portes nord des salles 2/3 : c'est elle, pas le panneau d'entrée, qui termine
+    // l'objectif de la salle (défaut corrigé, voir en-tête).
+    id: 'salle1.porte-nord',
+    type: 'door',
+    cell: { x: 17, y: 41 },
+    label: 'Franchir la porte nord',
+    condition: etape('salle1'),
+    locked: true,
+    dialogueId: 'ch1.salle1',
+    startNode: 'sortie',
   },
 
   // -- Salle 2 — le choix coûteux (étape 'salle2') -----------------------
@@ -394,6 +443,8 @@ const ENTITIES: EntityDef[] = [
     cell: { x: 26, y: 31 },
     area: { origin: { x: 13, y: 30 }, width: 18, height: 2 },
     condition: etape('salle3'),
+    line:
+      "La porte se referme derrière eux avec un claquement pneumatique et se verrouille aussitôt. Un chuintement monte des bouches d'aération : un gaz irritant, âcre, commence à envahir la pièce.",
   },
   {
     id: 'salle3.ordinateur',
@@ -402,8 +453,10 @@ const ENTITIES: EntityDef[] = [
     label: "Utiliser l'ordinateur",
     condition: etape('salle3'),
     // Détour facultatif ("rester malgré le gaz") : conversation annexe, n'avance pas le routeur.
+    // Entrée au tout début du dialogue ("arrivee") : c'est ce nœud qui décrit le terminal, la
+    // porte s'étant déjà verrouillée via la narration de `salle3.entree` ci-dessus.
     dialogueId: 'ch1.salle3',
-    startNode: 'choix-rester',
+    startNode: 'arrivee',
   },
   {
     id: 'salle3.porte-nord',
