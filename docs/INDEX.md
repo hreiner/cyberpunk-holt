@@ -15,6 +15,7 @@ aucune conversation à retrouver.
 | comprendre la structure du code  | [`process/ARCHITECTURE.md`](process/ARCHITECTURE.md)                                                                     |
 | savoir ce qui reste à faire      | [`process/ROADMAP.md`](process/ROADMAP.md)                                                                               |
 | brancher des modèles 3D          | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md)                                                                             |
+| concevoir le chapitre suivant    | [`chapters/README.md`](chapters/README.md) — trois phases, et quoi lire (ou pas) à chacune                               |
 
 ## Design — le jeu
 
@@ -31,6 +32,17 @@ aucune conversation à retrouver.
 | [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md)           | le mode exploration : contrôles, caméra, entités, objectifs, passage au combat |
 | [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md)     | format des cartes, l'académie HOLT (plan du MJ), le centre d'examen            |
 
+## Chapitres — concevoir la suite
+
+| Document                                                     | Contenu                                                                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| [`chapters/README.md`](chapters/README.md)                   | **point d'entrée** : scénario → game design → design technique → lots ; lectures par phase |
+| [`chapters/CAPABILITIES.md`](chapters/CAPABILITIES.md)       | la palette : ce que le jeu sait faire, vu du concepteur, avec le coût d'un réemploi        |
+| [`chapters/CH1-LEGACY.md`](chapters/CH1-LEGACY.md)           | ce que le chapitre 1 transmet : état de l'histoire, dossier, mystères                      |
+| [`chapters/ENGINE-COUPLING.md`](chapters/ENGINE-COUPLING.md) | (phase 2) les endroits où le moteur suppose encore le chapitre 1                           |
+| [`chapters/_templates/`](chapters/_templates/)               | gabarits `GAME-DESIGN.md` et `TECH-DESIGN.md`                                              |
+| [`chapters/ch2/SCENARIO.md`](chapters/ch2/SCENARIO.md)       | le scénario du chapitre 2, à écrire par le propriétaire                                    |
+
 ## Art
 
 | Document                                                                       | Contenu                                                                                                         |
@@ -40,6 +52,8 @@ aucune conversation à retrouver.
 | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md)                                   | de la référence au GLB dans le jeu, et comment remplacer les capsules                                           |
 | [`art/EXPLORATION-VISUAL-DESIGN.md`](art/EXPLORATION-VISUAL-DESIGN.md)         | design finalisé : exploration 3D picturale cyberpunk, nouveaux plans, personnages animés et critères de qualité |
 | [`art/ROOM-COMPOSITION.md`](art/ROOM-COMPOSITION.md)                           | audit de composition pièce par pièce : usage, ancre narrative, implantation du mobilier et circulation         |
+| [`art/DORMITORY-AA-PILOT-REVIEW.md`](art/DORMITORY-AA-PILOT-REVIEW.md)           | pilote autonome jouable du dortoir : comparaison visuelle, mesures, limites et réemploi proposé                 |
+| [`art/MIXAMO-PILOT.md`](art/MIXAMO-PILOT.md)                                     | essai d'un personnage Mixamo et d'une marche sur place, conversion Blender et critères visuels                  |
 | [`art/REFERENCES.md`](art/REFERENCES.md)                                       | index et description des images de référence (`art/Reference_pictures/`)                                        |
 | [`art/image-generation/ORCHESTRATOR.md`](art/image-generation/ORCHESTRATOR.md) | production des illustrations : orchestrateur, bible de style, manifeste, fiches par image                       |
 
@@ -52,6 +66,7 @@ aucune conversation à retrouver.
 | [`process/CONVENTIONS.md`](process/CONVENTIONS.md)                                             | style de code, nommage, commits, langue                                                                                 |
 | [`process/EXPLORATION-VISUAL-ORCHESTRATION.md`](process/EXPLORATION-VISUAL-ORCHESTRATION.md)   | prompt prêt pour l'implémentation déléguée à des agents Terra, avec jalons et revue visuelle                            |
 | [`process/EXPLORATION-VISUAL-IMPLEMENTATION.md`](process/EXPLORATION-VISUAL-IMPLEMENTATION.md) | plan d'implémentation L0–L7, statut courant, critères de sortie et handoff pour le prochain agent |
+| [`process/DORMITORY-AA-PILOT-ORCHESTRATION.md`](process/DORMITORY-AA-PILOT-ORCHESTRATION.md)   | pilote visuel autonome des dortoirs : Franklyn jouable, hausse de qualité des personnages et décors, preuves et mesures |
 | [`process/TESTING.md`](process/TESTING.md)                                                     | stratégie de test et quoi tester où                                                                                     |
 | [`process/DEBUG_API.md`](process/DEBUG_API.md)                                                 | contrat de `window.__game`                                                                                              |
 | [`process/adr/`](process/adr/)                                                                 | décisions structurantes, numérotées                                                                                     |
@@ -79,3 +94,9 @@ aucune conversation à retrouver.
 | [0017](process/adr/0017-habillage-exploration-declaratif.md)                 | Habillage d'exploration déclaratif, séparé du gameplay                                           |
 | [0018](process/adr/0018-lumieres-locales-luminaires-et-matieres-procedurales.md) | Lumières locales bon marché pour les luminaires, matières procédurales enrichies              |
 | [0019](process/adr/0019-matieres-photo-pour-les-sols-dexploration.md)           | Matières photo pour les sols d'exploration, réemployées par teinte                            |
+| [0020](process/adr/0020-pilote-dortoir-isole-et-options-art.md)                   | Pilote du dortoir isolé et options d'art de la vue                                             |
+| [0021](process/adr/0021-plusieurs-chapitres-chapterdef.md) | *(proposé)* Plusieurs chapitres : `ChapterDef` et `RunState.chapter` |
+| [0022](process/adr/0022-dossier-entre-chapitres-archive-et-profils.md) | *(proposé)* Le dossier entre deux chapitres : archive locale, suite directe, profils |
+| [0023](process/adr/0023-format-dialogue-decor-bruitage-tempo-locuteurs.md) | *(proposé)* Format de dialogue : décor et bruitage par nœud, compteur borné, tempo, locuteurs |
+| [0024](process/adr/0024-exploration-fuite-zones-pression-suiveurs.md) | *(proposé)* Exploration de fuite : zones à effets, pression, suiveurs déclarés, habillage par registre |
+| [0025](process/adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md) | *(proposé)* Jauges d'état et bilan de chapitre déclarés en données |

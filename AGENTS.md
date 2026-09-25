@@ -24,7 +24,7 @@ Lecture obligatoire avant de coder : [`docs/INDEX.md`](docs/INDEX.md).
 | | |
 |---|---|
 | **Epic en cours** | Epic 4 — la refonte visuelle (l'epic 3 ne garde que sa revue finale) |
-| **Epic suivant** | rien de planifié — voir « Après le chapitre 1 » dans la feuille de route |
+| **Epic suivant** | le chapitre 2, en conception : suivre [`docs/chapters/README.md`](docs/chapters/README.md) (scénario du propriétaire → game design → design technique → lots) |
 | **État** | Epics 1 et 2 clos. Epic 3 : les lots 3.1 à 3.7 sont livrés — on traverse l'académie et le centre d'examen à pied, chaque salle se joue **beat par beat** (une entité, un moment, puis la main au joueur), le combat suit le portail. Le chapitre s'enchaîne de bout en bout, vérifié. Reste 3.8 (revue de bout en bout). Epic 4, la refonte visuelle : passes A à G livrées (habillage déclaratif ADR 0017, composition des pièces, matières et lumières locales ADR 0018, personnages en combat, performance et simplification) ; reste la passe H. Restent de l'epic 2 : les portraits et la musique (2.11), l'export du dossier au joueur (2.12) |
 | **Détail** | [`docs/process/ROADMAP.md`](docs/process/ROADMAP.md) |
 

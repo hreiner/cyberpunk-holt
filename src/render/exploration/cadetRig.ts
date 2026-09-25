@@ -1,5 +1,6 @@
 /** Quaternius humanoid rig for exploration. Gameplay owns world position. */
 import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js';
 import {
   CADET_VISUAL_PROFILES,
@@ -34,6 +35,8 @@ export interface HumanRigOptions {
    * adverse a deviner, et les couloirs coupent deja les murs bas.
    */
   readonly tactical?: boolean;
+  /** Isolated dormitory study: a new tailored silhouette over the shared animated skeleton. */
+  readonly pilotFranklyn?: boolean;
 }
 
 const CADET_HEIGHT = 1.75;
@@ -163,6 +166,10 @@ export class CadetRig implements CadetExplorationRig {
     const height = this.tactical ? baseHeight * TACTICAL_HEIGHT_BOOST : baseHeight;
     this.visual.scale.setScalar(height / (modelType === 'female' ? 1.803 : 1.824));
     this.visual.scale.x *= profile.build === 'athletic' ? 1.07 : profile.build === 'slim' ? 0.94 : 1;
+    if (options.pilotFranklyn) {
+      this.visual.scale.x *= 0.95;
+      this.visual.scale.y *= 0.97;
+    }
 
     this.head = this.requireBone('Head');
     this.chest = this.requireBone('Chest');
@@ -186,9 +193,10 @@ export class CadetRig implements CadetExplorationRig {
     ]) {
       this.neutralPose.set(bone, bone.quaternion.clone());
     }
-    this.addHair(profile.hairStyle, profile.hair);
+    if (!options.pilotFranklyn) this.addHair(profile.hairStyle, profile.hair);
     this.addUniformDetails(profile, modelType, this.tactical ? teamColor : undefined);
     this.addEquipment();
+    if (options.pilotFranklyn) this.addPilotFranklyn();
 
     const ringMaterial = new THREE.MeshBasicMaterial({
       color: teamColor,
@@ -214,7 +222,12 @@ export class CadetRig implements CadetExplorationRig {
         depthWrite: false,
       });
       this.ownedMaterials.push(xrayMaterial);
-      const xrayGeometry = new THREE.CapsuleGeometry(XRAY_RADIUS, Math.max(0.1, height - 2 * XRAY_RADIUS), 4, 8);
+      const xrayGeometry = new THREE.CapsuleGeometry(
+        XRAY_RADIUS,
+        Math.max(0.1, height - 2 * XRAY_RADIUS),
+        4,
+        8,
+      );
       this.ownedGeometries.push(xrayGeometry);
       const xray = new THREE.Mesh(xrayGeometry, xrayMaterial);
       xray.position.y = height / 2;
@@ -238,7 +251,11 @@ export class CadetRig implements CadetExplorationRig {
       }),
     );
     this.label.name = 'cadet-label';
-    this.label.scale.set(this.labelWorldWidth, (this.labelWorldWidth * labelCanvasSize.height) / labelCanvasSize.width, 1);
+    this.label.scale.set(
+      this.labelWorldWidth,
+      (this.labelWorldWidth * labelCanvasSize.height) / labelCanvasSize.width,
+      1,
+    );
     this.label.position.y = height + (this.tactical ? 0.52 : 0.42);
     this.label.visible = options.showLabel !== false;
     this.label.renderOrder = 20;
@@ -421,7 +438,10 @@ export class CadetRig implements CadetExplorationRig {
 
   update(dt: number): void {
     if (this.disposed) return;
-    if (this.currentPose === null && (!this.reducedMotion || this.current === 'walk' || this.current === 'run')) {
+    if (
+      this.currentPose === null &&
+      (!this.reducedMotion || this.current === 'walk' || this.current === 'run')
+    ) {
       this.mixer.update(Math.min(dt, 0.1));
     }
   }
@@ -670,6 +690,64 @@ export class CadetRig implements CadetExplorationRig {
     mine.rotation.x = Math.PI / 2;
     this.equipment.set('mine', mine);
     this.setEquipment([]);
+  }
+
+  /** Tailored jacket, raised collar and carried kit. All parts follow the Quaternius bones. */
+  private addPilotFranklyn(): void {
+    const navy = this.material(0x2b4959, 0.86);
+    const deep = this.material(0x0f1d28, 0.92);
+    const edge = this.material(0x83a1a8, 0.66);
+    const red = this.material(0x9b443d, 0.88);
+    const metal = this.material(0x9aa9a5, 0.39);
+    const fabric = this.material(0x3d4e57, 0.94);
+    const jacket = this.part(this.chest, new THREE.CylinderGeometry(0.235, 0.17, 0.52, 8), navy, 0, -0.15, 0);
+    jacket.scale.z = 0.65;
+    const hem = this.part(this.chest, new THREE.CylinderGeometry(0.172, 0.172, 0.038, 8), deep, 0, -0.42, 0);
+    hem.scale.z = 0.67;
+    // Asymmetric placket, zipper and shoulder tabs break the original SWAT outline.
+    this.part(this.chest, new THREE.BoxGeometry(0.075, 0.48, 0.018), deep, 0.055, -0.14, 0.157);
+    this.part(this.chest, new THREE.BoxGeometry(0.014, 0.43, 0.01), metal, 0.09, -0.15, 0.168);
+    this.part(this.chest, new THREE.BoxGeometry(0.19, 0.1, 0.035), fabric, -0.13, 0.035, 0.16);
+    for (const side of [-1, 1]) {
+      const collar = this.part(
+        this.chest,
+        new RoundedBoxGeometry(0.09, 0.15, 0.085, 2, 0.022),
+        deep,
+        side * 0.115,
+        0.165,
+        0.055,
+      );
+      collar.rotation.z = side * 0.2;
+      this.part(this.chest, new THREE.BoxGeometry(0.11, 0.025, 0.15), navy, side * 0.19, 0.105, 0.01);
+      this.part(this.chest, new THREE.BoxGeometry(0.09, 0.014, 0.018), red, side * 0.19, 0.126, 0.09);
+      this.part(this.chest, new THREE.BoxGeometry(0.02, 0.23, 0.017), edge, side * 0.185, -0.16, 0.07);
+    }
+    this.part(this.chest, new THREE.BoxGeometry(0.14, 0.038, 0.02), metal, -0.115, -0.025, 0.169);
+    this.part(this.chest, new THREE.BoxGeometry(0.1, 0.02, 0.02), red, -0.13, -0.062, 0.17);
+    this.part(this.hips, new RoundedBoxGeometry(0.17, 0.14, 0.08, 2, 0.02), fabric, 0.24, -0.04, 0.05);
+    this.part(this.hips, new THREE.BoxGeometry(0.09, 0.02, 0.09), metal, 0.24, 0.04, 0.05);
+    // A close cropped, uneven hair mass follows the reference more closely than spikes.
+    const hair = this.material(0x241d1c, 0.97);
+    const cap = this.part(this.head, new THREE.SphereGeometry(0.14, 14, 10), hair, 0, 0.19, -0.005);
+    cap.scale.set(1, 0.52, 1.08);
+    for (const [x, y, z] of [
+      [-0.085, 0.2, 0.11],
+      [-0.02, 0.225, 0.12],
+      [0.065, 0.215, 0.1],
+    ] as const) {
+      const lock = this.part(this.head, new THREE.SphereGeometry(0.055, 8, 6), hair, x, y, z);
+      lock.scale.set(1, 0.65, 0.8);
+    }
+    const port = this.part(
+      this.head,
+      new THREE.CylinderGeometry(0.039, 0.039, 0.017, 12),
+      metal,
+      0.195,
+      0.11,
+      -0.035,
+    );
+    port.rotation.z = Math.PI / 2;
+    this.part(this.head, new THREE.SphereGeometry(0.016, 8, 6), red, 0.207, 0.11, -0.035);
   }
 
   private material(color: number, roughness: number): THREE.MeshStandardMaterial {

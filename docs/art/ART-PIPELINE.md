@@ -24,10 +24,16 @@ interface CharacterRig {
 ```
 
 **Six animations, pas une de plus.** C'est le contrat minimal pour jouer le chapitre 1.
-Aujourd'hui l'implémentation est `PlaceholderRig` : une capsule colorée, un anneau d'équipe,
-un repère d'orientation, le matériel porté en petits volumes, une étiquette flottante et une
-silhouette visible à travers les décors. Demain ce sera `GltfRig`, et **aucune ligne de `src/tactical/` ni
-de `src/app.ts` ne changera**. Voir l'[ADR 0004](../process/adr/0004-abstraction-rig.md).
+Aujourd'hui l'implémentation est `CadetRig` : les GLB Quaternius fournissent le squelette et les
+clips, puis le code adapte tenue, cheveux, matériel, anneau et étiquette. La vue tactique ajoute
+une silhouette visible à travers les décors. Un rig ultérieur pourra remplacer cette base sans
+changer `src/tactical/` ni `src/app.ts`. Voir l'[ADR 0004](../process/adr/0004-abstraction-rig.md).
+
+Le [pilote autonome du dortoir](DORMITORY-AA-PILOT-REVIEW.md) garde ce squelette animé pour un
+Franklyn d'étude, mais refait la silhouette de son blouson et sa coiffure avec des maillages
+géométriques attachés aux os. Ce travail reste isolé du chapitre et du rig partagé des autres
+cadets. Il n'introduit ni fichier GLB, ni auto-rigging, ni licence supplémentaire ; ses limites
+visuelles sont évaluées dans le rapport du pilote.
 
 ## Exploration picturale : base commune et clips explicites
 
@@ -128,6 +134,14 @@ animation assise reste une amélioration d'asset, sans effet sur le gameplay.
 
 Un pack d'assets déjà riggé et animé, avec des droits compatibles et une provenance consignée,
 reste une option raisonnable : le contrat `CharacterRig` absorbe ce choix.
+
+**Essai isolé après la revue du dortoir (25 septembre 2026).** La silhouette pilote
+Quaternius et ses ajouts géométriques n'atteignent pas la cible visuelle. Un personnage
+déjà riggé de la bibliothèque Mixamo et un clip de marche sont donc évalués dans le
+pilote autonome, avec adaptation du mesh dans Blender. Ce n'est pas une adoption de
+l'auto-rigging Mixamo pour les personnages du chapitre. Le fichier source, la conversion,
+les contrôles de mouvement et les droits à vérifier sont décrits dans
+[MIXAMO-PILOT.md](MIXAMO-PILOT.md). Aucun personnage Mixamo n'est encore distribué.
 
 ## Portraits 2D
 

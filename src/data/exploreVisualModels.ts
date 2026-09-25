@@ -50,8 +50,21 @@ export const EXPLORE_VISUAL_MODELS = {
   'canteen-podium': { occupancy: 'solid', cells: [3, 1], reads: 'l’estrade du directeur' },
   'service-counter': { occupancy: 'solid', cells: [1, 7], reads: 'le comptoir de service' },
   'access-console-bank': { occupancy: 'solid', cells: [4, 1], reads: 'un sas de controle de presence' },
-  'locker-open': { occupancy: 'flat', cells: [1, 1], reads: 'un casier entrouvert, affaires personnelles au sol' },
-  'floor-grate': { occupancy: 'flat', cells: [1, 1], reads: 'une grille de sol technique, vibre sous les pieds' },
+  'locker-open': {
+    occupancy: 'flat',
+    cells: [1, 1],
+    reads: 'un casier entrouvert, affaires personnelles au sol',
+  },
+  'floor-grate': {
+    occupancy: 'flat',
+    cells: [1, 1],
+    reads: 'une grille de sol technique, vibre sous les pieds',
+  },
+  'pilot-aisle': {
+    occupancy: 'flat',
+    cells: [1, 9],
+    reads: 'un chemin de circulation peint dans le dortoir',
+  },
 
   /* -- Colonne ouest : services de l'academie ---------------------------- */
   'admin-desk': { occupancy: 'solid', cells: [3, 1], reads: 'un guichet d’accueil' },
@@ -63,8 +76,8 @@ export const EXPLORE_VISUAL_MODELS = {
   'weapon-case': { occupancy: 'solid', cells: [2, 1], reads: 'une caisse de materiel fermee' },
   'archive-shelves': { occupancy: 'solid', cells: [2, 1], reads: 'un rayonnage d’archives' },
   'server-shelves': { occupancy: 'solid', cells: [2, 1], reads: 'une baie de serveurs' },
-  'transformer': { occupancy: 'solid', cells: [2, 2], reads: 'un transformateur et ses isolateurs' },
-  'workbench': { occupancy: 'solid', cells: [3, 2], reads: 'un etabli de maintenance' },
+  transformer: { occupancy: 'solid', cells: [2, 2], reads: 'un transformateur et ses isolateurs' },
+  workbench: { occupancy: 'solid', cells: [3, 2], reads: 'un etabli de maintenance' },
 
   /* -- Entrainement, cour, garage ---------------------------------------- */
   'exam-desk': { occupancy: 'solid', cells: [1, 1], reads: 'un pupitre d’examen et son siege' },
@@ -80,7 +93,11 @@ export const EXPLORE_VISUAL_MODELS = {
   'security-station': { occupancy: 'solid', cells: [2, 2], reads: 'un poste de securite et son siege' },
   'secure-locker': { occupancy: 'solid', cells: [2, 2], reads: 'une armoire blindee' },
   'equipment-cage': { occupancy: 'solid', cells: [2, 1], reads: 'une cage a materiel grillagee' },
-  'industrial-service-bank': { occupancy: 'solid', cells: [3, 1], reads: 'une banque technique de maintenance' },
+  'industrial-service-bank': {
+    occupancy: 'solid',
+    cells: [3, 1],
+    reads: 'une banque technique de maintenance',
+  },
   'signal-pylon': { occupancy: 'solid', cells: [1, 1], reads: 'un pylone de signalisation' },
   'gas-rack': { occupancy: 'solid', cells: [2, 1], reads: 'des bouteilles sous pression' },
   'k9-course-gate': { occupancy: 'solid', cells: [2, 1], reads: 'un obstacle de parcours cynophile' },

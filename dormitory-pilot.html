@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOLT — pilote du dortoir</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #14151a;
+        color: #eee5d6;
+        font:
+          15px 'Barlow Semi Condensed',
+          Arial,
+          sans-serif;
+      }
+      canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        cursor: crosshair;
+      }
+      .panel {
+        position: absolute;
+        top: 18px;
+        left: 18px;
+        max-width: 290px;
+        padding: 12px 15px;
+        background: rgba(20, 22, 27, 0.86);
+        border-left: 3px solid #aa5148;
+        pointer-events: none;
+      }
+      .panel strong {
+        display: block;
+        font-size: 18px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .panel span {
+        display: block;
+        margin-top: 4px;
+        color: #c5bbb0;
+        line-height: 1.35;
+      }
+      #message {
+        position: absolute;
+        left: 50%;
+        bottom: 28px;
+        transform: translateX(-50%);
+        padding: 9px 16px;
+        background: rgba(20, 22, 27, 0.88);
+        border: 1px solid #8f7e69;
+        min-width: 180px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.25s;
+        pointer-events: none;
+      }
+      #message.visible {
+        opacity: 1;
+      }
+      body.clean .panel,
+      body.clean #message {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="pilot-canvas" aria-label="Dortoir jouable de l'académie HOLT"></canvas>
+    <div class="panel">
+      <strong>Dortoir HOLT</strong
+      ><span
+        >Clic : marcher · A / E : tourner · C : recentrer · Molette : zoom · Flèches : déplacer la
+        caméra</span
+      >
+    </div>
+    <div id="message" role="status"></div>
+    <script type="module" src="/src/dev/dormitoryPilot.ts"></script>
+  </body>
+</html>

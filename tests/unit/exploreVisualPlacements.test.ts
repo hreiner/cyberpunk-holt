@@ -22,10 +22,12 @@ import { HOLT_VISUALS } from '@/data/exploreVisuals/holt';
 import { CENTRE_EXAMEN_VISUALS } from '@/data/exploreVisuals/centreExamen';
 import type { ExploreVisualMapDef } from '@/data/exploreVisualTypes';
 import { EXPLORE_VISUAL_MODELS, modelCellSpan } from '@/data/exploreVisualModels';
+import { DORMITORY_PILOT_MAP, DORMITORY_PILOT_VISUALS } from '@/dev/dormitoryPilotMap';
 
 const VISUAL_MAPS: Array<{ map: MapDef; visuals: ExploreVisualMapDef }> = [
   { map: HOLT_MAP, visuals: HOLT_VISUALS },
   { map: CENTRE_EXAMEN_MAP, visuals: CENTRE_EXAMEN_VISUALS },
+  { map: DORMITORY_PILOT_MAP, visuals: DORMITORY_PILOT_VISUALS },
 ];
 
 const key = ({ x, y }: Cell): string => `${x},${y}`;
@@ -43,7 +45,10 @@ function inTacticalArea(map: MapDef, cell: Cell): boolean {
   const area = map.tacticalArea;
   if (!area) return false;
   return (
-    cell.x >= area.origin.x && cell.x < area.origin.x + 30 && cell.y >= area.origin.y && cell.y < area.origin.y + 20
+    cell.x >= area.origin.x &&
+    cell.x < area.origin.x + 30 &&
+    cell.y >= area.origin.y &&
+    cell.y < area.origin.y + 20
   );
 }
 
@@ -135,7 +140,9 @@ describe('plans d’habillage d’exploration', () => {
               }
               if (replaces.length > 0) errors.push(`${where} : rien à remplacer sur une case franchissable`);
             } else {
-              errors.push(`${where} : meuble plein à cheval sur des cases de natures différentes — ${describe()}`);
+              errors.push(
+                `${where} : meuble plein à cheval sur des cases de natures différentes — ${describe()}`,
+              );
             }
             break;
           }
@@ -152,7 +159,8 @@ describe('plans d’habillage d’exploration', () => {
           }
           case 'threshold': {
             const bad = tiles.filter((tile) => tile !== '+' && tile !== '#');
-            if (bad.length > 0) errors.push(`${where} : seuil posé hors d'un mur ou d'une porte — ${describe()}`);
+            if (bad.length > 0)
+              errors.push(`${where} : seuil posé hors d'un mur ou d'une porte — ${describe()}`);
             if (replaces.length > 0) errors.push(`${where} : un seuil ne remplace jamais un bloc`);
             break;
           }
@@ -173,7 +181,9 @@ describe('plans d’habillage d’exploration', () => {
           if (!BLOCKING.has(tile)) return;
           if (inTacticalArea(map, { x, y })) return;
           if (!dressed.has(key({ x, y }))) {
-            errors.push(`${map.id} : case bloquante ${key({ x, y })} ("${tile}") sans modèle — bloc générique`);
+            errors.push(
+              `${map.id} : case bloquante ${key({ x, y })} ("${tile}") sans modèle — bloc générique`,
+            );
           }
         });
       });
@@ -195,4 +205,3 @@ describe('plans d’habillage d’exploration', () => {
     expect(jamaisPoses).toEqual([]);
   });
 });
-

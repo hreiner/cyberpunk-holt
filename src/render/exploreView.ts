@@ -6,9 +6,8 @@
  * l'exploration (voir `src/explore/exploreMap.ts`).
  *
  * Cette classe possède sa propre `IsoCamera` (à la différence de `YardView`,
- * dont la caméra vit dans `app.ts`) : le lot 3.5 n'intègre rien au chapitre,
- * `explore-lab.ts` est le seul appelant et n'a besoin que d'un renderer et
- * d'une boucle d'images — voir la note de portée dans le prompt du lot.
+ * dont la caméra vit dans `app.ts`). `ExploreSession` l'emploie dans le chapitre ;
+ * `explore-lab.ts` et le pilote du dortoir l'emploient en développement.
  *
  * Décoratif seedé (jamais `Math.random()`, AGENTS.md règle 1) : la légère
  * variation des touffes de végétation vient du `Rng` transmis, comme dans
@@ -23,8 +22,13 @@ import type { Cell, DoorEntity, EntityDef, MapDef, RoomDef } from '@/explore';
 import { isExplorationCharacterRig, type CharacterRig } from './characterRig';
 import { createCadetExplorationRig } from './exploration/cadetRig';
 import { createExploreNpcRig, type ExploreNpcRig } from './exploration/npcRig';
-import { ExploreDressing } from './exploration/dressing';
-import { createDoorControl, createSurveillanceCamera, createTechnicalConduit, createWallBand } from './exploration/architecture';
+import { ExploreDressing, type ExploreDressingFactory } from './exploration/dressing';
+import {
+  createDoorControl,
+  createSurveillanceCamera,
+  createTechnicalConduit,
+  createWallBand,
+} from './exploration/architecture';
 import { addExplorationLighting } from './exploration/atmosphere';
 import { EnvironmentMaterials } from './exploration/materials';
 import { EnvironmentPropFactory } from './exploration/props';
@@ -150,6 +154,17 @@ export interface ExploreViewCallbacks {
   onHover?(target: HoverTarget | null): void;
   onMoveTo?(cell: Cell): void;
   onInteract?(entityId: string): void;
+}
+
+/** Optional art seam used by isolated visual pilots; gameplay still comes from MapDef. */
+export interface ExploreViewArtOptions {
+  visuals?: ExploreVisualMapDef;
+  propFactory?: (world: (cell: Cell) => { x: number; z: number }, rng: Rng) => ExploreDressingFactory;
+  leaderRig?: (sheet: CharacterSheet, teamColor: number) => CharacterRig;
+  dormitoryArchitecture?: { camera: Cell; control: Cell; conduit: Cell };
+  pilotBranding?: boolean;
+  /** Texture supplied by a visual pilot; the view owns only its per-room clone. */
+  floorTexture?: THREE.Texture;
 }
 
 /** Convertit une case (éventuellement fractionnaire) en coordonnées monde (centre de la carte à l'origine). */
@@ -349,6 +364,7 @@ export class ExploreView {
     private readonly rng: Rng,
     aspect: number,
     private readonly callbacks: ExploreViewCallbacks = {},
+    private readonly art: ExploreViewArtOptions = {},
   ) {
     this.def = def;
     this.map = new ExploreMap(def);
@@ -377,9 +393,11 @@ export class ExploreView {
     for (const placement of visualDef.placements) {
       for (const cell of placement.replaces ?? []) this.replacedFurnitureCells.add(posKey(cell));
     }
+    const world = (cell: Cell) => cellToWorld(this.map, cell);
+    const propRng = rng.fork(`explore:${def.id}`);
     this.dressing = new ExploreDressing(
       visualDef,
-      new EnvironmentPropFactory((cell) => cellToWorld(this.map, cell), rng.fork(`explore:${def.id}`), isCentre),
+      this.art.propFactory?.(world, propRng) ?? new EnvironmentPropFactory(world, propRng, isCentre),
     );
     this.root.add(this.dressing.root);
 
@@ -484,6 +502,7 @@ export class ExploreView {
   }
 
   private visualDefinition(mapId: string): ExploreVisualMapDef {
+    if (this.art.visuals) return this.art.visuals;
     if (mapId === HOLT_VISUALS.mapId) return HOLT_VISUALS;
     if (mapId === CENTRE_EXAMEN_VISUALS.mapId) return CENTRE_EXAMEN_VISUALS;
     return { mapId, placements: [] };
@@ -509,7 +528,10 @@ export class ExploreView {
       // corrige AVANT le premier rendu (appelée synchroniquement par l'appelant juste après la
       // construction), donc jamais de flash "tout éclairé" à l'écran.
       const initialColor = room.alwaysDiscovered === true;
-      const geometry = new THREE.PlaneGeometry(width * EXPLORE_CELL_SIZE_METERS, height * EXPLORE_CELL_SIZE_METERS);
+      const geometry = new THREE.PlaneGeometry(
+        width * EXPLORE_CELL_SIZE_METERS,
+        height * EXPLORE_CELL_SIZE_METERS,
+      );
       this.cellGeometries.add(geometry);
       const plane = new THREE.Mesh(geometry, this.floorMaterial(initialColor, width, height, room.id));
       plane.rotation.x = -Math.PI / 2;
@@ -595,7 +617,9 @@ export class ExploreView {
     }
     containerBox.setAttribute('color', new THREE.BufferAttribute(containerColors, 3));
     this.cellGeometries.add(containerBox);
-    const wallMat = this.architectureMaterials.get(this.def.id === 'centre-examen' ? 'coldConcreteWall' : 'creamConcreteWall');
+    const wallMat = this.architectureMaterials.get(
+      this.def.id === 'centre-examen' ? 'coldConcreteWall' : 'creamConcreteWall',
+    );
     // Le garage est un hangar, pas une salle de béton peint : ses murs portent une tôle ondulée
     // photo CC0 (`corrugatedSteel`) plutôt que la même peinture que le reste de l'académie --
     // ROOM-COMPOSITION.md "Garage" demande une matière distincte ("tôle mate"), et c'est une
@@ -663,7 +687,13 @@ export class ExploreView {
     // mobilier (voir la note sur `topEdgeInstances`/`bandInstances`). Les cases non-porte sont
     // regroupées par (géométrie, matière) et fusionnées après la boucle ; les portes restent
     // individuelles (cible de clic dédiée, `userData.entityId`).
-    const wallBodyCandidates: { key: string; wx: number; wz: number; geometry: THREE.BufferGeometry; material: THREE.Material }[] = [];
+    const wallBodyCandidates: {
+      key: string;
+      wx: number;
+      wz: number;
+      geometry: THREE.BufferGeometry;
+      material: THREE.Material;
+    }[] = [];
 
     for (let y = 0; y < this.map.height; y++) {
       for (let x = 0; x < this.map.width; x++) {
@@ -675,8 +705,11 @@ export class ExploreView {
 
         if (kind === 'wall' || kind === 'door') {
           const isDoorCell = kind === 'door';
-          const isContainer = this.def.id === 'centre-examen' && x >= 7 && x < 37 && y >= 1 && y < 21 && kind === 'wall';
-          const side = containerSides[(Math.floor(x / 7) + Math.floor(y / 5)) % containerSides.length] as THREE.Material;
+          const isContainer =
+            this.def.id === 'centre-examen' && x >= 7 && x < 37 && y >= 1 && y < 21 && kind === 'wall';
+          const side = containerSides[
+            (Math.floor(x / 7) + Math.floor(y / 5)) % containerSides.length
+          ] as THREE.Material;
           const plainWallMat = this.garageWallCells.has(key) ? garageWallMat : wallMat;
           const geometry = isContainer ? containerBox : unitBox;
           const material = isContainer ? side : isDoorCell ? frameMat : plainWallMat;
@@ -787,12 +820,20 @@ export class ExploreView {
     // Corps des murs (hors porte) : un `InstancedMesh` par (géométrie, matière) -- quelques lots
     // (béton peint, tôle du garage, jusqu'à trois teintes de container) au lieu d'un maillage par
     // case. Transform recalculée à chaque rotation (`recomputeCutaway`), jamais par image.
-    const bodyBuckets = new Map<string, { geometry: THREE.BufferGeometry; material: THREE.Material; keys: string[] }>();
+    const bodyBuckets = new Map<
+      string,
+      { geometry: THREE.BufferGeometry; material: THREE.Material; keys: string[] }
+    >();
     for (const candidate of wallBodyCandidates) {
       const bucketKey = `${candidate.geometry.uuid}\u0000${candidate.material.uuid}`;
       const bucket = bodyBuckets.get(bucketKey);
       if (bucket) bucket.keys.push(candidate.key);
-      else bodyBuckets.set(bucketKey, { geometry: candidate.geometry, material: candidate.material, keys: [candidate.key] });
+      else
+        bodyBuckets.set(bucketKey, {
+          geometry: candidate.geometry,
+          material: candidate.material,
+          keys: [candidate.key],
+        });
     }
     for (const { geometry, material, keys } of bodyBuckets.values()) {
       const instancedMesh = new THREE.InstancedMesh(geometry, material, keys.length);
@@ -815,7 +856,11 @@ export class ExploreView {
     this.topEdgeInstances.count = 0;
     this.root.add(this.topEdgeInstances);
     this.wallInstancedMeshes.push(this.topEdgeInstances);
-    this.bandInstances = new THREE.InstancedMesh(bandTemplate.geometry, bandTemplate.material as THREE.Material, this.wallCells.size);
+    this.bandInstances = new THREE.InstancedMesh(
+      bandTemplate.geometry,
+      bandTemplate.material as THREE.Material,
+      this.wallCells.size,
+    );
     this.bandInstances.receiveShadow = true;
     this.bandInstances.count = 0;
     this.root.add(this.bandInstances);
@@ -826,7 +871,7 @@ export class ExploreView {
 
   /** Première tranche HOLT : surveillance et câblage concentrés sur le sas du dortoir. */
   private buildDormitoryArchitecture(): void {
-    if (this.def.id !== 'holt') return;
+    if (this.def.id !== 'holt' && !this.art.dormitoryArchitecture) return;
     const add = (cell: Cell, detail: THREE.Group) => {
       const wall = this.wallCells.get(posKey(cell));
       if (!wall) return;
@@ -843,15 +888,66 @@ export class ExploreView {
     const camera = createSurveillanceCamera(this.architectureMaterials);
     camera.rotation.y = Math.PI / 2;
     camera.position.x = 0.42;
-    add({ x: 25, y: 6 }, camera);
+    add(this.art.dormitoryArchitecture?.camera ?? { x: 25, y: 6 }, camera);
     const control = createDoorControl(this.architectureMaterials);
     control.rotation.y = Math.PI / 2;
     control.position.x = 0.42;
-    add({ x: 25, y: 7 }, control);
+    add(this.art.dormitoryArchitecture?.control ?? { x: 25, y: 7 }, control);
     const conduit = createTechnicalConduit(this.architectureMaterials, 1.7);
     conduit.rotation.y = Math.PI / 2;
     conduit.position.x = 0.42;
-    add({ x: 25, y: 8 }, conduit);
+    add(this.art.dormitoryArchitecture?.conduit ?? { x: 25, y: 8 }, conduit);
+    if (this.art.pilotBranding) this.buildPilotDormitoryBranding(add);
+  }
+
+  /** Wall-mounted signs follow the existing cutaway through the ornament list. */
+  private buildPilotDormitoryBranding(add: (cell: Cell, detail: THREE.Group) => void): void {
+    const ink = new THREE.MeshStandardMaterial({ color: 0x1e303a, roughness: 0.7 });
+    const cream = new THREE.MeshStandardMaterial({ color: 0xc9c6b5, roughness: 0.9 });
+    const red = new THREE.MeshStandardMaterial({ color: 0xa44940, roughness: 0.88 });
+    const glass = new THREE.MeshStandardMaterial({ color: 0x65838a, metalness: 0.38, roughness: 0.36 });
+    for (const material of [ink, cream, red, glass]) this.cellMaterials.add(material);
+    const block = (
+      group: THREE.Group,
+      material: THREE.Material,
+      x: number,
+      y: number,
+      z: number,
+      w: number,
+      h: number,
+      d: number,
+    ) => {
+      const geometry = new THREE.BoxGeometry(w, h, d);
+      this.cellGeometries.add(geometry);
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(x, y, z);
+      mesh.castShadow = false;
+      group.add(mesh);
+    };
+    const crest = (): THREE.Group => {
+      const g = new THREE.Group();
+      block(g, ink, 0, 2.1, 0.47, 0.87, 0.66, 0.07);
+      block(g, cream, 0, 2.1, 0.52, 0.72, 0.51, 0.015);
+      block(g, red, -0.17, 2.1, 0.542, 0.085, 0.36, 0.016);
+      block(g, red, 0.17, 2.1, 0.542, 0.085, 0.36, 0.016);
+      block(g, red, 0, 2.1, 0.542, 0.39, 0.075, 0.016);
+      block(g, ink, 0, 1.73, 0.49, 0.87, 0.04, 0.09);
+      return g;
+    };
+    const north = crest();
+    add({ x: 17, y: 0 }, north);
+    const south = crest();
+    south.rotation.y = Math.PI;
+    add({ x: 17, y: 16 }, south);
+    for (const y of [3, 11]) {
+      const window = new THREE.Group();
+      window.rotation.y = -Math.PI / 2;
+      block(window, ink, 0, 1.95, 0.47, 0.91, 0.85, 0.07);
+      block(window, glass, 0, 1.95, 0.515, 0.71, 0.65, 0.014);
+      block(window, cream, 0, 1.95, 0.53, 0.025, 0.65, 0.016);
+      block(window, cream, 0, 1.95, 0.53, 0.71, 0.025, 0.016);
+      add({ x: 30, y }, window);
+    }
   }
 
   /**
@@ -1323,11 +1419,14 @@ export class ExploreView {
       existing.dispose();
       this.root.remove(existing.object);
     }
-    const rig = createCadetExplorationRig(sheet, PARTY_RING_COLOR);
+    const rig =
+      isLeader && this.art.leaderRig
+        ? this.art.leaderRig(sheet, PARTY_RING_COLOR)
+        : createCadetExplorationRig(sheet, PARTY_RING_COLOR);
     rig.setEquipment([]);
     rig.setEquipmentLineVisible(false);
     rig.setHighlighted(isLeader);
-    rig.setReducedMotion(this.reducedMotion);
+    if (isExplorationCharacterRig(rig)) rig.setReducedMotion(this.reducedMotion);
     if (!isLeader) rig.object.getObjectByName('cadet-label')!.visible = false;
     this.root.add(rig.object);
     this.rigs.set(id, rig);
@@ -1651,7 +1750,9 @@ export class ExploreView {
    * « peu de matières, bien réemployées », mais pas une seule pour deux usages très différents
    * (bois verni vs faïence).
    */
-  private static readonly ACADEMY_FLOOR_BY_ROOM: Partial<Record<string, 'creamConcrete' | 'warmLaminate' | 'clinicTile'>> = {
+  private static readonly ACADEMY_FLOOR_BY_ROOM: Partial<
+    Record<string, 'creamConcrete' | 'warmLaminate' | 'clinicTile'>
+  > = {
     cantine: 'warmLaminate',
     infirmerie: 'clinicTile',
   };
@@ -1697,13 +1798,19 @@ export class ExploreView {
   }
 
   /** Clone la matière architecturale pour que l'état de découverte teinte chaque sol indépendamment. */
-  private floorMaterial(discovered: boolean, width: number, height: number, roomId?: string): THREE.MeshStandardMaterial {
+  private floorMaterial(
+    discovered: boolean,
+    width: number,
+    height: number,
+    roomId?: string,
+  ): THREE.MeshStandardMaterial {
     const isCentre = this.def.id === 'centre-examen';
     const key = isCentre
       ? (roomId && ExploreView.CENTRE_FLOOR_BY_ROOM[roomId]) || 'coldConcrete'
       : (roomId && ExploreView.ACADEMY_FLOOR_BY_ROOM[roomId]) || 'creamConcrete';
     const material = this.architectureMaterials.get(key).clone();
-    const source = material.map;
+    const pilotFloor = this.art.floorTexture && roomId === 'dortoirs';
+    const source = pilotFloor ? this.art.floorTexture : material.map;
     const texture = source?.clone();
     if (texture) {
       // Une répétition par grande plage suffit : les précédentes répétitions tous les 3 m
@@ -1716,11 +1823,16 @@ export class ExploreView {
       // répétition ne trahit pas : ils gardent une échelle proche de leur module réel.
       const textureSpan =
         key === 'clinicTile' ? 3 : key === 'warmLaminate' ? 5 : key === 'asphalt' ? 22 : isCentre ? 29 : 18;
-      texture.repeat.set(Math.max(1, width / textureSpan), Math.max(1, height / textureSpan));
+      texture.repeat.set(
+        pilotFloor ? 1 : Math.max(1, width / textureSpan),
+        pilotFloor ? 1 : Math.max(1, height / textureSpan),
+      );
       this.cellTextures.add(texture);
     }
     material.userData.floorTexture = texture ?? null;
-    const baseTint = ExploreView.BASE_FLOOR_TINT[key] ?? new THREE.Color(0xffffff);
+    const baseTint = pilotFloor
+      ? new THREE.Color(0xffffff)
+      : (ExploreView.BASE_FLOOR_TINT[key] ?? new THREE.Color(0xffffff));
     material.userData.discoveredColor = this.roomFloorTint(roomId, baseTint);
     material.map = null; // `applyFloorVisibility` (appelée juste en dessous) pose l'état réel.
     if (key === 'creamConcrete' || key === 'coldConcrete') material.roughness = 0.9;
