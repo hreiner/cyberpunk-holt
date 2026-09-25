@@ -238,6 +238,10 @@ le moteur ne tranche jamais à la place du joueur — même sur un nœud sans te
 `ch1.salle3#choix-rester` (sortir, ou rester dans les vapeurs). Ces nœuds-là ne sont pas des
 aiguillages : il leur manque une narration, et c'est du contenu à écrire.
 
+Le validateur tient les deux bouts : **un nœud muet qui porte un jet, ou une option non
+conditionnée, est une erreur**. Trois nœuds des salles 1, 2 et 3 présentaient ainsi leurs
+options sans une ligne de narration — passés inaperçus jusqu'à une partie jouée en entier.
+
 ### Conventions de nommage
 
 | Objet | Forme | Exemple |

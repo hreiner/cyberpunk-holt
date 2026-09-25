@@ -41,6 +41,7 @@
       "to": "choix-armoire"
     },
     "choix-armoire": {
+      "text": "L'armoire tient tout un pan de mur : trois molettes alignées, un vernis écaillé, un numéro d'inventaire à demi effacé. En face, la porte close n'attendra pas indéfiniment.",
       "choices": [
         {
           "text": "[Piratage] Forcer le verrou de l'armoire sécurisée.",

@@ -20,6 +20,7 @@
       "to": "porte-piratage"
     },
     "porte-piratage": {
+      "text": "Le panneau de verrouillage attend, diode rouge au ras de la plaque. Franklyn décroche son câble de service et cherche la prise, deux doigts sous le boîtier.",
       "choices": [
         {
           "text": "[Piratage] Pirater le panneau de verrouillage.",

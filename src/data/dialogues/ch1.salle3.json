@@ -35,6 +35,7 @@
       "to": "choix-rester"
     },
     "choix-rester": {
+      "text": "Les vapeurs sortent d'une grille au ras du sol et rampent vers le centre de la pièce. L'écran du terminal, lui, continue de défiler dans le blanc.",
       "choices": [
         {
           "text": "Foncer vers la sortie sans s'attarder.",

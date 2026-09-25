@@ -27,6 +27,57 @@ describe('validateDialogue', () => {
     expect(validateDialogue(file).some((m) => m.includes('inexistant'))).toBe(true);
   });
 
+  /**
+   * Un noeud sans rien a lire ne peut qu'AIGUILLER (voir `followRouting` dans
+   * dialogueRunner.ts). S'il pose une vraie question, le joueur voit un panneau vide : c'est
+   * ce qui est arrive a trois noeuds des salles 1, 2 et 3, passes inapercus jusqu'a une
+   * partie de bout en bout.
+   */
+  it('refuse un noeud sans texte qui pose un jet', () => {
+    const file = {
+      id: 'test.muet-a-jet',
+      start: 'a',
+      nodes: {
+        a: {
+          choices: [
+            { text: '[Piratage] Forcer.', check: { skill: 'piratage', dv: 'NORMALE' }, onSuccess: 'b', onFailure: 'b' },
+          ],
+        },
+        b: { text: 'suite' },
+      },
+    };
+    expect(validateDialogue(file).some((m) => m.includes('panneau vide'))).toBe(true);
+  });
+
+  it('refuse un noeud sans texte qui propose une option non conditionnee', () => {
+    const file = {
+      id: 'test.muet-a-choix',
+      start: 'a',
+      nodes: {
+        a: { choices: [{ text: 'Sortir.', to: 'b' }, { text: 'Rester.', to: 'b' }] },
+        b: { text: 'suite' },
+      },
+    };
+    expect(validateDialogue(file).some((m) => m.includes('aiguiller'))).toBe(true);
+  });
+
+  it('accepte un aiguillage : sans texte, mais toutes ses options conditionnees', () => {
+    const file = {
+      id: 'test.aiguillage',
+      start: 'a',
+      nodes: {
+        a: {
+          choices: [
+            { text: 'Continuer.', conditions: [{ tag: 'vip' }], to: 'b' },
+            { text: 'Continuer.', conditions: [{ not: { tag: 'vip' } }], to: 'b' },
+          ],
+        },
+        b: { text: 'suite' },
+      },
+    };
+    expect(validateDialogue(file)).toEqual([]);
+  });
+
   it('detecte un noeud inatteignable depuis start', () => {
     const file = {
       id: 'test.orphelin',

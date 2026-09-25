@@ -140,6 +140,43 @@ function validateNode(
   choices.forEach((choice, index) => {
     validateChoice(prefix, index, choice, nodeIds, errors);
   });
+
+  validateSilentNode(prefix, node, choices, errors);
+}
+
+/**
+ * Un noeud MUET (ni narration, ni replique, ni jet de reflexion) n'a rien a montrer : affiche
+ * tel quel, c'est un panneau vide avec un "Continuer" dessous -- le defaut constate en jeu dans
+ * le fourgon. `DialogueRunner` le traverse sans s'arreter (`isRoutingNode`/`followRouting`), a
+ * une condition : qu'il ne serve qu'a AIGUILLER. Un seul `to`, ou des options toutes
+ * conditionnees et sans jet. Tout le reste -- une vraie question posee sans texte, un jet sans
+ * mise en place -- est du contenu a ecrire, pas un aiguillage : trois noeuds des salles 1, 2 et
+ * 3 presentaient ainsi leurs options sans une ligne de narration.
+ */
+function validateSilentNode(
+  prefix: string,
+  node: Record<string, unknown>,
+  choices: unknown[],
+  errors: string[],
+): void {
+  const silent =
+    node.text === undefined && asArray(node.lines).length === 0 && node.insight === undefined;
+  if (!silent) return;
+  // Noeud terminal : il ne s'affiche pas, il rend la main (regle 7 du format).
+  if (typeof node.to !== 'string' && choices.length === 0) return;
+  if (typeof node.to === 'string') return;
+
+  for (const choice of choices) {
+    if (!isRecord(choice)) continue;
+    if (choice.check !== undefined) {
+      errors.push(`${prefix} : un noeud sans texte ne peut pas porter un jet -- le joueur verrait un panneau vide.`);
+      return;
+    }
+    if (asArray(choice.conditions).length === 0) {
+      errors.push(`${prefix} : un noeud sans texte ne peut qu'aiguiller -- chacune de ses options doit etre conditionnee.`);
+      return;
+    }
+  }
 }
 
 /** Le jet de "reflexion" d'un noeud (ADR 0012) : un CheckSpec, plus narration et effets facultatifs. */
