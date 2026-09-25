@@ -145,6 +145,14 @@ Pirater une porte. De la fumée, du mouvement au loin. Un jet de **Perception** 
 chien poursuit quelqu'un, et permet de distinguer ami d'ennemi. **Tirer sur le chien sauve
 l'otage** — un policier qui joue le rôle. Paniqué, il donne un **second kit de soin**.
 
+Le manquer coûte la meilleure note de la salle, et le texte ne le déguise pas : le chien
+emporte l'otage, le brassard orange reste au sol, et le coéquipier dit tout haut ce que
+l'instructeur notera. Un échec qui se lit comme un échec.
+
+La **sortie** ferme la salle sur un geste que Franklyn ne maîtrise pas : un verrou mécanique,
+rien à pirater, un crochet plat et de la dextérité. Le rater n'enferme personne — on finit au
+pied-de-biche, avec le vacarme et le temps perdu que ça suppose.
+
 ### Salle 2 — le choix coûteux
 
 Deux options : la porte en face, ou une **armoire sécurisée**. Forcer l'armoire **coûte du
@@ -161,6 +169,11 @@ La porte se verrouille derrière. Gaz irritant. Un ordinateur au centre, la sort
 - **Rester** : jets de Résistance ; les cadets touchés sont **gazés** (−2 à tous les jets,
   −1 MOUV) pour la phase finale. Mais l'ordinateur **montre le parcours de l'équipe
   adverse**, donc son placement et son matériel à l'affrontement final.
+- **Relancer l'extraction** (Piratage, Exceptionnelle) : la troisième voie, et la seule où
+  Franklyn joue de son vrai métier. Elle réussit, la pièce redevient respirable et l'équipe
+  repart entière avec la vidéo ; elle échoue, les ventilateurs s'inversent et un coéquipier
+  est gazé **sans même avoir eu droit à son jet**. Un pari, pas un raccourci : le netrunner a
+  une prise sur la pièce qui le punit le plus, il la paie au prix fort quand elle lui échappe.
 
 Deuxième dilemme, symétrique du premier : l'information contre la forme physique.
 

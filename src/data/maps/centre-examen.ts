@@ -65,7 +65,7 @@
  *                              document ("l'otage, puis le chien") en fait un seul
  *                              enchaînement ; deux entités ici pour que le joueur
  *                              puisse cibler l'un ou l'autre du regard, même dialogue.
- *   salle1.porte-nord       -> ch1.salle1, nœud "sortie" (la deuxième porte, entrouverte) ;
+ *   salle1.porte-nord       -> ch1.salle1, nœud "sortie" (verrou mécanique à crocheter) ;
  *                              verrouillée, complète l'objectif de la salle — c'est la
  *                              SORTIE qui termine l'étape, pas le panneau d'entrée (défaut
  *                              corrigé : le panneau jouait auparavant toute la salle et

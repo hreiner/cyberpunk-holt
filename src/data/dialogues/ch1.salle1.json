@@ -143,7 +143,13 @@
       ]
     },
     "chien-manque": {
-      "text": "Le tir part trop tôt et siffle au-dessus de l'échine du chien, qui bifurque dans un couloir latéral en entraînant l'otage avec lui. Le silence retombe, incertain."
+      "text": "Le tir part trop tôt et siffle au-dessus de l'échine. Le chien ne ralentit même pas : il percute l'otage aux jambes, le traîne sur trois mètres et disparaît avec lui derrière une porte battante. Un cri, un choc sourd, puis plus rien. Le brassard orange est resté au sol, dans la fumée.",
+      "lines": [
+        {
+          "who": "equipier1",
+          "text": "C'était le seul truc à ne pas rater. Tout le reste, on pouvait le rattraper."
+        }
+      ]
     },
     "otage-ignore": {
       "text": "L'équipe choisit de ne pas s'en mêler. Le chien et sa proie disparaissent derrière une porte battante ; un cri étouffé, puis plus rien."
@@ -163,7 +169,22 @@
       "text": "L'équipe fonce sans attendre de savoir ce qu'il advient du chien ou de sa proie. Le bruit de course s'éteint derrière eux."
     },
     "sortie": {
-      "text": "Au bout du couloir, une deuxième porte porte le numéro 2, déjà entrouverte par le souffle des grilles d'aération. Le module suivant attend."
+      "text": "Au bout du couloir, la porte numéro 2. Rien d'électronique de ce côté-ci : un verrou mécanique encastré, du genre qu'on ne pirate pas. Franklyn sort le crochet plat de sa trousse — il sert plus souvent à caler un connecteur qu'à ouvrir une porte.",
+      "choices": [
+        {
+          "text": "[Électronique] Crocheter le barillet à la main.",
+          "check": { "skill": "electronique", "attribute": "DEX", "dv": "NORMALE" },
+          "onSuccess": "sortie-crochetee",
+          "onFailure": "sortie-forcee"
+        }
+      ]
+    },
+    "sortie-crochetee": {
+      "text": "Deux essais, un déclic à peine audible, et le pêne recule. La porte s'ouvre sans un bruit sur le module suivant — personne, de l'autre côté, ne sait qu'ils arrivent."
+    },
+    "sortie-forcee": {
+      "text": "Le crochet ripe, se tord, et le barillet reste muet. Il faut finir au pied-de-biche et au vacarme : le battant cède, mais tout le bâtiment a entendu le module 1 s'ouvrir.",
+      "effects": [{ "tempo": 1 }]
     }
   }
 }

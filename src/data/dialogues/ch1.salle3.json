@@ -47,8 +47,26 @@
           "effects": [{ "tempo": 2 }],
           "onSuccess": "equipier1-tient",
           "onFailure": "equipier1-gaze"
+        },
+        {
+          "text": "[Piratage] Relancer l'extraction depuis le boîtier de service.",
+          "check": { "skill": "piratage", "dv": "EXCEPTIONNELLE" },
+          "effects": [{ "tempo": 1 }],
+          "onSuccess": "extraction-relancee",
+          "onFailure": "extraction-inversee"
         }
       ]
+    },
+    "extraction-relancee": {
+      "text": "Le boîtier de service cède en trois commandes. Quelque part au-dessus, un moteur repart en toussant, et la nappe blanche se déchire d'un coup vers les bouches d'extraction. Vingt secondes, et la pièce est respirable. Personne n'a eu à serrer les dents.",
+      "effects": [{ "flag": "ch1.salle3.extraction-relancee", "value": true }],
+      "lines": [{ "who": "equipier1", "text": "... Tu aurais pu commencer par là." }],
+      "to": "video-recuperee"
+    },
+    "extraction-inversee": {
+      "text": "Le boîtier répond — mal. Les ventilateurs s'inversent et se mettent à pousser au lieu d'aspirer. Le gaz tombe du plafond d'un seul bloc, comme une couverture jetée sur la pièce. {equipier1} n'a pas le temps de se couvrir le visage, plie en deux et ne se relève pas.",
+      "effects": [{ "team": { "gassed": "equipier1" } }, { "tag": "imprudent-salle-3" }],
+      "to": "epreuve-equipier2"
     },
     "sortie-rapide": {
       "text": "L'équipe traverse sans un regard pour l'écran, les yeux déjà rivés sur la sortie. Ils respirent l'air libre avant même d'avoir toussé.",
@@ -84,7 +102,7 @@
       "to": "epreuve-franklyn"
     },
     "epreuve-franklyn": {
-      "text": "Franklyn sent sa gorge se serrer ; encore quelques pas jusqu'au terminal.",
+      "text": "Le gaz est monté aux genoux, puis aux épaules. Franklyn a la gorge en feu, les yeux qui coulent, et quatre pas à faire jusqu'au terminal — chaque inspiration coûte plus cher que la précédente.",
       "choices": [
         {
           "text": "[Résistance] Tenir jusqu'au terminal.",
@@ -99,7 +117,7 @@
       "to": "video-recuperee"
     },
     "franklyn-gaze": {
-      "text": "Franklyn s'écroule à un pas du terminal, la vue brouillée par les vapeurs. Il faudra que quelqu'un d'autre termine.",
+      "text": "Franklyn s'écroule à un pas du terminal, la vue brouillée, les poumons en vrac. Il faudra que quelqu'un d'autre termine — et dans deux heures, sur le terrain, il partira avec ça dans la poitrine.",
       "effects": [{ "team": { "gassed": "franklyn" } }, { "tag": "imprudent-salle-3" }],
       "to": "video-recuperee"
     },
