@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { ExploreMap, nearestWalkableCell } from '@/explore';
+import { HOLT_MAP } from '@/data/maps/holt';
+import { CENTRE_EXAMEN_MAP } from '@/data/maps/centre-examen';
 import { SMALL_MAP } from './fixtures/exploreFixtures';
 
 describe('ExploreMap', () => {
@@ -70,5 +72,42 @@ describe('ExploreMap', () => {
           ascii: ['####', '#?.#', '#..#', '####'],
         }),
     ).toThrow(/inconnu/);
+  });
+});
+
+/**
+ * Viser une entité au doigt, c'est viser un disque de `INTERACT_GRAB_RADIUS_M` (0,7 m) autour
+ * du centre de sa case -- voir `pick` dans src/render/exploreView.ts et 08-EXPLORATION.md.
+ * Deux entités à moins de deux cases se partagent donc leur zone, et la plus proche gagne :
+ * au doigt, on en attrape une pour l'autre. Constaté en jeu à la cantine, où Betty se tenait
+ * en diagonale de la place de Franklyn -- la place qui lance le discours du directeur, donc
+ * celle qu'il ne faut surtout pas manquer. Le sac de frappe et Zachary, eux, étaient carrément
+ * sur deux cases voisines.
+ *
+ * Propriété globale plutôt que deux corrections ponctuelles : c'est ce qui attrape le prochain
+ * cas, que personne n'ira chercher à la main.
+ */
+describe('les cartes livrées : des entités qu on peut viser séparément', () => {
+  const CLICKABLE = new Set(['npc', 'object', 'seat']);
+  /** Deux cases d'écart : chaque entité garde un disque de saisie entier. */
+  const MIN_CELLS_APART = 2;
+
+  it.each([
+    ['holt', HOLT_MAP],
+    ['centre-examen', CENTRE_EXAMEN_MAP],
+  ])('%s : aucune paire d entités cliquables à moins de deux cases', (_name, map) => {
+    const entities = map.entities.filter((e) => CLICKABLE.has(e.type));
+    const tooClose: string[] = [];
+    for (let i = 0; i < entities.length; i++) {
+      for (let j = i + 1; j < entities.length; j++) {
+        const a = entities[i] as { id: string; cell: { x: number; y: number } };
+        const b = entities[j] as { id: string; cell: { x: number; y: number } };
+        const distance = Math.hypot(a.cell.x - b.cell.x, a.cell.y - b.cell.y);
+        if (distance < MIN_CELLS_APART) {
+          tooClose.push(`${a.id} (${a.cell.x},${a.cell.y}) et ${b.id} (${b.cell.x},${b.cell.y}) : ${distance.toFixed(2)} case(s)`);
+        }
+      }
+    }
+    expect(tooClose, `entités trop proches pour être visées séparément :\n${tooClose.join('\n')}`).toEqual([]);
   });
 });

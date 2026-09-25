@@ -93,6 +93,13 @@ geste.
   **L'anneau au sol dessine exactement ce disque.** Il était plus petit que la case qu'il
   annonçait : l'œil visait l'anneau, le clic tombait à côté du meuble. Ce qu'on montre et ce
   qu'on accepte doivent être la même chose.
+- **Deux entités interactives ne sont jamais à moins de deux cases.** Sous cette distance,
+  leurs disques de saisie se partagent le terrain et la plus proche emporte le clic : au
+  doigt, on en attrape une pour l'autre. C'est arrivé à la cantine, où une figurante se tenait
+  en diagonale de la place de Franklyn — la place qui lance le discours du directeur, donc
+  celle qu'il ne faut surtout pas manquer. Règle de placement, pas de rendu : elle se vérifie
+  sur les données, carte par carte
+  ([`tests/unit/exploreMap.test.ts`](../../tests/unit/exploreMap.test.ts)).
 - **On ne marche jamais sur une entité.** Une destination qui tombe sur la case d'un
   personnage ou d'un objet est ramenée à sa case d'interaction. Seul un `seat` s'occupe :
   on s'assoit dessus, c'est le geste.

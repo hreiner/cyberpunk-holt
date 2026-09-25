@@ -433,7 +433,11 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'cantine.figurant-betty',
     type: 'npc',
-    cell: { x: 43, y: 23 }, // chaise cote allee de la rangee est
+    // A l'EST de sa table, pas cote allee : elle y etait a une case en diagonale de la place
+    // de Franklyn, et les deux zones de saisie se coupaient en deux -- au doigt, viser la
+    // chaise attrapait Betty une fois sur deux. C'est la place de Franklyn qui lance le
+    // discours : rien ne doit la disputer. Voir INTERACT_GRAB_RADIUS_M (exploreView.ts).
+    cell: { x: 46, y: 22 },
     line: 'J’ai recopié les questions de l’an dernier sur ma manche. Ça vaut ce que ça vaut.',
     label: 'Parler à Betty',
     condition: etape('reveil'),
@@ -500,7 +504,9 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'entrainement.zachary',
     type: 'npc',
-    cell: { x: 31, y: 46 }, // juste a cote du sac
+    // A deux pas du sac, jamais colle : cases adjacentes, leurs zones de saisie se
+    // chevauchaient franchement (meme defaut que Betty, non encore rencontre en jeu).
+    cell: { x: 32, y: 46 },
     dialogueId: 'ch1.hub.zachary',
     label: 'Parler à Zachary',
     condition: etape('temps-libre'),
