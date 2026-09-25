@@ -2,6 +2,8 @@ import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  // Le site est publie sous /cyberpunk-holt/ par GitHub Pages.
+  base: '/cyberpunk-holt/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

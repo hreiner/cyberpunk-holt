@@ -2,6 +2,8 @@
 import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+
 export type HumanModel = 'male' | 'female';
 export interface CadetSharedAssets {
   readonly male: GLTF;
@@ -19,9 +21,9 @@ export function preloadCadetAssets(): Promise<void> {
   if (!loading) {
     const loader = new GLTFLoader();
     loading = Promise.all([
-      loader.loadAsync('/assets/exploration/cadet-male-uniform.glb'),
-      loader.loadAsync('/assets/exploration/cadet-male.glb'),
-      loader.loadAsync('/assets/exploration/cadet-female.glb'),
+      loader.loadAsync(`${ASSET_BASE}assets/exploration/cadet-male-uniform.glb`),
+      loader.loadAsync(`${ASSET_BASE}assets/exploration/cadet-male.glb`),
+      loader.loadAsync(`${ASSET_BASE}assets/exploration/cadet-female.glb`),
     ])
       .then(([male, maleHead, female]) => {
         cache = { male, maleHead, female };

@@ -2,6 +2,8 @@
 import * as THREE from 'three';
 import type { Rng } from '@/core/rng';
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+
 type MaterialKey =
   | 'creamConcrete'
   | 'creamConcreteWall'
@@ -63,15 +65,15 @@ const PALETTE: Record<
  * réemployées » (mandat de la passe D), déjà la pratique pour `coldConcrete` dans `props.ts`.
  */
 const PHOTO_URL: Partial<Record<MaterialKey, string>> = {
-  coldConcrete: '/assets/exploration/concrete-diff-1k.jpg',
+  coldConcrete: `${ASSET_BASE}assets/exploration/concrete-diff-1k.jpg`,
   // Même fichier que `coldConcrete`, teinté différemment par `ExploreView.floorMaterial` --
   // un second `THREE.Texture` (donc un second décodage/upload GPU, ~0,5 Mo de VRAM), pas un
   // second téléchargement (le navigateur sert la deuxième requête depuis son cache HTTP).
-  creamConcrete: '/assets/exploration/concrete-diff-1k.jpg',
-  warmLaminate: '/assets/exploration/wood-laminate-cantine-1k.jpg',
-  clinicTile: '/assets/exploration/tile-infirmerie-1k.jpg',
-  asphalt: '/assets/exploration/asphalt-parking-1k.jpg',
-  corrugatedSteel: '/assets/exploration/corrugated-steel-garage-1k.jpg',
+  creamConcrete: `${ASSET_BASE}assets/exploration/concrete-diff-1k.jpg`,
+  warmLaminate: `${ASSET_BASE}assets/exploration/wood-laminate-cantine-1k.jpg`,
+  clinicTile: `${ASSET_BASE}assets/exploration/tile-infirmerie-1k.jpg`,
+  asphalt: `${ASSET_BASE}assets/exploration/asphalt-parking-1k.jpg`,
+  corrugatedSteel: `${ASSET_BASE}assets/exploration/corrugated-steel-garage-1k.jpg`,
 };
 
 const ROUGHNESS_OVERRIDE: Partial<Record<MaterialKey, number>> = {

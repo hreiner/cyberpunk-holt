@@ -2,6 +2,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+
 const FACTORY_MODELS = [
   'box-large',
   'hopper-high-square',
@@ -46,7 +48,7 @@ export class FactoryModels {
     let pending = this.models.get(modelId);
     if (!pending) {
       pending = this.loader
-        .loadAsync(`/assets/exploration/factory/${modelId}.glb`)
+        .loadAsync(`${ASSET_BASE}assets/exploration/factory/${modelId}.glb`)
         .then(({ scene }) => {
           if (this.disposed) {
             release(scene);
