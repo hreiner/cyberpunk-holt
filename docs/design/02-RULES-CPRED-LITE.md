@@ -39,6 +39,35 @@ impossible, et un excellent cadet peut rater lamentablement. Le journal de dés 
 
 Ces valeurs vivent dans la constante `DV`. **Aucune DV ne doit être écrite en dur ailleurs.**
 
+### Calibrer un jet : entre 20 % et 80 %
+
+L'échelle ci-dessus est calibrée pour un **cadet moyen** : attribut 5, compétence 3, donc 8
+avant le dé — une DV « Normale » y est un vrai 50/50. Elle ne dit rien de ce que vaut le jet
+**pour celui qui le lance**, et c'est là que le contenu s'est trompé.
+
+Franklyn a INT 8 et Piratage 6 : **14 avant même de lancer**. Une DV « Difficile » (15) lui
+demande de ne pas imploser — 90 % de réussite. L'armoire blindée à triple combinaison de la
+salle 2 était à « Difficile » : une formalité coûteuse en clics, pas un dilemme. Rapporté
+d'une partie, mot pour mot : « avec un jet de 22 j'arrive à ouvrir l'armoire blindée ».
+
+La règle est donc sur la **chance affichée**, pas sur le nom de la DV :
+
+| Ce que le moment raconte | Chance visée |
+|---|---|
+| une routine sous pression | 70-80 % |
+| un vrai obstacle | 40-60 % |
+| ce qui devrait échouer | 20-40 % |
+
+**Au-dessus de 80 %, ce n'est pas un jet** : soit on monte la DV, soit on l'enlève et la porte
+s'ouvre. **En dessous de 20 %, ce n'est pas un choix** : on subit, et le dé ne raconte plus
+rien. Un spécialiste doit affronter le haut de l'échelle (« Très difficile », voire
+« Exceptionnelle ») pour que le dé compte encore — c'est précisément ce que veut dire être
+spécialiste.
+
+Le chiffre se calcule sans lancer un seul dé (`successChance`, `src/narrative/odds.ts`), et
+c'est lui que le joueur lit sur la puce du choix. Le vérifier fait partie de l'écriture d'un
+jet, au même titre que son `onFailure`.
+
 ### Jets opposés
 
 Les deux camps lancent, le plus haut total gagne. **En cas d'égalité parfaite, le défenseur

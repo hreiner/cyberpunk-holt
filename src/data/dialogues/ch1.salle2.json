@@ -45,7 +45,7 @@
       "choices": [
         {
           "text": "[Piratage] Forcer le verrou de l'armoire sécurisée.",
-          "check": { "skill": "piratage", "dv": "DIFFICILE" },
+          "check": { "skill": "piratage", "dv": "EXCEPTIONNELLE" },
           "effects": [{ "tempo": 2 }],
           "onSuccess": "armoire-ouverte",
           "onFailure": "armoire-resistante"
@@ -75,7 +75,7 @@
       "choices": [
         {
           "text": "[Piratage] Ouvrir la porte.",
-          "check": { "skill": "piratage", "dv": "NORMALE" },
+          "check": { "skill": "piratage", "dv": "TRES_DIFFICILE" },
           "onSuccess": "porte-franchie",
           "onFailure": "porte-resistante"
         }
@@ -107,13 +107,13 @@
       "choices": [
         {
           "text": "[Athlétisme] Enfoncer la porte d'un coup d'épaule.",
-          "check": { "skill": "athletisme", "dv": "NORMALE", "who": "zachary" },
+          "check": { "skill": "athletisme", "dv": "TRES_DIFFICILE", "who": "zachary" },
           "onSuccess": "porte-franchie",
           "onFailure": "porte-forcee-a-la-dure"
         },
         {
           "text": "[Électronique] Court-circuiter la gâche électrique.",
-          "check": { "skill": "electronique", "dv": "NORMALE" },
+          "check": { "skill": "electronique", "dv": "DIFFICILE" },
           "onSuccess": "porte-franchie",
           "onFailure": "porte-forcee-a-la-dure"
         }
@@ -124,13 +124,13 @@
       "choices": [
         {
           "text": "[Athlétisme] Enfoncer la porte d'un coup d'épaule.",
-          "check": { "skill": "athletisme", "dv": "NORMALE", "who": "john" },
+          "check": { "skill": "athletisme", "dv": "TRES_DIFFICILE", "who": "john" },
           "onSuccess": "porte-franchie",
           "onFailure": "porte-forcee-a-la-dure"
         },
         {
           "text": "[Électronique] Court-circuiter la gâche électrique.",
-          "check": { "skill": "electronique", "dv": "NORMALE" },
+          "check": { "skill": "electronique", "dv": "DIFFICILE" },
           "onSuccess": "porte-franchie",
           "onFailure": "porte-forcee-a-la-dure"
         }
@@ -141,13 +141,13 @@
       "choices": [
         {
           "text": "[Athlétisme] Enfoncer la porte d'un coup d'épaule.",
-          "check": { "skill": "athletisme", "dv": "NORMALE", "who": "grover" },
+          "check": { "skill": "athletisme", "dv": "TRES_DIFFICILE", "who": "grover" },
           "onSuccess": "porte-franchie",
           "onFailure": "porte-forcee-a-la-dure"
         },
         {
           "text": "[Électronique] Court-circuiter la gâche électrique.",
-          "check": { "skill": "electronique", "dv": "NORMALE" },
+          "check": { "skill": "electronique", "dv": "DIFFICILE" },
           "onSuccess": "porte-franchie",
           "onFailure": "porte-forcee-a-la-dure"
         }

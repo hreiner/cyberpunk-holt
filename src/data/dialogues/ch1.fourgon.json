@@ -12,7 +12,7 @@
         { "text": "Regarder dehors en silence.", "to": "silence1" },
         {
           "text": "[Perception] Scruter l'horizon.",
-          "check": { "skill": "perception", "dv": "NORMALE" },
+          "check": { "skill": "perception", "dv": "DIFFICILE" },
           "onSuccess": "campement",
           "onFailure": "silence1",
           "successEffects": [{ "flag": "ch1.fourgon.campement-repere", "value": true }]
@@ -127,7 +127,7 @@
       "choices": [
         {
           "text": "[Perception] Repérer un détail sur le bâtiment.",
-          "check": { "skill": "perception", "dv": "DIFFICILE" },
+          "check": { "skill": "perception", "dv": "TRES_DIFFICILE" },
           "onSuccess": "detail",
           "onFailure": "arrivee",
           "successEffects": [{ "flag": "ch1.fourgon.detail-batiment", "value": true }]

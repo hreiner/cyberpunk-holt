@@ -12,7 +12,7 @@
         { "text": "On ne sait jamais assez à l'avance.", "to": "taquine" },
         {
           "text": "[Perception] Lui demander ce qu'elle a repéré, elle, depuis son perchoir.",
-          "check": { "skill": "perception", "dv": "NORMALE" },
+          "check": { "skill": "perception", "dv": "DIFFICILE" },
           "onSuccess": "reperage-succes",
           "onFailure": "reperage-echec",
           "successEffects": [{ "flag": "ch1.hub.letitia.reperage", "value": true }]

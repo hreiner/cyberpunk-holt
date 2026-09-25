@@ -88,7 +88,7 @@
       "choices": [
         {
           "text": "[Résistance] Tenir jusqu'au terminal.",
-          "check": { "skill": "resistance", "dv": "DIFFICILE" },
+          "check": { "skill": "resistance", "dv": "NORMALE" },
           "onSuccess": "franklyn-tient",
           "onFailure": "franklyn-gaze"
         }

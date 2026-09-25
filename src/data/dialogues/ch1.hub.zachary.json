@@ -18,7 +18,7 @@
         },
         {
           "text": "[Tactique] Lui demander comment il compte ouvrir le combat.",
-          "check": { "skill": "tactique", "dv": "NORMALE" },
+          "check": { "skill": "tactique", "dv": "DIFFICILE" },
           "onSuccess": "jet-tactique-succes",
           "onFailure": "jet-tactique-echec",
           "successEffects": [{ "flag": "ch1.hub.zachary.plan", "value": true }]

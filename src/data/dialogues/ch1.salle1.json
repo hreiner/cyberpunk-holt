@@ -24,7 +24,7 @@
       "choices": [
         {
           "text": "[Piratage] Pirater le panneau de verrouillage.",
-          "check": { "skill": "piratage", "dv": "NORMALE" },
+          "check": { "skill": "piratage", "dv": "TRES_DIFFICILE" },
           "onSuccess": "porte-ouverte",
           "onFailure": "porte-recalcitrante"
         }
@@ -70,7 +70,7 @@
       "choices": [
         {
           "text": "[Perception] Repérer ce qui approche dans la fumée.",
-          "check": { "skill": "perception", "dv": "NORMALE" },
+          "check": { "skill": "perception", "dv": "TRES_DIFFICILE" },
           "onSuccess": "chien-identifie",
           "onFailure": "silhouettes-confuses"
         }
@@ -101,7 +101,7 @@
       "choices": [
         {
           "text": "[Armes de poing] Abattre le chien avant qu'il n'atteigne l'otage.",
-          "check": { "skill": "armesDePoing", "dv": "DIFFICILE", "who": "john" },
+          "check": { "skill": "armesDePoing", "dv": "TRES_DIFFICILE", "who": "john" },
           "onSuccess": "chien-abattu",
           "onFailure": "chien-manque"
         },
@@ -113,7 +113,7 @@
       "choices": [
         {
           "text": "[Armes de poing] Abattre le chien avant qu'il n'atteigne l'otage.",
-          "check": { "skill": "armesDePoing", "dv": "DIFFICILE", "who": "zachary" },
+          "check": { "skill": "armesDePoing", "dv": "TRES_DIFFICILE", "who": "zachary" },
           "onSuccess": "chien-abattu",
           "onFailure": "chien-manque"
         },

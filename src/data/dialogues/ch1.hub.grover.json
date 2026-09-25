@@ -20,7 +20,7 @@
         },
         {
           "text": "[Éducation] Lui rappeler que le règlement HOLT n'interdit pas de rire.",
-          "check": { "skill": "education", "dv": "NORMALE" },
+          "check": { "skill": "education", "dv": "TRES_DIFFICILE" },
           "onSuccess": "jet-succes",
           "onFailure": "jet-echec",
           "successEffects": [{ "flag": "ch1.hub.grover.conseil", "value": true }]
