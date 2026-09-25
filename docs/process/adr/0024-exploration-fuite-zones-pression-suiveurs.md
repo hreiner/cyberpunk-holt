@@ -1,6 +1,6 @@
 # ADR 0024 — Exploration de fuite : zones à effets, pression, suiveurs déclarés, habillage par registre
 
-**Statut : proposé · Date : 2026-09-25**
+**Statut : accepté · Date : 2026-09-25**
 
 ## Contexte
 

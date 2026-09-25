@@ -1,6 +1,6 @@
 # ADR 0025 — Jauges d'état et bilan de chapitre déclarés en données
 
-**Statut : proposé · Date : 2026-09-25**
+**Statut : accepté · Date : 2026-09-25**
 
 ## Contexte
 

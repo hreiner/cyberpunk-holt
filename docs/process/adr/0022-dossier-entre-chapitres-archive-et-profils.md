@@ -1,6 +1,6 @@
 # ADR 0022 — Le dossier entre deux chapitres : archive locale, suite directe, profils
 
-**Statut : proposé · Date : 2026-09-25**
+**Statut : accepté · Date : 2026-09-25**
 
 ## Contexte
 

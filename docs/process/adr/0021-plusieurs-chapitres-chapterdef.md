@@ -1,6 +1,6 @@
 # ADR 0021 — Plusieurs chapitres : `ChapterDef` et `RunState.chapter`
 
-**Statut : proposé · Date : 2026-09-25**
+**Statut : accepté · Date : 2026-09-25**
 
 ## Contexte
 

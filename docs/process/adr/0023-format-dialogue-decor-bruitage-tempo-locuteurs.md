@@ -1,6 +1,6 @@
 # ADR 0023 — Format de dialogue : décor et bruitage par nœud, compteur borné, tempo, locuteurs
 
-**Statut : proposé · Date : 2026-09-25**
+**Statut : accepté · Date : 2026-09-25**
 
 ## Contexte
 

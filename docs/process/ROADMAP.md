@@ -169,7 +169,7 @@ sans combat. Le chapitre 1 reste jouable et vert à chaque lot.
 
 Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md),
 [`../chapters/ch2/TECH-DESIGN.md`](../chapters/ch2/TECH-DESIGN.md) (chaque lot y a sa section :
-à lire, à toucher, preuve de fin). ADR proposés :
+à lire, à toucher, preuve de fin). ADR acceptés :
 [0021](adr/0021-plusieurs-chapitres-chapterdef.md),
 [0022](adr/0022-dossier-entre-chapitres-archive-et-profils.md),
 [0023](adr/0023-format-dialogue-decor-bruitage-tempo-locuteurs.md),
@@ -188,13 +188,12 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.8 | **Le bal et la fuite** : carte `holt-nuit`, conversations du bal et leurs échos, fuite sous tempo jusqu'à la grille | 5.5, 5.7 | à faire |
 | 5.9 | **Conduits et cantine** : carte `conduits`, détour chez Smith, ventilateur, l'enfant, la cantine en feu | 5.7, 5.8 | à faire |
 | 5.10 | **Le campement** : carte `campement`, insignes, matériel, qui tue Murano | 5.5, 5.7 | à faire |
-| 5.A | **Illustrations** : décors du chapitre 2 en `.webp` légers, six portraits | 5.3 | à faire |
+| 5.A | **Illustrations** : décors et six portraits du chapitre 2 inscrits au manifeste de génération, avec des substituts `.webp` en attendant la passe du propriétaire | 5.3 | à faire |
 | 5.11 | **Revue de bout en bout** : une nuit par profil et depuis une vraie archive, performances, `CH2-LEGACY.md`, `CAPABILITIES.md` | tout | à faire |
 | 5.12 | *(facultatif)* **Musique du slow**, coupée par la rafale | 5.5, la piste | à faire |
 
-Ordre de passage : 5.1 seul ; puis 5.2, 5.3 et 5.7 en parallèle (`chapter.ts` est commun :
-fusionner avec soin) ; puis 5.4 et 5.5 ; puis 5.6, 5.8 et 5.10 ; puis 5.9 ; enfin 5.11. 5.A
-court en parallèle dès 5.3.
+Ordre de passage (décision du propriétaire, un lot à la fois) : 5.1, 5.2, 5.3, 5.A, 5.7, 5.4,
+5.5, 5.6, 5.8, 5.10, 5.9, 5.11.
 
 ## Après le chapitre 2
 

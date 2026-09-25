@@ -4,7 +4,7 @@
 > Un agent de phase 3 lit **la section 1**, **la section de son lot** (§6) et les documents
 > que ce lot cite — rien d'autre.
 
-**Statut** : en revue
+**Statut** : validé (2026-09-25)
 **Game design** : [`GAME-DESIGN.md`](GAME-DESIGN.md), version du 2026-09-25 (décisions §11
 comprises, dont les quatre leviers ajoutés en phase 2)
 **Epic** : n° 5 dans [`../../process/ROADMAP.md`](../../process/ROADMAP.md)
@@ -303,11 +303,11 @@ Les quatre **leviers de fun** retenus par le propriétaire (GAME-DESIGN §11), t
 
 | N° | Titre | Statut |
 |---|---|---|
-| [0021](../../process/adr/0021-plusieurs-chapitres-chapterdef.md) | Plusieurs chapitres : `ChapterDef` et `RunState.chapter` | proposé |
-| [0022](../../process/adr/0022-dossier-entre-chapitres-archive-et-profils.md) | Le dossier entre deux chapitres : archive locale, suite directe, profils | proposé |
-| [0023](../../process/adr/0023-format-dialogue-decor-bruitage-tempo-locuteurs.md) | Format de dialogue : décor et bruitage par nœud, compteur borné, tempo, locuteurs | proposé |
-| [0024](../../process/adr/0024-exploration-fuite-zones-pression-suiveurs.md) | Exploration de fuite : zones à effets, pression, suiveurs déclarés, habillage par registre | proposé |
-| [0025](../../process/adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md) | Jauges d'état et bilan de chapitre déclarés en données | proposé |
+| [0021](../../process/adr/0021-plusieurs-chapitres-chapterdef.md) | Plusieurs chapitres : `ChapterDef` et `RunState.chapter` | accepté |
+| [0022](../../process/adr/0022-dossier-entre-chapitres-archive-et-profils.md) | Le dossier entre deux chapitres : archive locale, suite directe, profils | accepté |
+| [0023](../../process/adr/0023-format-dialogue-decor-bruitage-tempo-locuteurs.md) | Format de dialogue : décor et bruitage par nœud, compteur borné, tempo, locuteurs | accepté |
+| [0024](../../process/adr/0024-exploration-fuite-zones-pression-suiveurs.md) | Exploration de fuite : zones à effets, pression, suiveurs déclarés, habillage par registre | accepté |
+| [0025](../../process/adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md) | Jauges d'état et bilan de chapitre déclarés en données | accepté |
 
 ## 6. Lots
 
@@ -510,20 +510,33 @@ Les quatre **leviers de fun** retenus par le propriétaire (GAME-DESIGN §11), t
   est vide sur l'échec du tueur ; une capture du campement.
 - **Documents** : `10-MAPS-CHAPTER-2.md`.
 
-### Lot 5.A — les illustrations (en parallèle, dès 5.3)
+### Lot 5.A — les illustrations : manifeste et substituts (dès 5.3)
 
-- **But** : décors plein cadre en `.webp` légers (≈ 1280 px), tirés des images de
-  `docs/art/Reference_pictures/Chapter2/` : photo, slow (×2), attaque, égouts, Badlands,
-  académie en feu, décharges, clinique (accueil, rue), campement, labo de Smith. Plus six
-  portraits (Smith, l'enfant, Murano, le guide, le charcudoc, un ganger).
+> Décision du propriétaire (2026-09-25) : comme au chapitre 1, ce lot **ne génère pas**
+> d'images. Il enrichit le manifeste de génération et pose des substituts ; le propriétaire
+> fait ensuite une passe de génération hors session, qui remplace les substituts fichier par
+> fichier sans toucher au code.
+
+- **But** : les décors plein cadre du chapitre 2 (photo, slow ×2, attaque, égouts, Badlands,
+  académie en feu, décharges, clinique — accueil et rue —, campement, labo de Smith) et six
+  portraits (Smith, l'enfant, Murano, le guide, le charcudoc, un ganger) sont **inscrits au
+  manifeste** avec leur brief, en citant les images de `docs/art/Reference_pictures/Chapter2/`
+  qui les inspirent ; chaque clé a un **substitut** `.webp` léger au chemin définitif, pour
+  que le jeu tourne en attendant.
 - **Dépend de** : 5.3 (registre des décors)
 - **Lire** : [`ART-PIPELINE.md`](../../art/ART-PIPELINE.md),
-  [`image-generation/ORCHESTRATOR.md`](../../art/image-generation/ORCHESTRATOR.md).
-- **Toucher** : `public/assets/backdrops/`, `public/assets/portraits/`, `data/backdrops.ts`,
-  `ui/portraits.ts`.
+  [`image-generation/ORCHESTRATOR.md`](../../art/image-generation/ORCHESTRATOR.md),
+  [`image-generation/MANIFEST.md`](../../art/image-generation/MANIFEST.md),
+  [`image-generation/STYLE-BIBLE.md`](../../art/image-generation/STYLE-BIBLE.md), un brief
+  du chapitre 1 dans `image-generation/briefs/` comme modèle.
+- **Toucher** : `docs/art/image-generation/MANIFEST.md`, `docs/art/image-generation/briefs/`
+  (nouveaux briefs), `public/assets/backdrops/`, `public/assets/portraits/` (substituts),
+  `data/backdrops.ts`, `ui/portraits.ts`.
 - **Fini quand** : chaque clé de décor citée par un dialogue du chapitre 2 pointe vers un
-  fichier présent (test existant de validation étendu) ; une planche de captures.
-- **Documents** : `ART-PIPELINE.md` (inventaire).
+  fichier présent (test existant de validation étendu) ; chaque décor et portrait du
+  chapitre 2 a sa ligne au manifeste et son brief ; les substituts sont visiblement des
+  substituts (clé lisible) et légers.
+- **Documents** : `ART-PIPELINE.md` (inventaire, substituts en attente).
 
 ### Lot 5.11 — revue de bout en bout
 
@@ -556,10 +569,8 @@ Les quatre **leviers de fun** retenus par le propriétaire (GAME-DESIGN §11), t
                                    (5.12 facultatif, après 5.5)
 ```
 
-Ordre conseillé : 5.1 ; puis 5.2, 5.3 et 5.7 en parallèle (fichiers presque disjoints :
-`chapter.ts` est touché par les trois, dans des méthodes différentes, donc **à fusionner
-avec soin**) ; puis 5.4 ; 5.5 ; puis 5.6, 5.8 et 5.10 ; puis 5.9 ; enfin 5.11. 5.A court en
-parallèle dès 5.3.
+Ordre retenu par le propriétaire : **un lot à la fois, sans parallèle** — 5.1, 5.2, 5.3, 5.A,
+5.7, 5.4, 5.5, 5.6, 5.8, 5.10, 5.9, 5.11.
 
 ## 7. Risques
 

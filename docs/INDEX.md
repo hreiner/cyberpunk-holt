@@ -95,8 +95,8 @@ aucune conversation à retrouver.
 | [0018](process/adr/0018-lumieres-locales-luminaires-et-matieres-procedurales.md) | Lumières locales bon marché pour les luminaires, matières procédurales enrichies              |
 | [0019](process/adr/0019-matieres-photo-pour-les-sols-dexploration.md)           | Matières photo pour les sols d'exploration, réemployées par teinte                            |
 | [0020](process/adr/0020-pilote-dortoir-isole-et-options-art.md)                   | Pilote du dortoir isolé et options d'art de la vue                                             |
-| [0021](process/adr/0021-plusieurs-chapitres-chapterdef.md) | *(proposé)* Plusieurs chapitres : `ChapterDef` et `RunState.chapter` |
-| [0022](process/adr/0022-dossier-entre-chapitres-archive-et-profils.md) | *(proposé)* Le dossier entre deux chapitres : archive locale, suite directe, profils |
-| [0023](process/adr/0023-format-dialogue-decor-bruitage-tempo-locuteurs.md) | *(proposé)* Format de dialogue : décor et bruitage par nœud, compteur borné, tempo, locuteurs |
-| [0024](process/adr/0024-exploration-fuite-zones-pression-suiveurs.md) | *(proposé)* Exploration de fuite : zones à effets, pression, suiveurs déclarés, habillage par registre |
-| [0025](process/adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md) | *(proposé)* Jauges d'état et bilan de chapitre déclarés en données |
+| [0021](process/adr/0021-plusieurs-chapitres-chapterdef.md) | Plusieurs chapitres : `ChapterDef` et `RunState.chapter` |
+| [0022](process/adr/0022-dossier-entre-chapitres-archive-et-profils.md) | Le dossier entre deux chapitres : archive locale, suite directe, profils |
+| [0023](process/adr/0023-format-dialogue-decor-bruitage-tempo-locuteurs.md) | Format de dialogue : décor et bruitage par nœud, compteur borné, tempo, locuteurs |
+| [0024](process/adr/0024-exploration-fuite-zones-pression-suiveurs.md) | Exploration de fuite : zones à effets, pression, suiveurs déclarés, habillage par registre |
+| [0025](process/adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md) | Jauges d'état et bilan de chapitre déclarés en données |
