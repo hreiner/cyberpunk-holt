@@ -129,6 +129,16 @@ export class IsoCamera {
     return this.zoom;
   }
 
+  /**
+   * Zoom ABSOLU, borné comme `zoomBy`. Le pincement à deux doigts raisonne en facteur d'échelle
+   * (« les doigts se sont écartés de 20 % »), pas en incrément : lui faire passer par `zoomBy`
+   * obligerait l'appelant à refaire la multiplication à l'envers.
+   */
+  setZoom(value: number, aspect: number): void {
+    this.zoom = THREE.MathUtils.clamp(value, this.minZoom, this.maxZoom);
+    this.applyZoom(aspect);
+  }
+
   /** Direction "vers le haut de l'ecran", dans le plan XZ, a l'angle affiche courant (panoramique relatif a l'ecran). */
   screenUpXZ(): { x: number; z: number } {
     const azimuth = THREE.MathUtils.degToRad(45 + this.shownQuarter * 90);
@@ -160,12 +170,24 @@ export class IsoCamera {
     this.update();
   }
 
+  /**
+   * `zoom` est l'etendue visible le long du COTE LE PLUS COURT de l'ecran.
+   *
+   * Il gouvernait auparavant la hauteur, quelle que soit la forme de la fenetre. Sur un ecran
+   * large (16:9, aspect ~1,8) cela donne un cadrage genereux ; sur une tablette tenue en
+   * PORTRAIT (aspect 0,75), la meme valeur ne laissait plus voir que 25 m de large -- deux
+   * pieces, et l'on jouait dans un couloir. En indexant le zoom sur le cote court, une valeur
+   * donnee montre la meme chose des deux cotes de la rotation de l'appareil. Rien ne change
+   * pour les ecrans larges (aspect >= 1) : la branche est exactement l'ancien calcul.
+   */
   private applyZoom(aspect: number): void {
     const half = this.zoom / 2;
-    this.camera.left = -half * aspect;
-    this.camera.right = half * aspect;
-    this.camera.top = half;
-    this.camera.bottom = -half;
+    const halfHeight = aspect >= 1 ? half : half / aspect;
+    const halfWidth = halfHeight * aspect;
+    this.camera.left = -halfWidth;
+    this.camera.right = halfWidth;
+    this.camera.top = halfHeight;
+    this.camera.bottom = -halfHeight;
     this.camera.updateProjectionMatrix();
   }
 

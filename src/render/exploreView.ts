@@ -1144,6 +1144,37 @@ export class ExploreView {
     }
   }
 
+  /**
+   * Glissé du doigt (ou de la souris) : le point du sol saisi reste SOUS le doigt. On ne convertit
+   * pas des pixels en mètres -- on prend le point du sol sous la position de départ et sous la
+   * position d'arrivée, avec la MÊME caméra, et on décale la cible de leur différence. C'est exact
+   * à n'importe quel zoom et n'importe quelle rotation, là où un facteur pixels/mètres serait à
+   * recalculer à chaque fois. Borné à la carte comme le panoramique au clavier.
+   */
+  dragGround(fromNdcX: number, fromNdcY: number, toNdcX: number, toNdcY: number): void {
+    const from = this.groundPointAt(fromNdcX, fromNdcY);
+    const to = this.groundPointAt(toNdcX, toNdcY);
+    if (!from || !to) return;
+    const t = this.camera.getTarget();
+    this.setTargetClamped(t.x + (from.x - to.x), t.z + (from.z - to.z));
+  }
+
+  /**
+   * Pincement à deux doigts : `scale` > 1 = doigts écartés = on se rapproche (frustum plus petit).
+   * Le milieu du pincement reste ancré au même point du sol, exactement comme la molette ancre le
+   * curseur (`zoomAtCursor`) -- sans quoi zoomer au doigt fait glisser la carte sous la main.
+   */
+  pinchZoom(scale: number, ndcX: number, ndcY: number, aspect: number): void {
+    if (!(scale > 0)) return;
+    const before = this.groundPointAt(ndcX, ndcY);
+    this.camera.setZoom(this.camera.getZoom() / scale, aspect);
+    const after = before ? this.groundPointAt(ndcX, ndcY) : null;
+    if (before && after) {
+      const t = this.camera.getTarget();
+      this.setTargetClamped(t.x + (before.x - after.x), t.z + (before.z - after.z));
+    }
+  }
+
   /** `+`/`-` maintenus : zoom continu vers le centre de l'écran (pas de curseur à suivre au clavier). */
   zoomBy(delta: number, aspect: number): void {
     this.camera.zoomBy(delta, aspect);

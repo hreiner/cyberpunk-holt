@@ -36,16 +36,27 @@ jets, le dé 3D, la radio, le combat restent ce qu'ils sont.
 
 ## Contrôles
 
-| Action | Souris | Clavier |
-|---|---|---|
-| Se déplacer | clic gauche sur le sol | — |
-| Interagir | clic gauche sur un objet ou un personnage | `Espace` sur l'objet survolé le plus proche |
-| Déplacer la caméra | — | les quatre **flèches** |
-| Recentrer sur Franklyn | — | `C` |
-| Tourner la caméra | — | `A` / `E` (quarts de tour, comme en tactique) |
-| Zoom | **molette**, en continu | `+` / `−` |
-| Montrer l'objectif | — | `Tab` maintenu |
-| Journal | — | `J` |
+| Action | Souris | Tactile | Clavier |
+|---|---|---|---|
+| Se déplacer | clic gauche sur le sol | **appui** sur le sol | — |
+| Interagir | clic gauche sur un objet ou un personnage | **appui** dessus | `Espace` sur l'objet survolé le plus proche |
+| Déplacer la caméra | glisser | **glisser** | les quatre **flèches** |
+| Recentrer sur Franklyn | — | — | `C` |
+| Tourner la caméra | — | — | `A` / `E` (quarts de tour, comme en tactique) |
+| Zoom | **molette**, en continu | **pincer** à deux doigts | `+` / `−` |
+| Montrer l'objectif | — | — | `Tab` maintenu |
+| Journal | — | — | `J` |
+
+**Le jeu se conduit entièrement au doigt.** Une tablette n'a ni flèches ni molette : si un
+geste n'existe qu'au clavier, la fonction n'existe pas là-bas. D'où la règle qui gouverne la
+colonne tactile : **appui court = un ordre, glissé = la caméra.** Le verdict tombe au
+relâchement, jamais à la pose — sans quoi le moindre début de panoramique enverrait Franklyn
+marcher. Le même partage vaut sur le terrain tactique, où un glissé horizontal fait pivoter
+d'un quart de tour (l'équivalent de `A`/`E`).
+
+Ce qui reste au clavier seul (recentrage, rotation en exploration, objectif, journal) est du
+CONFORT : on joue sans. Ce qui ne l'est pas — se déplacer, interagir, cadrer — a toujours un
+geste.
 
 - Le personnage suit le chemin A* le plus court, **en mouvement continu** (interpolé entre
   les cases, comme les déplacements animés de l'ADR 0009), à **4 cases/s**. Un nouveau clic

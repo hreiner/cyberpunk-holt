@@ -108,6 +108,11 @@ async function canvasPointForLabel(page: Page, label: string, attempts = 20): Pr
  * terminal est atteint, SANS quitter la scene.
  */
 async function traverseDialogue(page: Page): Promise<E2EPresentedNode | null> {
+  // Un beat peut S'OUVRIR sur un jet (le piratage du panneau de la salle 1 depuis le découpage
+  // en beats) : l'overlay 3D des dés est alors déjà à l'écran quand on arrive ici, et il attend
+  // un vrai clic sur « Lancer le dé ». Aucune boucle synchrone dans `page.evaluate` ne peut s'en
+  // sortir -- l'animation est asynchrone --, d'où ce passage préalable, côté Playwright.
+  await throwPendingDice(page);
   return page.evaluate(() => {
     const api = window.__game;
     let node = api.node();
@@ -133,6 +138,24 @@ async function traverseDialogue(page: Page): Promise<E2EPresentedNode | null> {
     }
     return node;
   });
+}
+
+/**
+ * Vide l'overlay 3D des dés s'il est ouvert, en le VALIDANT à chaque étape.
+ *
+ * Un jet n'est pas une seule attente : le dé explosif du système peut en enchaîner plusieurs
+ * (une réussite critique relance et cumule), et l'overlay redemande une validation entre
+ * chacune. `waitForActivation` (src/render/dice3d.ts) traite indifféremment le clic sur son
+ * bouton et `Espace`/`Entrée` : on envoie donc `Entrée` tant que l'overlay est là, sans
+ * interpréter le libellé du bouton -- « Lancer » et « Relancer » sont la même porte.
+ */
+async function throwPendingDice(page: Page): Promise<void> {
+  const overlay = page.locator('.dice3d-overlay:not([hidden])');
+  // Borne large : c'est une sécurité anti-boucle, pas une attente calibrée.
+  for (let i = 0; i < 12 && (await overlay.count()) > 0; i++) {
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(350);
+  }
 }
 
 /**
@@ -296,7 +319,16 @@ test('completeStep() (outil de développement) saute directement à la scène su
   expect(next).toMatchObject({ id: 'ch1.discours', kind: 'dialogue' });
 });
 
-test('les clics canvas sur le panneau puis la porte traversent les salles 1 et 2', async ({ page }) => {
+/**
+ * Le seul test qui protège le raccord **objet 3D -> raycast -> interaction**, que
+ * `window.__game.interact()` contourne volontairement. Deux clics, parce que ce sont deux
+ * chemins de construction différents dans `ExploreView` : un `object` a son maillage sémantique,
+ * une `door` a son cadre propre. Ce qu'il y a DERRIÈRE l'interaction (l'enchaînement des salles,
+ * le barème) est couvert par les tests unitaires -- le faire rejouer ici ne rajoutait pas de
+ * garantie et rendait le test sensible à tout : cadrage de caméra, dés, coéquipiers qui passent
+ * devant la cible.
+ */
+test('un vrai clic canvas atteint l’objet visé', async ({ page }) => {
   await boot(page, 'ch1.salle1', 'e2e-explore-semantic-pick');
   // La salle doit avoir été découverte avant que son contenu soit une cible visuelle.
   await page.evaluate(() => window.__game.walkTo(22, 47));
@@ -304,38 +336,26 @@ test('les clics canvas sur le panneau puis la porte traversent les salles 1 et 2
   // 450 ms, en cours juste après `boot()`. Le balayage réessaie donc jusqu'à ce qu'elle soit
   // stable plutôt que de dépendre d'une pause fixe.
   const point = await canvasPointForLabel(page, 'Pirater le panneau de la porte');
+  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.tagName, point)).toBe('CANVAS');
 
-  // Vrai clic navigateur : ce test protège le raccord objet 3D -> raycast -> interaction,
-  // que `window.__game.interact()` contourne volontairement.
   await page.mouse.click(point.x, point.y);
   await page.waitForFunction(() => window.__game.node() !== null);
-  const node = await page.evaluate(() => window.__game.node());
-  expect(node?.nodeId).toBe('arrivee');
+  // Le panneau joue SON beat, pas la salle entière (08-EXPLORATION.md « Une salle se joue beat
+  // par beat ») -- et il ne termine plus l'étape : c'est la sortie nord qui le fait.
+  expect(await page.evaluate(() => window.__game.node()?.nodeId)).toBe('porte');
+  expect(await page.evaluate(() => window.__game.scene())).toMatchObject({ id: 'ch1.salle1' });
+});
 
-  await traverseDialogue(page);
-  expect(await advanceScene(page)).toMatchObject({ id: 'ch1.salle2', kind: 'explore' });
-  // Salle 1 -> salle 2 ne téléporte pas (même carte, voir `ExploreSession.enterStep`) : Franklyn
-  // reste au SEUIL sud de "salle2" (là où le panneau vient de le faire entrer), à l'autre bout
-  // de la pièce (9 cases) de la porte nord visée ensuite. Recentrer la caméra à cet instant
-  // (`enterExploreScene`) la centre donc sur ce seuil, PAS sur la porte -- une salle 2 entière
-  // (18 x 9) déborde largement du cadre d'exploration à ce zoom, portant la porte tout au bord,
-  // voire hors champ. Un vrai joueur marcherait d'abord vers la pièce avant de viser la porte
-  // suivante ; `walkTo` + `C` (recentrage manuel, 08-EXPLORATION.md "Contrôles") reproduit
-  // exactement ce geste, plutôt que de laisser le balayage chasser un pixel à peine visible dans
-  // un coin -- défaut réel de cadrage identifié en jeu (pas un picking mort), corrigé ici où il
-  // se manifeste plutôt que dans le rendu, faute de contrat public pour le recentrage automatique.
-  // (23, 37) plutôt qu'une case collée à la porte : trop près, le meneur ET ses deux coéquipiers
-  // (filature, 08-EXPLORATION.md "Le groupe") finissent masser exactement devant elle et la
-  // recouvrent à l'écran -- constaté en jeu, un vrai joueur ne resterait de toute façon pas planté
-  // sur le seuil qu'il vient de viser.
-  await page.evaluate(() => window.__game.walkTo(23, 37));
+test('un vrai clic canvas atteint la porte visée', async ({ page }) => {
+  await boot(page, 'ch1.salle1', 'e2e-explore-door-pick');
+  await page.evaluate(() => window.__game.walkTo(18, 43));
   await page.keyboard.press('c');
-  const doorPoint = await canvasPointForLabel(page, 'Franchir la porte nord');
-  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.tagName, doorPoint)).toBe('CANVAS');
-  await page.mouse.click(doorPoint.x, doorPoint.y);
-  await page.waitForFunction(() => window.__game.node()?.nodeId === 'porte');
-  await traverseDialogue(page);
-  expect(await advanceScene(page)).toMatchObject({ id: 'ch1.salle3', kind: 'explore' });
+  const door = await canvasPointForLabel(page, 'Franchir la porte nord');
+  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.tagName, door)).toBe('CANVAS');
+
+  await page.mouse.click(door.x, door.y);
+  await page.waitForFunction(() => window.__game.node() !== null);
+  expect(await page.evaluate(() => window.__game.node()?.nodeId)).toBe('sortie');
 });
 
 test('la porte ouverte depuis l’armoire reste franchissable après une reprise', async ({ page }) => {

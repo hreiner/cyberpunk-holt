@@ -2,7 +2,14 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- `viewport-fit=cover` : le jeu occupe l'ecran jusque sous les encoches et barres
+         systeme ; `interactive-widget` evite que le clavier virtuel, s'il s'ouvre, redimensionne
+         la vue 3D. Le zoom de page reste autorise (accessibilite) : c'est `touch-action: none`
+         sur le canvas qui empeche le pincement du JEU d'etre pris pour un zoom de page. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=overlays-content"
+    />
     <title>HOLT Academy — Chapitre 1</title>
     <meta
       name="description"

@@ -25,18 +25,31 @@ body {
   color: var(--bone);
   font-family: var(--font-text);
   overflow: hidden;
+  /* Tablette : sans cela, un glissé qui commence sur le jeu et sort du canvas fait rebondir la
+     page (pull-to-refresh, elastique vertical). Le jeu tient dans une fenetre, il ne defile
+     jamais -- c'est la carte qui se deplace, pas le document. */
+  overscroll-behavior: none;
 }
 
 #app {
   position: relative;
   width: 100vw;
+  /* `100vh` compte la barre d'adresse escamotable des navigateurs mobiles : sur tablette, le jeu
+     depassait donc du bas de l'ecran. `100dvh` mesure la hauteur REELLEMENT visible ; la ligne
+     `100vh` reste au-dessus comme repli pour les navigateurs qui ignorent `dvh`. */
   height: 100vh;
+  height: 100dvh;
 }
 
 canvas {
   display: block;
   width: 100%;
   height: 100%;
+  /* Le canvas gere lui-meme ses gestes (glisser pour deplacer la carte, pincer pour zoomer --
+     voir `ExploreSession.wireCanvasInput`) : sans `touch-action: none`, le navigateur prend le
+     glisse pour un defilement et le pincement pour un zoom de page, et le jeu ne recoit rien. */
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hud {
@@ -399,20 +412,54 @@ canvas {
   color: var(--bone-dim);
 }
 
+/*
+ * Ecran etroit (tablette, fenetre reduite) : les trois colonnes deviennent une seule pile.
+ *
+ * L'ancienne version empilait bien les colonnes mais laissait `.hud-log` ET `.hud-actions` sur
+ * la MEME ligne de grille (la 3, celle en `1fr`) : les deux se superposaient et s'etiraient sur
+ * toute la hauteur libre, si bien que les boutons d'action devenaient des colonnes geantes et
+ * que le terrain disparaissait derriere le HUD. Defaut reel, vu sur une tablette en portrait.
+ *
+ * Chaque bloc a desormais sa ligne, et c'est la ligne du MILIEU qui porte le `1fr` : elle reste
+ * vide, et c'est par elle qu'on voit le terrain. Fiche en haut, journal et actions en bas --
+ * la disposition d'une application tactile, pas un panneau lateral rabattu.
+ */
 @media (max-width: 1100px) {
   .hud {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr auto auto;
+    grid-template-rows: auto auto 1fr auto auto auto;
+    gap: 8px;
+    padding: 8px;
   }
 
   .hud-sheet,
-  .hud-log {
+  .hud-log,
+  .hud-actions,
+  .hud-footer {
     grid-column: 1;
   }
 
+  .hud-sheet {
+    grid-row: 2;
+    align-self: start;
+    /* Plafond, pas une hauteur : une fiche courte reste courte, et le terrain gagne d'autant. */
+    max-height: 32vh;
+  }
+
   .hud-log {
-    grid-row: 3;
-    max-height: 30vh;
+    grid-row: 4;
+    align-self: end;
+    max-height: 16vh;
+  }
+
+  .hud-actions {
+    grid-row: 5;
+    /* Sans cela les boutons heritent de la hauteur de la ligne et s'etirent verticalement. */
+    align-items: center;
+  }
+
+  .hud-footer {
+    grid-row: 6;
   }
 }
 

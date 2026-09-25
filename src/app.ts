@@ -27,6 +27,7 @@ import { EffectsLayer } from '@/render/effects';
 import { IsoCamera } from '@/render/isoCamera';
 import { RigAnimator } from '@/render/rigAnimator';
 import { createGameRenderer } from '@/render/rendererSetup';
+import { SWIPE_ROTATE_PX, TAP_SLOP_PX } from '@/render/pointerGestures';
 import { TEAM_COLORS, YardView, cellToWorld, worldToCell } from '@/render/yardView';
 import { Hud, type HudActionId } from '@/ui/hud';
 
@@ -352,8 +353,7 @@ export class GameApp {
   private bindEvents(): void {
     window.addEventListener('resize', () => this.resize());
     const canvas = this.renderer.domElement;
-    canvas.addEventListener('pointermove', (e: PointerEvent) => this.onPointerMove(e));
-    canvas.addEventListener('pointerdown', (e: PointerEvent) => this.onPointerDown(e));
+    this.bindCanvasGestures(canvas);
     canvas.addEventListener(
       'wheel',
       (e: WheelEvent) => {
@@ -384,6 +384,96 @@ export class GameApp {
         }
       }
     });
+  }
+
+  /**
+   * Gestes du terrain tactique -- pensés pour une tablette, où il n'y a ni clavier ni molette.
+   *
+   * L'action était déclenchée sur `pointerdown` : au doigt, le moindre effleurement engageait
+   * donc un ordre irréversible (un cadet part, un tir est tiré), et il n'existait aucun moyen de
+   * tourner ou de zoomer sans les touches A/E et la molette. Désormais, comme en exploration, le
+   * verdict tombe au RELÂCHEMENT : appui court = ordre, glissé = caméra.
+   *
+   * - un doigt qui traîne horizontalement fait PIVOTER d'un quart de tour tous les
+   *   `SWIPE_ROTATE_PX` -- l'équivalent tactile de A/E, indispensable pour regarder derrière un
+   *   conteneur ;
+   * - deux doigts PINCENT pour zoomer.
+   */
+  private bindCanvasGestures(canvas: HTMLCanvasElement): void {
+    const down = new Map<number, { x: number; y: number }>();
+    let travelPx = 0;
+    /** Déplacement horizontal non encore converti en quart de tour (signé). */
+    let swipeCarryPx = 0;
+    let pinchPx = 0;
+
+    const span = (): { distance: number } | null => {
+      const [a, b] = [...down.values()];
+      return a && b ? { distance: Math.hypot(b.x - a.x, b.y - a.y) } : null;
+    };
+
+    canvas.addEventListener('pointerdown', (e: PointerEvent) => {
+      canvas.setPointerCapture(e.pointerId);
+      down.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (down.size === 1) {
+        travelPx = 0;
+        swipeCarryPx = 0;
+      }
+      if (down.size === 2) {
+        travelPx = Number.POSITIVE_INFINITY; // un pincement n'est jamais un ordre
+        pinchPx = span()?.distance ?? 0;
+      }
+    });
+
+    canvas.addEventListener('pointermove', (e: PointerEvent) => {
+      const previous = down.get(e.pointerId);
+      if (!previous) {
+        // Pointeur relevé : survol. Seul le doigt est exclu (il ne survole pas) ; souris, stylet
+        // et évènements synthétiques passent.
+        if (e.pointerType !== 'touch') this.onPointerMove(e);
+        return;
+      }
+      down.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (down.size >= 2) {
+        const current = span();
+        if (current && pinchPx > 0 && current.distance > 0) {
+          this.iso.setZoom(this.iso.getZoom() / (current.distance / pinchPx), this.aspect());
+        }
+        if (current) pinchPx = current.distance;
+        return;
+      }
+
+      const dx = e.clientX - previous.x;
+      travelPx += Math.hypot(dx, e.clientY - previous.y);
+      if (travelPx <= TAP_SLOP_PX) return;
+      swipeCarryPx += dx;
+      while (Math.abs(swipeCarryPx) >= SWIPE_ROTATE_PX) {
+        // Glisser vers la DROITE fait tourner le décor vers la droite, donc la caméra vers la
+        // gauche : on suit la main, comme un plateau qu'on pousse.
+        this.iso.rotate(swipeCarryPx > 0 ? -1 : 1);
+        swipeCarryPx -= Math.sign(swipeCarryPx) * SWIPE_ROTATE_PX;
+      }
+    });
+
+    const release = (e: PointerEvent, cancelled: boolean): void => {
+      if (!down.has(e.pointerId)) return;
+      down.delete(e.pointerId);
+      if (down.size > 0) {
+        pinchPx = 0;
+        return;
+      }
+      const wasTap = !cancelled && travelPx <= TAP_SLOP_PX;
+      pinchPx = 0;
+      travelPx = 0;
+      swipeCarryPx = 0;
+      if (!wasTap) return;
+      // Au doigt, rien n'a survolé la case : poser le survol d'abord, pour que la case visée
+      // et son aperçu soient ceux qu'on vient de toucher.
+      if (e.pointerType === 'touch') this.onPointerMove(e);
+      this.onTap(e);
+    };
+    canvas.addEventListener('pointerup', (e: PointerEvent) => release(e, false));
+    canvas.addEventListener('pointercancel', (e: PointerEvent) => release(e, true));
   }
 
   private aspect(): number {
@@ -445,7 +535,8 @@ export class GameApp {
     }
   }
 
-  private onPointerDown(event: PointerEvent): void {
+  /** Tapotement confirmé (voir `bindCanvasGestures`) : c'est ici que l'ordre est donné. */
+  private onTap(event: PointerEvent): void {
     if (this.combat.state.phase !== 'playing') return;
     if (this.combat.currentUnit().team !== this.playerTeam) return;
     if (this.busy) return;

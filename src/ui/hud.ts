@@ -99,7 +99,7 @@ export class Hud {
     this.renderSheet(combat, playerTeam);
     this.renderActions(combat, playerTeam, pendingMode);
     this.renderLog(state);
-    this.footer.textContent = `Graine : ${state.seed} — clic : déplacer · maj+clic : courir · A/E : pivoter la caméra (un cadet caché derrière un conteneur reste visible en silhouette)`;
+    this.footer.textContent = `Graine : ${state.seed} — clic ou appui : déplacer · maj+clic : courir · A/E ou glisser : pivoter la caméra · molette ou pincer : zoomer (un cadet caché derrière un conteneur reste visible en silhouette)`;
   }
 
   private renderBanner(state: CombatState, playerTeam: 'blue' | 'red'): void {

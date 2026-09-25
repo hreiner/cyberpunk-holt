@@ -42,6 +42,7 @@ import type { Cell, EntityDef, ExploreEvent, InteractableInfo, MapDef } from '@/
 import { ExploreView, KEY_ZOOM_SPEED } from '@/render/exploreView';
 import type { HoverTarget } from '@/render/exploreView';
 import { createGameRenderer, rendererDescription } from '@/render/rendererSetup';
+import { TAP_SLOP_PX } from '@/render/pointerGestures';
 import { ObjectiveHud } from './ui/objectiveHud';
 import { BriefLineView } from './ui/briefLine';
 
@@ -364,29 +365,114 @@ export class ExploreSession {
     this.heldKeys.zoomIn = this.heldKeys.zoomOut = false;
   }
 
-  /** Souris : pointermove/click/wheel, cables une seule fois sur le canvas (persiste tout le chapitre). */
+  /**
+   * Pointeur : survol, glissé, tapotement, molette et pincement -- câblés une seule fois sur le
+   * canvas (persiste tout le chapitre).
+   *
+   * Un seul geste sert à DEUX choses, et c'est tout le sujet : le doigt (ou la souris) qui se
+   * pose et se relève sans bouger est un ORDRE DE DÉPLACEMENT ; le même qui traîne est un
+   * PANORAMIQUE. On ne peut donc pas écouter `click` -- il arrive aussi au bout d'un glissé, et
+   * la carte partait se recentrer sur la case qu'on venait de faire défiler. On suit les
+   * pointeurs nous-mêmes, et le tapotement n'est reconnu qu'au relâchement, si le pointeur a
+   * moins bougé que `TAP_SLOP_PX`.
+   *
+   * Deux pointeurs = pincement (zoom). Sur tablette, ce sont les SEULS gestes disponibles :
+   * flèches et molette n'existent pas, la carte doit se conduire entièrement au doigt.
+   */
   private wireCanvasInput(canvas: HTMLCanvasElement): void {
-    const ndcFromEvent = (e: PointerEvent | MouseEvent | WheelEvent): { x: number; y: number } => {
+    const ndcFrom = (clientX: number, clientY: number): { x: number; y: number } => {
       const rect = canvas.getBoundingClientRect();
       return {
-        x: ((e.clientX - rect.left) / rect.width) * 2 - 1,
-        y: -(((e.clientY - rect.top) / rect.height) * 2 - 1),
+        x: ((clientX - rect.left) / rect.width) * 2 - 1,
+        y: -(((clientY - rect.top) / rect.height) * 2 - 1),
       };
     };
+
+    /** Pointeurs actuellement posés sur le canvas, par identifiant, à leur dernière position. */
+    const down = new Map<number, { x: number; y: number }>();
+    /** Distance parcourue par le geste en cours, en pixels : au-delà du seuil, ce n'est plus un tapotement. */
+    let travelPx = 0;
+    /** Écartement des deux doigts à la dernière image, en pixels ; 0 = pas de pincement en cours. */
+    let pinchPx = 0;
+
+    const pinchSpan = (): { distance: number; cx: number; cy: number } | null => {
+      const [a, b] = [...down.values()];
+      if (!a || !b) return null;
+      return { distance: Math.hypot(b.x - a.x, b.y - a.y), cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
+    };
+
+    canvas.addEventListener('pointerdown', (e) => {
+      canvas.setPointerCapture(e.pointerId);
+      down.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (down.size === 1) travelPx = 0;
+      if (down.size === 2) {
+        // Un pincement n'est jamais un tapotement : on le disqualifie tout de suite, sinon
+        // relever le deuxième doigt enverrait le meneur marcher là où on voulait zoomer.
+        travelPx = Number.POSITIVE_INFINITY;
+        pinchPx = pinchSpan()?.distance ?? 0;
+      }
+    });
+
     canvas.addEventListener('pointermove', (e) => {
-      this.lastPointerClient = { x: e.clientX, y: e.clientY };
-      const { x, y } = ndcFromEvent(e);
-      this.view?.handlePointerMove(x, y);
+      const previous = down.get(e.pointerId);
+      if (!previous) {
+        // Pointeur relevé : simple survol. Seul le DOIGT est exclu -- il n'a pas de survol, et
+        // laisser passer son pointermove poserait une étiquette fantôme sous le dernier appui.
+        // Tout le reste (souris, stylet, et les évènements synthétiques au `pointerType` vide
+        // que dispatchent les tests) survole normalement.
+        if (e.pointerType !== 'touch') {
+          this.lastPointerClient = { x: e.clientX, y: e.clientY };
+          const { x, y } = ndcFrom(e.clientX, e.clientY);
+          this.view?.handlePointerMove(x, y);
+        }
+        return;
+      }
+      down.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (down.size >= 2) {
+        const span = pinchSpan();
+        if (span && pinchPx > 0 && span.distance > 0) {
+          const centre = ndcFrom(span.cx, span.cy);
+          this.view?.pinchZoom(span.distance / pinchPx, centre.x, centre.y, this.aspect());
+        }
+        if (span) pinchPx = span.distance;
+        return;
+      }
+
+      travelPx += Math.hypot(e.clientX - previous.x, e.clientY - previous.y);
+      if (travelPx <= TAP_SLOP_PX) return;
+      const from = ndcFrom(previous.x, previous.y);
+      const to = ndcFrom(e.clientX, e.clientY);
+      this.view?.dragGround(from.x, from.y, to.x, to.y);
     });
-    canvas.addEventListener('click', (e) => {
-      const { x, y } = ndcFromEvent(e);
+
+    const release = (e: PointerEvent, cancelled: boolean): void => {
+      if (!down.has(e.pointerId)) return;
+      down.delete(e.pointerId);
+      if (down.size > 0) {
+        // Un doigt sur deux relevé : on ne reprend pas un panoramique avec celui qui reste,
+        // le geste garde son verdict jusqu'au bout.
+        pinchPx = 0;
+        return;
+      }
+      const wasTap = !cancelled && travelPx <= TAP_SLOP_PX;
+      pinchPx = 0;
+      travelPx = 0;
+      if (!wasTap) return;
+      const { x, y } = ndcFrom(e.clientX, e.clientY);
+      // Au doigt, rien n'a survolé la case avant l'appui : on pose le survol d'abord, pour que
+      // le rendu et l'étiquette désignent bien ce qu'on vient de toucher.
+      if (e.pointerType === 'touch') this.view?.handlePointerMove(x, y);
       this.view?.handleClick(x, y);
-    });
+    };
+    canvas.addEventListener('pointerup', (e) => release(e, false));
+    canvas.addEventListener('pointercancel', (e) => release(e, true));
+
     canvas.addEventListener(
       'wheel',
       (e) => {
         e.preventDefault();
-        const { x, y } = ndcFromEvent(e);
+        const { x, y } = ndcFrom(e.clientX, e.clientY);
         this.view?.zoomAtCursor(x, y, e.deltaY, this.aspect());
       },
       { passive: false },
