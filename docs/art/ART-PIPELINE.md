@@ -193,6 +193,23 @@ Deux clés restent des **réutilisations assumées**, pas des substituts en atte
 légendée pour **le guide** (le gamin de la scène 11, `briefs/P16-guide.md`) — sa fiche part d'une
 description textuelle seule. À combler avant la génération, ou à confirmer tel quel.
 
+### Les ajouts du propriétaire (lot 5.B)
+
+Même procédé pour les huit images des ajouts du 2026-09-26 (manifeste, lot F ; fiches
+`briefs/D29-*` à `D35-*` et `briefs/P19-inconnue.md`). Chaque fiche porte cette fois le **prompt
+complet prêt à copier** : bloc de style, sujet, format et négatifs (sans sang, continuité de
+l'ADR 0003). Les substituts sont au chemin définitif.
+
+| Portrait/décor | Statut | Remplace |
+|---|---|---|
+| D33 rafale-gangers, D34 rafale-cadets, D35 rafale-zachary (`ch2.slow`, lot 5.15) | substitut posé, en attente de génération | rien (clés nouvelles) |
+| D29 egouts-zachary, D30 egouts-arrachee (`ch2.egouts`, lot 5.13) | substitut posé, en attente de génération | rien (clés nouvelles) |
+| D31 blue-purple, D32 blue-purple-rencontre (`ch2.bluepurple`, lot 5.14) | substitut posé, en attente de génération | rien (clés nouvelles) |
+| P19 inconnue | substitut posé (`public/assets/portraits/inconnue.webp`), **pas encore branché** | le locuteur `inconnue` n'existe pas encore dans `SpeakerId` : le lot 5.14 l'ajoute et renseigne `PORTRAIT_SOURCES` dans `src/ui/portraits.ts` |
+
+Les sept clés de décor sont enregistrées dans `src/data/backdrops.ts` ; le test de `BACKDROPS`
+(`tests/unit/narrativeValidate.test.ts`) vérifie que chaque fichier existe.
+
 ## Ordre de travail conseillé
 
 1. Portraits 2D des six cadets — fort impact, faible risque.

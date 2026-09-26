@@ -21,6 +21,11 @@
  * Exception : `bal-entree` réutilise intentionnellement `hall.webp` du
  * chapitre 1 (même corridor d'académie) — ce n'est pas un des dix décors du
  * manifeste, donc pas de fiche dédiée ; voir ART-PIPELINE.md.
+ *
+ * Le lot 5.B (manifeste, lot F ; fiches `D29-*` à `D35-*`) ajoute les sept
+ * décors des ajouts du propriétaire (rafale, mort de Zachary, Blue Purple),
+ * chacun avec son substitut au chemin définitif ; les lots de contenu 5.13 à
+ * 5.15 ne font que citer ces clés.
  */
 
 import { assetUrl } from '@/ui/assetUrl';
@@ -82,6 +87,22 @@ export const BACKDROPS: Record<string, Backdrop> = {
   campement: { src: `${BACKDROP_ASSET}campement.webp` },
   /** Scène 5 (`ch2.conduits`), détour facultatif B14, D28 : le labo de Smith. */
   'labo-smith': { src: `${BACKDROP_ASSET}labo-smith.webp` },
+
+  // -- Chapitre 2, ajouts du propriétaire : manifeste et substituts du lot 5.B (MANIFEST.md, lot F). --
+  /** Scène 3 (`ch2.slow`), D33 : les gangers entrent en tirant (lot 5.15). */
+  'rafale-gangers': { src: `${BACKDROP_ASSET}rafale-gangers.webp` },
+  /** Scène 3 (`ch2.slow`), D34 : les cadets tombent ou plongent sous les tables (lot 5.15). */
+  'rafale-cadets': { src: `${BACKDROP_ASSET}rafale-cadets.webp` },
+  /** Scène 3 (`ch2.slow`), D35 : Zachary protège Abigail de son corps et se fait toucher (lot 5.15). */
+  'rafale-zachary': { src: `${BACKDROP_ASSET}rafale-zachary.webp` },
+  /** Scène 7 (`ch2.egouts`), D29 : Abigail penchée sur Zachary mourant (lot 5.13). */
+  'egouts-zachary': { src: `${BACKDROP_ASSET}egouts-zachary.webp` },
+  /** Scène 7 (`ch2.egouts`), D30 : Abigail en pleurs, arrachée au corps de Zachary (lot 5.13). */
+  'egouts-arrachee': { src: `${BACKDROP_ASSET}egouts-arrachee.webp` },
+  /** Scène 12 (`ch2.bluepurple`), D31 : le Blue Purple, vu en entrant (lot 5.14). */
+  'blue-purple': { src: `${BACKDROP_ASSET}blue-purple.webp` },
+  /** Scène 12 (`ch2.bluepurple`), D32 : l'inconnue s'assoit à leur table (lot 5.14). */
+  'blue-purple-rencontre': { src: `${BACKDROP_ASSET}blue-purple-rencontre.webp` },
 };
 
 /** Liste des clés valides, pour `validateDialogue(file, BACKDROP_KEYS)` (voir sa doc). */
