@@ -136,6 +136,9 @@ Chapitre : `src/data/chapters/ch2.ts` (scènes, jauge, bilan `CH2_END`, `Ch2Etap
   jeu (prévois un repli conditionné).
 - Le fusil : `ch2.fusil.charge` (drapeau) et l'entrée `ch2.fusil` s'écrivent en scène 9 ;
   la scène 10 les lit (chargé : tirer en l'air ; vide : bluff).
+- Une `Condition` ne lit pas une entrée du dossier : pour qu'un bilan ou une scène plus
+  lointaine en dépende, pose un drapeau en même temps que l'entrée (`ch2.campement.tueur`,
+  `ch2.fusil.donne`).
 - Les fichiers d'art (`public/assets/backdrops/`, `portraits/`, `MANIFEST.md`) appartiennent
   au propriétaire : ne les régénère pas, ne les remplace pas.
 - Un choix de joueur qui doit peser sur le tempo se place **avant** la scène `explore`
