@@ -68,36 +68,36 @@ Formats et règles communes : [`STYLE-BIBLE.md`](STYLE-BIBLE.md). Références :
 
 ## Lot E — chapitre 2 : portraits et décors (lot de dev 5.A)
 
-> Décision du propriétaire (2026-09-25) : le lot 5.A **n'a pas généré** ces images. Chaque ligne
-> porte un **substitut** `.webp` léger, visiblement provisoire, au chemin définitif — la
-> génération reste à faire, sans changer le code ni les clés. Smith (chapitre 2) réutilise le
-> portrait déjà livré `P13`, donc n'apparaît pas ci-dessous.
+> Le lot 5.A avait posé des substituts `.webp` aux chemins définitifs. Les seize images du lot E
+> ont été générées le 2026-09-25 et remplacent ces substituts, sans changer le code ni les clés.
+> Les masters, notes et la planche contact sont dans `art-masters/`. Smith (chapitre 2) réutilise
+> le portrait déjà livré `P13`, donc n'apparaît pas ci-dessous.
 
 ### Portraits
 
 | ID | Image | Fichier livré | Références d'identité | État |
 |---|---|---|---|---|
-| P14 | L'enfant | `public/assets/portraits/enfant.webp` | `Chapter2/ConduitsEnfant.png` | substitut posé |
-| P15 | Murano, l'homme du campement | `public/assets/portraits/murano.webp` | `Chapter2/MuranoBadlandsCamps.png` | substitut posé |
-| P16 | Le guide (le gamin de la scène 11) | `public/assets/portraits/guide.webp` | aucune référence dédiée (question ouverte, voir la fiche) | substitut posé |
-| P17 | Le charcudoc | `public/assets/portraits/charcudoc.webp` | `Chapter2/Charcudoc.png` | substitut posé |
-| P18 | Un ganger | `public/assets/portraits/ganger.webp` | `Chapter2/GangersVueDepuisConduits.png` | substitut posé |
+| P14 | L'enfant | `public/assets/portraits/enfant.webp` | `Chapter2/ConduitsEnfant.png` | à valider |
+| P15 | Murano, l'homme du campement | `public/assets/portraits/murano.webp` | `Chapter2/MuranoBadlandsCamps.png` | à valider |
+| P16 | Le guide (le gamin de la scène 11) | `public/assets/portraits/guide.webp` | description de la fiche, sans référence dédiée | à valider |
+| P17 | Le charcudoc | `public/assets/portraits/charcudoc.webp` | `Chapter2/Charcudoc.png` | à valider |
+| P18 | Un ganger | `public/assets/portraits/ganger.webp` | `Chapter2/GangersVueDepuisConduits.png` | à valider |
 
 ### Décors de scène
 
 | ID | Lieu · scène | Fichier livré | Références | État |
 |---|---|---|---|---|
-| D18 | La photo de classe · Scène 1, `ch2.photo` | `public/assets/backdrops/photo-souvenir.webp` | `Chapter2/photosouvenir.png` | substitut posé |
-| D19 | Le slow, Abigail et Zachary · Scène 3, `ch2.slow` | `public/assets/backdrops/slow-abigail-zachary.webp` | `Chapter2/SlowAbigailZach.png` | substitut posé |
-| D20 | Le slow, Franklyn et Letitia · Scène 3, `ch2.slow` | `public/assets/backdrops/slow-franklyn-letitia.webp` | `Chapter2/SlowFranklinLeticia.png` | substitut posé |
-| D21 | La rafale · Scène 3, `ch2.slow` (nœud `rafale`) | `public/assets/backdrops/attaque.webp` | `Chapter2/AttaqueBoom.png`, `Chapter2/boom.png` | substitut posé |
-| D22 | Les égouts · Scène 7, `ch2.egouts` | `public/assets/backdrops/egouts.webp` | `Chapter2/Egouts.png` | substitut posé |
-| D23 | L'académie en feu · Scène 8, `ch2.adieu` | `public/assets/backdrops/academie-en-feu.webp` | `Chapter2/BadlandsHoltenFeuPatrouilles.png` | substitut posé |
-| D24 | Les décharges · Scène 10, `ch2.decharges` | `public/assets/backdrops/decharges.webp` | `Chapter2/NightCityDecharge.png` | substitut posé |
-| D25 | La clinique, l'accueil · Scène 11, `ch2.charcudoc` | `public/assets/backdrops/clinique-accueil.webp` | `Chapter2/AcceuilCharcueDoc.png` | substitut posé |
-| D26 | La clinique, la rue · Scène 11, `ch2.charcudoc` | `public/assets/backdrops/clinique-rue.webp` | `Chapter2/NightCityRueCharcudoc.png` | substitut posé |
-| D27 | Le campement · Scènes 9, `ch2.campement`/`ch2.murano` | `public/assets/backdrops/campement.webp` | `Chapter2/CampsBadlands.png`, `Chapter2/MuranoBadlandsCamps.png` | substitut posé |
-| D28 | Le labo de Smith · Scène 5, `ch2.smith` (détour facultatif) | `public/assets/backdrops/labo-smith.webp` | `Chapter2/LaboSmith.png` (architecture seulement, pas le personnage qui y figure) | substitut posé |
+| D18 | La photo de classe · Scène 1, `ch2.photo` | `public/assets/backdrops/photo-souvenir.webp` | `Chapter2/photosouvenir.png` | à valider |
+| D19 | Le slow, Abigail et Zachary · Scène 3, `ch2.slow` | `public/assets/backdrops/slow-abigail-zachary.webp` | `Chapter2/SlowAbigailZach.png` | à valider |
+| D20 | Le slow, Franklyn et Letitia · Scène 3, `ch2.slow` | `public/assets/backdrops/slow-franklyn-letitia.webp` | `Chapter2/SlowFranklinLeticia.png` | à valider |
+| D21 | La rafale · Scène 3, `ch2.slow` (nœud `rafale`) | `public/assets/backdrops/attaque.webp` | `Chapter2/AttaqueBoom.png`, `Chapter2/boom.png` | à valider |
+| D22 | Les égouts · Scène 7, `ch2.egouts` | `public/assets/backdrops/egouts.webp` | `Chapter2/Egouts.png` | à valider |
+| D23 | L'académie en feu · Scène 8, `ch2.adieu` | `public/assets/backdrops/academie-en-feu.webp` | `Chapter2/BadlandsHoltenFeuPatrouilles.png` | à valider |
+| D24 | Les décharges · Scène 10, `ch2.decharges` | `public/assets/backdrops/decharges.webp` | `Chapter2/NightCityDecharge.png` | à valider |
+| D25 | La clinique, l'accueil · Scène 11, `ch2.charcudoc` | `public/assets/backdrops/clinique-accueil.webp` | `Chapter2/AcceuilCharcueDoc.png` | à valider |
+| D26 | La clinique, la rue · Scène 11, `ch2.charcudoc` | `public/assets/backdrops/clinique-rue.webp` | `Chapter2/NightCityRueCharcudoc.png` | à valider |
+| D27 | Le campement · Scènes 9, `ch2.campement`/`ch2.murano` | `public/assets/backdrops/campement.webp` | `Chapter2/CampsBadlands.png`, `Chapter2/MuranoBadlandsCamps.png` | à valider |
+| D28 | Le labo de Smith · Scène 5, `ch2.smith` (détour facultatif) | `public/assets/backdrops/labo-smith.webp` | `Chapter2/LaboSmith.png` (architecture seulement, pas le personnage qui y figure) | à valider |
 
 **Décor `badlands` réutilisé tel quel** : la clé `badlands` du registre (`D10`, déjà livrée pour
 le chapitre 1) reste disponible pour un futur nœud du chapitre 2 qui montrerait les Badlands à
