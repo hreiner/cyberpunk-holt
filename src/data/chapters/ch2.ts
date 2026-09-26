@@ -228,6 +228,28 @@ export const CH2_END: ChapterEndDef = {
         { value: 'est resté distant' },
       ],
     },
+    // Lot 5.10, decision du proprietaire (2026-09-26) : qui a tue Murano, et ce qu'il reste du
+    // fusil. Lus sur des drapeaux poses en meme temps que les entrees du dossier
+    // (`ch2.campement.tueur`, `ch2.fusil.charge`, `ch2.fusil.donne`) : une condition ne lit pas
+    // une entree. Repli sans `when` : toujours ecrites, meme sur une partie lancee en cours.
+    {
+      label: 'Murano',
+      cases: [
+        { when: { flag: 'ch2.campement.tueur', equals: 'franklyn' }, value: 'tué par Franklyn' },
+        { when: { flag: 'ch2.campement.tueur', equals: 'john' }, value: 'tué par John' },
+        { when: { flag: 'ch2.campement.tueur', equals: 'grover' }, value: 'tué par Grover' },
+        { when: { flag: 'ch2.campement.tueur', equals: 'abigail' }, value: 'tué par Abigail' },
+        { value: 'mort au campement' },
+      ],
+    },
+    {
+      label: 'Le fusil',
+      cases: [
+        { when: { flag: 'ch2.fusil.donne', equals: true }, value: 'donné au guide' },
+        { when: { flag: 'ch2.fusil.charge', equals: true }, value: 'gardé, une dernière cartouche' },
+        { value: 'gardé, vide' },
+      ],
+    },
     {
       label: 'La voiture',
       cases: [

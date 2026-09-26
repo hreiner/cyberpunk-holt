@@ -16,13 +16,13 @@
       "choices": [
         {
           "text": "[Persuasion] Lui demander la trousse, pour Letitia.",
-          "check": { "skill": "persuasion", "dv": "DIFFICILE" },
+          "check": { "skill": "persuasion", "dv": "TRES_DIFFICILE" },
           "onSuccess": "materiel-obtenu",
           "onFailure": "materiel-refuse"
         },
         {
           "text": "[Persuasion] Laisser Grover lui parler de Letitia.",
-          "check": { "skill": "persuasion", "dv": "DIFFICILE", "who": "grover" },
+          "check": { "skill": "persuasion", "dv": "TRES_DIFFICILE", "who": "grover" },
           "onSuccess": "materiel-obtenu",
           "onFailure": "materiel-refuse"
         }
@@ -61,6 +61,7 @@
           "onFailure": "franklyn-rate",
           "effects": [
             { "tag": "a-tue" },
+            { "flag": "ch2.campement.tueur", "value": "franklyn" },
             { "entry": { "key": "ch2.campement.tueur", "label": "Qui a tué Murano", "value": "Franklyn" } },
             { "affinity": { "who": "grover", "delta": -1 } }
           ]
@@ -71,6 +72,7 @@
           "onSuccess": "john-reussi",
           "onFailure": "john-rate",
           "effects": [
+            { "flag": "ch2.campement.tueur", "value": "john" },
             { "entry": { "key": "ch2.campement.tueur", "label": "Qui a tué Murano", "value": "John" } },
             { "affinity": { "who": "john", "delta": 1 } },
             { "affinity": { "who": "grover", "delta": -1 } }
@@ -82,6 +84,7 @@
           "onSuccess": "grover-reussi",
           "onFailure": "grover-rate",
           "effects": [
+            { "flag": "ch2.campement.tueur", "value": "grover" },
             { "entry": { "key": "ch2.campement.tueur", "label": "Qui a tué Murano", "value": "Grover" } },
             { "affinity": { "who": "grover", "delta": -2 } }
           ]
@@ -93,6 +96,7 @@
           "onSuccess": "abigail-reussi",
           "onFailure": "abigail-rate",
           "effects": [
+            { "flag": "ch2.campement.tueur", "value": "abigail" },
             { "entry": { "key": "ch2.campement.tueur", "label": "Qui a tué Murano", "value": "Abigail" } },
             { "affinity": { "who": "abigail", "delta": 1 } },
             { "affinity": { "who": "grover", "delta": -1 } }
@@ -150,13 +154,41 @@
         { "flag": "ch2.fusil.charge", "value": true },
         { "entry": { "key": "ch2.fusil", "label": "Le fusil", "value": "celui de Murano, une dernière cartouche dans la chambre" } }
       ],
-      "to": "apres"
+      "to": "insignes"
     },
     "fusil-vide": {
       "text": "Le fusil de Murano change de mains. Il est vide.",
       "effects": [
         { "flag": "ch2.fusil.charge", "value": false },
         { "entry": { "key": "ch2.fusil", "label": "Le fusil", "value": "celui de Murano, vide : sa dernière cartouche est partie au campement" } }
+      ],
+      "to": "insignes"
+    },
+    "insignes": {
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "flag": "ch2.campement.insignes", "equals": "vus" }],
+          "to": "apres"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "flag": "ch2.campement.insignes", "equals": "vus" } }],
+          "to": "insignes-tard"
+        }
+      ]
+    },
+    "insignes-tard": {
+      "text": "Sur la manche de Murano, un brassard. Un scorpion cousu à la main — le même que sur les bras des gangers, ce soir, à l'académie. Personne ne dit rien ; tout le monde le garde en tête.",
+      "effects": [
+        { "flag": "ch2.campement.insignes", "value": "trouves" },
+        {
+          "entry": {
+            "key": "ch2.campement.insignes",
+            "label": "Insignes au scorpion",
+            "value": "trouvés sur Murano, après sa mort : le scorpion des gangers de l'attaque"
+          }
+        }
       ],
       "to": "apres"
     },

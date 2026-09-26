@@ -18,11 +18,12 @@
       "text": "Un brassard. Un scorpion cousu à la main, le fil encore neuf. Le même que sur les bras des gangers, ce soir, dans les couloirs de l'académie.",
       "lines": [{ "who": "john", "text": "C'est eux. Ceux qui ont tiré. C'est ici qu'ils dorment." }],
       "effects": [
+        { "flag": "ch2.campement.insignes", "value": "vus" },
         {
           "entry": {
             "key": "ch2.campement.insignes",
             "label": "Insignes au scorpion",
-            "value": "un brassard au scorpion, le même que sur les gangers de l'attaque"
+            "value": "reconnus sur-le-champ : un brassard au scorpion, le même que sur les gangers de l'attaque"
           }
         }
       ]

@@ -316,7 +316,8 @@ describe('chapitre 2 (lot 5.5) : garde de contenu', () => {
   );
 
   describe('lot 5.6 : quatre lignes du bilan (CH2_END) sont TOUJOURS écrites', () => {
-    const ALWAYS_WRITTEN_LABELS = ['État de Letitia', 'Abigail', "L'enfant", 'La voiture'];
+    // Lot 5.10 (décision du propriétaire, 2026-09-26) : « Murano » et « Le fusil » s'ajoutent.
+    const ALWAYS_WRITTEN_LABELS = ['État de Letitia', 'Abigail', "L'enfant", 'La voiture', 'Murano', 'Le fusil'];
 
     it.each(ALWAYS_WRITTEN_LABELS)('"%s" a un dernier cas sans "when" (repli toujours vrai)', (label) => {
       const line = CH2_END.lines.find((l) => l.label === label);
@@ -438,6 +439,52 @@ describe('lot 5.10 : le campement -- qui tue Murano, et ce que coûte un échec'
       expect(runner.context.run.flags[LETITIA_COUNTER]).toBe(success ? 1 : 2);
     }
     expect([...seen].sort()).toEqual([false, true]);
+  });
+
+  /**
+   * Décision du propriétaire (2026-09-26) : rater les insignes retarde, ne perd plus. Trois
+   * départs -- fouille réussie, fouille ratée, pas de fouille -- puis tout chemin de ch2.murano
+   * (chaque tueur, chaque issue) : l'entrée est toujours écrite, avec sa nuance.
+   */
+  it('"ch2.campement.insignes" est écrite sur tout chemin : reconnus sur-le-champ, ou trouvés sur Murano', () => {
+    const campement = DIALOGUES['ch2.campement'] as DialogueFile;
+    const starts: Array<{ label: string; ctx: NarrativeContext; expected: string }> = [];
+    for (let seed = 0; seed < 30; seed++) {
+      const ctx: NarrativeContext = {
+        dossier: { ...createDossier(), tags: [ABIGAIL_BRISEE_TAG] },
+        run: createRunState(`ch2Content::insignes-${seed}`, { chapter: 2, sceneId: 'ch2.campement', luck: 0 }),
+      };
+      const runner = new DialogueRunner(campement, ctx, createRng(`ch2Content::insignes-${seed}`));
+      runner.choose(runner.current().choices[0]!.index);
+      const success = runner.current().lastCheck?.success as boolean;
+      playToEnd(runner);
+      starts.push({ label: success ? 'fouille réussie' : 'fouille ratée', ctx: runner.context, expected: success ? 'reconnus' : 'trouvés sur Murano' });
+    }
+    starts.push({
+      label: 'pas de fouille',
+      ctx: {
+        dossier: { ...createDossier(), tags: [ABIGAIL_BRISEE_TAG] },
+        run: createRunState('ch2Content::insignes-sans', { chapter: 2, sceneId: 'ch2.campement', luck: 0 }),
+      },
+      expected: 'trouvés sur Murano',
+    });
+    expect(new Set(starts.map((s) => s.label)).size, 'les trois départs doivent être observés').toBe(3);
+
+    for (const start of starts) {
+      for (const killer of KILLERS) {
+        for (let seed = 0; seed < 8; seed++) {
+          const runner = new DialogueRunner(MURANO, start.ctx, createRng(`ch2Content::insignes-${killer}-${seed}`), {
+            startNode: 'qui',
+          });
+          const option = runner.current().choices.find((c) => c.text.includes(KILLER_OPTION[killer]));
+          runner.choose(option!.index);
+          playToEnd(runner);
+          const value = entryValue(runner.context, 'ch2.campement.insignes');
+          expect(value, `${start.label}, ${killer} : entrée manquante`).toBeDefined();
+          expect(value!.includes(start.expected), `${start.label}, ${killer} : "${value}"`).toBe(true);
+        }
+      }
+    }
   });
 
   it('scène 10 : un fusil chargé et un fusil vide ne proposent pas les mêmes options aux décharges', () => {

@@ -699,14 +699,28 @@ rapport du lot (DV du matériel).
 
 Relais de garde inchangé (`voiture-pillee` parmi les nuits « Veiller » : 62,8 à 68,9 %).
 
+**Suite du lot 5.10 (décision du propriétaire, 2026-09-26)** : le matériel passe à DV Très
+difficile (Grover 50 %, Franklyn 20 %) ; rater ou sauter les insignes ne perd plus l'accroche
+(le brassard est trouvé sur Murano après sa mort, `ch2.campement.insignes` est toujours
+écrite) ; le bilan gagne les lignes « Murano » et « Le fusil ». Même commande, même graine :
+
+| Profil | État de Letitia (0 / 1 / 2 / 3) |
+|---|---|
+| Loyal à la bande | 42,8 % / 42,8 % / 13,4 % / 1,0 % |
+| Solitaire | 46,0 % / 43,8 % / 10,2 % / 0,0 % |
+| Neutre | 48,8 % / 42,4 % / 8,8 % / 0,0 % |
+
+« Stable » n'est plus majoritaire à lui seul (43-49 %, contre 52-59 % à DV Difficile) ; l'état 3
+reste marginal (1,0 % en Loyal). `voiture-pillee` parmi les nuits « Veiller » : 63,6 à 68,2 %.
+
 Chances de réussite des jets de la scène 9 (d10 explosif, sans Chance ; les fiches ne dépendent
 pas du profil) :
 
 | Jet | Lanceur | Compétence | DV | Réussite |
 |---|---|---|---|---|
 | Les insignes | Franklyn (INT 8 + 4) | Perception | Difficile (15) | 80 % |
-| Le matériel | Franklyn (EMP 5 + 3) | Persuasion | Difficile (15) | 40 % |
-| Le matériel | Grover (EMP 7 + 4) | Persuasion | Difficile (15) | 70 % |
+| Le matériel | Franklyn (EMP 5 + 3) | Persuasion | Très difficile (17) | 20 % |
+| Le matériel | Grover (EMP 7 + 4) | Persuasion | Très difficile (17) | 50 % |
 | Tuer Murano | Franklyn (DEX 5 + 4) | Discrétion | Difficile (15) | 50 % |
 | Tuer Murano | John (DEX 7 + 6) | Corps à corps | Très difficile (17) | 70 % |
 | Tuer Murano | Grover (DEX 6 + 4) | Corps à corps | Difficile (15) | 60 % |

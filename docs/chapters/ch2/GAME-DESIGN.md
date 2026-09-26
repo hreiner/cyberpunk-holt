@@ -137,14 +137,22 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
   de l'attaque, des traces de sang, Murano, l'homme au vieux fusil.
 - **Décisions et jets** :
   - Les insignes : [Perception] DV 13 ; **réussite** : `ch2.campement.insignes` et une réplique.
-    *(Lot 5.10 : DV 15 — à DV 13, Franklyn, INT 8 + Perception 4, réussissait 90 % du temps.)*
+    *(Lot 5.10 : DV 15 — à DV 13, Franklyn, INT 8 + Perception 4, réussissait 90 % du temps.
+    Décision du propriétaire, 2026-09-26 : un échec retarde, il ne perd plus — sur un échec,
+    ou sans fouille, le brassard est trouvé sur Murano après sa mort, sans la réplique de John.
+    `ch2.campement.insignes` est toujours écrite : « reconnus sur-le-champ » ou « trouvés sur
+    Murano ».)*
   - Le matériel : [Persuasion] DV 15 (Grover ou Franklyn) ; **réussite** : −1 sur l'état de
     Letitia. **Échec** : on le prend après le meurtre, trop tard pour qu'il serve.
+    *(Décision du propriétaire, 2026-09-26 : DV 17 — Grover ≈ 50 %, Franklyn ≈ 20 % ; à DV 15,
+    « stable » devenait l'issue majoritaire du chapitre.)*
   - **Qui le tue** : John, Grover, Abigail (volontaire si `abigail-brisee`) ou Franklyn. Jet
     selon le tueur (Corps à corps, Discrétion…). **Échec** : son coup part, personne n'est
     touché, mais c'était **sa dernière balle** : le fusil est vide.
     *(Lot 5.10 : la réciproque est tenue — sur une réussite, le fusil garde sa dernière
-    cartouche, et la scène 10 le lit.)*
+    cartouche, et la scène 10 le lit. Décision du propriétaire, 2026-09-26 : le bilan porte
+    deux lignes de plus, « Murano » (qui l'a tué) et « Le fusil » (chargé, vide, ou donné au
+    guide). `a-tue` gagne d'office l'épreuve des gamins en scène 10 : c'est le design.)*
 - **Écrit** : `ch2.campement.tueur`, `a-tue` si c'est Franklyn ; affinités (le tueur ;
   Grover réagit). **Réemploi** : EXP-01, 03, 06 ; DLG-02, 03, 05.
 
