@@ -16,16 +16,15 @@
 import type { ChapterDef, ChapterEndDef, GaugeDef, SceneDef } from '@/narrative';
 import { CHAPTER_2_RADIO } from './ch2Radio';
 
-/** Drapeau d'etape du chapitre 2 (ADR 0021), lu par `holt-nuit.ts` (aucune entite ne s'en sert encore ce lot). */
+/** Drapeau d'etape du chapitre 2 (ADR 0021), lu par `holt-nuit.ts` et `campement.ts`. */
 export const CH2_ETAPE_FLAG = 'ch2.etape';
 
 /**
  * Valeurs posees par les scenes `explore` du chapitre 2 (meme role que `Ch1Etape` --
- * `src/narrative/sceneRouter.ts` -- mais aucune entite de `holt-nuit.ts` n'en a besoin a ce
- * lot : le bal et la fuite se distinguent deja par leurs entites propres). Etendu au fil des
- * lots 5.9/5.10 (`conduits`, `cantine`, `campement`).
+ * `src/narrative/sceneRouter.ts`) : les entites et l'habillage de `holt-nuit.ts` et
+ * `campement.ts` en dependent. `conduits`/`cantine` arriveront au lot 5.9.
  */
-export type Ch2Etape = 'bal' | 'fuite';
+export type Ch2Etape = 'bal' | 'fuite' | 'campement';
 
 /** Chance de Franklyn au chapitre 2 : reserve pleine, non heritee du chapitre 1 (TECH-DESIGN B25). */
 export const CH2_INITIAL_LUCK = 3;
@@ -125,7 +124,30 @@ export const CHAPTER_2_SCENES: SceneDef[] = [
   { id: 'ch2.cantine', kind: 'dialogue', title: 'La cantine', dialogueId: 'ch2.cantine', number: 6 },
   { id: 'ch2.egouts', kind: 'dialogue', title: 'Les égouts', dialogueId: 'ch2.egouts', number: 7 },
   { id: 'ch2.adieu', kind: 'dialogue', title: "L'adieu", dialogueId: 'ch2.adieu', number: 8 },
-  { id: 'ch2.campement', kind: 'dialogue', title: 'Le campement', dialogueId: 'ch2.campement', number: 9 },
+  /**
+   * Le campement (lot 5.10, GAME-DESIGN scene 9) : on arrive par la breche sud, on peut fouiller
+   * pres des tentes (les insignes, `ch2.campement.json`), et l'homme au fusil pres du camion
+   * termine l'objectif -- son dialogueId est celui de la scene suivante (`ch2.murano`, contrat
+   * du lot 3.6b). Suiveurs de TECH-DESIGN §4.4 : Letitia est portee hors champ, John et Grover
+   * sont les deux visibles (B9), Abigail et l'enfant restent dits par la narration.
+   */
+  {
+    id: 'ch2.campement',
+    kind: 'explore',
+    title: 'Le campement',
+    mapId: 'campement',
+    spawn: 'campement',
+    etape: 'campement',
+    number: 9,
+    followers: ['john', 'grover', 'abigail', 'enfant'],
+    objective: {
+      id: 'ch2.campement',
+      title: 'Trouver de quoi repartir',
+      context: "Un feu, des tentes, un vieux camion. Et quelqu'un qui le garde.",
+      completionTrigger: 'campement.murano',
+      tasks: [{ id: 'ch2.campement.fouiller', label: 'fouiller près des tentes', entityIds: ['campement.insignes'] }],
+    },
+  },
   { id: 'ch2.murano', kind: 'dialogue', title: 'Murano', dialogueId: 'ch2.murano', number: 9 },
   { id: 'ch2.decharges', kind: 'dialogue', title: 'Les décharges', dialogueId: 'ch2.decharges', number: 10 },
   { id: 'ch2.charcudoc', kind: 'dialogue', title: 'Le charcudoc', dialogueId: 'ch2.charcudoc', number: 11 },

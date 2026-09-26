@@ -53,6 +53,13 @@ export const EXPLORE_VISUALS: Record<string, ExploreVisuals> = {
     coldPalette: false,
     dormitoryArchitecture: true,
   },
+  // Le campement (lot 5.10) : un extérieur de nuit adossé aux murs d'une station-service en
+  // ruine -- béton froid (`coldConcreteWall`), comme le centre d'examen abandonné, jamais la
+  // peinture crème de l'académie.
+  campement: {
+    coldPalette: true,
+    dormitoryArchitecture: false,
+  },
 };
 
 /** Réglages de `mapId`, ou le repli neutre si la carte n'est pas déclarée. */

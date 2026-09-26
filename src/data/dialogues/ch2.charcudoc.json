@@ -52,7 +52,7 @@
       "to": "accueil"
     },
     "perd-fusil": {
-      "text": "Le gamin ne cède rien. Le fusil vide change de mains, sans un mot de plus.",
+      "text": "Le gamin ne cède rien. Le fusil change de mains, sans un mot de plus.",
       "effects": [{ "entry": { "key": "ch2.fusil", "label": "Le fusil", "value": "laissé au guide, en paiement" } }],
       "to": "accueil"
     },

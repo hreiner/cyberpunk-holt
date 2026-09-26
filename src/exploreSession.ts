@@ -47,6 +47,18 @@ import { Sfx } from '@/audio/sfx';
 import type { SfxId } from '@/audio/sfx';
 import { CHAPTERS } from '@/data/chapters';
 import { HOLT_NUIT_VISUALS } from '@/data/exploreVisuals/holtNuit';
+import { CAMPEMENT_VISUALS } from '@/data/exploreVisuals/campement';
+import type { ExploreVisualMapDef } from '@/data/exploreVisualTypes';
+
+/**
+ * Habillages des cartes du chapitre 2, passes a `ExploreView` par `art.visuals` (voir
+ * `buildWorld`) : `ExploreView.visualDefinition` ne connait en dur que `holt` et
+ * `centre-examen`. Une carte du chapitre 2 absente d'ici se rendrait sans aucun meuble.
+ */
+const CHAPTER_2_VISUALS: Record<string, ExploreVisualMapDef> = {
+  [HOLT_NUIT_VISUALS.mapId]: HOLT_NUIT_VISUALS,
+  [CAMPEMENT_VISUALS.mapId]: CAMPEMENT_VISUALS,
+};
 import { ObjectiveHud } from './ui/objectiveHud';
 import type { GaugeStatus } from './ui/gaugeView';
 import { BriefLineView } from './ui/briefLine';
@@ -61,6 +73,7 @@ import { BriefLineView } from './ui/briefLine';
 function nightMoodForEtape(etape: string | undefined): NightMood {
   if (etape === 'bal') return 'bal';
   if (etape === 'fuite') return 'fuite';
+  if (etape === 'campement') return 'campement';
   return null;
 }
 
@@ -242,7 +255,7 @@ export class ExploreSession {
     // MEME batiment institutionnel -- `holt`/`centre-examen` gardent leur climat fixe par carte
     // (`EXPLORE_VISUALS`, `exploreVisualsFor`).
     this.view?.setEtape(scene.etape);
-    this.view?.setNightMood(mapDef.id === HOLT_NUIT_VISUALS.mapId ? nightMoodForEtape(scene.etape) : null);
+    this.view?.setNightMood(mapDef.id in CHAPTER_2_VISUALS ? nightMoodForEtape(scene.etape) : null);
     this.syncVisibility();
     this.hud?.setGauge(this.gaugeStatusFor(ctx));
   }
@@ -341,7 +354,8 @@ export class ExploreSession {
       // "Toucher" de ce lot). Sans cet override explicite, la variante de nuit se rendrait
       // sans aucun meuble (repli `{ mapId, placements: [] }`) -- `art.visuals` est le point
       // d'extension déjà prévu pour ce cas (voir `src/dev/dormitoryPilotMap.ts`).
-      mapDef.id === HOLT_NUIT_VISUALS.mapId ? { visuals: HOLT_NUIT_VISUALS } : {},
+      // Lot 5.10 : meme override pour `campement` (`CHAPTER_2_VISUALS`).
+      CHAPTER_2_VISUALS[mapDef.id] ? { visuals: CHAPTER_2_VISUALS[mapDef.id] } : {},
     );
     // La préférence système concerne les animations de présentation (caméra, repère,
     // poses d'attente), jamais l'avancée de `ExploreState` ni sa vitesse de déplacement.

@@ -674,3 +674,41 @@ jamais atteint (0,0 % sur les trois profils) — ce n'est pas un DV à ajuster :
 3 et 7 seules touchant encore ce compteur (la garde ne le fait plus monter depuis le retour de
 l'orchestrateur précédent), le maximum mécaniquement atteignable est 2. Hors périmètre de ce
 lot (`ch2.slow.json`/`ch2.egouts.json` n'en font pas partie).
+
+### Résultats du simulateur (lot 5.10, le campement)
+
+`npx tsx scripts/simulate-ch2.ts 500`, graine de base par défaut. La scène 9 n'est plus un
+squelette : le simulateur joue `ch2.campement.json` (les insignes) et `ch2.murano.json` (le
+matériel, qui tue Murano). Pour isoler l'effet de ce lot, la même commande a été relancée sur
+l'état précédent (commit du lot 5.8b, qui compte déjà les jets du bal, de la fuite et de la
+grille — d'où un état 3 déjà atteint à 1,6 % en Loyal, contrairement au tableau du lot 5.6).
+
+| Profil | État de Letitia (0 / 1 / 2 / 3), avant 5.10 | Après 5.10 |
+|---|---|---|
+| Loyal à la bande | 26,6 % / 47,4 % / 24,4 % / 1,6 % | 52,4 % / 36,0 % / 11,0 % / 0,6 % |
+| Solitaire | 26,2 % / 54,6 % / 19,2 % / 0,0 % | 58,0 % / 34,8 % / 7,2 % / 0,0 % |
+| Neutre | 31,4 % / 51,8 % / 16,8 % / 0,0 % | 59,0 % / 35,2 % / 5,8 % / 0,0 % |
+
+**Ce que le matériel change** : c'est un soin de plus (−1), obtenu dans un peu plus d'une nuit
+sur deux par le tirage uniforme du simulateur (Franklyn 40 %, Grover 70 %, plus la Chance de
+Franklyn). Il déplace la masse de 1-2 vers 0 : « stable » devient l'issue majoritaire (52 à 59 %)
+et l'état 3, déjà marginal, recule (1,6 % → 0,6 % en Loyal). Rien dans la scène 9 ne fait
+MONTER le compteur (GAME-DESIGN §5.1 : « le matériel le baisse ») : ce lot ne rend donc pas
+l'état critique plus accessible, il l'éloigne. Question ouverte pour le propriétaire : voir le
+rapport du lot (DV du matériel).
+
+Relais de garde inchangé (`voiture-pillee` parmi les nuits « Veiller » : 62,8 à 68,9 %).
+
+Chances de réussite des jets de la scène 9 (d10 explosif, sans Chance ; les fiches ne dépendent
+pas du profil) :
+
+| Jet | Lanceur | Compétence | DV | Réussite |
+|---|---|---|---|---|
+| Les insignes | Franklyn (INT 8 + 4) | Perception | Difficile (15) | 80 % |
+| Le matériel | Franklyn (EMP 5 + 3) | Persuasion | Difficile (15) | 40 % |
+| Le matériel | Grover (EMP 7 + 4) | Persuasion | Difficile (15) | 70 % |
+| Tuer Murano | Franklyn (DEX 5 + 4) | Discrétion | Difficile (15) | 50 % |
+| Tuer Murano | John (DEX 7 + 6) | Corps à corps | Très difficile (17) | 70 % |
+| Tuer Murano | Grover (DEX 6 + 4) | Corps à corps | Difficile (15) | 60 % |
+| Tuer Murano | Abigail, si `abigail-brisee` (DEX 7 + 3) | Discrétion | Difficile (15) | 60 % |
+| Scène 10, fusil chargé | Franklyn (EMP 5 + 3) | Persuasion | Normale (13) | 60 % |

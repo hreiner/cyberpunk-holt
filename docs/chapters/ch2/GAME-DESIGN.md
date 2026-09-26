@@ -137,11 +137,14 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
   de l'attaque, des traces de sang, Murano, l'homme au vieux fusil.
 - **Décisions et jets** :
   - Les insignes : [Perception] DV 13 ; **réussite** : `ch2.campement.insignes` et une réplique.
+    *(Lot 5.10 : DV 15 — à DV 13, Franklyn, INT 8 + Perception 4, réussissait 90 % du temps.)*
   - Le matériel : [Persuasion] DV 15 (Grover ou Franklyn) ; **réussite** : −1 sur l'état de
     Letitia. **Échec** : on le prend après le meurtre, trop tard pour qu'il serve.
   - **Qui le tue** : John, Grover, Abigail (volontaire si `abigail-brisee`) ou Franklyn. Jet
     selon le tueur (Corps à corps, Discrétion…). **Échec** : son coup part, personne n'est
     touché, mais c'était **sa dernière balle** : le fusil est vide.
+    *(Lot 5.10 : la réciproque est tenue — sur une réussite, le fusil garde sa dernière
+    cartouche, et la scène 10 le lit.)*
 - **Écrit** : `ch2.campement.tueur`, `a-tue` si c'est Franklyn ; affinités (le tueur ;
   Grover réagit). **Réemploi** : EXP-01, 03, 06 ; DLG-02, 03, 05.
 
@@ -152,7 +155,9 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
   demander de l'aide échoue toujours.
 - **Décisions et jets** :
   - Tenir tête avec un fusil vide : [Persuasion] DV 15. Avec `bluffeur`, un bluff DV 13 ;
-    avec `a-tue`, une option froide. **Échec** : les gamins rôdent et le DV de la garde
+    avec `a-tue`, une option froide. *(Lot 5.10 : si le tueur a réussi, le fusil garde une
+    cartouche — tenir tête [Persuasion] DV 13, ou la tirer en l'air : les gamins fuient à coup
+    sûr, mais le fusil est vide pour la suite.)* **Échec** : les gamins rôdent et le DV de la garde
     monte d'un cran.
   - **La garde**. *Veiller* : **trois tours pour quatre veilleurs** — Franklyn, John, Grover,
     Abigail —, celui qui n'est pas choisi dort toute la nuit (décision du propriétaire,

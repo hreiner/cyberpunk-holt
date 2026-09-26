@@ -9,10 +9,9 @@
 
 ## 1. Où en est l'epic
 
-Lots livrés : 5.1 à 5.8, 5.8b, 5.A (voir ROADMAP, epic 5). Scènes complètes : 1 (photo), 2
-(bal), 3 (slow), 4 (fuite + grille), 7 (égouts), 8 (adieu), 10 (décharges), 11 (charcudoc).
-Encore squelettes : 5 (conduits, enfant), 6 (cantine) — lot 5.9 ; 9 (campement, Murano) —
-lot 5.10. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
+Lots livrés : 5.1 à 5.8, 5.8b, 5.10, 5.A (voir ROADMAP, epic 5). Scènes complètes : 1 (photo), 2
+(bal), 3 (slow), 4 (fuite + grille), 7 (égouts), 8 (adieu), 9 (campement, Murano),
+10 (décharges), 11 (charcudoc). Encore squelettes : 5 (conduits, enfant), 6 (cantine) — lot 5.9. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
 **garde = trois tours pour quatre veilleurs, voiture pillée à deux échecs** ; images du lot E
 générées (plus de substituts).
 
@@ -61,7 +60,9 @@ Exploration — `src/explore/types.ts`, `src/data/exploreVisualTypes.ts` :
 - Registres : `src/data/maps/index.ts`, `src/data/exploreVisuals/index.ts` (`EXPLORE_VISUALS`),
   `src/data/dialogues/registry.ts`.
 - Ambiance de nuit : `applyNightMood` (`src/render/exploration/atmosphere.ts`), choisie par
-  étape dans `exploreSession.ts`.
+  étape dans `exploreSession.ts`, qui tient aussi la table des habillages du chapitre 2 : une
+  carte nouvelle s'y enregistre, sinon elle se rend sans meubles. Figurants hostiles :
+  profil ganger dans `src/render/exploration/npcRig.ts`.
 
 ## 3. Carte des fichiers du chapitre 2
 
@@ -75,7 +76,7 @@ Exploration — `src/explore/types.ts`, `src/data/exploreVisualTypes.ts` :
 | 6 cantine | `ch2.cantine.json` | `conduits` (lot 5.9) |
 | 7 égouts | `ch2.egouts.json` | — |
 | 8 adieu | `ch2.adieu.json` | — |
-| 9 campement | `ch2.campement*.json`, `ch2.murano.json` | `maps/campement.ts` (lot 5.10) |
+| 9 campement | `ch2.campement.json` (insignes), `ch2.murano.json` (matériel, qui tue) | `maps/campement.ts`, `exploreVisuals/campement.ts` (étape `campement`) |
 | 10 décharges | `ch2.decharges.json` (relais de garde) | — |
 | 11 charcudoc | `ch2.charcudoc.json` | — |
 
@@ -133,6 +134,8 @@ Chapitre : `src/data/chapters/ch2.ts` (scènes, jauge, bilan `CH2_END`, `Ch2Etap
   pendant un jet en attente : les marcheurs s'arrêtent aussi sur `pendingRoll`, et
   `narrativeDeadEnds.test.ts` échantillonne des combinaisons de drapeaux impossibles en
   jeu (prévois un repli conditionné).
+- Le fusil : `ch2.fusil.charge` (drapeau) et l'entrée `ch2.fusil` s'écrivent en scène 9 ;
+  la scène 10 les lit (chargé : tirer en l'air ; vide : bluff).
 - Les fichiers d'art (`public/assets/backdrops/`, `portraits/`, `MANIFEST.md`) appartiennent
   au propriétaire : ne les régénère pas, ne les remplace pas.
 - Un choix de joueur qui doit peser sur le tempo se place **avant** la scène `explore`

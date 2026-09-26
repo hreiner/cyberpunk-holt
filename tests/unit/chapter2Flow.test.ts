@@ -336,14 +336,14 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
     expect(solitaireDossier.affinities.letitia).toBeGreaterThan(loyalDossier.affinities.letitia ?? 0);
   });
 
-  it('les 15 SceneDef du chapitre 2 (ADR 0021, TECH-DESIGN §4.4) : dialogues, sauf le bal et la fuite depuis le lot 5.8', () => {
+  it('les 15 SceneDef du chapitre 2 (ADR 0021, TECH-DESIGN §4.4) : dialogues, sauf le bal, la fuite (lot 5.8) et le campement (lot 5.10)', () => {
     // 14 scenes narratives + une SceneDef jumelle pour `ch2.fuite` (le porteur, `when` sur
     // `ch2.porteur` -- retour de l'orchestrateur du lot 5.8, TECH-DESIGN §4.4).
     expect(CHAPTER_2.scenes).toHaveLength(15);
-    const EXPLORE_SCENE_IDS = new Set(['ch2.bal', 'ch2.fuite']);
+    const EXPLORE_SCENE_IDS = new Set(['ch2.bal', 'ch2.fuite', 'ch2.campement']);
     for (const scene of CHAPTER_2.scenes) {
       if (EXPLORE_SCENE_IDS.has(scene.id)) {
-        expect(scene.kind, `${scene.id} devrait etre "explore" depuis le lot 5.8`).toBe('explore');
+        expect(scene.kind, `${scene.id} devrait etre "explore"`).toBe('explore');
         expect(scene.mapId, `${scene.id} : mapId manquant`).toBeTruthy();
         expect(scene.spawn, `${scene.id} : spawn manquant`).toBeTruthy();
         expect(scene.objective?.completionTrigger, `${scene.id} : completionTrigger manquant`).toBeTruthy();

@@ -57,7 +57,7 @@ export function addExplorationLighting(scene: THREE.Scene, extent: number, centr
 }
 
 /** Climat nocturne d'une carte a etapes (ADR 0026) : `null` restaure le calibrage par defaut. */
-export type NightMood = 'bal' | 'fuite' | null;
+export type NightMood = 'bal' | 'fuite' | 'campement' | null;
 
 /**
  * Valeurs de secours si `setMood` ne stocke pas le calibrage d'origine (voir `ExploreView`,
@@ -95,9 +95,23 @@ export function applyNightMood(lights: ExplorationLights, mood: NightMood): void
     lights.rim.intensity = 0.22;
     return;
   }
+  if (mood === 'campement') {
+    // Un exterieur de nuit dans les Badlands (GAME-DESIGN scene 9, lot 5.10) : lune froide,
+    // basse, bleutee -- assez pour lire tentes, camion et silhouettes, jamais assez pour
+    // concurrencer le feu de camp (`props.ts`, sa `PointLight` qui vacille), seule source
+    // chaude de la carte et centre de la composition.
+    lights.hemisphere.color.setHex(0x6d80a6);
+    lights.hemisphere.groundColor.setHex(0x1b1712);
+    lights.hemisphere.intensity = 0.62;
+    lights.sun.color.setHex(0xa9bddf);
+    lights.sun.intensity = 1.4;
+    lights.rim.color.setHex(0x5a7fb8);
+    lights.rim.intensity = 0.3;
+    return;
+  }
   // Repli : calibrage "academie" par defaut (`centre === false` dans `addExplorationLighting`) --
-  // seule `holt-nuit` appelle jamais `applyNightMood`, toujours avec 'bal' ou 'fuite' en pratique
-  // (voir `ExploreSession.enterStep`), ce repli reste donc surtout defensif.
+  // seules les cartes du chapitre 2 (`holt-nuit`, `campement`) appellent `applyNightMood` avec un climat
+  // non nul (voir `ExploreSession.enterStep`), ce repli reste donc surtout defensif.
   lights.hemisphere.color.setHex(0xd9d5c9);
   lights.hemisphere.groundColor.setHex(0x5c5650);
   lights.hemisphere.intensity = 1.05;

@@ -168,6 +168,28 @@ export const EXPLORE_VISUAL_MODELS = {
     cells: [1, 1],
     reads: 'un peu de fumee qui monte du sol',
   },
+
+  /* -- Le campement (lot 5.10) : la halte des gangers dans les Badlands -- */
+  campfire: {
+    occupancy: 'solid',
+    cells: [1, 1],
+    reads: 'un feu de camp, braises et rondins noircis',
+  },
+  'canvas-tent': {
+    occupancy: 'solid',
+    cells: [2, 2],
+    reads: 'une tente de fortune, toile tendue sur une armature de tubes',
+  },
+  'wreck-vehicle': {
+    occupancy: 'solid',
+    cells: [3, 4],
+    reads: 'un vieux véhicule cabossé, la seule échappatoire du campement',
+  },
+  'gang-emblem': {
+    occupancy: 'flat',
+    cells: [1, 1],
+    reads: 'un tissu maculé, un scorpion cousu dessus — les insignes de l’attaque',
+  },
 } as const satisfies Record<string, ExploreVisualModelDef>;
 
 /** Identifiant de modele : ferme par construction, une faute de frappe ne compile pas. */

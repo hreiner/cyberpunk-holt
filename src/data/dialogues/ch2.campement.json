@@ -1,16 +1,34 @@
 {
   "id": "ch2.campement",
-  "start": "arrivee",
+  "backdrop": "campement",
+  "start": "insignes",
   "nodes": {
-    "arrivee": {
-      "text": "Un campement de fortune, aux abords des Badlands.",
-      "to": "fin"
-    },
-    "fin": {
-      "text": "Des insignes au scorpion, abandonnés près d'un feu éteint.",
-      "effects": [
-        { "entry": { "key": "ch2.campement.insignes", "label": "Insignes au scorpion", "value": "trouvés au campement" } }
+    "insignes": {
+      "text": "Un bout de tissu, jeté près d'une tente, à moitié enfoncé dans la poussière.",
+      "choices": [
+        {
+          "text": "[Perception] Regarder de plus près.",
+          "check": { "skill": "perception", "dv": "DIFFICILE" },
+          "onSuccess": "insignes-vus",
+          "onFailure": "insignes-rates"
+        }
       ]
+    },
+    "insignes-vus": {
+      "text": "Un brassard. Un scorpion cousu à la main, le fil encore neuf. Le même que sur les bras des gangers, ce soir, dans les couloirs de l'académie.",
+      "lines": [{ "who": "john", "text": "C'est eux. Ceux qui ont tiré. C'est ici qu'ils dorment." }],
+      "effects": [
+        {
+          "entry": {
+            "key": "ch2.campement.insignes",
+            "label": "Insignes au scorpion",
+            "value": "un brassard au scorpion, le même que sur les gangers de l'attaque"
+          }
+        }
+      ]
+    },
+    "insignes-rates": {
+      "text": "Un chiffon sale, rien de plus. Dans le noir, rien qui retienne l'œil."
     }
   }
 }

@@ -47,14 +47,15 @@ async function advanceToNextScene(page: Page): Promise<E2ESceneSnapshot> {
 }
 
 /**
- * Entité qui termine l'objectif de chaque scène `explore` du chapitre 2 (lot 5.8, `ch2.bal`
- * et `ch2.fuite` -- voir `src/data/chapters/ch2.ts`) : `window.__game.interact(id)` déclenche
+ * Entité qui termine l'objectif de chaque scène `explore` du chapitre 2 (lots 5.8 et 5.10, `ch2.bal`,
+ * `ch2.fuite`, `ch2.campement` -- voir `src/data/chapters/ch2.ts`) : `window.__game.interact(id)` déclenche
  * son `completionTrigger` sans marcher (même API que `ChapterApp.exploreInteract`), le plus
  * court chemin pour un parcours de bout en bout qui ne juge pas le rendu 3D.
  */
 const EXPLORE_TRIGGERS: Record<string, string> = {
   'ch2.bal': 'bal.letitia',
   'ch2.fuite': 'dortoir.grille',
+  'ch2.campement': 'campement.murano',
 };
 
 test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ page }) => {

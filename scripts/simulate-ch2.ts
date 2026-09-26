@@ -42,8 +42,12 @@ import type { DossierProfile } from '@/data/chapters/ch2Profiles';
 const nightsPerProfile = Number(process.argv[2] ?? 100);
 const baseSeed = process.argv[3] ?? 'ch2-sim';
 
-/** Numéros de scène (TECH-DESIGN §4.4) encore des squelettes sans jet à ce lot. */
-const SKELETON_SCENE_NUMBERS = new Set([2, 4, 5, 6, 9]);
+/**
+ * Numéros de scène (TECH-DESIGN §4.4) encore des squelettes sans jet. La scène 9 (le campement,
+ * lot 5.10) ne l'est plus : `ch2.campement` (les insignes, jouées ici comme dialogue de la scène
+ * `explore`) et `ch2.murano` (le matériel, qui tue Murano) portent leurs jets.
+ */
+const SKELETON_SCENE_NUMBERS = new Set([2, 4, 5, 6]);
 
 /** Garde-fou anti-boucle sur une seule scène (même esprit que chapter2Flow.test.ts). */
 const MAX_AUTO_HOPS = 20;

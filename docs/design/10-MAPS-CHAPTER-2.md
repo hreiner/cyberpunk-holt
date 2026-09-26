@@ -140,6 +140,62 @@ rendue et restent fiables) :
 Les deux restent largement sous le seuil de 250 (marge d'au moins 25 % sur `ch2.bal`, la
 scène la plus chargée du lot).
 
+## `campement` (lot 5.10) : le campement des Scorpions
+
+Scène 9 (`ch2.campement`, GAME-DESIGN §4) : une halte de gangers dans les Badlands, adossée
+aux murs d'une station-service en ruine. [`src/data/maps/campement.ts`](../../src/data/maps/campement.ts),
+une seule étape (`ch2.etape = 'campement'`), une seule pièce (`campement`, `alwaysDiscovered` :
+un extérieur, rien à découvrir pièce par pièce).
+
+```
+########################
+#......................#
+#......TT.......TTT....#     TT (x7-8)  : tente nord        TTT (x16-18, y2-5) : le camion
+#..TT..TT.......TTT....#     TT (x3-4)  : tente ouest       M (17,6) : Murano, face au feu
+#..TT...........TTT....#
+#...............TTT....#
+#....i...........M.....#     i (5,6)  : le brassard au scorpion (plat, franchissable)
+#..........o...........#     o (11,7) : le feu (bas, il ne cache rien)
+#......................#
+#...................TT.#     TT (x20-21, y9-10) : caisses ; zone d'entrée y = 9-10, x = 4-19
+#...................TT.#
+#.TT...................#     TT (x2-3, y11-12) : fûts
+#.TT.......S...........#     S (11,12) : point d'apparition
+#......................#
+#......................#
+##########...###########     brèche sud (x = 10-12)
+```
+
+**Petite à dessein** (24 × 16) : la première version (30 × 22) laissait le camion et les tentes
+hors champ à l'arrivée ; à cette taille, le cadrage de départ embrasse tout le camp. Le point
+d'apparition est à trois cases de la brèche pour que la file des suiveurs, amorcée vers le sud,
+reste dans la cour.
+
+Entités (toutes gardées par `etape('campement')`) :
+
+- `campement.entree` (zone, y = 9-10) : une ligne au franchissement — le feu, **des traces
+  sombres qui mènent aux tentes** (le sang de GAME-DESIGN est dit, jamais montré : chapitre sans
+  sang à l'écran), la silhouette près du camion.
+- `campement.insignes` (object, facultatif, tâche « fouiller près des tentes ») : joue
+  `ch2.campement.json` (Perception DV Difficile → entrée `ch2.campement.insignes` et une
+  réplique de John). Son apparence est le modèle `gang-emblem`.
+- `campement.murano` (npc, déclencheur) : son `dialogueId` est celui de la scène suivante
+  (`ch2.murano`, contrat du lot 3.6b). Rendu en silhouette de ganger adulte (`npcRig.ts`).
+
+Suiveurs : `john`, `grover`, `abigail`, `enfant` (TECH-DESIGN §4.4) ; John et Grover sont
+les deux visibles (B9), Letitia est portée hors champ.
+
+**Habillage** ([`src/data/exploreVisuals/campement.ts`](../../src/data/exploreVisuals/campement.ts)) :
+quatre modèles procéduraux propres au lot (`campfire` avec sa `PointLight` qui vacille,
+`canvas-tent` en A, `wreck-vehicle`, `gang-emblem`), plus `crate-stack` et `barrel-stack`
+du centre d'examen. Chaque placement réutilise les blocs exportés par la carte
+(`CAMPEMENT_BLOCKS`) : une seule source de géométrie, aucune case bloquante sans modèle. Tous
+les placements sont `exterior`. Murs en béton froid (`coldPalette`), climat
+`setNightMood('campement')` : lune bleutée et basse, le feu de camp est la seule source chaude.
+
+**Mesure** (2026-09-26, Playwright/Chromium logiciel SwiftShader, deux suiveurs) :
+`exploreRenderStats()` = **103-104 appels de dessin**, ~51 000 triangles — loin du seuil de 250.
+
 ## Reste à documenter
 
-`conduits` (lot 5.9) et `campement` (lot 5.10) rejoindront ce document à leur lot.
+`conduits` (lot 5.9) rejoindra ce document à son lot.

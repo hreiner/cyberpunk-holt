@@ -331,3 +331,132 @@ describe('chapitre 2 (lot 5.5) : garde de contenu', () => {
     });
   });
 });
+
+describe('lot 5.10 : le campement -- qui tue Murano, et ce que coûte un échec', () => {
+  const MURANO = DIALOGUES['ch2.murano'] as DialogueFile;
+  /** Les quatre tueurs possibles, par le texte de leur option au noeud `qui` (Abigail : seulement si brisée). */
+  const KILLERS = ['Franklyn', 'John', 'Grover', 'Abigail'] as const;
+  /** Fragment qui identifie l'option de chaque tueur (Franklyn : « Le faire toi-même »). */
+  const KILLER_OPTION: Record<(typeof KILLERS)[number], string> = {
+    Franklyn: 'toi-même',
+    John: 'John',
+    Grover: 'Grover',
+    Abigail: 'Abigail',
+  };
+  const SEEDS_PER_KILLER = 60;
+
+  function entryValue(ctx: NarrativeContext, key: string): string | undefined {
+    return ctx.dossier.entries.find((e) => e.key === key)?.value;
+  }
+
+  /** Joue le reste d'un dialogue en prenant le premier choix présenté (ou "Continuer."). */
+  function playToEnd(runner: DialogueRunner): void {
+    for (let guard = 0; guard < 20 && !runner.current().finished; guard++) {
+      const node = runner.current();
+      if (node.pendingRoll) runner.acceptRoll();
+      else if (node.choices[0]) runner.choose(node.choices[0].index);
+      else runner.advance();
+    }
+    expect(runner.current().finished, `${runner.current().nodeId} : le dialogue ne se termine pas`).toBe(true);
+  }
+
+  /**
+   * Toutes les issues observées au noeud `qui` : chaque tueur, sur `SEEDS_PER_KILLER` graines,
+   * sans Chance (aucun jet suspendu) et avec `abigail-brisee` (sinon Abigail n'est pas proposée).
+   */
+  function killOutcomes(): Array<{ killer: string; success: boolean; ctx: NarrativeContext }> {
+    const outcomes: Array<{ killer: string; success: boolean; ctx: NarrativeContext }> = [];
+    for (const killer of KILLERS) {
+      for (let seed = 0; seed < SEEDS_PER_KILLER; seed++) {
+        const ctx: NarrativeContext = {
+          dossier: { ...createDossier(), tags: [ABIGAIL_BRISEE_TAG] },
+          run: createRunState(`ch2Content::murano-${seed}`, { chapter: 2, sceneId: 'ch2.murano', luck: 0 }),
+        };
+        const runner = new DialogueRunner(MURANO, ctx, createRng(`ch2Content::murano-${killer}-${seed}`), {
+          startNode: 'qui',
+        });
+        const option = runner.current().choices.find((c) => c.text.includes(KILLER_OPTION[killer]));
+        expect(option, `option du tueur "${killer}" introuvable au noeud qui`).toBeDefined();
+        runner.choose(option!.index);
+        const success = runner.current().lastCheck?.success;
+        expect(success, `${killer} : aucun jet résolu`).toBeDefined();
+        playToEnd(runner);
+        outcomes.push({ killer, success: success as boolean, ctx: runner.context });
+      }
+    }
+    return outcomes;
+  }
+
+  const outcomes = killOutcomes();
+
+  it.each(KILLERS)('%s : le jet du tueur réussit ET échoue selon la graine (sinon les propriétés suivantes ne prouvent rien)', (killer) => {
+    const mine = outcomes.filter((o) => o.killer === killer);
+    expect(mine.some((o) => o.success)).toBe(true);
+    expect(mine.some((o) => !o.success)).toBe(true);
+  });
+
+  it('"a-tue" est posée si et seulement si Franklyn tue, quelle que soit l\'issue du jet', () => {
+    for (const { killer, success, ctx } of outcomes) {
+      const label = `${killer} (${success ? 'réussite' : 'échec'})`;
+      expect(ctx.dossier.tags.includes('a-tue'), label).toBe(killer === 'Franklyn');
+      expect(entryValue(ctx, 'ch2.campement.tueur'), label).toBe(killer);
+    }
+  });
+
+  it('le fusil est vide si et seulement si le tueur échoue (entrée ch2.fusil et drapeau lu en scène 10)', () => {
+    for (const { killer, success, ctx } of outcomes) {
+      const label = `${killer} (${success ? 'réussite' : 'échec'})`;
+      expect(ctx.run.flags['ch2.fusil.charge'], label).toBe(success);
+      expect(entryValue(ctx, 'ch2.fusil')?.includes('vide'), label).toBe(!success);
+    }
+  });
+
+  it.each(Object.keys(DIALOGUES).filter((id) => id.startsWith('ch2.')))('%s : "a-tue" n\'est posée que par ch2.murano', (id) => {
+    if (id === 'ch2.murano') return;
+    for (const effect of allEffects(DIALOGUES[id] as DialogueFile)) {
+      if ('tag' in effect) expect(effect.tag, `${id} pose a-tue`).not.toBe('a-tue');
+    }
+  });
+
+  it('ch2.campement et ch2.murano sont des scènes postérieures à ch2.egouts (couvertes par la garde de Zachary)', () => {
+    expect(sceneNumberOf('ch2.campement')).toBe(9);
+    expect(sceneNumberOf('ch2.murano')).toBe(9);
+  });
+
+  it('le matériel obtenu fait baisser l\'état de Letitia d\'un cran ; refusé, il ne change rien', () => {
+    const seen = new Set<boolean>();
+    for (let seed = 0; seed < 40; seed++) {
+      const run = createRunState(`ch2Content::materiel-${seed}`, { chapter: 2, sceneId: 'ch2.murano', luck: 0 });
+      run.flags[LETITIA_COUNTER] = 2;
+      const runner = new DialogueRunner(MURANO, { dossier: createDossier(), run }, createRng(`ch2Content::materiel-${seed}`), {
+        startNode: 'demande',
+      });
+      const grover = runner.current().choices.find((c) => c.text.includes('Grover'));
+      runner.choose(grover!.index);
+      const success = runner.current().lastCheck?.success as boolean;
+      seen.add(success);
+      expect(runner.context.run.flags[LETITIA_COUNTER]).toBe(success ? 1 : 2);
+    }
+    expect([...seen].sort()).toEqual([false, true]);
+  });
+
+  it('scène 10 : un fusil chargé et un fusil vide ne proposent pas les mêmes options aux décharges', () => {
+    const decharges = DIALOGUES['ch2.decharges'] as DialogueFile;
+    function gangsChoices(charge: boolean | undefined): string[] {
+      const run = createRunState('ch2Content::gangs', { chapter: 2, sceneId: 'ch2.decharges', luck: 0 });
+      if (charge !== undefined) run.flags['ch2.fusil.charge'] = charge;
+      const runner = new DialogueRunner(decharges, { dossier: createDossier(), run }, createRng('ch2Content::gangs'), {
+        startNode: 'gangs',
+      });
+      return runner.current().choices.map((c) => c.text);
+    }
+    const charge = gangsChoices(true);
+    const vide = gangsChoices(false);
+    expect(charge.some((t) => t.includes('cartouche'))).toBe(true);
+    expect(charge.some((t) => t.includes('fusil vide'))).toBe(false);
+    expect(vide.some((t) => t.includes('fusil vide'))).toBe(true);
+    expect(vide.some((t) => t.includes('cartouche'))).toBe(false);
+    // Sans le drapeau (scène 10 lancée seule, ?scene=ch2.decharges) : le fusil vide du design d'origine.
+    expect(gangsChoices(undefined)).toEqual(vide);
+  });
+});

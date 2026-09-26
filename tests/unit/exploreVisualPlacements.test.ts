@@ -22,6 +22,8 @@ import { HOLT_NUIT_MAP } from '@/data/maps/holt-nuit';
 import { HOLT_VISUALS } from '@/data/exploreVisuals/holt';
 import { CENTRE_EXAMEN_VISUALS } from '@/data/exploreVisuals/centreExamen';
 import { HOLT_NUIT_VISUALS } from '@/data/exploreVisuals/holtNuit';
+import { CAMPEMENT_MAP } from '@/data/maps/campement';
+import { CAMPEMENT_VISUALS } from '@/data/exploreVisuals/campement';
 import type { ExploreVisualMapDef } from '@/data/exploreVisualTypes';
 import { EXPLORE_VISUAL_MODELS, modelCellSpan } from '@/data/exploreVisualModels';
 import { DORMITORY_PILOT_MAP, DORMITORY_PILOT_VISUALS } from '@/dev/dormitoryPilotMap';
@@ -37,6 +39,8 @@ const VISUAL_MAPS: Array<{ map: MapDef; visuals: ExploreVisualMapDef }> = [
   // deux placements qui visent la même case pour deux `etape` différentes ne sont jamais
   // simultanés, jamais un vrai chevauchement (voir `layerConflicts`).
   { map: HOLT_NUIT_MAP, visuals: HOLT_NUIT_VISUALS },
+  // Le campement (lot 5.10) : un extérieur, tout son mobilier est `exterior`.
+  { map: CAMPEMENT_MAP, visuals: CAMPEMENT_VISUALS },
 ];
 
 const key = ({ x, y }: Cell): string => `${x},${y}`;

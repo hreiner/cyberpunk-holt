@@ -731,6 +731,106 @@ function smokeWisp(kit: PropGeometryLibrary, smokeMaterial: THREE.Material): THR
   }
   return group;
 }
+/**
+ * Feu de camp (le campement, lot 5.10) : un petit tas de rondins sombres, des braises
+ * émissives au centre, et une vraie `PointLight` chaude -- même recette que `fireGlow`
+ * (vacillement porté par `ExploreDressing.tick`, jamais `Math.random()`), mais ce feu-ci est
+ * un OBSTACLE plein (`solid`, on ne marche pas au travers d'un foyer), pas un marquage au sol
+ * sous une porte bloquée.
+ */
+function campfire(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const wood = materials.get('wood');
+  for (const [x, z] of [[-0.22, 0], [0.22, 0], [0, -0.22], [0, 0.22]] as const) {
+    box(group, kit, wood, x, 0.08, z, 0.5, 0.1, 0.13);
+  }
+  const ember = materials.get('alarmRed');
+  box(group, kit, ember, 0, 0.05, 0, 0.3, 0.06, 0.3);
+  // Deux lames de flamme croisées, basses : lisibles de loin comme « un feu », sans particules
+  // (même économie que `smokeWisp`).
+  box(group, kit, ember, 0, 0.28, 0, 0.26, 0.42, 0.05);
+  box(group, kit, ember, 0, 0.24, 0, 0.05, 0.34, 0.22);
+  // Pierres du foyer : un anneau de six blocs sombres.
+  const stone = materials.get('darkMetal');
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2;
+    box(group, kit, stone, Math.cos(angle) * 0.4, 0.06, Math.sin(angle) * 0.4, 0.14, 0.12, 0.14);
+  }
+  // Seule source chaude du campement (climat `campement`, lune froide) : c'est elle qui porte la
+  // lecture de la carte, d'où une portée qui atteint les tentes et le camion.
+  const light = new THREE.PointLight(0xff8a3d, 9, 11, 1.2);
+  light.position.set(0, 0.7, 0);
+  group.add(light);
+  return group;
+}
+
+/**
+ * Tente de fortune : une bâche canadienne (deux pans inclinés qui se rejoignent sur un faîtage),
+ * tendue sur deux perches de tube -- la silhouette en A dit « tente » au premier coup d'oeil, là
+ * où un toit plat sur quatre poteaux se lisait comme une table (manche de captures du lot 5.10).
+ */
+function canvasTent(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const canvas = materials.get('linen');
+  const metal = materials.get('darkMetal');
+  const ridge = 1.15;
+  // Perches aux deux bouts du faîtage, et le faîtage lui-même (axe Z, profondeur de la tente).
+  for (const z of [-0.85, 0.85]) post(group, kit, metal, 0, z, ridge);
+  box(group, kit, metal, 0, ridge, 0, 0.06, 0.06, 1.8);
+  // Deux pans : chacun descend du faîtage jusqu'au sol, à ~0,8 m de l'axe.
+  const halfBase = 0.8;
+  const slope = Math.atan2(ridge, halfBase);
+  const panelLength = Math.hypot(ridge, halfBase);
+  for (const side of [-1, 1]) {
+    const panel = new THREE.Mesh(kit.box, canvas);
+    panel.scale.set(panelLength, 0.05, 1.84);
+    panel.position.set((side * halfBase) / 2, ridge / 2, 0);
+    panel.rotation.z = side * -slope;
+    panel.castShadow = true;
+    panel.receiveShadow = true;
+    group.add(panel);
+  }
+  return group;
+}
+
+/**
+ * Le vieux véhicule du campement : plus bas et plus cabossé qu'un fourgon (`van`, lot 3.7a) —
+ * carrosserie rouillée, pas de rampe lumineuse, une bâche de fortune sur la benne à la place
+ * d'un caisson fermé. C'est ce que Murano garde, et ce que la bande prend après lui
+ * (docs/chapters/ch2/GAME-DESIGN.md, scène 9).
+ */
+function wreckVehicle(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const rust = materials.get('rust');
+  const dark = materials.get('darkMetal');
+  box(group, kit, dark, 0, 0.4, 0.3, 2.1, 0.36, 3.7);
+  box(group, kit, rust, 0, 1.0, 1.0, 2.0, 0.86, 2.1);
+  box(group, kit, rust, 0, 0.94, -0.9, 1.96, 0.8, 1.1);
+  box(group, kit, materials.get('wornMetal'), 0, 1.42, -1.1, 1.7, 0.34, 0.04);
+  box(group, kit, materials.get('linen'), 0, 1.5, 1.05, 1.86, 0.05, 1.95);
+  for (const x of [-1.02, 1.02])
+    for (const z of [-1.0, 1.1]) {
+      const wheel = new THREE.Mesh(kit.wheel, dark);
+      wheel.rotation.z = Math.PI / 2;
+      wheel.position.set(x, 0.26, z);
+      wheel.castShadow = true;
+      group.add(wheel);
+    }
+  return group;
+}
+
+/**
+ * Insigne au scorpion : un tissu maculé posé au sol, presque plat -- un marquage (`flat`), pas
+ * un obstacle, pour rester franchissable exactement comme `campement.insignes` (un `object`
+ * facultatif, jamais un meuble plein) l'exige.
+ */
+function gangEmblem(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  box(group, kit, materials.get('rust'), 0, 0.012, 0, 0.62, 0.012, 0.44);
+  box(group, kit, materials.get('darkMetal'), 0, 0.02, 0, 0.24, 0.02, 0.24);
+  return group;
+}
+
 function simple(model: string, materials: EnvironmentMaterials, kit: PropGeometryLibrary, isCentre: boolean): THREE.Group {
   const group = new THREE.Group();
   if (model === 'courtyard-tree') {
@@ -959,6 +1059,14 @@ export function createEnvironmentProp(
       return fireGlow(materials, kit);
     case 'smoke-wisp':
       return smokeWisp(kit, smokeMaterial);
+    case 'campfire':
+      return campfire(materials, kit);
+    case 'canvas-tent':
+      return canvasTent(materials, kit);
+    case 'wreck-vehicle':
+      return wreckVehicle(materials, kit);
+    case 'gang-emblem':
+      return gangEmblem(materials, kit);
     default:
       throw new Error(`Modèle d’habillage inconnu : ${placement.model as string}`);
   }

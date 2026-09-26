@@ -106,7 +106,7 @@ export class ExploreDressing {
         object.userData.entityId = placement.entityId;
         this.entityObjects.set(placement.entityId, object);
       }
-      if (placement.model === 'fire-glow') {
+      if (placement.model === 'fire-glow' || placement.model === 'campfire') {
         object.traverse((child) => {
           if (child instanceof THREE.PointLight) {
             this.flickeringLights.push({ light: child, base: child.intensity, phase: index * 1.7 });
@@ -120,9 +120,10 @@ export class ExploreDressing {
   }
 
   /**
-   * Vacillement des lueurs de feu (`fire-glow`), pilote par le temps ecoule -- jamais par
-   * `Math.random()` (regle n°1 d'AGENTS.md). Sans effet si la carte n'en pose aucune (toutes
-   * les cartes sauf `holt-nuit` en etape `fuite`), donc gratuit a appeler systematiquement.
+   * Vacillement des lueurs de feu (`fire-glow`, et le feu de camp `campfire` du lot 5.10),
+   * pilote par le temps ecoule -- jamais par `Math.random()` (regle n°1 d'AGENTS.md). Sans
+   * effet si la carte n'en pose aucune (toutes les cartes sauf `holt-nuit` en etape `fuite`
+   * et `campement`), donc gratuit a appeler systematiquement.
    */
   tick(elapsedSeconds: number): void {
     for (const { light, base, phase } of this.flickeringLights) {

@@ -36,7 +36,9 @@ class HumanNpcRig implements ExploreNpcRig {
     // lot 5.7 (`GANGER_VISUAL_PROFILE`) mais jamais branche sur une carte -- premiere carte a en
     // poser (`holt-nuit`). Detecte par prefixe d'id ("ganger.*", voir `holt-nuit.ts`), avant les
     // heuristiques femme/adulte : un ganger n'est ni l'un ni l'autre au sens de ce rig.
-    if (entityId.startsWith('ganger.')) {
+    // Murano (le campement, lot 5.10) : un Scorpion lui aussi, le vieux qui garde le camp --
+    // meme silhouette de ganger adulte, jamais l'uniforme de cadet de l'heuristique par defaut.
+    if (entityId.startsWith('ganger.') || entityId === 'campement.murano') {
       this.rig = createHumanExplorationRig(
         { id: entityId, name: entityId },
         { profile: GANGER_VISUAL_PROFILE, model: 'male', adult: true, showLabel: false, showRing: false },

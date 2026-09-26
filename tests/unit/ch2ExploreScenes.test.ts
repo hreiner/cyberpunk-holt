@@ -53,8 +53,31 @@ describe('étapes d’exploration du chapitre 2 (CHAPTER_2.scenes, lot 5.8)', ()
     expect(map.spawns[scene.spawn as string], `spawn "${scene.spawn}" introuvable sur "${map.id}"`).toBeDefined();
   });
 
-  it.each(exploreScenes)('"$id" : les deux cartes se jouent bien sur holt-nuit (invariant du lot)', (scene) => {
-    expect(scene.mapId).toBe('holt-nuit');
+  /** Carte attendue par scène (TECH-DESIGN §4.4) : le bal et la fuite sur `holt-nuit`, le campement sur la sienne. */
+  const EXPECTED_MAP: Record<string, string> = {
+    'ch2.bal': 'holt-nuit',
+    'ch2.fuite': 'holt-nuit',
+    'ch2.campement': 'campement',
+  };
+
+  it.each(exploreScenes)('"$id" se joue sur la carte de TECH-DESIGN §4.4', (scene) => {
+    expect(EXPECTED_MAP[scene.id], `${scene.id} : scène explore absente de la table`).toBeDefined();
+    expect(scene.mapId).toBe(EXPECTED_MAP[scene.id]);
+  });
+
+  /**
+   * Toute entité d'une carte à étapes du chapitre 2 est conditionnée à UNE étape : sans quoi une
+   * entité d'une scène apparaîtrait dans une autre (défaut réel du lot 5.8, les figurants du bal
+   * restés plantés pendant la fuite). Et chaque étape jouée sur la carte y trouve bien son
+   * déclencheur -- jamais une étape dont l'objectif vise une entité absente à cette étape.
+   */
+  it.each(exploreScenes)('"$id" : le déclencheur est gardé par la même étape que la scène', (scene) => {
+    const map = getMap(scene.mapId as string);
+    const trigger = map.entities.find((e) => e.id === scene.objective?.completionTrigger);
+    expect(trigger?.condition).toEqual({ flag: CHAPTER_2.etapeFlag, equals: scene.etape });
+    for (const entity of map.entities) {
+      expect(entity.condition, `${map.id}/${entity.id} : entité sans condition d'étape`).toBeDefined();
+    }
   });
 
   /** Même règle que `sceneRouterExplore.test.ts` (voir son en-tête) -- résumée ici. */
@@ -103,6 +126,13 @@ describe('étapes d’exploration du chapitre 2 (CHAPTER_2.scenes, lot 5.8)', ()
         ).toBe(true);
       }
     }
+  });
+
+  it('"ch2.campement" : John et Grover visibles en tête, Letitia portée hors champ (TECH-DESIGN §4.4)', () => {
+    const campement = exploreScenes.find((s) => s.id === 'ch2.campement');
+    expect(campement?.followers?.slice(0, 2)).toEqual(['john', 'grover']);
+    expect(campement?.followers).not.toContain('letitia');
+    expect(campement?.followers).not.toContain('zachary');
   });
 
   it('"ch2.bal" ne déclare aucun suiveur (la bande est déjà placée dans la salle par ses entités)', () => {
