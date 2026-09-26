@@ -357,7 +357,7 @@
             {
               "not": {
                 "flag": "ch2.garde.tours",
-                "atLeast": 4
+                "atLeast": 3
               }
             }
           ],
@@ -368,12 +368,102 @@
           "conditions": [
             {
               "flag": "ch2.garde.tours",
-              "atLeast": 4
+              "atLeast": 3
+            }
+          ],
+          "to": "garde-qui-dort"
+        }
+      ]
+    },
+    "garde-qui-dort": {
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.watched.franklyn",
+                "equals": true
+              }
+            }
+          ],
+          "to": "garde-dort-franklyn"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.watched.john",
+                "equals": true
+              }
+            }
+          ],
+          "to": "garde-dort-john"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.watched.grover",
+                "equals": true
+              }
+            }
+          ],
+          "to": "garde-dort-grover"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.watched.abigail",
+                "equals": true
+              }
+            }
+          ],
+          "to": "garde-dort-abigail"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "flag": "ch2.garde.watched.franklyn",
+              "equals": true
+            },
+            {
+              "flag": "ch2.garde.watched.john",
+              "equals": true
+            },
+            {
+              "flag": "ch2.garde.watched.grover",
+              "equals": true
+            },
+            {
+              "flag": "ch2.garde.watched.abigail",
+              "equals": true
             }
           ],
           "to": "fin"
         }
       ]
+    },
+    "garde-dort-franklyn": {
+      "text": "Franklyn n'a pas pris de tour, cette nuit. Personne ne le lui reproche : en manque comme il est, mieux vaut le savoir reposé pour demain.",
+      "to": "fin"
+    },
+    "garde-dort-john": {
+      "text": "John n'a pas veillé, cette nuit. Il en aurait pris un de plus s'il avait fallu -- ce n'était pas nécessaire.",
+      "to": "fin"
+    },
+    "garde-dort-grover": {
+      "text": "Grover a dormi toute la nuit, sans un mot. Les autres s'en sont chargés.",
+      "to": "fin"
+    },
+    "garde-dort-abigail": {
+      "text": "Abigail a dormi toute la nuit. Personne n'a insisté pour qu'elle prenne un tour.",
+      "to": "fin"
     },
     "garde-fail-franklyn": {
       "text": "Franklyn lutte contre le sommeil, les paupières lourdes.",
@@ -419,6 +509,44 @@
       ]
     },
     "garde-echec-franklyn": {
+      "effects": [
+        {
+          "counter": "ch2.garde.echecs",
+          "delta": 1,
+          "min": 0,
+          "max": 3
+        }
+      ],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "flag": "ch2.garde.echecs",
+              "equals": 1
+            }
+          ],
+          "to": "garde-echec-franklyn-leger"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.echecs",
+                "equals": 1
+              }
+            }
+          ],
+          "to": "garde-echec-franklyn-grave"
+        }
+      ]
+    },
+    "garde-echec-franklyn-leger": {
+      "text": "Franklyn se redresse en sursaut, une seconde trop tard pour voir ce qui a bougé. La voiture est toujours là.",
+      "to": "garde-continue"
+    },
+    "garde-echec-franklyn-grave": {
       "text": "Franklyn s'assoupit pour de bon. Un bruit de tôle froissée, dehors, qu'il n'entend pas.",
       "effects": [
         {
@@ -471,6 +599,44 @@
       ]
     },
     "garde-echec-john": {
+      "effects": [
+        {
+          "counter": "ch2.garde.echecs",
+          "delta": 1,
+          "min": 0,
+          "max": 3
+        }
+      ],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "flag": "ch2.garde.echecs",
+              "equals": 1
+            }
+          ],
+          "to": "garde-echec-john-leger"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.echecs",
+                "equals": 1
+              }
+            }
+          ],
+          "to": "garde-echec-john-grave"
+        }
+      ]
+    },
+    "garde-echec-john-leger": {
+      "text": "John se reprend d'un coup, la main déjà sur son arme. Rien de plus, cette fois -- mais quelque chose a bougé, dans le noir.",
+      "to": "garde-continue"
+    },
+    "garde-echec-john-grave": {
       "text": "John a lâché prise trop tard. Des pas s'éloignent déjà, chargés.",
       "effects": [
         {
@@ -523,6 +689,44 @@
       ]
     },
     "garde-echec-grover": {
+      "effects": [
+        {
+          "counter": "ch2.garde.echecs",
+          "delta": 1,
+          "min": 0,
+          "max": 3
+        }
+      ],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "flag": "ch2.garde.echecs",
+              "equals": 1
+            }
+          ],
+          "to": "garde-echec-grover-leger"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.echecs",
+                "equals": 1
+              }
+            }
+          ],
+          "to": "garde-echec-grover-grave"
+        }
+      ]
+    },
+    "garde-echec-grover-leger": {
+      "text": "Grover se relève, tendu. Un bruit, dehors, qui s'éloigne déjà. La voiture tient.",
+      "to": "garde-continue"
+    },
+    "garde-echec-grover-grave": {
       "text": "Grover s'en veut, mais le mal est fait : la portière de la voiture bat dans le vent.",
       "effects": [
         {
@@ -610,6 +814,44 @@
       ]
     },
     "garde-echec-abigail": {
+      "effects": [
+        {
+          "counter": "ch2.garde.echecs",
+          "delta": 1,
+          "min": 0,
+          "max": 3
+        }
+      ],
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "flag": "ch2.garde.echecs",
+              "equals": 1
+            }
+          ],
+          "to": "garde-echec-abigail-leger"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "flag": "ch2.garde.echecs",
+                "equals": 1
+              }
+            }
+          ],
+          "to": "garde-echec-abigail-grave"
+        }
+      ]
+    },
+    "garde-echec-abigail-leger": {
+      "text": "Abigail sursaute, le cœur battant. Un chien, peut-être, ou pire -- mais la voiture est encore là.",
+      "to": "garde-continue"
+    },
+    "garde-echec-abigail-grave": {
       "text": "Abigail sursaute en retard. Il ne reste plus rien à sauver, cette fois.",
       "effects": [
         {

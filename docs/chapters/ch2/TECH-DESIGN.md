@@ -52,7 +52,7 @@ du chapitre 1 ne bougent pas (sauvegardes, `?scene=`, e2e).
 | 1 | Un cadet mort ? | Le moteur le tolère sans changement : sans tirage ni combat, rien ne suppose six vivants. `ch2.zachary = mort` est une entrée. Une garde de contenu (lot 5.5) vérifie qu'aucun dialogue après `ch2.egouts` ne fait parler Zachary ni ne lui fait lancer un jet. |
 | 2 | Raccord avec le bal du chapitre 1 ? | Aucun nœud à déplacer : le nœud `fin` de `ch1.bal` est la passerelle. Il faut en revanche **harmoniser** `ch1.bal.json` avec les décisions du propriétaire : Smith au féminin, « Zacharie » → « Zachary » (lot 5.1). |
 | 3 | Salle du bal et dortoir sur la carte ? | Oui, tous deux sur `holt` (salles d'entraînement, dortoirs). Le bal et la fuite se jouent sur une variante de nuit `holt-nuit`, qui reprend le plan ASCII de `holt` avec ses propres entités et un habillage enrichi. Le pilote du dortoir (ADR 0020) est une page de développement : on ne s'en sert pas. |
-| 4 | Cinq suiveurs à 60 fps sur GTX 1070 ? | **Mesuré au lot 5.7**, voir §6 « Lot 5.7 — mesure ». Le dortoir passe de 46 appels de dessin (Franklyn seul) à 149 avec cinq suiveurs (l'enfant compris), largement sous le seuil de 250 — sur une vraie GTX 1070. Décision B9 **en attente du propriétaire** (recommandation : garder les cinq suiveurs visibles). |
+| 4 | Cinq suiveurs à 60 fps sur GTX 1070 ? | **Mesuré au lot 5.7**, voir §6 « Lot 5.7 — mesure ». Le dortoir passe de 46 appels de dessin (Franklyn seul) à 149 avec cinq suiveurs (l'enfant compris), largement sous le seuil de 250 — sur une vraie GTX 1070. **Décision B9 du propriétaire (2026-09-26) : deux suiveurs visibles**, le reste du groupe dit par la narration (variante 🟢). |
 | 5 | Smith sous `instructeur` ? | Non : `instructeur` s'affiche « L'instructeur », au masculin, et c'est une voix radio au chapitre 1. Smith devient un locuteur à part entière, `smith`. |
 | 6 | Rester éveillé ? | La compétence **Résistance** (CORPS) existe. La garde se joue donc en Résistance ; Perception reste la compétence pour les insignes et les premiers coups. |
 | 7 | Dossier du chapitre 1 relu ? | Décidé par le propriétaire (ADR 0022) : suite locale plus profils de départ. |
@@ -451,6 +451,14 @@ Les quatre **leviers de fun** retenus par le propriétaire (GAME-DESIGN §11), t
     chiffres notés dans ce document.
 - **Documents** : ce document (§7, résultats du simulateur).
 
+**Suite du lot, décision du propriétaire (2026-09-26), en réponse au diagnostic
+"`voiture-pillee` quasi sûre" ci-dessous : trois tours de garde pour quatre veilleurs (celui
+qui n'est pas choisi dort toute la nuit — un choix, pas une faute) ; `voiture-pillee` posée
+seulement à partir de deux échecs non rattrapés (compteur borné `ch2.garde.echecs`, 0-3), un
+premier échec restant visible dans le texte sans poser l'étiquette. Joker de l'enfant et DV
+inchangés. Résultat mesuré (§ ci-dessous) : 57,6 à 68,4 % selon le profil, dans la fourchette
+30-70 % demandée -- pas d'ajustement de DV supplémentaire.**
+
 ### Lot 5.7 — l'exploration sait fuir
 
 - **But** : habillage par registre, zones à effets, pression en exploration, suiveurs par
@@ -512,9 +520,10 @@ demande un navigateur au premier plan réel (poste de développement, pas cette 
 (149 contre 250) est confortable, le coût par suiveur est linéaire et prévisible, et la
 variante 🟢 (deux visibles, le reste en narration) coûte en mise en scène (il faut écrire la
 narration de repli) ce qu'elle ne fait pas gagner en performance sur le matériel cible.
-**Décision en attente du propriétaire du projet.** Le nombre de suiveurs RENDUS reste réglable
-en données (`VISIBLE_FOLLOWERS_LIMIT`, `src/narrative/sceneRouter.ts`) si la décision va dans
-l'autre sens : changer cette seule constante suffit, aucun autre fichier à toucher.
+**Décision du propriétaire (2026-09-26) : deux suiveurs visibles** (variante 🟢), malgré la
+marge mesurée. `VISIBLE_FOLLOWERS_LIMIT` (`src/narrative/sceneRouter.ts`) passe à 2 au lot 5.8,
+le premier à jouer une fuite en groupe ; les scènes `explore` du chapitre 2 disent par la
+narration les membres du groupe qu'on ne voit pas.
 
 ### Lot 5.8 — le bal et la fuite
 
@@ -638,7 +647,7 @@ Ordre retenu par le propriétaire : **un lot à la fois, sans parallèle** — 5
 | La jauge rend le chapitre « comptable » | quatre libellés en mots, pas de chiffres ; tampon bref au changement ; retrait possible par la donnée (`gauges` vide) |
 | `chapter.ts` touché par trois lots parallèles | chaque lot cite les méthodes qu'il touche ; 5.2, 5.3 et 5.7 se rebasent l'un sur l'autre avant de se fusionner |
 
-### Résultats du simulateur (lot 5.6, révision après retour de l'orchestrateur)
+### Résultats du simulateur (lot 5.6, après décision du propriétaire du 2026-09-26)
 
 `npx tsx scripts/simulate-ch2.ts 500` (graine de base par défaut), sur les trois profils, **nuits
 « Veiller » et « Dormir » séparées** (« Dormir » pille la voiture d'office, mélanger les deux
@@ -648,18 +657,20 @@ distribution ci-dessous ne mesure donc que ce que les scènes 1, 3, 7, 8, 10 et 
 
 | Profil | État de Letitia (0 / 1 / 2 / 3) | `abigail-brisee` (oui) | Nuits « Dormir » | `voiture-pillee` parmi les nuits « Veiller » |
 |---|---|---|---|---|
-| Loyal à la bande | 28,6 % / 55,0 % / 16,4 % / **0,0 %** | 16,4 % | 50,6 % | 99,2 % |
-| Solitaire | 29,6 % / 51,4 % / 19,0 % / **0,0 %** | 21,2 % | 47,6 % | 98,1 % |
-| Neutre | 31,4 % / 52,4 % / 16,2 % / **0,0 %** | 39,2 % | 50,8 % | 98,4 % |
+| Loyal à la bande | 28,6 % / 55,0 % / 16,4 % / **0,0 %** | 16,4 % | 50,6 % | 68,4 % |
+| Solitaire | 29,6 % / 51,4 % / 19,0 % / **0,0 %** | 21,2 % | 47,6 % | 57,6 % |
+| Neutre | 31,4 % / 52,4 % / 16,2 % / **0,0 %** | 39,2 % | 50,8 % | 63,8 % |
 
-**Deux issues sûres, à traiter différemment :**
-- **L'état de Letitia « critique » (3) n'est plus jamais atteint** (0,0 % sur les trois
-  profils) : ce n'est PAS un DV à ajuster, c'est une consÉquence directe du retrait de la
-  hausse de l'état sur un échec de garde (retour de l'orchestrateur, point 4 — la housse
-  passait de 2 à 3 sur un échec avant sa propre correction). Avec les scènes 3 et 7 seules
-  (les deux qui touchent encore ce compteur), le maximum mécaniquement atteignable est 2. Ce
-  n'est pas une régression de ce lot : c'est un effet de bord signalé, pas corrigé (hors
-  périmètre — `ch2.slow.json`/`ch2.egouts.json` n'en font pas partie).
-- **`voiture-pillee` reste une issue quasi sûre PARMI LES NUITS « VEILLER »** (98,1 à 99,2 %) :
-  la garde échoue presque toujours dès qu'on tente de la tenir. Voir le diagnostic et les
-  options chiffrées dans le rapport du lot 5.6.
+Répartition de « qui dort » (trois tours pour quatre veilleurs), parmi les nuits « Veiller »,
+tous profils confondus : proche de l'équirépartition attendue (~22 à 30 % chacun, Franklyn,
+John, Grover et Abigail) — le tirage des choix ne favorise structurellement personne.
+
+**Après la décision du propriétaire (trois tours, deux échecs pour piller) : `voiture-pillee`
+tombe à 57,6-68,4 % parmi les nuits « Veiller », dans la fourchette 30-70 % demandée — aucun
+ajustement de DV supplémentaire proposé.**
+
+**Une issue sûre reste notée, sans y toucher :** l'état de Letitia « critique » (3) n'est
+jamais atteint (0,0 % sur les trois profils) — ce n'est pas un DV à ajuster : avec les scènes
+3 et 7 seules touchant encore ce compteur (la garde ne le fait plus monter depuis le retour de
+l'orchestrateur précédent), le maximum mécaniquement atteignable est 2. Hors périmètre de ce
+lot (`ch2.slow.json`/`ch2.egouts.json` n'en font pas partie).

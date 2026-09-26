@@ -97,12 +97,23 @@ function playDialogue(file: DialogueFile, ctx: NarrativeContext, checksRng: Rng,
   return runner.context;
 }
 
+/** Les quatre veilleurs possibles du relais de garde (`ch2.decharges.json`, noeud `garde-tour`). */
+const GARDE_CADETS = ['franklyn', 'john', 'grover', 'abigail'] as const;
+
 interface NightResult {
   letitiaState: number;
   voiturePillee: boolean;
   abigailBrisee: boolean;
   /** Vrai si la nuit a choisi "Laisser tout le monde dormir" à la scène 10 (`ch2.decharges.repos`). */
   dormi: boolean;
+  /**
+   * Décision du propriétaire (2026-09-26) : trois tours pour quatre veilleurs -- celui qui n'a
+   * pas veillé (`ch2.garde.watched.<cadet>` resté absent). `null` si la nuit a "Dormi" (personne
+   * n'a veillé, la question ne se pose pas) ou si, par accident de tirage, les quatre ont
+   * veillé (repli de robustesse du noeud `garde-tour`, voir `tests/unit/narrativeDeadEnds.test.ts`
+   * -- jamais le cas en jeu normal, seulement quatre tours possibles avec trois joués).
+   */
+  quiDort: string | null;
 }
 
 /** Joue une nuit entière (les 14 scènes du chapitre) pour `profile`, graine `seed`. */
@@ -125,11 +136,14 @@ function playNight(profile: DossierProfile, seed: string): NightResult {
 
   const rawEtat = ctx.run.flags['ch2.letitia.etat'];
   const letitiaState = Math.max(0, Math.min(3, typeof rawEtat === 'number' ? rawEtat : 0));
+  const dormi = ctx.run.flags['ch2.decharges.repos'] === true;
+  const notWatched = GARDE_CADETS.filter((cadet) => ctx.run.flags[`ch2.garde.watched.${cadet}`] !== true);
   return {
     letitiaState,
     voiturePillee: ctx.dossier.tags.includes('voiture-pillee'),
     abigailBrisee: ctx.dossier.tags.includes('abigail-brisee'),
-    dormi: ctx.run.flags['ch2.decharges.repos'] === true,
+    dormi,
+    quiDort: !dormi && notWatched.length === 1 ? notWatched[0]! : null,
   };
 }
 
@@ -151,6 +165,8 @@ for (const profile of Object.values(CH2_PROFILES) as DossierProfile[]) {
   let veillerNuits = 0;
   let veillerVoiturePilleeOui = 0;
   let dormirNuits = 0;
+  const quiDortCounts: Record<string, number> = { franklyn: 0, john: 0, grover: 0, abigail: 0 };
+  let quiDortInconnu = 0; // repli de robustesse pris (les quatre ont veillé) -- ne devrait jamais arriver.
 
   for (let night = 0; night < nightsPerProfile; night++) {
     const seed = `${baseSeed}-${profile.id}-${night}`;
@@ -162,6 +178,8 @@ for (const profile of Object.values(CH2_PROFILES) as DossierProfile[]) {
     } else {
       veillerNuits++;
       if (result.voiturePillee) veillerVoiturePilleeOui++;
+      if (result.quiDort) quiDortCounts[result.quiDort]!++;
+      else quiDortInconnu++;
     }
   }
 
@@ -176,6 +194,13 @@ for (const profile of Object.values(CH2_PROFILES) as DossierProfile[]) {
     console.log(
       `Relais de garde -- "Veiller" choisi : ${veillerNuits} (${pct(veillerNuits, nightsPerProfile)}) -- voiture-pillee dans ce sous-ensemble : oui ${veillerVoiturePilleeOui} (${pct(veillerVoiturePilleeOui, veillerNuits)}) -- non ${veillerNuits - veillerVoiturePilleeOui} (${pct(veillerNuits - veillerVoiturePilleeOui, veillerNuits)})`,
     );
+    console.log('  Qui dort (trois tours pour quatre veilleurs, parmi les nuits "Veiller") :');
+    for (const cadet of GARDE_CADETS) {
+      console.log(`    ${cadet} : ${quiDortCounts[cadet]} (${pct(quiDortCounts[cadet]!, veillerNuits)})`);
+    }
+    if (quiDortInconnu > 0) {
+      console.log(`    (repli improbable "les quatre ont veillé") : ${quiDortInconnu} (${pct(quiDortInconnu, veillerNuits)})`);
+    }
   } else {
     console.log('Relais de garde -- "Veiller" choisi : 0 nuit (le tirage des choix n\'a jamais pris cette branche).');
   }

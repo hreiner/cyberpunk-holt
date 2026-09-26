@@ -214,6 +214,59 @@ describe('chapitre 2 (lot 5.5) : garde de contenu', () => {
     );
   });
 
+  describe(
+    'suite du lot 5.6 (décision du propriétaire, 2026-09-26) : ' +
+      "voiture-pillee n'est posée par la garde qu'à partir de deux échecs non rattrapés",
+    () => {
+      const ECHECS_COUNTER = 'ch2.garde.echecs';
+
+      /**
+       * Lance `ch2.decharges` directement au noeud de decision d'un tour rate
+       * (`garde-fail-<cadet>`), decline le joker ("Laisser faire."), et renvoie si
+       * `voiture-pillee` est posee a l'issue de CET echec -- `echecsDejaLa` simule
+       * les echecs precedents de la meme nuit (deja au compteur avant ce tour-ci).
+       */
+      function voiturePilleeApresEchec(cadet: string, echecsDejaLa: number): boolean {
+        const file = DIALOGUES['ch2.decharges'] as DialogueFile;
+        const run = createRunState('ch2Content::garde-echecs', { chapter: 2, sceneId: 'ch2.decharges', luck: 3 });
+        if (echecsDejaLa > 0) run.flags[ECHECS_COUNTER] = echecsDejaLa;
+        const ctx: NarrativeContext = { dossier: createDossier(), run };
+        const runner = new DialogueRunner(file, ctx, createRng('ch2Content::garde-echecs'), {
+          startNode: `garde-fail-${cadet}`,
+        });
+        const presented = runner.current().choices.find((c) => c.text === 'Laisser faire.');
+        expect(presented, `garde-fail-${cadet} : choix "Laisser faire." introuvable`).toBeDefined();
+        const outcome = runner.choose(presented!.index);
+        expect(outcome.ok, `garde-fail-${cadet} : "Laisser faire." refusé`).toBe(true);
+        return runner.context.dossier.tags.includes('voiture-pillee');
+      }
+
+      it.each(['franklyn', 'john', 'grover', 'abigail'])(
+        '%s : un PREMIER échec non rattrapé de la nuit ne pose pas voiture-pillee',
+        (cadet) => {
+          expect(voiturePilleeApresEchec(cadet, 0)).toBe(false);
+        },
+      );
+
+      it.each(['franklyn', 'john', 'grover', 'abigail'])(
+        '%s : un DEUXIÈME échec non rattrapé (un premier déjà au compteur) pose voiture-pillee',
+        (cadet) => {
+          expect(voiturePilleeApresEchec(cadet, 1)).toBe(true);
+        },
+      );
+
+      it(`le compteur ${ECHECS_COUNTER} est borné [0, 3] sur tout effet qui le touche (comme ${LETITIA_COUNTER})`, () => {
+        const file = DIALOGUES['ch2.decharges'] as DialogueFile;
+        for (const effect of allEffects(file)) {
+          if ('counter' in effect && effect.counter === ECHECS_COUNTER) {
+            expect(effect.min, `effet sur ${ECHECS_COUNTER} sans borne min`).toBe(0);
+            expect(effect.max, `effet sur ${ECHECS_COUNTER} sans borne max`).toBe(3);
+          }
+        }
+      });
+    },
+  );
+
   describe('lot 5.6 : quatre lignes du bilan (CH2_END) sont TOUJOURS écrites', () => {
     const ALWAYS_WRITTEN_LABELS = ['État de Letitia', 'Abigail', "L'enfant", 'La voiture'];
 

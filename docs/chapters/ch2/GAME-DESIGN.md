@@ -154,11 +154,19 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
   - Tenir tête avec un fusil vide : [Persuasion] DV 15. Avec `bluffeur`, un bluff DV 13 ;
     avec `a-tue`, une option froide. **Échec** : les gamins rôdent et le DV de la garde
     monte d'un cran.
-  - **La garde**. *Veiller* : quatre jets de Perception, DV 15, par Franklyn (−1, *En
-    manque*), John, Grover et Abigail (−2 si `abigail-brisee`). Avec `enfant-confiance`,
-    l'enfant réveille un guetteur une fois. Un échec restant pose `voiture-pillee`.
-    *Dormir* : la voiture est pillée d'office, mais la bande est reposée (−2 au marchandage
-    de la scène 11).
+  - **La garde**. *Veiller* : **trois tours pour quatre veilleurs** — Franklyn, John, Grover,
+    Abigail —, celui qui n'est pas choisi dort toute la nuit (décision du propriétaire,
+    2026-09-26 ; texte à l'appui : ce n'est pas une faute, juste un choix). Jets de
+    Résistance, DV 15 (TECH-DESIGN §1, réponse 6, tranchée en phase 3 — pas Perception comme
+    envisagé ici en phase 2) ; Abigail passe à DV 17 si `abigail-brisee` (exactement un cran).
+    Le format de dialogue n'a pas de modificateur numérique par jet (`CheckSpec`, vérifié en
+    phase 3) : le "−1, *En manque*" de Franklyn n'est donc pas représenté tel quel — il reste
+    à la même DV que les autres, sa faiblesse venant de ses propres stats. Avec
+    `enfant-confiance`, l'enfant relance le jet d'un veilleur une fois, après n'importe quel
+    échec de la nuit. `voiture-pillee` n'est posée qu'à partir de **deux** échecs non
+    rattrapés (décision du propriétaire, 2026-09-26) ; un premier échec reste visible dans le
+    texte (la voiture tient encore) sans poser l'étiquette. *Dormir* : la voiture est pillée
+    d'office, mais la bande est reposée (−2 au marchandage de la scène 11).
 - **Réemploi** : DLG-02, 03 (×4), 04, 07.
 
 ### Scène 11 — Le charcudoc
