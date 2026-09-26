@@ -112,8 +112,8 @@ donc pas de fiche dédiée. Voir `src/data/backdrops.ts`.
 > Les images des ajouts du propriétaire du 2026-09-26 (GAME-DESIGN §4, scènes 3, 7 et 12) :
 > la rafale plus violente, la mort de Zachary jouée, le Blue Purple. Le lot 5.B a posé un
 > substitut `.webp` au chemin définitif de chacune et écrit sa fiche, **avec le prompt complet
-> prêt à copier** (bloc de style, format et négatifs compris). Le propriétaire les génère en une
-> passe ; les lots de contenu 5.13, 5.14 et 5.15 ne font que citer les clés.
+> prêt à copier** (bloc de style, format et négatifs compris). L'orchestrateur les produit avec
+> un candidat par image ; les lots de contenu 5.13, 5.14 et 5.15 ne font que citer les clés.
 >
 > **Écart assumé à la bible** : D29, D30, D32 et D35 montrent des personnages identifiables au
 > premier plan (Zachary, Abigail, l'inconnue), comme D19 et D20 le faisaient déjà en silhouette :
@@ -125,19 +125,19 @@ donc pas de fiche dédiée. Voir `src/data/backdrops.ts`.
 
 | ID | Image | Fichier livré | Références d'identité | État |
 |---|---|---|---|---|
-| P19 | L'inconnue du Blue Purple, visage en partie dans l'ombre (locuteur `inconnue`, lot 5.14) | `public/assets/portraits/inconnue.webp` | `Chapter2/BluePurpleRencontre.png` | à faire (substitut posé) |
+| P19 | L'inconnue du Blue Purple, visage en partie dans l'ombre (locuteur `inconnue`, lot 5.14) | `public/assets/portraits/inconnue.webp` | `Chapter2/BluePurpleRencontre.png` | à valider |
 
 ### Décors de scène
 
 | ID | Lieu · scène | Fichier livré | Références | État |
 |---|---|---|---|---|
-| D33 | La rafale, les gangers entrent en tirant · Scène 3, `ch2.slow` (clé `rafale-gangers`, lot 5.15) | `public/assets/backdrops/rafale-gangers.webp` | `Chapter2/boom.png`, `Chapter2/GangersVueDepuisConduits.png` (équipement seulement, pas le sang), `Chapter2/AttaqueBoom.png` | à faire (substitut posé) |
-| D34 | La rafale, les cadets sous le feu · Scène 3, `ch2.slow` (clé `rafale-cadets`, lot 5.15) | `public/assets/backdrops/rafale-cadets.webp` | `Chapter2/AttaqueBoom.png`, `Chapter2/boom.png` | à faire (substitut posé) |
-| D35 | La rafale, Zachary protège Abigail de son corps · Scène 3, `ch2.slow` (clé `rafale-zachary`, lot 5.15) | `public/assets/backdrops/rafale-zachary.webp` | `Chapter2/SlowAbigailZach.png`, `Chapter2/AttaqueBoom.png`, portraits P06 et P02 | à faire (substitut posé) |
-| D29 | Les égouts, Abigail penchée sur Zachary mourant · Scène 7, `ch2.egouts` (clé `egouts-zachary`, lot 5.13) | `public/assets/backdrops/egouts-zachary.webp` | `Chapter2/Egouts.png`, `Chapter2/SlowAbigailZach.png`, portraits P06 et P02 | à faire (substitut posé) |
-| D30 | Les égouts, Abigail arrachée au corps de Zachary · Scène 7, `ch2.egouts` (clé `egouts-arrachee`, lot 5.13) | `public/assets/backdrops/egouts-arrachee.webp` | `Chapter2/Egouts.png`, `Chapter2/SlowAbigailZach.png`, portraits P06 et P02 | à faire (substitut posé) |
-| D31 | Le Blue Purple, vu en entrant · Scène 12, `ch2.bluepurple` (clé `blue-purple`, lot 5.14) | `public/assets/backdrops/blue-purple.webp` | `Chapter2/BluePurpleInterieur.png`, `Chapter2/BluePurple.png` | à faire (substitut posé) |
-| D32 | Le Blue Purple, l'inconnue à leur table · Scène 12, `ch2.bluepurple` (clé `blue-purple-rencontre`, lot 5.14) | `public/assets/backdrops/blue-purple-rencontre.webp` | `Chapter2/BluePurpleRencontre.png`, `Chapter2/BluePurpleInterieur.png`, portrait P02, P19 validé | à faire (substitut posé) |
+| D33 | La rafale, les gangers entrent en tirant · Scène 3, `ch2.slow` (clé `rafale-gangers`, lot 5.15) | `public/assets/backdrops/rafale-gangers.webp` | `Chapter2/boom.png`, `Chapter2/GangersVueDepuisConduits.png` (équipement seulement, pas le sang), `Chapter2/AttaqueBoom.png` | à valider |
+| D34 | La rafale, les cadets sous le feu · Scène 3, `ch2.slow` (clé `rafale-cadets`, lot 5.15) | `public/assets/backdrops/rafale-cadets.webp` | `Chapter2/AttaqueBoom.png`, `Chapter2/boom.png` | à valider |
+| D35 | La rafale, Zachary protège Abigail de son corps · Scène 3, `ch2.slow` (clé `rafale-zachary`, lot 5.15) | `public/assets/backdrops/rafale-zachary.webp` | `Chapter2/SlowAbigailZach.png`, `Chapter2/AttaqueBoom.png`, portraits P06 et P02 | à valider |
+| D29 | Les égouts, Abigail penchée sur Zachary mourant · Scène 7, `ch2.egouts` (clé `egouts-zachary`, lot 5.13) | `public/assets/backdrops/egouts-zachary.webp` | `Chapter2/Egouts.png`, `Chapter2/SlowAbigailZach.png`, portraits P06 et P02 | à valider |
+| D30 | Les égouts, Abigail arrachée au corps de Zachary · Scène 7, `ch2.egouts` (clé `egouts-arrachee`, lot 5.13) | `public/assets/backdrops/egouts-arrachee.webp` | `Chapter2/Egouts.png`, `Chapter2/SlowAbigailZach.png`, portraits P06 et P02 | à valider |
+| D31 | Le Blue Purple, vu en entrant · Scène 12, `ch2.bluepurple` (clé `blue-purple`, lot 5.14) | `public/assets/backdrops/blue-purple.webp` | `Chapter2/BluePurpleInterieur.png`, `Chapter2/BluePurple.png` | à valider |
+| D32 | Le Blue Purple, l'inconnue à leur table · Scène 12, `ch2.bluepurple` (clé `blue-purple-rencontre`, lot 5.14) | `public/assets/backdrops/blue-purple-rencontre.webp` | `Chapter2/BluePurpleRencontre.png`, `Chapter2/BluePurpleInterieur.png`, portraits P02 et P19 | à valider |
 
 ## Plus tard (non planifié)
 

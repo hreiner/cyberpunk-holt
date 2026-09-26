@@ -36,15 +36,11 @@ Lis `STYLE-BIBLE.md` et `REFERENCES.md` **en entier** avant de commencer.
 2. Crée `art-masters/` et les dossiers `public/assets/portraits/`, `backdrops/`, `ui/`,
    `icons/`.
 
-### Étape 1 — l'ancre de style (P01), puis **arrêt**
-1. Produis **deux** candidats pour P01 (portrait de Franklyn) selon sa fiche.
-2. Passe chacun au contrôle qualité (plus bas). Garde le meilleur, et un second choix.
-3. Livre le meilleur, écris sa note, passe P01 à `à valider`.
-4. **Arrête-toi et demande la validation humaine du style.** Montre les deux candidats
-   retenus côte à côte, avec une phrase sur ce qui les distingue. Ne produis **rien d'autre**
-   avant la réponse : si le style est refusé, toutes les images suivantes seraient à refaire.
-5. Une fois validé, P01 devient **l'ancre de style** : elle est jointe à toutes les
-   générations suivantes.
+### Étape 1 — l'ancre de style (P01)
+P01 a été validée par le propriétaire. Réutilise ce portrait comme ancre visuelle pour
+chaque nouveau lot ; la validation du style ne se redemande pas. Si P01 doit un jour être
+refaite, produis un seul candidat, contrôle-le et livre sa note comme pour les autres
+images. Une reprise ciblée reste possible si le candidat échoue au contrôle.
 
 ### Étape 2 — une image à la fois, dans l'ordre du manifeste
 Pour chaque ligne `à faire`, dans l'ordre :
@@ -60,24 +56,26 @@ Pour chaque ligne `à faire`, dans l'ordre :
    - pour une variante (P10, P11), le portrait de base validé (P09).
    Pas d'historique des autres images : chaque passe part propre, c'est ce qui évite la
    dérive.
-3. Demande **deux** candidats pour chaque image, y compris les portraits des six cadets.
-4. Contrôle qualité de chaque candidat ; garde le meilleur. Si aucun ne passe, **une seule**
-   relance en corrigeant le prompt sur le défaut constaté ; si rien ne passe encore, état
-   `rejeté : <défaut>` et passe à la suivante — ne bloque pas le lot.
+3. Produis **un seul candidat par image**. Décision du propriétaire (26 septembre 2026) :
+   les variantes systématiques n'apportent pas assez pour leur coût.
+4. Contrôle ce candidat ; s'il échoue, fais **une seule** reprise en corrigeant le défaut
+   constaté. Si la reprise échoue aussi, état `rejeté : <défaut>` et passe à la suivante —
+   ne bloque pas le lot.
 5. Recadre et exporte au format livré (bible de style), écris la note, range le master.
 6. État `à valider`.
 
 ### Étape 3 — la revue d'ensemble, par lot
-À la fin de chaque lot du manifeste (B, C, D), assemble une **planche contact** (toutes les
+À la fin de chaque lot du manifeste, assemble une **planche contact** (toutes les
 images du lot réduites côte à côte, plus l'ancre P01) dans
 `art-masters/planche-<lot>.png`, et vérifie l'**homogénéité** : même trait, même trame, même
-densité de noir, même accent rouge. Refais les images qui détonnent. Puis demande la
-validation humaine du lot.
+densité de noir, même accent rouge. Refais les images qui détonnent, puis livre la planche
+pour revue humaine.
 
-**Décision du propriétaire (24 septembre 2026)** : le lot B est validé. Pour la suite de cette
-production, l'agent poursuit les lots C et D sans solliciter d'autre validation intermédiaire.
+**Décisions du propriétaire (24 et 26 septembre 2026)** : le lot B est validé. Pour la suite de cette
+production, l'agent poursuit les lots suivants sans solliciter de validation intermédiaire.
 Les images produites restent marquées `à valider` dans le manifeste tant qu'elles n'ont pas été
-revues par le propriétaire ; cette mention n'interrompt plus la production.
+revues par le propriétaire ; cette mention n'interrompt plus la production. La planche est
+livrée pour revue, sans nouvelle demande d'autorisation avant le lot suivant.
 
 ## Le contrôle qualité — chaque candidat
 
@@ -96,7 +94,8 @@ Un candidat est **refusé** au premier point non tenu.
    calme ; icônes : objet seul, fond transparent).
 6. **Anatomie et objets** : mains, yeux, symétrie de l'uniforme, perspective du décor
    sans aberration visible.
-7. **Ton** : pas de sang, pas d'arme létale braquée, rien qui contredise la fiche.
+7. **Ton** : pas de sang ; respecter la violence explicitement prévue par la fiche, sans
+   arme braquée vers le spectateur ni détail graphique gratuit.
 
 ## Nommer, exporter
 
