@@ -126,6 +126,48 @@ export const EXPLORE_VISUAL_MODELS = {
   /* -- Monte sur un mur ou un encadrement -------------------------------- */
   'security-panel': { occupancy: 'threshold', cells: [1, 1], reads: 'le panneau electronique d’une porte' },
   'exam-door-portal': { occupancy: 'threshold', cells: [1, 1], reads: 'un seuil renforce, lecteur lateral' },
+
+  /* -- Habillage de nuit (holt-nuit, lot 5.8b) : le bal, puis la fuite ---- */
+  'buffet-table': {
+    occupancy: 'solid',
+    cells: [1, 1],
+    reads: 'une table de buffet, gateaux empiles et boissons',
+  },
+  'party-string-lights': {
+    occupancy: 'overhead',
+    cells: [3, 1],
+    reads: 'une guirlande de lampions, chaude et coloree',
+  },
+  'dance-floor-tile': {
+    occupancy: 'flat',
+    cells: [13, 1],
+    reads: 'une piste de danse degagee, marquee au sol',
+  },
+  'desk-overturned': {
+    occupancy: 'solid',
+    cells: [1, 1],
+    reads: 'un pupitre renverse, la fete a mal tourne (bloque encore le passage)',
+  },
+  /**
+   * Meme modele visuel que `desk-overturned` (voir `props.ts`), occupancy differente : posee
+   * sur une case du plan derive redevenue franchissable (`deriveNightAscii`, lot 5.8b), un
+   * pupitre couche ici ne bloque plus rien -- on marche autour ou dessus.
+   */
+  'desk-overturned-loose': {
+    occupancy: 'flat',
+    cells: [1, 1],
+    reads: 'un pupitre renverse, couche au sol, on marche autour',
+  },
+  'fire-glow': {
+    occupancy: 'flat',
+    cells: [1, 1],
+    reads: 'une lueur orangee et vacillante sous une porte bloquee par le feu',
+  },
+  'smoke-wisp': {
+    occupancy: 'overhead',
+    cells: [1, 1],
+    reads: 'un peu de fumee qui monte du sol',
+  },
 } as const satisfies Record<string, ExploreVisualModelDef>;
 
 /** Identifiant de modele : ferme par construction, une faute de frappe ne compile pas. */

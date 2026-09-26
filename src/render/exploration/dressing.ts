@@ -29,8 +29,22 @@ import type { ExploreVisualMapDef, ExploreVisualPlacement } from '@/data/explore
 
 /** Cle de regroupement partagee avec `syncVisibility` : une piece, ou l'exterieur (toujours visible). */
 const EXTERIOR_KEY = '@exterior';
+/**
+ * Separateur entre la cle de base (piece/exterieur) et l'etape requise (ADR 0026) : un
+ * caractere de controle, jamais produit par un `roomId`/`etape` ecrits a la main, donc jamais
+ * ambigu a re-decouper (`parseVisibilityKey`).
+ */
+const ETAPE_KEY_SEP = '\u0001';
 function visibilityKeyOf(placement: ExploreVisualPlacement): string {
-  return 'roomId' in placement ? `room:${placement.roomId}` : EXTERIOR_KEY;
+  const base = 'roomId' in placement ? `room:${placement.roomId}` : EXTERIOR_KEY;
+  // Deux placements de la MEME piece mais d'etapes differentes (le bal, puis la fuite, sur la
+  // meme case) ne doivent jamais fusionner dans le meme `InstancedMesh` : ils basculent a des
+  // moments differents, une cle distincte par etape le garantit sans toucher `mergeStaticInstances`.
+  return placement.etape ? `${base}${ETAPE_KEY_SEP}${placement.etape}` : base;
+}
+function parseVisibilityKey(key: string): { base: string; etape?: string } {
+  const sep = key.indexOf(ETAPE_KEY_SEP);
+  return sep === -1 ? { base: key } : { base: key.slice(0, sep), etape: key.slice(sep + ETAPE_KEY_SEP.length) };
 }
 
 interface InstanceCandidate {
@@ -44,6 +58,8 @@ interface InstanceCandidate {
 export interface ExploreDressingVisibility {
   discoveredRoomIds: ReadonlySet<string>;
   visibleEntityIds: ReadonlySet<string>;
+  /** Etape narrative courante (ADR 0026) : filtre les placements portant `etape`. */
+  etape?: string;
 }
 
 /** Fabrique de meshes : un modele inconnu est une erreur de programmation explicite. */
@@ -69,22 +85,50 @@ export class ExploreDressing {
   private readonly instancedByVisibilityKey = new Map<string, THREE.InstancedMesh[]>();
   /** A liberer explicitement (voir `dispose`) : ni la geometrie ni la matiere ne leur appartiennent. */
   private readonly instancedMeshes: THREE.InstancedMesh[] = [];
+  /**
+   * Lueurs de feu a faire vaciller (`fire-glow`, lot 5.8b) : trouvees une fois a la
+   * construction (la fabrique porte une `THREE.PointLight` enfant, meme principe que
+   * `strip-light`/`warning-beacon`, ADR 0018), animees par `tick()`. Le dephasage
+   * (`phase`) vient du RANG du placement dans `definition.placements`, jamais de
+   * `Math.random()` (regle n°1 d'AGENTS.md) : deux lueurs de la meme scene ne
+   * clignotent donc jamais en phase, sans tirage.
+   */
+  private readonly flickeringLights: { light: THREE.PointLight; base: number; phase: number }[] = [];
 
   constructor(
     readonly definition: ExploreVisualMapDef,
     private readonly factory: ExploreDressingFactory,
   ) {
-    this.mounted = definition.placements.map((placement) => {
+    this.mounted = definition.placements.map((placement, index) => {
       const object = factory.create(placement);
       object.userData.exploreVisualPlacementId = placement.id;
       if (placement.entityId) {
         object.userData.entityId = placement.entityId;
         this.entityObjects.set(placement.entityId, object);
       }
+      if (placement.model === 'fire-glow') {
+        object.traverse((child) => {
+          if (child instanceof THREE.PointLight) {
+            this.flickeringLights.push({ light: child, base: child.intensity, phase: index * 1.7 });
+          }
+        });
+      }
       this.root.add(object);
       return { placement, object };
     });
     this.mergeStaticInstances();
+  }
+
+  /**
+   * Vacillement des lueurs de feu (`fire-glow`), pilote par le temps ecoule -- jamais par
+   * `Math.random()` (regle n°1 d'AGENTS.md). Sans effet si la carte n'en pose aucune (toutes
+   * les cartes sauf `holt-nuit` en etape `fuite`), donc gratuit a appeler systematiquement.
+   */
+  tick(elapsedSeconds: number): void {
+    for (const { light, base, phase } of this.flickeringLights) {
+      const wobble = Math.sin(elapsedSeconds * 6.2 + phase) * 0.5 + Math.sin(elapsedSeconds * 13.1 + phase * 2) * 0.5;
+      light.intensity = base * (0.72 + wobble * 0.28);
+    }
   }
 
   /** Modèle sémantique explicitement associé à une entité interactive, s'il existe. */
@@ -149,10 +193,14 @@ export class ExploreDressing {
       const visibleByRoom =
         'roomId' in placement ? state.discoveredRoomIds.has(placement.roomId) : placement.visibility === 'exterior';
       const visibleByEntity = !placement.entityId || state.visibleEntityIds.has(placement.entityId);
-      object.visible = visibleByRoom && visibleByEntity;
+      const visibleByEtape = !placement.etape || placement.etape === state.etape;
+      object.visible = visibleByRoom && visibleByEntity && visibleByEtape;
     }
     for (const [visibilityKey, instances] of this.instancedByVisibilityKey) {
-      const visible = visibilityKey === EXTERIOR_KEY || state.discoveredRoomIds.has(visibilityKey.slice('room:'.length));
+      const { base, etape } = parseVisibilityKey(visibilityKey);
+      const visibleByRoom = base === EXTERIOR_KEY || state.discoveredRoomIds.has(base.slice('room:'.length));
+      const visibleByEtape = !etape || etape === state.etape;
+      const visible = visibleByRoom && visibleByEtape;
       for (const instanced of instances) instanced.visible = visible;
     }
   }

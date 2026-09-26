@@ -91,6 +91,7 @@ choix « silencieux » à la Telltale.
 | EXP-08 | **Le groupe suit** : les coéquipiers en file derrière Franklyn — jusqu'à cinq déclarés (`SceneDef.followers`, l'enfant compris, ADR 0024 §3), rendus dans la limite de `VISIBLE_FOLLOWERS_LIMIT` (données) | la bande est présente physiquement, y compris au grand complet | gratuit (2) · mesuré (5, lot 5.7 — voir TECH-DESIGN §6) | 08 « Le groupe » |
 | EXP-09 | **Passage au combat** : franchir un seuil → tampon « CONTACT » → écran tactique sur le **même terrain** | enchaîner exploration et affrontement sans rupture de décor | 🟢 si le terrain tactique existe (voir TAC) | ADR 0016 |
 | EXP-10 | **Jouable au doigt** : appui = ordre, glissé = caméra, pincement = zoom | toute nouvelle interaction doit avoir un geste tactile | contrainte | 08 « Contrôles » |
+| EXP-11 | **Habillage par étape** : un placement d'`ExploreVisualMapDef` (`ExploreVisualPlacement.etape`) ne se montre qu'à l'étape narrative qui le déclare — deux placements peuvent viser la MÊME case pour deux étapes différentes (`ExploreView.setEtape`) ; climat lumineux par étape en prime (`ExploreView.setNightMood`, trois sources globales seulement, ADR 0018 inchangé) | une salle qui change de mobilier et de lumière sans changer de carte (le bal, puis la fuite, sur `holt-nuit`) | gratuit (bascule de visibilité, pas de rechargement de carte) | ADR 0026, lot 5.8b |
 
 **Limites** : l'entité `exit` (changer de lieu en marchant) existe dans le format mais n'a
 jamais servi — le chapitre 1 change de carte entre deux scènes. La brancher est 🟡. Pas de

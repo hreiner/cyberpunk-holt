@@ -39,6 +39,17 @@ export type ExploreVisualPlacement = ExploreVisualVisibility & {
   entityId?: string;
   /** Cases `o`/`T` dont le placeholder generique est retire du rendu seulement. */
   replaces?: readonly Cell[];
+  /**
+   * Etape narrative requise pour que ce placement soit visible (ADR 0026, lot 5.8b) : compare
+   * a `SceneDef.etape` de la scene `explore` courante, meme valeur que le drapeau d'etape de
+   * la carte (`ch2.etape` pour `holt-nuit`). Absent : le placement suit uniquement la regle
+   * habituelle (piece decouverte / entite active), comme avant l'ADR -- c'est le cas de TOUS
+   * les placements de `holt.ts`/`centre-examen.ts`, jamais concernes. Un habillage qui differe
+   * par etape (le bal puis la fuite, meme carte, memes pieces) pose donc DEUX placements sur la
+   * meme case plutot qu'un mecanisme de bascule séparé : la piece de reference reste la seule
+   * source de decoupage geometrique (ADR 0017).
+   */
+  etape?: string;
 };
 
 /** Habillage declaratif d'une carte, independant des etapes narratives. */

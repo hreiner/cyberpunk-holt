@@ -31,7 +31,7 @@ import {
   createTechnicalConduit,
   createWallBand,
 } from './exploration/architecture';
-import { addExplorationLighting } from './exploration/atmosphere';
+import { addExplorationLighting, applyNightMood, type ExplorationLights, type NightMood } from './exploration/atmosphere';
 import { EnvironmentMaterials } from './exploration/materials';
 import { EnvironmentPropFactory } from './exploration/props';
 import { HOLT_VISUALS } from '@/data/exploreVisuals/holt';
@@ -293,6 +293,10 @@ export class ExploreView {
   private readonly entityVisualParts = new Map<string, THREE.Object3D[]>();
   /** Entités npc/object/seat actuellement actives ET découvertes (nourri par `setVisibleEntities`). */
   private visibleEntityIds = new Set<string>();
+  /** Etape narrative courante (ADR 0026, `SceneDef.etape`) : filtre l'habillage propre a une etape (`setEtape`). */
+  private currentEtape: string | undefined;
+  /** References des trois sources globales (`addExplorationLighting`) : ajustees par `setNightMood`. */
+  private readonly explorationLights: ExplorationLights;
   /** Les portes font partie de l'architecture et restent des cibles directes, hors découverte de pièce. */
   private readonly doorEntityIds = new Set<string>();
   /** Habillage uniquement : `MapDef` reste la vérité pour collision et interactions. */
@@ -343,6 +347,10 @@ export class ExploreView {
   private readonly objectiveChevron: THREE.Mesh;
   private objectiveClock = 0;
   private pingClock = 0;
+  /** Horloge du vacillement de feu (`ExploreDressing.tick`) : avance meme reducedMotion, un
+   * scintillement de feu n'est pas une animation de confort a couper (contrairement aux deux
+   * horloges ci-dessus), mais reste bon marche (une lumiere deja posee, jamais un nouveau mesh). */
+  private fireClock = 0;
   private reducedMotion = false;
 
   /** Quart de tour courant (0..3), suit `IsoCamera` : voir `rotate()`. */
@@ -393,7 +401,7 @@ export class ExploreView {
 
     this.visuals = exploreVisualsFor(def.id);
     const isCentre = this.visuals.coldPalette;
-    addExplorationLighting(this.scene, Math.max(this.map.width, this.map.height), isCentre);
+    this.explorationLights = addExplorationLighting(this.scene, Math.max(this.map.width, this.map.height), isCentre);
     this.architectureMaterials = new EnvironmentMaterials(rng.fork(`explore:${def.id}:architecture`));
     const visualDef = this.visualDefinition(def.id);
     for (const placement of visualDef.placements) {
@@ -500,10 +508,7 @@ export class ExploreView {
     this.buildCells();
     this.buildDormitoryArchitecture();
     this.buildEntityMarkers();
-    this.dressing.syncVisibility({
-      discoveredRoomIds: this.discoveredRoomIds,
-      visibleEntityIds: this.visibleEntityIds,
-    });
+    this.syncDressingVisibility();
     this.updateFog();
   }
 
@@ -1527,10 +1532,7 @@ export class ExploreView {
       for (const part of parts) part.visible = visible;
     }
     this.visibleEntityIds = next;
-    this.dressing.syncVisibility({
-      discoveredRoomIds: this.discoveredRoomIds,
-      visibleEntityIds: this.visibleEntityIds,
-    });
+    this.syncDressingVisibility();
   }
 
   /**
@@ -1557,9 +1559,37 @@ export class ExploreView {
       const shown = discovered.has(roomId);
       for (const part of parts) part.visible = shown;
     }
+    this.syncDressingVisibility();
+  }
+
+  /**
+   * Etape narrative courante de la scene `explore` (ADR 0026, lot 5.8b) : bascule les
+   * placements d'habillage qui portent `etape` (`ExploreVisualPlacement.etape`) -- p. ex.
+   * `holt-nuit` pose le buffet du bal ET les pupitres renverses de la fuite sur les MEMES
+   * cases, un jeu par etape, et seul celui qui correspond au drapeau `ch2.etape` courant se
+   * montre. Sans effet sur `holt`/`centre-examen`, dont aucun placement ne porte `etape`.
+   */
+  setEtape(etape: string | undefined): void {
+    if (this.currentEtape === etape) return;
+    this.currentEtape = etape;
+    this.syncDressingVisibility();
+  }
+
+  /**
+   * Climat des trois sources globales (ADR 0026, lot 5.8b) : `holt-nuit` est la seule carte a
+   * l'appeler (`ExploreSession.enterStep`, jamais `holt`/`centre-examen`) -- voir
+   * `applyNightMood` pour les valeurs. Idempotent comme `setEtape`.
+   */
+  setNightMood(mood: NightMood): void {
+    applyNightMood(this.explorationLights, mood);
+  }
+
+  /** Point d'entree unique de `ExploreDressing.syncVisibility` (voir `setEtape`, `setVisibleEntities`, `setDiscoveredRooms`). */
+  private syncDressingVisibility(): void {
     this.dressing.syncVisibility({
       discoveredRoomIds: this.discoveredRoomIds,
       visibleEntityIds: this.visibleEntityIds,
+      etape: this.currentEtape,
     });
   }
 
@@ -1731,6 +1761,8 @@ export class ExploreView {
   tick(dt: number): void {
     this.camera.tick(dt);
     this.updateFog();
+    this.fireClock += dt;
+    this.dressing.tick(this.fireClock);
     // Pendant un dialogue, ExploreSession arrête cette boucle : les poses restent alors
     // figées. Un PNJ masqué ne consomme pas d'animation avant sa synchronisation narrative.
     for (const rig of this.npcRigs.values()) {

@@ -34,12 +34,13 @@
 import type * as THREE from 'three';
 import { createRng } from '@/core/rng';
 import { getCharacter } from '@/rules/character';
-import { discoveredRoomIdsForMap, exploreFollowerIds } from '@/narrative';
+import { discoveredRoomIdsForMap } from '@/narrative';
 import type { FollowerId, GaugeDef, NarrativeContext, SceneDef } from '@/narrative';
 import { ExploreState } from '@/explore';
 import type { Cell, EntityDef, ExploreEvent, InteractableInfo, MapDef } from '@/explore';
 import { ExploreView, KEY_ZOOM_SPEED } from '@/render/exploreView';
 import type { HoverTarget } from '@/render/exploreView';
+import type { NightMood } from '@/render/exploration/atmosphere';
 import { createGameRenderer, rendererDescription } from '@/render/rendererSetup';
 import { TAP_SLOP_PX } from '@/render/pointerGestures';
 import { Sfx } from '@/audio/sfx';
@@ -49,6 +50,19 @@ import { HOLT_NUIT_VISUALS } from '@/data/exploreVisuals/holtNuit';
 import { ObjectiveHud } from './ui/objectiveHud';
 import type { GaugeStatus } from './ui/gaugeView';
 import { BriefLineView } from './ui/briefLine';
+
+/**
+ * Climat de `holt-nuit` pour l'etape courante (ADR 0026, lot 5.8b) : les valeurs `Ch2Etape`
+ * ('bal'/'fuite') sont lues comme de simples chaines (voir `SceneDef.etape`, generalise par
+ * l'ADR 0021) -- ce module n'importe jamais l'union `Ch2Etape` elle-meme, qui appartiendrait au
+ * chapitre 1 s'il jouait un jour sur cette carte. Toute autre valeur (une etape du chapitre 1,
+ * ou hors etape) retombe sur `null`, le calibrage "academie" par defaut.
+ */
+function nightMoodForEtape(etape: string | undefined): NightMood {
+  if (etape === 'bal') return 'bal';
+  if (etape === 'fuite') return 'fuite';
+  return null;
+}
 
 /** Touches maintenues du panoramique/zoom continu en exploration (08-EXPLORATION.md "Contrôles"). */
 interface ExploreHeldKeys {
@@ -208,7 +222,7 @@ export class ExploreSession {
    */
   enterStep(mapDef: MapDef, ctx: NarrativeContext, scene: SceneDef, followerIds: FollowerId[]): void {
     if (!this.state || !this.view || this.state.map.id !== mapDef.id) {
-      this.buildWorld(mapDef, ctx, scene);
+      this.buildWorld(mapDef, ctx, scene, followerIds);
     } else {
       // Meme carte que l'etape precedente : on NE reconstruit PAS l'etat (donc on ne
       // teleporte pas Franklyn, voir SceneDef.spawn) -- seul le contexte change.
@@ -220,6 +234,15 @@ export class ExploreSession {
     this.state?.setObjective(scene.objective ?? null);
     this.objectiveTriggerId = scene.objective?.completionTrigger ?? null;
     this.view?.setPingTarget(this.objectiveTargetCell(scene));
+    // Habillage/climat par etape (ADR 0026, lot 5.8b) : `scene.etape` filtre les placements qui
+    // en portent un (`ExploreVisualPlacement.etape`, ex. le buffet du bal contre les pupitres
+    // renverses de la fuite, memes cases de `holt-nuit`) -- sans effet sur `holt`/`centre-examen`,
+    // dont aucun placement ne porte `etape`. Le climat lumineux (`setNightMood`), lui, reste
+    // reserve a `holt-nuit` : seule carte a jouer deux etapes tres differentes (bal/fuite) sur le
+    // MEME batiment institutionnel -- `holt`/`centre-examen` gardent leur climat fixe par carte
+    // (`EXPLORE_VISUALS`, `exploreVisualsFor`).
+    this.view?.setEtape(scene.etape);
+    this.view?.setNightMood(mapDef.id === HOLT_NUIT_VISUALS.mapId ? nightMoodForEtape(scene.etape) : null);
     this.syncVisibility();
     this.hud?.setGauge(this.gaugeStatusFor(ctx));
   }
@@ -269,14 +292,26 @@ export class ExploreSession {
    * partie, reprise de sauvegarde, `?scene=`) ou un changement de carte (hors perimetre du
    * chapitre 1, voir le centre d'examen, lot 3.7). `scene.spawn` ne sert QU'ICI : voir
    * `SceneDef.spawn`.
+   *
+   * `followerIds` doit etre la liste EFFECTIVEMENT rendue (deja bornee a
+   * `VISIBLE_FOLLOWERS_LIMIT` par `ChapterApp.exploreFollowers`, jamais recalculee ici) :
+   * elle sert a amorcer `ExploreState.seedTrail` (le segment synthetique "avant le spawn",
+   * voir sa docstring) avec le BON nombre de suiveurs. Passer un nombre errone (l'ancien
+   * code appelait `exploreFollowerIds(ctx.run)`, une regle propre au chapitre 1, qui renvoie
+   * `[]` hors de son tirage) amorce un segment trop court : au premier calcul de position
+   * (`followerPosition`), chaque suiveur dont le decalage (`lag`) depasse ce segment retombe
+   * sur le meme point de depart -- les suiveurs "en trop" se superposent alors exactement,
+   * silhouette masquant silhouette (bug reel constate au lot 5.8b : deux suiveurs declares,
+   * un seul visible a l'ecran, confirme par `window.__game.explore().followers`, deux
+   * entrees identiques).
    */
-  private buildWorld(mapDef: MapDef, ctx: NarrativeContext, scene: SceneDef): void {
+  private buildWorld(mapDef: MapDef, ctx: NarrativeContext, scene: SceneDef, followerIds: FollowerId[]): void {
     this.view?.dispose();
     this.followerRigIds = [];
     this.mapDef = mapDef;
     this.state = new ExploreState(mapDef, ctx, {
       spawn: scene.spawn,
-      followerIds: exploreFollowerIds(ctx.run),
+      followerIds,
       discoveredRooms: discoveredRoomIdsForMap(ctx.run, mapDef.id),
     });
 

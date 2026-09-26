@@ -185,7 +185,8 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.5 | **Scènes dites** : photo, slow et rafale en suite d'images, égouts, adieu à Zachary | 5.3, 5.4 | fait |
 | 5.6 | **Décharges et charcudoc** : relais de garde, adieux, bilan rempli ; simulateur de la nuit et ajustement des DV | 5.4, 5.5 | fait (garde : trois tours, pillage à deux échecs, décision du propriétaire) |
 | 5.7 | **L'exploration sait fuir** : habillage par registre, zones à effets, pression en exploration, suiveurs par scène, profil `enfant` ; mesure de cinq suiveurs | 5.1, 5.3 | fait (B9 : deux suiveurs visibles, décision du propriétaire, appliquée au lot 5.8) |
-| 5.8 | **Le bal et la fuite** : carte `holt-nuit`, conversations du bal et leurs échos, fuite sous tempo jusqu'à la grille | 5.5, 5.7 | fait (habillage de nuit : lot 5.8b) |
+| 5.8 | **Le bal et la fuite** : carte `holt-nuit`, conversations du bal et leurs échos, fuite sous tempo jusqu'à la grille | 5.5, 5.7 | fait |
+| 5.8b | *(ajouté par le propriétaire)* **Habillage de la nuit** : `holt-nuit` habillé par étape (ADR 0026) — bal de nuit (piste, buffets, guirlandes), fuite dans la pénombre et le feu ; plan dérivé sans collisions invisibles ; second suiveur visible | 5.8 | fait |
 | 5.9 | **Conduits et cantine** : carte `conduits`, détour chez Smith, ventilateur, l'enfant, la cantine en feu | 5.7, 5.8 | à faire |
 | 5.10 | **Le campement** : carte `campement`, insignes, matériel, qui tue Murano | 5.5, 5.7 | à faire |
 | 5.A | **Illustrations** : décors et six portraits du chapitre 2 inscrits au manifeste de génération, avec des substituts `.webp` en attendant la passe du propriétaire | 5.3 | fait |

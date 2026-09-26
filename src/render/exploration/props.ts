@@ -615,6 +615,122 @@ function floorVent(materials: EnvironmentMaterials, kit: PropGeometryLibrary): T
   for (let x = -0.22; x <= 0.22; x += 0.11) box(group, kit, materials.get('wornMetal'), x, 0.032, 0, 0.035, 0.012, 0.36);
   return group;
 }
+
+/* -- Habillage de nuit (holt-nuit, lot 5.8b) : le bal, puis la fuite --------------------- */
+
+/**
+ * Table de buffet du bal : le plateau large de `table()`, couronne d'une piece montee (trois
+ * caissons decroissants, glacage clair) et de deux bouteilles -- "gateaux et boissons sur la
+ * table" (GAME-DESIGN scene 2). Primitives seules, aucun asset externe.
+ */
+function buffetTable(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const wood = materials.get('wood');
+  // Plateau compact : une seule case (comme `exam-desk`), pas le large plateau de `table()` --
+  // `holt-nuit` pose ces tables sur d'anciennes cases de pupitre (1 x 1 m).
+  box(group, kit, wood, 0, 0.74, 0, 0.86, 0.1, 0.58);
+  for (const x of [-0.34, 0.34]) for (const z of [-0.22, 0.22]) post(group, kit, materials.get('darkMetal'), x, z, 0.7);
+  const icing = materials.get('linen');
+  const cake = materials.get('warmLaminate');
+  box(group, kit, cake, -0.2, 0.87, 0, 0.34, 0.14, 0.32);
+  box(group, kit, icing, -0.2, 0.945, 0, 0.28, 0.03, 0.26);
+  box(group, kit, cake, -0.2, 1.0, 0, 0.22, 0.1, 0.2);
+  box(group, kit, icing, -0.2, 1.06, 0, 0.16, 0.025, 0.15);
+  const bottle = new THREE.Mesh(kit.drum, materials.get('petrolPaint'));
+  bottle.scale.set(0.14, 0.34, 0.14);
+  bottle.position.set(0.26, 0.96, 0.1);
+  bottle.castShadow = true;
+  group.add(bottle);
+  return group;
+}
+
+/**
+ * Guirlande de lampions : un fil tendu (deux ancrages au plafond) et une rangee de petits
+ * lampions colores, chacun sa propre teinte emissive -- pas de nouvelle lumiere reelle par
+ * lampion (le budget d'appels de dessin resterait tenu, mais celui de la boucle d'eclairage du
+ * shader grimperait vite, ADR 0018 §Consequences) : une SEULE `PointLight` chaude au centre du
+ * fil suffit a lire "lumiere de fete", le reste est emissif seulement.
+ */
+function partyStringLights(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const wire = materials.get('darkMetal');
+  box(group, kit, wire, 0, 2.62, 0, 2.9, 0.02, 0.02);
+  // Palette plus colorée (revue du 2026-09-26, "plus de guirlandes visibles") : amber/cyan
+  // alternés avec deux lampions rouges au lieu d'un seul -- se lit comme une vraie guirlande de
+  // fête, pas une simple rangée de points ambre.
+  const lanternColors = ['amberSignal', 'cyanSignal', 'alarmRed', 'cyanSignal', 'amberSignal'] as const;
+  lanternColors.forEach((colorKey, index) => {
+    const x = -1.2 + index * 0.6;
+    const sag = 0.05 + Math.abs(index - (lanternColors.length - 1) / 2) * -0.03;
+    const lantern = new THREE.Mesh(kit.drum, materials.get(colorKey));
+    lantern.scale.set(0.16, 0.22, 0.16);
+    lantern.position.set(x, 2.62 - 0.16 - sag, 0);
+    group.add(lantern);
+  });
+  // Portee et intensite relevees (0.9/3.4 -> 1.35/4.6, revue du 2026-09-26, "un ou deux spots
+  // colores au-dessus du centre") : cette lumiere doit se lire comme un spot de piste, pas
+  // seulement comme l'accent d'un luminaire de couloir (ADR 0018 -- toujours locale, toujours
+  // sans ombre, toujours gratuite quand la piece se ferme).
+  const light = new THREE.PointLight(0xffb37a, 1.35, 4.6, 2);
+  light.position.set(0, 2.3, 0);
+  group.add(light);
+  return group;
+}
+
+/**
+ * Pupitre renverse : les memes planches que `examDeskProp`, basculees sur le flanc -- "John et
+ * Grover renversent les tables" (`ch2.slow.json`). Occupancy `flat` (ADR 0026, `holt-nuit` n'a
+ * aucune entite `entrainement.pupitre-*` : rien ne bloque le passage ici, la case reste
+ * franchissable comme avant, seule sa lecture change).
+ */
+function deskOverturned(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const wood = materials.get('wood');
+  box(group, kit, wood, 0, 0.3, 0, 0.6, 0.9, 0.12);
+  box(group, kit, materials.get('darkMetal'), -0.22, 0.62, 0.18, 0.05, 0.62, 0.05);
+  box(group, kit, materials.get('darkMetal'), 0.22, 0.62, 0.18, 0.05, 0.62, 0.05);
+  box(group, kit, materials.get('linen'), 0, 0.14, 0.08, 0.44, 0.03, 0.34);
+  group.rotation.z = Math.PI / 2 - 0.32;
+  group.position.y = -0.02;
+  return group;
+}
+
+/**
+ * Lueur au sol sous une porte bloquee par le feu (`fuite.porte-cour-ouest/est`) : embrasement
+ * plat, sans relief (`flat`, franchissable -- la porte elle-meme reste bloquante, verite
+ * portee par `MapDef`/`EntityDef.locked`, jamais par ce placement, ADR 0017). Sa `PointLight`
+ * est reperee et animee par `ExploreDressing.tick` (vacillement, jamais `Math.random()`).
+ */
+function fireGlow(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const ember = materials.get('alarmRed');
+  box(group, kit, ember, 0, 0.02, 0, 0.7, 0.02, 0.34);
+  const light = new THREE.PointLight(0xff5a2e, 1.1, 3.4, 2);
+  light.position.set(0, 0.4, 0);
+  group.add(light);
+  return group;
+}
+
+/**
+ * Fumee : une paire de plans translucides superposes, sans lumiere -- l'ADR 0018 le rappelle,
+ * un objet suspendu sans repere de hauteur proche se lit comme un objet flottant ; ces deux
+ * plans restent bas et discrets (pas une colonne de fumee dense) precisement pour ne pas y
+ * retomber. Suspendu (`overhead`), donc jamais bloquant. `smokeMaterial` est une matiere
+ * PARTAGEE (voir `EnvironmentPropFactory.smokeMaterial`, meme principe que
+ * `groundContactMaterial`) : jamais clonee, jamais mutee ici, pour rester libere une seule
+ * fois par la fabrique (ADR 0017).
+ */
+function smokeWisp(kit: PropGeometryLibrary, smokeMaterial: THREE.Material): THREE.Group {
+  const group = new THREE.Group();
+  for (const y of [0.5, 0.92]) {
+    const plane = new THREE.Mesh(kit.groundBlob, smokeMaterial);
+    plane.rotation.x = -Math.PI / 2.4;
+    plane.position.y = y;
+    plane.scale.set(0.6, 0.9, 1);
+    group.add(plane);
+  }
+  return group;
+}
 function simple(model: string, materials: EnvironmentMaterials, kit: PropGeometryLibrary, isCentre: boolean): THREE.Group {
   const group = new THREE.Group();
   if (model === 'courtyard-tree') {
@@ -737,6 +853,15 @@ function simple(model: string, materials: EnvironmentMaterials, kit: PropGeometr
       box(group, kit, materials.get('amberSignal'), 0.12, 1.06, z, 0.02, 0.28, 0.92);
     return group;
   }
+  if (model === 'dance-floor-tile') {
+    // Piste degagee du bal : une longue bande claire (13 x 1 m, jamais emissive, contrairement
+    // au cercle de combat -- ce marquage ne se clique pas, il ne doit donc pas parler le meme
+    // langage visuel que "survol"/"objectif", voir le commentaire de `combat-circle` plus haut).
+    box(group, kit, materials.get('linen'), 0, 0.018, 0, 12.8, 0.018, 0.9);
+    for (let x = -5.85; x <= 5.85; x += 1.3)
+      box(group, kit, materials.get('warmLaminate'), x, 0.024, 0, 0.9, 0.012, 0.7);
+    return group;
+  }
   throw new Error(`Modèle d’habillage inconnu : ${model}`);
 }
 export function createEnvironmentProp(
@@ -744,6 +869,7 @@ export function createEnvironmentProp(
   materials: EnvironmentMaterials,
   kit: PropGeometryLibrary,
   isCentre: boolean,
+  smokeMaterial: THREE.Material,
 ): THREE.Group {
   switch (placement.model) {
     case 'bed-cadet':
@@ -820,7 +946,19 @@ export function createEnvironmentProp(
     case 'exit-chevrons':
     case 'locker-open':
     case 'floor-grate':
+    case 'dance-floor-tile':
       return simple(placement.model, materials, kit, isCentre);
+    case 'buffet-table':
+      return buffetTable(materials, kit);
+    case 'party-string-lights':
+      return partyStringLights(materials, kit);
+    case 'desk-overturned':
+    case 'desk-overturned-loose':
+      return deskOverturned(materials, kit);
+    case 'fire-glow':
+      return fireGlow(materials, kit);
+    case 'smoke-wisp':
+      return smokeWisp(kit, smokeMaterial);
     default:
       throw new Error(`Modèle d’habillage inconnu : ${placement.model as string}`);
   }
@@ -868,6 +1006,13 @@ export class EnvironmentPropFactory {
     opacity: 0.22,
     depthWrite: false,
   });
+  /** Partagee entre toutes les instances de `smoke-wisp` (lot 5.8b) : jamais clonee, une seule liberation (`dispose`). */
+  private readonly smokeMaterial = new THREE.MeshBasicMaterial({
+    color: 0x3a3a3e,
+    transparent: true,
+    opacity: 0.22,
+    depthWrite: false,
+  });
   constructor(
     private readonly cellToWorld: (cell: ExploreVisualPlacement['cell']) => { x: number; z: number },
     rng: Rng,
@@ -878,7 +1023,7 @@ export class EnvironmentPropFactory {
   create(placement: ExploreVisualPlacement): THREE.Object3D {
     const object = placement.model.startsWith('factory:')
       ? this.factoryModels.create(placement.model)
-      : createEnvironmentProp(placement, this.materials, this.kit, this.isCentre);
+      : createEnvironmentProp(placement, this.materials, this.kit, this.isCentre, this.smokeMaterial);
     const model = EXPLORE_VISUAL_MODELS[placement.model];
     // Un objet suspendu au plafond ne projette pas d'ombre : la scène n'a pas de
     // plafond, donc son ombre tomberait en pleine lumière au milieu de la pièce
@@ -926,5 +1071,6 @@ export class EnvironmentPropFactory {
     this.kit.dispose();
     this.materials.dispose();
     this.groundContactMaterial.dispose();
+    this.smokeMaterial.dispose();
   }
 }

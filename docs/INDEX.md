@@ -100,3 +100,4 @@ aucune conversation à retrouver.
 | [0023](process/adr/0023-format-dialogue-decor-bruitage-tempo-locuteurs.md) | Format de dialogue : décor et bruitage par nœud, compteur borné, tempo, locuteurs |
 | [0024](process/adr/0024-exploration-fuite-zones-pression-suiveurs.md) | Exploration de fuite : zones à effets, pression, suiveurs déclarés, habillage par registre |
 | [0025](process/adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md) | Jauges d'état et bilan de chapitre déclarés en données |
+| [0026](process/adr/0026-habillage-exploration-par-etape.md) | Habillage d'exploration par étape |

@@ -18,8 +18,10 @@ import { validateMap } from '@/explore';
 import type { Cell, MapDef } from '@/explore';
 import { HOLT_MAP } from '@/data/maps/holt';
 import { CENTRE_EXAMEN_MAP } from '@/data/maps/centre-examen';
+import { HOLT_NUIT_MAP } from '@/data/maps/holt-nuit';
 import { HOLT_VISUALS } from '@/data/exploreVisuals/holt';
 import { CENTRE_EXAMEN_VISUALS } from '@/data/exploreVisuals/centreExamen';
+import { HOLT_NUIT_VISUALS } from '@/data/exploreVisuals/holtNuit';
 import type { ExploreVisualMapDef } from '@/data/exploreVisualTypes';
 import { EXPLORE_VISUAL_MODELS, modelCellSpan } from '@/data/exploreVisualModels';
 import { DORMITORY_PILOT_MAP, DORMITORY_PILOT_VISUALS } from '@/dev/dormitoryPilotMap';
@@ -28,6 +30,13 @@ const VISUAL_MAPS: Array<{ map: MapDef; visuals: ExploreVisualMapDef }> = [
   { map: HOLT_MAP, visuals: HOLT_VISUALS },
   { map: CENTRE_EXAMEN_MAP, visuals: CENTRE_EXAMEN_VISUALS },
   { map: DORMITORY_PILOT_MAP, visuals: DORMITORY_PILOT_VISUALS },
+  // `holt-nuit` (lot 5.8b, ADR 0026) : son plan est DÉRIVÉ de celui de `holt`
+  // (`deriveNightAscii`, `src/data/maps/holt-nuit.ts`) -- la grille de pupitres redevient du
+  // sol, sauf les cases qui portent un buffet aux deux étapes -- donc la règle 2 ci-dessous
+  // (personne ne se pose sur les cases d'un autre, à sa hauteur) doit tenir compte de l'étape :
+  // deux placements qui visent la même case pour deux `etape` différentes ne sont jamais
+  // simultanés, jamais un vrai chevauchement (voir `layerConflicts`).
+  { map: HOLT_NUIT_MAP, visuals: HOLT_NUIT_VISUALS },
 ];
 
 const key = ({ x, y }: Cell): string => `${x},${y}`;
@@ -65,7 +74,15 @@ describe('plans d’habillage d’exploration', () => {
       // Deux couches, parce que deux objets ne se gênent que s'ils sont à la
       // même hauteur : une réglette a parfaitement le droit d'éclairer un
       // marquage au sol, deux meubles n'ont pas le droit de se superposer.
-      const occupied: Record<'sol' | 'air', Map<string, string>> = { sol: new Map(), air: new Map() };
+      // Chaque case retient la LISTE des placements déjà posés dessus (pas un seul) : deux
+      // placements d'étapes différentes (ADR 0026) peuvent légitimement viser la même case,
+      // seuls deux qui peuvent être visibles EN MÊME TEMPS se gênent réellement.
+      const occupied: Record<'sol' | 'air', Map<string, { id: string; etape?: string }[]>> = {
+        sol: new Map(),
+        air: new Map(),
+      };
+      /** Deux placements sur la même case/couche ne se gênent que s'ils peuvent être visibles ensemble : jamais le cas de deux `etape` déclarées et différentes. */
+      const layerConflicts = (a?: string, b?: string): boolean => !(a && b && a !== b);
       const dressed = new Set<string>();
       const seenIds = new Set<string>();
 
@@ -109,9 +126,14 @@ describe('plans d’habillage d’exploration', () => {
             errors.push(`${where} : emprise ${key(cell)} hors carte`);
             continue;
           }
-          const previous = occupied[layer].get(key(cell));
-          if (previous) errors.push(`${map.id} : ${placement.id} chevauche ${previous} en ${key(cell)}`);
-          occupied[layer].set(key(cell), placement.id);
+          const cellKey = key(cell);
+          const previous = occupied[layer].get(cellKey) ?? [];
+          for (const other of previous) {
+            if (layerConflicts(placement.etape, other.etape)) {
+              errors.push(`${map.id} : ${placement.id} chevauche ${other.id} en ${cellKey}`);
+            }
+          }
+          occupied[layer].set(cellKey, [...previous, { id: placement.id, etape: placement.etape }]);
         }
 
         // 3. L'accord avec l'ASCII, modèle par modèle.
