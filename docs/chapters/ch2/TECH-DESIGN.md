@@ -766,8 +766,8 @@ Colonne C, le reste :
 
 `vu-simulation` suit le tirage du détour (une nuit sur deux par construction). Tempo à la trappe
 (Loyal) : 3 : 18 %, 4 : 28 %, 5 : 32 %, 6 : 20 %, 7 : 2 % ; Solitaire et Neutre, un cran plus bas.
-C'est une borne basse : sur `holt-nuit`, deux des trois zones de la fuite se contournent par le
-couloir parallèle (x = 18-20) ; un joueur qui file tout droit les franchit toutes, un cran de plus.
+C'était une borne basse : sur `holt-nuit`, une des trois zones de la fuite se contournait (couloir
+parallèle x = 18-20). Corrigé juste après, voir la section suivante.
 
 Chances de réussite des jets des scènes 5 et 6 (d10 explosif, sans Chance) :
 
@@ -789,3 +789,44 @@ qu'une nuit sur cent). Propositions pour le propriétaire, non appliquées :
   `enfant-confiance` passerait vers 70-75 % ;
 - le ventilateur : Piratage à **Exceptionnelle** (40 %) et Électronique à **Très difficile** (80 %) :
   double échec vers 12 %. Ou garder tel quel : c'est le moment où Franklyn est chez lui.
+
+### Résultats du simulateur (lot 5.9, suite : la fuite incontournable)
+
+Décision du propriétaire (2026-09-26) : le tempo de la fuite pèse par les choix, pas par le chemin.
+Les trois zones de `holt-nuit` barrent désormais toute la largeur de leur passage (voir
+`10-MAPS-CHAPTER-2.md`, propriété vérifiée par `ch2ExploreScenes.test.ts`), et la balle perdue de
+la grille passe de `tempo ≥ 3` à `tempo ≥ 4`. Toute fuite part donc de 3 ; la balle perdue ne tombe
+que si un choix ou un échec ajoute un cran (Abigail porteuse, attendre John et Grover, la grille
+forcée). `npx tsx scripts/simulate-ch2.ts 500`, même graine :
+
+| Profil | État de Letitia (0 / 1 / 2 / 3) | Balle perdue à la grille | Rafale à la trappe (tempo ≥ 6) |
+|---|---|---|---|
+| Loyal à la bande | 5,8 / 33,2 / 47,8 / 13,2 | **100 %** | 53,8 % |
+| Solitaire | 24,0 / 37,4 / 31,6 / 7,0 | 52,6 % | 17,8 % |
+| Neutre | 23,0 / 36,4 / 30,2 / 10,4 | 56,8 % | 21,2 % |
+
+`enfant-confiance` 89-91 %, `abigail-brisee` 19-40 %, `voiture-pillee` parmi les nuits « Veiller »
+56-59 % : inchangés.
+
+**À trancher** : en Loyal, la balle perdue tombe à coup sûr. Ce n'est pas un choix : au nœud
+`route` de `ch2.slow.json`, un dossier `loyal-bande` n'a qu'une option, « Attendre John et Grover »
+(tempo +1) -- « Continuer en groupe » lui est fermé. De même, « Passer devant, seul, pour gagner du
+temps » (`solitaire`) ne retire aucun tempo : il ne coûte qu'un point avec John. Proposition, non
+appliquée : ouvrir « Continuer en groupe » à tous les profils (la loyauté devient une vraie
+dépense), et donner `{ tempo: -1 }` à « Passer devant, seul » (le gain annoncé par le texte).
+
+**Correctif (écarts au game design, scène 4)** : au nœud `route` de `ch2.slow.json`, « Continuer en
+groupe » est ouvert à tous (`loyal-bande` et `solitaire` AJOUTENT une option) ; « Passer devant,
+seul » retire un cran de tempo (en plus du −1 avec John). Le tempo ne descend pas sous 0 : au moment
+du choix, avant les zones, ce cran n'efface que celui d'Abigail porteuse. Les portes (31,16) et
+(44,16), qui menaient au dortoir sans la grille, sont fermées par le feu (`10-MAPS-CHAPTER-2.md`).
+Même commande, même graine :
+
+| Profil | État de Letitia (0 / 1 / 2 / 3) | Balle perdue à la grille | Rafale à la trappe (tempo ≥ 6) |
+|---|---|---|---|
+| Loyal à la bande | 14,2 / 33,6 / 41,8 / 10,4 | 81,0 % | 38,2 % |
+| Solitaire | 28,8 / 36,8 / 28,4 / 6,0 | 38,0 % | 11,4 % |
+| Neutre | 23,0 / 36,4 / 30,2 / 10,4 | 56,8 % | 21,2 % |
+
+(Neutre inchangé : il n'a ni `loyal-bande` ni `solitaire`.) `enfant-confiance` 89-91 %,
+`abigail-brisee` 20-40 %, `voiture-pillee` parmi les nuits « Veiller » 51-58 %.

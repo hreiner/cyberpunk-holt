@@ -149,13 +149,13 @@ function deskOverturned(cell: Cell, index: number): ExploreVisualPlacement {
 }
 
 /** Lueur de feu au sol, côté salle, juste sous une porte bloquée (`fuite.porte-cour-ouest/est`). */
-function fireGlow(id: string, cell: Cell): ExploreVisualPlacement {
-  return { id, model: 'fire-glow', cell, footprint: [cell], roomId: 'salles-entrainement', etape: 'fuite' };
+function fireGlow(id: string, cell: Cell, roomId = 'salles-entrainement'): ExploreVisualPlacement {
+  return { id, model: 'fire-glow', cell, footprint: [cell], roomId, etape: 'fuite' };
 }
 
 /** Filet de fumée, à côté de la lueur (voir `fireGlow`) : jamais sur la même case, pour rester deux silhouettes lisibles. */
-function smokeWisp(id: string, cell: Cell): ExploreVisualPlacement {
-  return { id, model: 'smoke-wisp', cell, footprint: [cell], roomId: 'salles-entrainement', etape: 'fuite' };
+function smokeWisp(id: string, cell: Cell, roomId = 'salles-entrainement'): ExploreVisualPlacement {
+  return { id, model: 'smoke-wisp', cell, footprint: [cell], roomId, etape: 'fuite' };
 }
 
 /** Rangée entièrement franchissable au centre de l'ancienne grille (voir `stringLights`) : y = 38, x = 30..42. */
@@ -193,6 +193,11 @@ const FUITE_PLACEMENTS: ExploreVisualPlacement[] = [
   fireGlow('fuite.lueur-porte-est', { x: 44, y: 33 }),
   smokeWisp('fuite.fumee-porte-ouest', { x: 32, y: 33 }),
   smokeWisp('fuite.fumee-porte-est', { x: 43, y: 33 }),
+  // Idem sous les deux portes du dortoir (`fuite.porte-dortoir-cour/cantine`, cases {31,16}/{44,16}).
+  fireGlow('fuite.lueur-porte-dortoir-cour', { x: 31, y: 17 }, 'cour-interieure'),
+  fireGlow('fuite.lueur-porte-dortoir-cantine', { x: 44, y: 17 }, 'cantine'),
+  smokeWisp('fuite.fumee-porte-dortoir-cour', { x: 32, y: 17 }, 'cour-interieure'),
+  smokeWisp('fuite.fumee-porte-dortoir-cantine', { x: 43, y: 17 }, 'cantine'),
 ];
 
 export const HOLT_NUIT_VISUALS: ExploreVisualMapDef = {

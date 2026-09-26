@@ -36,8 +36,8 @@
     },
     "seuil": {
       "choices": [
-        { "text": "Continuer.", "conditions": [{ "tempo": { "atLeast": 3 } }], "to": "balle-perdue" },
-        { "text": "Continuer.", "conditions": [{ "not": { "tempo": { "atLeast": 3 } } }], "to": "fin" }
+        { "text": "Continuer.", "conditions": [{ "tempo": { "atLeast": 4 } }], "to": "balle-perdue" },
+        { "text": "Continuer.", "conditions": [{ "not": { "tempo": { "atLeast": 4 } } }], "to": "fin" }
       ]
     },
     "balle-perdue": {

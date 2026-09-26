@@ -163,9 +163,17 @@ const ENTITIES: EntityDef[] = [
   // du plus proche des salles d'entraînement au plus proche du dortoir -- "une réplique et
   // un tir lointain à chaque seuil" (TECH-DESIGN §4.6) vivent en radio (`ch2Radio.ts`,
   // `RadioCue.channel: 'pression'`), pas ici : une zone ne fait qu'avancer le minuteur.
+  //
+  // Décision du propriétaire (2026-09-26) : les trois zones sont INCONTOURNABLES -- le tempo pèse
+  // par les choix (porteur, `solitaire`/`loyal-bande`, la grille), jamais par le chemin. Chacune
+  // barre toute la largeur du passage qu'elle garde, couloir parallèle compris (x = 18-20, relié au
+  // couloir de ceinture par les portes (21,20) et (21,6)) ; la dernière garde les deux abords de la
+  // grille, y compris par le dortoir (joignable par la salle au sud, portes (31,16)/(44,16)).
+  // Vérifié sur le plan par `tests/unit/ch2ExploreScenes.test.ts`.
   {
     id: 'fuite.zone-1',
     type: 'zone',
+    // La sortie des salles d'entraînement (porte (25,40)), seule issue : tout le couloir devant elle.
     cell: { x: 23, y: 40 },
     area: { origin: { x: 22, y: 38 }, width: 3, height: 5 },
     effects: [{ tempo: 1 }],
@@ -174,16 +182,18 @@ const ENTITIES: EntityDef[] = [
   {
     id: 'fuite.zone-2',
     type: 'zone',
+    // Les deux couloirs parallèles (x = 18-20 et 22-24), à la hauteur de la porte (21,20).
     cell: { x: 23, y: 22 },
-    area: { origin: { x: 22, y: 20 }, width: 3, height: 6 },
+    area: { origin: { x: 18, y: 20 }, width: 7, height: 6 },
     effects: [{ tempo: 1 }],
     condition: etape('fuite'),
   },
   {
     id: 'fuite.zone-3',
     type: 'zone',
-    cell: { x: 23, y: 10 },
-    area: { origin: { x: 22, y: 9 }, width: 3, height: 4 },
+    // Les abords de la grille, des deux côtés (couloir x = 18-24 et dortoir x = 26-28), y = 5-9.
+    cell: { x: 23, y: 8 },
+    area: { origin: { x: 18, y: 5 }, width: 11, height: 5 },
     effects: [{ tempo: 1 }],
     condition: etape('fuite'),
   },
@@ -203,6 +213,29 @@ const ENTITIES: EntityDef[] = [
     id: 'fuite.porte-cour-est',
     type: 'door',
     cell: { x: 44, y: 32 },
+    locked: true,
+    lockedLine: 'Condamnée par les flammes.',
+    label: 'Essayer la porte',
+    condition: etape('fuite'),
+  },
+  // Les deux portes nord de la cour intérieure et de la cantine, qui donnent dans le dortoir :
+  // fermées par le feu, comme les deux précédentes (correctif du lot 5.9) -- sans elles, on
+  // entrait au dortoir par le sud sans passer la grille. Le dortoir ne s'atteint que par la grille
+  // (vérifié par `tests/unit/ch2ExploreScenes.test.ts`). Verrouillées aussi pendant le bal (l'état
+  // d'une porte ne dépend pas de l'étape) : le bal n'a rien au dortoir, et le panneau fermé se voit.
+  {
+    id: 'fuite.porte-dortoir-cour',
+    type: 'door',
+    cell: { x: 31, y: 16 },
+    locked: true,
+    lockedLine: 'Bloquée. De la fumée passe sous la porte.',
+    label: 'Essayer la porte',
+    condition: etape('fuite'),
+  },
+  {
+    id: 'fuite.porte-dortoir-cantine',
+    type: 'door',
+    cell: { x: 44, y: 16 },
     locked: true,
     lockedLine: 'Condamnée par les flammes.',
     label: 'Essayer la porte',

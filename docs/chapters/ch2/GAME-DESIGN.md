@@ -81,7 +81,10 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
   - Qui soutient Letitia : *John* (plus vite, elle est secouée) ou *Abigail* (plus lent).
   - La grille du dortoir : outil d'Abigail, [Électronique] DV 13. **Échec** : on force, le
     tempo avance, et Abigail voit que Franklyn connaît trop bien le chemin (−1 avec elle).
-  - Tempo au-delà du dernier seuil : une balle perdue, +1 sur l'état de Letitia.
+  - Tempo au-delà du dernier seuil : une balle perdue, +1 sur l'état de Letitia. *(Décision du
+    propriétaire, 2026-09-26 : le tempo pèse par les choix -- porteur, route `solitaire`/
+    `loyal-bande`, la grille --, pas par le chemin. Les trois zones de tempo sont incontournables,
+    et la balle perdue demande un cran de plus que les trois seuils : tempo 4.)*
 - **Lit** : `solitaire` ouvre « Passer devant, seul » (moins de tempo, −1 avec John).
   `loyal-bande` : Franklyn attend John et Grover à la porte (+1 avec Grover). **Réemploi** :
   EXP-01, 03, 04, 05, 07, 08 ; RES-03 ; DLG-02, 03.

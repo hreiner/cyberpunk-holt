@@ -65,6 +65,12 @@ const baseSeed = process.argv[3] ?? 'ch2-sim';
  */
 const SKELETON_SCENE_NUMBERS = new Set<number>();
 
+/**
+ * Seuil de la balle perdue de la grille (`ch2.grille.json`, nœud `seuil` : `tempo atLeast`) --
+ * recopié ici pour compter les nuits où elle tombe ; décision du propriétaire (2026-09-26) : 4.
+ */
+const GRILLE_BALLE_PERDUE_TEMPO = 4;
+
 /** Garde-fou anti-boucle sur une seule scène (même esprit que chapter2Flow.test.ts). */
 const MAX_AUTO_HOPS = 20;
 /** Garde-fou anti-boucle sur une nuit entière (14 scènes, quelques décisions chacune). */
@@ -210,6 +216,8 @@ interface NightResult {
   enfantConfiance: boolean;
   /** Lot 5.9 : `vu-simulation` (le détour chez Smith, scène 5), lue en scène 10. */
   vuSimulation: boolean;
+  /** Vrai si le tempo atteignait le seuil de la balle perdue à la fin de `ch2.grille` (scène 4). */
+  ballePerdueGrille: boolean;
   /** Lot 5.9 : tempo au moment de la trappe du vide-ordures (fin de `ch2.cantine`, scène 6). */
   tempoCantine: number;
   /** Vrai si la nuit a choisi "Laisser tout le monde dormir" à la scène 10 (`ch2.decharges.repos`). */
@@ -236,6 +244,7 @@ function playNight(profile: DossierProfile, seed: string): NightResult {
   };
 
   let tempoCantine = 0;
+  let ballePerdueGrille = false;
   for (const [index, scene] of CHAPTER_2.scenes.entries()) {
     // Deux SceneDef jumelles (le porteur) : seule celle dont le `when` est vrai se joue.
     if (scene.when && !evaluateCondition(scene.when, ctx)) continue;
@@ -248,6 +257,7 @@ function playNight(profile: DossierProfile, seed: string): NightResult {
     const file = DIALOGUES[dialogueId] as DialogueFile | undefined;
     if (!file) throw new Error(`dialogue "${dialogueId}" manquant pour la scène "${scene.id}".`);
     ctx = playDialogue(file, ctx, checksRng, pickRng);
+    if (scene.id === 'ch2.grille') ballePerdueGrille = ctx.run.tempo >= GRILLE_BALLE_PERDUE_TEMPO;
   }
 
   const rawEtat = ctx.run.flags['ch2.letitia.etat'];
@@ -261,6 +271,7 @@ function playNight(profile: DossierProfile, seed: string): NightResult {
     enfantConfiance: ctx.dossier.tags.includes('enfant-confiance'),
     vuSimulation: ctx.dossier.tags.includes('vu-simulation'),
     tempoCantine,
+    ballePerdueGrille,
     dormi,
     quiDort: !dormi && notWatched.length === 1 ? notWatched[0]! : null,
   };
@@ -283,6 +294,7 @@ for (const profile of Object.values(CH2_PROFILES) as DossierProfile[]) {
   let abigailBriseeOui = 0;
   let enfantConfianceOui = 0;
   let vuSimulationOui = 0;
+  let ballePerdueOui = 0;
   const tempoCantineCounts = new Map<number, number>();
   // Point 6 (retour de l'orchestrateur) : séparer les nuits "Veiller" des nuits "Dormir" --
   // "Dormir" pille la voiture D'OFFICE (ch2.decharges.json, noeud `garde-dormir`), un
@@ -301,6 +313,7 @@ for (const profile of Object.values(CH2_PROFILES) as DossierProfile[]) {
     if (result.abigailBrisee) abigailBriseeOui++;
     if (result.enfantConfiance) enfantConfianceOui++;
     if (result.vuSimulation) vuSimulationOui++;
+    if (result.ballePerdueGrille) ballePerdueOui++;
     tempoCantineCounts.set(result.tempoCantine, (tempoCantineCounts.get(result.tempoCantine) ?? 0) + 1);
     if (result.dormi) {
       dormirNuits++;
@@ -320,6 +333,7 @@ for (const profile of Object.values(CH2_PROFILES) as DossierProfile[]) {
   console.log(`abigail-brisee : oui ${abigailBriseeOui} (${pct(abigailBriseeOui, nightsPerProfile)}) -- non ${nightsPerProfile - abigailBriseeOui} (${pct(nightsPerProfile - abigailBriseeOui, nightsPerProfile)})`);
   console.log(`enfant-confiance : oui ${enfantConfianceOui} (${pct(enfantConfianceOui, nightsPerProfile)})`);
   console.log(`vu-simulation (détour chez Smith) : oui ${vuSimulationOui} (${pct(vuSimulationOui, nightsPerProfile)})`);
+  console.log(`Balle perdue à la grille (tempo >= ${GRILLE_BALLE_PERDUE_TEMPO}) : ${ballePerdueOui} (${pct(ballePerdueOui, nightsPerProfile)})`);
   const tempos = [...tempoCantineCounts.entries()].sort((a, b) => a[0] - b[0]);
   console.log(`Tempo à la trappe du vide-ordures : ${tempos.map(([t, n]) => `${t} : ${pct(n, nightsPerProfile)}`).join(' -- ')}`);
   console.log(`Relais de garde -- "Dormir" choisi : ${dormirNuits} (${pct(dormirNuits, nightsPerProfile)}) -- voiture pillée d'office dans ce cas.`);

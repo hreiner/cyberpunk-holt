@@ -78,11 +78,12 @@
       ]
     },
     "route": {
+      "text": "La porte des salles d'entraînement, et derrière, le couloir de ceinture. Le dortoir est à l'autre bout.",
       "choices": [
         {
           "text": "Passer devant, seul, pour gagner du temps.",
           "conditions": [{ "tag": "solitaire" }],
-          "effects": [{ "affinity": { "who": "john", "delta": -1 } }],
+          "effects": [{ "affinity": { "who": "john", "delta": -1 } }, { "tempo": -1 }],
           "to": "fin"
         },
         {
@@ -93,7 +94,6 @@
         },
         {
           "text": "Continuer en groupe.",
-          "conditions": [{ "not": { "tag": "solitaire" } }, { "not": { "tag": "loyal-bande" } }],
           "to": "fin"
         }
       ]

@@ -38,6 +38,35 @@ Deux étapes, deux jeux d'entités, gardés par le drapeau `ch2.etape` (`Ch2Etap
   et `dortoir.grille` (déclencheur de l'objectif — porte, verrouillée, dialogueId de la scène
   suivante `ch2.grille`, contrat du lot 3.6b : elle ne joue rien elle-même).
 
+**Le dortoir ne s'atteint que par la grille** (correctif du lot 5.9) : les deux portes nord de la
+cour intérieure et de la cantine, en (31,16) et (44,16), n'avaient pas d'entité -- ouvertes, elles
+menaient au dortoir sans passer la grille. Ce sont désormais deux portes fermées par le feu, sur le
+modèle des deux premières (`fuite.porte-dortoir-cour`, « Bloquée. De la fumée passe sous la
+porte. » ; `fuite.porte-dortoir-cantine`, « Condamnée par les flammes. »), avec une lueur de feu et
+un filet de fumée côté sud à l'étape `fuite`. Comme les deux premières, elles sont fermées dès le
+bal (l'état d'une porte ne dépend pas de l'étape, et le panneau fermé se voit) : le bal n'a rien au
+dortoir, ni entité ni objectif. Vérifié par `tests/unit/ch2ExploreScenes.test.ts` (portes
+verrouillées infranchissables : aucune case du dortoir atteinte sans la grille ; la grille ouverte,
+si).
+
+**Zones de tempo incontournables** (décision du propriétaire, 2026-09-26) : le tempo de la fuite
+pèse par les choix (porteur, `solitaire`/`loyal-bande`, la grille), jamais par le chemin. Les
+zones d'origine ne couvraient que le couloir de ceinture (x = 22-24) : on évitait la troisième par
+le couloir parallèle (x = 18-20, portes (21,20) et (21,6)), ou par la salle au sud du dortoir
+(porte (25,21), puis (31,16)) jusqu'à l'intérieur de la grille. Désormais :
+
+| Zone | Aire | Ce qu'elle barre |
+|---|---|---|
+| `fuite.zone-1` | x 22-24, y 38-42 | le couloir devant la seule sortie des salles d'entraînement (porte (25,40)) |
+| `fuite.zone-2` | x 18-24, y 20-25 | les deux couloirs parallèles, à la hauteur de la porte (21,20) |
+| `fuite.zone-3` | x 18-28, y 5-9 | les abords de la grille, des deux côtés (couloirs et dortoir) |
+
+Vérifié sur le plan par `tests/unit/ch2ExploreScenes.test.ts` : pour chaque zone de tempo d'une
+scène `explore`, l'aire bouchée, le déclencheur devient inatteignable depuis l'apparition (portes
+verrouillées qu'aucune entité n'ouvre exclues des raccourcis). Toute fuite franchit donc trois
+seuils ; la balle perdue de la grille (`ch2.grille.json`) demande désormais un tempo de 4, un cran
+de plus que les zones seules.
+
 Deux points d'apparition, `bal` et `fuite`, tous deux dans le cercle de combat des salles
 d'entraînement (entrées à froid : `ch2.slow`, entre les deux, est un dialogue sans position à
 reprendre).
@@ -56,8 +85,12 @@ suiveurs sont rendus (`VISIBLE_FOLLOWERS_LIMIT = 2`) : Letitia (blessée) et son
 reste du groupe (dont l'autre des deux) n'est dit que par la narration.
 
 Le même nœud de `ch2.slow.json` porte aussi `solitaire`/`loyal-bande` (GAME-DESIGN scène 4) :
-« Passer devant, seul » (solitaire, −1 avec John) ou « Attendre John et Grover à la porte »
-(loyal-bande, +1 avec Grover, un tour de tempo) — plus aucun des deux dans `ch2.grille.json`,
+« Continuer en groupe », ouvert à tous, et en plus, selon le dossier, « Passer devant, seul »
+(solitaire : un cran de tempo en moins, −1 avec John) ou « Attendre John et Grover à la porte »
+(loyal-bande, +1 avec Grover, un cran de tempo en plus) -- correctif du lot 5.9 : ces deux options
+s'ajoutaient à l'option commune dans le design, elles la remplaçaient dans les données. Le tempo
+ne descend jamais sous 0 : au moment du choix (avant les zones), « Passer devant » n'efface donc
+que le cran d'Abigail porteuse. Plus aucun des deux dans `ch2.grille.json`,
 qui ne garde que le panneau électronique (DV, écho du bal) et le seuil de tempo final (balle
 perdue).
 

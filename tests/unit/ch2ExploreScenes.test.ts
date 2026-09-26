@@ -17,6 +17,11 @@ import { CHAPTER_2 } from '@/data/chapters/ch2';
 import { getMap } from '@/data/maps';
 import { hasDialogue, DIALOGUES } from '@/data/dialogues/registry';
 import type { SceneDef } from '@/narrative';
+import { evaluateCondition, withEtape } from '@/narrative';
+import { createDossier } from '@/core/dossier';
+import { createRunState } from '@/narrative/runState';
+import { ExploreMap, computeReach } from '@/explore';
+import type { Cell, EntityDef } from '@/explore';
 
 const exploreScenes = CHAPTER_2.scenes.filter((s) => s.kind === 'explore');
 
@@ -173,4 +178,84 @@ describe('étapes d’exploration du chapitre 2 (CHAPTER_2.scenes, lot 5.8)', ()
       expect(abigail?.followers?.[1]).toBe('abigail');
     },
   );
+
+  /**
+   * Décision du propriétaire (2026-09-26) : le tempo pèse par les CHOIX, jamais par le chemin. Toute
+   * zone qui fait avancer le tempo est incontournable : sur le plan, l'aire de la zone bouchée, le
+   * déclencheur de l'objectif devient inatteignable depuis le point d'apparition. Portes : franchissables
+   * de principe (elles peuvent s'ouvrir), sauf celles qui restent verrouillées pour de bon (aucune
+   * entité ne les ouvre -- les portes fermées par le feu de la fuite). Même calcul que le simulateur
+   * (`scripts/simulate-ch2.ts`, `zoneIsMandatory`).
+   */
+  describe('aucun chemin de l’apparition au déclencheur n’évite une zone de tempo', () => {
+    function tempoZones(scene: SceneDef): Array<Extract<EntityDef, { type: 'zone' }>> {
+      const ctx = withEtape(
+        { dossier: createDossier(), run: createRunState('ch2ExploreScenes::zones', { chapter: 2, sceneId: scene.id, luck: 0 }) },
+        scene,
+        CHAPTER_2.etapeFlag,
+      );
+      return getMap(scene.mapId as string).entities.filter(
+        (e): e is Extract<EntityDef, { type: 'zone' }> =>
+          e.type === 'zone' &&
+          (!e.condition || evaluateCondition(e.condition, ctx)) &&
+          (e.effects ?? []).some((effect) => 'tempo' in effect),
+      );
+    }
+
+    it('la fuite porte bien ses trois zones de tempo (sinon la propriété ne prouve rien)', () => {
+      const fuite = exploreScenes.find((s) => s.id === 'ch2.fuite') as SceneDef;
+      expect(tempoZones(fuite)).toHaveLength(3);
+    });
+
+    const cases = exploreScenes.flatMap((scene) => tempoZones(scene).map((zone) => ({ scene, zone, label: `${scene.id} / ${zone.id}` })));
+    it.each(cases)('$label : incontournable', ({ scene, zone }) => {
+      const def = getMap(scene.mapId as string);
+      const map = new ExploreMap(def);
+      const opened = new Set(def.entities.flatMap((e) => ('opensDoorAfterDialogue' in e && e.opensDoorAfterDialogue ? [e.opensDoorAfterDialogue] : [])));
+      const triggerId = scene.objective?.completionTrigger;
+      const sealed = new Set(
+        def.entities
+          .filter((e) => e.type === 'door' && e.locked && !opened.has(e.id) && e.id !== triggerId)
+          .map((e) => `${e.cell.x},${e.cell.y}`),
+      );
+      const { origin, width, height } = zone.area;
+      const inZone = (c: Cell) => c.x >= origin.x && c.x < origin.x + width && c.y >= origin.y && c.y < origin.y + height;
+      const walkable = (c: Cell) => {
+        const kind = map.kindAt(c);
+        return (kind === 'floor' || kind === 'door') && !sealed.has(`${c.x},${c.y}`);
+      };
+      const spawn = def.spawns[scene.spawn as string] as Cell;
+      const trigger = def.entities.find((e) => e.id === triggerId) as EntityDef;
+      // Témoin : sans la zone bouchée, le déclencheur est bien atteignable.
+      expect(computeReach(map, spawn, walkable).costs.has(`${trigger.cell.x},${trigger.cell.y}`)).toBe(true);
+      const avoiding = computeReach(map, spawn, (c) => !inZone(c) && walkable(c));
+      expect(avoiding.costs.has(`${trigger.cell.x},${trigger.cell.y}`), `un chemin évite ${zone.id}`).toBe(false);
+    });
+
+    /**
+     * Correctif du lot 5.9 : pendant la fuite, le dortoir ne s'atteint QUE par sa grille -- plus de
+     * porte sans entité au sud (cour intérieure, cantine) qui y mènerait sans passer la grille ni
+     * les zones. Portes verrouillées : infranchissables ; la grille ouverte, le dortoir est atteint.
+     */
+    it('fuite : le dortoir ne s’atteint que par la grille', () => {
+      const def = getMap('holt-nuit');
+      const map = new ExploreMap(def);
+      const dortoirs = def.rooms.find((r) => r.id === 'dortoirs');
+      expect(dortoirs).toBeDefined();
+      const { origin, width, height } = dortoirs!.rect;
+      const inDortoir = (key: string) => {
+        const [x, y] = key.split(',').map(Number) as [number, number];
+        return x >= origin.x && x < origin.x + width && y >= origin.y && y < origin.y + height;
+      };
+      const locked = new Map(def.entities.filter((e) => e.type === 'door' && e.locked).map((e) => [`${e.cell.x},${e.cell.y}`, e.id]));
+      const reachFrom = (openDoorId?: string) =>
+        computeReach(map, def.spawns.fuite as Cell, (c) => {
+          const kind = map.kindAt(c);
+          const door = locked.get(`${c.x},${c.y}`);
+          return (kind === 'floor' || kind === 'door') && (!door || door === openDoorId);
+        });
+      expect([...reachFrom().costs.keys()].some(inDortoir), 'le dortoir est atteignable sans la grille').toBe(false);
+      expect([...reachFrom('dortoir.grille').costs.keys()].some(inDortoir), 'témoin : la grille ouverte y mène').toBe(true);
+    });
+  });
 });
