@@ -128,6 +128,17 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
 - **Lit** : `cavalier-letitia`. **Écrit** : drapeau *Abigail calmée* (+1 avec elle).
   **Réemploi** : DLG-01–05, 07.
 
+- **Ajout du propriétaire (2026-09-26) — la mort de Zachary, jouée.** On ne se rend pas assez
+  compte que Zachary est blessé, puis mort : la scène s'ouvre désormais sur lui, **mourant et
+  conscient**. Abigail tente de le soigner (nouveau visuel : Abigail penchée sur Zachary, dans
+  les égouts) ; Franklyn peut aider par des **gestes** (comprimer la plaie, lui parler pour le
+  garder éveillé, chercher de quoi faire un garrot). **Aucun jet, aucune mécanique** : c'est une
+  scène de deuil, et le texte dit dès le début qu'il est déjà perdu. Zachary a ses dernières
+  répliques (à Abigail ; à Franklyn, selon `loyal-bande` et l'affinité). Il meurt. Puis Abigail,
+  en pleurs, refuse de le lâcher et doit être **arrachée à son corps** (second visuel), par
+  Franklyn ou par Grover, au choix du joueur, sans effet mécanique. La décision existante (calmer
+  Abigail d'abord ou soigner Letitia d'abord) suit, inchangée.
+
 ### Scène 8 — Laisser Zachary
 - **Fonction** : le dialogue le plus dur. L'académie brûle au loin, les phares des
   patrouilles cherchent les survivants, on ne peut pas porter le corps plus loin.
@@ -203,6 +214,20 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
     jamais dans ce chapitre.
 - **Écrit** : `ch2.letitia.etat`, `ch2.fusil`, `ch2.rendezvous.source`. **Réemploi** :
   DLG-01, 02, 04, 05 ; STR-03.
+
+### Scène 12 — Le Blue Purple *(ajout du propriétaire, 2026-09-26)*
+- **Fonction** : fermer le chapitre sur une promesse et un mystère. Le soir même, la bande —
+  sans Zachary, sans Letitia restée chez le charcudoc — entre au **Blue Purple**, un bar de
+  Night City, pour le rendez-vous. Smith n'est pas là.
+- **Contenu** : une scène dite, en plein cadre, sans carte. L'entrée dans le bar, une courte
+  attente : deux ou trois répliques de la bande qui lisent la nuit (le délai de Letitia,
+  `abigail-brisee`, `a-tue`, qui a donné le rendez-vous). Puis **une inconnue** s'assoit à leur
+  table. Ce n'est pas Smith ; elle connaît leurs noms. Son identité est le mystère du chapitre 3.
+  Sa réplique déclenche la fin du chapitre, puis le bilan.
+- **Décision** : le premier mot de Franklyn à l'inconnue (méfiant, direct, ou laisser parler
+  John), écrit en entrée pour que le chapitre 3 le relise. **Aucun jet.**
+- **Écrit** : entrée `ch2.inconnue.premier-mot`. **Réf.** : `Reference_pictures/Chapter2/`
+  `BluePurple.png`, `BluePurpleInterieur.png`, `BluePurpleRencontre.png`.
 
 ## 5. Mécaniques nouvelles
 
@@ -330,3 +355,5 @@ fusil, enfant, Abigail, « Zachary — mort le soir du bal ») ; le joueur juge 
 | 2026-09-25 | Musique ; Smith ; le campement ; le guide | Façon *Edgerunners*, à reprendre ; Smith en personne dans son labo ; l'homme s'appelle Murano, insigne au scorpion ; le guide réclame le fusil (le marchandage peut le remplacer par des pièces de voiture) |
 | 2026-09-25 | *(phase 2)* Dossier du chapitre 1 ; état de Letitia ; musique | Suite locale, avec trois profils de départ pour qui commence au chapitre 2 (ADR 0022) ; état de Letitia **visible** en jauge de mots (ADR 0025) ; musique reportée à un lot facultatif, texte et bruitages en attendant |
 | 2026-09-25 | *(phase 2)* Leviers de fun ajoutés | **Relais de garde** (ordre des veilleurs, joker de l'enfant) ; **échos du bal** (chaque conversation facultative est relue plus loin) ; **photo au bilan** (Zachary estompé) ; **fuite qui s'entend** (réplique et tir lointain à chaque seuil de tempo). Détail : TECH-DESIGN §4.6. La garde se joue en Résistance (TECH-DESIGN §1) |
+| 2026-09-26 | *(QA)* La mort de Zachary se voit trop peu | Scène 7 ouverte sur Zachary mourant : gestes de soin sans jet ni mécanique (scène de deuil), deux visuels (Abigail le soigne ; Abigail arrachée à son corps) |
+| 2026-09-26 | *(QA)* Il manque la fin au Blue Purple | Scène 12 dite : attente courte, une inconnue (pas Smith) s'assoit à leur table, fin du chapitre ; entrée `ch2.inconnue.premier-mot` |

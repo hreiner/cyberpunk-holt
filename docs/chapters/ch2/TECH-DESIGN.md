@@ -618,6 +618,46 @@ narration les membres du groupe qu'on ne voit pas.
   (`sound.music`, ADR 0023).
 - **Dépend de** : 5.5, et la piste.
 
+### Lot 5.13 — la mort de Zachary *(ajout du propriétaire, 2026-09-26)*
+
+- **But** : la scène 7 s'ouvre sur Zachary mourant (GAME-DESIGN, scène 7, ajout du 2026-09-26) :
+  dernières répliques, gestes de soin sans jet ni mécanique, sa mort, Abigail arrachée à son
+  corps ; puis la décision existante, inchangée. Deux décors nouveaux.
+- **Dépend de** : 5.11 (revue en cours)
+- **Lire** : GAME-DESIGN §4 (scène 7), §6 ; `ch2.egouts.json` ; `ch1.bal.json` et
+  `ch2.bal.zachary.json` pour la voix de Zachary ; `ART-PIPELINE.md`, `image-generation/MANIFEST.md`,
+  `STYLE-BIBLE.md` et le brief `D22-egouts.md` (modèle).
+- **Toucher** : `ch2.egouts.json`, `data/backdrops.ts`, `MANIFEST.md` et deux briefs
+  (D29 Abigail soigne Zachary, D30 Abigail arrachée au corps ; références `Egouts.png`,
+  `SlowAbigailZach.png`), deux substituts `.webp` au chemin définitif, `ch2Content.test.ts`.
+- **Fini quand** : la garde « Zachary ne parle plus après sa mort » suit le nœud de sa mort
+  (et non plus seulement la scène) ; aucun choix de la séquence de deuil ne porte de jet ni
+  d'effet mécanique (propriété) ; la décision calmer/soigner est inchangée (ses tests restent
+  verts) ; le simulateur ne bouge pas.
+- **Documents** : `ART-PIPELINE.md` (substituts en attente), `IMPLEMENTATION-GUIDE.md` (par
+  l'orchestrateur).
+
+### Lot 5.14 — le Blue Purple *(ajout du propriétaire, 2026-09-26)*
+
+- **But** : la scène 12 (GAME-DESIGN, scène 12) : une scène `dialogue` après `ch2.charcudoc`,
+  qui clôt le chapitre avant le bilan ; un locuteur `inconnue` ; deux décors (le bar,
+  la rencontre) et un portrait.
+- **Dépend de** : 5.13
+- **Lire** : GAME-DESIGN §4 (scènes 11, 12), §7 ; `ch2.charcudoc.json` ; `data/chapters/ch2.ts` ;
+  §4.3 (locuteurs) ; `docs/design/06-SCORING-DOSSIER.md` (entrées du chapitre 2) ;
+  `MANIFEST.md`, `STYLE-BIBLE.md`.
+- **Toucher** : `ch2.bluepurple.json` (nouveau), `registry.ts`, `data/chapters/ch2.ts` (scène 12,
+  `number: 12`, bilan : ligne « Au Blue Purple » si utile), `narrative/types.ts` et `validate.ts`
+  (locuteur `inconnue`, libellé « L'inconnue »), `ui/portraits.ts`, `data/backdrops.ts`,
+  `MANIFEST.md` et briefs (D31 `blue-purple`, D32 `blue-purple-rencontre`, P19 `inconnue` ;
+  références `BluePurple*.png`), substituts, `06-SCORING-DOSSIER.md` et GAME-DESIGN §7 (l'entrée
+  `ch2.inconnue.premier-mot`), les tests gardiens, `chapter2.spec.ts`, `CH2-LEGACY.md`.
+- **Fini quand** : `chapter2Flow` et `chapter2.spec.ts` finissent par la scène 12 puis le bilan ;
+  l'entrée `ch2.inconnue.premier-mot` est écrite sur tout chemin ; les répliques d'attente lisent
+  l'état de la nuit (propriété : au moins deux variantes selon l'état de Letitia) ;
+  `CH2-LEGACY.md` transmet l'inconnue comme mystère du chapitre 3.
+- **Documents** : `CH2-LEGACY.md`, `CAPABILITIES.md` si besoin, `ART-PIPELINE.md`.
+
 ### Dépendances
 
 ```
