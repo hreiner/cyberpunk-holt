@@ -72,6 +72,18 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
   (`protecteur-bal`). **Échec** : Letitia est touchée de plein fouet.
 - **Lit** : `cavalier-letitia` (quelles images). **Écrit** : état de Letitia à 1 ou 2 (§5.1). **Réemploi** : DLG-01, 02, 10.
 
+- **Ajout du propriétaire (2026-09-26) — un slow qui dure, une bascule plus violente.**
+  - *Le slow* : avec `cavalier-letitia`, un vrai moment à deux, avant la rafale. Les deux
+    couples se montrent chacun à leur tour (`slow-franklyn-letitia`, `slow-abigail-zachary`) ;
+    Franklyn peut murmurer quelque chose à l'oreille de Letitia (des mots tendres, une
+    maladresse, ou se taire) : un choix de ton, qui écrit ±1 d'affinité avec elle, sans jet.
+    Sans `cavalier-letitia`, Franklyn regarde les deux couples depuis le bord de la piste.
+  - *La bascule* : plus longue, plus dure. Après les premiers coups, deux images de plus :
+    les gangers qui entrent en tirant, les cadets qui tombent ou plongent sous les tables ; puis
+    **Zachary qui protège Abigail de son corps et se fait toucher** (c'est la blessure dont il
+    meurt en scène 7). Toujours sans sang à l'écran. Le jet de Perception et le choix
+    plaquer/crier restent tels quels, placés dans cette suite.
+
 ### Scène 4 — Jusqu'au dortoir
 - **Fonction** : la fuite stressante. Franklyn est le seul à savoir où aller.
 - **Contenu** : en ouverture, John et Grover renversent les tables sur les gangers. Puis
@@ -357,3 +369,4 @@ fusil, enfant, Abigail, « Zachary — mort le soir du bal ») ; le joueur juge 
 | 2026-09-25 | *(phase 2)* Leviers de fun ajoutés | **Relais de garde** (ordre des veilleurs, joker de l'enfant) ; **échos du bal** (chaque conversation facultative est relue plus loin) ; **photo au bilan** (Zachary estompé) ; **fuite qui s'entend** (réplique et tir lointain à chaque seuil de tempo). Détail : TECH-DESIGN §4.6. La garde se joue en Résistance (TECH-DESIGN §1) |
 | 2026-09-26 | *(QA)* La mort de Zachary se voit trop peu | Scène 7 ouverte sur Zachary mourant : gestes de soin sans jet ni mécanique (scène de deuil), deux visuels (Abigail le soigne ; Abigail arrachée à son corps) |
 | 2026-09-26 | *(QA)* Il manque la fin au Blue Purple | Scène 12 dite : attente courte, une inconnue (pas Smith) s'assoit à leur table, fin du chapitre ; entrée `ch2.inconnue.premier-mot` |
+| 2026-09-26 | *(QA)* Le slow passe trop vite, la bascule manque de violence | Slow à deux avec murmure (±1 Letitia, sans jet) ; trois images de plus pour la rafale, dont Zachary qui protège Abigail de son corps |

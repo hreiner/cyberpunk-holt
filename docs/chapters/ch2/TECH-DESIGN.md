@@ -618,12 +618,54 @@ narration les membres du groupe qu'on ne voit pas.
   (`sound.music`, ADR 0023).
 - **Dépend de** : 5.5, et la piste.
 
+### Lot 5.B — les images des ajouts, au manifeste *(ajout du propriétaire, 2026-09-26)*
+
+- **But** : comme le lot 5.A, **sans générer** : les huit images des lots 5.13, 5.14 et 5.15
+  entrent au manifeste (lot F), chacune avec son brief et **son prompt de génération complet**
+  fidèle à la STYLE-BIBLE, et un substitut `.webp` au chemin définitif. Le propriétaire les
+  génère en une passe. Les lots de contenu ne font que citer les clés.
+  - D29 `egouts-zachary` : Abigail penchée sur Zachary mourant, dans les égouts ;
+  - D30 `egouts-arrachee` : Abigail en pleurs, arrachée au corps de Zachary ;
+  - D31 `blue-purple` : le bar, vu en entrant ; D32 `blue-purple-rencontre` : l'inconnue à leur table ;
+  - D33 `rafale-gangers` : les gangers entrent en tirant ; D34 `rafale-cadets` : les cadets sous le feu ;
+  - D35 `rafale-zachary` : Zachary protège Abigail de son corps et se fait toucher ;
+  - P19 `inconnue` : l'inconnue du Blue Purple, visage en partie dans l'ombre.
+  Sans sang à l'écran (continuité ADR 0003). Références : `Egouts.png`, `SlowAbigailZach.png`,
+  `BluePurple.png`, `BluePurpleInterieur.png`, `BluePurpleRencontre.png`, `AttaqueBoom.png`,
+  `boom.png`, `GangersVueDepuisConduits.png`.
+- **Dépend de** : 5.11
+- **Lire** : `ART-PIPELINE.md`, `image-generation/ORCHESTRATOR.md`, `MANIFEST.md`, `STYLE-BIBLE.md`,
+  les briefs D21, D22 et P13 (modèles) ; GAME-DESIGN §4, ajouts du 2026-09-26 (scènes 3, 7, 12).
+- **Toucher** : `MANIFEST.md`, `briefs/`, `public/assets/backdrops/`, `public/assets/portraits/`
+  (substituts), `data/backdrops.ts` (les sept clés).
+- **Fini quand** : chaque image a sa ligne, son brief et son prompt ; chaque clé a un substitut
+  présent (le test de `BACKDROPS` le vérifie).
+- **Documents** : `ART-PIPELINE.md`.
+
+### Lot 5.15 — le slow et la rafale, enrichis *(ajout du propriétaire, 2026-09-26)*
+
+- **But** : GAME-DESIGN, scène 3, ajout du 2026-09-26. Un slow qui dure (les deux couples à
+  l'image, le murmure à Letitia), puis une bascule plus longue et plus violente (gangers qui
+  tirent sur les cadets ; Zachary qui protège Abigail de son corps). Mécaniques existantes
+  inchangées (Perception, plaquer/crier, porteur, route).
+- **Dépend de** : 5.B
+- **Lire** : GAME-DESIGN §4 (scènes 2, 3, 7) ; `ch2.slow.json` ; `ch2.bal.json` et
+  `ch2.bal.zachary.json` pour le ton ; `ART-PIPELINE.md`, `image-generation/ORCHESTRATOR.md`,
+  `MANIFEST.md`, `STYLE-BIBLE.md`, briefs `D19`, `D20`, `D21` (modèles).
+- **Toucher** : `ch2.slow.json` (clés `rafale-gangers`, `rafale-cadets`, `rafale-zachary` posées
+  par le lot 5.B), `ch2Content.test.ts`.
+- **Fini quand** : le murmure n'existe qu'avec `cavalier-letitia` et écrit ±1 d'affinité avec
+  Letitia sans jet (propriété) ; la suite d'images de la rafale montre les nouvelles clés dans
+  l'ordre voulu (propriété sur les `backdrop` des nœuds) ; le test « plaquer contre crier » et
+  le porteur restent verts ; `chapter2Flow` va au bout.
+- **Documents** : `ART-PIPELINE.md` (substituts en attente).
+
 ### Lot 5.13 — la mort de Zachary *(ajout du propriétaire, 2026-09-26)*
 
 - **But** : la scène 7 s'ouvre sur Zachary mourant (GAME-DESIGN, scène 7, ajout du 2026-09-26) :
   dernières répliques, gestes de soin sans jet ni mécanique, sa mort, Abigail arrachée à son
   corps ; puis la décision existante, inchangée. Deux décors nouveaux.
-- **Dépend de** : 5.11 (revue en cours)
+- **Dépend de** : 5.15
 - **Lire** : GAME-DESIGN §4 (scène 7), §6 ; `ch2.egouts.json` ; `ch1.bal.json` et
   `ch2.bal.zachary.json` pour la voix de Zachary ; `ART-PIPELINE.md`, `image-generation/MANIFEST.md`,
   `STYLE-BIBLE.md` et le brief `D22-egouts.md` (modèle).
