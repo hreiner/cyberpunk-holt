@@ -191,9 +191,10 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.10 | **Le campement** : carte `campement`, insignes, matériel, qui tue Murano | 5.5, 5.7 | fait |
 | 5.A | **Illustrations** : décors et six portraits du chapitre 2 inscrits au manifeste de génération, avec des substituts `.webp` en attendant la passe du propriétaire | 5.3 | fait |
 | 5.11 | **Revue de bout en bout** : une nuit par profil et depuis une vraie archive, performances, `CH2-LEGACY.md`, `CAPABILITIES.md` | tout | fait |
+| 5.11b | *(décision du propriétaire)* **Les couloirs laissent voir la file** : murs coupés dans les couloirs comme dans les pièces (relevé de la revue) | 5.11 | à faire |
 | 5.B | *(ajout du propriétaire)* **Images des ajouts** : D29 à D35 et P19 au manifeste avec leurs prompts, substituts posés ; génération par le propriétaire | 5.11 | fait (génération : propriétaire) |
 | 5.15 | *(ajout du propriétaire)* **Le slow et la rafale, enrichis** : slow à deux avec murmure, trois images de plus pour la bascule (gangers qui tirent, cadets sous le feu, Zachary qui protège Abigail) ; au manifeste avec prompts | 5.B | à faire |
-| 5.13 | *(ajout du propriétaire)* **La mort de Zachary** : scène 7 ouverte sur Zachary mourant, gestes de soin sans jet, Abigail arrachée au corps ; deux décors au manifeste | 5.15 | à faire |
+| 5.13 | *(ajout du propriétaire)* **La mort de Zachary** : scène 7 ouverte sur Zachary mourant, gestes de soin sans jet, Abigail arrachée au corps ; plus les répliques de garde et celles de l'enfant | 5.15 | à faire |
 | 5.14 | *(ajout du propriétaire)* **Le Blue Purple** : scène 12 dite, une inconnue s'assoit à leur table et clôt le chapitre ; locuteur `inconnue`, deux décors, un portrait au manifeste | 5.13 | à faire |
 | 5.12 | *(facultatif)* **Musique du slow**, coupée par la rafale | 5.5, la piste | à faire |
 

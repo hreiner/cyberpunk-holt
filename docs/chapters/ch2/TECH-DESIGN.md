@@ -639,6 +639,19 @@ le poste du propriétaire.
   (`sound.music`, ADR 0023).
 - **Dépend de** : 5.5, et la piste.
 
+### Lot 5.11b — les couloirs laissent voir la file *(décision du propriétaire, 2026-09-26)*
+
+- **But** : relevé de la revue 5.11 : dans le couloir de ceinture de `holt-nuit`, où se joue toute
+  la fuite, les murs cachent Franklyn et sa file. Les couloirs coupent leurs murs comme les pièces
+  quand Franklyn y est, sur toutes les cartes.
+- **Dépend de** : 5.11
+- **Lire** : `ENGINE-COUPLING.md` §6 (le relevé) ; `08-EXPLORATION.md` ; ADR 0018 ; le rendu des murs
+  et de la découpe par pièce dans `src/render/`.
+- **Fini quand** : au couloir de ceinture, Franklyn et ses deux suiveurs sont visibles (capture
+  avant/après) ; le chapitre 1 reste lisible aux mêmes endroits (captures de contrôle) ; les tests
+  d'accord de rendu passent ; appels de dessin inchangés à ±5 %.
+- **Documents** : `ENGINE-COUPLING.md` (relevé soldé), `08-EXPLORATION.md`.
+
 ### Lot 5.B — les images des ajouts, au manifeste *(ajout du propriétaire, 2026-09-26)*
 
 - **But** : comme le lot 5.A, **sans générer** : les huit images des lots 5.13, 5.14 et 5.15
@@ -697,6 +710,11 @@ le poste du propriétaire.
   (et non plus seulement la scène) ; aucun choix de la séquence de deuil ne porte de jet ni
   d'effet mécanique (propriété) ; la décision calmer/soigner est inchangée (ses tests restent
   verts) ; le simulateur ne bouge pas.
+- **S'y ajoutent (décisions du propriétaire, 2026-09-26, après la revue 5.11)** :
+  - *relais de garde* : une réplique par veilleur quand il tient son tour, et une quand le joker
+    de l'enfant le réveille ; les chances ne bougent pas (`ch2.decharges.json`) ;
+  - *l'enfant parle* : une ou deux répliques courtes aux égouts, au campement, aux décharges et
+    chez le charcudoc, selon `enfant-confiance` (locuteur `enfant`).
 - **Documents** : `ART-PIPELINE.md` (substituts en attente), `IMPLEMENTATION-GUIDE.md` (par
   l'orchestrateur).
 
