@@ -17,23 +17,29 @@
       "choices": [
         {
           "text": "Continuer.",
-          "conditions": [
-            {
-              "tag": "vu-simulation"
-            }
-          ],
+          "conditions": [{ "tag": "vu-simulation" }, { "not": { "flag": "ch2.bal.john.fait", "equals": true } }],
           "to": "rendezvous-confirme"
         },
         {
           "text": "Continuer.",
           "conditions": [
-            {
-              "not": {
-                "tag": "vu-simulation"
-              }
-            }
+            { "not": { "tag": "vu-simulation" } },
+            { "not": { "flag": "ch2.bal.john.fait", "equals": true } }
           ],
           "to": "rendezvous-nouveau"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "vu-simulation" }, { "flag": "ch2.bal.john.fait", "equals": true }],
+          "to": "rendezvous-confirme-avance"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "tag": "vu-simulation" } },
+            { "flag": "ch2.bal.john.fait", "equals": true }
+          ],
+          "to": "rendezvous-nouveau-avance"
         }
       ]
     },
@@ -43,6 +49,14 @@
     },
     "rendezvous-nouveau": {
       "text": "John attend, adossé à la carcasse d'une camionnette. « J'ai un endroit pour demain. On y sera. »",
+      "to": "gangs"
+    },
+    "rendezvous-confirme-avance": {
+      "text": "John parle du rendez-vous avant même que Franklyn ouvre la bouche : « Smith t'a trouvé toi aussi, hein ? Je sais déjà où — pour demain. »",
+      "to": "gangs"
+    },
+    "rendezvous-nouveau-avance": {
+      "text": "John devance la question, comme au bal : « J'ai déjà un endroit pour demain. Je voulais te le dire avant que tu demandes. »",
       "to": "gangs"
     },
     "gangs": {

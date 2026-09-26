@@ -7,7 +7,11 @@
  */
 
 import * as THREE from 'three';
-import { CADET_VISUAL_PROFILES, type CadetVisualProfile } from '@/data/exploreVisuals/characterProfiles';
+import {
+  CADET_VISUAL_PROFILES,
+  GANGER_VISUAL_PROFILE,
+  type CadetVisualProfile,
+} from '@/data/exploreVisuals/characterProfiles';
 import { createHumanExplorationRig, type CadetRig } from './cadetRig';
 
 export interface ExploreNpcRig {
@@ -28,6 +32,19 @@ class HumanNpcRig implements ExploreNpcRig {
   private readonly rig: CadetRig;
 
   constructor(entityId: string) {
+    // Silhouettes des gangers de la fuite (ADR 0024 §3, B12, lot 5.8) : profil deja prepare au
+    // lot 5.7 (`GANGER_VISUAL_PROFILE`) mais jamais branche sur une carte -- premiere carte a en
+    // poser (`holt-nuit`). Detecte par prefixe d'id ("ganger.*", voir `holt-nuit.ts`), avant les
+    // heuristiques femme/adulte : un ganger n'est ni l'un ni l'autre au sens de ce rig.
+    if (entityId.startsWith('ganger.')) {
+      this.rig = createHumanExplorationRig(
+        { id: entityId, name: entityId },
+        { profile: GANGER_VISUAL_PROFILE, model: 'male', adult: true, showLabel: false, showRing: false },
+      );
+      this.object = this.rig.object;
+      this.object.name = `npc:${entityId}`;
+      return;
+    }
     const adult = entityId.includes('directeur') || entityId.includes('instructeur');
     const female = /betty|nancy|otage/.test(entityId);
     const sample = female ? CADET_VISUAL_PROFILES.abigail : CADET_VISUAL_PROFILES.grover;

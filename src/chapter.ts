@@ -851,7 +851,14 @@ export class ChapterApp {
     this.currentSceneDef = scene;
     this.hideAllViews();
     this.activeExploreConversation = null;
-    this.ctx = withEtape(this.ctx, scene);
+    // Bug latent corrige au lot 5.8 : `withEtape` retombait sur son repli `CH1_ETAPE_FLAG`
+    // faute de troisieme argument -- invisible tant qu'aucune scene `explore` du chapitre 2
+    // n'existait (`ch2.bal`/`ch2.fuite` sont les premieres, lot 5.8), mais ecrivait deja
+    // silencieusement sous "ch1.etape" au lieu de "ch2.etape" des qu'on en atteindrait une :
+    // les entites de `holt-nuit.ts` conditionnees par l'etape du chapitre 2 restaient donc
+    // toutes "Indisponible" (constate a la manche de captures du lot). `SceneRouter` recevait
+    // deja `this.chapterDef.etapeFlag` correctement (voir le constructeur) ; il manquait ici.
+    this.ctx = withEtape(this.ctx, scene, this.chapterDef.etapeFlag);
     // Defaut 1 du rapport de cloture epic 2 : l'equipe adverse doit avoir un etat fixe des
     // qu'on entre dans le parcours interieur -- ch1.salle1/2/3 sont des scenes `explore`
     // depuis le lot 3.7b (elles etaient `dialogue` avant, voir OFFSCREEN_ROOM_SCENES plus haut).

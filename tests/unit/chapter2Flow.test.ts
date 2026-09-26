@@ -51,9 +51,11 @@
 
 import { describe, expect, it } from 'vitest';
 import { createRng } from '@/core/rng';
+import { createDossier } from '@/core/dossier';
 import { createRunState } from '@/narrative/runState';
 import { DialogueRunner } from '@/narrative/dialogueRunner';
 import type { NarrativeContext } from '@/narrative/dialogueRunner';
+import { evaluateCondition } from '@/narrative/conditions';
 import type { DialogueFile } from '@/narrative/types';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_2 } from '@/data/chapters/ch2';
@@ -268,8 +270,34 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
 
         const scene = CHAPTER_2.scenes[sceneIndex];
         if (!scene) throw new Error('scene introuvable : index hors bornes.');
-        const dialogueId = scene.dialogueId ?? scene.id;
-        const file = DIALOGUES[dialogueId];
+
+        // Retour de l'orchestrateur (lot 5.8) : `ch2.fuite` est desormais deux `SceneDef`
+        // jumelles gardees par `when` (TECH-DESIGN §4.4, le porteur choisi dans
+        // `ch2.slow.json`) -- meme regle que `SceneRouter.nextEligibleIndex` : une scene dont
+        // le `when` est faux est simplement sautee, sans consommer de "tour" de marche.
+        if (scene.when && !evaluateCondition(scene.when, ctx)) {
+          const collected = walk(sceneIndex + 1, ctx);
+          sceneMemo.set(key, collected);
+          return collected;
+        }
+
+        // Depuis le lot 5.8, `ch2.bal` et `ch2.fuite` sont des scenes `explore` (TECH-DESIGN
+        // §4.4) : ce marcheur ne rejoue pas l'exploration elle-meme (couverte par
+        // `ch2ExploreScenes.test.ts` et l'e2e `chapter2.spec.ts`), seulement ce qui reste un
+        // VRAI dialogue de la regle du contrat du lot 3.6b/3.7b -- l'entite qui termine
+        // l'objectif joue son PROPRE dialogue avant d'avancer (`ch2.bal` : `bal.letitia` joue
+        // `ch2.bal.json`) ou ne joue rien du tout, le dialogueId affiche etant celui de la
+        // scene SUIVANTE (`ch2.fuite` : `dortoir.grille` documente `ch2.grille`, deja joue par
+        // la scene suivante elle-meme) -- dans ce second cas, on passe simplement a la scene
+        // suivante sans rien rejouer ici.
+        const dialogueId = scene.kind === 'explore' ? (scene.id === 'ch2.bal' ? 'ch2.bal' : null) : scene.dialogueId;
+        if (dialogueId === null) {
+          const collected = walk(sceneIndex + 1, ctx);
+          sceneMemo.set(key, collected);
+          return collected;
+        }
+        expect(dialogueId, `scene "${scene.id}" : dialogueId manquant`).toBeTruthy();
+        const file = DIALOGUES[dialogueId as string];
         expect(file, `dialogue "${dialogueId}" manquant pour la scene "${scene.id}"`).toBeDefined();
 
         const outcomes = outcomesOf(file as DialogueFile, ctx);
@@ -308,11 +336,80 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
     expect(solitaireDossier.affinities.letitia).toBeGreaterThan(loyalDossier.affinities.letitia ?? 0);
   });
 
-  it('les 14 scenes du chapitre 2 sont toutes des dialogues squelettes a ce lot (ADR 0021, TECH-DESIGN §4.4/§6)', () => {
-    expect(CHAPTER_2.scenes).toHaveLength(14);
+  it('les 15 SceneDef du chapitre 2 (ADR 0021, TECH-DESIGN §4.4) : dialogues, sauf le bal et la fuite depuis le lot 5.8', () => {
+    // 14 scenes narratives + une SceneDef jumelle pour `ch2.fuite` (le porteur, `when` sur
+    // `ch2.porteur` -- retour de l'orchestrateur du lot 5.8, TECH-DESIGN §4.4).
+    expect(CHAPTER_2.scenes).toHaveLength(15);
+    const EXPLORE_SCENE_IDS = new Set(['ch2.bal', 'ch2.fuite']);
     for (const scene of CHAPTER_2.scenes) {
-      expect(scene.kind, `${scene.id} devrait etre un dialogue au lot 5.1`).toBe('dialogue');
-      expect(scene.dialogueId, `${scene.id} : dialogueId manquant`).toBeTruthy();
+      if (EXPLORE_SCENE_IDS.has(scene.id)) {
+        expect(scene.kind, `${scene.id} devrait etre "explore" depuis le lot 5.8`).toBe('explore');
+        expect(scene.mapId, `${scene.id} : mapId manquant`).toBeTruthy();
+        expect(scene.spawn, `${scene.id} : spawn manquant`).toBeTruthy();
+        expect(scene.objective?.completionTrigger, `${scene.id} : completionTrigger manquant`).toBeTruthy();
+      } else {
+        expect(scene.kind, `${scene.id} devrait rester un dialogue`).toBe('dialogue');
+        expect(scene.dialogueId, `${scene.id} : dialogueId manquant`).toBeTruthy();
+      }
     }
+  });
+
+  it(
+    'retour de l\'orchestrateur (lot 5.8) : deux "ch2.fuite" jumelles, gardees par "ch2.porteur", ' +
+      'avec des suiveurs differents',
+    () => {
+      const fuiteTwins = CHAPTER_2.scenes.filter((s) => s.id === 'ch2.fuite');
+      expect(fuiteTwins).toHaveLength(2);
+      for (const twin of fuiteTwins) {
+        expect(twin.when, `SceneDef "ch2.fuite" (suiveurs ${JSON.stringify(twin.followers)}) sans "when"`).toBeDefined();
+      }
+      const followersByPorteur = new Map(
+        fuiteTwins.map((twin) => [(twin.when as { flag: string; equals: string }).equals, twin.followers]),
+      );
+      expect(followersByPorteur.get('john')?.slice(0, 2)).toEqual(['letitia', 'john']);
+      expect(followersByPorteur.get('abigail')?.slice(0, 2)).toEqual(['letitia', 'abigail']);
+    },
+  );
+
+  it('le choix du porteur (ch2.slow.json) precede toute scene "ch2.fuite" (TECH-DESIGN §4.4)', () => {
+    const slowIndex = CHAPTER_2.scenes.findIndex((s) => s.dialogueId === 'ch2.slow');
+    const fuiteIndexes = CHAPTER_2.scenes.reduce<number[]>((acc, s, i) => {
+      if (s.id === 'ch2.fuite') acc.push(i);
+      return acc;
+    }, []);
+    expect(slowIndex, 'scene "ch2.slow" introuvable').toBeGreaterThanOrEqual(0);
+    expect(fuiteIndexes.length).toBeGreaterThan(0);
+    for (const fuiteIndex of fuiteIndexes) {
+      expect(fuiteIndex, 'une scene "ch2.fuite" precede ch2.slow').toBeGreaterThan(slowIndex);
+    }
+
+    // ch2.slow.json pose bien le flag qui tranche entre les deux jumelles.
+    const slow = DIALOGUES['ch2.slow'] as DialogueFile;
+    const flagsSet = Object.values(slow.nodes)
+      .flatMap((n) => n.choices ?? [])
+      .flatMap((c) => c.effects ?? [])
+      .filter((e): e is { flag: string; value: string | number | boolean } => 'flag' in e && 'value' in e)
+      .map((e) => e.flag);
+    expect(flagsSet).toContain('ch2.porteur');
+  });
+
+  it('les deux porteurs donnent des tempos de depart differents pour la fuite (ch2.slow.json)', () => {
+    const file = DIALOGUES['ch2.slow'] as DialogueFile;
+    function tempoAfterPorteur(choiceText: string): number {
+      const ctx: NarrativeContext = {
+        dossier: createDossier(),
+        run: createRunState('ch2Content::porteur', { chapter: 2, sceneId: 'ch2.slow', luck: 3 }),
+      };
+      const runner = new DialogueRunner(file, ctx, createRng('ch2Content::porteur'), { startNode: 'porteur' });
+      const presented = runner.current().choices.find((c) => c.text === choiceText);
+      expect(presented, `choix "${choiceText}" introuvable sur "porteur"`).toBeDefined();
+      const outcome = runner.choose(presented!.index);
+      expect(outcome.ok, `choix "${choiceText}" refusé`).toBe(true);
+      return runner.context.run.tempo;
+    }
+
+    const john = tempoAfterPorteur('John la soutient : plus vite, mais elle est secouée.');
+    const abigail = tempoAfterPorteur('Abigail la porte : plus lentement, mais elle ne la lâchera pas.');
+    expect(abigail).toBeGreaterThan(john);
   });
 });

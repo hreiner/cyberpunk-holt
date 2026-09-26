@@ -1,0 +1,31 @@
+{
+  "id": "ch2.bal.john",
+  "speaker": "john",
+  "start": "debut",
+  "nodes": {
+    "debut": {
+      "lines": [
+        { "who": "john", "text": "Smith m'a pris à part, tout à l'heure. Un truc bizarre à propos d'un rendez-vous." }
+      ],
+      "choices": [
+        { "text": "Lui demander où.", "to": "ou" },
+        { "text": "Laisser filer, ce soir n'est pas le moment.", "to": "filer" }
+      ]
+    },
+    "ou": {
+      "lines": [
+        { "who": "john", "text": "Un bar, le Blue Purple. Elle a dit que ça comptait, pour plus tard. J'ai pas insisté." }
+      ],
+      "effects": [{ "flag": "ch2.bal.john.fait", "value": true }],
+      "to": "fin"
+    },
+    "filer": {
+      "lines": [{ "who": "john", "text": "T'as raison. On verra ça après, s'il y a un après." }],
+      "effects": [{ "flag": "ch2.bal.john.fait", "value": true }],
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Il finit son verre d'un coup, les yeux sur la porte."
+    }
+  }
+}

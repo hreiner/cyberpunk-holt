@@ -1,0 +1,42 @@
+{
+  "id": "ch2.bal.grover",
+  "speaker": "grover",
+  "start": "debut",
+  "nodes": {
+    "debut": {
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "tricheur" }], "to": "tricheur" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "tricheur" } }, { "tag": "copie-brillante" }],
+          "to": "brillant"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "tricheur" } }, { "not": { "tag": "copie-brillante" } }],
+          "to": "neutre"
+        }
+      ]
+    },
+    "tricheur": {
+      "lines": [
+        { "who": "grover", "text": "T'as vraiment triché à l'examen, hein ? Je dis rien. La prochaine fois, appelle-moi." }
+      ],
+      "effects": [{ "flag": "ch2.bal.grover.fait", "value": true }],
+      "to": "fin"
+    },
+    "brillant": {
+      "lines": [{ "who": "grover", "text": "Ta copie, sérieux. Même Woodrow en parlait encore hier." }],
+      "effects": [{ "flag": "ch2.bal.grover.fait", "value": true }],
+      "to": "fin"
+    },
+    "neutre": {
+      "lines": [{ "who": "grover", "text": "Bel exercice, l'autre jour. On a mérité cette soirée, tous les deux." }],
+      "effects": [{ "flag": "ch2.bal.grover.fait", "value": true }],
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Il lève son verre vers la piste, sans quitter la salle des yeux."
+    }
+  }
+}

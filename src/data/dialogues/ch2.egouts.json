@@ -24,14 +24,37 @@
       "choices": [
         {
           "text": "[Persuasion] La ramener à elle.",
-          "conditions": [{ "affinity": "abigail", "atLeast": 2 }],
+          "conditions": [{ "affinity": "abigail", "atLeast": 2 }, { "flag": "ch2.bal.zachary.fait", "equals": true }],
+          "check": { "skill": "persuasion", "dv": "FACILE" },
+          "onSuccess": "abigail-soigne",
+          "onFailure": "abigail-prostree"
+        },
+        {
+          "text": "[Persuasion] La ramener à elle.",
+          "conditions": [
+            { "affinity": "abigail", "atLeast": 2 },
+            { "not": { "flag": "ch2.bal.zachary.fait", "equals": true } }
+          ],
           "check": { "skill": "persuasion", "dv": "NORMALE" },
           "onSuccess": "abigail-soigne",
           "onFailure": "abigail-prostree"
         },
         {
           "text": "[Persuasion] La ramener à elle.",
-          "conditions": [{ "not": { "affinity": "abigail", "atLeast": 2 } }],
+          "conditions": [
+            { "not": { "affinity": "abigail", "atLeast": 2 } },
+            { "flag": "ch2.bal.zachary.fait", "equals": true }
+          ],
+          "check": { "skill": "persuasion", "dv": "NORMALE" },
+          "onSuccess": "abigail-soigne",
+          "onFailure": "abigail-prostree"
+        },
+        {
+          "text": "[Persuasion] La ramener à elle.",
+          "conditions": [
+            { "not": { "affinity": "abigail", "atLeast": 2 } },
+            { "not": { "flag": "ch2.bal.zachary.fait", "equals": true } }
+          ],
           "check": { "skill": "persuasion", "dv": "DIFFICILE" },
           "onSuccess": "abigail-soigne",
           "onFailure": "abigail-prostree"

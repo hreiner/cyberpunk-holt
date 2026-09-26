@@ -1,0 +1,39 @@
+{
+  "id": "ch2.bal.zachary",
+  "speaker": "zachary",
+  "start": "debut",
+  "nodes": {
+    "debut": {
+      "lines": [
+        { "who": "zachary", "text": "Elle m'évite depuis l'exercice. Tu crois que c'est à cause de la fiole ?" }
+      ],
+      "choices": [
+        { "text": "Va lui parler, maintenant.", "to": "conseil" },
+        { "text": "Laisse-lui le temps.", "to": "temps" }
+      ]
+    },
+    "conseil": {
+      "lines": [{ "who": "zachary", "text": "Maintenant ? ... Ouais. T'as raison. Merci, Franklyn." }],
+      "effects": [{ "flag": "ch2.bal.zachary.fait", "value": true }],
+      "to": "loyal-check"
+    },
+    "temps": {
+      "lines": [{ "who": "zachary", "text": "T'as sans doute raison. Je vais... attendre encore un peu, ce soir." }],
+      "effects": [{ "flag": "ch2.bal.zachary.fait", "value": true }],
+      "to": "loyal-check"
+    },
+    "loyal-check": {
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "loyal-bande" }], "to": "loyal" },
+        { "text": "Continuer.", "conditions": [{ "not": { "tag": "loyal-bande" } }], "to": "fin" }
+      ]
+    },
+    "loyal": {
+      "lines": [{ "who": "zachary", "text": "Sérieux, Franklyn — t'es des nôtres, toi. Quoi qu'il arrive après ce soir." }],
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Il jette un regard vers la piste, où Abigail parle avec quelqu'un d'autre."
+    }
+  }
+}

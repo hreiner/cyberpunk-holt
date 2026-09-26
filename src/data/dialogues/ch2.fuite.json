@@ -3,11 +3,11 @@
   "start": "depart",
   "nodes": {
     "depart": {
-      "text": "Courir. Le dortoir est loin, la nuit est pleine de bruit.",
+      "text": "Une seconde pour respirer, épaule contre le mur. Letitia est appuyée contre lui, le souffle court — il faut repartir.",
       "to": "fin"
     },
     "fin": {
-      "text": "La grille du dortoir, enfin en vue."
+      "text": "Courir. Le dortoir est loin, la nuit est pleine de bruit."
     }
   }
 }

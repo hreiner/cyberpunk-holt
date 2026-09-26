@@ -3,14 +3,50 @@
   "start": "salle",
   "nodes": {
     "salle": {
-      "text": "La salle d'entraînement, transformée pour une nuit. La musique couvre les voix.",
+      "text": "La salle d'entraînement, transformée pour une nuit. Les pupitres poussés contre les murs font des tables, la musique couvre les voix. Letitia est là, un peu à l'écart.",
       "choices": [
-        { "text": "Inviter Letitia à danser.", "to": "cavalier", "effects": [{ "tag": "cavalier-letitia" }] },
-        { "text": "Rester en retrait, à observer la salle.", "to": "fin" }
+        {
+          "text": "Inviter Letitia à danser.",
+          "conditions": [{ "affinity": "letitia", "atLeast": 2 }],
+          "to": "accepte"
+        },
+        {
+          "text": "[Persuasion] Inviter Letitia à danser.",
+          "conditions": [{ "not": { "affinity": "letitia", "atLeast": 2 } }, { "tag": "equipe-bande" }],
+          "check": { "skill": "persuasion", "dv": "DIFFICILE" },
+          "onSuccess": "accepte",
+          "onFailure": "refus"
+        },
+        {
+          "text": "[Persuasion] Inviter Letitia à danser.",
+          "conditions": [
+            { "not": { "affinity": "letitia", "atLeast": 2 } },
+            { "not": { "tag": "equipe-bande" } }
+          ],
+          "check": { "skill": "persuasion", "dv": "NORMALE" },
+          "onSuccess": "accepte",
+          "onFailure": "refus"
+        },
+        { "text": "Lui demander si elle connaît les conduits.", "to": "conduits" },
+        { "text": "Rester en retrait, à observer la salle.", "to": "retrait" }
       ]
     },
-    "cavalier": {
-      "text": "Letitia accepte, un sourire bref.",
+    "conduits": {
+      "text": "Elle hausse un sourcil. « Les conduits ? Depuis quand tu t'intéresses à la plomberie, Franklyn ? » Elle ne répond pas vraiment, mais elle n'a pas l'air surprise.",
+      "to": "fin"
+    },
+    "accepte": {
+      "text": "Elle accepte, un sourire bref, et le suit vers le centre de la piste.",
+      "effects": [{ "tag": "cavalier-letitia" }, { "affinity": { "who": "letitia", "delta": 1 } }],
+      "to": "fin"
+    },
+    "refus": {
+      "text": "« Un verre, pas une danse. » Elle reste au bord de la piste, un peu à l'écart du reste de la salle.",
+      "effects": [{ "affinity": { "who": "letitia", "delta": -1 } }],
+      "to": "fin"
+    },
+    "retrait": {
+      "text": "Il reste en retrait, la musique couvre les voix, la nuit continue sans lui pour l'instant.",
       "to": "fin"
     },
     "fin": {

@@ -1,0 +1,30 @@
+{
+  "id": "ch2.bal.abigail",
+  "speaker": "abigail",
+  "start": "debut",
+  "nodes": {
+    "debut": {
+      "lines": [{ "who": "abigail", "text": "T'as toujours mon multi-outil ? Celui de l'armurerie." }],
+      "choices": [
+        { "text": "Le lui rendre, ce soir.", "to": "rendu" },
+        { "text": "Le garder encore un peu, au cas où.", "to": "garde" }
+      ]
+    },
+    "rendu": {
+      "lines": [{ "who": "abigail", "text": "Merci. Je préfère l'avoir sur moi, avec tout ce qui se dit ce soir." }],
+      "to": "egratignure"
+    },
+    "garde": {
+      "lines": [{ "who": "abigail", "text": "T'inquiète, je le récupérerai. Il est en sécurité avec toi, pour l'instant." }],
+      "effects": [{ "flag": "ch2.bal.abigail.fait", "value": true }],
+      "to": "egratignure"
+    },
+    "egratignure": {
+      "text": "Elle remarque l'égratignure sur son bras, fronce les sourcils, mais ne dit rien.",
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Elle retourne vers la piste, sans se presser."
+    }
+  }
+}

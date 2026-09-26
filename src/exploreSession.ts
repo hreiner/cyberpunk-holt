@@ -35,7 +35,7 @@ import type * as THREE from 'three';
 import { createRng } from '@/core/rng';
 import { getCharacter } from '@/rules/character';
 import { discoveredRoomIdsForMap, exploreFollowerIds } from '@/narrative';
-import type { FollowerId, NarrativeContext, SceneDef } from '@/narrative';
+import type { FollowerId, GaugeDef, NarrativeContext, SceneDef } from '@/narrative';
 import { ExploreState } from '@/explore';
 import type { Cell, EntityDef, ExploreEvent, InteractableInfo, MapDef } from '@/explore';
 import { ExploreView, KEY_ZOOM_SPEED } from '@/render/exploreView';
@@ -44,7 +44,10 @@ import { createGameRenderer, rendererDescription } from '@/render/rendererSetup'
 import { TAP_SLOP_PX } from '@/render/pointerGestures';
 import { Sfx } from '@/audio/sfx';
 import type { SfxId } from '@/audio/sfx';
+import { CHAPTERS } from '@/data/chapters';
+import { HOLT_NUIT_VISUALS } from '@/data/exploreVisuals/holtNuit';
 import { ObjectiveHud } from './ui/objectiveHud';
+import type { GaugeStatus } from './ui/gaugeView';
 import { BriefLineView } from './ui/briefLine';
 
 /** Touches maintenues du panoramique/zoom continu en exploration (08-EXPLORATION.md "Contrôles"). */
@@ -218,6 +221,47 @@ export class ExploreSession {
     this.objectiveTriggerId = scene.objective?.completionTrigger ?? null;
     this.view?.setPingTarget(this.objectiveTargetCell(scene));
     this.syncVisibility();
+    this.hud?.setGauge(this.gaugeStatusFor(ctx));
+  }
+
+  /**
+   * Jauge d'etat visible du chapitre courant (ADR 0025 §1, B18 -- reporte du lot 5.4,
+   * cable ici au lot 5.8 : "`ObjectiveHud.setGauge` est pret, `exploreSession.ts` ne
+   * l'appelle pas"). Recopie volontairement le calcul prive de `ChapterApp.resolveGaugeStatus`/
+   * `gaugeStatusFor` (`src/chapter.ts`) plutot que de l'exporter depuis lui : ce module ne
+   * recoit du chapitre que `NarrativeContext` (voir `ExploreSessionCallbacks.getContext`),
+   * jamais le `ChapterDef` lui-meme -- l'ajouter aurait touche `chapter.ts`, hors de la liste
+   * "Toucher" de ce lot. Les deux copies restent petites (moins de 15 lignes) et lisent la
+   * MEME donnee (`ChapterDef.gauges`, `GaugeDef.from`) : rien a garder synchronise a la main.
+   */
+  private gaugeStatusFor(ctx: NarrativeContext): GaugeStatus | null {
+    const chapterDef = CHAPTERS[ctx.run.chapter];
+    const gauges = chapterDef?.gauges;
+    if (!gauges || gauges.length === 0) return null;
+    const scenes = chapterDef.scenes;
+    const currentIndex = scenes.findIndex((s) => s.id === ctx.run.sceneId);
+
+    for (const gauge of gauges) {
+      if (gauge.from) {
+        const fromIndex = scenes.findIndex((s) => s.id === gauge.from);
+        if (fromIndex === -1 || currentIndex === -1 || currentIndex < fromIndex) continue;
+      }
+      return this.gaugeStatusFromDef(gauge, ctx);
+    }
+    return null;
+  }
+
+  private gaugeStatusFromDef(gauge: GaugeDef, ctx: NarrativeContext): GaugeStatus {
+    const raw = ctx.run.flags[gauge.counter];
+    const value = typeof raw === 'number' ? Math.max(0, raw) : 0;
+    const levelIndex = Math.min(value, gauge.levels.length - 1);
+    return {
+      id: gauge.id,
+      label: gauge.label,
+      levelIndex,
+      levelLabel: gauge.levels[levelIndex] ?? gauge.levels[0] ?? '',
+      levelsCount: gauge.levels.length,
+    };
   }
 
   /**
@@ -244,14 +288,26 @@ export class ExploreSession {
     }
 
     const rng = createRng(`${ctx.run.seed}::explore::${mapDef.id}`);
-    this.view = new ExploreView(mapDef, rng, this.aspect(), {
-      onHover: (target) => this.handleHover(target),
-      onMoveTo: (cell) => {
-        const res = this.state?.walkLeaderTo(cell);
-        if (res && !res.ok) console.warn(`ChapterApp (exploration) : deplacement refuse (${res.reason}).`);
+    this.view = new ExploreView(
+      mapDef,
+      rng,
+      this.aspect(),
+      {
+        onHover: (target) => this.handleHover(target),
+        onMoveTo: (cell) => {
+          const res = this.state?.walkLeaderTo(cell);
+          if (res && !res.ok) console.warn(`ChapterApp (exploration) : deplacement refuse (${res.reason}).`);
+        },
+        onInteract: (entityId) => this.requestInteract(entityId),
       },
-      onInteract: (entityId) => this.requestInteract(entityId),
-    });
+      // `holt-nuit` (lot 5.8) : `ExploreView.visualDefinition` ne connaît en dur que `holt` et
+      // `centre-examen` (ADR 0024 §4, réglages généralisés en registre -- mais le CHOIX du
+      // placement de mobilier lui-même est resté câblé sur ces deux id, hors de la liste
+      // "Toucher" de ce lot). Sans cet override explicite, la variante de nuit se rendrait
+      // sans aucun meuble (repli `{ mapId, placements: [] }`) -- `art.visuals` est le point
+      // d'extension déjà prévu pour ce cas (voir `src/dev/dormitoryPilotMap.ts`).
+      mapDef.id === HOLT_NUIT_VISUALS.mapId ? { visuals: HOLT_NUIT_VISUALS } : {},
+    );
     // La préférence système concerne les animations de présentation (caméra, repère,
     // poses d'attente), jamais l'avancée de `ExploreState` ni sa vitesse de déplacement.
     this.view.setReducedMotion(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
@@ -314,6 +370,7 @@ export class ExploreSession {
       });
     }
     this.hud.setObjective(this.state.objectiveStatus());
+    this.hud.setGauge(this.gaugeStatusFor(this.callbacks.getContext()));
     if (!this.briefLine) this.briefLine = new BriefLineView(this.host);
     this.attachKeyboard();
     this.startLoop();
@@ -527,7 +584,9 @@ export class ExploreSession {
       this.lastFrameTime = now;
       const dt = dtMs / 1000;
 
-      state.updateContext(this.callbacks.getContext());
+      const liveCtx = this.callbacks.getContext();
+      state.updateContext(liveCtx);
+      this.hud?.setGauge(this.gaugeStatusFor(liveCtx));
       for (const ev of state.tick(dtMs)) {
         this.callbacks.onEvent(ev);
         if (loopId !== this.loopId) return;

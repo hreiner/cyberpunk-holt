@@ -1,13 +1,52 @@
 {
   "id": "ch2.grille",
-  "start": "grille",
+  "start": "arrivee",
   "nodes": {
-    "grille": {
-      "text": "La grille résiste. Il faut trouver un moyen de la franchir avant que les poursuivants ne rattrapent le groupe.",
+    "arrivee": {
+      "text": "La grille du dortoir, enfin en vue — verrouillée. Les tirs se rapprochent, deux couloirs derrière.",
+      "to": "panneau"
+    },
+    "panneau": {
+      "text": "Le panneau électronique de la grille, sous le tir.",
+      "choices": [
+        {
+          "text": "[Électronique] Forcer la grille.",
+          "conditions": [{ "flag": "ch2.bal.abigail.fait", "equals": true }],
+          "check": { "skill": "electronique", "dv": "NORMALE" },
+          "onSuccess": "ouverte",
+          "onFailure": "force"
+        },
+        {
+          "text": "[Électronique] Forcer la grille.",
+          "conditions": [{ "not": { "flag": "ch2.bal.abigail.fait", "equals": true } }],
+          "check": { "skill": "electronique", "dv": "DIFFICILE" },
+          "onSuccess": "ouverte",
+          "onFailure": "force"
+        }
+      ]
+    },
+    "ouverte": {
+      "text": "L'outil d'Abigail glisse dans la fente. La grille cède d'un coup.",
+      "to": "seuil"
+    },
+    "force": {
+      "text": "Il faut forcer. Le mécanisme grince, cède enfin — mais Abigail a vu, dans ses gestes, qu'il connaissait ce chemin bien trop bien.",
+      "effects": [{ "affinity": { "who": "abigail", "delta": -1 } }, { "tempo": 1 }],
+      "to": "seuil"
+    },
+    "seuil": {
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tempo": { "atLeast": 3 } }], "to": "balle-perdue" },
+        { "text": "Continuer.", "conditions": [{ "not": { "tempo": { "atLeast": 3 } } }], "to": "fin" }
+      ]
+    },
+    "balle-perdue": {
+      "text": "Une balle perdue claque contre le mur. Letitia étouffe un cri.",
+      "effects": [{ "counter": "ch2.letitia.etat", "delta": 1, "min": 0, "max": 3 }],
       "to": "fin"
     },
     "fin": {
-      "text": "La grille cède, enfin."
+      "text": "La grille cède, enfin. Le dortoir, juste derrière."
     }
   }
 }

@@ -33,10 +33,19 @@ export type FollowerId = CharacterId | 'enfant';
 /**
  * Nombre de suiveurs effectivement RENDUS derriere Franklyn (08-EXPLORATION.md "Le groupe").
  * Reglable en donnees plutot qu'en dur dans `chapter.ts` : le chapitre 2 peut en declarer
- * jusqu'a cinq (ADR 0024, mesure au lot 5.7) ; si le propriétaire tranche pour la variante a
- * deux suiveurs visibles (le reste en narration, "B9"), seule cette constante change.
+ * jusqu'a cinq (ADR 0024, mesure au lot 5.7).
+ *
+ * **Decision du propriétaire (2026-09-26, B9)** : deux suiveurs visibles, le reste dit par la
+ * narration -- malgre une marge mesuree confortable jusqu'a cinq (149 appels de dessin contre
+ * un seuil de 250, TECH-DESIGN §6 "Lot 5.7 -- mesure"). Passee ici a 2, PAS specifique au
+ * chapitre 2 : sans effet sur le chapitre 1, dont `exploreFollowerIds` ne renvoie jamais plus
+ * de deux coequipiers (l'equipe bleue moins Franklyn, toujours 2 sur un roster de 3) -- une
+ * limite chapitre-par-chapitre n'aurait donc rien changé pour lui et aurait ajoute une
+ * indirection inutile. Le chapitre 2 (lot 5.8, `ch2.fuite`) est le premier a en ressentir
+ * l'effet reel : `SceneDef.followers` en declare jusqu'a cinq, seuls les deux premiers sont
+ * rendus -- c'est donc l'ORDRE de ce tableau qui choisit qui on voit (voir sa doc).
  */
-export const VISIBLE_FOLLOWERS_LIMIT = 5;
+export const VISIBLE_FOLLOWERS_LIMIT = 2;
 
 export interface SceneDef {
   id: string;

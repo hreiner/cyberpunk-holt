@@ -46,7 +46,18 @@ async function advanceToNextScene(page: Page): Promise<E2ESceneSnapshot> {
   });
 }
 
-test('?chapter=2 : le squelette de 14 scenes s enchaine jusqu a l ecran de fin', async ({ page }) => {
+/**
+ * Entité qui termine l'objectif de chaque scène `explore` du chapitre 2 (lot 5.8, `ch2.bal`
+ * et `ch2.fuite` -- voir `src/data/chapters/ch2.ts`) : `window.__game.interact(id)` déclenche
+ * son `completionTrigger` sans marcher (même API que `ChapterApp.exploreInteract`), le plus
+ * court chemin pour un parcours de bout en bout qui ne juge pas le rendu 3D.
+ */
+const EXPLORE_TRIGGERS: Record<string, string> = {
+  'ch2.bal': 'bal.letitia',
+  'ch2.fuite': 'dortoir.grille',
+};
+
+test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ page }) => {
   await page.goto('/?chapter=2&seed=e2e-chapter2&ai=0');
   await page.waitForFunction(() => '__game' in window);
 
@@ -58,10 +69,22 @@ test('?chapter=2 : le squelette de 14 scenes s enchaine jusqu a l ecran de fin',
   expect(runState.chapter).toBe(2);
   expect(runState.luck).toBe(3);
 
-  // Les 14 scenes du squelette (docs/chapters/ch2/TECH-DESIGN.md §4.4), toutes des dialogues a
-  // ce lot : on les traverse jusqu'a l'ecran de fin, sans jamais rester bloque.
+  // Les scenes du chapitre 2 (docs/chapters/ch2/TECH-DESIGN.md §4.4) : des dialogues, et
+  // depuis le lot 5.8, deux scenes `explore` (le bal, la fuite) -- on les traverse jusqu'a
+  // l'ecran de fin, sans jamais rester bloque.
   let current = scene;
   for (let i = 0; i < 20 && !current.finished; i++) {
+    if (current.kind === 'explore') {
+      const triggerId = EXPLORE_TRIGGERS[current.id];
+      if (triggerId) await page.evaluate((id) => window.__game.interact(id), triggerId);
+      const node = await page.evaluate(() => window.__game.node());
+      if (!node) {
+        // L'entité n'ouvre aucune conversation (ex. `dortoir.grille`, contrat du lot 3.6b) :
+        // elle a fait avancer le routeur directement.
+        current = await page.evaluate(() => window.__game.scene());
+        continue;
+      }
+    }
     await traverseDialogue(page);
     current = await advanceToNextScene(page);
   }

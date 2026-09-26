@@ -45,6 +45,14 @@ export const EXPLORE_VISUALS: Record<string, ExploreVisuals> = {
     coldPalette: true,
     dormitoryArchitecture: false,
   },
+  // Variante de nuit (lot 5.8) : même bâtiment que `holt`, mêmes réglages -- l'ADR 0024 dit
+  // « habillage choisi par registre », pas « par condition sur l'heure du jour » ; la nuit
+  // elle-même se voit dans la lumière ambiante (`ExploreView`, réglage global, pas par carte)
+  // et dans la narration, jamais dans ce booléen.
+  'holt-nuit': {
+    coldPalette: false,
+    dormitoryArchitecture: true,
+  },
 };
 
 /** Réglages de `mapId`, ou le repli neutre si la carte n'est pas déclarée. */

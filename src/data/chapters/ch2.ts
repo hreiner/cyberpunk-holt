@@ -14,18 +14,111 @@
  */
 
 import type { ChapterDef, ChapterEndDef, GaugeDef, SceneDef } from '@/narrative';
+import { CHAPTER_2_RADIO } from './ch2Radio';
 
-/** Drapeau d'etape du chapitre 2 (ADR 0021) -- pas encore utilise au lot 5.1 (aucune scene `explore` ici). */
+/** Drapeau d'etape du chapitre 2 (ADR 0021), lu par `holt-nuit.ts` (aucune entite ne s'en sert encore ce lot). */
 export const CH2_ETAPE_FLAG = 'ch2.etape';
+
+/**
+ * Valeurs posees par les scenes `explore` du chapitre 2 (meme role que `Ch1Etape` --
+ * `src/narrative/sceneRouter.ts` -- mais aucune entite de `holt-nuit.ts` n'en a besoin a ce
+ * lot : le bal et la fuite se distinguent deja par leurs entites propres). Etendu au fil des
+ * lots 5.9/5.10 (`conduits`, `cantine`, `campement`).
+ */
+export type Ch2Etape = 'bal' | 'fuite';
 
 /** Chance de Franklyn au chapitre 2 : reserve pleine, non heritee du chapitre 1 (TECH-DESIGN B25). */
 export const CH2_INITIAL_LUCK = 3;
 
+/**
+ * Suiveurs de la fuite (TECH-DESIGN §4.4), selon le porteur choisi au dernier noeud de
+ * `ch2.slow.json` (`ch2.porteur`, avant toute scene `explore` de la fuite -- retour de
+ * l'orchestrateur du lot 5.8) : Letitia d'abord (blessee), puis le porteur, puis le reste du
+ * groupe. Seuls les deux premiers sont RENDUS (`VISIBLE_FOLLOWERS_LIMIT`, decision B9) --
+ * "ce qu'on voit a du sens" (la blessee et celui qui la soutient) ; le reste (dont l'un des
+ * deux non retenus) n'est dit que par la narration (`ch2.fuite.json`, les repliques de
+ * pression).
+ */
+const FUITE_FOLLOWERS_JOHN: SceneDef['followers'] = ['letitia', 'john', 'grover', 'zachary', 'abigail'];
+const FUITE_FOLLOWERS_ABIGAIL: SceneDef['followers'] = ['letitia', 'abigail', 'grover', 'zachary', 'john'];
+
 export const CHAPTER_2_SCENES: SceneDef[] = [
   { id: 'ch2.photo', kind: 'dialogue', title: 'La photo', dialogueId: 'ch2.photo', number: 1 },
-  { id: 'ch2.bal', kind: 'dialogue', title: 'Le bal', dialogueId: 'ch2.bal', number: 2 },
+  {
+    id: 'ch2.bal',
+    kind: 'explore',
+    title: 'Le bal',
+    mapId: 'holt-nuit',
+    spawn: 'bal',
+    etape: 'bal',
+    number: 2,
+    // Aucun suiveur rendu (TECH-DESIGN §4.4) : la bande est deja placee dans la salle par ses
+    // propres entites (`bal.zachary`, `bal.abigail`, `bal.john`, `bal.grover`), pas par la file
+    // qui suit Franklyn -- personne ne "suit" au bal, chacun a sa place.
+    followers: [],
+    objective: {
+      id: 'ch2.bal',
+      title: 'Profiter du bal',
+      context: 'La dernière soirée avant le départ. La musique couvre les voix.',
+      // bal.letitia joue SON PROPRE dialogue (l'invitation, `ch2.bal.json`) avant d'avancer --
+      // son dialogueId n'est pas celui de la scene suivante (`ch2.slow`), voir holt-nuit.ts.
+      completionTrigger: 'bal.letitia',
+      tasks: [
+        {
+          id: 'ch2.bal.parler',
+          label: 'parler à la bande',
+          entityIds: ['bal.zachary', 'bal.abigail', 'bal.john', 'bal.grover'],
+        },
+      ],
+    },
+  },
   { id: 'ch2.slow', kind: 'dialogue', title: 'Le slow', dialogueId: 'ch2.slow', number: 3 },
-  { id: 'ch2.fuite', kind: 'dialogue', title: 'La fuite', dialogueId: 'ch2.fuite', number: 4 },
+  /**
+   * Deux `SceneDef` jumelles (TECH-DESIGN §4.4, "le porteur... choisie par une condition, via
+   * deux SceneDef jumelles gardees par when") : meme id, meme carte, memes etape/objectif --
+   * seule change la liste de suiveurs, selon `ch2.porteur` (pose au dernier noeud de
+   * `ch2.slow.json`, AVANT que le routeur n'atteigne l'une ou l'autre). `SceneRouter` ne
+   * retient que la premiere eligible (`nextEligibleIndex`) : les deux `when` etant exclusifs et
+   * exhaustifs (le choix est obligatoire dans `ch2.slow.json`), une seule est jamais jouee.
+   */
+  {
+    id: 'ch2.fuite',
+    kind: 'explore',
+    title: 'La fuite',
+    mapId: 'holt-nuit',
+    // Entree a froid uniquement (la scene precedente, ch2.slow, est un dialogue -- rien a
+    // reprendre) : voir `SceneDef.spawn`.
+    spawn: 'fuite',
+    etape: 'fuite',
+    number: 4,
+    followers: FUITE_FOLLOWERS_JOHN,
+    when: { flag: 'ch2.porteur', equals: 'john' },
+    objective: {
+      id: 'ch2.fuite',
+      title: 'Gagner le dortoir',
+      context: 'Les tirs se rapprochent. Chaque seuil franchi coûte du temps.',
+      // dortoir.grille ne joue rien lui-meme (son dialogueId est celui de LA SCENE SUIVANTE,
+      // contrat du lot 3.6b) : c'est ch2.grille.json qui prend le relais.
+      completionTrigger: 'dortoir.grille',
+    },
+  },
+  {
+    id: 'ch2.fuite',
+    kind: 'explore',
+    title: 'La fuite',
+    mapId: 'holt-nuit',
+    spawn: 'fuite',
+    etape: 'fuite',
+    number: 4,
+    followers: FUITE_FOLLOWERS_ABIGAIL,
+    when: { flag: 'ch2.porteur', equals: 'abigail' },
+    objective: {
+      id: 'ch2.fuite',
+      title: 'Gagner le dortoir',
+      context: 'Les tirs se rapprochent. Chaque seuil franchi coûte du temps.',
+      completionTrigger: 'dortoir.grille',
+    },
+  },
   { id: 'ch2.grille', kind: 'dialogue', title: 'La grille', dialogueId: 'ch2.grille', number: 4 },
   { id: 'ch2.conduits', kind: 'dialogue', title: 'Les conduits', dialogueId: 'ch2.conduits', number: 5 },
   { id: 'ch2.enfant', kind: 'dialogue', title: "L'enfant", dialogueId: 'ch2.enfant', number: 5 },
@@ -129,8 +222,7 @@ export const CHAPTER_2: ChapterDef = {
   scenes: CHAPTER_2_SCENES,
   etapeFlag: CH2_ETAPE_FLAG,
   initialLuck: CH2_INITIAL_LUCK,
-  // Pas de repliques radio propres au chapitre 2 avant le lot 5.7 (pression, ADR 0024).
-  radio: [],
+  radio: CHAPTER_2_RADIO,
   gauges: CH2_GAUGES,
   end: CH2_END,
 };

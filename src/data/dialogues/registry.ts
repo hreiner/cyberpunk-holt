@@ -27,6 +27,10 @@ import ch1Salle3 from './ch1.salle3.json';
 import ch1Bal from './ch1.bal.json';
 import ch2Photo from './ch2.photo.json';
 import ch2Bal from './ch2.bal.json';
+import ch2BalZachary from './ch2.bal.zachary.json';
+import ch2BalAbigail from './ch2.bal.abigail.json';
+import ch2BalJohn from './ch2.bal.john.json';
+import ch2BalGrover from './ch2.bal.grover.json';
 import ch2Slow from './ch2.slow.json';
 import ch2Fuite from './ch2.fuite.json';
 import ch2Grille from './ch2.grille.json';
@@ -61,6 +65,10 @@ const FILES = [
   // Chapitre 2 (ADR 0021, lot 5.1) : squelettes d'un a trois noeuds, contenu complet lots 5.5+.
   ch2Photo,
   ch2Bal,
+  ch2BalZachary,
+  ch2BalAbigail,
+  ch2BalJohn,
+  ch2BalGrover,
   ch2Slow,
   ch2Fuite,
   ch2Grille,

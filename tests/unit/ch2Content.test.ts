@@ -44,7 +44,7 @@ import { DialogueRunner } from '@/narrative/dialogueRunner';
 import type { NarrativeContext } from '@/narrative/dialogueRunner';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_2, CH2_END } from '@/data/chapters/ch2';
-import type { DialogueChoice, DialogueFile, DialogueNode, Effect } from '@/narrative/types';
+import type { Condition, DialogueChoice, DialogueFile, DialogueNode, Effect } from '@/narrative/types';
 
 const EGOUTS_DIALOGUE_ID = 'ch2.egouts';
 const LETITIA_COUNTER = 'ch2.letitia.etat';
@@ -263,6 +263,54 @@ describe('chapitre 2 (lot 5.5) : garde de contenu', () => {
             expect(effect.max, `effet sur ${ECHECS_COUNTER} sans borne max`).toBe(3);
           }
         }
+      });
+    },
+  );
+
+  describe(
+    'lot 5.8 : les échos du bal sont lus là où docs/chapters/ch2/TECH-DESIGN.md §4.6 le dit',
+    () => {
+      /**
+       * Table de §4.6 (« Échos du bal ») effectivement écrite à ce lot -- `ch2.bal.grover.fait`
+       * (scène 5, l'enfant) est écrit par `ch2.bal.grover.json` mais relève du lot 5.9
+       * (`ch2.enfant.json` n'existe encore qu'en squelette) : il reste HORS de cette table,
+       * conformément à la consigne du lot ("note-la comme restante, sans l'écrire").
+       */
+      const BAL_ECHOES: Array<{ dialogueId: string; flag: string; readIn: string }> = [
+        { dialogueId: 'ch2.bal.zachary', flag: 'ch2.bal.zachary.fait', readIn: 'ch2.egouts' },
+        { dialogueId: 'ch2.bal.abigail', flag: 'ch2.bal.abigail.fait', readIn: 'ch2.grille' },
+        { dialogueId: 'ch2.bal.john', flag: 'ch2.bal.john.fait', readIn: 'ch2.decharges' },
+      ];
+
+      /** Vrai si `cond` (ou l'une de ses sous-conditions `not`/`all`/`any`) porte sur `flag`. */
+      function mentionsFlag(cond: Condition, flag: string): boolean {
+        if ('flag' in cond) return cond.flag === flag;
+        if ('not' in cond) return mentionsFlag(cond.not, flag);
+        if ('all' in cond) return cond.all.some((c) => mentionsFlag(c, flag));
+        if ('any' in cond) return cond.any.some((c) => mentionsFlag(c, flag));
+        return false;
+      }
+
+      function anyChoiceMentionsFlag(file: DialogueFile, flag: string): boolean {
+        return allChoices(file).some((c) => (c.conditions ?? []).some((cond) => mentionsFlag(cond, flag)));
+      }
+
+      it.each(BAL_ECHOES)(
+        '"$dialogueId.fait" pose bien un flag (préalable : sinon aucun écho ne peut être lu)',
+        ({ dialogueId, flag }) => {
+          const file = DIALOGUES[dialogueId] as DialogueFile;
+          expect(file, `dialogue "${dialogueId}" introuvable`).toBeDefined();
+          const flagsSet = allEffects(file)
+            .filter((e): e is { flag: string; value: string | number | boolean } => 'flag' in e && 'value' in e)
+            .map((e) => e.flag);
+          expect(flagsSet, `"${dialogueId}" ne pose jamais "${flag}"`).toContain(flag);
+        },
+      );
+
+      it.each(BAL_ECHOES)('"$flag" est bien relu dans "$readIn" (TECH-DESIGN §4.6)', ({ flag, readIn }) => {
+        const file = DIALOGUES[readIn] as DialogueFile;
+        expect(file, `dialogue "${readIn}" introuvable`).toBeDefined();
+        expect(anyChoiceMentionsFlag(file, flag), `"${readIn}" ne lit jamais "${flag}"`).toBe(true);
       });
     },
   );

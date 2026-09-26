@@ -59,7 +59,47 @@
       "to": "rafale-fin"
     },
     "rafale-fin": {
-      "text": "Les tables se renversent. Les gangers entrent, armes hautes. Ce n'est plus un bal."
+      "text": "Les tables se renversent. Les gangers entrent, armes hautes. Ce n'est plus un bal.",
+      "to": "porteur"
+    },
+    "porteur": {
+      "text": "John et Grover renversent les tables. Qui soutient Letitia ?",
+      "choices": [
+        {
+          "text": "John la soutient : plus vite, mais elle est secouée.",
+          "effects": [{ "flag": "ch2.porteur", "value": "john" }],
+          "to": "route"
+        },
+        {
+          "text": "Abigail la porte : plus lentement, mais elle ne la lâchera pas.",
+          "effects": [{ "flag": "ch2.porteur", "value": "abigail" }, { "tempo": 1 }],
+          "to": "route"
+        }
+      ]
+    },
+    "route": {
+      "choices": [
+        {
+          "text": "Passer devant, seul, pour gagner du temps.",
+          "conditions": [{ "tag": "solitaire" }],
+          "effects": [{ "affinity": { "who": "john", "delta": -1 } }],
+          "to": "fin"
+        },
+        {
+          "text": "Attendre John et Grover à la porte, pour repartir ensemble.",
+          "conditions": [{ "tag": "loyal-bande" }],
+          "effects": [{ "affinity": { "who": "grover", "delta": 1 } }, { "tempo": 1 }],
+          "to": "fin"
+        },
+        {
+          "text": "Continuer en groupe.",
+          "conditions": [{ "not": { "tag": "solitaire" } }, { "not": { "tag": "loyal-bande" } }],
+          "to": "fin"
+        }
+      ]
+    },
+    "fin": {
+      "text": "Il faut fuir, maintenant."
     }
   }
 }
