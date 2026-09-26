@@ -50,11 +50,23 @@ test('la meme graine rejoue exactement la meme partie', async ({ page }) => {
   expect(second.state.winner).toBe(first.state.winner);
 });
 
+/**
+ * Lot 5.11 (e2e instable, vu une fois a l'echec puis vert a la relance ; non reproduit en 200
+ * executions a huit workers) : la case visee etait (0,0), un coin de SOL LIBRE -- illegale pour
+ * le cadet bleu qui ouvre cette graine, mais a portee d'un rouge deploye en (6,1). Le verdict
+ * dependait donc de l'unite courante, et l'IA joue en tache de fond (a `?ai=0` aussi : delai nul,
+ * mais elle attend la fin de chaque animation) -- la seule course plausible. On vide les tours IA
+ * en attente (`flushAi`) et on vise une case de container (`#`, (2,3), yard-map.ts) : illegale
+ * pour toute unite, a tout moment. Ce que le test prouve (refus sans exception, raison lisible)
+ * ne depend plus de qui joue.
+ */
 test('une action illegale est refusee proprement', async ({ page }) => {
   await boot(page, 'e2e-illegal');
-  const outcome = await page.evaluate(() => window.__game.perform({ type: 'move', to: { x: 0, y: 0 } }));
+  await page.evaluate(() => window.__game.flushAi());
+  const outcome = await page.evaluate(() => window.__game.perform({ type: 'move', to: { x: 2, y: 3 } }));
   expect(outcome.ok).toBe(false);
   expect(typeof outcome.reason).toBe('string');
+  expect(outcome.reason?.length).toBeGreaterThan(0);
 });
 
 test('une partie complete se termine et produit une note', async ({ page }) => {
@@ -120,7 +132,10 @@ test('l IA prend la main d elle-meme quand l equipe adverse ouvre le combat', as
       return state.units.find((u) => u.id === state.current)?.team === 'blue';
     },
     undefined,
-    { timeout: 10_000 },
+    // Chaque action IA attend la fin de son animation : sous charge (rendu logiciel, huit
+    // navigateurs en parallele), un tour rouge complet depasse parfois 10 s (lot 5.11 : 2 echecs
+    // sur 25 a huit workers). On attend le MEME evenement, plus longtemps.
+    { timeout: 30_000 },
   );
 
   // Le tour adverse a bien ete JOUE, pas seulement saute.

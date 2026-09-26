@@ -612,6 +612,27 @@ narration les membres du groupe qu'on ne voit pas.
   finales présentes) ; captures des vues décisives ; mesures notées.
 - **Documents** : `CH2-LEGACY.md`, ROADMAP (epic close), AGENTS.md §2.
 
+**Mesure (lot 5.11, 2026-09-26)** — appels de dessin `window.__game.exploreRenderStats()`, lus
+2,5 s après l'entrée de chaque scène d'exploration, pendant une nuit jouée au clic (Playwright,
+Chromium lancé avec `--use-angle=d3d11 --enable-gpu --ignore-gpu-blocklist` : le GPU rapporté est
+`ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 …, D3D11)`, la cible ; sans ces options, Playwright rend
+en SwiftShader). Suiveurs rendus : deux (décision B9). Seuil : 250.
+
+| Scène | Porteur | Appels de dessin | Triangles |
+|---|---|---|---|
+| `ch2.bal` (la bande placée, aucun suiveur) | — | 184 | 98 872 |
+| `ch2.fuite` | John | 122 à 124 | ≈ 116 000 |
+| `ch2.fuite` | Abigail | 128 | 115 438 |
+| `ch2.conduits` | John / Abigail | 106 / 110 | ≈ 50 000 |
+| `ch2.cantine` | — | 113 à 118 | 82 632 à 91 056 |
+| `ch2.campement` | — | 103 | 50 878 |
+
+Toutes sous le seuil ; le bal est la plus chargée (cinq personnages et l'habillage de fête), à
+66 appels de la limite. Images par seconde : **non mesurables de façon fiable depuis une session
+d'agent** — l'onglet automatisé plafonne `requestAnimationFrame` (une lecture à 60,5 image/s en
+headless ne dit rien de la tenue réelle) ; une mesure demande un navigateur au premier plan sur
+le poste du propriétaire.
+
 ### Lot 5.12 — la musique du slow (facultatif)
 
 - **But** : une piste fournie par le propriétaire joue au slow et se coupe net sur la rafale

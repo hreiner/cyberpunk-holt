@@ -249,6 +249,13 @@ export class NarrativeView {
   private lastSceneCardKey: string | null = null;
   private lastRenderedSceneId: string | null = null;
   private heroPortraitKey: string | null = null;
+  /**
+   * Fichier de dialogue auquel appartient le portrait hero affiché (lot 5.11). Le repli « garder le
+   * dernier portrait » ne vaut qu'À L'INTÉRIEUR d'un même fichier : un fichier suivant qui s'ouvre
+   * sur de la narration n'hérite jamais du locuteur du précédent (défaut de QA : le portrait de
+   * Murano restait affiché à l'arrivée aux décharges).
+   */
+  private heroDialogueId: string | null = null;
   /** Reference du dernier jet (choix a jet ordinaire) deja "vu" -- sert a detecter un NOUVEAU jet. */
   private seenCheck: PresentedRoll | null = null;
   /** Id du noeud ou ce jet a ete resolu : la carte de resultat ne s'affiche que sur CE noeud. */
@@ -408,7 +415,7 @@ export class NarrativeView {
     const relevantCheck = this.checkJustResolvedThisNode(node);
     if (relevantCheck && this.ensureRevealed(relevantCheck, token, node)) return;
 
-    this.renderHero(node);
+    this.renderHero(node, dialogueId);
     this.renderNarration(node);
     const insight = this.renderInsight(node, token);
     const revealBest = Boolean(insight.reveal) || !node.insight;
@@ -640,14 +647,17 @@ export class NarrativeView {
   }
 
   /** Portrait "hero" : le dernier locuteur du noeud, repli sur `speaker` (fichier) si narration pure. */
-  private renderHero(node: PresentedNode): void {
+  private renderHero(node: PresentedNode, dialogueId: string): void {
     const lastLine = node.lines[node.lines.length - 1];
     const speaker = lastLine?.who ?? node.speaker;
     if (!speaker) {
-      // Aucun locuteur determinable (narration seule, sans `speaker` de fichier) :
-      // on garde le dernier portrait affiche plutot que de faire clignoter le hero.
+      // Aucun locuteur determinable (narration seule, sans `speaker` de fichier) : dans le MEME
+      // fichier, on garde le dernier portrait affiche plutot que de faire clignoter le hero ; dans
+      // un fichier nouveau, aucun portrait (jamais celui du dialogue precedent).
+      if (dialogueId !== this.heroDialogueId) this.clearHero(dialogueId);
       return;
     }
+    this.heroDialogueId = dialogueId;
     const portraitKey = `${speaker}:${this.scenePortraitSource(speaker) ?? ''}`;
     if (portraitKey === this.heroPortraitKey) return;
     this.heroPortraitKey = portraitKey;
@@ -669,6 +679,14 @@ export class NarrativeView {
       () => previous.forEach((p) => p.remove()),
       reducedMotion() ? 0 : HERO_CROSSFADE_MS + 40,
     );
+  }
+
+  private clearHero(dialogueId: string): void {
+    this.heroDialogueId = dialogueId;
+    this.heroPortraitKey = null;
+    this.heroFrameEl.hidden = true;
+    this.heroPortraitsEl.replaceChildren();
+    this.heroNameEl.textContent = '';
   }
 
   /**

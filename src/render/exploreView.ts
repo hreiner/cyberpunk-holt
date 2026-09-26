@@ -299,6 +299,13 @@ export class ExploreView {
   private readonly explorationLights: ExplorationLights;
   /** Les portes font partie de l'architecture et restent des cibles directes, hors découverte de pièce. */
   private readonly doorEntityIds = new Set<string>();
+  /**
+   * Portes ACTIVES (condition d'étape vraie), nourries par `setActiveDoors` ; `null` tant que
+   * personne ne l'a appelé (banc d'essai) = toutes. Lot 5.11 : une porte d'une autre étape (les
+   * portes de la fuite pendant le bal) se survolait avec son identifiant brut pour libellé
+   * (« fuite.porte-cour-ouest ») et ne faisait rien au clic.
+   */
+  private activeDoorIds: Set<string> | null = null;
   /** Habillage uniquement : `MapDef` reste la vérité pour collision et interactions. */
   private readonly dressing: ExploreDressing;
   private readonly replacedFurnitureCells = new Set<string>();
@@ -1528,6 +1535,15 @@ export class ExploreView {
    * n'y figure plus (pièce refermée -- ne se produit pas au chapitre 1, mais reste possible)
    * redevient invisible.
    */
+  /** Portes actives à l'étape courante (voir `activeDoorIds`). */
+  setActiveDoors(ids: Iterable<string>): void {
+    this.activeDoorIds = new Set(ids);
+  }
+
+  private isDoorPickable(entityId: string): boolean {
+    return this.doorEntityIds.has(entityId) && (this.activeDoorIds === null || this.activeDoorIds.has(entityId));
+  }
+
   setVisibleEntities(ids: Iterable<string>): void {
     const next = new Set(ids);
     for (const [id, parts] of this.entityVisualParts) {
@@ -1645,7 +1661,7 @@ export class ExploreView {
       // suivre leur découverte. Ils ne doivent toutefois jamais absorber le clic d'un objet
       // actif placé derrière eux. Les portes sont l'exception structurelle : elles sont
       // visibles hors découverte et ne passent donc pas par `visibleEntityIds`.
-      if (entityId && (this.visibleEntityIds.has(entityId) || this.doorEntityIds.has(entityId))) {
+      if (entityId && (this.visibleEntityIds.has(entityId) || this.isDoorPickable(entityId))) {
         return { type: 'entity', id: entityId };
       }
     }

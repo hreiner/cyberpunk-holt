@@ -201,6 +201,13 @@ function playExploreScene(
     const file = DIALOGUES[talker.dialogueId] as DialogueFile | undefined;
     if (!file) throw new Error(`${scene.id} : dialogue "${talker.dialogueId}" (${talker.id}) manquant.`);
     ctx = playDialogue(file, ctx, checksRng, pickRng);
+    // Lot 5.11 (`ObjectiveDef.completesWhen`) : un « Pas tout de suite » rend la main au bal ; le
+    // joueur revient, et rejoue la conversation jusqu'à s'engager.
+    const completesWhen = scene.objective?.completesWhen;
+    for (let retry = 0; talker.id === triggerId && completesWhen && !evaluateCondition(completesWhen, ctx); retry++) {
+      if (retry >= 20) throw new Error(`${scene.id} : « ${talker.dialogueId} » ne clôt jamais l'étape.`);
+      ctx = playDialogue(file, ctx, checksRng, pickRng);
+    }
   }
   return ctx;
 }

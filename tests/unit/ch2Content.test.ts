@@ -39,11 +39,11 @@
 import { describe, expect, it } from 'vitest';
 import { createDossier } from '@/core/dossier';
 import { createRng } from '@/core/rng';
-import { createRunState } from '@/narrative/runState';
+import { createRunState, setFlag } from '@/narrative/runState';
 import { DialogueRunner } from '@/narrative/dialogueRunner';
 import type { NarrativeContext } from '@/narrative/dialogueRunner';
 import { DIALOGUES } from '@/data/dialogues/registry';
-import { CHAPTER_2, CH2_END } from '@/data/chapters/ch2';
+import { CHAPTER_2, CH2_END, CH2_GAUGES } from '@/data/chapters/ch2';
 import { DV } from '@/rules/attributes';
 import type { DifficultyName } from '@/rules/attributes';
 import type { Condition, DialogueChoice, DialogueFile, DialogueNode, Effect } from '@/narrative/types';
@@ -660,4 +660,26 @@ describe('lot 5.9 : les conduits et la cantine -- ce que la scène 10 attend de 
     }
     expect([...seen].sort()).toEqual([false, true]);
   });
+});
+
+describe('lot 5.11 : l’état de Letitia finit au dossier (B18, « entrée finale écrite par quatre branches silencieuses »)', () => {
+  const CHARCUDOC = DIALOGUES['ch2.charcudoc'] as DialogueFile;
+  const levels = CH2_GAUGES[0]?.levels ?? [];
+
+  it.each(levels.map((level, value) => [value, level] as const))(
+    'état %i : ch2.charcudoc écrit l’entrée « %s », le mot de la jauge',
+    (value, level) => {
+      const ctx: NarrativeContext = {
+        dossier: createDossier(),
+        run: setFlag(createRunState('ch2Content::letitia', { chapter: 2, sceneId: 'ch2.charcudoc', luck: 0 }), LETITIA_COUNTER, value),
+      };
+      const runner = new DialogueRunner(CHARCUDOC, ctx, createRng('ch2Content::letitia'), { startNode: 'delai-intro' });
+      for (let guard = 0; guard < 10 && !runner.current().finished; guard++) {
+        const node = runner.current();
+        if (node.choices[0]) runner.choose(node.choices[0].index);
+        else runner.advance();
+      }
+      expect(runner.context.dossier.entries.find((e) => e.key === LETITIA_COUNTER)?.value).toBe(level);
+    },
+  );
 });

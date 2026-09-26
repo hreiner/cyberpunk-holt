@@ -61,12 +61,12 @@
       "to": "fin"
     },
     "abigail-muette": {
-      "text": "Elle suit quand même, muette. Rien ne la touche plus, ce soir.",
+      "text": "Les mots ne suffisent pas, ce soir. Elle suit quand même, muette. Rien ne la touche plus.",
       "effects": [{ "tag": "abigail-brisee" }, { "affinity": { "who": "abigail", "delta": -1 } }],
       "to": "fin"
     },
     "fin": {
-      "text": "Les mots ne suffisent pas, ce soir.",
+      "text": "Ils repartent à travers les Badlands, sans lui. Derrière, la lueur de l'académie ne faiblit pas.",
       "effects": [{ "entry": { "key": "ch2.zachary.adieu", "label": "Adieu à Zachary", "value": "dit" } }]
     }
   }

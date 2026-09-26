@@ -13,6 +13,8 @@
  * jamais au-dessus.
  */
 
+import type { Condition } from './types';
+
 export interface ObjectiveTask {
   id: string;
   label: string;
@@ -24,5 +26,13 @@ export interface ObjectiveDef {
   title: string;
   context: string;
   completionTrigger: string;
+  /**
+   * Condition qui doit être vraie À LA FIN du dialogue du déclencheur pour que l'étape se
+   * termine (lot 5.11, défaut « le bal se lance trop vite ») : absente, le dialogue du
+   * déclencheur clôt toujours l'étape (règle du lot 3.7b). Présente et fausse, le dialogue rend
+   * la main à l'exploration, sans être marqué « déjà joué » -- le joueur peut y revenir. C'est
+   * l'idiome « Pas tout de suite » : parler à Letitia n'ouvre le slow que si Franklyn s'y engage.
+   */
+  completesWhen?: Condition;
   tasks?: ObjectiveTask[];
 }

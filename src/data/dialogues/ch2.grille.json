@@ -20,13 +20,17 @@
           "text": "[Électronique] Forcer la grille.",
           "conditions": [{ "not": { "flag": "ch2.bal.abigail.fait", "equals": true } }],
           "check": { "skill": "electronique", "dv": "DIFFICILE" },
-          "onSuccess": "ouverte",
+          "onSuccess": "ouverte-sans-outil",
           "onFailure": "force"
         }
       ]
     },
     "ouverte": {
       "text": "L'outil d'Abigail glisse dans la fente. La grille cède d'un coup.",
+      "to": "seuil"
+    },
+    "ouverte-sans-outil": {
+      "text": "Pas d'outil : deux fils arrachés au panneau, un court-circuit du bout d'une clé. La grille cède d'un coup.",
       "to": "seuil"
     },
     "force": {

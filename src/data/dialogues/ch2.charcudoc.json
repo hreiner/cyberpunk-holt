@@ -109,12 +109,26 @@
       "choices": [
         {
           "text": "Continuer.",
-          "conditions": [{ "flag": "ch2.letitia.etat", "atLeast": 2 }],
+          "conditions": [{ "flag": "ch2.letitia.etat", "atLeast": 3 }],
+          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "état critique" } }],
           "to": "delai-urgent"
         },
         {
           "text": "Continuer.",
-          "conditions": [{ "not": { "flag": "ch2.letitia.etat", "atLeast": 2 } }],
+          "conditions": [{ "flag": "ch2.letitia.etat", "equals": 2 }],
+          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "blessure grave" } }],
+          "to": "delai-urgent"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "flag": "ch2.letitia.etat", "equals": 1 }],
+          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "blessure sérieuse" } }],
+          "to": "delai-calme"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "flag": "ch2.letitia.etat", "atLeast": 1 } }],
+          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "stable" } }],
           "to": "delai-calme"
         }
       ]

@@ -29,6 +29,7 @@ import {
   createDraftState,
   createRunState,
   discoverRoom,
+  evaluateCondition,
   exploreFollowerIds,
   markHeard,
   migrateRunState,
@@ -1177,17 +1178,25 @@ export class ChapterApp {
   private completeExploreConversation(): void {
     const entry = this.activeExploreConversation;
     if (!entry) return;
-    const ctx: NarrativeContext = {
-      ...entry.runner.context,
-      run: setFlag(entry.runner.context.run, this.conversationDoneFlagKey(entry.dialogueId, entry.startNode), true),
-    };
+    // `ObjectiveDef.completesWhen` (lot 5.11) : le dialogue du déclencheur peut rendre la main
+    // sans clore l'étape (« Pas tout de suite », au bal). Il n'est alors pas marqué « déjà joué » :
+    // le joueur y revient et le rejoue en entier.
+    const completesWhen = this.currentSceneDef?.objective?.completesWhen;
+    const deferred =
+      entry.advancesRouter && completesWhen !== undefined && !evaluateCondition(completesWhen, entry.runner.context);
+    const ctx: NarrativeContext = deferred
+      ? entry.runner.context
+      : {
+          ...entry.runner.context,
+          run: setFlag(entry.runner.context.run, this.conversationDoneFlagKey(entry.dialogueId, entry.startNode), true),
+        };
     this.mergeContext(ctx);
     this.activeExploreConversation = null;
     const source = this.exploreSession.entity(entry.entityId);
     if ((source?.type === 'object' || source?.type === 'npc') && source.opensDoorAfterDialogue) {
       this.unlockDoorIfNeeded(source.opensDoorAfterDialogue);
     }
-    if (entry.advancesRouter) {
+    if (entry.advancesRouter && !deferred) {
       // Lot 3.7b : ce dialogue etait celui du declencheur d'objectif lui-meme (pas une simple
       // conversation annexe) -- pas de retour a l'exploration, on enchaine directement, comme
       // apres un dialogue de scene ordinaire (voir CHAPTER_1_SCENES, "ch1.salle1" etc).

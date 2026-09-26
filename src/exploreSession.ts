@@ -707,6 +707,7 @@ export class ExploreSession {
       .filter((i) => i.type === 'npc' || i.type === 'object' || i.type === 'seat')
       .map((i) => i.id);
     this.view.setVisibleEntities(entityIds);
+    this.view.setActiveDoors(list.filter((i) => i.type === 'door').map((i) => i.id));
     this.view.setDiscoveredRooms(this.state.discoveredRoomIds());
     const trigger = this.objectiveTriggerId;
     // Une porte/zone n'est pas dans `entityIds` (elles ne sont pas des "contenus" de piece) mais

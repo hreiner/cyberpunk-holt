@@ -686,7 +686,15 @@ export class ExploreState {
   }
 
   private handleTriggered(entityId: string): void {
-    if (this.objective && !this.objectiveDone && this.objective.completionTrigger === entityId) {
+    // `completesWhen` (lot 5.11) : le déclencheur n'achève l'objectif qu'à la fin de son dialogue,
+    // si la condition est vraie -- c'est `ChapterApp` qui clôt alors l'étape. Ici, au clic, on ne
+    // présume rien : l'encart ne se coche pas pour un « Pas tout de suite ».
+    if (
+      this.objective &&
+      !this.objectiveDone &&
+      this.objective.completionTrigger === entityId &&
+      !this.objective.completesWhen
+    ) {
       this.objectiveDone = true;
       this.events.push({ kind: 'objective-complete', objectiveId: this.objective.id });
     }

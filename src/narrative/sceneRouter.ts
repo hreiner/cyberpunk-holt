@@ -170,10 +170,28 @@ export class SceneRouter {
     return this.current();
   }
 
+  /**
+   * Deux `SceneDef` jumelles partagent un identifiant, gardées par des `when` exclusifs (la fuite
+   * et les conduits selon `ch2.porteur`) : `goTo` retient la jumelle ÉLIGIBLE, et seulement à
+   * défaut la première (départ direct par `?scene=`, drapeau pas encore posé). Défaut de QA du
+   * lot 5.11 : `goTo` prenait toujours la première, et `ChapterApp.advanceRouter` (qui repart de
+   * `goTo(run.sceneId)`) faisait d'un `next()` depuis la jumelle « John »... la jumelle
+   * « Abigail » elle-même -- avec Abigail pour porteuse, la grille relançait la fuite au lieu
+   * d'ouvrir `ch2.grille`.
+   */
   goTo(sceneId: string): void {
-    const idx = this.scenes.findIndex((s) => s.id === sceneId);
-    if (idx < 0) return;
-    this.index = idx;
+    let first = -1;
+    for (let i = 0; i < this.scenes.length; i++) {
+      const scene = this.scenes[i];
+      if (!scene || scene.id !== sceneId) continue;
+      if (first < 0) first = i;
+      if (!scene.when || evaluateCondition(scene.when, this.ctx)) {
+        first = i;
+        break;
+      }
+    }
+    if (first < 0) return;
+    this.index = first;
     this.applyCurrentScene();
   }
 

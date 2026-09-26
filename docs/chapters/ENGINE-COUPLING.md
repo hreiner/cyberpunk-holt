@@ -6,8 +6,9 @@ scène, un drapeau ou une liste du chapitre 1. Ce document les recense pour que 
 technique du chapitre 2 décide, pour chacun : **généraliser**, **dupliquer pour le chapitre
 2**, ou **laisser** (sans objet pour ce chapitre).
 
-État relevé le 2026-09-25 ; les numéros de ligne bougent, les noms de symboles font foi.
-Rayer une ligne quand elle est soldée.
+État relevé le 2026-09-25, mis à jour à la revue de l'epic 5 (lot 5.11, 2026-09-26) ; les numéros
+de ligne bougent, les noms de symboles font foi. Rayer une ligne quand elle est soldée. Les
+couplages découverts pendant le chapitre 2 sont au §6.
 
 ## 1. Le chapitre lui-même
 
@@ -18,7 +19,7 @@ Rayer une ligne quand elle est soldée.
 | ~~La scène initiale est `'ch1.intro'` (`INITIAL_SCENE_ID`)~~ **soldé (lot 5.1)** | `src/narrative/runState.ts` | `createRunState(seed, start?)` reçoit la scène initiale et la Chance du chapitre ; sans argument, comportement du chapitre 1 inchangé |
 | `ChapterApp` est l'orchestrateur du chapitre 1 : cas particuliers du tirage (`TIRAGE_SCENE_ID`), du procès-verbal, de l'examen | `src/chapter.ts` (≈ 30 références `ch1.`) | **laissé, par choix (ADR 0021 §Décision 5)** : ces cas particuliers restent en place, gardés par leurs identifiants de scène (`ch1.*`, que le chapitre 2 n'emploie pas) ; ce qui était commun (liste de scènes, radio, drapeau d'étape, Chance de départ) est généralisé derrière `this.chapterDef` |
 | ~~Numérotation et titres des scènes affichés~~ **soldé (lot 5.1)** | `src/ui/narrativeView.ts` (`sceneNumberFor`/`totalScenesFor`/`chapterStampFor`) | `SceneDef.number` porte le numéro par scène (chapitre 2) ; la table `SCENE_NUMBERS`/`TOTAL_SCENES` du chapitre 1 reste en repli, inchangée |
-| Décor plein cadre par dialogue | `src/ui/sceneChrome.ts` (table `dialogueId → image`), zones `SceneZone` fermées (`academy`, `transit`, `interior`, `bal`) | à généraliser au lot 5.3 (`backdrop` par nœud, registre `src/data/backdrops.ts`) ; nouvelles zones `nuit`/`ville` |
+| ~~Décor plein cadre par dialogue~~ **soldé (lot 5.3, ADR 0023)** | `src/data/backdrops.ts`, `src/ui/sceneChrome.ts` | `backdrop` par fichier ou par nœud, clé du registre (validée) ; la table du chapitre 1 reste en repli ; zones `nuit`/`ville` |
 | Encarts de l'examen (concentration, vigilance) | `src/ui/narrativeView.ts` | sans objet, le chapitre 2 ne réemploie pas le mécanisme |
 | Registre des dialogues et des cartes | `src/data/dialogues/registry.ts`, `src/data/maps/index.ts`, `src/data/exploreVisuals/` | ajouter des entrées suffit — pas un couplage, un point d'extension ; les 14 dialogues squelettes du chapitre 2 y sont depuis le lot 5.1 |
 | ~~Les suiveurs d'exploration sont toujours « les deux coéquipiers du tirage » (`exploreFollowerIds`)~~ **soldé (lot 5.7, ADR 0024 §3)** | `src/narrative/sceneRouter.ts` (`FollowerId`, `SceneDef.followers`, `VISIBLE_FOLLOWERS_LIMIT`), `src/chapter.ts` (`exploreFollowers`) | `SceneDef.followers` déclare la liste par étape (jusqu'à l'enfant, `FollowerId = CharacterId \| 'enfant'`) ; absent, la règle du chapitre 1 s'applique telle quelle |
@@ -43,7 +44,7 @@ Rayer une ligne quand elle est soldée.
 | Point de couplage | Où | Conséquence |
 |---|---|---|
 | `CharacterId` est une union fermée des six cadets | `src/rules/character.ts` | tout nouveau personnage jouable ou combattant l'étend ; fiche dans `characters.json`, rig, portrait |
-| `SpeakerId` est une union fermée (cadets + narrateur, directeur, instructeur, otage, radio) | `src/narrative/types.ts` | tout nouveau locuteur l'étend ; le validateur de dialogue refuse les autres ; portrait dans `src/ui/portraits.ts` |
+| `SpeakerId` est une union fermée (cadets + narrateur, directeur, instructeur, otage, radio ; **étendue au lot 5.3** : smith, enfant, murano, guide, charcudoc, ganger) | `src/narrative/types.ts` | tout nouveau locuteur l'étend ; le validateur de dialogue refuse les autres ; portrait dans `src/ui/portraits.ts` |
 | Les traits sont une union fermée câblée dans le moteur (test `traits.test.ts`) | `src/rules/character.ts`, `src/tactical/` | un trait nouveau = code + test, jamais seulement des données |
 | Alias `equipier1`/`equipier2`/`rivale` supposent la composition du tirage | `src/narrative/aliases.ts` | à redéfinir si le chapitre 2 compose le groupe autrement |
 
@@ -64,6 +65,19 @@ Rayer une ligne quand elle est soldée.
 | `window.__game` nomme des scènes du chapitre 1 (`goToScene('ch1.affrontement')`…) | `src/debug/gameApi.ts`, [DEBUG_API](../process/DEBUG_API.md) | contrat public, inchangé : toute évolution passe par `DEBUG_API.md` et `tests/e2e/debug-api.d.ts` ; `goToScene` accepte maintenant un id de n'importe quel chapitre (bascule dessus au besoin), et `startChapter(id, options?)` s'ajoute (lot 5.1) |
 | ~~Le test « aucun cul-de-sac » et les tests de parcours tirent les compositions du chapitre 1~~ **soldé pour 5.1** | `tests/unit/narrativeDeadEnds.test.ts` (chapitre 1), `tests/unit/chapter2Flow.test.ts` (chapitre 2, lot 5.1) | dupliqué avec la forme adaptée au contenu de chaque chapitre (le chapitre 2 n'a encore aucune condition de choix à ce lot : le test balaie exhaustivement toutes les combinaisons de choix plutôt que d'échantillonner) |
 | ~~`?scene=` saute à une scène du chapitre 1~~ **soldé (lot 5.1)** | `src/main.ts`, `src/chapter.ts` | `?scene=` déduit son chapitre (`chapterOfScene`) ; `?chapter=N` choisit le chapitre au démarrage |
+
+## 6. Découverts pendant le chapitre 2
+
+| Couplage | Où | État |
+|---|---|---|
+| ~~`SceneRouter.goTo(id)` retient la PREMIÈRE `SceneDef` de l'identifiant, même quand son `when` est faux~~ **soldé (lot 5.11)** | `src/narrative/sceneRouter.ts` | `ChapterApp.advanceRouter` repart de `goTo(run.sceneId)` : avec des scènes jumelles, `next()` depuis la mauvaise jumelle tombait sur l'autre -- avec Abigail pour porteuse, la grille relançait la fuite (défaut de QA). `goTo` retient désormais la jumelle éligible ; gardé par `chapter2Flow.test.ts` et `chapter2.spec.ts` |
+| ~~Le portrait hero « garde le dernier locuteur » d'un fichier de dialogue au suivant~~ **soldé (lot 5.11)** | `src/ui/narrativeView.ts` (`renderHero`) | le repli ne vaut plus qu'à l'intérieur d'un fichier ; un fichier qui s'ouvre sur de la narration n'a pas de portrait (Murano restait affiché aux décharges) |
+| ~~Le dialogue du déclencheur d'objectif clôt toujours l'étape~~ **soldé (lot 5.11)** | `src/narrative/objective.ts` (`completesWhen`), `src/chapter.ts` (`completeExploreConversation`), `src/explore/exploreState.ts` | `ObjectiveDef.completesWhen` : l'étape ne se clôt qu'à la fin du dialogue du déclencheur si la condition est vraie ; sinon retour à l'exploration, dialogue rejouable (le bal attend l'invitation) |
+| ~~Une porte d'une autre étape reste survolable, avec son identifiant brut pour libellé~~ **soldé (lot 5.11)** | `src/render/exploreView.ts` (`setActiveDoors`), `src/exploreSession.ts` (`syncVisibility`) | seules les portes actives à l'étape se survolent et se cliquent (les portes de la fuite pendant le bal affichaient « fuite.porte-cour-ouest ») |
+| Le panneau de porte est toujours posé mince en z | `src/render/exploreView.ts` (construction des `WallCellInfo`) | **laissé** : dans un mur nord-sud (la grille du dortoir), la porte se voit de profil ; la cible de clic reste suffisante (mesurée au lot 5.11), mais la lisibilité est faible. Corriger change aussi le rendu du chapitre 1 : décision du propriétaire |
+| Les murs de couloir ne se coupent pas : le couloir de ceinture de `holt`/`holt-nuit` cache Franklyn et la file | `src/render/exploreView.ts` (`recomputeCutaway`, découpe par pièce) | **laissé** : les couloirs ne sont pas des `RoomDef`, la découpe ne les connaît pas. Toute la fuite se joue là ; seules l'étiquette « Franklyn » et la balise restent lisibles. Changer la règle touche le rendu du chapitre 1 |
+| La jauge est calculée deux fois (`ChapterApp` et `ExploreSession.gaugeStatusFor`) | `src/chapter.ts`, `src/exploreSession.ts` | **laissé** (choix du lot 5.8) : deux copies courtes qui lisent la même donnée |
+| `chapter2Flow` et `simulate-ch2` rejouent les scènes `explore` par une règle générique lue sur la `MapDef`, pas par le moteur d'exploration | `tests/unit/chapter2Flow.test.ts`, `scripts/simulate-ch2.ts` | **laissé** : rapide et exhaustif, mais aveugle à ce que seul `ChapterApp` fait (routeur, conversations) -- les trois défauts de QA du lot 5.11 lui échappaient. Le parcours au clic de `chapter2.spec.ts` complète |
 
 ## Ce qui est déjà générique
 

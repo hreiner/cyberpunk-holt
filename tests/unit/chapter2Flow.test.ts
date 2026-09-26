@@ -52,16 +52,16 @@
 import { describe, expect, it } from 'vitest';
 import { createRng } from '@/core/rng';
 import { createDossier } from '@/core/dossier';
-import { createRunState } from '@/narrative/runState';
+import { createRunState, setFlag } from '@/narrative/runState';
 import { DialogueRunner } from '@/narrative/dialogueRunner';
 import type { NarrativeContext } from '@/narrative/dialogueRunner';
 import { evaluateCondition } from '@/narrative/conditions';
-import type { DialogueFile } from '@/narrative/types';
+import type { Condition, DialogueFile } from '@/narrative/types';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_2 } from '@/data/chapters/ch2';
 import { CH2_PROFILES } from '@/data/chapters/ch2Profiles';
 import { getMap } from '@/data/maps';
-import { withEtape } from '@/narrative/sceneRouter';
+import { SceneRouter, withEtape } from '@/narrative/sceneRouter';
 import type { SceneDef } from '@/narrative';
 import type { DossierProfile } from '@/data/chapters/ch2Profiles';
 
@@ -137,6 +137,30 @@ function requiredExploreDialogues(scene: SceneDef, next: SceneDef | undefined, c
   const openers = active.filter((e) => 'opensDoorAfterDialogue' in e && e.opensDoorAfterDialogue && own(e));
   const trigger = active.find((e) => e.id === scene.objective?.completionTrigger);
   return [...openers.map((e) => own(e) as string), ...(trigger && own(trigger) ? [own(trigger) as string] : [])];
+}
+
+/**
+ * Lot 5.11 (`ObjectiveDef.completesWhen`, « Pas tout de suite » au bal) : une issue du dialogue du
+ * déclencheur qui ne remplit pas la condition rend la main à l'exploration, et le joueur REJOUE
+ * ce dialogue depuis l'état qu'elle laisse. On rejoue donc chaque issue différée jusqu'à un point
+ * fixe (instantané de contexte déjà vu = rien de neuf), et on ne garde que les issues qui closent
+ * l'étape -- celles qui mènent réellement à la scène suivante.
+ */
+function settleDeferred(file: DialogueFile, outcomes: NarrativeContext[], completesWhen: Condition): NarrativeContext[] {
+  const committed: NarrativeContext[] = [];
+  const seen = new Set<string>();
+  const queue = [...outcomes];
+  for (let o = queue.pop(); o; o = queue.pop()) {
+    if (evaluateCondition(completesWhen, o)) {
+      committed.push(o);
+      continue;
+    }
+    const key = JSON.stringify(contextSnapshot(o));
+    if (seen.has(key)) continue;
+    seen.add(key);
+    queue.push(...outcomesOf(file, o));
+  }
+  return committed;
 }
 
 /** Nombre max de decisions rejouees d'affilee pour ATTEINDRE un etat : garde-fou anti-boucle. */
@@ -327,6 +351,11 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
           expect(file, `dialogue "${dialogueId}" manquant pour la scene "${scene.id}"`).toBeDefined();
           outcomes = outcomes.flatMap((o) => outcomesOf(file as DialogueFile, o));
           expect(outcomes.length, `${scene.id} : aucun chemin n'atteint la fin de "${dialogueId}"`).toBeGreaterThan(0);
+          const completesWhen = scene.objective?.completesWhen;
+          if (completesWhen && dialogueId === dialogueIds[dialogueIds.length - 1]) {
+            outcomes = settleDeferred(file as DialogueFile, outcomes, completesWhen);
+            expect(outcomes.length, `${scene.id} : "${dialogueId}" ne permet jamais de clore l'étape`).toBeGreaterThan(0);
+          }
         }
         const collected = new Set<string>();
         for (const outcome of outcomes) {
@@ -439,4 +468,30 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
     const abigail = tempoAfterPorteur('Abigail la porte : plus lentement, mais elle ne la lâchera pas.');
     expect(abigail).toBeGreaterThan(john);
   });
+});
+
+describe('lot 5.11 : les SceneDef jumelles (défaut de QA « la grille ne s’ouvre pas », porteuse Abigail)', () => {
+  // `ChapterApp.advanceRouter` repart toujours de `goTo(run.sceneId)` : si `goTo` retient la
+  // mauvaise jumelle, `next()` tombe sur l'autre -- la même scène, rejouée au lieu d'avancer.
+  const twinIds = [...new Set(CHAPTER_2.scenes.map((s) => s.id).filter((id, i, all) => all.indexOf(id) !== i))];
+
+  it('le chapitre 2 a bien des jumelles (sinon ce test ne prouve rien)', () => {
+    expect(twinIds).toEqual(expect.arrayContaining(['ch2.fuite', 'ch2.conduits']));
+  });
+
+  it.each(twinIds.flatMap((id) => ['john', 'abigail'].map((porteur) => [id, porteur] as const)))(
+    '%s, porteur %s : goTo retient la jumelle éligible, et la scène suivante n’est pas sa sœur',
+    (id, porteur) => {
+      const ctx: NarrativeContext = {
+        dossier: createDossier(),
+        run: setFlag(createRunState('chapter2Flow::twins', { chapter: 2, sceneId: id, luck: 3 }), 'ch2.porteur', porteur),
+      };
+      const router = new SceneRouter(CHAPTER_2.scenes, ctx, CHAPTER_2.etapeFlag);
+      router.goTo(id);
+      const current = router.current();
+      expect(current.id).toBe(id);
+      expect(!current.when || evaluateCondition(current.when, ctx), 'jumelle non éligible retenue').toBe(true);
+      expect(router.next()?.id).not.toBe(id);
+    },
+  );
 });

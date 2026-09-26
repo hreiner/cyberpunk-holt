@@ -27,13 +27,21 @@
           "onSuccess": "accepte",
           "onFailure": "refus"
         },
-        { "text": "Lui demander si elle connaît les conduits.", "to": "conduits" },
-        { "text": "Rester en retrait, à observer la salle.", "to": "retrait" }
+        {
+          "text": "Lui demander si elle connaît les conduits.",
+          "conditions": [{ "not": { "flag": "ch2.bal.conduits", "equals": true } }],
+          "effects": [{ "flag": "ch2.bal.conduits", "value": true }],
+          "to": "conduits"
+        },
+        { "text": "Rester en retrait, à observer la salle.", "to": "retrait" },
+        { "text": "Pas tout de suite. Profiter encore un peu de la soirée.", "to": "plus-tard" }
       ]
     },
     "conduits": {
-      "text": "Elle hausse un sourcil. « Les conduits ? Depuis quand tu t'intéresses à la plomberie, Franklyn ? » Elle ne répond pas vraiment, mais elle n'a pas l'air surprise.",
-      "to": "fin"
+      "text": "Elle hausse un sourcil. « Les conduits ? Depuis quand tu t'intéresses à la plomberie, Franklyn ? » Elle ne répond pas vraiment, mais elle n'a pas l'air surprise. « Va plutôt faire le tour de la salle. Je ne bouge pas. »"
+    },
+    "plus-tard": {
+      "text": "« Plus tard, alors. » Elle lève son verre, sans insister. La musique continue ; la bande est quelque part dans la salle."
     },
     "accepte": {
       "text": "Elle accepte, un sourire bref, et le suit vers le centre de la piste.",
@@ -50,7 +58,8 @@
       "to": "fin"
     },
     "fin": {
-      "text": "La soirée continue, tant qu'elle continue."
+      "text": "La soirée continue, tant qu'elle continue.",
+      "effects": [{ "flag": "ch2.bal.invitation", "value": true }]
     }
   }
 }

@@ -102,7 +102,7 @@ affinités) : voir GAME-DESIGN §7, "Ce que le chapitre lit".
 
 | Entrée | Posée par (scène) |
 |---|---|
-| `ch2.letitia.etat` | 3 (le slow) — repère provisoire au lot 5.1 (texte libre) ; devient une jauge bornée [0, 3] à l'ADR 0025 (lot 5.4) |
+| `ch2.letitia.etat` | 11 (le charcudoc), valeur = le mot de la jauge (`stable`, `blessure sérieuse`, `blessure grave`, `état critique`) — le compteur borné [0, 3] du même nom (ADR 0025) vit de la scène 3 à la scène 11 ; l'entrée n'était pas écrite avant le lot 5.11 |
 | `ch2.zachary` | 7 (les égouts) |
 | `ch2.zachary.adieu` | 8 (l'adieu) |
 | `ch2.campement.insignes` | 9 (le campement) |

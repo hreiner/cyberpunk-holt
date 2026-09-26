@@ -1,6 +1,6 @@
 # Ce que le jeu sait faire — la palette du concepteur
 
-Catalogue des capacités **livrées** à la fin du chapitre 1, vues du joueur et du concepteur,
+Catalogue des capacités **livrées** à la fin du chapitre 2 (epic 5), vues du joueur et du concepteur,
 pas du programmeur. Il sert à la phase 1 ([`README.md`](README.md)) : concevoir un chapitre
 en sachant ce qui est gratuit, ce qui coûte un peu, et ce qui demande un nouveau système.
 
@@ -28,6 +28,9 @@ moitié faite.** Le chapitre 1 entier tient presque tout en 🟢 sur quatre syst
 | STR-02 | **Sauvegarde automatique** à chaque début de scène ; reprise au point d'apparition de l'étape | jamais de sauvegarde libre ; une scène doit pouvoir reprendre à froid | gratuit | [08](../design/08-EXPLORATION.md) « Sauvegarde » |
 | STR-03 | **Écran titre**, **procès-verbal** (bilan d'exercice entre deux écrans), **bilan de fin de chapitre déclaré en données** (`ChapterDef.end`, kicker/titre/photo/lignes à premier cas vrai) | réutilisables tels quels ; le bilan de clôture se décrit sans code au-delà du premier chapitre | gratuit (écran titre, procès-verbal) · 🟢 (un bilan de plus, en données) | ARCHITECTURE, ADR 0025 §1 |
 | STR-04 | **Graine** : toute partie est rejouable à l'identique (`?seed=`) | les jets sont aléatoires mais reproductibles ; aucun hasard « caché » | gratuit | ADR 0002 |
+| STR-05 | **Plusieurs chapitres** : une `ChapterDef` par chapitre (scènes, drapeau d'étape, Chance, radio, jauges, bilan), `?chapter=N`, « Chapitre N » à l'écran titre | un chapitre de plus = une `ChapterDef` et ses données, sans toucher l'orchestrateur | 🟢 (données) | ADR 0021 |
+| STR-06 | **Le dossier passe d'un chapitre à l'autre** : archive locale en fin de chapitre, suite directe depuis l'écran de fin, **profils de départ** pour qui commence plus loin (Loyal, Solitaire, Neutre au chapitre 2) | écrire un chapitre qui lit le précédent sans exiger qu'on l'ait joué | 🟢 (un profil de plus) | ADR 0022 |
+| STR-07 | **Scènes jumelles** : deux `SceneDef` du même identifiant, gardées par des `when` exclusifs (ex. la fuite selon le porteur), le routeur retenant toujours la jumelle éligible | varier les suiveurs ou l'habillage d'une scène selon un choix, sans dupliquer l'histoire | 🟢 | TECH-DESIGN ch2 §4.4, lot 5.11 |
 
 **Limite** : pas d'embranchement de scènes (pas d'« acte B » alternatif). Deux chemins
 différents = une scène commune dont le contenu varie selon l'état. Un vrai arbre de scènes
@@ -48,6 +51,8 @@ serait 🔴.
 | DLG-09 | **Points d'entrée multiples** d'un même fichier (`startNode`) | plusieurs objets d'une pièce partagent un fichier, chacun son moment | 🟢 | 07 |
 | DLG-10 | **Portrait** du locuteur, **décor plein cadre** par dialogue **ou par nœud** (registre `src/data/backdrops.ts`, coupe franche), **bruitage** de nœud (`sound.sfx`, synthétisé) | chaque dialogue a son image de lieu ; une scène en suite d'images (le slow, la rafale) ; un coup de feu entendu sans monter un système audio dédié | 🟢 si l'image/la clé existe · art ou nouveau bruitage à produire sinon | [UI-DESIGN-SYSTEM](../art/UI-DESIGN-SYSTEM.md), ADR 0023 |
 | DLG-11 | **Dé 3D** qui roule à l'écran, chaîne d'explosion visible | gratuit sur tout jet | gratuit | ADR 0012 |
+
+**Ajout du chapitre 2** : un nœud peut changer le **décor** (suite d'images, coupe franche) et jouer un **bruitage** ; une **condition sur le tempo** et un **compteur borné** servent les conséquences de fuite (DLG-04, DLG-05, DLG-10). Le portrait hero ne déborde jamais d'un fichier de dialogue sur le suivant (lot 5.11).
 
 **Limites** : locuteurs en liste fermée — six cadets, narrateur, directeur, instructeur,
 otage, radio, et depuis l'ADR 0023 (chapitre 2) smith, enfant, murano, guide, charcudoc,
@@ -74,8 +79,8 @@ choix « silencieux » à la Telltale.
 | DOS-03 | **Notes** : pratique /20 avec mention, écrite /6 | une évaluation chiffrée qui ressort ensuite | 🟡 (autre barème) | 06 |
 
 **Limite** : le dossier est exportable en code mais aucun écran ne le propose au joueur
-(lot 2.12). Comment le chapitre 2 le récupère est une question de phase 2
-(voir [`ENGINE-COUPLING.md`](ENGINE-COUPLING.md)).
+(lot 2.12). Il passe d'un chapitre au suivant par l'archive locale et la suite directe
+(STR-06) ; ce que le chapitre 2 transmet est dans [`CH2-LEGACY.md`](CH2-LEGACY.md).
 
 ## EXP — L'exploration
 
@@ -91,6 +96,8 @@ choix « silencieux » à la Telltale.
 | EXP-08 | **Le groupe suit** : les coéquipiers en file derrière Franklyn — jusqu'à cinq déclarés (`SceneDef.followers`, l'enfant compris, ADR 0024 §3), rendus dans la limite de `VISIBLE_FOLLOWERS_LIMIT` (données) | la bande est présente physiquement, y compris au grand complet | gratuit (2) · mesuré (5, lot 5.7 — voir TECH-DESIGN §6) | 08 « Le groupe » |
 | EXP-09 | **Passage au combat** : franchir un seuil → tampon « CONTACT » → écran tactique sur le **même terrain** | enchaîner exploration et affrontement sans rupture de décor | 🟢 si le terrain tactique existe (voir TAC) | ADR 0016 |
 | EXP-10 | **Jouable au doigt** : appui = ordre, glissé = caméra, pincement = zoom | toute nouvelle interaction doit avoir un geste tactile | contrainte | 08 « Contrôles » |
+| EXP-12 | **Un déclencheur qui attend l'engagement** (`ObjectiveDef.completesWhen`) : le dialogue de l'entité qui termine l'étape ne la clôt que si une condition est vraie à sa fin ; sinon (« Pas tout de suite »), retour à l'exploration, et la conversation se rejoue en entier | une dernière respiration avant la bascule (le bal) : le joueur choisit le moment | 🟢 | 08 « Les objectifs », lot 5.11 |
+| EXP-13 | **Fuite en groupe** : zones à effets qui barrent un passage (tempo), portes condamnées par la narration, silhouettes hostiles statiques (`ganger`), jauge visible en exploration | une poursuite sans IA de poursuite | 🟢 | ADR 0024, 10-MAPS-CHAPTER-2 |
 | EXP-11 | **Habillage par étape** : un placement d'`ExploreVisualMapDef` (`ExploreVisualPlacement.etape`) ne se montre qu'à l'étape narrative qui le déclare — deux placements peuvent viser la MÊME case pour deux étapes différentes (`ExploreView.setEtape`) ; climat lumineux par étape en prime (`ExploreView.setNightMood`, trois sources globales seulement, ADR 0018 inchangé) | une salle qui change de mobilier et de lumière sans changer de carte (le bal, puis la fuite, sur `holt-nuit`) | gratuit (bascule de visibilité, pas de rechargement de carte) | ADR 0026, lot 5.8b |
 
 **Limites** : l'entité `exit` (changer de lieu en marchant) existe dans le format mais n'a
@@ -143,12 +150,27 @@ d'elles est 🔴 et demande un ADR.
 |---|---|---|---|---|
 | ART-01 | **Habillage 3D déclaratif** des pièces : catalogue de modèles, matières, luminaires qui éclairent | un nouveau lieu se compose avec l'existant | 🟢 si le catalogue suffit · art à produire sinon | ADR 0017, 0018, [ROOM-COMPOSITION](../art/ROOM-COMPOSITION.md) |
 | ART-02 | **Personnages humanoïdes animés** en exploration et en combat, figurants gris | — | 🟢 cadets · art pour tout nouveau visage | [ART-PIPELINE](../art/ART-PIPELINE.md) |
-| ART-03 | **Illustrations** : 17 décors, portraits des cadets et des adultes du chapitre 1, pipeline de génération documenté | chaque nouveau lieu ou visage = une fiche de brief | coût de production | [ORCHESTRATOR](../art/image-generation/ORCHESTRATOR.md) |
+| ART-03 | **Illustrations** : les décors plein cadre et portraits des chapitres 1 et 2 (suite d'images du slow, égouts, Badlands, décharges, clinique ; Smith, l'enfant, Murano, le guide, le charcudoc, un ganger), pipeline de génération documenté | chaque nouveau lieu ou visage = une fiche de brief | coût de production | [ORCHESTRATOR](../art/image-generation/ORCHESTRATOR.md) |
 | ART-04 | **Bruitages synthétisés** du combat | — | gratuit | ADR 0010 |
 
 **Absents** : musique et ambiance sonore (lot 2.11), cinématiques.
 
 ---
+
+## Ce que le chapitre 2 a appris (à réemployer)
+
+- **La jauge en mots** (RES-06) : l'état de Letitia se lit sans chiffre, et chaque jet raté
+  se voit tout de suite. À réemployer pour tout blessé ou toute ressource qui doit peser.
+- **Le tempo qui pèse par les choix, pas par le chemin** : les zones barrent toute la largeur
+  d'un passage ; ce sont le porteur, la route et les échecs qui coûtent du temps.
+- **Le relais de garde** : un ordre de passage au choix du joueur et un joker à usage unique —
+  l'idiome de la Chance, décliné.
+- **L'écho différé** : une conversation facultative du bal abaisse une DV plusieurs scènes plus
+  loin (un cran, jamais un nombre).
+- **La scène jumelle** (STR-07) plutôt qu'un embranchement : même histoire, file différente.
+- **Jouer au clic avant de livrer** : trois défauts de QA du chapitre 2 (le bal qui se ferme au
+  premier mot, la grille qui relance la fuite avec Abigail pour porteuse, le portrait qui reste)
+  passaient tous les tests pilotés par `window.__game`.
 
 ## Ce que le chapitre 1 a appris (à réemployer)
 

@@ -74,10 +74,14 @@ export const CHAPTER_2_SCENES: SceneDef[] = [
     objective: {
       id: 'ch2.bal',
       title: 'Profiter du bal',
-      context: 'La dernière soirée avant le départ. La musique couvre les voix.',
+      context: 'La dernière soirée avant le départ. Letitia attend qu’on l’invite — rien ne presse.',
       // bal.letitia joue SON PROPRE dialogue (l'invitation, `ch2.bal.json`) avant d'avancer --
       // son dialogueId n'est pas celui de la scene suivante (`ch2.slow`), voir holt-nuit.ts.
       completionTrigger: 'bal.letitia',
+      // Lot 5.11 (defaut de QA « le bal se lance trop vite ») : parler a Letitia n'ouvre le slow
+      // que si Franklyn s'engage (inviter, ou rester en retrait) ; « Pas tout de suite » et la
+      // question des conduits rendent la main au bal, et la conversation reste rejouable.
+      completesWhen: { flag: 'ch2.bal.invitation', equals: true },
       tasks: [
         {
           id: 'ch2.bal.parler',

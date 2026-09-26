@@ -40,3 +40,16 @@ socle d'exploration (ADR 0013) n'a pas les pièces de cette variante :
   `exploreView.ts`.
 - Le chapitre 2 aura jusqu'à cinq suiveurs. Une mesure sur GTX 1070, au lot 5.7, décide
   s'ils sont tous visibles.
+
+## Addendum — 2026-09-26 (lot 5.11) : un déclencheur qui peut dire « pas encore »
+
+**Contexte.** En QA manuelle, parler à Letitia fermait le bal aussitôt : le moteur clôt toujours
+l'étape à la fin du dialogue de l'entité déclencheuse (`completionTrigger`), avant que le joueur
+ait parlé à la bande.
+
+**Décision.** `ObjectiveDef.completesWhen?: Condition` : lue à la fin du dialogue du déclencheur,
+elle décide si l'étape se ferme. Faux : l'étape reste ouverte, la conversation n'est pas marquée
+jouée et se rejoue en entier. Absent : comportement d'origine (chapitre 1 inchangé).
+
+**Conséquences.** Le bal propose « Pas tout de suite » (`ch2.bal.invitation`) ; le marcheur de
+`chapter2Flow` et le simulateur rejouent ce « pas encore ». Contrat : `docs/design/08-EXPLORATION.md`.

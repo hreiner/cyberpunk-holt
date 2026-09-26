@@ -259,6 +259,12 @@ d'exploration porte **un objectif principal** et, éventuellement, des **faculta
   ça sur la carte : il n'y en a **jamais qu'une à l'écran**, et le joueur n'a plus à essayer
   les quinze anneaux d'une pièce pour trouver lequel compte. Les interactions facultatives
   gardent leur anneau discret — la différence entre les deux est le message.
+- **Un déclencheur peut attendre qu'on s'engage** (`ObjectiveDef.completesWhen`, lot 5.11). Par
+  défaut, le dialogue de l'entité qui termine l'étape la clôt à sa fin. Avec `completesWhen`, il ne
+  la clôt que si la condition est vraie à ce moment-là ; sinon il rend la main à l'exploration,
+  sans être marqué « déjà joué » : le joueur y revient et le rejoue en entier. C'est le bal du
+  chapitre 2 : parler à Letitia n'ouvre le slow que si Franklyn l'invite ou reste en retrait —
+  « Pas tout de suite » laisse faire le tour de la bande. L'encart ne se coche pas au clic.
 - La balise **ne se montre que lorsque son entité se montre** : une pièce non découverte ne
   laisse rien fuiter (voir « La découverte des lieux »). Tant qu'on n'y est pas entré, c'est
   `Tab` qui répond.
