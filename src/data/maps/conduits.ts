@@ -90,8 +90,9 @@ function fillBlock(x0: number, y0: number, w: number, h: number, ch: string): vo
 /**
  * Pièces (et tronçons de conduit) : chaque rectangle est à la fois une zone de sol creusée dans
  * la roche de murs et une `RoomDef` -- les murs en coupe du rendu se calculent sur les bords des
- * `RoomDef` (`ExploreView.computeRoomSides`) : un conduit hors de toute pièce garderait ses murs
- * pleins côté caméra et cacherait la file.
+ * `RoomDef` (`ExploreView.computeRoomSides`), coupés en permanence. Depuis l'ADR 0027, un conduit hors
+ * de toute pièce serait un couloir, coupé seulement quand Franklyn y est ; les tronçons restent des
+ * `RoomDef` `alwaysDiscovered` (lot 5.9), ce qui revient au même pour la file.
  */
 export const CONDUITS_RECTS = {
   bouche: { origin: { x: 16, y: 15 }, width: 1, height: 10 }, // la bouche, depuis le dortoir

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { ExploreMap, nearestWalkableCell } from '@/explore';
+import { computeCorridors, ExploreMap, inRect, nearestWalkableCell, posKey } from '@/explore';
+import { MAPS } from '@/data/maps';
 import { HOLT_MAP } from '@/data/maps/holt';
 import { CENTRE_EXAMEN_MAP } from '@/data/maps/centre-examen';
 import { SMALL_MAP } from './fixtures/exploreFixtures';
@@ -109,5 +110,37 @@ describe('les cartes livrées : des entités qu on peut viser séparément', () 
       }
     }
     expect(tooClose, `entités trop proches pour être visées séparément :\n${tooClose.join('\n')}`).toEqual([]);
+  });
+});
+
+describe('les couloirs, déduits du plan (ADR 0027)', () => {
+  it('toute case de sol hors pièce appartient à un couloir, dont les murs se coupent côté caméra', () => {
+    for (const def of Object.values(MAPS)) {
+      const map = new ExploreMap(def);
+      const { regions, regionByCell } = computeCorridors(map, def);
+      for (let y = 0; y < map.height; y++) {
+        for (let x = 0; x < map.width; x++) {
+          const cell = { x, y };
+          const inRoom = def.rooms.some((room) => inRect(cell, room.rect));
+          if (map.kindAt(cell) === 'floor' && !inRoom) {
+            expect(regionByCell.has(posKey(cell)), `${def.id} (${x},${y}) hors couloir`).toBe(true);
+          }
+        }
+      }
+      for (const region of regions) {
+        for (const key of region.wallSides.keys()) {
+          const [x, y] = key.split(',').map(Number) as [number, number];
+          expect(['wall', 'door'], `${def.id} ${region.id} ${key}`).toContain(map.kindAt({ x, y }));
+        }
+      }
+    }
+    // Le couloir de ceinture de holt-nuit, où se joue toute la fuite : son mur est (x = 25) est
+    // entre la caméra par défaut (sud-est) et la file, il doit porter le côté `east`.
+    const nuit = MAPS['holt-nuit']!;
+    const belt = computeCorridors(new ExploreMap(nuit), nuit);
+    const beltId = belt.regionByCell.get('23,30');
+    const region = belt.regions.find((r) => r.id === beltId)!;
+    expect(region.wallSides.get('25,30')).toEqual(['east']);
+    expect(region.wallSides.get('21,30')).toEqual(['west']);
   });
 });

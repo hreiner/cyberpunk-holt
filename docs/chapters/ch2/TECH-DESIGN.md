@@ -652,6 +652,13 @@ le poste du propriétaire.
   d'accord de rendu passent ; appels de dessin inchangés à ±5 %.
 - **Documents** : `ENGINE-COUPLING.md` (relevé soldé), `08-EXPLORATION.md`.
 
+**Livré (ADR 0027)** : un couloir est déduit du plan (espace hors de toute `RoomDef`), ses murs se
+coupent tant que Franklyn y est. **Mesure** (GTX 1070, Chromium `--use-angle=d3d11 --enable-gpu
+--ignore-gpu-blocklist`, 2,5 s après le placement, avant → après) : fuite au couloir de ceinture
+(23,30) 144 → 144, (23,14) 145 → 135 ; `holt` (temps libre) couloir de ceinture (23,20) 94 → 85,
+dortoirs 93 → 93 ; hall du centre d'examen 126 → 126. Les baisses viennent des ornements et
+commandes de porte masqués avec les murs coupés.
+
 ### Lot 5.B — les images des ajouts, au manifeste *(ajout du propriétaire, 2026-09-26)*
 
 - **But** : comme le lot 5.A, **sans générer** : les huit images des lots 5.13, 5.14 et 5.15

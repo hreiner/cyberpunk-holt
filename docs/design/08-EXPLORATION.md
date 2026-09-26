@@ -122,6 +122,12 @@ geste.
   chaque rotation) sont rendus **coupés à 0,4 m**, arête supérieure soulignée. On voit
   toujours dans les pièces ; on lit toujours leur plan. C'est la règle de lisibilité n° 5
   d'ART-DIRECTION appliquée aux intérieurs.
+- **Les couloirs aussi, quand Franklyn y est** (ADR 0027). Un couloir n'est pas déclaré : c'est
+  tout espace de sol hors des pièces de la carte, déduit du plan. Tant que Franklyn s'y trouve,
+  ses murs tournés vers la caméra sont coupés comme ceux d'une pièce — on voit la file qui le
+  suit. Dès qu'il entre dans une pièce, les murs du couloir reprennent leur hauteur : le mur du
+  couloir est souvent le mur du fond de la pièce voisine, et celle-ci garde sa profondeur.
+  Franchir un seuil de porte ne fait rien basculer.
 - Pas de plafond. Les portes ouvertes sont des trouées ; les portes fermées, des panneaux
   pleins de la hauteur du mur coupé.
 

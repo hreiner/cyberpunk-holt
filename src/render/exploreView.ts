@@ -17,8 +17,8 @@
 import * as THREE from 'three';
 import type { Rng } from '@/core/rng';
 import { CHARACTER_IDS, getCharacter, type CharacterId, type CharacterSheet } from '@/rules/character';
-import { ExploreMap, LEADER_SPEED, posKey, roomAt, YARD_SIZE } from '@/explore';
-import type { Cell, DoorEntity, EntityDef, MapDef, RoomDef } from '@/explore';
+import { computeCorridors, ExploreMap, LEADER_SPEED, posKey, roomAt, YARD_SIZE } from '@/explore';
+import type { Cell, CorridorLayout, DoorEntity, EntityDef, MapDef, RoomDef, WallSide } from '@/explore';
 import { isExplorationCharacterRig, type CharacterRig } from './characterRig';
 import { createCadetExplorationRig, createHumanExplorationRig } from './exploration/cadetRig';
 import { createExploreNpcRig, type ExploreNpcRig } from './exploration/npcRig';
@@ -141,7 +141,7 @@ const PAN_SPEED_M_S = 18;
 /** Marge de panoramique au-delà du bord de la carte, "une pièce" (08-EXPLORATION.md "La caméra et les murs"). */
 const PAN_MARGIN_METERS = 12;
 
-export type Side = 'north' | 'south' | 'east' | 'west';
+export type Side = WallSide;
 
 const SIDE_NORMAL: Record<Side, [number, number]> = {
   north: [0, -1],
@@ -264,6 +264,12 @@ export class ExploreView {
 
   private readonly wallCells = new Map<string, WallCellInfo>();
   private readonly roomSidesByCell = new Map<string, Side[]>();
+  /**
+   * Couloirs déduits du plan (ADR 0027, `computeCorridors`) : leurs murs se coupent comme ceux
+   * d'une pièce, mais seulement quand le meneur est dans le couloir (`activeCorridorId`).
+   */
+  private readonly corridors: CorridorLayout;
+  private activeCorridorId: string | null = null;
   /** Cases de mobilier haut ('T') situées dans la pièce 'garage' : rendues comme des véhicules (voir `buildCells`). */
   private readonly garageCells = new Set<string>();
   /** Cases de mur ('wall') formant l'anneau du garage : tôle plutôt que béton peint (voir `buildCells`). */
@@ -514,6 +520,7 @@ export class ExploreView {
     }
 
     this.computeRoomSides();
+    this.corridors = computeCorridors(this.map, def);
     this.computeGarageCells();
     this.buildCells();
     this.buildDormitoryArchitecture();
@@ -1137,8 +1144,9 @@ export class ExploreView {
   private readonly cutawayQuaternion = new THREE.Quaternion();
 
   /**
-   * Recalcule quels murs sont coupés. Appelé à la construction et à chaque quart de tour
-   * (`rotate()`), JAMAIS par image -- le coût d'une reconstruction complète des lots (quelques
+   * Recalcule quels murs sont coupés : ceux des pièces (`info.sides`), plus ceux du couloir où se
+   * tient le meneur (ADR 0027). Appelé à la construction, à chaque quart de tour (`rotate()`) et
+   * quand le meneur entre dans un couloir ou en sort (`syncActiveCorridor`), JAMAIS par image -- le coût d'une reconstruction complète des lots (quelques
    * centaines de matrices 4x4) est négligeable à cette fréquence, et bien moindre que de garder
    * un `Object3D` par case (passe G, performance).
    *
@@ -1151,8 +1159,12 @@ export class ExploreView {
     const bandMatrices: THREE.Matrix4[] = [];
     const edgeMatrices: THREE.Matrix4[] = [];
     const touchedBodies = new Set<THREE.InstancedMesh>();
-    for (const info of this.wallCells.values()) {
-      const cut = this.isCut(info.sides);
+    const corridorSides = this.activeCorridorId
+      ? this.corridors.regions.find((region) => region.id === this.activeCorridorId)?.wallSides
+      : undefined;
+    for (const [key, info] of this.wallCells) {
+      const extra = corridorSides?.get(key);
+      const cut = this.isCut(info.sides) || (extra !== undefined && this.isCut(extra));
       const height = cut ? WALL_CUT_HEIGHT : WALL_HEIGHT;
       if (info.isDoorCell) {
         // Porte : un simple linteau en haut de l'ouverture, jamais un bloc plein -- sinon
@@ -1480,9 +1492,29 @@ export class ExploreView {
     this.rigs.set(id, rig);
   }
 
+  /**
+   * Couloir où se tient le meneur (ADR 0027) : ses murs se coupent tant qu'il y est. Sur une case
+   * de porte, rien ne change (pas de bascule au passage du seuil) ; dans une pièce ou dehors, le
+   * couloir est quitté. Recalcule la coupe seulement au changement -- jamais par image.
+   */
+  private syncActiveCorridor(cell: { x: number; y: number }): void {
+    if (this.corridors.regions.length === 0) return;
+    const rounded = { x: Math.round(cell.x), y: Math.round(cell.y) };
+    const region = this.corridors.regionByCell.get(posKey(rounded));
+    let next = this.activeCorridorId;
+    if (region) next = region;
+    else if (this.map.kindAt(rounded) !== 'door') next = null;
+    if (next === this.activeCorridorId) return;
+    this.activeCorridorId = next;
+    this.recomputeCutaway();
+  }
+
   /** Place un rig (case, éventuellement fractionnaire) et joue l'animation adaptée. */
   updateRigPosition(id: string, cell: { x: number; y: number }, moving: boolean, dt: number): void {
-    if (id === 'leader') this.leaderCell = { x: cell.x, y: cell.y };
+    if (id === 'leader') {
+      this.leaderCell = { x: cell.x, y: cell.y };
+      this.syncActiveCorridor(cell);
+    }
     const rig = this.rigs.get(id);
     if (!rig) return;
     const { x, z } = cellToWorld(this.map, cell);
