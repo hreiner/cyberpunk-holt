@@ -13,11 +13,13 @@ import { HOLT_MAP } from './holt';
 import { CENTRE_EXAMEN_MAP } from './centre-examen';
 import { HOLT_NUIT_MAP } from './holt-nuit';
 import { CAMPEMENT_MAP } from './campement';
+import { CONDUITS_MAP } from './conduits';
 
 export const MAPS: Record<string, MapDef> = {
   holt: HOLT_MAP,
   'centre-examen': CENTRE_EXAMEN_MAP,
   'holt-nuit': HOLT_NUIT_MAP,
+  conduits: CONDUITS_MAP,
   campement: CAMPEMENT_MAP,
 };
 

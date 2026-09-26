@@ -98,7 +98,10 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
     **Double échec** : on bloque les pales à la main, le tempo avance et Grover se coupe.
   - L'enfant : [Persuasion] par Grover (EMP 7) DV 13. Avec `sauveteur`, Franklyn a une
     option à lui. **Réussite** : l'enfant se tait vite (`enfant-confiance`). **Échec** : il
-    crie plus longtemps et la rafale touche aussi Letitia (+1 sur son état).
+    crie plus longtemps et la rafale touche aussi Letitia (+1 sur son état). *(Lot 5.9 : l'écho du
+    bal de Grover vaut un cran de DV, Facile au lieu de Normale ; l'option `sauveteur` est une
+    Persuasion de Franklyn à Facile. Le détour chez Smith coûte un cran de tempo : les tirs qui
+    forcent le demi-tour.)*
 - **Lit** : les secrets (turbine, simulation, envie d'interface ; *En manque* près de la
   machine). **Écrit** : `vu-simulation`, `enfant-confiance`. **Réemploi** : EXP-01, 02,
   03, 05, 06, 07 ; DLG-02, 03 ; RES-03.
@@ -107,6 +110,9 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
 - **Fonction et contenu** : une image forte et un raccord. Une salle en feu, des figurants
   au sol, une seule sortie balisée (le vide-ordures). Moins de deux minutes.
 - **Jet** : [Athlétisme] DV 13 (la fumée). **Échec** : le tempo avance. **Réemploi** : EXP-01, 03, 07.
+  *(Lot 5.9 : le jet revient au porteur de Letitia choisi en scène 4, John ou Abigail. Pour que le
+  tempo perdu ait un prix, la trappe le lit : à 6 ou plus, une rafale dans la fumée, +1 sur l'état
+  de Letitia -- même idiome que la balle perdue de la grille.)*
 
 ### Scène 7 — Les égouts
 - **Fonction** : Zachary meurt dans les bras d'Abigail. **Aucun jet ne le sauve**, et la

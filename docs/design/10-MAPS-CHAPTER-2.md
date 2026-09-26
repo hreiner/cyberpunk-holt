@@ -64,8 +64,8 @@ perdue).
 **Échos du bal lus ailleurs** (TECH-DESIGN §4.6) : `ch2.bal.zachary.fait` en scène 7
 (`ch2.egouts.json`, DV −1 cran pour calmer Abigail), `ch2.bal.abigail.fait` en scène 4
 (`ch2.grille.json`, DV Normale au lieu de Difficile), `ch2.bal.john.fait` en scène 10
-(`ch2.decharges.json`, John parle du rendez-vous avant la question). `ch2.bal.grover.fait`
-(scène 5, l'enfant) reste posé mais pas encore lu : la scène 5 est du lot 5.9.
+(`ch2.decharges.json`, John parle du rendez-vous avant la question), `ch2.bal.grover.fait` en
+scène 5 (`ch2.enfant.json`, Grover à Facile au lieu de Normale pour calmer l'enfant, lot 5.9).
 
 ## `holt-nuit` (lot 5.8b) : l'habillage de la nuit
 
@@ -196,6 +196,90 @@ les placements sont `exterior`. Murs en béton froid (`coldPalette`), climat
 **Mesure** (2026-09-26, Playwright/Chromium logiciel SwiftShader, deux suiveurs) :
 `exploreRenderStats()` = **103-104 appels de dessin**, ~51 000 triangles — loin du seuil de 250.
 
-## Reste à documenter
+## `conduits` (lot 5.9) : les conduits et la cantine des petits
 
-`conduits` (lot 5.9) rejoindra ce document à son lot.
+Scènes 5 (`ch2.conduits`) et 6 (`ch2.cantine`), GAME-DESIGN §4.
+[`src/data/maps/conduits.ts`](../../src/data/maps/conduits.ts), **deux étapes sur la même instance
+de carte** (`ch2.etape = 'conduits'` puis `'cantine'`) : entre les deux, la scène dialogue
+`ch2.enfant` ne reconstruit rien, Franklyn repart du dortoir des petits où l'enfant l'a laissé.
+
+```
+  1   ############    ###############
+  2   #.......TT.#    #.TT.TT.TT.TT.#   labo de Smith (x3-12, y2-7) ; dortoir des petits (x19-31, y2-8)
+  3   #..TT......#    #.TT.TT.TT.TT.#   machine de la simulation (x5-6, y3-4) ; Smith en (7,4)
+  4   #..TT......#    #.TT.TT.TT.TT.#   lits au nord ; l'enfant en (27,5)
+  5   #.......TTT#    #............T#   établi (x10-12, y5-6) ; casiers (x31, y5-8)
+  8   ######.#####    #............T#   l'annexe remonte au labo (x8, y8-12)
+  9        #.#        ######.####+####  (29,9) : porte de la cantine, brûlante
+ 11        #.#    #####    #+#......T#  (24,11) : le ventilateur ; boîtier au mur en (23,12)
+ 12        #.######...######.#.TT.TTT#  la bifurcation (x15-17, y12-14)
+ 13        #.................#.TT.TTT#  à l'ouest l'annexe, à l'est le conduit des petits
+ 14        ########...########......T#  la cantine (x26-32, y10-21) : tables, comptoir (x32)
+ 19                #.#       #TT...TT#  deux brasiers (y19-20), un passage au milieu
+ 20                #.#       #TT...TT#  la bouche du conduit (x16, y15-24), apparition en (16,20)
+ 21                #.#       #.......#  (25,21) : le vide-ordures, au pied du mur ouest
+```
+
+**Des conduits d'une case de large** (on avance à la file) et **rien entre eux** : seules les cases
+de mur qui bordent un sol restent `#`, le reste de la grille est du vide (`carveVoid`). Avec des
+murs pleins entre deux conduits, la masse de 3 m cachait la file à la caméra (première manche de
+captures). Pour la même raison, le sol « extérieur » continu n'est pas dessiné sur cette carte
+(`ExploreVisuals.exteriorGround: false`, `src/data/exploreVisuals/index.ts`) : entre deux conduits,
+il n'y a que du noir. Chaque tronçon de conduit est une `RoomDef` `alwaysDiscovered` (c'est sur les
+bords des `RoomDef` que se calculent les murs coupés côté caméra) ; le labo, le dortoir des petits et
+la cantine se découvrent en y entrant.
+
+La caméra isométrique regarde depuis le sud-est : tout ce qui est monté au mur (le boîtier du
+ventilateur, la trappe du vide-ordures) l'est sur un mur **ouest**, face à l'est ; l'écran de la
+machine regarde le sud ; les deux portes sont sur des murs horizontaux (le panneau de porte du
+rendu n'a qu'une orientation).
+
+Entités de l'étape `conduits` :
+
+- zones de narration seules (aucun effet) : `conduits.bouche` (la rafale dans la bouche du conduit),
+  `conduits.bifurcation` (à gauche la lueur bleue, à droite les pleurs), `conduits.annexe` (la
+  promesse faite à Abigail, la poussière bleue), `conduits.grille-vue` (les gangers vus d'en haut,
+  à travers une grille), `petits.pleurs` ;
+- `labo.smith` (npc, facultatif, tâche « suivre la lueur bleue ») : `ch2.smith.json` -- pose
+  `vu-simulation`, donne le rendez-vous au Blue Purple, coûte un cran de tempo ;
+- `conduits.ventilateur-pales` (porte verrouillée, sans dialogue) et `conduits.ventilateur` (le
+  boîtier, `ch2.conduits.json`, `opensDoorAfterDialogue`) : Piratage, puis Électronique d'Abigail,
+  puis les pales bloquées à la main -- **toute issue ouvre la porte** ;
+- `petits.porte-cantine` (porte verrouillée, « brûlante ») et `petits.enfant` (npc, déclencheur,
+  dialogueId de la scène suivante `ch2.enfant`) : la porte est ouverte par l'enfant à l'entrée de
+  l'étape `cantine` (`opensDoorAfterDialogue` : `ChapterApp.enterExploreScene` rouvre toute porte
+  dont l'ouvreur a son drapeau `<dialogueId>.fait` ; `ch2.enfant.json`, une scène dialogue et non
+  une conversation annexe, le pose elle-même sur son dernier nœud).
+
+Entités de l'étape `cantine` : `cantine.fumee` (zone de narration, toute la largeur libre) et
+`cantine.vide-ordures` (objet, déclencheur, joue son propre dialogue `ch2.cantine` -- la
+traversée de la fumée -- avant d'avancer vers `ch2.egouts`, règle du lot 3.7b).
+
+Points d'apparition : `conduits` (la bouche, cinq cases de conduit droit au sud pour la file) et
+`cantine` (entrée à froid seulement : `?scene=ch2.cantine`, reprise).
+
+**Suiveurs** : `ch2.conduits` reprend la file de la fuite (Letitia et son porteur visibles, deux
+`SceneDef` jumelles gardées par `ch2.porteur`) ; `ch2.cantine` montre l'enfant, qui vient de
+rejoindre le groupe, et Grover.
+
+**Habillage** ([`src/data/exploreVisuals/conduits.ts`](../../src/data/exploreVisuals/conduits.ts)),
+d'abord de la lumière :
+
+- conduits : climat `setNightMood('conduits')`, le plus sombre du chapitre ; des ampoules
+  grillagées rares et faibles qui grésillent (`duct-lamp`), des conduites au plafond (`pipe-run`),
+  de la poussière bleue au-delà de l'annexe (`blue-dust`), une grille au sol (`floor-grate`), le
+  ventilateur sur la case de sa porte (`duct-fan`) et son boîtier (`fan-control`) ;
+- labo : la machine de la simulation (`sim-machine`), écran et lumière cyan, seule source du labo ;
+  une baie de serveurs, un établi ;
+- dortoir des petits : quatre lits (`bed-cadet`), des casiers, des affaires au sol, une veilleuse ;
+- cantine : climat `setNightMood('cantine')`, chaud et rouge ; deux brasiers (`blaze`, flammes ambre
+  et lumière forte qui vacille), des lueurs au sol (`fire-glow`) et de la fumée (`smoke-wisp`),
+  quatre tables, le comptoir ; la trappe du vide-ordures (`garbage-chute`).
+
+Aucun placement n'est propre à une étape : la cantine brûle déjà à la scène 5, elle n'est
+simplement pas atteignable (et une pièce non découverte ne montre rien).
+
+**Mesure** (2026-09-26, Playwright/Chromium logiciel SwiftShader, deux suiveurs visibles,
+`exploreRenderStats()`) : 106 appels de dessin à la bouche du conduit, 108 à la bifurcation, 135 au
+labo, 99 devant le ventilateur, **166 au dortoir des petits** (le plus chargé : lits, enfant),
+125-134 dans la cantine. Sous le seuil de 250 partout.

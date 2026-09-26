@@ -24,6 +24,8 @@ import { CENTRE_EXAMEN_VISUALS } from '@/data/exploreVisuals/centreExamen';
 import { HOLT_NUIT_VISUALS } from '@/data/exploreVisuals/holtNuit';
 import { CAMPEMENT_MAP } from '@/data/maps/campement';
 import { CAMPEMENT_VISUALS } from '@/data/exploreVisuals/campement';
+import { CONDUITS_MAP } from '@/data/maps/conduits';
+import { CONDUITS_VISUALS } from '@/data/exploreVisuals/conduits';
 import type { ExploreVisualMapDef } from '@/data/exploreVisualTypes';
 import { EXPLORE_VISUAL_MODELS, modelCellSpan } from '@/data/exploreVisualModels';
 import { DORMITORY_PILOT_MAP, DORMITORY_PILOT_VISUALS } from '@/dev/dormitoryPilotMap';
@@ -41,6 +43,8 @@ const VISUAL_MAPS: Array<{ map: MapDef; visuals: ExploreVisualMapDef }> = [
   { map: HOLT_NUIT_MAP, visuals: HOLT_NUIT_VISUALS },
   // Le campement (lot 5.10) : un extérieur, tout son mobilier est `exterior`.
   { map: CAMPEMENT_MAP, visuals: CAMPEMENT_VISUALS },
+  // Les conduits et la cantine (lot 5.9) : deux étapes, aucun placement propre à l'une d'elles.
+  { map: CONDUITS_MAP, visuals: CONDUITS_VISUALS },
 ];
 
 const key = ({ x, y }: Cell): string => `${x},${y}`;

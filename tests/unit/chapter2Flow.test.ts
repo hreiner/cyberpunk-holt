@@ -60,6 +60,9 @@ import type { DialogueFile } from '@/narrative/types';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_2 } from '@/data/chapters/ch2';
 import { CH2_PROFILES } from '@/data/chapters/ch2Profiles';
+import { getMap } from '@/data/maps';
+import { withEtape } from '@/narrative/sceneRouter';
+import type { SceneDef } from '@/narrative';
 import type { DossierProfile } from '@/data/chapters/ch2Profiles';
 
 /** Liste fermee de docs/chapters/ch2/GAME-DESIGN.md §7 ("Ce que le chapitre ecrit"). */
@@ -113,6 +116,28 @@ function advanceThroughAutoNodes(runner: DialogueRunner, fileId: string): void {
  * essayer tous les deux, pas en choisir un arbitrairement.
  */
 type Decision = { kind: 'choice'; position: number } | { kind: 'luck'; spend: boolean };
+
+/**
+ * Lot 5.9 : les dialogues qu'une scene `explore` joue FORCEMENT, dans l'ordre -- d'abord ceux des
+ * entites qui ouvrent une porte (`opensDoorAfterDialogue` : le boitier du ventilateur des
+ * conduits), puis celui du declencheur de l'objectif quand il joue SON PROPRE dialogue (regle du
+ * lot 3.7b : `bal.letitia` -> `ch2.bal`, `cantine.vide-ordures` -> `ch2.cantine`). Un dialogue
+ * qui est celui de la scene suivante n'en fait pas partie (`dortoir.grille` -> `ch2.grille`,
+ * `petits.enfant` -> `ch2.enfant`, `campement.murano` -> `ch2.murano`) : la scene suivante le
+ * joue. Les conversations FACULTATIVES (echos du bal, detour chez Smith, insignes) restent hors du
+ * marcheur : `narrativeDeadEnds.test.ts` et `ch2Content.test.ts` les couvrent fichier par fichier.
+ */
+function requiredExploreDialogues(scene: SceneDef, next: SceneDef | undefined, ctx: NarrativeContext): string[] {
+  const staged = withEtape(ctx, scene, CHAPTER_2.etapeFlag);
+  const active = getMap(scene.mapId as string).entities.filter(
+    (e) => !e.condition || evaluateCondition(e.condition, staged),
+  );
+  const own = (e: (typeof active)[number]): string | undefined =>
+    'dialogueId' in e && e.dialogueId && e.dialogueId !== next?.dialogueId ? e.dialogueId : undefined;
+  const openers = active.filter((e) => 'opensDoorAfterDialogue' in e && e.opensDoorAfterDialogue && own(e));
+  const trigger = active.find((e) => e.id === scene.objective?.completionTrigger);
+  return [...openers.map((e) => own(e) as string), ...(trigger && own(trigger) ? [own(trigger) as string] : [])];
+}
 
 /** Nombre max de decisions rejouees d'affilee pour ATTEINDRE un etat : garde-fou anti-boucle. */
 const MAX_DECISIONS = 60;
@@ -290,18 +315,19 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
         // scene SUIVANTE (`ch2.fuite` : `dortoir.grille` documente `ch2.grille`, deja joue par
         // la scene suivante elle-meme) -- dans ce second cas, on passe simplement a la scene
         // suivante sans rien rejouer ici.
-        const dialogueId = scene.kind === 'explore' ? (scene.id === 'ch2.bal' ? 'ch2.bal' : null) : scene.dialogueId;
-        if (dialogueId === null) {
-          const collected = walk(sceneIndex + 1, ctx);
-          sceneMemo.set(key, collected);
-          return collected;
+        // Lot 5.9 : regle generique (`requiredExploreDialogues`), qui rend exactement l'ancien
+        // cas particulier pour `ch2.bal`/`ch2.fuite`/`ch2.campement` et ajoute le ventilateur
+        // des conduits et la traversee de la cantine.
+        const next = CHAPTER_2.scenes.slice(sceneIndex + 1).find((s) => !s.when || evaluateCondition(s.when, ctx));
+        const dialogueIds = scene.kind === 'explore' ? requiredExploreDialogues(scene, next, ctx) : [scene.dialogueId];
+        let outcomes: NarrativeContext[] = [ctx];
+        for (const dialogueId of dialogueIds) {
+          expect(dialogueId, `scene "${scene.id}" : dialogueId manquant`).toBeTruthy();
+          const file = DIALOGUES[dialogueId as string];
+          expect(file, `dialogue "${dialogueId}" manquant pour la scene "${scene.id}"`).toBeDefined();
+          outcomes = outcomes.flatMap((o) => outcomesOf(file as DialogueFile, o));
+          expect(outcomes.length, `${scene.id} : aucun chemin n'atteint la fin de "${dialogueId}"`).toBeGreaterThan(0);
         }
-        expect(dialogueId, `scene "${scene.id}" : dialogueId manquant`).toBeTruthy();
-        const file = DIALOGUES[dialogueId as string];
-        expect(file, `dialogue "${dialogueId}" manquant pour la scene "${scene.id}"`).toBeDefined();
-
-        const outcomes = outcomesOf(file as DialogueFile, ctx);
-        expect(outcomes.length, `${scene.id} : aucun chemin n'atteint la fin du dialogue`).toBeGreaterThan(0);
         const collected = new Set<string>();
         for (const outcome of outcomes) {
           for (const tag of walk(sceneIndex + 1, outcome)) collected.add(tag);
@@ -336,11 +362,12 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
     expect(solitaireDossier.affinities.letitia).toBeGreaterThan(loyalDossier.affinities.letitia ?? 0);
   });
 
-  it('les 15 SceneDef du chapitre 2 (ADR 0021, TECH-DESIGN §4.4) : dialogues, sauf le bal, la fuite (lot 5.8) et le campement (lot 5.10)', () => {
+  it('les 16 SceneDef du chapitre 2 (ADR 0021, TECH-DESIGN §4.4) : dialogues, sauf le bal, la fuite (lot 5.8), les conduits et la cantine (lot 5.9), le campement (lot 5.10)', () => {
     // 14 scenes narratives + une SceneDef jumelle pour `ch2.fuite` (le porteur, `when` sur
-    // `ch2.porteur` -- retour de l'orchestrateur du lot 5.8, TECH-DESIGN §4.4).
-    expect(CHAPTER_2.scenes).toHaveLength(15);
-    const EXPLORE_SCENE_IDS = new Set(['ch2.bal', 'ch2.fuite', 'ch2.campement']);
+    // `ch2.porteur` -- retour de l'orchestrateur du lot 5.8, TECH-DESIGN §4.4) + une pour
+    // `ch2.conduits` (meme file, lot 5.9).
+    expect(CHAPTER_2.scenes).toHaveLength(16);
+    const EXPLORE_SCENE_IDS = new Set(['ch2.bal', 'ch2.fuite', 'ch2.conduits', 'ch2.cantine', 'ch2.campement']);
     for (const scene of CHAPTER_2.scenes) {
       if (EXPLORE_SCENE_IDS.has(scene.id)) {
         expect(scene.kind, `${scene.id} devrait etre "explore"`).toBe('explore');

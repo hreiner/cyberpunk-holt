@@ -9,6 +9,7 @@
 import * as THREE from 'three';
 import {
   CADET_VISUAL_PROFILES,
+  CHILD_VISUAL_PROFILE,
   GANGER_VISUAL_PROFILE,
   type CadetVisualProfile,
 } from '@/data/exploreVisuals/characterProfiles';
@@ -47,8 +48,21 @@ class HumanNpcRig implements ExploreNpcRig {
       this.object.name = `npc:${entityId}`;
       return;
     }
-    const adult = entityId.includes('directeur') || entityId.includes('instructeur');
-    const female = /betty|nancy|otage/.test(entityId);
+    // L'enfant des conduits (lot 5.9) : la même silhouette réduite que le suiveur `enfant` qu'il
+    // devient à la scène suivante (`ExploreView.setChildFollower`), jamais un cadet.
+    if (entityId === 'petits.enfant') {
+      this.rig = createHumanExplorationRig(
+        { id: entityId, name: entityId },
+        { profile: CHILD_VISUAL_PROFILE, showLabel: false, showRing: false },
+      );
+      this.object = this.rig.object;
+      this.object.name = `npc:${entityId}`;
+      return;
+    }
+    // Smith (le labo, lot 5.9) : une instructrice -- adulte ET femme, ce que l'heuristique par
+    // identifiant ci-dessous ne sait pas dire d'un même id.
+    const adult = entityId.includes('directeur') || entityId.includes('instructeur') || entityId === 'labo.smith';
+    const female = /betty|nancy|otage|smith/.test(entityId);
     const sample = female ? CADET_VISUAL_PROFILES.abigail : CADET_VISUAL_PROFILES.grover;
     const profile: CadetVisualProfile = {
       ...sample,
@@ -56,7 +70,8 @@ class HumanNpcRig implements ExploreNpcRig {
       hair: adult ? 0x48454a : female ? 0x241c1c : 0x2b2323,
       uniform: adult ? 0x3b444d : 0x253543,
       trim: adult ? 0xc4a468 : 0x879ca3,
-      hairStyle: adult ? 'buzz' : female ? 'curly-bun' : 'messy-short',
+      // Adulte ET femme : Smith seule (lot 5.9) -- aucun PNJ du chapitre 1 ne l'est, leur rendu ne change pas.
+      hairStyle: adult && !female ? 'buzz' : female ? 'curly-bun' : 'messy-short',
       hasNeuroport: !adult,
     };
     this.rig = createHumanExplorationRig(

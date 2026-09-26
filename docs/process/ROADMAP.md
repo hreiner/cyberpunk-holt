@@ -187,7 +187,7 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.7 | **L'exploration sait fuir** : habillage par registre, zones à effets, pression en exploration, suiveurs par scène, profil `enfant` ; mesure de cinq suiveurs | 5.1, 5.3 | fait (B9 : deux suiveurs visibles, décision du propriétaire, appliquée au lot 5.8) |
 | 5.8 | **Le bal et la fuite** : carte `holt-nuit`, conversations du bal et leurs échos, fuite sous tempo jusqu'à la grille | 5.5, 5.7 | fait |
 | 5.8b | *(ajouté par le propriétaire)* **Habillage de la nuit** : `holt-nuit` habillé par étape (ADR 0026) — bal de nuit (piste, buffets, guirlandes), fuite dans la pénombre et le feu ; plan dérivé sans collisions invisibles ; second suiveur visible | 5.8 | fait |
-| 5.9 | **Conduits et cantine** : carte `conduits`, détour chez Smith, ventilateur, l'enfant, la cantine en feu | 5.7, 5.8 | à faire |
+| 5.9 | **Conduits et cantine** : carte `conduits`, détour chez Smith, ventilateur, l'enfant, la cantine en feu | 5.7, 5.8 | fait |
 | 5.10 | **Le campement** : carte `campement`, insignes, matériel, qui tue Murano | 5.5, 5.7 | fait |
 | 5.A | **Illustrations** : décors et six portraits du chapitre 2 inscrits au manifeste de génération, avec des substituts `.webp` en attendant la passe du propriétaire | 5.3 | fait |
 | 5.11 | **Revue de bout en bout** : une nuit par profil et depuis une vraie archive, performances, `CH2-LEGACY.md`, `CAPABILITIES.md` | tout | à faire |

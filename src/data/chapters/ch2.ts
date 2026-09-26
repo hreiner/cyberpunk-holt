@@ -16,15 +16,15 @@
 import type { ChapterDef, ChapterEndDef, GaugeDef, SceneDef } from '@/narrative';
 import { CHAPTER_2_RADIO } from './ch2Radio';
 
-/** Drapeau d'etape du chapitre 2 (ADR 0021), lu par `holt-nuit.ts` et `campement.ts`. */
+/** Drapeau d'etape du chapitre 2 (ADR 0021), lu par `holt-nuit.ts`, `conduits.ts` et `campement.ts`. */
 export const CH2_ETAPE_FLAG = 'ch2.etape';
 
 /**
  * Valeurs posees par les scenes `explore` du chapitre 2 (meme role que `Ch1Etape` --
  * `src/narrative/sceneRouter.ts`) : les entites et l'habillage de `holt-nuit.ts` et
- * `campement.ts` en dependent. `conduits`/`cantine` arriveront au lot 5.9.
+ * `campement.ts` en dependent ; `conduits`/`cantine` (lot 5.9) se jouent sur `conduits.ts`.
  */
-export type Ch2Etape = 'bal' | 'fuite' | 'campement';
+export type Ch2Etape = 'bal' | 'fuite' | 'conduits' | 'cantine' | 'campement';
 
 /** Chance de Franklyn au chapitre 2 : reserve pleine, non heritee du chapitre 1 (TECH-DESIGN B25). */
 export const CH2_INITIAL_LUCK = 3;
@@ -40,6 +40,22 @@ export const CH2_INITIAL_LUCK = 3;
  */
 const FUITE_FOLLOWERS_JOHN: SceneDef['followers'] = ['letitia', 'john', 'grover', 'zachary', 'abigail'];
 const FUITE_FOLLOWERS_ABIGAIL: SceneDef['followers'] = ['letitia', 'abigail', 'grover', 'zachary', 'john'];
+
+/**
+ * Les conduits (scène 5, lot 5.9) : même file que la fuite, pour la même raison -- Letitia et
+ * celui qui la soutient sont les deux qu'on voit (B9), le reste est dit par la narration.
+ * Même objectif pour les deux jumelles : seule change la file.
+ */
+const CONDUITS_OBJECTIVE: SceneDef['objective'] = {
+  id: 'ch2.conduits',
+  title: 'Trouver qui pleure',
+  context: 'Le territoire de Franklyn : il est le seul à connaître ces conduits.',
+  // petits.enfant ne joue rien lui-même (son dialogueId est celui de LA SCÈNE SUIVANTE,
+  // ch2.enfant -- contrat du lot 3.6b).
+  completionTrigger: 'petits.enfant',
+  // Le détour facultatif (B14), dit comme tel : c'est lui qui pose `vu-simulation`, lu en scène 10.
+  tasks: [{ id: 'ch2.conduits.lueur', label: 'suivre la lueur bleue', entityIds: ['labo.smith'] }],
+};
 
 export const CHAPTER_2_SCENES: SceneDef[] = [
   { id: 'ch2.photo', kind: 'dialogue', title: 'La photo', dialogueId: 'ch2.photo', number: 1 },
@@ -119,9 +135,62 @@ export const CHAPTER_2_SCENES: SceneDef[] = [
     },
   },
   { id: 'ch2.grille', kind: 'dialogue', title: 'La grille', dialogueId: 'ch2.grille', number: 4 },
-  { id: 'ch2.conduits', kind: 'dialogue', title: 'Les conduits', dialogueId: 'ch2.conduits', number: 5 },
+  /**
+   * Les conduits (lot 5.9, GAME-DESIGN scène 5) : la bifurcation, le détour facultatif par le labo
+   * de Smith (`labo.smith`, `ch2.smith.json`), le ventilateur (`conduits.ventilateur`,
+   * `ch2.conduits.json`), puis l'enfant, qui termine l'objectif. Deux jumelles gardées par
+   * `ch2.porteur`, comme la fuite. Entrée à froid : la bouche du conduit (`spawn`) ; en jeu,
+   * c'est une entrée à froid aussi (la scène précédente, `ch2.grille`, est un dialogue sur une
+   * autre carte).
+   */
+  {
+    id: 'ch2.conduits',
+    kind: 'explore',
+    title: 'Les conduits',
+    mapId: 'conduits',
+    spawn: 'conduits',
+    etape: 'conduits',
+    number: 5,
+    followers: FUITE_FOLLOWERS_JOHN,
+    when: { flag: 'ch2.porteur', equals: 'john' },
+    objective: CONDUITS_OBJECTIVE,
+  },
+  {
+    id: 'ch2.conduits',
+    kind: 'explore',
+    title: 'Les conduits',
+    mapId: 'conduits',
+    spawn: 'conduits',
+    etape: 'conduits',
+    number: 5,
+    followers: FUITE_FOLLOWERS_ABIGAIL,
+    when: { flag: 'ch2.porteur', equals: 'abigail' },
+    objective: CONDUITS_OBJECTIVE,
+  },
   { id: 'ch2.enfant', kind: 'dialogue', title: "L'enfant", dialogueId: 'ch2.enfant', number: 5 },
-  { id: 'ch2.cantine', kind: 'dialogue', title: 'La cantine', dialogueId: 'ch2.cantine', number: 6 },
+  /**
+   * La cantine en feu (lot 5.9, GAME-DESIGN scène 6) : même carte que les conduits, sans
+   * reconstruire l'état (Franklyn repart du dortoir des petits, où l'enfant l'a laissé). Le
+   * déclencheur `cantine.vide-ordures` joue SON PROPRE dialogue (`ch2.cantine`, la traversée de la
+   * fumée) avant d'avancer vers `ch2.egouts` (règle du lot 3.7b). L'enfant en tête de file : il
+   * vient de rejoindre le groupe, c'est lui qu'on doit voir (B9) -- Grover juste derrière.
+   */
+  {
+    id: 'ch2.cantine',
+    kind: 'explore',
+    title: 'La cantine',
+    mapId: 'conduits',
+    spawn: 'cantine',
+    etape: 'cantine',
+    number: 6,
+    followers: ['enfant', 'grover', 'letitia', 'john', 'abigail', 'zachary'],
+    objective: {
+      id: 'ch2.cantine',
+      title: 'Atteindre le vide-ordures',
+      context: 'La cantine des petits brûle. Une seule issue : le vide-ordures, au fond.',
+      completionTrigger: 'cantine.vide-ordures',
+    },
+  },
   { id: 'ch2.egouts', kind: 'dialogue', title: 'Les égouts', dialogueId: 'ch2.egouts', number: 7 },
   { id: 'ch2.adieu', kind: 'dialogue', title: "L'adieu", dialogueId: 'ch2.adieu', number: 8 },
   /**

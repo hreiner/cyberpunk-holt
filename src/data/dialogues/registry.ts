@@ -35,6 +35,7 @@ import ch2Slow from './ch2.slow.json';
 import ch2Fuite from './ch2.fuite.json';
 import ch2Grille from './ch2.grille.json';
 import ch2Conduits from './ch2.conduits.json';
+import ch2Smith from './ch2.smith.json';
 import ch2Enfant from './ch2.enfant.json';
 import ch2Cantine from './ch2.cantine.json';
 import ch2Egouts from './ch2.egouts.json';
@@ -73,6 +74,7 @@ const FILES = [
   ch2Fuite,
   ch2Grille,
   ch2Conduits,
+  ch2Smith,
   ch2Enfant,
   ch2Cantine,
   ch2Egouts,

@@ -44,6 +44,8 @@ import { DialogueRunner } from '@/narrative/dialogueRunner';
 import type { NarrativeContext } from '@/narrative/dialogueRunner';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_2, CH2_END } from '@/data/chapters/ch2';
+import { DV } from '@/rules/attributes';
+import type { DifficultyName } from '@/rules/attributes';
 import type { Condition, DialogueChoice, DialogueFile, DialogueNode, Effect } from '@/narrative/types';
 
 const EGOUTS_DIALOGUE_ID = 'ch2.egouts';
@@ -271,15 +273,15 @@ describe('chapitre 2 (lot 5.5) : garde de contenu', () => {
     'lot 5.8 : les échos du bal sont lus là où docs/chapters/ch2/TECH-DESIGN.md §4.6 le dit',
     () => {
       /**
-       * Table de §4.6 (« Échos du bal ») effectivement écrite à ce lot -- `ch2.bal.grover.fait`
-       * (scène 5, l'enfant) est écrit par `ch2.bal.grover.json` mais relève du lot 5.9
-       * (`ch2.enfant.json` n'existe encore qu'en squelette) : il reste HORS de cette table,
-       * conformément à la consigne du lot ("note-la comme restante, sans l'écrire").
+       * Table de §4.6 (« Échos du bal »), complète depuis le lot 5.9 (`ch2.bal.grover.fait`, lu
+       * par `ch2.enfant`). `dvNotch` : l'écho se lit par un cran de DV (le format n'a pas de
+       * modificateur numérique) -- John, lui, se lit dans le texte.
        */
-      const BAL_ECHOES: Array<{ dialogueId: string; flag: string; readIn: string }> = [
-        { dialogueId: 'ch2.bal.zachary', flag: 'ch2.bal.zachary.fait', readIn: 'ch2.egouts' },
-        { dialogueId: 'ch2.bal.abigail', flag: 'ch2.bal.abigail.fait', readIn: 'ch2.grille' },
-        { dialogueId: 'ch2.bal.john', flag: 'ch2.bal.john.fait', readIn: 'ch2.decharges' },
+      const BAL_ECHOES: Array<{ dialogueId: string; flag: string; readIn: string; dvNotch: boolean }> = [
+        { dialogueId: 'ch2.bal.zachary', flag: 'ch2.bal.zachary.fait', readIn: 'ch2.egouts', dvNotch: true },
+        { dialogueId: 'ch2.bal.abigail', flag: 'ch2.bal.abigail.fait', readIn: 'ch2.grille', dvNotch: true },
+        { dialogueId: 'ch2.bal.john', flag: 'ch2.bal.john.fait', readIn: 'ch2.decharges', dvNotch: false },
+        { dialogueId: 'ch2.bal.grover', flag: 'ch2.bal.grover.fait', readIn: 'ch2.enfant', dvNotch: true },
       ];
 
       /** Vrai si `cond` (ou l'une de ses sous-conditions `not`/`all`/`any`) porte sur `flag`. */
@@ -311,6 +313,41 @@ describe('chapitre 2 (lot 5.5) : garde de contenu', () => {
         const file = DIALOGUES[readIn] as DialogueFile;
         expect(file, `dialogue "${readIn}" introuvable`).toBeDefined();
         expect(anyChoiceMentionsFlag(file, flag), `"${readIn}" ne lit jamais "${flag}"`).toBe(true);
+      });
+
+      /** Crans de DV, du plus facile au plus dur (`DV`, src/rules/attributes.ts). */
+      const NOTCHES = (Object.keys(DV) as DifficultyName[]).sort((a, b) => DV[a] - DV[b]);
+      const WITH = (flag: string): Condition => ({ flag, equals: true });
+      const WITHOUT = (flag: string): Condition => ({ not: { flag, equals: true } });
+
+      /**
+       * Lot 5.9 : un écho « de DV » (`dvNotch`) vaut EXACTEMENT un cran, partout où il est lu -- sur
+       * toute paire de choix jumeaux d'un même nœud (même compétence, même lanceur, mêmes autres
+       * conditions), celui qui a l'écho est un cran sous celui qui ne l'a pas. Et chaque écho de DV
+       * a au moins une telle paire (sinon il ne se lit pas par la DV).
+       */
+      it.each(BAL_ECHOES.filter((e) => e.dvNotch))('"$flag" abaisse la DV d’exactement un cran dans "$readIn"', ({ flag, readIn }) => {
+        const file = DIALOGUES[readIn] as DialogueFile;
+        let pairs = 0;
+        for (const node of Object.values(file.nodes)) {
+          for (const echoed of node.choices ?? []) {
+            const conds = echoed.conditions ?? [];
+            const at = conds.findIndex((c) => JSON.stringify(c) === JSON.stringify(WITH(flag)));
+            if (at < 0 || !echoed.check) continue;
+            const twinConds = JSON.stringify(conds.map((c, i) => (i === at ? WITHOUT(flag) : c)));
+            const twin = (node.choices ?? []).find(
+              (c) =>
+                JSON.stringify(c.conditions ?? []) === twinConds &&
+                c.check?.skill === echoed.check?.skill &&
+                c.check?.who === echoed.check?.who,
+            );
+            expect(twin, `${readIn} : "${echoed.text}" n'a pas de jumeau sans l'écho`).toBeDefined();
+            const gap = NOTCHES.indexOf(twin!.check!.dv) - NOTCHES.indexOf(echoed.check.dv);
+            expect(gap, `${readIn} : "${echoed.text}" -- ${twin!.check!.dv} sans l'écho, ${echoed.check.dv} avec`).toBe(1);
+            pairs++;
+          }
+        }
+        expect(pairs, `${readIn} : aucune paire de jumeaux ne lit "${flag}" par la DV`).toBeGreaterThan(0);
       });
     },
   );
@@ -505,5 +542,122 @@ describe('lot 5.10 : le campement -- qui tue Murano, et ce que coûte un échec'
     expect(vide.some((t) => t.includes('cartouche'))).toBe(false);
     // Sans le drapeau (scène 10 lancée seule, ?scene=ch2.decharges) : le fusil vide du design d'origine.
     expect(gangsChoices(undefined)).toEqual(vide);
+  });
+});
+
+describe('lot 5.9 : les conduits et la cantine -- ce que la scène 10 attend de la scène 5', () => {
+  const ENFANT = DIALOGUES['ch2.enfant'] as DialogueFile;
+  const SMITH = DIALOGUES['ch2.smith'] as DialogueFile;
+  const CANTINE = DIALOGUES['ch2.cantine'] as DialogueFile;
+
+  /** Joue le reste d'un dialogue en prenant le premier choix présenté (ou "Continuer."). */
+  function playToEnd(runner: DialogueRunner): void {
+    for (let guard = 0; guard < 30 && !runner.current().finished; guard++) {
+      const node = runner.current();
+      if (node.pendingRoll) runner.acceptRoll();
+      else if (node.choices[0]) runner.choose(node.choices[0].index);
+      else runner.advance();
+    }
+    expect(runner.current().finished, `${runner.current().nodeId} : le dialogue ne se termine pas`).toBe(true);
+  }
+
+  /**
+   * `enfant-confiance` ouvre le joker du relais de garde (scène 10) : elle se gagne ou se perd ICI,
+   * et seulement par le jet. Chaque option du nœud `calmer` (Grover sans et avec l'écho du bal,
+   * Franklyn avec `sauveteur`), sur des graines variées, sans Chance : l'étiquette est posée si et
+   * seulement si le jet réussit ; l'échec fait monter l'état de Letitia d'un cran (GAME-DESIGN
+   * §5.1, l'enfant qui crie) ; et tout chemin pose `ch2.enfant.fait`, qui ouvre la porte de la
+   * cantine à l'étape suivante.
+   */
+  it('enfant-confiance si et seulement si le jet réussit ; l’échec coûte un cran à Letitia', () => {
+    const seen = new Set<string>();
+    for (const echo of [false, true]) {
+      for (let seed = 0; seed < 60; seed++) {
+        const run = createRunState(`ch2Content::enfant-${seed}`, { chapter: 2, sceneId: 'ch2.enfant', luck: 0 });
+        run.flags[LETITIA_COUNTER] = 1;
+        if (echo) run.flags['ch2.bal.grover.fait'] = true;
+        const dossier = { ...createDossier(), tags: ['sauveteur'] };
+        for (const option of ['Grover', 'toi-même']) {
+          const runner = new DialogueRunner(ENFANT, { dossier, run }, createRng(`ch2Content::enfant-${echo}-${option}-${seed}`), {
+            startNode: 'calmer',
+          });
+          const choice = runner.current().choices.find((c) => c.text.includes(option));
+          expect(choice, `option "${option}" introuvable (écho ${echo})`).toBeDefined();
+          runner.choose(choice!.index);
+          const success = runner.current().lastCheck?.success as boolean;
+          playToEnd(runner);
+          const { dossier: after, run: runAfter } = runner.context;
+          const label = `${option}, écho ${echo}, graine ${seed} (${success ? 'réussite' : 'échec'})`;
+          expect(after.tags.includes('enfant-confiance'), label).toBe(success);
+          expect(runAfter.flags[LETITIA_COUNTER], label).toBe(success ? 1 : 2);
+          expect(runAfter.flags['ch2.enfant.fait'], label).toBe(true);
+          seen.add(success ? 'réussite' : 'échec');
+        }
+      }
+    }
+    expect([...seen].sort(), 'les deux issues doivent être observées').toEqual(['réussite', 'échec']);
+  });
+
+  it('vu-simulation est posée sur tout chemin du détour chez Smith, qui coûte un cran de tempo', () => {
+    const tagSets = [[], ['pris-a-tricher'], ['tricheur'], ['copie-brillante']];
+    for (const tags of tagSets) {
+      for (const choiceAtMachine of [0, 1]) {
+        const ctx: NarrativeContext = {
+          dossier: { ...createDossier(), tags },
+          run: createRunState('ch2Content::smith', { chapter: 2, sceneId: 'ch2.conduits', luck: 0 }),
+        };
+        const runner = new DialogueRunner(SMITH, ctx, createRng('ch2Content::smith'));
+        for (let guard = 0; guard < 20 && !runner.current().finished; guard++) {
+          const node = runner.current();
+          const pick = node.nodeId === 'machine' ? node.choices[choiceAtMachine] : node.choices[0];
+          if (pick) runner.choose(pick.index);
+          else runner.advance();
+        }
+        expect(runner.current().finished).toBe(true);
+        expect(runner.context.dossier.tags, `tags ${JSON.stringify(tags)}`).toContain('vu-simulation');
+        expect(runner.context.run.tempo).toBe(1);
+      }
+    }
+  });
+
+  it.each(Object.keys(DIALOGUES).filter((id) => id.startsWith('ch2.')))(
+    '%s : enfant-confiance n’est posée que par ch2.enfant, vu-simulation que par ch2.smith',
+    (id) => {
+      for (const effect of allEffects(DIALOGUES[id] as DialogueFile)) {
+        if (!('tag' in effect)) continue;
+        if (effect.tag === 'enfant-confiance') expect(id).toBe('ch2.enfant');
+        if (effect.tag === 'vu-simulation') expect(id).toBe('ch2.smith');
+      }
+    },
+  );
+
+  it('la scène 10 lit bien les deux étiquettes posées en scène 5 (le rendez-vous, le joker de l’enfant)', () => {
+    const decharges = DIALOGUES['ch2.decharges'] as DialogueFile;
+    const conditions = allChoices(decharges).flatMap((c) => c.conditions ?? []);
+    const reads = (tag: string) => conditions.some((c) => JSON.stringify(c).includes(`"tag":"${tag}"`));
+    expect(reads('vu-simulation')).toBe(true);
+    expect(reads('enfant-confiance')).toBe(true);
+  });
+
+  /**
+   * La cantine (scène 6) : rater la traversée coûte un cran de tempo -- et ce cran se paie à la
+   * trappe si la nuit a déjà trop traîné (seuil du nœud `seuil`). Même tempo de départ, une
+   * traversée réussie passe, une traversée ratée fait tirer la rafale sur Letitia.
+   */
+  it('rater la traversée de la fumée coûte du tempo, qui peut coûter Letitia à la trappe', () => {
+    const seen = new Set<boolean>();
+    for (let seed = 0; seed < 60; seed++) {
+      const run = createRunState(`ch2Content::cantine-${seed}`, { chapter: 2, sceneId: 'ch2.cantine', luck: 0 });
+      run.tempo = 5;
+      run.flags['ch2.porteur'] = 'abigail';
+      const runner = new DialogueRunner(CANTINE, { dossier: createDossier(), run }, createRng(`ch2Content::cantine-${seed}`));
+      runner.choose(runner.current().choices[0]!.index);
+      const success = runner.current().lastCheck?.success as boolean;
+      playToEnd(runner);
+      seen.add(success);
+      expect(runner.context.run.tempo).toBe(success ? 5 : 6);
+      expect(runner.context.run.flags[LETITIA_COUNTER] ?? 0).toBe(success ? 0 : 1);
+    }
+    expect([...seen].sort()).toEqual([false, true]);
   });
 });

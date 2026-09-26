@@ -1,20 +1,79 @@
 {
   "id": "ch2.enfant",
+  "speaker": "enfant",
   "start": "rencontre",
   "nodes": {
     "rencontre": {
-      "text": "Un enfant, seul, accroupi contre une conduite.",
+      "text": "Sous le dernier lit du dortoir des petits, un enfant — sept ou huit ans, en pyjama, les genoux contre la poitrine. Il pleure fort, beaucoup trop fort. Au-dessus, dans les conduits, des bottes s'arrêtent.",
+      "lines": [{ "who": "enfant", "text": "Je veux pas sortir. Je veux pas !" }],
+      "to": "calmer"
+    },
+    "calmer": {
+      "text": "Il faut qu'il se taise. Maintenant. Celui qui lui parlera, il le suivra — ou il ne suivra personne.",
       "choices": [
-        { "text": "S'accroupir à sa hauteur.", "to": "confiance", "effects": [{ "tag": "enfant-confiance" }] },
-        { "text": "Lui faire signe de suivre, sans un mot.", "to": "fin" }
+        {
+          "text": "[Persuasion] Laisser Grover lui parler.",
+          "conditions": [{ "not": { "flag": "ch2.bal.grover.fait", "equals": true } }],
+          "check": { "skill": "persuasion", "dv": "NORMALE", "who": "grover" },
+          "onSuccess": "calme-grover",
+          "onFailure": "crie"
+        },
+        {
+          "text": "[Persuasion] Laisser Grover lui parler. Vous avez parlé, au bal : il sait qu'il peut compter sur toi.",
+          "conditions": [{ "flag": "ch2.bal.grover.fait", "equals": true }],
+          "check": { "skill": "persuasion", "dv": "FACILE", "who": "grover" },
+          "onSuccess": "calme-grover",
+          "onFailure": "crie"
+        },
+        {
+          "text": "[Persuasion] Lui parler toi-même, comme à l'otage cet après-midi : doucement, sans le lâcher des yeux.",
+          "conditions": [{ "tag": "sauveteur" }],
+          "check": { "skill": "persuasion", "dv": "FACILE" },
+          "onSuccess": "calme-franklyn",
+          "onFailure": "crie"
+        }
       ]
     },
+    "calme-grover": {
+      "text": "Grover s'allonge par terre, à sa hauteur, et parle bas — de rien, de la cantine, d'un chien qu'il avait. Les pleurs s'étouffent, puis cessent. L'enfant sort de sous le lit et glisse sa main dans la sienne.",
+      "lines": [{ "who": "grover", "text": "Tu restes avec moi. D'accord ? Avec nous." }],
+      "effects": [{ "tag": "enfant-confiance" }],
+      "to": "confiance"
+    },
+    "calme-franklyn": {
+      "text": "Franklyn s'accroupit, lentement, et lui parle comme on parle à quelqu'un qui a eu peur d'un chien : pas de geste brusque, pas de mensonge. Les pleurs s'étouffent, puis cessent. L'enfant sort de sous le lit et lui attrape la manche.",
+      "lines": [{ "who": "enfant", "text": "Tu connais le chemin, toi ?" }],
+      "effects": [{ "tag": "enfant-confiance" }],
+      "to": "confiance"
+    },
     "confiance": {
-      "text": "L'enfant hésite, puis avance.",
+      "text": "Il vous fait confiance, maintenant. Ça se voit à la façon dont il vous regarde : il fera ce qu'on lui dira.",
+      "to": "rafale-zachary"
+    },
+    "rafale-zachary": {
+      "text": "Les bottes repartent — puis une rafale tirée au jugé traverse la tôle du plafond. Zachary se jette devant les petits lits et la prend dans l'épaule. La deuxième fois, cette nuit. Il se relève. Il dit que ça va.",
+      "sound": { "sfx": ["burst"] },
+      "lines": [{ "who": "zachary", "text": "Ça va. On bouge." }],
+      "to": "fin"
+    },
+    "crie": {
+      "text": "Il crie plus fort, se débat, s'accroche au pied du lit. Au-dessus, les bottes s'arrêtent net.",
+      "to": "rafale-letitia"
+    },
+    "rafale-letitia": {
+      "text": "Une rafale traverse la tôle du plafond, au jugé, vers le bruit. Zachary se jette devant les petits lits et la prend dans l'épaule — la deuxième fois, cette nuit. Letitia aussi est touchée, au bras.",
+      "sound": { "sfx": ["burst"] },
+      "effects": [{ "counter": "ch2.letitia.etat", "delta": 1, "min": 0, "max": 3 }],
+      "lines": [{ "who": "zachary", "text": "Ça va. On bouge. On bouge !" }],
+      "to": "mefiance"
+    },
+    "mefiance": {
+      "text": "Quand on le tire enfin de sous le lit, l'enfant suit — mais il ne regarde personne. Il se méfiera de vous.",
       "to": "fin"
     },
     "fin": {
-      "text": "Un suiveur de plus dans le groupe."
+      "text": "L'enfant rejoint la file. Au fond du dortoir, la porte de la cantine est brûlante : c'est par là, désormais, ou nulle part.",
+      "effects": [{ "flag": "ch2.enfant.fait", "value": true }]
     }
   }
 }

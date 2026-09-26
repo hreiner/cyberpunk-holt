@@ -1,0 +1,105 @@
+{
+  "id": "ch2.smith",
+  "speaker": "smith",
+  "backdrop": "labo-smith",
+  "start": "arrivee",
+  "nodes": {
+    "arrivee": {
+      "text": "Au bout de l'annexe, passé la turbine immobile et sa poussière bleue, une trappe ouverte sur un labo que Franklyn n'a jamais vu éclairé. Une machine ronronne au centre. Contre elle, assise à même le sol, l'instructrice Smith presse une main sur son flanc.",
+      "lines": [{ "who": "smith", "text": "Franklyn. Évidemment. Personne d'autre ne connaît ce chemin." }],
+      "to": "ton"
+    },
+    "ton": {
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "pris-a-tricher" }], "to": "ton-pris" },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "pris-a-tricher" } }, { "tag": "tricheur" }],
+          "to": "ton-tricheur"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "tag": "pris-a-tricher" } },
+            { "not": { "tag": "tricheur" } },
+            { "tag": "copie-brillante" }
+          ],
+          "to": "ton-copie"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "tag": "pris-a-tricher" } },
+            { "not": { "tag": "tricheur" } },
+            { "not": { "tag": "copie-brillante" } }
+          ],
+          "to": "ton-neutre"
+        }
+      ]
+    },
+    "ton-pris": {
+      "lines": [
+        {
+          "who": "smith",
+          "text": "Pris la main dans le sac cet après-midi, et c'est quand même toi qui arrives jusqu'ici. Je ne sais pas si je dois être fière."
+        }
+      ],
+      "to": "machine"
+    },
+    "ton-tricheur": {
+      "lines": [
+        { "who": "smith", "text": "Tu crois que je n'ai rien vu, à l'examen ? J'ai tout vu. Ça ne compte plus, ce soir." }
+      ],
+      "to": "machine"
+    },
+    "ton-copie": {
+      "lines": [
+        { "who": "smith", "text": "La meilleure copie de la promo. Je l'ai lue deux fois. J'aurais aimé te le dire ailleurs." }
+      ],
+      "to": "machine"
+    },
+    "ton-neutre": {
+      "lines": [{ "who": "smith", "text": "Tu cherches encore ta place. Moi aussi, à ton âge. Écoute-moi bien." }],
+      "to": "machine"
+    },
+    "machine": {
+      "text": "Sur l'écran de la machine, une image tourne en boucle : des couloirs, une lumière, une porte qui s'ouvre. Il la connaît. Il la fait depuis ses dix ans, cette simulation — il ne l'avait jamais vue ailleurs que derrière ses paupières.",
+      "effects": [{ "tag": "vu-simulation" }],
+      "choices": [
+        { "text": "« Qu'est-ce que c'est ? »", "to": "question" },
+        { "text": "Tendre la main vers le port de la machine.", "to": "port" }
+      ]
+    },
+    "question": {
+      "lines": [
+        {
+          "who": "smith",
+          "text": "Pas ici. Pas ce soir. Tu auras tes réponses, je te le promets — mais pas au fond d'un conduit."
+        }
+      ],
+      "to": "rendezvous"
+    },
+    "port": {
+      "text": "Ses doigts trouvent le port avant qu'il ait décidé quoi que ce soit. Le manque, d'un coup, plus fort que la peur. Smith lui attrape le poignet.",
+      "lines": [{ "who": "smith", "text": "Non. Pas ce soir. Ce soir, tu les sors d'ici." }],
+      "to": "rendezvous"
+    },
+    "rendezvous": {
+      "lines": [
+        { "who": "smith", "text": "Le Blue Purple, à Night City. Un bar. Demande-moi là-bas. Si je n'y suis pas, attends." },
+        { "who": "smith", "text": "John sait. Je lui ai parlé, lui aussi." }
+      ],
+      "to": "tirs"
+    },
+    "tirs": {
+      "text": "Une rafale claque dans l'annexe, derrière eux. Des voix. Il faut rebrousser chemin, vite : le détour a coûté du temps.",
+      "sound": { "sfx": ["burst"] },
+      "lines": [{ "who": "smith", "text": "Partez !" }],
+      "effects": [{ "tempo": 1 }],
+      "to": "fin"
+    },
+    "fin": {
+      "text": "Smith repousse la trappe du pied. La lueur bleue disparaît derrière. Reste l'autre conduit : celui des pleurs."
+    }
+  }
+}

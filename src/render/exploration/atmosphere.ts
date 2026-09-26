@@ -57,7 +57,7 @@ export function addExplorationLighting(scene: THREE.Scene, extent: number, centr
 }
 
 /** Climat nocturne d'une carte a etapes (ADR 0026) : `null` restaure le calibrage par defaut. */
-export type NightMood = 'bal' | 'fuite' | 'campement' | null;
+export type NightMood = 'bal' | 'fuite' | 'conduits' | 'cantine' | 'campement' | null;
 
 /**
  * Valeurs de secours si `setMood` ne stocke pas le calibrage d'origine (voir `ExploreView`,
@@ -95,6 +95,33 @@ export function applyNightMood(lights: ExplorationLights, mood: NightMood): void
     lights.rim.intensity = 0.22;
     return;
   }
+  if (mood === 'conduits') {
+    // Les conduits (GAME-DESIGN scene 5, lot 5.9) : etroits, oppressants, presque noirs. Le plus
+    // bas des climats du chapitre -- on doit deviner les murs, pas les voir ; ce sont les
+    // ampoules grillagees (`duct-lamp`, rares, faibles) et la lueur cyan de la machine de la
+    // simulation (`sim-machine`) qui dessinent le chemin, par flaques.
+    lights.hemisphere.color.setHex(0x55667a);
+    lights.hemisphere.groundColor.setHex(0x101318);
+    lights.hemisphere.intensity = 0.5;
+    lights.sun.color.setHex(0x8fa2b8);
+    lights.sun.intensity = 0.7;
+    lights.rim.color.setHex(0x2f6f8f);
+    lights.rim.intensity = 0.22;
+    return;
+  }
+  if (mood === 'cantine') {
+    // La cantine des petits en feu (GAME-DESIGN scene 6, lot 5.9) : chaude et rouge, a l'oppose
+    // des conduits -- l'ambiance globale elle-meme vire au rouge sombre, et les deux brasiers
+    // (`blaze`, lumiere rouge forte qui vacille) portent le reste.
+    lights.hemisphere.color.setHex(0xa0442a);
+    lights.hemisphere.groundColor.setHex(0x2a0c06);
+    lights.hemisphere.intensity = 0.5;
+    lights.sun.color.setHex(0xff5a2a);
+    lights.sun.intensity = 1.1;
+    lights.rim.color.setHex(0xff2a10);
+    lights.rim.intensity = 0.4;
+    return;
+  }
   if (mood === 'campement') {
     // Un exterieur de nuit dans les Badlands (GAME-DESIGN scene 9, lot 5.10) : lune froide,
     // basse, bleutee -- assez pour lire tentes, camion et silhouettes, jamais assez pour
@@ -110,7 +137,7 @@ export function applyNightMood(lights: ExplorationLights, mood: NightMood): void
     return;
   }
   // Repli : calibrage "academie" par defaut (`centre === false` dans `addExplorationLighting`) --
-  // seules les cartes du chapitre 2 (`holt-nuit`, `campement`) appellent `applyNightMood` avec un climat
+  // seules les cartes du chapitre 2 (`holt-nuit`, `conduits`, `campement`) appellent `applyNightMood` avec un climat
   // non nul (voir `ExploreSession.enterStep`), ce repli reste donc surtout defensif.
   lights.hemisphere.color.setHex(0xd9d5c9);
   lights.hemisphere.groundColor.setHex(0x5c5650);

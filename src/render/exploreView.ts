@@ -423,6 +423,9 @@ export class ExploreView {
     this.floorPlane = new THREE.Mesh(groundGeometry, groundMaterial);
     this.floorPlane.rotation.x = -Math.PI / 2;
     this.floorPlane.receiveShadow = true;
+    // Invisible (jamais retiré : il reste la cible des clics de déplacement) sur une carte sans sol
+    // entre ses pièces (`ExploreVisuals.exteriorGround`, les conduits du lot 5.9).
+    this.floorPlane.visible = this.visuals.exteriorGround !== false;
     this.root.add(this.floorPlane);
     this.buildRoomFloors();
 

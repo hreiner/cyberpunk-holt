@@ -33,4 +33,23 @@ export const CHAPTER_2_RADIO: RadioCue[] = [
     text: 'Le couloir tremble sous une rafale -- tout près, cette fois.',
     sfx: ['burst'],
   },
+  // Lot 5.9 : les conduits et la cantine (scènes 5 et 6). Le tempo continue d'y compter (détour
+  // chez Smith, ventilateur bloqué à la main, fumée) et la trappe du vide-ordures le lit
+  // (`ch2.cantine.json`, rafale à 6) : ces deux répliques préviennent avant qu'il ne soit trop tard.
+  {
+    id: 'ch2.radio.conduits.4',
+    atTempo: 4,
+    when: { any: [{ flag: 'ch2.etape', equals: 'conduits' }, { flag: 'ch2.etape', equals: 'cantine' }] },
+    channel: 'pression',
+    text: 'Des voix dans la bouche du conduit, derrière. Quelqu’un a vu la grille ouverte.',
+    sfx: ['distant-shot'],
+  },
+  {
+    id: 'ch2.radio.conduits.6',
+    atTempo: 6,
+    when: { any: [{ flag: 'ch2.etape', equals: 'conduits' }, { flag: 'ch2.etape', equals: 'cantine' }] },
+    channel: 'pression',
+    text: 'La tôle résonne sous des bottes, juste derrière. Ils ont trouvé le chemin.',
+    sfx: ['burst'],
+  },
 ];

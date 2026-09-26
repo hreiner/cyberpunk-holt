@@ -74,6 +74,13 @@ interface MountedPlacement {
 }
 
 /**
+ * Modeles dont la `PointLight` vacille (`tick`) : les feux (`fire-glow`, lot 5.8b ; `campfire`,
+ * lot 5.10 ; les brasiers de la cantine, `blaze`, lot 5.9) et les ampoules qui gresillent dans
+ * les conduits (`duct-lamp`, lot 5.9).
+ */
+const FLICKERING_MODELS: ReadonlySet<string> = new Set(['fire-glow', 'campfire', 'blaze', 'duct-lamp']);
+
+/**
  * Regroupe les placements par leur decision de visibilite pour que geometrie,
  * ombres, emissions et particules suivent le meme interrupteur.
  */
@@ -106,7 +113,7 @@ export class ExploreDressing {
         object.userData.entityId = placement.entityId;
         this.entityObjects.set(placement.entityId, object);
       }
-      if (placement.model === 'fire-glow' || placement.model === 'campfire') {
+      if (FLICKERING_MODELS.has(placement.model)) {
         object.traverse((child) => {
           if (child instanceof THREE.PointLight) {
             this.flickeringLights.push({ light: child, base: child.intensity, phase: index * 1.7 });
@@ -120,10 +127,9 @@ export class ExploreDressing {
   }
 
   /**
-   * Vacillement des lueurs de feu (`fire-glow`, et le feu de camp `campfire` du lot 5.10),
-   * pilote par le temps ecoule -- jamais par `Math.random()` (regle n°1 d'AGENTS.md). Sans
-   * effet si la carte n'en pose aucune (toutes les cartes sauf `holt-nuit` en etape `fuite`
-   * et `campement`), donc gratuit a appeler systematiquement.
+   * Vacillement des lumieres de `FLICKERING_MODELS`, pilote par le temps ecoule -- jamais par
+   * `Math.random()` (regle n°1 d'AGENTS.md). Sans effet si la carte n'en pose aucune, donc
+   * gratuit a appeler systematiquement.
    */
   tick(elapsedSeconds: number): void {
     for (const { light, base, phase } of this.flickeringLights) {

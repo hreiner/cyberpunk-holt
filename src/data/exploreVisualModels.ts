@@ -190,6 +190,43 @@ export const EXPLORE_VISUAL_MODELS = {
     cells: [1, 1],
     reads: 'un tissu maculé, un scorpion cousu dessus — les insignes de l’attaque',
   },
+
+  /* -- Les conduits et la cantine des petits (lot 5.9) ------------------- */
+  'sim-machine': {
+    occupancy: 'solid',
+    cells: [2, 2],
+    reads: 'la machine de la simulation, un écran bleu qui pulse dans le noir',
+  },
+  'duct-fan': {
+    occupancy: 'threshold',
+    cells: [1, 1],
+    reads: 'un ventilateur de reprise d’air qui barre le conduit, pales à hauteur de visage',
+  },
+  'fan-control': {
+    occupancy: 'threshold',
+    cells: [1, 1],
+    reads: 'le boîtier de commande du ventilateur, scellé au mur, un voyant rouge',
+  },
+  'duct-lamp': {
+    occupancy: 'overhead',
+    cells: [1, 1],
+    reads: 'une ampoule grillagée, faible, qui grésille — la seule lumière du conduit',
+  },
+  'blue-dust': {
+    occupancy: 'flat',
+    cells: [1, 1],
+    reads: 'de la poussière bleue sur la tôle, au-delà de l’annexe',
+  },
+  blaze: {
+    occupancy: 'solid',
+    cells: [2, 2],
+    reads: 'des tables et des chaises qui brûlent, en tas, flammes hautes',
+  },
+  'garbage-chute': {
+    occupancy: 'threshold',
+    cells: [1, 1],
+    reads: 'la trappe d’acier du vide-ordures, dans le mur, la seule issue',
+  },
 } as const satisfies Record<string, ExploreVisualModelDef>;
 
 /** Identifiant de modele : ferme par construction, une faute de frappe ne compile pas. */

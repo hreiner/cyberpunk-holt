@@ -1,13 +1,49 @@
 {
   "id": "ch2.cantine",
-  "start": "cantine",
+  "start": "vide-ordures",
   "nodes": {
-    "cantine": {
-      "text": "La cantine brûle déjà, à moitié.",
-      "to": "fin"
+    "vide-ordures": {
+      "text": "Le vide-ordures, au fond de la cantine : une trappe d'acier, assez large pour un adulte. Entre elle et vous, la fumée descend jusqu'au sol, noire, brûlante, entre les deux brasiers. Il faut traverser d'une traite — et Letitia ne marche plus seule.",
+      "choices": [
+        {
+          "text": "[Athlétisme] John porte Letitia à travers la fumée.",
+          "conditions": [{ "not": { "flag": "ch2.porteur", "equals": "abigail" } }],
+          "check": { "skill": "athletisme", "dv": "NORMALE", "who": "john" },
+          "onSuccess": "traverse",
+          "onFailure": "suffoque"
+        },
+        {
+          "text": "[Athlétisme] Abigail porte Letitia à travers la fumée.",
+          "conditions": [{ "flag": "ch2.porteur", "equals": "abigail" }],
+          "check": { "skill": "athletisme", "dv": "NORMALE", "who": "abigail" },
+          "onSuccess": "traverse",
+          "onFailure": "suffoque"
+        }
+      ]
     },
-    "fin": {
-      "text": "Le vide-ordures, seule issue visible."
+    "traverse": {
+      "text": "Tête baissée, un bras sur la bouche, d'une seule traite. Personne ne s'arrête, personne ne lâche personne. La trappe est là.",
+      "to": "seuil"
+    },
+    "suffoque": {
+      "text": "La fumée prend à la gorge. On trébuche entre les brasiers, Letitia glisse, il faut la relever à tâtons, les yeux brûlés. De précieuses secondes, perdues.",
+      "effects": [{ "tempo": 1 }],
+      "to": "seuil"
+    },
+    "seuil": {
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tempo": { "atLeast": 6 } }], "to": "rafale" },
+        { "text": "Continuer.", "conditions": [{ "not": { "tempo": { "atLeast": 6 } } }], "to": "chute" }
+      ]
+    },
+    "rafale": {
+      "text": "Derrière, la porte de la cantine cède. Ils ont trouvé le chemin. Une rafale au jugé dans la fumée — Letitia est touchée, encore.",
+      "sound": { "sfx": ["burst"] },
+      "effects": [{ "counter": "ch2.letitia.etat", "delta": 1, "min": 0, "max": 3 }],
+      "to": "chute"
+    },
+    "chute": {
+      "text": "Un par un, dans le noir du vide-ordures. L'enfant d'abord, dans les bras de Grover. La chute est longue, et en bas, l'eau est froide."
     }
   }
 }

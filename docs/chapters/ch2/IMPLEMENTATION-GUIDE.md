@@ -9,9 +9,7 @@
 
 ## 1. Où en est l'epic
 
-Lots livrés : 5.1 à 5.8, 5.8b, 5.10, 5.A (voir ROADMAP, epic 5). Scènes complètes : 1 (photo), 2
-(bal), 3 (slow), 4 (fuite + grille), 7 (égouts), 8 (adieu), 9 (campement, Murano),
-10 (décharges), 11 (charcudoc). Encore squelettes : 5 (conduits, enfant), 6 (cantine) — lot 5.9. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
+Lots livrés : 5.1 à 5.10, 5.8b, 5.A — reste la revue 5.11 (voir ROADMAP, epic 5). Les onze scènes sont complètes. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
 **garde = trois tours pour quatre veilleurs, voiture pillée à deux échecs** ; images du lot E
 générées (plus de substituts).
 
@@ -72,8 +70,8 @@ Exploration — `src/explore/types.ts`, `src/data/exploreVisualTypes.ts` :
 | 2 bal | `ch2.bal.json` (Letitia), `ch2.bal.{zachary,abigail,john,grover}.json` | `maps/holt-nuit.ts`, `exploreVisuals/holtNuit.ts` (étape `bal`) |
 | 3 slow | `ch2.slow.json` (suite d'images, porteur, route de fuite) | — |
 | 4 fuite | `ch2.fuite.json` (aparté), `ch2.grille.json` | `holt-nuit` (étape `fuite`) |
-| 5 conduits | `ch2.conduits.json`, `ch2.enfant.json`, `ch2.smith.json` (à créer) | `maps/conduits.ts` (lot 5.9) |
-| 6 cantine | `ch2.cantine.json` | `conduits` (lot 5.9) |
+| 5 conduits | `ch2.conduits.json` (ventilateur), `ch2.enfant.json`, `ch2.smith.json` (détour) | `maps/conduits.ts`, `exploreVisuals/conduits.ts` (étape `conduits`) |
+| 6 cantine | `ch2.cantine.json` (vide-ordures, trappe) | `conduits` (étape `cantine`) |
 | 7 égouts | `ch2.egouts.json` | — |
 | 8 adieu | `ch2.adieu.json` | — |
 | 9 campement | `ch2.campement.json` (insignes), `ch2.murano.json` (matériel, qui tue) | `maps/campement.ts`, `exploreVisuals/campement.ts` (étape `campement`) |
@@ -85,7 +83,7 @@ Chapitre : `src/data/chapters/ch2.ts` (scènes, jauge, bilan `CH2_END`, `Ch2Etap
 
 Échos du bal (TECH-DESIGN §4.6) : `ch2.bal.zachary.fait` → scène 7 (fait) ;
 `ch2.bal.abigail.fait` → grille (fait) ; `ch2.bal.john.fait` → scène 10 (fait) ;
-**`ch2.bal.grover.fait` → scène 5, +2 à la Persuasion de Grover sur l'enfant : reste à lire (lot 5.9).**
+`ch2.bal.grover.fait` → scène 5 (fait). Tout écho « de DV » vaut exactement un cran (propriété de `ch2Content`).
 
 ## 4. Les tests gardiens
 
@@ -99,7 +97,9 @@ Chapitre : `src/data/chapters/ch2.ts` (scènes, jauge, bilan `CH2_END`, `Ch2Etap
 - `tests/unit/ch2ExploreScenes.test.ts` — scènes `explore` du chapitre 2 (déclencheurs, suiveurs).
 - `tests/unit/exploreVisualPlacements.test.ts` — cohérence placement/plan, consciente de l'étape.
 - `tests/e2e/chapter2.spec.ts` — le chapitre va au bout par `window.__game`.
-- `scripts/simulate-ch2.ts N` — répartition de l'état de Letitia, de `voiture-pillee`,
+- `scripts/simulate-ch2.ts N` — joue aussi les scènes `explore` (zones franchies de force,
+  dialogues obligatoires, facultatifs une nuit sur deux) depuis le lot 5.9 : les chiffres
+  antérieurs ne sont plus comparables. Répartition de l'état de Letitia, de `voiture-pillee`,
   d'`abigail-brisee`, veille/sommeil. Résultats notés dans TECH-DESIGN.
 
 ## 5. Recettes
@@ -136,6 +136,9 @@ Chapitre : `src/data/chapters/ch2.ts` (scènes, jauge, bilan `CH2_END`, `Ch2Etap
   jeu (prévois un repli conditionné).
 - Le fusil : `ch2.fusil.charge` (drapeau) et l'entrée `ch2.fusil` s'écrivent en scène 9 ;
   la scène 10 les lit (chargé : tirer en l'air ; vide : bluff).
+- Une porte d'exploration s'ouvre par `opensDoorAfterDialogue`, ou par `<dialogueId>.fait`
+  posé par le dialogue lui-même ; une carte intérieure sans sol extérieur met
+  `exteriorGround: false` dans `EXPLORE_VISUALS`.
 - Une `Condition` ne lit pas une entrée du dossier : pour qu'un bilan ou une scène plus
   lointaine en dépende, pose un drapeau en même temps que l'entrée (`ch2.campement.tueur`,
   `ch2.fusil.donne`).

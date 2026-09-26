@@ -244,8 +244,8 @@ Suiveurs (`SceneDef.followers`) :
 |---|---|
 | `ch2.bal` | aucun (la bande est placée dans la salle) |
 | `ch2.fuite` | `letitia`, puis `john` ou `abigail` (le porteur), `grover`, `zachary`, et l'autre des deux |
-| `ch2.conduits` | les cinq, sans Letitia visible si la mesure l'impose |
-| `ch2.cantine` | les cinq, plus `enfant` |
+| `ch2.conduits` | les cinq, dans l'ordre de la fuite (Letitia et son porteur visibles, deux `SceneDef` jumelles gardées par `ch2.porteur`, lot 5.9) |
+| `ch2.cantine` | `enfant` et `grover` visibles, puis Letitia, John, Abigail, Zachary (lot 5.9) |
 | `ch2.campement` | `john`, `grover`, `abigail`, `enfant` (Letitia portée hors champ) |
 
 Le porteur (`ch2.porteur` = `john` | `abigail`) change l'ordre de la file : la liste est
@@ -726,3 +726,66 @@ pas du profil) :
 | Tuer Murano | Grover (DEX 6 + 4) | Corps à corps | Difficile (15) | 60 % |
 | Tuer Murano | Abigail, si `abigail-brisee` (DEX 7 + 3) | Discrétion | Difficile (15) | 60 % |
 | Scène 10, fusil chargé | Franklyn (EMP 5 + 3) | Persuasion | Normale (13) | 60 % |
+
+### Résultats du simulateur (lot 5.9, les conduits et la cantine)
+
+`npx tsx scripts/simulate-ch2.ts 500`, graine de base par défaut. Les scènes 5 et 6 ne sont plus
+des squelettes : **plus aucune scène ne l'est** (le bal et la fuite ne l'étaient déjà plus depuis
+le lot 5.8, la liste du script n'avait pas suivi).
+
+**Le simulateur joue désormais les scènes `explore` comme en jeu** (règle générique, lue sur la
+`MapDef`, voir l'en-tête de `scripts/simulate-ch2.ts`) : il applique les zones à effets que la file
+franchit forcément (une zone qu'on peut contourner est ignorée ; une porte verrouillée qu'aucune
+entité n'ouvre ne sert pas de raccourci), joue toujours les dialogues obligatoires (le déclencheur
+qui joue le sien, une entité qui ouvre une porte) et une nuit sur deux les conversations
+facultatives (échos du bal, détour chez Smith, insignes). Avant, seul le dialogue portant
+l'identifiant de la scène était joué : **les échos du bal n'étaient jamais posés et le tempo de la
+fuite restait à zéro** -- la balle perdue de la grille (`tempo ≥ 3`) ne tombait donc presque
+jamais dans les chiffres des lots 5.6 à 5.10, alors qu'elle tombe souvent en jeu. Pour séparer
+cette correction de mesure de l'effet du contenu de ce lot, trois colonnes (même graine) :
+
+| Profil | A. ancien simulateur, contenu du lot 5.10 | B. nouveau simulateur, contenu du lot 5.10 | C. nouveau simulateur, contenu du lot 5.9 |
+|---|---|---|---|
+| Loyal à la bande | 42,8 / 42,8 / 13,4 / 1,0 | 12,6 / 38,8 / 35,8 / 12,8 | 9,0 / 34,6 / 46,0 / 10,4 |
+| Solitaire | 46,0 / 43,8 / 10,2 / 0,0 | 30,0 / 37,2 / 27,0 / 5,8 | 25,0 / 38,4 / 30,6 / 6,0 |
+| Neutre | 48,8 / 42,4 / 8,8 / 0,0 | 26,4 / 42,8 / 26,6 / 4,2 | 24,0 / 38,8 / 27,2 / 10,0 |
+
+(État de Letitia 0 / 1 / 2 / 3, en %.) **L'essentiel du déplacement vient de la mesure (A → B)**,
+pas des scènes 5 et 6 (B → C, quelques points de « stable » vers « blessure grave » : l'enfant qui
+crie, la rafale à la trappe). L'état critique n'est plus marginal (6 à 10 %), « stable » devient
+minoritaire, très bas en Loyal (9 %) -- Loyal attend John et Grover (un cran de tempo) et subit
+donc plus souvent la balle perdue de la grille et la rafale de la trappe.
+
+Colonne C, le reste :
+
+| Profil | `enfant-confiance` | `vu-simulation` | Rafale à la trappe (tempo ≥ 6) | `abigail-brisee` | `voiture-pillee` parmi les nuits « Veiller » |
+|---|---|---|---|---|---|
+| Loyal à la bande | 91,0 % | 51,8 % | 21,8 % | 18,8 % | 56,3 % |
+| Solitaire | 89,4 % | 49,8 % | 2,8 % | 20,2 % | 59,4 % |
+| Neutre | 91,0 % | 52,0 % | 4,0 % | 39,6 % | 57,9 % |
+
+`vu-simulation` suit le tirage du détour (une nuit sur deux par construction). Tempo à la trappe
+(Loyal) : 3 : 18 %, 4 : 28 %, 5 : 32 %, 6 : 20 %, 7 : 2 % ; Solitaire et Neutre, un cran plus bas.
+C'est une borne basse : sur `holt-nuit`, deux des trois zones de la fuite se contournent par le
+couloir parallèle (x = 18-20) ; un joueur qui file tout droit les franchit toutes, un cran de plus.
+
+Chances de réussite des jets des scènes 5 et 6 (d10 explosif, sans Chance) :
+
+| Jet | Lanceur | Compétence | DV | Réussite |
+|---|---|---|---|---|
+| Le ventilateur | Franklyn (INT 8 + 6) | Piratage | Difficile (15) | 90 % |
+| Le ventilateur, après échec | Abigail (TECH 8 + 6) | Électronique | Difficile (15) | 90 % (double échec : 1 %) |
+| L'enfant | Grover (EMP 7 + 4) | Persuasion | Normale (13) | 90 % |
+| L'enfant, écho du bal | Grover | Persuasion | Facile (9) | 92 % |
+| L'enfant, `sauveteur` | Franklyn (EMP 5 + 3) | Persuasion | Facile (9) | 90 % |
+| La fumée, porteur John | John (CORPS 7 + 4) | Athlétisme | Normale (13) | 90 % |
+| La fumée, porteuse Abigail | Abigail (CORPS 4 + 2) | Athlétisme | Normale (13) | 40 % |
+
+**Deux issues quasi sûres, notées sans y toucher (DV du game design appliquées)** :
+`enfant-confiance` (89-91 %) et le ventilateur (le double échec, « Grover se coupe », n'arrive
+qu'une nuit sur cent). Propositions pour le propriétaire, non appliquées :
+- l'enfant : Grover à **Difficile** (70 %), l'écho du bal le ramène à Normale (90 %) -- l'écho vaut
+  alors vingt points au lieu de deux ; Franklyn (`sauveteur`) à **Normale** (60 %, plus sa Chance) ;
+  `enfant-confiance` passerait vers 70-75 % ;
+- le ventilateur : Piratage à **Exceptionnelle** (40 %) et Électronique à **Très difficile** (80 %) :
+  double échec vers 12 %. Ou garder tel quel : c'est le moment où Franklyn est chez lui.

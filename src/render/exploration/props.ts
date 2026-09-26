@@ -831,6 +831,164 @@ function gangEmblem(materials: EnvironmentMaterials, kit: PropGeometryLibrary): 
   return group;
 }
 
+/* -- Les conduits et la cantine des petits (lot 5.9) ------------------------------------------ */
+
+/**
+ * La machine de la simulation (le labo de Smith) : un caisson sombre, un écran incliné qui
+ * pulse en cyan, une grappe de câbles au sol -- et une vraie `PointLight` froide, la « lueur
+ * bleue » qu'on aperçoit depuis la bifurcation. C'est elle, et elle seule, qui éclaire le labo.
+ */
+function simMachine(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const dark = materials.get('darkMetal');
+  box(group, kit, dark, 0, 0.55, 0.1, 1.7, 1.1, 1.3);
+  box(group, kit, materials.get('wornMetal'), 0, 1.14, 0.1, 1.76, 0.08, 1.36);
+  // Écran incliné vers l'avant (-Z) et bandeau lumineux.
+  const screen = new THREE.Mesh(kit.box, materials.get('cyanSignal'));
+  screen.scale.set(1.2, 0.72, 0.05);
+  screen.position.set(0, 1.58, -0.3);
+  screen.rotation.x = -0.35;
+  group.add(screen);
+  box(group, kit, dark, 0, 1.58, -0.24, 1.32, 0.84, 0.04);
+  box(group, kit, materials.get('cyanSignal'), 0, 0.7, -0.56, 1.4, 0.06, 0.02);
+  // Câbles au sol, en éventail.
+  for (const [x, z, r] of [[-0.55, -0.72, 0.4], [0.1, -0.78, -0.2], [0.6, -0.68, 0.7]] as const) {
+    const cable = new THREE.Mesh(kit.box, dark);
+    cable.scale.set(0.06, 0.05, 0.6);
+    cable.position.set(x, 0.03, z);
+    cable.rotation.y = r;
+    group.add(cable);
+  }
+  const light = new THREE.PointLight(0x4fd8ff, 8, 8.5, 1.3);
+  light.position.set(0, 1.7, -0.8);
+  group.add(light);
+  return group;
+}
+
+/**
+ * Ventilateur de reprise d'air, posé sur la case de porte du conduit (`conduits.ventilateur-pales`) :
+ * un cadre carré, un moyeu et quatre pales, légèrement avancé côté sud (+Z, d'où l'on arrive)
+ * pour rester lisible devant le panneau de porte. Il ne bloque rien lui-même : la porte
+ * verrouillée porte la collision (ADR 0017), le modèle ne fait que la montrer.
+ */
+function ductFan(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const frame = materials.get('darkMetal');
+  const z = 0.16;
+  box(group, kit, frame, 0, 0.08, z, 0.98, 0.12, 0.1);
+  box(group, kit, frame, 0, 1.92, z, 0.98, 0.12, 0.1);
+  box(group, kit, frame, -0.44, 1.0, z, 0.1, 1.9, 0.1);
+  box(group, kit, frame, 0.44, 1.0, z, 0.1, 1.9, 0.1);
+  const hub = new THREE.Mesh(kit.drum, materials.get('wornMetal'));
+  hub.scale.set(0.34, 0.2, 0.34);
+  hub.rotation.x = Math.PI / 2;
+  hub.position.set(0, 1.1, z + 0.02);
+  group.add(hub);
+  const blade = materials.get('wornMetal');
+  for (let i = 0; i < 4; i++) {
+    const mesh = new THREE.Mesh(kit.box, blade);
+    mesh.scale.set(0.2, 0.74, 0.03);
+    const angle = (i / 4) * Math.PI * 2 + 0.4;
+    mesh.position.set(Math.sin(angle) * 0.36, 1.1 + Math.cos(angle) * 0.36, z + 0.04);
+    mesh.rotation.z = -angle;
+    group.add(mesh);
+  }
+  // Grille de protection arrachée : deux barres de travers.
+  box(group, kit, materials.get('rust'), 0, 1.1, z + 0.09, 0.84, 0.04, 0.03);
+  box(group, kit, materials.get('rust'), 0, 0.72, z + 0.09, 0.84, 0.04, 0.03);
+  return group;
+}
+
+/**
+ * Boîtier de commande du ventilateur, scellé au mur : le modèle est centré sur la case de MUR
+ * (`threshold`) et fait saillie de sa face avant (-Z), que la rotation du placement tourne vers
+ * le conduit. Un voyant rouge, sans lumière propre (le rouge est rare, UI-DESIGN-SYSTEM.md).
+ */
+function fanControl(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  box(group, kit, materials.get('wornMetal'), 0, 1.25, -0.56, 0.46, 0.62, 0.14);
+  box(group, kit, materials.get('darkMetal'), 0, 1.25, -0.64, 0.34, 0.44, 0.03);
+  box(group, kit, materials.get('alarmRed'), 0.12, 1.48, -0.66, 0.06, 0.06, 0.02);
+  box(group, kit, materials.get('darkMetal'), -0.1, 0.72, -0.53, 0.06, 0.5, 0.06);
+  return group;
+}
+
+/**
+ * Ampoule grillagée du conduit : un culot, une cage, une ampoule ambre, et une `PointLight`
+ * faible et courte -- des flaques de lumière espacées, du noir entre elles (ambiance
+ * oppressante, demande du lot). Elle grésille (`ExploreDressing.tick`, jamais `Math.random()`).
+ */
+function ductLamp(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  box(group, kit, materials.get('darkMetal'), 0, 2.74, 0, 0.18, 0.14, 0.18);
+  const bulb = new THREE.Mesh(kit.drum, materials.get('amberSignal'));
+  bulb.scale.set(0.3, 0.2, 0.3);
+  bulb.position.set(0, 2.56, 0);
+  group.add(bulb);
+  for (const x of [-0.12, 0.12]) box(group, kit, materials.get('darkMetal'), x, 2.56, 0, 0.02, 0.24, 0.24);
+  const light = new THREE.PointLight(0xffb866, 2.6, 5, 1.6);
+  light.position.set(0, 2.4, 0);
+  group.add(light);
+  return group;
+}
+
+/** Poussière bleue sur la tôle (le secret de Franklyn, au-delà de l'annexe) : plate, franchissable. */
+function blueDust(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const dust = materials.get('cyanSignal');
+  box(group, kit, dust, -0.12, 0.012, 0.08, 0.5, 0.01, 0.34);
+  box(group, kit, dust, 0.2, 0.012, -0.18, 0.26, 0.01, 0.2);
+  return group;
+}
+
+/**
+ * Brasier de la cantine : un tas de tables et de chaises renversées, des flammes hautes (lames
+ * émissives croisées, sans particules -- même économie que `campfire`) et une vraie
+ * `PointLight` rouge et forte, qui vacille (`ExploreDressing.tick`). Obstacle plein : on passe
+ * entre les deux brasiers, jamais au travers.
+ */
+function blaze(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const wood = materials.get('wood');
+  const dark = materials.get('darkMetal');
+  box(group, kit, wood, -0.3, 0.3, 0.1, 1.3, 0.1, 0.8);
+  box(group, kit, wood, 0.3, 0.22, -0.2, 0.9, 0.44, 0.1);
+  box(group, kit, dark, 0.1, 0.12, 0.4, 1.4, 0.24, 0.5);
+  box(group, kit, dark, -0.5, 0.5, -0.3, 0.08, 1.0, 0.08);
+  // Flammes : de hautes lames ambre (le coeur du feu, qui doit trancher sur une salle deja
+  // rouge -- premiere manche de captures : des flammes rouges s'y noyaient), une lame rouge
+  // derriere pour la profondeur.
+  const flame = materials.get('amberSignal');
+  const outer = materials.get('alarmRed');
+  box(group, kit, outer, -0.15, 1.0, -0.2, 1.1, 1.8, 0.06);
+  box(group, kit, flame, -0.2, 0.9, 0.05, 0.8, 1.6, 0.06);
+  box(group, kit, flame, 0.2, 0.8, 0.1, 0.06, 1.4, 0.8);
+  box(group, kit, flame, 0.35, 0.55, -0.35, 0.06, 0.9, 0.4);
+  const light = new THREE.PointLight(0xff7a2a, 8, 7.5, 1.4);
+  light.position.set(0, 1.1, 0);
+  group.add(light);
+  return group;
+}
+
+/**
+ * Trappe du vide-ordures, dans le mur sud de la cantine : un cadre d'acier et un volet
+ * entrouvert, en saillie de la face avant (-Z, que le placement tourne vers la salle), avec un
+ * liseré ambre -- l'issue doit se lire à travers la fumée.
+ */
+function garbageChute(materials: EnvironmentMaterials, kit: PropGeometryLibrary): THREE.Group {
+  const group = new THREE.Group();
+  const steel = materials.get('wornMetal');
+  box(group, kit, steel, 0, 0.95, -0.54, 0.9, 0.9, 0.1);
+  box(group, kit, materials.get('darkMetal'), 0, 0.95, -0.6, 0.7, 0.66, 0.04);
+  const flap = new THREE.Mesh(kit.box, steel);
+  flap.scale.set(0.72, 0.06, 0.4);
+  flap.position.set(0, 1.28, -0.78);
+  flap.rotation.x = 0.5;
+  group.add(flap);
+  box(group, kit, materials.get('amberSignal'), 0, 0.48, -0.6, 0.9, 0.04, 0.03);
+  return group;
+}
+
 function simple(model: string, materials: EnvironmentMaterials, kit: PropGeometryLibrary, isCentre: boolean): THREE.Group {
   const group = new THREE.Group();
   if (model === 'courtyard-tree') {
@@ -1067,6 +1225,20 @@ export function createEnvironmentProp(
       return wreckVehicle(materials, kit);
     case 'gang-emblem':
       return gangEmblem(materials, kit);
+    case 'sim-machine':
+      return simMachine(materials, kit);
+    case 'duct-fan':
+      return ductFan(materials, kit);
+    case 'fan-control':
+      return fanControl(materials, kit);
+    case 'duct-lamp':
+      return ductLamp(materials, kit);
+    case 'blue-dust':
+      return blueDust(materials, kit);
+    case 'blaze':
+      return blaze(materials, kit);
+    case 'garbage-chute':
+      return garbageChute(materials, kit);
     default:
       throw new Error(`Modèle d’habillage inconnu : ${placement.model as string}`);
   }

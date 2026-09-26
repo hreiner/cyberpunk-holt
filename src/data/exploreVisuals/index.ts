@@ -29,6 +29,13 @@ export interface ExploreVisuals {
    * dur sur SA géométrie, jamais généralisées à une autre carte par ce booléen seul).
    */
   dormitoryArchitecture: boolean;
+  /**
+   * Sol « extérieur » sous toute la carte, entre les pièces (`ExploreView.floorPlane`) : absent
+   * (`false`) quand rien n'existe entre les pièces -- les conduits (lot 5.9), creusés dans le
+   * noir, où un sol continu entre deux conduits se lisait comme une cour à ciel ouvert. Le plan
+   * reste la cible des clics de déplacement, simplement non dessiné. Omis : `true`.
+   */
+  exteriorGround?: boolean;
 }
 
 export const DEFAULT_EXPLORE_VISUALS: ExploreVisuals = {
@@ -56,6 +63,14 @@ export const EXPLORE_VISUALS: Record<string, ExploreVisuals> = {
   // Le campement (lot 5.10) : un extérieur de nuit adossé aux murs d'une station-service en
   // ruine -- béton froid (`coldConcreteWall`), comme le centre d'examen abandonné, jamais la
   // peinture crème de l'académie.
+  // Les conduits et la cantine des petits (lot 5.9) : tôle et béton de service, jamais la peinture
+  // crème des salles de l'académie -- la palette froide, que la cantine en feu réchauffe par sa
+  // seule lumière (`setNightMood('cantine')`).
+  conduits: {
+    coldPalette: true,
+    dormitoryArchitecture: false,
+    exteriorGround: false,
+  },
   campement: {
     coldPalette: true,
     dormitoryArchitecture: false,

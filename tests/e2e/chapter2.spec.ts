@@ -47,15 +47,27 @@ async function advanceToNextScene(page: Page): Promise<E2ESceneSnapshot> {
 }
 
 /**
- * Entité qui termine l'objectif de chaque scène `explore` du chapitre 2 (lots 5.8 et 5.10, `ch2.bal`,
- * `ch2.fuite`, `ch2.campement` -- voir `src/data/chapters/ch2.ts`) : `window.__game.interact(id)` déclenche
+ * Entité qui termine l'objectif de chaque scène `explore` du chapitre 2 (lots 5.8, 5.9 et 5.10, `ch2.bal`,
+ * `ch2.fuite`, `ch2.conduits`, `ch2.cantine`, `ch2.campement` -- voir `src/data/chapters/ch2.ts`) : `window.__game.interact(id)` déclenche
  * son `completionTrigger` sans marcher (même API que `ChapterApp.exploreInteract`), le plus
  * court chemin pour un parcours de bout en bout qui ne juge pas le rendu 3D.
  */
 const EXPLORE_TRIGGERS: Record<string, string> = {
   'ch2.bal': 'bal.letitia',
   'ch2.fuite': 'dortoir.grille',
+  'ch2.conduits': 'petits.enfant',
+  'ch2.cantine': 'cantine.vide-ordures',
   'ch2.campement': 'campement.murano',
+};
+
+/**
+ * Lot 5.9 : ce qu'une scène `explore` impose AVANT son déclencheur -- le boîtier du ventilateur
+ * des conduits ouvre la seule route vers l'enfant, puis vers la cantine. On le joue comme un
+ * joueur, pour que la cantine se trouve réellement atteignable (plus bas), pas seulement
+ * déclenchable à distance.
+ */
+const EXPLORE_PREREQUISITES: Record<string, string[]> = {
+  'ch2.conduits': ['conduits.ventilateur'],
 };
 
 test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ page }) => {
@@ -71,11 +83,23 @@ test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ pag
   expect(runState.luck).toBe(3);
 
   // Les scenes du chapitre 2 (docs/chapters/ch2/TECH-DESIGN.md §4.4) : des dialogues, et
-  // depuis le lot 5.8, deux scenes `explore` (le bal, la fuite) -- on les traverse jusqu'a
+  // depuis les lots 5.8 a 5.10, cinq scenes `explore` (bal, fuite, conduits, cantine, campement) -- on les traverse jusqu'a
   // l'ecran de fin, sans jamais rester bloque.
   let current = scene;
   for (let i = 0; i < 20 && !current.finished; i++) {
     if (current.kind === 'explore') {
+      for (const entityId of EXPLORE_PREREQUISITES[current.id] ?? []) {
+        await page.evaluate((id) => window.__game.interact(id), entityId);
+        await traverseDialogue(page);
+        await page.evaluate(() => window.__game.advance());
+      }
+      if (current.id === 'ch2.cantine') {
+        // La porte de la cantine s'est ouverte avec l'enfant, le ventilateur avec son boîtier :
+        // depuis là où la scène 5 a laissé Franklyn, le vide-ordures est à portée de pas.
+        const explore = await page.evaluate(() => window.__game.explore());
+        const chute = explore?.interactables.find((e) => e.id === 'cantine.vide-ordures');
+        expect(chute?.reachable, 'le vide-ordures doit être atteignable à pied').toBe(true);
+      }
       const triggerId = EXPLORE_TRIGGERS[current.id];
       if (triggerId) await page.evaluate((id) => window.__game.interact(id), triggerId);
       const node = await page.evaluate(() => window.__game.node());

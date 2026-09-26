@@ -48,6 +48,7 @@ import type { SfxId } from '@/audio/sfx';
 import { CHAPTERS } from '@/data/chapters';
 import { HOLT_NUIT_VISUALS } from '@/data/exploreVisuals/holtNuit';
 import { CAMPEMENT_VISUALS } from '@/data/exploreVisuals/campement';
+import { CONDUITS_VISUALS } from '@/data/exploreVisuals/conduits';
 import type { ExploreVisualMapDef } from '@/data/exploreVisualTypes';
 
 /**
@@ -57,6 +58,7 @@ import type { ExploreVisualMapDef } from '@/data/exploreVisualTypes';
  */
 const CHAPTER_2_VISUALS: Record<string, ExploreVisualMapDef> = {
   [HOLT_NUIT_VISUALS.mapId]: HOLT_NUIT_VISUALS,
+  [CONDUITS_VISUALS.mapId]: CONDUITS_VISUALS,
   [CAMPEMENT_VISUALS.mapId]: CAMPEMENT_VISUALS,
 };
 import { ObjectiveHud } from './ui/objectiveHud';
@@ -73,6 +75,8 @@ import { BriefLineView } from './ui/briefLine';
 function nightMoodForEtape(etape: string | undefined): NightMood {
   if (etape === 'bal') return 'bal';
   if (etape === 'fuite') return 'fuite';
+  if (etape === 'conduits') return 'conduits';
+  if (etape === 'cantine') return 'cantine';
   if (etape === 'campement') return 'campement';
   return null;
 }

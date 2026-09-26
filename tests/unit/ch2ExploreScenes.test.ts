@@ -57,6 +57,8 @@ describe('étapes d’exploration du chapitre 2 (CHAPTER_2.scenes, lot 5.8)', ()
   const EXPECTED_MAP: Record<string, string> = {
     'ch2.bal': 'holt-nuit',
     'ch2.fuite': 'holt-nuit',
+    'ch2.conduits': 'conduits',
+    'ch2.cantine': 'conduits',
     'ch2.campement': 'campement',
   };
 
@@ -133,6 +135,19 @@ describe('étapes d’exploration du chapitre 2 (CHAPTER_2.scenes, lot 5.8)', ()
     expect(campement?.followers?.slice(0, 2)).toEqual(['john', 'grover']);
     expect(campement?.followers).not.toContain('letitia');
     expect(campement?.followers).not.toContain('zachary');
+  });
+
+  it('"ch2.conduits" suit le porteur comme la fuite ; "ch2.cantine" montre l’enfant en tête (lot 5.9)', () => {
+    const conduits = exploreScenes.filter((s) => s.id === 'ch2.conduits');
+    const fuite = exploreScenes.filter((s) => s.id === 'ch2.fuite');
+    expect(conduits.map((s) => [s.when, s.followers])).toEqual(fuite.map((s) => [s.when, s.followers]));
+    const cantine = exploreScenes.find((s) => s.id === 'ch2.cantine');
+    expect(cantine?.followers?.[0]).toBe('enfant');
+    // Même carte, deux étapes qui se suivent : la cantine ne se reconstruit pas, Franklyn y
+    // arrive depuis le dortoir des petits -- la porte qui les sépare est ouverte par l'enfant.
+    const map = getMap('conduits');
+    const enfant = map.entities.find((e) => e.id === 'petits.enfant');
+    expect(enfant && 'opensDoorAfterDialogue' in enfant ? enfant.opensDoorAfterDialogue : undefined).toBe('petits.porte-cantine');
   });
 
   it('"ch2.bal" ne déclare aucun suiveur (la bande est déjà placée dans la salle par ses entités)', () => {

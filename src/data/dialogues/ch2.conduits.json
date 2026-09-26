@@ -1,24 +1,47 @@
 {
   "id": "ch2.conduits",
-  "start": "entree",
+  "start": "ventilateur",
   "nodes": {
-    "entree": {
-      "text": "Les conduits de l'académie, étroits, à peine éclairés.",
+    "ventilateur": {
+      "text": "Le conduit des petits passe derrière un ventilateur de reprise d'air. Les pales tournent à pleine vitesse, à hauteur de visage, et couvrent presque les pleurs. Sur la tôle, un boîtier de commande scellé, un port d'accès sur le côté.",
       "choices": [
-        { "text": "Suivre le tracé du plan sans s'arrêter.", "to": "fin" },
         {
-          "text": "S'attarder sur la simulation entraperçue par une trappe.",
-          "to": "simulation",
-          "effects": [{ "tag": "vu-simulation" }]
+          "text": "[Piratage] Brancher ton neuroport sur le boîtier.",
+          "check": { "skill": "piratage", "dv": "DIFFICILE" },
+          "onSuccess": "pirate",
+          "onFailure": "pirate-rate"
         }
       ]
     },
-    "simulation": {
-      "text": "Un écran, une simulation qui n'aurait pas dû tourner cette nuit-là.",
+    "pirate": {
+      "text": "Le boîtier s'ouvre à lui comme une porte qu'il connaît. Une seconde de trop, il reste branché : ce contact-là lui manquait, et ça lui fait peur. Les pales ralentissent, s'arrêtent.",
+      "to": "fin"
+    },
+    "pirate-rate": {
+      "text": "Le boîtier le rejette : une décharge sèche lui remonte dans la nuque. Abigail l'écarte déjà, son outil à la main.",
+      "lines": [{ "who": "abigail", "text": "Pousse-toi. C'est un boîtier, pas un jeu." }],
+      "choices": [
+        {
+          "text": "[Électronique] Laisser Abigail démonter le boîtier.",
+          "check": { "skill": "electronique", "dv": "DIFFICILE", "who": "abigail" },
+          "onSuccess": "demonte",
+          "onFailure": "bloque"
+        }
+      ]
+    },
+    "demonte": {
+      "text": "Deux vis, un fil arraché. Les pales ralentissent dans un gémissement, s'arrêtent.",
+      "to": "fin"
+    },
+    "bloque": {
+      "text": "Rien ne cède. Grover arrache une barre de fixation et la glisse entre les pales. Elles s'arrêtent dans un hurlement de métal — et lui ouvrent la paume. Ça a pris du temps, et fait du bruit : derrière, des voix se rapprochent.",
+      "sound": { "sfx": ["distant-shot"] },
+      "lines": [{ "who": "grover", "text": "Ça va. Ça va. Passez." }],
+      "effects": [{ "tempo": 1 }],
       "to": "fin"
     },
     "fin": {
-      "text": "Le conduit débouche sur une bifurcation."
+      "text": "Le passage est libre. Les pleurs, tout près maintenant."
     }
   }
 }
