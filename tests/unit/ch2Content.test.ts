@@ -683,3 +683,130 @@ describe('lot 5.11 : l’état de Letitia finit au dossier (B18, « entrée fina
     },
   );
 });
+
+/**
+ * Lot 5.15 (ajout du propriétaire, GAME-DESIGN scène 3) : le slow qui dure, la bascule plus longue.
+ * Deux propriétés, sur TOUS les chemins de `ch2.slow` (marcheur par rejeu : chaque préfixe de choix
+ * est rejoué depuis le début avec la même graine, donc le jet de Perception retombe pareil), avec
+ * et sans `cavalier-letitia`, sur assez de graines pour voir la réussite et l'échec :
+ * 1. le murmure (les choix qui écrivent l'affinité avec Letitia) n'existe qu'avec
+ *    `cavalier-letitia`, sans jet, et chaque option écrit exactement ±1 ;
+ * 2. la suite des décors montre `rafale-gangers`, `rafale-cadets`, `rafale-zachary`, dans cet ordre.
+ */
+describe('lot 5.15 : le slow et la rafale, enrichis (ch2.slow)', () => {
+  const SLOW = DIALOGUES['ch2.slow'] as DialogueFile;
+  const RAFALE_SEQUENCE = ['rafale-gangers', 'rafale-cadets', 'rafale-zachary'];
+  const SEEDS = 16;
+
+  function letitiaDelta(choice: DialogueChoice): number | undefined {
+    for (const effect of choice.effects ?? []) {
+      if ('affinity' in effect && effect.affinity.who === 'letitia') return effect.affinity.delta;
+    }
+    return undefined;
+  }
+  const murmureNodes = Object.entries(SLOW.nodes)
+    .filter(([, node]) => (node.choices ?? []).some((c) => letitiaDelta(c) !== undefined))
+    .map(([id]) => id);
+
+  interface SlowPath {
+    /** Noeuds montrés au joueur, dans l'ordre (les aiguillages sans texte sont traversés). */
+    trail: string[];
+    /** Variation d'affinité avec Letitia à chaque choix pris sur un noeud du murmure. */
+    murmureDeltas: number[];
+  }
+
+  function walkSlow(tags: string[], seed: string): SlowPath[] {
+    const paths: SlowPath[] = [];
+    const explore = (prefix: number[]): void => {
+      const base = createDossier();
+      const ctx: NarrativeContext = {
+        dossier: { ...base, tags, affinities: { ...base.affinities, letitia: 0 } },
+        run: createRunState(seed, { chapter: 2, sceneId: 'ch2.slow', luck: 0 }),
+      };
+      const runner = new DialogueRunner(SLOW, ctx, createRng(seed));
+      const trail: string[] = [];
+      const murmureDeltas: number[] = [];
+      const note = (): void => {
+        const id = runner.current().nodeId;
+        if (trail[trail.length - 1] !== id) trail.push(id);
+      };
+      const settle = (): void => {
+        note();
+        for (let guard = 0; guard < 60; guard++) {
+          const node = runner.current();
+          if (node.finished) return;
+          if (node.pendingRoll) runner.acceptRoll();
+          else if (node.choices.length === 0) runner.advance();
+          else return;
+          note();
+        }
+        throw new Error(`ch2.slow ne se termine pas (${runner.current().nodeId})`);
+      };
+      settle();
+      for (const index of prefix) {
+        const at = runner.current().nodeId;
+        const before = runner.context.dossier.affinities.letitia ?? 0;
+        expect(runner.choose(index).ok, `${at} : choix ${index} refusé`).toBe(true);
+        if (murmureNodes.includes(at)) murmureDeltas.push((runner.context.dossier.affinities.letitia ?? 0) - before);
+        settle();
+      }
+      const node = runner.current();
+      if (node.finished) paths.push({ trail, murmureDeltas });
+      else for (const choice of node.choices) explore([...prefix, choice.index]);
+    };
+    explore([]);
+    return paths;
+  }
+
+  const cases = [false, true].flatMap((cavalier) =>
+    Array.from({ length: SEEDS }, (_, i) => ({
+      cavalier,
+      paths: walkSlow(cavalier ? ['cavalier-letitia'] : [], `ch2Content::slow-5.15-${i}`),
+    })),
+  );
+
+  it('le murmure existe dans les données : des choix sans jet, qui écrivent chacun ±1 avec Letitia', () => {
+    expect(murmureNodes.length, 'aucun choix de ch2.slow n’écrit l’affinité avec Letitia').toBeGreaterThan(0);
+    for (const id of murmureNodes) {
+      for (const choice of SLOW.nodes[id]?.choices ?? []) {
+        expect(choice.check, `${id} : « ${choice.text} » porte un jet`).toBeUndefined();
+        expect(Math.abs(letitiaDelta(choice) ?? 0), `${id} : « ${choice.text} »`).toBe(1);
+      }
+    }
+  });
+
+  it('le murmure n’est atteint qu’avec cavalier-letitia, une fois, et écrit ±1 avec Letitia', () => {
+    for (const { cavalier, paths } of cases) {
+      expect(paths.length).toBeGreaterThan(0);
+      for (const { trail, murmureDeltas } of paths) {
+        const seen = trail.filter((id) => murmureNodes.includes(id));
+        if (!cavalier) {
+          expect(seen, `sans cavalier-letitia : ${trail.join(' > ')}`).toEqual([]);
+        } else {
+          expect(seen.length, `avec cavalier-letitia : ${trail.join(' > ')}`).toBe(1);
+          expect(murmureDeltas.map(Math.abs)).toEqual([1]);
+        }
+      }
+    }
+    // Les deux issues de la Perception sont bien parcourues (sinon la propriété suivante ne couvre pas tout).
+    const all = cases.flatMap(({ paths }) => paths.map((p) => p.trail));
+    expect(all.some((t) => t.includes('choix-protection'))).toBe(true);
+    expect(all.some((t) => t.includes('touchee-de-plein-fouet'))).toBe(true);
+  });
+
+  it('sur tout chemin, la rafale montre rafale-gangers, rafale-cadets puis rafale-zachary', () => {
+    for (const { paths } of cases) {
+      for (const { trail } of paths) {
+        const backdrops = trail
+          .map((id) => SLOW.nodes[id]?.backdrop)
+          .filter((b): b is string => b !== undefined)
+          .filter((b, i, all) => all[i - 1] !== b);
+        const positions = RAFALE_SEQUENCE.map((key) => backdrops.indexOf(key));
+        const label = backdrops.join(' > ');
+        expect(positions.every((p) => p >= 0), label).toBe(true);
+        expect([...positions].sort((a, b) => a - b), label).toEqual(positions);
+        expect(backdrops.indexOf('attaque'), label).toBeLessThan(positions[0]!);
+      }
+    }
+  });
+});

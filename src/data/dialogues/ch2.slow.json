@@ -6,17 +6,58 @@
       "text": "Le slow commence. Les couples se forment au centre de la piste, les autres regardent depuis les bords.",
       "choices": [
         { "text": "Continuer.", "conditions": [{ "tag": "cavalier-letitia" }], "to": "image-fl" },
-        { "text": "Continuer.", "conditions": [{ "not": { "tag": "cavalier-letitia" } }], "to": "image-az" }
+        { "text": "Continuer.", "conditions": [{ "not": { "tag": "cavalier-letitia" } }], "to": "bord-piste" }
       ]
     },
     "image-fl": {
       "backdrop": "slow-franklyn-letitia",
-      "text": "Letitia pose la tête contre son épaule, un instant hors du temps.",
-      "to": "premiers-coups"
+      "text": "Letitia pose la tête contre son épaule, un instant hors du temps. Elle danse mieux que lui, et elle a la politesse de ne pas le dire.",
+      "to": "murmure"
+    },
+    "murmure": {
+      "backdrop": "slow-franklyn-letitia",
+      "text": "Elle a fermé les yeux. Il pourrait lui dire quelque chose, là, tout bas. Personne d'autre n'entendrait.",
+      "choices": [
+        {
+          "text": "Lui dire qu'il est content que ce soit elle.",
+          "effects": [{ "affinity": { "who": "letitia", "delta": 1 } }],
+          "to": "murmure-tendre"
+        },
+        {
+          "text": "Essayer de dire la phrase qu'il a préparée.",
+          "effects": [{ "affinity": { "who": "letitia", "delta": 1 } }],
+          "to": "murmure-maladroit"
+        },
+        {
+          "text": "Ne rien dire. Laisser la chanson parler.",
+          "effects": [{ "affinity": { "who": "letitia", "delta": -1 } }],
+          "to": "murmure-silence"
+        }
+      ]
+    },
+    "murmure-tendre": {
+      "backdrop": "slow-franklyn-letitia",
+      "text": "« Je suis content que ce soit toi. » Elle n'ouvre pas les yeux. Sa main se resserre un peu dans son dos. « Moi aussi. N'ajoute rien, tu vas tout gâcher. »",
+      "to": "image-az"
+    },
+    "murmure-maladroit": {
+      "backdrop": "slow-franklyn-letitia",
+      "text": "« J'avais préparé quelque chose à dire. Trois fois, même. » Un temps. « Je l'ai oublié. » Elle rit contre son épaule, un vrai rire, le premier de la soirée. « C'est la plus belle chose que tu m'aies jamais dite, Franklyn. Et tu m'écrases le pied. »",
+      "to": "image-az"
+    },
+    "murmure-silence": {
+      "backdrop": "slow-franklyn-letitia",
+      "text": "Il se tait. Elle attendait peut-être un mot ; il ne le saura pas. Quand la chanson ralentit, elle relève la tête, cherche son regard, puis la repose sans rien dire.",
+      "to": "image-az"
     },
     "image-az": {
       "backdrop": "slow-abigail-zachary",
-      "text": "Sur la piste, Abigail et Zachary tournent lentement, front contre front.",
+      "text": "Par-dessus l'épaule de Letitia : Abigail et Zachary, front contre front. Il lui parle tout bas, lui aussi. Pour une fois, elle le laisse finir.",
+      "to": "premiers-coups"
+    },
+    "bord-piste": {
+      "backdrop": "slow-abigail-zachary",
+      "text": "Franklyn regarde depuis le bord de la piste. Abigail et Zachary tournent lentement, front contre front ; d'autres couples autour d'eux, dans les faisceaux. Letitia, à quelques mètres, un verre à la main, regarde la même chose que lui.",
       "to": "premiers-coups"
     },
     "premiers-coups": {
@@ -26,6 +67,7 @@
       "to": "franklyn-reagit"
     },
     "franklyn-reagit": {
+      "backdrop": "attaque",
       "text": "Le temps se distend une seconde. Il faut choisir, maintenant.",
       "choices": [
         {
@@ -37,6 +79,7 @@
       ]
     },
     "choix-protection": {
+      "backdrop": "attaque",
       "text": "Une fraction de seconde pour agir.",
       "choices": [
         { "text": "Plaquer Letitia au sol.", "to": "plaque" },
@@ -44,25 +87,63 @@
       ]
     },
     "plaque": {
+      "backdrop": "attaque",
       "text": "Il se jette sur Letitia et la plaque au sol de tout son poids. Elle heurte durement le sol, mais le pire vient d'être évité.",
       "effects": [{ "counter": "ch2.letitia.etat", "delta": 1, "min": 0, "max": 3 }],
-      "to": "rafale-fin"
+      "to": "rafale-gangers"
     },
     "crie": {
+      "backdrop": "attaque",
       "text": "Il crie pour que tout le monde s'aplatisse. Une bonne partie de la salle a le temps de réagir — pas Letitia, trop loin, encore debout quand la rafale la cueille.",
       "effects": [{ "tag": "protecteur-bal" }, { "counter": "ch2.letitia.etat", "delta": 2, "min": 0, "max": 3 }],
-      "to": "rafale-fin"
+      "to": "rafale-gangers"
     },
     "touchee-de-plein-fouet": {
+      "backdrop": "attaque",
       "text": "Letitia est touchée de plein fouet, projetée en arrière contre une table.",
       "effects": [{ "counter": "ch2.letitia.etat", "delta": 2, "min": 0, "max": 3 }],
+      "to": "rafale-gangers"
+    },
+    "rafale-gangers": {
+      "backdrop": "rafale-gangers",
+      "sound": { "sfx": ["burst"] },
+      "text": "La porte du fond vole en éclats. Ils entrent en file, gilets tactiques dépareillés, un scorpion sur l'épaule. Ils ne tirent pas en l'air. Ils tirent sur la salle.",
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "protecteur-bal" }], "to": "rafale-cadets-cri" },
+        { "text": "Continuer.", "conditions": [{ "not": { "tag": "protecteur-bal" } }], "to": "rafale-cadets" }
+      ]
+    },
+    "rafale-cadets": {
+      "backdrop": "rafale-cadets",
+      "sound": { "sfx": ["burst", "distant-shot"] },
+      "text": "Les cadets ne dansent plus. Ils plongent sous les tables, les renversent en boucliers. Les tirs passent au ras des têtes. Là-haut, la boule à facettes tourne encore.",
+      "to": "rafale-zachary"
+    },
+    "rafale-cadets-cri": {
+      "backdrop": "rafale-cadets",
+      "sound": { "sfx": ["burst", "distant-shot"] },
+      "text": "Ils ont entendu le cri. La moitié de la salle est déjà à terre quand la rafale balaie la piste ; les autres plongent sous les tables. Les tirs passent au ras des têtes. Là-haut, la boule à facettes tourne encore.",
+      "to": "rafale-zachary"
+    },
+    "rafale-zachary": {
+      "backdrop": "rafale-zachary",
+      "sound": { "sfx": ["burst"] },
+      "text": "Zachary voit la ligne de tir avant Abigail. Il la prend dans ses bras, tourne le dos au feu. Son corps se cambre d'un coup. Il ne la lâche pas.",
+      "to": "zachary-se-releve"
+    },
+    "zachary-se-releve": {
+      "backdrop": "rafale-zachary",
+      "text": "Il se relève, une main dans le dos, le souffle court. « Ça va. Ça va. Reste baissée. » Abigail le fixe, les yeux immenses. Personne n'a le temps de regarder de plus près.",
       "to": "rafale-fin"
     },
     "rafale-fin": {
-      "text": "Les tables se renversent. Les gangers entrent, armes hautes. Ce n'est plus un bal.",
+      "backdrop": "rafale-cadets",
+      "sound": { "sfx": ["distant-shot"] },
+      "text": "Une seconde de creux, le temps qu'ils rechargent. Ce n'est plus un bal.",
       "to": "porteur"
     },
     "porteur": {
+      "backdrop": "rafale-cadets",
       "text": "John et Grover renversent les tables. Qui soutient Letitia ?",
       "choices": [
         {
@@ -78,6 +159,7 @@
       ]
     },
     "route": {
+      "backdrop": "rafale-cadets",
       "text": "La porte des salles d'entraînement, et derrière, le couloir de ceinture. Le dortoir est à l'autre bout.",
       "choices": [
         {
@@ -99,6 +181,7 @@
       ]
     },
     "fin": {
+      "backdrop": "rafale-cadets",
       "text": "Il faut fuir, maintenant."
     }
   }
