@@ -142,7 +142,35 @@
       "to": "fin"
     },
     "fin": {
-      "text": "Il faut partir, maintenant, sans elle. La nuit est finie ; ce qu'elle a coûté ne l'est pas encore."
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "enfant-confiance" }, { "not": { "flag": "ch2.enfant.lien", "equals": "franklyn" } }],
+          "to": "fin-grover"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "enfant-confiance" }, { "flag": "ch2.enfant.lien", "equals": "franklyn" }],
+          "to": "fin-franklyn"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "enfant-confiance" } }],
+          "to": "fin-mefiant"
+        }
+      ]
+    },
+    "fin-grover": {
+      "text": "Il faut partir, maintenant, sans elle. La nuit est finie ; ce qu'elle a coûté ne l'est pas encore. Sur le seuil, l'enfant glisse sa main dans celle de Grover.",
+      "lines": [{ "who": "enfant", "text": "Elle va revenir, elle ?" }]
+    },
+    "fin-franklyn": {
+      "text": "Il faut partir, maintenant, sans elle. La nuit est finie ; ce qu'elle a coûté ne l'est pas encore. Sur le seuil, l'enfant attrape la manche de Franklyn.",
+      "lines": [{ "who": "enfant", "text": "Elle va revenir, elle ?" }]
+    },
+    "fin-mefiant": {
+      "text": "Il faut partir, maintenant, sans elle. La nuit est finie ; ce qu'elle a coûté ne l'est pas encore. Sur le seuil, l'enfant ne quitte pas le charcudoc des yeux.",
+      "lines": [{ "who": "enfant", "text": "Je l'aime pas, lui. Il compte les gens avec les yeux." }]
     }
   }
 }

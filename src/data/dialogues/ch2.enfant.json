@@ -37,13 +37,13 @@
     "calme-grover": {
       "text": "Grover s'allonge par terre, à sa hauteur, et parle bas — de rien, de la cantine, d'un chien qu'il avait. Les pleurs s'étouffent, puis cessent. L'enfant sort de sous le lit et glisse sa main dans la sienne.",
       "lines": [{ "who": "grover", "text": "Tu restes avec moi. D'accord ? Avec nous." }],
-      "effects": [{ "tag": "enfant-confiance" }],
+      "effects": [{ "tag": "enfant-confiance" }, { "flag": "ch2.enfant.lien", "value": "grover" }],
       "to": "confiance"
     },
     "calme-franklyn": {
       "text": "Franklyn s'accroupit, lentement, et lui parle comme on parle à quelqu'un qui a eu peur d'un chien : pas de geste brusque, pas de mensonge. Les pleurs s'étouffent, puis cessent. L'enfant sort de sous le lit et lui attrape la manche.",
       "lines": [{ "who": "enfant", "text": "Tu connais le chemin, toi ?" }],
-      "effects": [{ "tag": "enfant-confiance" }],
+      "effects": [{ "tag": "enfant-confiance" }, { "flag": "ch2.enfant.lien", "value": "franklyn" }],
       "to": "confiance"
     },
     "confiance": {

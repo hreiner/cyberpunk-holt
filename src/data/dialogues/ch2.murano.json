@@ -202,12 +202,46 @@
         {
           "text": "Continuer.",
           "conditions": [{ "not": { "flag": "ch2.campement.materiel", "equals": "refuse" } }],
-          "to": "fin"
+          "to": "enfant"
         }
       ]
     },
     "trousse-trop-tard": {
       "text": "La trousse, on la décroche après, de sa ceinture. Presque vide : ce qu'il en restait a servi aux siens, ce soir. Trop tard pour qu'elle serve à Letitia.",
+      "to": "enfant"
+    },
+    "enfant": {
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "enfant-confiance" }, { "not": { "flag": "ch2.enfant.lien", "equals": "franklyn" } }],
+          "to": "enfant-grover"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "enfant-confiance" }, { "flag": "ch2.enfant.lien", "equals": "franklyn" }],
+          "to": "enfant-franklyn"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "enfant-confiance" } }],
+          "to": "enfant-mefiant"
+        }
+      ]
+    },
+    "enfant-grover": {
+      "text": "Quand on remonte dans le camion, l'enfant grimpe à côté de Grover et se serre contre lui, sans rien demander.",
+      "lines": [{ "who": "enfant", "text": "On part, hein ? Tous ensemble." }],
+      "to": "fin"
+    },
+    "enfant-franklyn": {
+      "text": "Quand on remonte dans le camion, l'enfant s'assoit contre Franklyn, sa manche serrée dans le poing.",
+      "lines": [{ "who": "enfant", "text": "On part, hein ? Tous ensemble." }],
+      "to": "fin"
+    },
+    "enfant-mefiant": {
+      "text": "L'enfant a tout regardé depuis le camion. Quand on remonte, il se met le plus loin possible, contre la ridelle.",
+      "lines": [{ "who": "enfant", "text": "Vous êtes pareils qu'eux, en fait." }],
       "to": "fin"
     },
     "fin": {

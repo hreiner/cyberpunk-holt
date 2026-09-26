@@ -6,9 +6,10 @@
  * ponctuelles sur `ch2.egouts.json` -- pour que les lots suivants (5.6+) les étendent sans
  * réécrire ce fichier :
  *
- * 1. Après `ch2.egouts` (scène 7, la mort de Zachary), aucun dialogue d'une scène postérieure
- *    ne le fait parler ni lancer de jet (TECH-DESIGN §1, réponse à la question 1 de
- *    GAME-DESIGN §10).
+ * 1. Après la mort de Zachary, plus rien ne le fait parler ni lancer de jet (TECH-DESIGN §1,
+ *    réponse à la question 1 de GAME-DESIGN §10). Depuis le lot 5.13, sa mort est jouée DANS
+ *    `ch2.egouts` : la garde suit le NŒUD de sa mort (celui qui écrit l'entrée `ch2.zachary`),
+ *    et plus seulement les scènes postérieures -- voir le bloc « lot 5.13 » en fin de fichier.
  * 2. Le compteur `ch2.letitia.etat` reste dans [0, 3] : vérifié structurellement -- tout effet
  *    `counter` qui le touche, dans n'importe quel fichier, borne explicitement `min: 0` et
  *    `max: 3` (ADR 0023 §4.3) ; le moteur (`applyEffects`, `src/narrative/effects.ts`) clampe
@@ -808,5 +809,196 @@ describe('lot 5.15 : le slow et la rafale, enrichis (ch2.slow)', () => {
         expect(backdrops.indexOf('attaque'), label).toBeLessThan(positions[0]!);
       }
     }
+  });
+});
+
+/**
+ * Lot 5.13 (ajout du propriétaire, GAME-DESIGN scène 7) : la mort de Zachary, jouée ; les
+ * répliques de garde ; l'enfant qui parle. Propriétés lues sur les DONNÉES (graphe des nœuds),
+ * sans faire tourner le moteur -- `chapter2Flow.test.ts` garantit déjà que tout va au bout.
+ *
+ * Portraits : `NarrativeView.renderHero` montre le DERNIER locuteur du nœud et, sur un nœud de
+ * pure narration, garde celui du nœud précédent tant qu'on reste dans le même fichier (repli sur
+ * `DialogueFile.speaker` s'il existe). Les deux propriétés « le portrait ne reste pas » traduisent
+ * cette règle en contrainte sur le graphe.
+ */
+describe('lot 5.13 : la mort de Zachary, la garde, l’enfant', () => {
+  const EGOUTS = DIALOGUES[EGOUTS_DIALOGUE_ID] as DialogueFile;
+  /** La décision existante (calmer Abigail ou soigner Letitia) : la séquence de deuil finit là. */
+  const DECISION_NODE = 'ordre';
+
+  /** Toutes les destinations d'un nœud, conditions ignorées (lecture structurelle). */
+  function targets(node: DialogueNode): string[] {
+    const out: string[] = [];
+    if (node.to) out.push(node.to);
+    for (const c of node.choices ?? []) {
+      for (const t of [c.to, c.onSuccess, c.onFailure]) if (t) out.push(t);
+    }
+    return out;
+  }
+
+  function reachableFrom(file: DialogueFile, start: string, stopAt?: string): Set<string> {
+    const seen = new Set<string>();
+    const stack = [start];
+    while (stack.length > 0) {
+      const id = stack.pop() as string;
+      if (seen.has(id) || id === stopAt) continue;
+      seen.add(id);
+      const node = file.nodes[id];
+      if (node) stack.push(...targets(node));
+    }
+    return seen;
+  }
+
+  /** Même définition que `isRoutingNode` (dialogueRunner.ts) : rien à lire, le runner le traverse. */
+  function isRouting(node: DialogueNode): boolean {
+    const terminal = node.to === undefined && (node.choices ?? []).length === 0;
+    return !terminal && node.text === undefined && (node.lines ?? []).length === 0 && node.insight === undefined;
+  }
+
+  /** Nœuds AFFICHÉS juste après `id` : les aiguillages sont traversés. */
+  function shownSuccessors(file: DialogueFile, id: string): string[] {
+    const out = new Set<string>();
+    const seen = new Set<string>();
+    const stack = targets(file.nodes[id] as DialogueNode);
+    while (stack.length > 0) {
+      const next = stack.pop() as string;
+      if (seen.has(next)) continue;
+      seen.add(next);
+      const node = file.nodes[next];
+      if (!node) continue;
+      if (isRouting(node)) stack.push(...targets(node));
+      else out.add(next);
+    }
+    return [...out];
+  }
+
+  const deathNodeId = Object.entries(EGOUTS.nodes).find(([, node]) =>
+    (node.effects ?? []).some((e) => 'entry' in e && e.entry.key === 'ch2.zachary'),
+  )?.[0] as string;
+
+  it('ch2.egouts a un nœud de mort (celui qui écrit ch2.zachary), atteint avant la décision', () => {
+    expect(deathNodeId).toBeDefined();
+    expect(reachableFrom(EGOUTS, EGOUTS.start, DECISION_NODE).has(deathNodeId)).toBe(true);
+    expect(EGOUTS.nodes[DECISION_NODE], 'la décision calmer/soigner existe toujours').toBeDefined();
+  });
+
+  it('à partir du nœud de sa mort, Zachary ne parle plus, ne lance plus de jet, et son portrait ne reste pas', () => {
+    for (const id of reachableFrom(EGOUTS, deathNodeId)) {
+      const node = EGOUTS.nodes[id] as DialogueNode;
+      for (const line of node.lines ?? []) expect(line.who, `${id} : réplique de zachary après sa mort`).not.toBe('zachary');
+      expect(node.insight?.who, `${id} : jet de réflexion de zachary`).not.toBe('zachary');
+      for (const c of node.choices ?? []) expect(c.check?.who, `${id} : jet de zachary`).not.toBe('zachary');
+    }
+    // Le portrait : le nœud de sa mort fait parler quelqu'un d'autre (dernier locuteur = nouveau
+    // portrait), et le fichier n'a pas Zachary pour locuteur de repli.
+    expect((EGOUTS.nodes[deathNodeId]?.lines ?? []).length, 'le nœud de sa mort doit donner la parole à un autre').toBeGreaterThan(0);
+    expect(EGOUTS.speaker).not.toBe('zachary');
+    // Il parle bien AVANT (sinon ce test ne prouve rien).
+    const before = reachableFrom(EGOUTS, EGOUTS.start, deathNodeId);
+    expect([...before].some((id) => (EGOUTS.nodes[id]?.lines ?? []).some((l) => l.who === 'zachary'))).toBe(true);
+  });
+
+  it('la séquence de deuil (jusqu’à la décision) ne porte aucun jet ni effet mécanique', () => {
+    const mourning = reachableFrom(EGOUTS, EGOUTS.start, DECISION_NODE);
+    for (const id of mourning) {
+      const node = EGOUTS.nodes[id] as DialogueNode;
+      expect(node.insight, `${id} : jet de réflexion`).toBeUndefined();
+      for (const effect of node.effects ?? []) {
+        // Seule trace : l'entrée du dossier qui dit sa mort (au nœud de sa mort).
+        expect('entry' in effect && effect.entry.key === 'ch2.zachary', `${id} : effet ${JSON.stringify(effect)}`).toBe(true);
+      }
+      for (const c of node.choices ?? []) {
+        const label = `${id} : « ${c.text} »`;
+        expect(c.check, label).toBeUndefined();
+        expect(c.effects ?? [], label).toEqual([]);
+        expect(c.successEffects ?? [], label).toEqual([]);
+        expect(c.failureEffects ?? [], label).toEqual([]);
+      }
+    }
+    // Les gestes et l'arrachement sont de vrais choix : deux nœuds au moins, sans condition.
+    const realChoices = [...mourning].filter((id) => {
+      const choices = EGOUTS.nodes[id]?.choices ?? [];
+      return choices.length >= 2 && choices.every((c) => c.conditions === undefined);
+    });
+    expect(realChoices.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('les décors de la séquence : egouts-zachary jusqu’à sa mort, puis egouts-arrachee', () => {
+    for (const id of [...reachableFrom(EGOUTS, EGOUTS.start, deathNodeId), deathNodeId]) {
+      const node = EGOUTS.nodes[id] as DialogueNode;
+      if (!isRouting(node)) expect(node.backdrop, id).toBe('egouts-zachary');
+    }
+    const afterDeath = reachableFrom(EGOUTS, deathNodeId, DECISION_NODE);
+    afterDeath.delete(deathNodeId);
+    expect(afterDeath.size).toBeGreaterThan(0);
+    for (const id of afterDeath) expect(EGOUTS.nodes[id]?.backdrop, id).toBe('egouts-arrachee');
+  });
+
+  it.each(Object.keys(DIALOGUES).filter((id) => id.startsWith('ch2.')))(
+    '%s : le portrait de l’enfant ne reste pas sur la narration qui suit sa réplique',
+    (id) => {
+      const file = DIALOGUES[id] as DialogueFile;
+      if (file.speaker === 'enfant') return; // sa propre scène : son portrait y est le repli voulu
+      for (const [nodeId, node] of Object.entries(file.nodes)) {
+        const lines = node.lines ?? [];
+        if (lines[lines.length - 1]?.who !== 'enfant') continue;
+        for (const next of shownSuccessors(file, nodeId)) {
+          const nextNode = file.nodes[next] as DialogueNode;
+          // Un autre locuteur prend la place, ou le fichier a son propre locuteur de repli.
+          const replaced = (nextNode.lines ?? []).length > 0 || file.speaker !== undefined;
+          expect(replaced, `${id} : « ${next} » hérite du portrait de l’enfant`).toBe(true);
+        }
+      }
+    },
+  );
+
+  it.each(['ch2.egouts', 'ch2.murano', 'ch2.decharges', 'ch2.charcudoc'])(
+    '%s : l’enfant parle, méfiant sans enfant-confiance, accroché à quelqu’un avec',
+    (id) => {
+      const file = DIALOGUES[id] as DialogueFile;
+      const confiance = new Set<string>();
+      const mefiant = new Set<string>();
+      for (const node of Object.values(file.nodes)) {
+        for (const c of node.choices ?? []) {
+          const target = c.to ? file.nodes[c.to] : undefined;
+          const said = (target?.lines ?? []).filter((l) => l.who === 'enfant').map((l) => l.text);
+          if (said.length === 0) continue;
+          const conds = JSON.stringify(c.conditions ?? []);
+          if (conds.includes('{"not":{"tag":"enfant-confiance"}}')) said.forEach((t) => mefiant.add(t));
+          else if (conds.includes('{"tag":"enfant-confiance"}')) said.forEach((t) => confiance.add(t));
+        }
+      }
+      expect(confiance.size, 'réplique avec enfant-confiance').toBeGreaterThan(0);
+      expect(mefiant.size, 'réplique sans enfant-confiance').toBeGreaterThan(0);
+      for (const t of confiance) expect(mefiant.has(t), t).toBe(false);
+    },
+  );
+
+  it('relais de garde : chaque veilleur a sa réplique quand il tient, et une autre quand l’enfant le réveille', () => {
+    const file = DIALOGUES['ch2.decharges'] as DialogueFile;
+    const seen = new Map<string, { tient: Set<string>; reveil: Set<string> }>();
+    for (const node of Object.values(file.nodes)) {
+      for (const c of node.choices ?? []) {
+        if (c.check?.skill !== 'resistance') continue;
+        const who = c.check.who as string;
+        const joker = (c.effects ?? []).some((e) => 'flag' in e && e.flag === 'ch2.garde.enfant-utilise');
+        const success = file.nodes[c.onSuccess as string] as DialogueNode;
+        expect(success.text, `${c.onSuccess} : une réplique entre guillemets`).toMatch(/«.+»/);
+        expect(success.to, `${c.onSuccess} : reprend le relais`).toBe('garde-continue');
+        expect(success.effects, `${c.onSuccess} : aucun effet`).toBeUndefined();
+        const entry = seen.get(who) ?? { tient: new Set<string>(), reveil: new Set<string>() };
+        (joker ? entry.reveil : entry.tient).add(success.text as string);
+        seen.set(who, entry);
+      }
+    }
+    expect([...seen.keys()].sort()).toEqual(['abigail', 'franklyn', 'grover', 'john']);
+    const all: string[] = [];
+    for (const [who, { tient, reveil }] of seen) {
+      expect(tient.size, `${who} : une réplique quand il tient`).toBe(1);
+      expect(reveil.size, `${who} : une réplique quand l'enfant le réveille`).toBe(1);
+      all.push(...tient, ...reveil);
+    }
+    expect(new Set(all).size, 'huit répliques distinctes').toBe(8);
   });
 });

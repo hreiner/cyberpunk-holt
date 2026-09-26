@@ -184,7 +184,106 @@
       "to": "fin"
     },
     "fin": {
-      "text": "Le ciel pâlit à l'est. La nuit est tenue, d'une manière ou d'une autre — il faut repartir, trouver quelqu'un pour soigner Letitia."
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "tag": "enfant-confiance"
+            },
+            {
+              "not": {
+                "flag": "ch2.enfant.lien",
+                "equals": "franklyn"
+              }
+            }
+          ],
+          "to": "fin-grover"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "tag": "enfant-confiance"
+            },
+            {
+              "flag": "ch2.enfant.lien",
+              "equals": "franklyn"
+            }
+          ],
+          "to": "fin-franklyn"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            {
+              "not": {
+                "tag": "enfant-confiance"
+              }
+            }
+          ],
+          "to": "fin-mefiant"
+        }
+      ]
+    },
+    "fin-grover": {
+      "text": "Le ciel pâlit à l'est. La nuit est tenue, d'une manière ou d'une autre — il faut repartir, trouver quelqu'un pour soigner Letitia. L'enfant s'est endormi contre Grover au milieu de la nuit ; il se réveille avec le jour, et ne le lâche pas.",
+      "lines": [
+        {
+          "who": "enfant",
+          "text": "On va où, maintenant ?"
+        }
+      ]
+    },
+    "fin-franklyn": {
+      "text": "Le ciel pâlit à l'est. La nuit est tenue, d'une manière ou d'une autre — il faut repartir, trouver quelqu'un pour soigner Letitia. L'enfant s'est endormi contre Franklyn au milieu de la nuit ; il se réveille avec le jour, et ne le lâche pas.",
+      "lines": [
+        {
+          "who": "enfant",
+          "text": "On va où, maintenant ?"
+        }
+      ]
+    },
+    "fin-mefiant": {
+      "text": "Le ciel pâlit à l'est. La nuit est tenue, d'une manière ou d'une autre — il faut repartir, trouver quelqu'un pour soigner Letitia. L'enfant a passé la nuit assis à l'écart, les yeux ouverts.",
+      "lines": [
+        {
+          "who": "enfant",
+          "text": "Moi, je dors jamais, dehors."
+        }
+      ]
+    },
+    "garde-tient-franklyn": {
+      "text": "Franklyn tient son tour, les mains calées sous les aisselles pour qu'elles arrêtent de trembler. Il compte les carcasses à voix basse, et recommence. « Encore un peu. Juste encore un peu. »",
+      "to": "garde-continue"
+    },
+    "garde-tient-john": {
+      "text": "John tient son tour sans bouger, le dos contre une carcasse, les yeux sur le noir. Une fois, il parle, pour personne : « Pas ce soir. Pas nous. »",
+      "to": "garde-continue"
+    },
+    "garde-tient-grover": {
+      "text": "Grover tient son tour assis près de Letitia, à écouter sa respiration autant que la nuit. Il lui parle tout bas, même endormie : « Tiens bon. Moi, je veille. »",
+      "to": "garde-continue"
+    },
+    "garde-tient-abigail": {
+      "text": "Abigail tient son tour, les genoux sous le menton, sans ciller. Une fois, elle parle, tout bas, à quelqu'un qui n'est pas là : « Je dors pas, Zach. Promis. »",
+      "to": "garde-continue"
+    },
+    "garde-reveil-franklyn": {
+      "text": "Une petite main tire sur sa manche : l'enfant, les yeux grands ouverts. Franklyn se redresse d'un coup. « Ça va. Je suis là. Merci. »",
+      "to": "garde-continue"
+    },
+    "garde-reveil-john": {
+      "text": "L'enfant secoue John par l'épaule, sans un bruit. John ouvre les yeux, la main déjà sur le fusil, puis la relâche. « T'as bien fait. Reste à côté de moi. »",
+      "to": "garde-continue"
+    },
+    "garde-reveil-grover": {
+      "text": "L'enfant pince Grover au bras, fort. Grover sursaute, puis sourit presque. « Bien vu, chef. Je reprends. »",
+      "to": "garde-continue"
+    },
+    "garde-reveil-abigail": {
+      "text": "L'enfant pose la main sur la joue d'Abigail. Elle se réveille en sursaut, puis ne bouge plus. « Pardon. Je suis réveillée. Je suis là. »",
+      "to": "garde-continue"
     },
     "garde-tour": {
       "text": "Qui prend ce tour de garde, parmi ceux qui ne sont pas encore passés ?",
@@ -211,7 +310,7 @@
               ]
             }
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-tient-franklyn",
           "onFailure": "garde-fail-franklyn",
           "effects": [
             {
@@ -246,7 +345,7 @@
               ]
             }
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-tient-john",
           "onFailure": "garde-fail-john",
           "effects": [
             {
@@ -281,7 +380,7 @@
               ]
             }
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-tient-grover",
           "onFailure": "garde-fail-grover",
           "effects": [
             {
@@ -321,7 +420,7 @@
               ]
             }
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-tient-abigail",
           "onFailure": "garde-fail-abigail",
           "effects": [
             {
@@ -352,7 +451,7 @@
             "who": "abigail",
             "dv": "TRES_DIFFICILE"
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-tient-abigail",
           "onFailure": "garde-fail-abigail",
           "effects": [
             {
@@ -533,7 +632,7 @@
               ]
             }
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-reveil-franklyn",
           "onFailure": "garde-echec-franklyn",
           "effects": [
             {
@@ -623,7 +722,7 @@
               ]
             }
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-reveil-john",
           "onFailure": "garde-echec-john",
           "effects": [
             {
@@ -713,7 +812,7 @@
               ]
             }
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-reveil-grover",
           "onFailure": "garde-echec-grover",
           "effects": [
             {
@@ -808,7 +907,7 @@
               ]
             }
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-reveil-abigail",
           "onFailure": "garde-echec-abigail",
           "effects": [
             {
@@ -838,7 +937,7 @@
             "who": "abigail",
             "dv": "TRES_DIFFICILE"
           },
-          "onSuccess": "garde-continue",
+          "onSuccess": "garde-reveil-abigail",
           "onFailure": "garde-echec-abigail",
           "effects": [
             {

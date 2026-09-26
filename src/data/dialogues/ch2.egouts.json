@@ -4,16 +4,134 @@
   "start": "chute",
   "nodes": {
     "chute": {
-      "text": "La chute dans les égouts. Zachary ne se relève pas. Aucun geste, aucun jet, ne change ça, cette fois.",
-      "to": "constat"
+      "backdrop": "egouts-zachary",
+      "text": "En bas, l'eau noire monte jusqu'à la taille. Zachary ne se relève pas. Une balle dans le dos au bal, une dans l'épaule au dortoir : il s'est relevé deux fois, cette nuit. Pas cette fois. Il est conscient, il respire court, et il n'en sortira pas. Aucun geste n'y changera rien. Tout le monde le sait.",
+      "to": "soins"
     },
-    "constat": {
-      "text": "Il n'y a plus rien à faire pour lui.",
+    "soins": {
+      "backdrop": "egouts-zachary",
+      "text": "Abigail le tient contre elle, sa tête sur ses genoux, une veste roulée en boule pressée contre son flanc. Elle ne pleure pas. Elle appuie. Plus loin dans le tunnel, les autres attendent, accroupis autour de Letitia.",
+      "choices": [
+        { "text": "Comprimer la plaie avec elle.", "to": "geste-comprimer" },
+        { "text": "Lui parler, pour qu'il reste éveillé.", "to": "geste-parler" },
+        { "text": "Chercher de quoi faire un garrot.", "to": "geste-garrot" }
+      ]
+    },
+    "geste-comprimer": {
+      "backdrop": "egouts-zachary",
+      "text": "Franklyn met ses mains par-dessus celles d'Abigail et appuie de tout son poids. La veste est trempée, tiède sous ses paumes. Abigail hoche la tête sans le regarder. Ça ne ralentit rien, et ils le savent tous les deux.",
+      "to": "a-abigail"
+    },
+    "geste-parler": {
+      "backdrop": "egouts-zachary",
+      "text": "Franklyn s'accroupit dans l'eau, près de sa tête, et parle : de la photo, du slow, de n'importe quoi. Zachary suit, décroche, revient. Il sourit une fois, à une bêtise. Ses yeux se ferment un peu plus à chaque retour.",
+      "to": "a-abigail"
+    },
+    "geste-garrot": {
+      "backdrop": "egouts-zachary",
+      "text": "Franklyn fouille le tunnel et revient avec un bout de câble électrique. Il n'y a rien à serrer : la blessure est au flanc, pas à un bras ni à une jambe. Il reste là, le câble à la main. Abigail ne lève pas les yeux.",
+      "to": "a-abigail"
+    },
+    "a-abigail": {
+      "backdrop": "egouts-zachary",
+      "text": "Zachary lève la main, trouve le poignet d'Abigail et le serre, pour qu'elle arrête.",
+      "lines": [
+        { "who": "zachary", "text": "Abi. Arrête. Reste là, c'est tout." },
+        { "who": "zachary", "text": "C'était bien, ce slow." }
+      ],
+      "to": "a-franklyn"
+    },
+    "a-franklyn": {
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "loyal-bande" }, { "affinity": "zachary", "atLeast": 2 }],
+          "to": "franklyn-loyal-proche"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "loyal-bande" }, { "not": { "affinity": "zachary", "atLeast": 2 } }],
+          "to": "franklyn-loyal"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "loyal-bande" } }, { "affinity": "zachary", "atLeast": 2 }],
+          "to": "franklyn-proche"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "loyal-bande" } }, { "affinity": "zachary", "atMost": -1 }],
+          "to": "franklyn-froid"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [
+            { "not": { "tag": "loyal-bande" } },
+            { "not": { "affinity": "zachary", "atLeast": 2 } },
+            { "not": { "affinity": "zachary", "atMost": -1 } }
+          ],
+          "to": "franklyn-neutre"
+        }
+      ]
+    },
+    "franklyn-loyal-proche": {
+      "backdrop": "egouts-zachary",
+      "text": "Puis ses yeux cherchent Franklyn.",
+      "lines": [{ "who": "zachary", "text": "Binôme. T'es des nôtres, quoi qu'il arrive. Ramène-les. Tous." }],
+      "to": "mort"
+    },
+    "franklyn-loyal": {
+      "backdrop": "egouts-zachary",
+      "text": "Puis ses yeux cherchent Franklyn.",
+      "lines": [{ "who": "zachary", "text": "T'es des nôtres, Franklyn. Quoi qu'il arrive. Ramène-les." }],
+      "to": "mort"
+    },
+    "franklyn-proche": {
+      "backdrop": "egouts-zachary",
+      "text": "Puis ses yeux cherchent Franklyn.",
+      "lines": [{ "who": "zachary", "text": "Mon binôme. Occupe-toi d'elle. Promets." }],
+      "to": "mort"
+    },
+    "franklyn-froid": {
+      "backdrop": "egouts-zachary",
+      "text": "Puis ses yeux cherchent Franklyn, et s'arrêtent sur lui un moment.",
+      "lines": [{ "who": "zachary", "text": "On s'est jamais trop aimés, toi et moi. Sors-les d'ici quand même." }],
+      "to": "mort"
+    },
+    "franklyn-neutre": {
+      "backdrop": "egouts-zachary",
+      "text": "Puis ses yeux cherchent Franklyn.",
+      "lines": [{ "who": "zachary", "text": "Franklyn. Sors-les d'ici. D'accord ?" }],
+      "to": "mort"
+    },
+    "mort": {
+      "backdrop": "egouts-zachary",
+      "text": "Il ne dit plus rien. Son souffle s'espace, puis ne revient pas. Les mains d'Abigail restent où elles sont.",
+      "lines": [{ "who": "abigail", "text": "Zach ?" }],
       "effects": [{ "entry": { "key": "ch2.zachary", "label": "Zachary", "value": "mort le soir du bal" } }],
+      "to": "refus"
+    },
+    "refus": {
+      "backdrop": "egouts-arrachee",
+      "text": "Ils l'allongent sur le rebord de béton, hors de l'eau. Abigail ne le lâche pas. Elle pleure, maintenant, et quand on lui touche l'épaule, elle s'accroche plus fort. Plus loin, Letitia respire mal. Il faut qu'Abigail le lâche.",
+      "lines": [{ "who": "abigail", "text": "Non. Laissez-moi. Laissez-le-moi." }],
+      "choices": [
+        { "text": "La détacher de lui toi-même.", "to": "arrachee-franklyn" },
+        { "text": "Laisser Grover s'en charger.", "to": "arrachee-grover" }
+      ]
+    },
+    "arrachee-franklyn": {
+      "backdrop": "egouts-arrachee",
+      "text": "Franklyn la prend par la taille, par-derrière, et tire. Elle se débat, se tord vers Zachary, le bras tendu, les doigts ouverts. L'eau gicle. Il tire quand même, jusqu'à ce que sa main ne touche plus rien.",
+      "to": "ordre"
+    },
+    "arrachee-grover": {
+      "backdrop": "egouts-arrachee",
+      "text": "Grover arrive derrière elle et referme les bras autour de sa taille. Il ne dit rien. Il la tire en arrière, doucement d'abord, puis pour de bon. Elle tend la main vers Zachary jusqu'au bout, et sa main ne touche plus rien.",
       "to": "ordre"
     },
     "ordre": {
-      "text": "Abigail est agenouillée près du corps, muette. Letitia saigne, un peu plus loin.",
+      "text": "Abigail s'est laissée glisser contre la paroi du tunnel, muette. Letitia, un peu plus loin, perd encore des forces.",
       "choices": [
         { "text": "Calmer Abigail d'abord.", "to": "calmer" },
         { "text": "Soigner Letitia d'abord.", "to": "soigner-qui" }
@@ -101,7 +219,35 @@
       "to": "depart"
     },
     "depart": {
-      "text": "Il faut repartir. Personne ne dit rien."
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "enfant-confiance" }, { "not": { "flag": "ch2.enfant.lien", "equals": "franklyn" } }],
+          "to": "depart-grover"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "enfant-confiance" }, { "flag": "ch2.enfant.lien", "equals": "franklyn" }],
+          "to": "depart-franklyn"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "enfant-confiance" } }],
+          "to": "depart-mefiant"
+        }
+      ]
+    },
+    "depart-grover": {
+      "text": "Il faut repartir. Personne ne dit rien. L'enfant marche collé à Grover, une main agrippée à sa veste.",
+      "lines": [{ "who": "enfant", "text": "Il vient avec nous, lui ?" }]
+    },
+    "depart-franklyn": {
+      "text": "Il faut repartir. Personne ne dit rien. L'enfant a repris la manche de Franklyn et ne la lâche plus.",
+      "lines": [{ "who": "enfant", "text": "Il vient avec nous, lui ?" }]
+    },
+    "depart-mefiant": {
+      "text": "Il faut repartir. Personne ne dit rien. L'enfant attend déjà au pied de l'échelle, à l'écart, prêt à filer sans vous.",
+      "lines": [{ "who": "enfant", "text": "Faut pas rester. Ils descendent, des fois." }]
     }
   }
 }

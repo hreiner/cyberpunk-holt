@@ -49,7 +49,7 @@ du chapitre 1 ne bougent pas (sauvegardes, `?scene=`, e2e).
 
 | # | Question | Réponse |
 |---|---|---|
-| 1 | Un cadet mort ? | Le moteur le tolère sans changement : sans tirage ni combat, rien ne suppose six vivants. `ch2.zachary = mort` est une entrée. Une garde de contenu (lot 5.5) vérifie qu'aucun dialogue après `ch2.egouts` ne fait parler Zachary ni ne lui fait lancer un jet. |
+| 1 | Un cadet mort ? | Le moteur le tolère sans changement : sans tirage ni combat, rien ne suppose six vivants. `ch2.zachary = mort` est une entrée. Une garde de contenu (lot 5.5) vérifie qu'aucun dialogue après `ch2.egouts` ne fait parler Zachary ni ne lui fait lancer un jet ; depuis le lot 5.13, qui joue sa mort dans `ch2.egouts`, elle suit le **nœud de sa mort** (celui qui écrit l'entrée `ch2.zachary`), portrait compris. |
 | 2 | Raccord avec le bal du chapitre 1 ? | Aucun nœud à déplacer : le nœud `fin` de `ch1.bal` est la passerelle. Il faut en revanche **harmoniser** `ch1.bal.json` avec les décisions du propriétaire : Smith au féminin, « Zacharie » → « Zachary » (lot 5.1). |
 | 3 | Salle du bal et dortoir sur la carte ? | Oui, tous deux sur `holt` (salles d'entraînement, dortoirs). Le bal et la fuite se jouent sur une variante de nuit `holt-nuit`, qui reprend le plan ASCII de `holt` avec ses propres entités et un habillage enrichi. Le pilote du dortoir (ADR 0020) est une page de développement : on ne s'en sert pas. |
 | 4 | Cinq suiveurs à 60 fps sur GTX 1070 ? | **Mesuré au lot 5.7**, voir §6 « Lot 5.7 — mesure ». Le dortoir passe de 46 appels de dessin (Franklyn seul) à 149 avec cinq suiveurs (l'enfant compris), largement sous le seuil de 250 — sur une vraie GTX 1070. **Décision B9 du propriétaire (2026-09-26) : deux suiveurs visibles**, le reste du groupe dit par la narration (variante 🟢). |
@@ -724,6 +724,24 @@ commandes de porte masqués avec les murs coupés.
     chez le charcudoc, selon `enfant-confiance` (locuteur `enfant`).
 - **Documents** : `ART-PIPELINE.md` (substituts en attente), `IMPLEMENTATION-GUIDE.md` (par
   l'orchestrateur).
+- **Livré (lot 5.13)** :
+  - *Scène 7* : `chute` → `soins` (trois gestes, sans jet ni effet) → `a-abigail` → une réplique
+    à Franklyn selon `loyal-bande` × affinité avec Zachary (cinq variantes, aiguillage
+    `a-franklyn`) → `mort` (l'entrée `ch2.zachary` ; Abigail y parle, ce qui remplace le portrait
+    de Zachary) → `refus` (Franklyn ou Grover, sans effet) → `ordre`, la décision inchangée.
+    Décors : `egouts-zachary` jusqu'à `mort`, `egouts-arrachee` jusqu'à `ordre`, `egouts` ensuite.
+    Les images D29/D30 étaient déjà générées : ni manifeste, ni brief, ni substitut touchés.
+  - *Garde* : les répliques des veilleurs sont **dites dans la narration** (« … »), comme celles de
+    John dans le même fichier : en `lines`, le portrait du veilleur serait resté sur le tour
+    raté du suivant (règle du dernier locuteur). DV et `dvByCounter` inchangés.
+  - *L'enfant* : une réplique aux égouts (`depart`), au campement (`ch2.murano`, avant `fin`),
+    aux décharges et chez le charcudoc (`fin`), toujours sur un nœud final ou suivi d'un autre
+    locuteur. Pour savoir **à qui** il s'accroche, `ch2.enfant` pose un drapeau
+    `ch2.enfant.lien` (`grover` | `franklyn`) avec `enfant-confiance` ; sans lui, repli sur Grover.
+  - *Simulateur* : à 500 nuits, tout ce qui précède la scène 7 est identique ; la suite bouge de
+    quelques points, parce que les deux choix nouveaux de la séquence de deuil décalent le tirage.
+    À 3 000 nuits, avant et après : écarts ≤ 2 points sur toutes les lignes, du bruit
+    (`abigail-brisee` 19,8 → 19,6 % pour Loyal, 19,9 → 19,4 % pour Solitaire, 39,6 → 38,5 % pour Neutre).
 
 ### Lot 5.14 — le Blue Purple *(ajout du propriétaire, 2026-09-26)*
 
