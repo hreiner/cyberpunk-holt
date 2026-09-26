@@ -137,8 +137,12 @@ dans quel ordre, sans casser le chapitre 1 ?*
 
 ## Phase 3 — l'implémentation
 
-Un lot par session. L'agent lit AGENTS.md, la section de son lot dans `TECH-DESIGN.md`, et
-les documents que ce lot cite — rien d'autre. En fin de lot : `npm run verify`, la feuille
+Un lot par session. L'agent lit AGENTS.md, la **fiche de reprise** du chapitre
+(`chN/IMPLEMENTATION-GUIDE.md` : contrats, carte des fichiers, tests gardiens, recettes, pièges
+déjà payés), la section de son lot dans `TECH-DESIGN.md`, et les documents que ce lot cite —
+rien d'autre. L'orchestrateur tient la fiche à jour à chaque lot commité, et confie les lots à
+l'agent `lot-agent` (`.claude/agents/lot-agent.md`), qui porte les invariants et le format du
+rapport. En fin de lot : `npm run verify`, la feuille
 de route mise à jour, et, si le design s'est révélé faux, le document corrigé **dans le même
 commit** (règle d'AGENTS.md §6). Quand une capacité nouvelle est livrée, elle entre dans
 [`CAPABILITIES.md`](CAPABILITIES.md) : c'est ce qui rend le chapitre suivant moins cher à
