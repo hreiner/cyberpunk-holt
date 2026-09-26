@@ -9,7 +9,8 @@
 
 ## 1. Où en est l'epic
 
-Lots livrés : 5.1 à 5.10, 5.8b, 5.A — reste la revue 5.11 (voir ROADMAP, epic 5). Les onze scènes sont complètes. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
+Lots livrés : 5.1 à 5.11, 5.8b, 5.11b, 5.A, 5.B. Ajouts du propriétaire restants : 5.15
+(slow et rafale), 5.13 (mort de Zachary, répliques de garde et de l'enfant), 5.14 (Blue Purple) (voir ROADMAP, epic 5). Les onze scènes sont complètes. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
 **garde = trois tours pour quatre veilleurs, voiture pillée à deux échecs** ; images du lot E
 générées (plus de substituts).
 
@@ -139,6 +140,16 @@ Chapitre : `src/data/chapters/ch2.ts` (scènes, jauge, bilan `CH2_END`, `Ch2Etap
 - Une porte d'exploration s'ouvre par `opensDoorAfterDialogue`, ou par `<dialogueId>.fait`
   posé par le dialogue lui-même ; une carte intérieure sans sol extérieur met
   `exteriorGround: false` dans `EXPLORE_VISUALS`.
+- Un déclencheur d'objectif peut dire « pas encore » : `ObjectiveDef.completesWhen`
+  (addendum ADR 0024) ; faux à la fin de son dialogue, l'étape reste ouverte.
+- Scènes jumelles (`when`) : le routeur retient la jumelle éligible (`SceneRouter.goTo`) ; teste
+  toujours les deux porteurs, pas seulement John.
+- Portraits : le repli « dernier locuteur » ne vaut qu'à l'intérieur d'un fichier ; un fichier
+  qui s'ouvre sur de la narration n'a pas de portrait.
+- Couloirs : déduits du plan, murs coupés quand Franklyn y est (ADR 0027).
+- Un test e2e qui passe par `window.__game.interact` peut rater ce qu'un clic rencontre : les
+  parcours décisifs se rejouent au clic (`chapter2.spec.ts`, scénario 2).
+- Les images du lot F sont générées : `rafale-*`, `egouts-*`, `blue-purple*`, portrait `inconnue`.
 - Une `Condition` ne lit pas une entrée du dossier : pour qu'un bilan ou une scène plus
   lointaine en dépende, pose un drapeau en même temps que l'entrée (`ch2.campement.tueur`,
   `ch2.fusil.donne`).
