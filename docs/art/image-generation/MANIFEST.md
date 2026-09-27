@@ -179,8 +179,8 @@ dortoir (`ch2.grille`) reprend `dortoirs` (D01). *Ces deux réemplois sont rempl
 
 | ID | Lieu · scène | Fichier livré | Références | État |
 |---|---|---|---|---|
-| D39 | Le couloir de ceinture de l'académie, la nuit de l'attaque · Scène 4, `ch2.fuite` (clé `couloir-nuit`, remplace `bal-entree`) | `public/assets/backdrops/couloir-nuit.webp` | décors D01 et D02 (l'académie), `Chapter2/BadlandsHoltenFeuPatrouilles.png` (le feu, la fumée), `Chapter2/AttaqueBoom.png` (l'éclair du tir, sans la discothèque) | à faire (substitut posé) |
-| D40 | La grille du dortoir, verrouillée, la nuit de l'attaque · Scène 4, `ch2.grille` (clé `grille-dortoir`, remplace `dortoirs`) | `public/assets/backdrops/grille-dortoir.webp` | décor D01 (le dortoir derrière la grille), décor D02, `Chapter2/BadlandsHoltenFeuPatrouilles.png` (la lueur du feu) | à faire (substitut posé) |
+| D39 | Le couloir de ceinture de l'académie, la nuit de l'attaque · Scène 4, `ch2.fuite` (clé `couloir-nuit`, remplace `bal-entree`) | `public/assets/backdrops/couloir-nuit.webp` | décors D01 et D02 (l'académie), `Chapter2/BadlandsHoltenFeuPatrouilles.png` (le feu, la fumée), `Chapter2/AttaqueBoom.png` (l'éclair du tir, sans la discothèque) | à valider |
+| D40 | La grille du dortoir, verrouillée, la nuit de l'attaque · Scène 4, `ch2.grille` (clé `grille-dortoir`, remplace `dortoirs`) | `public/assets/backdrops/grille-dortoir.webp` | décor D01 (le dortoir derrière la grille), décor D02, `Chapter2/BadlandsHoltenFeuPatrouilles.png` (la lueur du feu) | à valider |
 
 ## Plus tard (non planifié)
 
