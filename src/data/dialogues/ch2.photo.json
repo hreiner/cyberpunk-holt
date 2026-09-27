@@ -38,7 +38,7 @@
       "to": "salle"
     },
     "salle": {
-      "backdrop": "bal-entree",
+      "backdrop": "bal",
       "text": "L'objectif se referme. Déjà, la musique du bal résonne au bout du couloir : la promotion se disperse vers la salle."
     }
   }

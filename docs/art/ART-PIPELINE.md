@@ -247,7 +247,7 @@ Demande du propriétaire (2026-09-27) : les deux réemplois de la scène 4 ne co
 du centre d'examen et sa table de tasers pour l'aparté de la fuite ; le dortoir à l'aube pour la
 grille). Deux décors propres entrent au manifeste (lot H), avec les fiches `briefs/D39-*` et
 `briefs/D40-*` et leur prompt complet ; substituts posés au chemin définitif, même procédé qu'au
-lot 5.A. `bal-entree` reste le décor de la fin de `ch2.photo`.
+lot 5.A. La clé `bal-entree` est retirée (2026-09-27) : la fin de `ch2.photo` affiche `bal`.
 
 | Décor | Statut | Remplace |
 |---|---|---|

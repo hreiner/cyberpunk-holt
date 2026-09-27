@@ -18,9 +18,6 @@
  * toutes ses clés et un **substitut** `.webp` léger, visiblement provisoire,
  * au chemin définitif de chaque décor. Le propriétaire remplacera chaque
  * fichier un par un lors de la passe de génération : la clé ne change jamais.
- * Exception : `bal-entree` réutilise intentionnellement `hall.webp` du
- * chapitre 1 (même corridor d'académie) — ce n'est pas un des dix décors du
- * manifeste, donc pas de fiche dédiée ; voir ART-PIPELINE.md.
  *
  * Le lot 5.B (manifeste, lot F ; fiches `D29-*` à `D35-*`) ajoute les sept
  * décors des ajouts du propriétaire (rafale, mort de Zachary, Blue Purple),
@@ -37,7 +34,8 @@
  * réemplois de nuit qui ne collaient pas : l'aparté de la fuite quitte
  * `bal-entree` (le hall du centre d'examen) pour `couloir-nuit`, la grille
  * quitte `dortoirs` (l'aube) pour `grille-dortoir`, chacun avec son substitut
- * au chemin définitif. `bal-entree` reste le décor de la fin de `ch2.photo`.
+ * au chemin définitif. La fin de `ch2.photo` passe sur `bal` (la clé `bal-entree`, qui
+ * réemployait le hall du centre d'examen et sa table d'équipement, est retirée).
  */
 
 import { assetUrl } from '@/ui/assetUrl';
@@ -71,15 +69,6 @@ export const BACKDROPS: Record<string, Backdrop> = {
   // -- Chapitre 2 : manifeste et substituts du lot 5.A (docs/art/image-generation/MANIFEST.md, lot E). --
   /** Scène 1 (`ch2.photo`), D18 : la photo de classe, réutilisée au bilan (B23, lot 5.4/5.6). */
   'photo-souvenir': { src: `${BACKDROP_ASSET}photo-souvenir.webp` },
-  /**
-   * Fin de `ch2.photo` : le couloir vers la salle, juste avant `ch2.bal`.
-   * Réutilise intentionnellement le fichier `hall.webp` du chapitre 1 (même
-   * type de corridor d'académie) -- ce n'est pas un des décors du manifeste
-   * (pas de fiche dédiée), et un fichier DIFFÉRENT de `photo-souvenir` est
-   * nécessaire pour que la coupe franche entre les deux nœuds se voie à
-   * l'écran.
-   */
-  'bal-entree': { src: `${BACKDROP_ASSET}hall.webp` },
   /** Scène 3 (`ch2.slow`), D19/D20 : les deux images du slow, selon `cavalier-letitia`. */
   'slow-abigail-zachary': { src: `${BACKDROP_ASSET}slow-abigail-zachary.webp` },
   'slow-franklyn-letitia': { src: `${BACKDROP_ASSET}slow-franklyn-letitia.webp` },

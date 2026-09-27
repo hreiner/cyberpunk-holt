@@ -103,9 +103,7 @@ Formats et règles communes : [`STYLE-BIBLE.md`](STYLE-BIBLE.md). Références :
 le chapitre 1) reste disponible pour un futur nœud du chapitre 2 qui montrerait les Badlands à
 découvert (aucun nœud ne la cite pour l'instant) — pas de nouvelle fiche, pas de nouveau fichier.
 
-**Décor `bal-entree` réutilisé tel quel** : le couloir entre `ch2.photo` et `ch2.bal` réutilise
-intentionnellement `hall.webp` (chapitre 1, `D12`) — ce n'est pas un des dix décors ci-dessus,
-donc pas de fiche dédiée. Voir `src/data/backdrops.ts`.
+**Décor `bal-entree` retiré (2026-09-27)** : il réemployait `hall.webp` (le hall du centre d'examen, avec sa table d'équipement), qui ne collait pas. La fin de `ch2.photo` affiche désormais `bal` (la salle de bal) ; l'aparté de la fuite, `couloir-nuit` (D39).
 
 ## Lot F — chapitre 2, ajouts du propriétaire (lot de dev 5.B)
 
