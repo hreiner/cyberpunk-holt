@@ -18,6 +18,8 @@ interface Callbacks {
   advance(): PresentedNode | null;
   choose(index: number): PresentedNode | null;
   onMuteChange(muted: boolean): void;
+  onStartVoice(): void;
+  onSkip(): void;
 }
 
 const OPENING = assetUrl('backdrops/egouts-zachary.webp');
@@ -29,7 +31,11 @@ const MUSIC = assetUrl('audio/47.%20Let%20You%20Down.mp3');
 const SEWER = assetUrl('audio/sewer-drips.wav');
 const SOBBING = assetUrl('audio/abigail-sobbing.wav');
 const MUSIC_VOLUME = 0.56;
+const MUSIC_DUCKED_VOLUME = 0.22;
+const SEWER_VOLUME = 0.28;
+const SEWER_DUCKED_VOLUME = 0.13;
 const SOBBING_VOLUME = 0.08;
+const SOBBING_DUCKED_VOLUME = 0.03;
 const FADE_MS = 3000;
 
 export class ZacharyCinematic {
@@ -60,7 +66,7 @@ export class ZacharyCinematic {
     this.music.volume = MUSIC_VOLUME;
     this.sewer.preload = 'auto';
     this.sewer.loop = true;
-    this.sewer.volume = 0.28;
+    this.sewer.volume = SEWER_VOLUME;
     this.sobbing.preload = 'auto';
     this.sobbing.volume = SOBBING_VOLUME;
     for (const audio of [this.music, this.sewer, this.sobbing]) audio.muted = muted;
@@ -118,6 +124,7 @@ export class ZacharyCinematic {
     this.showNode(this.callbacks.current());
     void this.music.play().catch(() => undefined);
     void this.sewer.play().catch(() => undefined);
+    this.callbacks.onStartVoice();
     this.lastTick = performance.now();
     this.ticker = window.setInterval(this.tick, 80);
   };
@@ -214,7 +221,16 @@ export class ZacharyCinematic {
       void this.sewer.play().catch(() => undefined);
     }
     this.dismissVisual();
+    this.callbacks.onSkip();
   };
+
+  /** Garde l'eau et la chanson présentes sans couvrir les derniers mots. */
+  setVoiceSpeaking(speaking: boolean): void {
+    if (this.disposed || this.fading) return;
+    this.music.volume = speaking ? MUSIC_DUCKED_VOLUME : MUSIC_VOLUME;
+    this.sewer.volume = speaking ? SEWER_DUCKED_VOLUME : SEWER_VOLUME;
+    this.sobbing.volume = speaking ? SOBBING_DUCKED_VOLUME : SOBBING_VOLUME;
+  }
 
   private readonly toggleMute = (): void => {
     const muted = !this.music.muted;

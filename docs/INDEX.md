@@ -43,6 +43,7 @@ aucune conversation à retrouver.
 | [`chapters/ENGINE-COUPLING.md`](chapters/ENGINE-COUPLING.md) | (phase 2) les endroits où le moteur suppose encore le chapitre 1                           |
 | [`chapters/_templates/`](chapters/_templates/)               | gabarits `GAME-DESIGN.md` et `TECH-DESIGN.md`                                              |
 | [`chapters/ch2/SCENARIO.md`](chapters/ch2/SCENARIO.md)       | le scénario du chapitre 2, à écrire par le propriétaire                                    |
+| [`chapters/ch2/VOICE-DESIGN.md`](chapters/ch2/VOICE-DESIGN.md) | casting, conduite et méthode pour poursuivre les voix du chapitre 2                     |
 
 ## Art
 
@@ -106,3 +107,5 @@ aucune conversation à retrouver.
 | [0027](process/adr/0027-couloirs-deduits-du-plan-murs-en-coupe.md) | Couloirs déduits du plan, murs en coupe |
 | [0028](process/adr/0028-variante-de-portrait-par-replique.md) | Variante de portrait par réplique |
 | [0029](process/adr/0029-montage-chronometre-du-slow.md) | Montage chronométré du slow et assets audio locaux |
+| [0030](process/adr/0030-voix-anglaises-sous-titres-francais-bal.md) | Voix anglaises et sous-titres français pour le bal |
+| [0031](process/adr/0031-voix-cinematique-zachary.md) | Voix de la cinématique de Zachary et mix adaptatif |

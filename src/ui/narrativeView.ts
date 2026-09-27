@@ -1034,6 +1034,10 @@ export class NarrativeView {
     this.sfx.setMuted(muted);
   }
 
+  setSoundEffectsDucked(ducked: boolean): void {
+    this.sfx.setDucked(ducked);
+  }
+
   hide(): void {
     this.root.hidden = true;
     this.sfx.stopSamples();

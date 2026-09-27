@@ -36,6 +36,7 @@ export type SfxId = SfxName;
 
 const MASTER_VOLUME = 0.35;
 const NOISE_SECONDS = 0.6;
+const VOICE_DUCKING_SCALE = 0.15;
 const SAMPLE_FILES: Partial<Record<SfxName, { file: string; volume: number }>> = {
   'distant-shot': { file: 'gunfire-distant.wav', volume: 0.42 },
   burst: { file: 'gunfire-close.wav', volume: 0.78 },
@@ -96,7 +97,8 @@ export class Sfx {
   private master: GainNode | null = null;
   private noise: AudioBuffer | null = null;
   private muted: boolean;
-  private readonly activeSamples = new Set<HTMLAudioElement>();
+  private ducked = false;
+  private readonly activeSamples = new Map<HTMLAudioElement, number>();
 
   constructor(
     private readonly enabled: boolean,
@@ -114,8 +116,16 @@ export class Sfx {
     if (muted) this.stopSamples();
   }
 
+  /** Laisse les tirs en fond, sans masquer une réplique déjà en cours. */
+  setDucked(ducked: boolean): void {
+    this.ducked = ducked;
+    const scale = ducked ? VOICE_DUCKING_SCALE : 1;
+    for (const [sample, volume] of this.activeSamples) sample.volume = volume * scale;
+    if (this.master) this.master.gain.value = MASTER_VOLUME * scale;
+  }
+
   stopSamples(): void {
-    for (const sample of this.activeSamples) {
+    for (const sample of this.activeSamples.keys()) {
       sample.pause();
       sample.removeAttribute('src');
       sample.load();
@@ -134,8 +144,8 @@ export class Sfx {
     const sample = SAMPLE_FILES[name];
     if (sample && this.enabled) {
       const media = new Audio(`${import.meta.env.BASE_URL}assets/audio/${sample.file}`);
-      media.volume = sample.volume;
-      this.activeSamples.add(media);
+      media.volume = sample.volume * (this.ducked ? VOICE_DUCKING_SCALE : 1);
+      this.activeSamples.set(media, sample.volume);
       media.addEventListener('ended', () => this.activeSamples.delete(media), { once: true });
       void media.play().catch(() => {
         if (!this.activeSamples.has(media)) return;
@@ -168,7 +178,7 @@ export class Sfx {
       if (!Ctor) return null;
       this.context = new Ctor();
       this.master = this.context.createGain();
-      this.master.gain.value = MASTER_VOLUME;
+      this.master.gain.value = MASTER_VOLUME * (this.ducked ? VOICE_DUCKING_SCALE : 1);
       this.master.connect(this.context.destination);
       return this.context;
     } catch {

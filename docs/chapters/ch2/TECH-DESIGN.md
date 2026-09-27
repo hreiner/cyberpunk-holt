@@ -793,6 +793,14 @@ commandes de porte masqués avec les murs coupés.
   Le propriétaire a demandé des pleurs très bas, la prise de son étant peu agréable ; ils
   restent sous la chanson et ne durent qu'un extrait de 13 s. Vérifier le mix à l'écoute sur le
   poste de jeu.
+- **Extension VO (lot 5.21, ADR 0031)** : les deux amorces du narrateur entrent à `chute`
+  (après « Lancer ») et `soins`. À 25 s, Zachary s'adresse à Abigail ; à 42 s, la seule
+  variante visible de ses derniers mots à Franklyn est jouée. À `mort`, Abigail dit seulement
+  « Zach ? » ; à `refus`, elle supplie qu'on la laisse auprès de lui. Le plan D46 n'a pas de
+  voix narrative. La chanson passe de 0,56 à 0,22, l'eau de 0,28 à 0,13 et les pleurs de
+  0,08 à 0,03 pendant une prise, puis reviennent. Le `ChapterVoiceover` commun gère le muet,
+  l'onglet caché, « Passer » et l'arrêt au changement de scène. Les textes restent dans
+  `ch2.egouts.json`, les prises et Audio Tags dans `ch2ZacharyVoices.ts`.
 
 ### Lot 5.16 — Zachary blessé : une variante de portrait *(décision du propriétaire, 2026-09-27)*
 

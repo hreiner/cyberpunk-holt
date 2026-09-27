@@ -201,10 +201,12 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.14 | *(ajout du propriétaire)* **Le Blue Purple** : scène 12 dite, une inconnue s'assoit à leur table et clôt le chapitre ; locuteur `inconnue`, deux décors, un portrait au manifeste | 5.16 | fait |
 | 5.12 | **Slow cinématique** : musique locale continue sous les choix et la fusillade, fondu final, tirs lointains et proches CC0 (ADR 0029) | 5.5, la piste | fait (chanson locale hors Git) |
 | 5.18 | **Zachary, cinématique des égouts** : trois plans nouveaux, premiers soins et adieu chronométrés, ambiance et pleurs CC0, « Let You Down » continue sous tous les choix et fond à la sortie de la scène | 5.13, méthode 5.12 | fait (chanson locale hors Git) |
+| 5.20 | **Voix du bal, essai VO** : dialogues anglais sous texte français, murmure joué selon le choix, narration arrêtée avant les portes, chanson et tirs baissés pendant les voix (ADR 0030) | 5.12, casting du propriétaire | fait (écoute finale du mix à valider) |
+| 5.21 | **Voix de la mort de Zachary** : derniers mots selon le dossier, Abigail, narration retenue, mix de la chanson/eau/pleurs et sous-titres français (ADR 0031) | 5.18, 5.20 | fait (écoute finale du mix à valider) |
 
 Ordre de passage (décision du propriétaire, un lot à la fois) : 5.1, 5.2, 5.3, 5.A, 5.7, 5.4,
 5.5, 5.6, 5.8, 5.8b, 5.10, 5.9, 5.11, puis les ajouts après QA : 5.B, 5.11b, 5.15, 5.13, 5.16,
-5.14, 5.12, 5.18. Le portrait P06b attend la passe de génération. Les pistes du slow et des
+5.14, 5.12, 5.18, 5.20, 5.21. Le portrait P06b attend la passe de génération. Les pistes du slow et des
 égouts sont fournies localement par le propriétaire et ne sont pas versionnées.
 
 ## Après le chapitre 2

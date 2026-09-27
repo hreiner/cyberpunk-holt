@@ -17,11 +17,12 @@ export const SLOW_CINEMATIC_TIMES = {
 interface Callbacks {
   onStart(): void;
   onEnterWhisper(): PresentedChoice[];
-  onWhisper(index: number): string | null;
+  onWhisper(index: number): { text: string; voiceFinished: Promise<void> } | null;
   onOtherCouple(): void;
   onImpact(): void;
   onSkip(): void;
   onMuteChange(muted: boolean): void;
+  onVoiceCue(id: string): void;
 }
 
 const FRANKLYN_WIDE = assetUrl('backdrops/slow-franklyn-letitia.webp');
@@ -32,6 +33,7 @@ const DOORS = assetUrl('backdrops/slow-doors.webp');
 const ATTACK = assetUrl('backdrops/attaque.webp');
 const MUSIC = assetUrl('audio/I_Really_Want_to_Stay_at_Your_House_-_Rosa_Walton_Hallie_Coggins.mp3');
 const MUSIC_VOLUME = 0.58;
+const MUSIC_DUCKED_VOLUME = 0.28;
 const MUSIC_FADE_MS = 1800;
 
 export class SlowCinematic {
@@ -128,6 +130,7 @@ export class SlowCinematic {
         ? 'Letitia pose la tête contre son épaule. Pour un instant, il n’y a plus que la chanson.'
         : 'Franklyn regarde la piste. Abigail et Zachary tournent lentement sous la boule à facettes.',
     );
+    this.callbacks.onVoiceCue(this.dancer ? 'slow.open.dancer' : 'slow.open.edge');
     this.lastTick = performance.now();
     this.ticker = window.setInterval(this.tick, 80);
   };
@@ -141,7 +144,10 @@ export class SlowCinematic {
     if (this.stage === 0 && seconds >= SLOW_CINEMATIC_TIMES.close) {
       this.stage++;
       this.showImage(this.dancer ? FRANKLYN_CLOSE : ABIGAIL_CLOSE);
-      this.setCaption(this.dancer ? 'Elle ferme les yeux. Il cherche les mots.' : 'Abigail laisse Zachary finir sa phrase.');
+      this.setCaption(
+        this.dancer ? 'Elle ferme les yeux. Il cherche les mots.' : 'Abigail laisse Zachary finir sa phrase.',
+      );
+      this.callbacks.onVoiceCue(this.dancer ? 'slow.close.dancer' : 'slow.close.edge');
     }
     if (this.stage === 1 && seconds >= SLOW_CINEMATIC_TIMES.whisper) {
       this.stage++;
@@ -156,6 +162,7 @@ export class SlowCinematic {
       if (this.dancer) this.callbacks.onOtherCouple();
       this.showImage(ABIGAIL_WIDE);
       this.setCaption('De l’autre côté de la piste, Abigail et Zachary dansent encore.');
+      this.callbacks.onVoiceCue('slow.other');
     }
     if (this.stage === 3 && seconds >= SLOW_CINEMATIC_TIMES.distantShots) {
       this.stage++;
@@ -190,9 +197,12 @@ export class SlowCinematic {
         const response = this.callbacks.onWhisper(choice.index);
         if (response === null) return;
         this.choices.hidden = true;
-        this.setCaption(response);
-        this.awaitingWhisper = false;
-        this.lastTick = performance.now();
+        this.setCaption(response.text);
+        void response.voiceFinished.then(() => {
+          if (this.visualDismissed || this.disposed) return;
+          this.awaitingWhisper = false;
+          this.lastTick = performance.now();
+        });
       });
       this.choices.appendChild(button);
     }
@@ -236,6 +246,12 @@ export class SlowCinematic {
     this.dismissVisual();
     this.callbacks.onSkip();
   };
+
+  /** Baisse la chanson pendant une réplique pour préserver son intelligibilité. */
+  setVoiceSpeaking(speaking: boolean): void {
+    if (this.disposed || this.fading) return;
+    this.music.volume = speaking ? MUSIC_DUCKED_VOLUME : MUSIC_VOLUME;
+  }
 
   private readonly toggleMute = (): void => {
     const muted = !this.music.muted;

@@ -68,6 +68,7 @@ import { GameApp } from './app';
 import type { TacticalOutcome } from './app';
 import { NarrativeView } from './ui/narrativeView';
 import { SlowCinematic } from './ui/slowCinematic';
+import { ChapterVoiceover } from './ui/chapterVoiceover';
 import { ZacharyCinematic } from './ui/zacharyCinematic';
 import type { NarrativeHud } from './ui/narrativeView';
 import type { GaugeStatus } from './ui/gaugeView';
@@ -257,6 +258,14 @@ export class ChapterApp {
   private readonly contactHost: HTMLElement;
   private readonly view: NarrativeView;
   private slowCinematic: SlowCinematic | null = null;
+  private readonly voiceover = new ChapterVoiceover(
+    (speaking) => {
+      this.slowCinematic?.setVoiceSpeaking(speaking);
+      this.zacharyCinematic?.setVoiceSpeaking(speaking);
+      this.view.setSoundEffectsDucked(speaking);
+    },
+    loadSession().soundMuted,
+  );
   private zacharyCinematic: ZacharyCinematic | null = null;
   private readonly reportView: ReportView;
   private readonly draftView: DraftView;
@@ -657,6 +666,7 @@ export class ChapterApp {
     if (this.disposed) return;
     this.disposed = true;
     this.cancelSlowCinematic();
+    this.voiceover.dispose();
     this.cancelZacharyCinematic();
     this.tacticalApp?.dispose();
     this.view.dispose();
@@ -748,6 +758,7 @@ export class ChapterApp {
     const dancer = this.activeDialogue?.context.dossier.tags.includes('cavalier-letitia') ?? false;
     const muted = loadSession().soundMuted;
     this.view.setSoundMuted(muted);
+    this.voiceover.setMuted(muted);
     this.slowCinematic = new SlowCinematic(
       this.narrativeHost,
       dancer,
@@ -772,7 +783,14 @@ export class ChapterApp {
           const outcome = runner.choose(index);
           if (!outcome.ok) return null;
           this.renderDialogue();
-          return runner.current().text ?? '';
+          const nodeId = runner.current().nodeId;
+          const cueIds =
+            nodeId === 'murmure-tendre'
+              ? ['slow.whisper.tender.franklyn', 'slow.whisper.tender.letitia']
+              : nodeId === 'murmure-maladroit'
+                ? ['slow.whisper.clumsy.franklyn', 'slow.whisper.clumsy.letitia']
+                : ['slow.whisper.silence'];
+          return { text: runner.current().text ?? '', voiceFinished: this.voiceover.playSequence(cueIds) };
         },
         onOtherCouple: () => {
           this.activeDialogue?.advance();
@@ -783,13 +801,16 @@ export class ChapterApp {
           this.renderDialogue();
         },
         onSkip: () => {
+          this.voiceover.stop();
           this.renderDialogue();
         },
         onMuteChange: (soundMuted) => {
           this.view.setSoundMuted(soundMuted);
+          this.voiceover.setMuted(soundMuted);
           this.exploreSession.setSoundMuted(soundMuted);
           saveSession({ ...loadSession(), soundMuted });
         },
+        onVoiceCue: (id) => this.voiceover.play(id),
       },
       muted,
     );
@@ -803,6 +824,7 @@ export class ChapterApp {
   private startZacharyCinematic(): void {
     const muted = loadSession().soundMuted;
     this.view.setSoundMuted(muted);
+    this.voiceover.setMuted(muted);
     this.zacharyCinematic = new ZacharyCinematic(
       this.narrativeHost,
       {
@@ -822,8 +844,14 @@ export class ChapterApp {
         },
         onMuteChange: (soundMuted) => {
           this.view.setSoundMuted(soundMuted);
+          this.voiceover.setMuted(soundMuted);
           this.exploreSession.setSoundMuted(soundMuted);
           saveSession({ ...loadSession(), soundMuted });
+        },
+        onStartVoice: () => this.voiceover.play('zachary.open'),
+        onSkip: () => {
+          this.voiceover.stop();
+          this.renderDialogue();
         },
       },
       muted,
@@ -853,6 +881,7 @@ export class ChapterApp {
       this.buildHud(runner.context.run, sceneId),
       dialogueId,
     );
+    this.voiceover.observeNode(dialogueId, node.nodeId);
     this.checkRadio(runner.context);
   }
 
@@ -1284,12 +1313,14 @@ export class ChapterApp {
       this.buildHud(entry.runner.context.run, sceneId),
       entry.dialogueId,
     );
+    this.voiceover.observeNode(entry.dialogueId, node.nodeId);
     this.checkRadio(entry.runner.context);
   }
 
   private completeExploreConversation(): void {
     const entry = this.activeExploreConversation;
     if (!entry) return;
+    this.voiceover.reset();
     // `ObjectiveDef.completesWhen` (lot 5.11) : le dialogue du déclencheur peut rendre la main
     // sans clore l'étape (« Pas tout de suite », au bal). Il n'est alors pas marqué « déjà joué » :
     // le joueur y revient et le rejoue en entier.
@@ -1509,6 +1540,7 @@ export class ChapterApp {
   /* ------------------------------- scene courante ------------------------------ */
 
   private enterScene(scene: SceneDef | null): void {
+    this.voiceover.reset();
     this.cancelSlowCinematic();
     this.cancelZacharyCinematic();
     this.activeDialogue = null;
