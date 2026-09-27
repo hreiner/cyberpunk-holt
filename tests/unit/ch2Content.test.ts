@@ -45,6 +45,7 @@ import { DialogueRunner } from '@/narrative/dialogueRunner';
 import type { NarrativeContext } from '@/narrative/dialogueRunner';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { CHAPTER_2, CH2_END, CH2_GAUGES } from '@/data/chapters/ch2';
+import { BACKDROP_KEYS } from '@/data/backdrops';
 import { DV } from '@/rules/attributes';
 import type { DifficultyName } from '@/rules/attributes';
 import type { Condition, DialogueChoice, DialogueFile, DialogueNode, Effect } from '@/narrative/types';
@@ -975,19 +976,27 @@ describe('lot 5.13 : la mort de Zachary, la garde, l’enfant', () => {
     for (const id of afterDeath) expect(EGOUTS.nodes[id]?.backdrop, id).toBe('egouts-arrachee');
   });
 
+  /**
+   * Lot 5.17 : la règle de l'enfant vaut pour les PNJ du chapitre 2 qui prennent la parole hors de
+   * leur propre fichier (le charcudoc, le guide, un ganger) : leur portrait ne reste pas sur la
+   * narration qui suit leur réplique.
+   */
+  const PNJ_WITHOUT_LINGER = ['enfant', 'charcudoc', 'guide', 'ganger'] as const;
+
   it.each(Object.keys(DIALOGUES).filter((id) => id.startsWith('ch2.')))(
-    '%s : le portrait de l’enfant ne reste pas sur la narration qui suit sa réplique',
+    '%s : le portrait d’un PNJ (l’enfant, le charcudoc…) ne reste pas sur la narration qui suit sa réplique',
     (id) => {
       const file = DIALOGUES[id] as DialogueFile;
-      if (file.speaker === 'enfant') return; // sa propre scène : son portrait y est le repli voulu
       for (const [nodeId, node] of Object.entries(file.nodes)) {
         const lines = node.lines ?? [];
-        if (lines[lines.length - 1]?.who !== 'enfant') continue;
+        const who = lines[lines.length - 1]?.who;
+        if (!PNJ_WITHOUT_LINGER.some((pnj) => pnj === who)) continue;
+        if (file.speaker === who) continue; // sa propre scène : son portrait y est le repli voulu
         for (const next of shownSuccessors(file, nodeId)) {
           const nextNode = file.nodes[next] as DialogueNode;
           // Un autre locuteur prend la place, ou le fichier a son propre locuteur de repli.
           const replaced = (nextNode.lines ?? []).length > 0 || file.speaker !== undefined;
-          expect(replaced, `${id} : « ${next} » hérite du portrait de l’enfant`).toBe(true);
+          expect(replaced, `${id} : « ${next} » hérite du portrait de ${who}`).toBe(true);
         }
       }
     },
@@ -1171,6 +1180,75 @@ describe('lot 5.14 : le Blue Purple (ch2.bluepurple)', () => {
       expect(last.lines?.[last.lines.length - 1]?.who, label).toBe('inconnue');
       // Le décor de la rencontre, de son arrivée à la fin.
       for (const id of trail.slice(trail.indexOf(ARRIVAL_NODE))) expect(BLUE.nodes[id]?.backdrop, id).toBe('blue-purple-rencontre');
+    }
+  });
+});
+
+/**
+ * Lot 5.17 (retours de QA du propriétaire) : décors et paroles.
+ *
+ * 1. Tout nœud atteignable de tout dialogue `ch2.*` s'affiche sur un décor du registre. Depuis
+ *    l'addendum de l'ADR 0023, le décor en vigueur est celui du dernier nœud traversé qui en pose
+ *    un, sinon celui du fichier : on le propage sur le graphe (toutes les branches, conditions
+ *    ignorées), et aucun nœud ne doit pouvoir s'afficher sans clé, ni avec une clé inconnue.
+ * 2. Le charcudoc parle (`lines`, portrait P17) au lieu d'être cité dans la narration.
+ */
+describe('lot 5.17 : décors et paroles du chapitre 2', () => {
+  function targets(node: DialogueNode): string[] {
+    const out: string[] = [];
+    if (node.to) out.push(node.to);
+    for (const c of node.choices ?? []) {
+      for (const t of [c.to, c.onSuccess, c.onFailure]) if (t) out.push(t);
+    }
+    return out;
+  }
+
+  /** Décors possibles à l'affichage de chaque nœud atteignable (`undefined` = aucun décor). */
+  function backdropsByNode(file: DialogueFile): Map<string, Set<string | undefined>> {
+    const out = new Map<string, Set<string | undefined>>();
+    const stack: Array<[string, string | undefined]> = [[file.start, file.backdrop]];
+    while (stack.length > 0) {
+      const [id, incoming] = stack.pop() as [string, string | undefined];
+      const node = file.nodes[id];
+      if (!node) continue;
+      const current = node.backdrop ?? incoming;
+      const seen = out.get(id) ?? new Set<string | undefined>();
+      if (seen.has(current)) continue;
+      seen.add(current);
+      out.set(id, seen);
+      for (const next of targets(node)) stack.push([next, current]);
+    }
+    return out;
+  }
+
+  it.each(ch2Files().map((f) => f.id))('%s : chaque nœud s’affiche sur un décor du registre', (id) => {
+    const file = DIALOGUES[id] as DialogueFile;
+    const byNode = backdropsByNode(file);
+    expect(byNode.size, 'au moins le nœud de départ').toBeGreaterThan(0);
+    for (const [nodeId, keys] of byNode) {
+      for (const key of keys) {
+        expect(key, `${id}#${nodeId} : aucun décor`).toBeDefined();
+        expect(BACKDROP_KEYS, `${id}#${nodeId} : décor « ${key} » inconnu`).toContain(key);
+      }
+    }
+  });
+
+  it('chez le charcudoc, on passe de la rue à l’accueil, et l’on y reste', () => {
+    const file = DIALOGUES['ch2.charcudoc'] as DialogueFile;
+    const byNode = backdropsByNode(file);
+    expect([...(byNode.get(file.start) ?? [])]).toEqual(['clinique-rue']);
+    for (const id of ['accueil', 'adieux-intro', 'delai-intro', 'fin-grover', 'fin-franklyn', 'fin-mefiant']) {
+      expect([...(byNode.get(id) ?? [])], id).toEqual(['clinique-accueil']);
+    }
+  });
+
+  it('le charcudoc parle : ses répliques sont des lignes à son nom, plus de guillemets dans la narration', () => {
+    const file = DIALOGUES['ch2.charcudoc'] as DialogueFile;
+    const spoken = Object.values(file.nodes).flatMap((n) => (n.lines ?? []).filter((l) => l.who === 'charcudoc'));
+    expect(spoken.length).toBeGreaterThanOrEqual(3);
+    // Seule citation restante : l'adieu de Letitia (une cadette, hors du périmètre de ce lot).
+    for (const [id, node] of Object.entries(file.nodes)) {
+      if (id !== 'adieu-chaleureux') expect(node.text ?? '', id).not.toMatch(/«/);
     }
   });
 });

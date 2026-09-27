@@ -131,8 +131,8 @@ Règles :
 
 ## Mouvement
 
-- Un **seul** moment orchestré par écran. Dialogues : le tampon du jet. Changement de scène :
-  la carte de titre. Écran de bilan : le tampon de la mention.
+- Un **seul** moment orchestré par écran. Dialogues : le tampon du jet. Ouverture d'un
+  chapitre : la carte de titre. Écran de bilan : le tampon de la mention.
 - Tampon : `scale(1.6) rotate(-9deg)`, opacité 0 → `scale(1) rotate(-6deg)` en 180 ms,
   `cubic-bezier(.2,.9,.3,1.3)`, puis immobile.
 - Nouvelles répliques : apparition en fondu 140 ms, décalées de 90 ms l'une après l'autre.
@@ -279,10 +279,17 @@ manifeste en raison de plusieurs accents rouges.
 
 ### Transition de scène
 
-Carte de titre plein écran, 1,2 s, passable au clic : titre de la scène en Big Shoulders
-`--fs-2xl`, tampon « CHAPITRE 1 » et numéro de la scène dans le chapitre (c'est une vraie
-séquence de neuf : « Scène 4 / 9 »). Désactivée en mouvement réduit (affichage 600 ms
-statique) et **jamais** bloquante pour l'API de debug.
+**Aucune carte entre deux scènes** (décision du propriétaire, retour de QA du 2026-09-27,
+lot 5.17) : l'écran « Chapitre N — Scène n / total » qui précédait chaque dialogue n'était ni
+nécessaire ni agréable. On passe d'une scène à l'autre en coupe franche. Le décor change, et le
+bandeau de scène donne le nouveau lieu.
+
+Il reste **une seule carte de titre, à l'ouverture d'un chapitre** : à l'entrée dans sa première
+scène, quand c'est un dialogue. Elle est plein écran, dure 1,2 s et se passe au clic. Elle montre
+le titre du chapitre en Big Shoulders `--fs-2xl` (« La nuit du bal ») et le tampon « CHAPITRE 2 ».
+Elle ne porte pas de numéro de scène. Une partie reprise, ou ouverte par `?scene=` au milieu du
+chapitre, n'en voit pas. En mouvement réduit, elle s'affiche 600 ms, statique. Elle ne bloque
+**jamais** l'API de debug.
 
 ### Hub — l'alignement
 

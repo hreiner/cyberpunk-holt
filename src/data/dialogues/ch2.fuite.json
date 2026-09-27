@@ -1,5 +1,6 @@
 {
   "id": "ch2.fuite",
+  "backdrop": "bal-entree",
   "start": "depart",
   "nodes": {
     "depart": {

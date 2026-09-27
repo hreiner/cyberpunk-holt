@@ -1,5 +1,6 @@
 {
   "id": "ch2.bal.john",
+  "backdrop": "bal",
   "speaker": "john",
   "start": "debut",
   "nodes": {

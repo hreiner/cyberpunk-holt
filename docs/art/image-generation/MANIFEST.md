@@ -140,6 +140,30 @@ donc pas de fiche dédiée. Voir `src/data/backdrops.ts`.
 | D31 | Le Blue Purple, vu en entrant · Scène 12, `ch2.bluepurple` (clé `blue-purple`, lot 5.14) | `public/assets/backdrops/blue-purple.webp` | `Chapter2/BluePurpleInterieur.png`, `Chapter2/BluePurple.png` | à valider |
 | D32 | Le Blue Purple, l'inconnue à leur table · Scène 12, `ch2.bluepurple` (clé `blue-purple-rencontre`, lot 5.14) | `public/assets/backdrops/blue-purple-rencontre.webp` | `Chapter2/BluePurpleRencontre.png`, `Chapter2/BluePurpleInterieur.png`, portraits P02 et P19 | à valider |
 
+## Lot G — chapitre 2, retours de QA (lot de dev 5.17)
+
+> Retour de QA du propriétaire (2026-09-27) : les conduits et la cantine en feu n'avaient aucune
+> image. Comme pour le lot F, le lot 5.17 **n'a rien généré**. Il a posé un substitut `.webp` au
+> chemin définitif de chaque image et écrit sa fiche, **avec le prompt complet prêt à copier**
+> (bloc de style, sujet, format et négatifs). Aucune ne montre de sang.
+>
+> **Écarts assumés à la bible** : D37 montre l'enfant, petit et le visage caché (image de récit,
+> comme D29). Dans D38, le rouge est le feu lui-même : une seule famille de rouge, jamais d'orange.
+> Ordre de production conseillé : D38 (la plus attendue), puis D36, puis D37.
+
+### Décors de scène
+
+| ID | Lieu · scène | Fichier livré | Références | État |
+|---|---|---|---|---|
+| D36 | Le conduit, le ventilateur · Scène 5, `ch2.conduits` (clé `conduit`) | `public/assets/backdrops/conduit.webp` | `Chapter2/ConduitVentliation.png`, `Chapter2/Conduit.png` | à faire (substitut posé) |
+| D37 | Le dortoir des petits, l'enfant sous le dernier lit · Scène 5, `ch2.enfant` (clé `conduit-petits`) | `public/assets/backdrops/conduit-petits.webp` | `Chapter2/ConduitsEnfant.png`, portrait P14, décor D01 | à faire (substitut posé) |
+| D38 | La cantine en feu, le vide-ordures · Scène 6, `ch2.cantine` (clé `cantine-feu`) | `public/assets/backdrops/cantine-feu.webp` | `Chapter2/CantineFeuVideOrdure.png`, `Chapter2/CantineFeu.png` (sans le texte), décor D02 | à faire (substitut posé) |
+
+**Réemplois assumés, sans fiche** (lot 5.17) : les dialogues du bal (`ch2.bal`, `ch2.bal.*`) et
+l'ouverture du slow reprennent `bal` (D17). L'aparté de la fuite (`ch2.fuite`) reprend
+`bal-entree`, le couloir de l'académie, qui sert déjà de réemploi pour `hall.webp`. La grille du
+dortoir (`ch2.grille`) reprend `dortoirs` (D01).
+
 ## Plus tard (non planifié)
 
 Variantes d'expression des cadets (colère, peur, rire) pour le bal et le chapitre 2 ;

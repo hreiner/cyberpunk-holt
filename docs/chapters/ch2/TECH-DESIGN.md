@@ -809,6 +809,74 @@ commandes de porte masqués avec les murs coupés.
   - *Hors liste* : `ch2.charcudoc.json`, « un rendez-vous, pour demain » devient « pour ce soir »
     (le charcudoc parle au matin ; la scène 12 a lieu le soir même).
 
+### Lot 5.17 — QA : décors et transitions *(retours du propriétaire, 2026-09-27)*
+
+- **But** : quatre retours de QA manuelle, après la clôture de l'epic 5.
+  1. Parler aux cadets au bal n'affiche aucun décor. Plus largement, `ch2.bal*`, `ch2.conduits`,
+     `ch2.enfant`, `ch2.cantine`, `ch2.grille` et `ch2.fuite` n'en déclarent aucun : tout
+     dialogue du chapitre 2 doit en avoir un, à chaque nœud.
+  2. La carte « Chapitre N, scène n / total » avant chaque dialogue n'est ni nécessaire ni
+     agréable. On la retire entre les scènes, dans les deux chapitres. Il n'en reste qu'une, à
+     l'ouverture d'un chapitre.
+  3. Ni la cantine en feu ni les conduits n'ont d'image. Comme aux lots 5.A et 5.B, **sans
+     générer** : les images entrent au manifeste (lot G), chacune avec sa fiche, son prompt
+     complet et un substitut.
+  4. Chez le charcudoc, on reste dans la rue : le décor d'un nœud ne vaut que pour ce nœud. Il
+     faut décider la sémantique du décor. Le charcudoc n'a pas non plus de portrait, parce qu'il
+     parle dans la narration.
+- **Dépend de** : 5.14
+- **Lire** : §1, §4.3 ; ADR 0023 ; `07-DIALOGUE-FORMAT.md` ; `src/data/backdrops.ts`,
+  `src/ui/sceneChrome.ts`, `src/ui/narrativeView.ts` ; `ART-PIPELINE.md`, `MANIFEST.md`,
+  `STYLE-BIBLE.md`, les fiches D21, D22 et D29 (modèles) ; références `Chapter2/CantineFeu*.png`,
+  `Conduit*.png`, `ConduitsEnfant.png`.
+- **Toucher** :
+  - moteur et vue : `dialogueRunner.ts` (décor en vigueur), `narrativeView.ts` et `styles.css`
+    (carte d'ouverture), `sceneChrome.ts` ;
+  - données : les dialogues `ch2.*` sans décor, `ch2.egouts.json`, `ch2.charcudoc.json`,
+    `data/backdrops.ts` ;
+  - art : `MANIFEST.md` (lot G), briefs `D36` à `D38`, trois substituts ;
+  - tests : `ch2Content.test.ts`, `dialogueFormatCh2.test.ts` ;
+  - contrat de debug : `debug-api.d.ts`.
+- **Fini quand** :
+  - tout nœud affiché de tout dialogue `ch2.*` se résout en un décor du registre, venu du nœud,
+    d'un nœud précédent ou du fichier (propriété) ;
+  - chez le charcudoc, le décor passe de la rue à l'accueil et y reste, et le charcudoc parle en
+    `lines` (portrait P17), sans que son portrait reste sur la narration qui suit ;
+  - aucune carte entre deux scènes, une seule à l'ouverture d'un chapitre ;
+  - les e2e du chapitre 1 passent, adaptés au minimum si besoin ;
+  - lu sur le DOM, au clic : une conversation du bal, la cantine, le charcudoc.
+- **Documents** : `07-DIALOGUE-FORMAT.md`, addendum à l'ADR 0023, `UI-DESIGN-SYSTEM.md`
+  (« Transition de scène »), `DEBUG_API.md`, `ART-PIPELINE.md`.
+- **Livré (lot 5.17)** :
+  - *Sémantique du décor* : un décor posé **reste posé**, jusqu'au prochain nœud qui en déclare un
+    (addendum de l'ADR 0023).
+    - Le `DialogueRunner` tient ce décor en vigueur et le présente dans `PresentedNode.backdrop`,
+      lisible par `node().backdrop`. La vue le passe à `backdropFor` ; `dialogueBackdropKey`
+      disparaît.
+    - Chapitre 1 : aucun dialogue ne déclare de décor, rien ne change.
+    - Chapitre 2 : l'analyse par propagation, avant et après, ne trouve qu'un nœud affiché qui
+      changeait d'allure sans le vouloir, `ch2.egouts#ordre`. Il redéclare `egouts` pour
+      revenir au décor du fichier après `egouts-arrachee`.
+  - *Décors* :
+    - le bal (`ch2.bal`, les quatre `ch2.bal.*`) et l'ouverture du slow prennent `bal` ;
+    - l'aparté de la fuite prend `bal-entree` (le couloir de l'académie) ;
+    - la grille prend `dortoirs` ;
+    - trois clés nouvelles : `conduit` (`ch2.conduits`), `conduit-petits` (`ch2.enfant`) et
+      `cantine-feu` (`ch2.cantine`), au manifeste en lot G (D36 à D38), avec leur prompt et leur
+      substitut.
+  - *Carte de titre* : `chapterOpeningFor` n'en montre qu'une, à l'entrée dans
+    `ChapterDef.scenes[0]` : titre du chapitre et tampon « CHAPITRE N », sans numéro de scène.
+    La carte par scène, les « moments » à carte du fourgon et le numéro « Scène n / total »
+    disparaissent ; les moments ne renomment plus que le bandeau de scène. Aucun e2e n'attendait
+    la carte : aucun n'a été modifié.
+  - *Paroles* : le charcudoc parle en `lines`, dans `accueil` et dans `delai-urgent` ou
+    `delai-calme`, où il donne aussi le nom du rendez-vous et écrit `ch2.rendezvous.source`.
+    Franklyn répond d'une réplique (`accueil-reponse`), pour que le portrait du charcudoc ne
+    reste pas sur les adieux. Le guide et le ganger n'ont aucune réplique directe dans le texte ;
+    Smith et Murano parlent déjà en `lines` : rien n'a changé pour eux. La règle « le portrait
+    ne reste pas sur la narration qui suit » est étendue de l'enfant au charcudoc, au guide et au
+    ganger (`ch2Content.test.ts`).
+
 ### Dépendances
 
 ```

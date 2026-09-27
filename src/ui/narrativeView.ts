@@ -6,14 +6,14 @@
  * Refonte "Encre rouge" (docs/art/UI-DESIGN-SYSTEM.md, sections "Portraits",
  * "Écrans > Dialogue", "Transition de scène", "Mouvement") : panneau ancre en
  * bas, decor de scene en haut, portrait hero du dernier locuteur, tampon de
- * jet, transition de scene. La liste du hub (choix du cadet a qui parler) est
+ * jet, carte d'ouverture de chapitre. La liste du hub (choix du cadet a qui parler) est
  * un ecran a part entiere depuis le lot "Hub — l'alignement" : voir
  * `src/ui/hubView.ts`. Cette vue ne rend plus que les CONVERSATIONS (scenes
  * `dialogue` et conversation d'un cadet choisi au hub).
  */
 
 import { portraitElement, portraitFor, surveillantPortraitSource } from '@/ui/portraits';
-import { backdropFor, backdropMarkup, dialogueBackdropKey, sceneZone, splitTitle } from '@/ui/sceneChrome';
+import { backdropFor, backdropMarkup, sceneZone, splitTitle } from '@/ui/sceneChrome';
 import { DIFFICULTY_LABELS } from '@/rules/attributes';
 import { INITIAL_LUCK } from '@/narrative';
 import type { PresentedChoice, PresentedNode, PresentedRoll, RadioCue, SpeakerId } from '@/narrative';
@@ -64,75 +64,37 @@ export interface NarrativeViewCallbacks {
 }
 
 /**
- * Numero de scene (1 a 9) affiche par la carte de titre, "Scène n / 9"
- * (docs/art/UI-DESIGN-SYSTEM.md, section "Transition de scène"). Recopie de
- * l'ordre de docs/design/03-CHAPTER-1.md : le parcours interieur (salles 1 a
- * 3) est une seule scene (la 7) deployee en trois entrees dans
- * CHAPTER_1_SCENES (sceneRouter.ts), et le combat tactique (scene 8) ne passe
- * jamais par cette vue -- absent de la table, sans consequence.
- *
- * Table de REPLI pour le chapitre 1 uniquement (ADR 0021, generalise par
- * `SceneDef.number` -- voir `sceneNumberFor`) : le chapitre 2 porte deja son
- * numero directement sur chaque `SceneDef` (`src/data/chapters/ch2.ts`), pas
- * besoin d'une seconde table a maintenir en double.
+ * Carte de titre d'ouverture (docs/art/UI-DESIGN-SYSTEM.md, "Transition de scène", lot 5.17) :
+ * une seule par chapitre, à l'entrée dans SA PREMIÈRE scène (`ChapterDef.scenes[0]`) --
+ * « CHAPITRE 2 » en tampon, « La nuit du bal » en titre. Le propriétaire a retiré la carte
+ * « Chapitre N, scène n / total » qui précédait chaque scène (retour de QA du 2026-09-27) :
+ * ni nécessaire, ni agréable. Une partie reprise ou ouverte par `?scene=` au milieu d'un
+ * chapitre n'en voit donc aucune.
  */
-const SCENE_NUMBERS: Record<string, number> = {
-  'ch1.intro': 1,
-  'ch1.discours': 2,
-  'ch1.exam': 3,
-  'ch1.tirage': 4,
-  'ch1.hub': 5,
-  'ch1.fourgon': 6,
-  'ch1.salle1': 7,
-  'ch1.salle2': 7,
-  'ch1.salle3': 7,
-  'ch1.affrontement': 8,
-  'ch1.bal': 9,
-};
-const TOTAL_SCENES = 9;
-/** Le plus grand `SceneDef.number` du chapitre 2 (docs/chapters/ch2/TECH-DESIGN.md §4.4). */
-const CH2_TOTAL_SCENES = 11;
-
-/** Numero de scene affichable, d'apres `SceneDef.number` (chapitre 2+) ou la table de repli (chapitre 1). */
-function sceneNumberFor(sceneId: string): number | undefined {
+function chapterOpeningFor(sceneId: string): { key: string; stamp: string; title: string } | undefined {
   const chapterId = chapterOfScene(sceneId);
-  if (chapterId !== null) {
-    const scene = CHAPTERS[chapterId].scenes.find((s) => s.id === sceneId);
-    if (scene?.number !== undefined) return scene.number;
-  }
-  return SCENE_NUMBERS[sceneId];
-}
-
-/** Total de scenes affiche ("Scène n / total"), selon le chapitre de `sceneId`. */
-function totalScenesFor(sceneId: string): number {
-  return chapterOfScene(sceneId) === 2 ? CH2_TOTAL_SCENES : TOTAL_SCENES;
-}
-
-/** « CHAPITRE 1 »/« CHAPITRE 2 » : tampon de la carte de titre (docs/art/UI-DESIGN-SYSTEM.md, "Transition de scène"). */
-function chapterStampFor(sceneId: string): string {
-  return `CHAPITRE ${chapterOfScene(sceneId) ?? 1}`;
+  if (chapterId === null) return undefined;
+  const chapter = CHAPTERS[chapterId];
+  if (chapter.scenes[0]?.id !== sceneId) return undefined;
+  return { key: `chapter-${chapterId}`, stamp: `CHAPITRE ${chapterId}`, title: chapter.title };
 }
 
 interface SceneMoment {
   key: string;
   title: string;
-  showSceneNumber: boolean;
 }
 
-/** Les lieux qui jalonnent un dialogue sans créer une nouvelle scène de chapitre. */
-function sceneMomentFor(dialogueId: string, nodeId: string): SceneMoment | null | undefined {
+/** Les lieux qui jalonnent un dialogue sans créer une nouvelle scène de chapitre : ils renomment le bandeau de scène. */
+function sceneMomentFor(dialogueId: string, nodeId: string): SceneMoment | undefined {
   if (dialogueId === 'ch1.interface') {
-    return { key: 'ch1.interface', title: 'Interface — accès réservé', showSceneNumber: false };
+    return { key: 'ch1.interface', title: 'Interface — accès réservé' };
   }
   if (dialogueId === 'ch1.fourgon' && nodeId === 'depart') {
-    return { key: 'ch1.fourgon:depart', title: 'Garage — Départ', showSceneNumber: true };
+    return { key: 'ch1.fourgon:depart', title: 'Garage — Départ' };
   }
   if (dialogueId === 'ch1.fourgon' && nodeId === 'arrivee') {
-    return { key: 'ch1.fourgon:arrivee', title: "Centre d'examen — Arrivée", showSceneNumber: false };
+    return { key: 'ch1.fourgon:arrivee', title: "Centre d'examen — Arrivée" };
   }
-  // Le trajet conserve son décor D10 entre le départ et l'arrivée, sans
-  // introduire une troisième carte ni répéter « Scène 6 / 9 ».
-  if (dialogueId === 'ch1.fourgon') return null;
   return undefined;
 }
 
@@ -247,7 +209,6 @@ export class NarrativeView {
   private readonly gaugeView: GaugeView;
 
   private lastSceneCardKey: string | null = null;
-  private lastRenderedSceneId: string | null = null;
   private heroPortraitKey: string | null = null;
   /**
    * Fichier de dialogue auquel appartient le portrait hero affiché (lot 5.11). Le repli « garder le
@@ -406,10 +367,10 @@ export class NarrativeView {
     const displayedTitle = moment?.title ?? sceneTitle;
     if (moment?.key === 'ch1.fourgon:arrivee') this.root.dataset.moment = moment.key;
     else delete this.root.dataset.moment;
-    this.renderBackdrop(sceneId, dialogueId, node.nodeId);
+    this.renderBackdrop(sceneId, dialogueId, node.nodeId, node.backdrop);
     this.playNodeSound(dialogueId, node.nodeId);
     this.renderSceneTag(displayedTitle);
-    this.maybeShowSceneCard(displayedTitle, sceneId, moment);
+    this.maybeShowChapterCard(sceneId);
     this.renderStatus(hud);
 
     const relevantCheck = this.checkJustResolvedThisNode(node);
@@ -426,14 +387,12 @@ export class NarrativeView {
 
   /**
    * Pose l'illustration du lieu, ou rétablit le ciel graphique en l'absence
-   * de correspondance. `explicitKey` (ADR 0023) est lu sur le graphe BRUT
-   * (`DIALOGUES`, pas `PresentedNode` -- le format de dialogue n'expose pas
-   * `backdrop` au joueur, c'est une clé de registre, pas du texte) : le noeud
-   * l'emporte sur le fichier, voir `dialogueBackdropKey`.
+   * de correspondance. `explicitKey` est le décor en vigueur présenté par le
+   * moteur (`PresentedNode.backdrop`, ADR 0023 et son addendum du lot 5.17) :
+   * le dernier nœud traversé qui en pose un le garde jusqu'au suivant, sinon
+   * le fichier. Sans clé, les tables de repli du chapitre 1 s'appliquent.
    */
-  private renderBackdrop(sceneId: string, dialogueId: string, nodeId: string): void {
-    const file = dialogueId ? DIALOGUES[dialogueId] : undefined;
-    const explicitKey = file ? dialogueBackdropKey(file, nodeId) : undefined;
+  private renderBackdrop(sceneId: string, dialogueId: string, nodeId: string, explicitKey?: string): void {
     const backdrop = backdropFor(sceneId, dialogueId, nodeId, explicitKey);
     if (!backdrop) {
       this.backdropImageEl.hidden = true;
@@ -978,27 +937,20 @@ export class NarrativeView {
   }
 
   /**
-   * Carte de titre plein ecran entre deux scenes (1,2s, passable au clic,
-   * 600ms statique en mouvement reduit). Purement visuelle : ne bloque jamais
-   * `window.__game`, qui pilote `ChapterApp`/`DialogueRunner` directement,
-   * jamais via cette vue (voir docs/process/DEBUG_API.md).
+   * Carte de titre plein ecran a l'ouverture d'un chapitre (voir `chapterOpeningFor`) : 1,2 s,
+   * passable au clic, 600 ms statique en mouvement reduit. Une seule fois par chapitre et par
+   * vue. Purement visuelle : ne bloque jamais `window.__game`, qui pilote
+   * `ChapterApp`/`DialogueRunner` directement, jamais via cette vue (voir docs/process/DEBUG_API.md).
    */
-  private maybeShowSceneCard(sceneTitle: string, sceneId: string, moment?: SceneMoment | null): void {
-    const sceneChanged = Boolean(sceneId) && sceneId !== this.lastRenderedSceneId;
-    if (sceneId) this.lastRenderedSceneId = sceneId;
-    if (moment === null) return;
-    if (!moment && !sceneChanged) return;
-    const cardKey = moment?.key ?? sceneId;
-    if (!cardKey || cardKey === this.lastSceneCardKey) return;
-    this.lastSceneCardKey = cardKey;
+  private maybeShowChapterCard(sceneId: string): void {
+    const opening = sceneId ? chapterOpeningFor(sceneId) : undefined;
+    if (!opening || opening.key === this.lastSceneCardKey) return;
+    this.lastSceneCardKey = opening.key;
 
-    const number = moment?.showSceneNumber === false ? undefined : sceneNumberFor(sceneId);
-    const [room, name] = splitTitle(sceneTitle);
     this.sceneCardEl.innerHTML = `
       <div class="scene-card-inner">
-        ${number ? `<p class="scene-card-count">Scène ${number} / ${totalScenesFor(sceneId)}</p>` : ''}
-        <h1 class="scene-card-title">${room ? `<span class="narrative-scene-room">${room}</span> — ${name}` : name}</h1>
-        <div class="stamp scene-card-stamp">${chapterStampFor(sceneId)}</div>
+        <h1 class="scene-card-title">${opening.title}</h1>
+        <div class="stamp scene-card-stamp">${opening.stamp}</div>
       </div>
     `;
     this.sceneCardEl.hidden = false;
@@ -1091,7 +1043,7 @@ export class NarrativeView {
 
   /**
    * Navigation clavier : chiffres 1-9 pour choisir, Espace/Entree pour
-   * continuer/valider, Echap ferme la radio. La carte de scene se ferme sur
+   * continuer/valider, Echap ferme la radio. La carte d'ouverture de chapitre se ferme sur
    * n'importe quelle touche pendant qu'elle est visible. La carte de resultat
    * n'a plus de geste de fermeture dedie : elle est dans le flux normal du
    * panneau (voir `renderRollCard`) et disparait d'elle-meme au noeud suivant.

@@ -1,9 +1,9 @@
 /**
  * Registre des décors de dialogue par clé (ADR 0023, lot 5.3) : c'est là que
  * puisent `DialogueFile.backdrop` et `DialogueNode.backdrop`
- * (`src/narrative/types.ts`), résolus par `dialogueBackdropKey` puis
- * `backdropFor` (`src/ui/sceneChrome.ts`), le nœud l'emportant sur le
- * fichier. `validateDialogue` (`src/narrative/validate.ts`) attend cette même
+ * (`src/narrative/types.ts`), résolus par le moteur (`PresentedNode.backdrop` :
+ * le décor d'un nœud reste jusqu'au prochain nœud qui en pose un, addendum de
+ * l'ADR 0023 au lot 5.17) puis par `backdropFor` (`src/ui/sceneChrome.ts`). `validateDialogue` (`src/narrative/validate.ts`) attend cette même
  * liste de clés (`BACKDROP_KEYS`), injectée par l'appelant — voir sa doc :
  * `src/narrative` ne peut pas importer `src/data` (couche au-dessus).
  *
@@ -26,6 +26,13 @@
  * décors des ajouts du propriétaire (rafale, mort de Zachary, Blue Purple),
  * chacun avec son substitut au chemin définitif ; les lots de contenu 5.13 à
  * 5.15 ne font que citer ces clés.
+ *
+ * Le lot 5.17 (retours de QA ; manifeste, lot G ; fiches `D36-*` à `D38-*`)
+ * ajoute les trois lieux des conduits et de la cantine en feu, qui n'avaient
+ * aucune image, chacun avec son substitut au chemin définitif. Il donne aussi
+ * un décor à tous les dialogues du chapitre 2 qui n'en avaient pas : le bal
+ * réemploie `bal` (chapitre 1), l'aparté de la fuite `bal-entree`, la grille
+ * `dortoirs` -- des réemplois assumés, pas des substituts.
  */
 
 import { assetUrl } from '@/ui/assetUrl';
@@ -103,6 +110,14 @@ export const BACKDROPS: Record<string, Backdrop> = {
   'blue-purple': { src: `${BACKDROP_ASSET}blue-purple.webp` },
   /** Scène 12 (`ch2.bluepurple`), D32 : l'inconnue s'assoit à leur table (lot 5.14). */
   'blue-purple-rencontre': { src: `${BACKDROP_ASSET}blue-purple-rencontre.webp` },
+
+  // -- Chapitre 2, retours de QA : manifeste et substituts du lot 5.17 (MANIFEST.md, lot G). --
+  /** Scène 5 (`ch2.conduits`), D36 : le conduit du territoire de Franklyn, le ventilateur au bout. */
+  conduit: { src: `${BACKDROP_ASSET}conduit.webp` },
+  /** Scène 5 (`ch2.enfant`), D37 : le dortoir des petits, vu depuis la grille du conduit ; l'enfant sous le dernier lit. */
+  'conduit-petits': { src: `${BACKDROP_ASSET}conduit-petits.webp` },
+  /** Scène 6 (`ch2.cantine`), D38 : la cantine en feu, le vide-ordures au fond. */
+  'cantine-feu': { src: `${BACKDROP_ASSET}cantine-feu.webp` },
 };
 
 /** Liste des clés valides, pour `validateDialogue(file, BACKDROP_KEYS)` (voir sa doc). */

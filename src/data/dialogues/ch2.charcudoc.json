@@ -66,10 +66,12 @@
     },
     "accueil": {
       "backdrop": "clinique-accueil",
-      "text": "Le charcudoc, dans son échoppe de fortune, écoute avant d'ausculter Letitia. « Deux mille crédits. En attendant, elle reste ici. » Ce n'est pas une offre : c'est la seule porte encore ouverte, cette nuit. Il glisse un nom, presque à contrecœur — un rendez-vous, pour ce soir.",
-      "effects": [
-        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "le charcudoc" } }
-      ],
+      "text": "Le charcudoc, dans son échoppe de fortune, écoute avant d'ausculter Letitia. Ce qu'il va dire n'est pas une offre : c'est la seule porte encore ouverte, cette nuit.",
+      "lines": [{ "who": "charcudoc", "text": "Deux mille crédits. En attendant, elle reste ici." }],
+      "to": "accueil-reponse"
+    },
+    "accueil-reponse": {
+      "lines": [{ "who": "franklyn", "text": "Deux mille. On les trouvera." }],
       "to": "adieux-intro"
     },
     "adieux-intro": {
@@ -134,11 +136,25 @@
       ]
     },
     "delai-urgent": {
-      "text": "« Quelques heures, pas plus. Elle n'a pas le temps d'attendre demain. » Il ne lève même pas les yeux en le disant.",
+      "text": "Il parle sans lever les yeux de sa trousse. Puis, presque à contrecœur, il glisse un nom.",
+      "lines": [
+        { "who": "charcudoc", "text": "Quelques heures, pas plus. Elle n'a pas le temps d'attendre demain." },
+        { "who": "charcudoc", "text": "Il y a quelqu'un qui cherche des gamins comme vous. Un nom, un endroit, ce soir. Vous le tenez pas de moi." }
+      ],
+      "effects": [
+        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "le charcudoc" } }
+      ],
       "to": "fin"
     },
     "delai-calme": {
-      "text": "« Demain soir. Elle tiendra. » Il referme sa trousse, sans se presser.",
+      "text": "Il ne se presse pas. Puis, presque à contrecœur, il glisse un nom.",
+      "lines": [
+        { "who": "charcudoc", "text": "Demain soir. Elle tiendra." },
+        { "who": "charcudoc", "text": "Il y a quelqu'un qui cherche des gamins comme vous. Un nom, un endroit, ce soir. Vous le tenez pas de moi." }
+      ],
+      "effects": [
+        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "le charcudoc" } }
+      ],
       "to": "fin"
     },
     "fin": {

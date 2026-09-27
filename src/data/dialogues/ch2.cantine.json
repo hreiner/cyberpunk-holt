@@ -1,5 +1,6 @@
 {
   "id": "ch2.cantine",
+  "backdrop": "cantine-feu",
   "start": "vide-ordures",
   "nodes": {
     "vide-ordures": {

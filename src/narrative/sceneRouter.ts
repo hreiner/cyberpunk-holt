@@ -88,11 +88,12 @@ export interface SceneDef {
   /** Scene sautee si la condition est fausse. */
   when?: Condition;
   /**
-   * Numero de scene affiche par la carte de titre (ADR 0021, generalise depuis
-   * la table `SCENE_NUMBERS` de `src/ui/narrativeView.ts`) : plusieurs `SceneDef`
-   * peuvent partager le meme numero (ex. les scenes 4, 5 et 9 du chapitre 2, qui
-   * se declinent en une etape d'exploration et son dialogue). Absent pour le
-   * chapitre 1, qui garde sa table dediee en repli (voir `sceneNumberFor`).
+   * Numero de scene dans le chapitre (ADR 0021) : plusieurs `SceneDef` peuvent
+   * partager le meme numero (ex. les scenes 4, 5 et 9 du chapitre 2, qui se
+   * declinent en une etape d'exploration et son dialogue). Absent pour le
+   * chapitre 1. Il n'est plus affiche depuis le lot 5.17 (plus de carte de titre
+   * entre deux scenes) : il reste l'ordre de reference des gardes de contenu
+   * (`tests/unit/ch2Content.test.ts`).
    */
   number?: number;
 }

@@ -1,5 +1,6 @@
 {
   "id": "ch2.enfant",
+  "backdrop": "conduit-petits",
   "speaker": "enfant",
   "start": "rencontre",
   "nodes": {

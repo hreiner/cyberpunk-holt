@@ -131,6 +131,7 @@
       "to": "ordre"
     },
     "ordre": {
+      "backdrop": "egouts",
       "text": "Abigail s'est laissée glisser contre la paroi du tunnel, muette. Letitia, un peu plus loin, perd encore des forces.",
       "choices": [
         { "text": "Calmer Abigail d'abord.", "to": "calmer" },

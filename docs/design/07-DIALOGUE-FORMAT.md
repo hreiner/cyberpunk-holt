@@ -93,7 +93,7 @@ interface DialogueFile {
    */
   entries?: string[];
   nodes: Record<string, DialogueNode>;
-  backdrop?: string;                // clé de src/data/backdrops.ts (ADR 0023) ; le nœud l'emporte
+  backdrop?: string;                // clé de src/data/backdrops.ts (ADR 0023) : le décor d'ouverture
 }
 
 interface DialogueNode {
@@ -101,7 +101,7 @@ interface DialogueNode {
   lines?: DialogueLine[];          // répliques
   effects?: Effect[];              // appliqués à l'entrée du nœud, une seule fois
   insight?: InsightSpec;           // jet de réflexion prélable aux choix (ADR 0012)
-  backdrop?: string;                // remplace le décor à l'entrée du nœud (ADR 0023), coupe franche
+  backdrop?: string;                // remplace le décor à l'entrée du nœud, et il RESTE jusqu'au prochain nœud qui en pose un (ADR 0023, addendum 5.17)
   sound?: { sfx?: SfxId[] };        // bruitages synthétisés joués à l'entrée (ADR 0023) ; `music` réservé (lot 5.12)
   /**
    * RAPPEL : identifiant d'un autre nœud dont les RÉPLIQUES sont réaffichées en tête de
@@ -405,12 +405,25 @@ compteur qui monte) qui varie, pas le graphe.
 Le décor plein cadre d'un dialogue était jusqu'ici choisi en code, une table de
 `src/ui/sceneChrome.ts` indexée par `dialogueId` (et parfois `dialogueId:nodeId`). Depuis
 le chapitre 2, c'est aussi une **donnée** : `DialogueFile.backdrop` et `DialogueNode.backdrop`
-citent une clé de `src/data/backdrops.ts`. Résolution, dans cet ordre :
+citent une clé de `src/data/backdrops.ts`.
 
-1. le décor du **nœud** courant (`DialogueNode.backdrop`) ;
-2. à défaut, celui du **fichier** (`DialogueFile.backdrop`) ;
-3. à défaut, l'ancienne table de `sceneChrome.ts` (`dialogueId`/nœud/scène) — conservée en
+**Un décor posé reste posé** (addendum de l'ADR 0023, lot 5.17) : le fichier donne le décor
+d'ouverture ; un nœud qui déclare `backdrop` le **remplace**, et ce décor **reste** à l'écran sur
+les nœuds suivants jusqu'au prochain nœud qui en déclare un autre — c'est la lecture naturelle de
+« changer de décor ». On pose donc `backdrop` sur un nœud **quand le lieu change**, pas sur
+chaque nœud. Les aiguillages traversés (nœuds sans texte ni réplique) comptent : leur décor
+s'applique aussi. Le moteur tient ce décor en vigueur et le présente
+(`PresentedNode.backdrop`, lisible par `window.__game.node()`). Résolution à l'écran :
+
+1. le décor en vigueur : le dernier nœud traversé qui en déclare un, sinon le **fichier** ;
+2. à défaut, l'ancienne table de `sceneChrome.ts` (`dialogueId`/nœud/scène) — conservée en
    repli **pour le chapitre 1 seul**, qu'il n'y a aucune urgence à migrer.
+
+Avant le lot 5.17, le décor d'un nœud ne valait que pour ce nœud : au suivant, on revenait au
+décor du fichier (défaut de QA : chez le charcudoc, on revenait dans la rue dès la réplique
+d'après). Un dialogue qui veut **revenir** au décor du fichier le redéclare donc explicitement
+(`ch2.egouts`, nœud `ordre` : retour à `egouts`). Tout dialogue du chapitre 2 s'affiche sur un
+décor du registre, à chaque nœud (propriété de `ch2Content.test.ts`).
 
 Un changement de décor entre deux nœuds se fait en **coupe franche**, jamais un fondu : c'est
 ce qui permet une scène montrée en suite d'images (le slow, puis la rafale, ADR 0023) sans

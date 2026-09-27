@@ -1218,7 +1218,7 @@ canvas {
   letter-spacing: 0.08em;
 }
 
-/* -- Carte de titre de scene, entre deux scenes. -- */
+/* -- Carte de titre d'ouverture de chapitre (lot 5.17 : plus aucune carte entre deux scenes). -- */
 
 .narrative-scene-card {
   position: absolute;
@@ -1245,15 +1245,6 @@ canvas {
   position: relative;
   text-align: center;
   padding: 0 24px;
-}
-
-.scene-card-count {
-  margin: 0 0 8px;
-  color: var(--bone-dim);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-md);
-  font-variant-numeric: tabular-nums;
 }
 
 .scene-card-title {

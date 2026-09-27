@@ -1,5 +1,6 @@
 {
   "id": "ch2.grille",
+  "backdrop": "dortoirs",
   "start": "arrivee",
   "nodes": {
     "arrivee": {

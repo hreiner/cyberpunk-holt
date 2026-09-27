@@ -150,6 +150,11 @@ Chapitre : `src/data/chapters/ch2.ts` (scènes, jauge, bilan `CH2_END`, `Ch2Etap
 - Un test e2e qui passe par `window.__game.interact` peut rater ce qu'un clic rencontre : les
   parcours décisifs se rejouent au clic (`chapter2.spec.ts`, scénario 2).
 - Les images du lot F sont générées : `rafale-*`, `egouts-*`, `blue-purple*`, portrait `inconnue`.
+- **Décor persistant** (addendum ADR 0023, lot 5.17) : le décor d'un nœud reste jusqu'au
+  prochain nœud qui en déclare un ; pour revenir au décor du fichier, le redéclarer. Lu par
+  `window.__game.node().backdrop`. Tout nœud affiché d'un `ch2.*` doit avoir un décor (propriété).
+- Plus de carte de transition entre scènes : une seule carte d'ouverture par chapitre.
+- Un PNJ qui a un portrait parle en `lines`, pas en narration entre guillemets.
 - Une `Condition` ne lit pas une entrée du dossier : pour qu'un bilan ou une scène plus
   lointaine en dépende, pose un drapeau en même temps que l'entrée (`ch2.campement.tueur`,
   `ch2.fusil.donne`).

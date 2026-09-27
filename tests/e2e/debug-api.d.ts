@@ -130,6 +130,8 @@ export interface E2EPresentedNode {
   insight?: E2EPresentedInsight;
   /** Jet de Franklyn rate de peu et rattrapable a la Chance (ADR 0015 §2) : voir `spendLuck`/`acceptRoll`. */
   pendingRoll?: { roll: E2EPresentedRoll; missingBy: number; luckAvailable: number };
+  /** Cle de decor en vigueur (addendum ADR 0023, lot 5.17) : le dernier noeud traverse qui en pose une, sinon le fichier. */
+  backdrop?: string;
   finished: boolean;
 }
 

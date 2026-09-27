@@ -221,6 +221,26 @@ test de `narrativeValidate.test.ts` vérifie que chaque fichier de variante exis
 |---|---|---|
 | P06b zachary-blesse (variante `blesse` de `zachary`, `ch2.egouts`) | substitut posé (`public/assets/portraits/zachary-blesse.webp`, même procédé que 5.A), **branché** sur les sept répliques d'agonie ; fiche `briefs/P06b-zachary-blesse.md` avec son prompt complet, en attente de génération | le portrait par défaut P06 sur ces répliques |
 
+### Les conduits et la cantine en feu (lot 5.17)
+
+Retour de QA du propriétaire (2026-09-27) : plusieurs dialogues du chapitre 2 s'affichaient sans
+décor. Le lot 5.17 donne un décor à tous ; une propriété de `ch2Content.test.ts` le garde, nœud par
+nœud. Trois lieux n'avaient pas d'image : ils entrent au manifeste (lot G), avec les fiches
+`briefs/D36-*` à `D38-*` et leur prompt complet. Leurs substituts sont posés au chemin définitif,
+selon le même procédé qu'au lot 5.A.
+
+| Décor | Statut | Remplace |
+|---|---|---|
+| D36 conduit (`ch2.conduits`) | substitut posé, en attente de génération | rien : le dialogue n'avait pas de décor |
+| D37 conduit-petits (`ch2.enfant`) | substitut posé, en attente de génération | rien : le dialogue n'avait pas de décor |
+| D38 cantine-feu (`ch2.cantine`) | substitut posé, en attente de génération | rien : le dialogue n'avait pas de décor |
+
+Réemplois assumés, qui ne sont pas des substituts :
+
+- `bal` (D17) pour le bal (`ch2.bal`, `ch2.bal.*`) et l'ouverture du slow ;
+- `bal-entree` pour l'aparté de la fuite (`ch2.fuite`) ;
+- `dortoirs` (D01) pour la grille (`ch2.grille`).
+
 ## Ordre de travail conseillé
 
 1. Portraits 2D des six cadets — fort impact, faible risque.

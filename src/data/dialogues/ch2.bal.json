@@ -1,5 +1,6 @@
 {
   "id": "ch2.bal",
+  "backdrop": "bal",
   "start": "salle",
   "nodes": {
     "salle": {

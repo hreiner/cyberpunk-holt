@@ -13,7 +13,8 @@ import { describe, expect, it } from 'vitest';
 import { createDossier } from '@/core/dossier';
 import { applyEffect, createRunState, evaluateCondition, validateDialogue } from '@/narrative';
 import type { Condition, DialogueFile, Effect, NarrativeContext } from '@/narrative';
-import { dialogueBackdropKey } from '@/ui/sceneChrome';
+import { DialogueRunner } from '@/narrative/dialogueRunner';
+import { createRng } from '@/core/rng';
 import { BACKDROP_KEYS } from '@/data/backdrops';
 import { PORTRAIT_VARIANT_KEYS } from '@/ui/portraits';
 
@@ -60,17 +61,30 @@ const CASES: Array<{ name: string; run: () => void }> = [
     },
   },
   {
-    name: 'décor : le décor du nœud est prioritaire sur celui du fichier',
+    // Addendum ADR 0023 (lot 5.17) : le décor d'un nœud RESTE jusqu'au prochain nœud qui en pose un.
+    name: 'décor : le fichier ouvre, un nœud le remplace, et ce décor reste jusqu’au suivant qui en pose un',
     run: () => {
       const file: DialogueFile = {
         id: 'test.backdrop',
         backdrop: 'bal',
         start: 'a',
-        nodes: { a: { text: 'x', backdrop: 'garage' }, b: { text: 'y' } },
+        nodes: {
+          a: { text: 'x', to: 'b' },
+          b: { text: 'y', backdrop: 'garage', to: 'c' },
+          c: { text: 'z', to: 'd' },
+          d: { text: 'w', backdrop: 'hall' },
+        },
       };
-      expect(dialogueBackdropKey(file, 'a')).toBe('garage'); // le nœud l'emporte
-      expect(dialogueBackdropKey(file, 'b')).toBe('bal'); // repli sur le fichier
-      expect(dialogueBackdropKey(file, 'inconnu')).toBe('bal'); // nœud absent -> repli sur le fichier
+      const runner = new DialogueRunner(file, context(), createRng('decor'));
+      const seen: Array<string | undefined> = [runner.current().backdrop];
+      for (let i = 0; i < 3; i++) {
+        runner.advance();
+        seen.push(runner.current().backdrop);
+      }
+      expect(seen).toEqual(['bal', 'garage', 'garage', 'hall']);
+      // Sans décor de fichier ni de nœud : aucune clé (la vue garde ses tables de repli du chapitre 1).
+      const bare: DialogueFile = { id: 'test.nu', start: 'a', nodes: { a: { text: 'x' } } };
+      expect(new DialogueRunner(bare, context(), createRng('decor')).current().backdrop).toBeUndefined();
     },
   },
   {

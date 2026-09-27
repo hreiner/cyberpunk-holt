@@ -1,5 +1,6 @@
 {
   "id": "ch2.conduits",
+  "backdrop": "conduit",
   "start": "ventilateur",
   "nodes": {
     "ventilateur": {

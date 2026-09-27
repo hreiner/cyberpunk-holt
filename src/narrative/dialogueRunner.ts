@@ -189,6 +189,15 @@ export interface PresentedNode {
    * rejouer avant d'afficher l'invite de Chance.
    */
   pendingRoll?: { roll: PresentedRoll; missingBy: number; luckAvailable: number };
+  /**
+   * Clé de décor en vigueur (ADR 0023, addendum du lot 5.17) : celle du dernier nœud traversé qui
+   * en déclare une (`DialogueNode.backdrop`), aiguillages compris, sinon celle du fichier
+   * (`DialogueFile.backdrop`). Le décor d'un nœud RESTE donc jusqu'au prochain nœud qui en pose
+   * un. Absente si ni le fichier ni aucun nœud traversé n'en déclare : la vue retombe alors sur
+   * ses tables de repli du chapitre 1 (`src/ui/sceneChrome.ts`). C'est une clé de registre
+   * (`src/data/backdrops.ts`), jamais un texte montré au joueur.
+   */
+  backdrop?: string;
   finished: boolean;
 }
 
@@ -345,6 +354,8 @@ export class DialogueRunner {
   private insightRoll: PresentedRoll | null = null;
   private done = false;
   private readonly enteredNodes = new Set<string>();
+  /** Décor en vigueur (voir `PresentedNode.backdrop`) : posé par le fichier, remplacé par chaque nœud traversé qui en déclare un. */
+  private backdrop: string | undefined;
 
   /** Etat de l'attente de Chance (ADR 0015 §2) -- voir `PresentedNode.pendingRoll`. */
   private awaitingLuck = false;
@@ -356,6 +367,7 @@ export class DialogueRunner {
     this.file = file;
     this.ctx = ctx;
     this.rng = rng;
+    this.backdrop = file.backdrop;
     const requestedStart = options.startNode;
     this.nodeId = requestedStart && file.nodes[requestedStart] ? requestedStart : file.start;
     this.enterNode(this.nodeId);
@@ -385,6 +397,7 @@ export class DialogueRunner {
       insight: node ? this.presentInsight(node) : undefined,
       finished: this.done || !node,
     };
+    if (this.backdrop !== undefined) out.backdrop = this.backdrop;
     if (this.awaitingLuck && this.awaitingRoll) {
       out.pendingRoll = {
         roll: this.awaitingRoll,
@@ -745,6 +758,9 @@ export class DialogueRunner {
       this.done = true;
       return;
     }
+
+    // Décor persistant (addendum ADR 0023, lot 5.17) : à chaque entrée, même en revisite.
+    if (node.backdrop !== undefined) this.backdrop = node.backdrop;
 
     if (!this.enteredNodes.has(nodeId)) {
       this.enteredNodes.add(nodeId);
