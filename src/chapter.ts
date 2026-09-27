@@ -526,7 +526,7 @@ export class ChapterApp {
    * du dialogue ou de la conversation annexe en cours.
    */
   chooseOption(index: number): NarrativeOutcome {
-    this.cancelSlowCinematic();
+    this.slowCinematic?.dismissVisual();
     return this.withActiveRunner((runner) => runner.choose(index));
   }
 
@@ -561,7 +561,7 @@ export class ChapterApp {
    * `renderDialogue` / `renderExploreConversation`, qui n'enchainent jamais seules).
    */
   advance(): void {
-    this.cancelSlowCinematic();
+    this.slowCinematic?.dismissVisual();
     if (this.activeDialogue) {
       if (this.activeDialogue.current().finished) {
         this.completeDialogueScene(this.activeDialogue.context);
@@ -775,10 +775,8 @@ export class ChapterApp {
         onImpact: () => {
           this.activeDialogue?.advance();
           this.renderDialogue();
-          this.slowCinematic = null;
         },
         onSkip: () => {
-          this.slowCinematic = null;
           this.renderDialogue();
         },
         onMuteChange: (soundMuted) => {
@@ -890,6 +888,10 @@ export class ChapterApp {
   }
 
   private completeDialogueScene(finalCtx: NarrativeContext): void {
+    if (this.currentSceneDef?.id === 'ch2.slow') {
+      this.slowCinematic?.fadeOut();
+      this.slowCinematic = null;
+    }
     this.activeDialogue = null;
     this.mergeContext(finalCtx);
     // Le tirage (ADR 0014) n'avance pas le routeur tout de suite : l'ecran de

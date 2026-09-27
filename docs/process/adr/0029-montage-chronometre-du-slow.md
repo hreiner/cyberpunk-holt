@@ -14,12 +14,16 @@ effets et la rafale ; l'y faire attendre en temps réel alourdirait son moteur d
 
 - `SlowCinematic`, vue propre à `ch2.slow`, superpose des plans fixes et des légendes au dialogue.
   Une horloge de présentation commande les fondus à 8, 27, 40 et 47 s, le tir lointain à 34 s,
-  puis la coupe à 58 s. Elle s'arrête au seul choix de murmure vers 19 s ; la musique s'arrête
-  avec elle et reprend après le choix. Un geste « Lancer le slow » autorise la lecture audio.
+  puis la coupe visuelle à 58 s. Elle s'arrête au seul choix de murmure vers 19 s ; **la musique
+  continue** pendant cette attente et sous la fusillade. Un geste « Lancer le slow » autorise la
+  lecture audio.
 - Le `DialogueRunner` reste propriétaire des embranchements et des effets. La vue déclenche ses
   avancées aux moments voulus ; à la rafale elle rend la main au dialogue normal, qui conserve le
-  jet de Perception et tous les choix suivants. « Passer » ferme le montage et revient au nœud
-  courant. Le mode `?ai=0` garde son chemin synchrone pour l'API de debug et les tests existants.
+  jet de Perception et tous les choix suivants. La vue se retire, mais conserve son lecteur
+  musical jusqu'à la sortie effective de `ch2.slow` ; un fondu de 1,8 s conclut alors la chanson.
+  La piste boucle si le joueur reste plus longtemps que sa durée dans le dialogue.
+  « Passer » ferme le montage et revient au nœud courant sans couper la musique. Le mode `?ai=0`
+  garde son chemin synchrone pour l'API de debug et les tests existants.
 - La piste commerciale fournie par le propriétaire est référencée par son nom dans
   `public/assets/audio/`, **ignorée par Git**. Sa présence est une condition locale : sans elle,
   les images et le récit restent jouables en silence. Elle ne doit pas être redistribuée avec le

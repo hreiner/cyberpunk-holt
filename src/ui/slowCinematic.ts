@@ -31,6 +31,8 @@ const ABIGAIL_CLOSE = assetUrl('backdrops/slow-abigail-zachary-close.webp');
 const DOORS = assetUrl('backdrops/slow-doors.webp');
 const ATTACK = assetUrl('backdrops/attaque.webp');
 const MUSIC = assetUrl('audio/I_Really_Want_to_Stay_at_Your_House_-_Rosa_Walton_Hallie_Coggins.mp3');
+const MUSIC_VOLUME = 0.58;
+const MUSIC_FADE_MS = 1800;
 
 export class SlowCinematic {
   private readonly root: HTMLElement;
@@ -50,6 +52,9 @@ export class SlowCinematic {
   private stage = 0;
   private ticker: number | undefined;
   private impactTimer: number | undefined;
+  private fadeTimer: number | undefined;
+  private visualDismissed = false;
+  private fading = false;
   private disposed = false;
 
   constructor(
@@ -60,7 +65,8 @@ export class SlowCinematic {
   ) {
     this.sfx = new Sfx(true, muted);
     this.music.preload = 'metadata';
-    this.music.volume = 0.58;
+    this.music.volume = MUSIC_VOLUME;
+    this.music.loop = true;
     this.music.muted = muted;
     this.root = document.createElement('section');
     this.root.className = 'slow-cinematic';
@@ -141,7 +147,6 @@ export class SlowCinematic {
       this.stage++;
       if (this.dancer) {
         this.awaitingWhisper = true;
-        this.music.pause();
         this.showWhisper(this.callbacks.onEnterWhisper());
         return;
       }
@@ -188,7 +193,6 @@ export class SlowCinematic {
         this.setCaption(response);
         this.awaitingWhisper = false;
         this.lastTick = performance.now();
-        if (!document.hidden) void this.music.play().catch(() => undefined);
       });
       this.choices.appendChild(button);
     }
@@ -216,18 +220,20 @@ export class SlowCinematic {
 
   private impact(): void {
     window.clearInterval(this.ticker);
-    this.music.pause();
-    this.music.currentTime = 0;
     this.sfx.stopSamples();
     this.showImage(ATTACK, true);
     this.root.classList.add('is-impact');
     this.callbacks.onImpact();
-    this.impactTimer = window.setTimeout(() => this.dispose(), 180);
+    this.impactTimer = window.setTimeout(() => this.dismissVisual(), 180);
   }
 
   private readonly skip = (): void => {
     if (this.disposed) return;
-    this.dispose();
+    if (!this.started) {
+      this.started = true;
+      void this.music.play().catch(() => undefined);
+    }
+    this.dismissVisual();
     this.callbacks.onSkip();
   };
 
@@ -237,7 +243,7 @@ export class SlowCinematic {
     this.sfx.setMuted(muted);
     this.callbacks.onMuteChange(muted);
     this.updateMuteButton();
-    if (!muted && this.started && !this.awaitingWhisper && !document.hidden) {
+    if (!muted && this.started && !document.hidden) {
       void this.music.play().catch(() => undefined);
     }
   };
@@ -250,21 +256,44 @@ export class SlowCinematic {
   private readonly onVisibilityChange = (): void => {
     this.lastTick = performance.now();
     if (document.hidden) this.music.pause();
-    else if (this.started && !this.awaitingWhisper && !this.disposed) {
+    else if (this.started && !this.disposed) {
       void this.music.play().catch(() => undefined);
     }
   };
 
+  /** Enleve le montage ; la chanson continue sous le dialogue de la fusillade. */
+  dismissVisual(): void {
+    if (this.visualDismissed) return;
+    this.visualDismissed = true;
+    window.clearInterval(this.ticker);
+    window.clearTimeout(this.impactTimer);
+    this.sfx.stopSamples();
+    this.preloadedImages.length = 0;
+    this.root.remove();
+  }
+
+  /** La chanson finit avec la scene, par un fondu apres sa derniere replique. */
+  fadeOut(): void {
+    if (this.disposed || this.fading) return;
+    this.dismissVisual();
+    this.fading = true;
+    const startedAt = performance.now();
+    const initialVolume = this.music.volume;
+    this.fadeTimer = window.setInterval(() => {
+      const progress = Math.min(1, (performance.now() - startedAt) / MUSIC_FADE_MS);
+      this.music.volume = initialVolume * (1 - progress);
+      if (progress >= 1) this.dispose();
+    }, 40);
+  }
+
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
-    window.clearInterval(this.ticker);
-    window.clearTimeout(this.impactTimer);
+    this.dismissVisual();
+    window.clearInterval(this.fadeTimer);
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
     this.music.pause();
     this.music.removeAttribute('src');
     this.music.load();
-    this.sfx.stopSamples();
-    this.root.remove();
   }
 }

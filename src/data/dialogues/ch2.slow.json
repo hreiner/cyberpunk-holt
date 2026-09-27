@@ -64,7 +64,7 @@
     "premiers-coups": {
       "backdrop": "attaque",
       "sound": { "sfx": ["burst"] },
-      "text": "La musique s'arrête net. Des coups sourds contre les portes, puis les vitres explosent vers l'intérieur.",
+      "text": "La chanson continue sous les coups sourds contre les portes. Les vitres explosent vers l'intérieur, les tirs déchirent la piste.",
       "to": "franklyn-reagit"
     },
     "franklyn-reagit": {

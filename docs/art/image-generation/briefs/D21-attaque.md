@@ -17,9 +17,8 @@
 ## Le sujet
 
 Le point de bascule du chapitre. D'après
-[`ch2.slow.json`](../../../../src/data/dialogues/ch2.slow.json), nœud `rafale` : « Une rafale. Les
-tables se renversent. Ce n'est plus un bal. » et le texte d'exemple de l'ADR 0023
-(TECH-DESIGN §4.3) : « La musique s'arrête net. » **Letitia et Zachary sont touchés quoi qu'il
+[`ch2.slow.json`](../../../../src/data/dialogues/ch2.slow.json), nœud `premiers-coups` : « La
+chanson continue sous les coups sourds contre les portes. » **Letitia et Zachary sont touchés quoi qu'il
 arrive** (GAME-DESIGN §4, scène 3) — l'image doit rester dure sans montrer de blessure explicite
 (chapitre sans sang à l'écran, ADR 0003 et sa continuité).
 

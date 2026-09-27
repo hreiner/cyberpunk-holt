@@ -102,7 +102,7 @@ du chapitre 1 ne bougent pas (sauvegardes, `?scene=`, e2e).
 | B4 | Carte `holt-nuit` : ASCII de `holt`, entités du bal et de la fuite, habillage `holt` enrichi (ballons, guirlandes, gâteaux, tables renversées) | `src/data/maps/holt-nuit.ts`, `src/data/exploreVisuals/holtNuit.ts` | aucun (nouvelle carte) | 0024 | 5.8 |
 | B5 | Cinq conversations annexes du bal, **avec les échos** (§4.6) | `ch2.bal.<cadet>.json` | aucun | — | 5.8 |
 | B6 | Suite d'images : `backdrop` par nœud, coupe franche | `types.ts`, `validate.ts`, `narrativeView.ts`, `sceneChrome.ts` ; contenu `ch2.slow.json` | format dialogue | 0023 | 5.3, 5.5 |
-| B7 | Montage du slow chronométré, musique locale lancée par geste utilisateur et coupée à la rafale | `ui/slowCinematic.ts`, `chapter.ts` | aucun contrat public | 0029 | 5.12 |
+| B7 | Montage du slow chronométré, musique locale lancée par geste utilisateur et fondue à la fin du dialogue | `ui/slowCinematic.ts`, `chapter.ts` | aucun contrat public | 0029 | 5.12 |
 | B8 | `sound.sfx` sur un nœud ; échantillons CC0 pour rafale et tirs lointains, synthèse en repli | `types.ts`, `src/audio/sfx.ts`, `narrativeView.ts`, `exploreSession.ts` | format dialogue | 0023, 0029 | 5.3, 5.12 |
 | B9 | `SceneDef.followers` explicite ; file de 3 à 5 ; mesure de performance | `sceneRouter.ts`, `chapter.ts`, `exploreSession.ts` | `SceneDef` | 0024 | 5.7 |
 | B10 | Répliques de **pression** (`RadioCue.channel = 'pression'`) avec bruitage ; vérifiées aussi en exploration, affichées en ligne de narration | `radio.ts`, `data/chapters/ch2Radio.ts`, `chapter.ts` | aucun public | 0024 | 5.7 |
@@ -204,12 +204,11 @@ type Effect = /* … */ | { counter: string; delta: number; min?: number; max?: 
 Exemple (scène 3) :
 
 ```json
-"rafale": {
-  "backdrop": "ch2-attaque-boom",
-  "sound": { "sfx": ["burst", "glass"] },
-  "text": "La musique s'arrête net.",
-  "effects": [{ "counter": "ch2.letitia.etat", "delta": 1, "min": 0, "max": 3 }],
-  "choices": [{ "text": "Continuer.", "to": "entree-gangers" }]
+"premiers-coups": {
+  "backdrop": "attaque",
+  "sound": { "sfx": ["burst"] },
+  "text": "La chanson continue sous les coups sourds contre les portes. Les vitres explosent vers l'intérieur, les tirs déchirent la piste.",
+  "to": "franklyn-reagit"
 }
 ```
 
@@ -637,11 +636,13 @@ le poste du propriétaire.
 ### Lot 5.12 — la musique et le montage du slow (livré)
 
 - **Livré** : `SlowCinematic` (ADR 0029) joue la piste locale du propriétaire après un clic,
-  montre six cadrages successifs en fondus, arrête le temps et la musique pour le seul choix de
-  murmure, puis coupe la piste à 58 s sur l'image d'attaque et le bruitage proche. Les tirs
-  lointains arrivent vers 34 s. Le lecteur peut couper le son ou passer la cinématique ; le
-  dialogue normal reprend sans perdre les choix de récit. Le mode debug `?ai=0` garde son parcours
-  synchrone. Les deux bruitages CC0 alimentent aussi les répliques de pression en exploration.
+  montre six cadrages successifs en fondus et arrête le temps visuel pour le seul choix de
+  murmure. La musique continue sans interruption pendant ce choix, sous les tirs lointains vers
+  34 s et sous la rafale proche à 58 s. Après la disparition du montage, elle reste en fond du
+  dialogue normal et s'éteint en fondu de 1,8 s à la sortie de `ch2.slow`. Le lecteur peut couper
+  le son ou passer la cinématique ; le dialogue reprend sans perdre les choix de récit. Le mode
+  debug `?ai=0` garde son parcours synchrone. Les deux bruitages CC0 alimentent aussi les
+  répliques de pression en exploration.
 - **Assets** : sources et traitement dans `public/assets/audio/ATTRIBUTION.md` ; plans D41 à D43
   dans le manifeste d'images. La chanson reste hors Git, dans `public/assets/audio/` local.
 

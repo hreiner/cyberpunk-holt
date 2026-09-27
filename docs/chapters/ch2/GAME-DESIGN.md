@@ -65,8 +65,9 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
 ### Scène 3 — Le slow et la rafale
 - **Fonction** : le basculement. La plus belle scène du chapitre, puis la plus dure.
 - **Contenu** : une suite d'images générées : la bande autour de la piste, le ou les deux
-  couples, les premiers coups, la rafale, les gangers qui entrent. La musique est coupée
-  net. Letitia et Zachary sont touchés **quoi qu'il arrive**.
+  couples, les premiers coups, la rafale, les gangers qui entrent. La chanson continue sous
+  les tirs et s'éteint en fondu à la fin de la scène. Letitia et Zachary sont touchés
+  **quoi qu'il arrive**.
 - **Jet** : aux premiers coups, [Perception] DV Difficile 15. **Réussite** : Franklyn
   choisit de *plaquer Letitia* (blessure moins grave) ou de *crier pour tous*
   (`protecteur-bal`). **Échec** : Letitia est touchée de plein fouet.
@@ -86,12 +87,14 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
 
 - **Mise en scène du slow (2026-09-27)** : un plan fixe à la fois, relié au suivant par un fondu
   d'environ une seconde. Le montage dure environ 58 secondes après « Lancer le slow » ; la
-  chanson fournie par le propriétaire joue pendant cette durée. Franklyn et Letitia passent en
-  gros plan vers 8 s ; le jeu marque **une seule pause** vers 19 s pour le murmure, puis reprend
-  automatiquement. Abigail et Zachary prennent le cadre vers 27 s. Des tirs lointains percent la
-  musique vers 34 s, puis les portes fermées occupent le cadre vers 40 s et un dernier regard vers
-  47 s. À 58 s, la chanson se coupe net : image d'attaque et tirs proches. Le jet de Perception et
-  toutes les décisions qui suivent restent dans le dialogue. Un joueur sans `cavalier-letitia`
+  chanson fournie par le propriétaire joue pendant tout le dialogue de cette scène, y compris
+  pendant l'attente du murmure et sous la fusillade. Franklyn et Letitia passent en gros plan vers
+  8 s ; l'image et le chronomètre marquent **une seule pause** vers 19 s pour le murmure, puis
+  reprennent automatiquement. Abigail et Zachary prennent le cadre vers 27 s. Des tirs lointains
+  percent la musique vers 34 s, puis les portes fermées occupent le cadre vers 40 s et un dernier
+  regard vers 47 s. À 58 s, image d'attaque et tirs proches ; la chanson reste en fond jusqu'à la
+  dernière réplique, puis s'éteint en fondu. Le jet de Perception et toutes les décisions qui
+  suivent restent dans le dialogue. Un joueur sans `cavalier-letitia`
   voit les mêmes signaux depuis le bord de la piste, sans pause de choix. Les tirs lointains et
   proches reviennent dans les répliques de pression pendant la fuite.
 
@@ -262,8 +265,8 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
    plus proposé (groupe, porteur de jet). 🟢 en données, 🟡 si le moteur suppose six vivants.
 3. **La suite d'images** (scène 3) : un dialogue dont le décor change de nœud en nœud. 🟡.
    *Variante 🟢* : quatre courts dialogues enchaînés, chacun avec son décor.
-4. **La musique** : jouer une piste, la couper sur un nœud. 🟡. *Variante 🟢* : texte
-   (« la musique s'arrête ») et bruitages synthétisés des coups de feu.
+4. **La musique** : jouer une piste pendant toute la scène 3, puis l'éteindre en fondu à la sortie
+   du dialogue. 🟡. La musique reste audible sous les coups de feu et pendant les choix.
 5. **Porter un blessé en exploration** : animation de portage à deux. 🔴. *Variante 🟢*
    (retenue) : Letitia marche dans la file, soutenue selon la narration ; le porteur joue sur le tempo.
 6. **Des gangers qui poursuivent en temps réel** : PNJ qui patrouillent. 🔴. *Variante 🟢*
@@ -323,7 +326,7 @@ fusil, enfant, Abigail, « Zachary — mort le soir du bal ») ; le joueur juge 
 | B4 | Salle principale en version bal, trajet jusqu'au dortoir (variante de la carte d'académie) | 2, 4 | EXP-01, EXP-04, ART-01 | 🟢 | habillage : ballons, gâteaux, guirlandes (art 🟡) |
 | B5 | 5 conversations du bal | 2 | DLG-01…05, DLG-08, EXP-03, EXP-07 | 🟢 | ~5 fichiers courts |
 | B6 | Slow et rafale en suite d'images | 3 | DLG-10 | 🟡 | variante 🟢 : 4 dialogues enchaînés ; réf. `Slow*.png`, `AttaqueBoom.png`, `boom.png` |
-| B7 | Musique du slow, coupée net | 3 | — | 🟡 | piste locale du propriétaire, montage chronométré ; coupure à la rafale |
+| B7 | Musique du slow et de la fusillade, fondue à la fin | 3 | — | 🟡 | piste locale du propriétaire ; lecture continue pendant les choix |
 | B8 | Bruitages de rafale et de tirs lointains | 3, 4, 5 | ART-04 | 🟢 | deux échantillons CC0 réemployés dans la fuite |
 | B9 | Groupe de 3 à 5 en file | 4–6 | EXP-08 | 🟡 | variante 🟢 : deux visibles, le reste dit par la narration |
 | B10 | Fuite sous tempo : répliques de pression hors radio | 4, 5 | RES-03 | 🟡 | la radio sert de canal ; variante 🟢 : narration de zones |

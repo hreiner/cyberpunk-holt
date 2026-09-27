@@ -199,7 +199,7 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.17 | *(QA du propriétaire)* **Décors et transitions** : un décor sur chaque dialogue, décor persistant, plus de carte entre scènes, le charcudoc parle ; images du lot G (conduits, cantine en feu) au manifeste | — | fait (génération lot G : propriétaire) |
 | 5.C | *(demande du propriétaire)* **Deux décors de nuit** : `couloir-nuit` (aparté de la fuite) et `grille-dortoir` (la grille), au manifeste avec prompts, substituts branchés | 5.17 | fait (génération lot H : propriétaire) |
 | 5.14 | *(ajout du propriétaire)* **Le Blue Purple** : scène 12 dite, une inconnue s'assoit à leur table et clôt le chapitre ; locuteur `inconnue`, deux décors, un portrait au manifeste | 5.16 | fait |
-| 5.12 | **Slow cinématique** : musique locale, choix de murmure unique, fondus, tirs lointains et proches CC0, coupure sur la rafale (ADR 0029) | 5.5, la piste | fait (chanson locale hors Git) |
+| 5.12 | **Slow cinématique** : musique locale continue sous les choix et la fusillade, fondu final, tirs lointains et proches CC0 (ADR 0029) | 5.5, la piste | fait (chanson locale hors Git) |
 
 Ordre de passage (décision du propriétaire, un lot à la fois) : 5.1, 5.2, 5.3, 5.A, 5.7, 5.4,
 5.5, 5.6, 5.8, 5.8b, 5.10, 5.9, 5.11, puis les ajouts après QA : 5.B, 5.11b, 5.15, 5.13, 5.16,

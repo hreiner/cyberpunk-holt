@@ -434,7 +434,7 @@ la résolution.
 `DialogueNode.sound = { sfx?: SfxId[] }` joue, à l'entrée du nœud et une seule fois, des
 bruitages (`src/audio/sfx.ts`, ADR 0010) : `burst` (une rafale) et `distant-shot` (un tir lointain)
 emploient les deux échantillons CC0 du lot 5.12, avec synthèse de secours ; `cut` reste une
-recette synthétisée. La musique du slow et sa coupure sont pilotées par `SlowCinematic` (ADR 0029),
+recette synthétisée. La musique du slow et son fondu final sont pilotés par `SlowCinematic` (ADR 0029),
 sans champ `sound.music` dans le format.
 
 ## Variante de portrait par réplique (ADR 0028)
