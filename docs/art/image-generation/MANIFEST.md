@@ -126,7 +126,7 @@ donc pas de fiche dédiée. Voir `src/data/backdrops.ts`.
 | ID | Image | Fichier livré | Références d'identité | État |
 |---|---|---|---|---|
 | P19 | L'inconnue du Blue Purple, visage en partie dans l'ombre (locuteur `inconnue`, lot 5.14) | `public/assets/portraits/inconnue.webp` | `Chapter2/BluePurpleRencontre.png` | à valider |
-| P06b | Zachary blessé, variante de P06 au même cadrage : yeux mi-clos, teint cireux, sueur, un sourire qui s'efface, sans sang (variante `blesse` du locuteur `zachary`, ADR 0028, lot 5.16) | `public/assets/portraits/zachary-blesse.webp` | portrait P06 livré (identité et cadrage), `zacharie.png` ; briefs D35 (blessure sans sang) et D29 (lumière des égouts) | à faire (substitut posé) |
+| P06b | Zachary blessé, variante de P06 au même cadrage : yeux mi-clos, teint cireux, sueur, un sourire qui s'efface, sans sang (variante `blesse` du locuteur `zachary`, ADR 0028, lot 5.16) | `public/assets/portraits/zachary-blesse.webp` | portrait P06 livré (identité et cadrage), `zacharie.png` ; briefs D35 (blessure sans sang) et D29 (lumière des égouts) | à valider |
 
 ### Décors de scène
 
