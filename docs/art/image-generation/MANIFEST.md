@@ -155,14 +155,32 @@ donc pas de fiche dédiée. Voir `src/data/backdrops.ts`.
 
 | ID | Lieu · scène | Fichier livré | Références | État |
 |---|---|---|---|---|
-| D36 | Le conduit, le ventilateur · Scène 5, `ch2.conduits` (clé `conduit`) | `public/assets/backdrops/conduit.webp` | `Chapter2/ConduitVentliation.png`, `Chapter2/Conduit.png` | à faire (substitut posé) |
-| D37 | Le dortoir des petits, l'enfant sous le dernier lit · Scène 5, `ch2.enfant` (clé `conduit-petits`) | `public/assets/backdrops/conduit-petits.webp` | `Chapter2/ConduitsEnfant.png`, portrait P14, décor D01 | à faire (substitut posé) |
-| D38 | La cantine en feu, le vide-ordures · Scène 6, `ch2.cantine` (clé `cantine-feu`) | `public/assets/backdrops/cantine-feu.webp` | `Chapter2/CantineFeuVideOrdure.png`, `Chapter2/CantineFeu.png` (sans le texte), décor D02 | à faire (substitut posé) |
+| D36 | Le conduit, le ventilateur · Scène 5, `ch2.conduits` (clé `conduit`) | `public/assets/backdrops/conduit.webp` | `Chapter2/ConduitVentliation.png`, `Chapter2/Conduit.png` | à valider |
+| D37 | Le dortoir des petits, l'enfant sous le dernier lit · Scène 5, `ch2.enfant` (clé `conduit-petits`) | `public/assets/backdrops/conduit-petits.webp` | `Chapter2/ConduitsEnfant.png`, portrait P14, décor D01 | à valider |
+| D38 | La cantine en feu, le vide-ordures · Scène 6, `ch2.cantine` (clé `cantine-feu`) | `public/assets/backdrops/cantine-feu.webp` | `Chapter2/CantineFeuVideOrdure.png`, `Chapter2/CantineFeu.png` (sans le texte), décor D02 | à valider |
 
 **Réemplois assumés, sans fiche** (lot 5.17) : les dialogues du bal (`ch2.bal`, `ch2.bal.*`) et
 l'ouverture du slow reprennent `bal` (D17). L'aparté de la fuite (`ch2.fuite`) reprend
 `bal-entree`, le couloir de l'académie, qui sert déjà de réemploi pour `hall.webp`. La grille du
-dortoir (`ch2.grille`) reprend `dortoirs` (D01).
+dortoir (`ch2.grille`) reprend `dortoirs` (D01). *Ces deux réemplois sont remplacés au lot H
+(D39, D40).*
+
+## Lot H — chapitre 2, deux décors de nuit (lot de dev 5.C)
+
+> Demande du propriétaire (2026-09-27) : les deux réemplois de la scène 4 ne collaient pas. Le hall
+> du centre d'examen, avec sa table de tasers, n'est pas l'académie qui brûle ; le dortoir à l'aube
+> n'est pas la grille qu'on force la nuit. Comme aux lots F et G, le lot 5.C **n'a rien généré** :
+> substitut `.webp` au chemin définitif, fiche avec le **prompt complet prêt à copier**. Aucune ne
+> montre de sang ; aucune ne montre de personnage identifiable (D40 admet, au plus, les mains d'un
+> cadet en amorce). Ordre de production conseillé : D40 (le dortoir de D01 s'y voit à travers la
+> grille), puis D39.
+
+### Décors de scène
+
+| ID | Lieu · scène | Fichier livré | Références | État |
+|---|---|---|---|---|
+| D39 | Le couloir de ceinture de l'académie, la nuit de l'attaque · Scène 4, `ch2.fuite` (clé `couloir-nuit`, remplace `bal-entree`) | `public/assets/backdrops/couloir-nuit.webp` | décors D01 et D02 (l'académie), `Chapter2/BadlandsHoltenFeuPatrouilles.png` (le feu, la fumée), `Chapter2/AttaqueBoom.png` (l'éclair du tir, sans la discothèque) | à faire (substitut posé) |
+| D40 | La grille du dortoir, verrouillée, la nuit de l'attaque · Scène 4, `ch2.grille` (clé `grille-dortoir`, remplace `dortoirs`) | `public/assets/backdrops/grille-dortoir.webp` | décor D01 (le dortoir derrière la grille), décor D02, `Chapter2/BadlandsHoltenFeuPatrouilles.png` (la lueur du feu) | à faire (substitut posé) |
 
 ## Plus tard (non planifié)
 

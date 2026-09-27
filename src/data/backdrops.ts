@@ -31,8 +31,13 @@
  * ajoute les trois lieux des conduits et de la cantine en feu, qui n'avaient
  * aucune image, chacun avec son substitut au chemin définitif. Il donne aussi
  * un décor à tous les dialogues du chapitre 2 qui n'en avaient pas : le bal
- * réemploie `bal` (chapitre 1), l'aparté de la fuite `bal-entree`, la grille
- * `dortoirs` -- des réemplois assumés, pas des substituts.
+ * réemploie `bal` (chapitre 1) -- un réemploi assumé, pas un substitut.
+ *
+ * Le lot 5.C (manifeste, lot H ; fiches `D39-*` et `D40-*`) remplace les deux
+ * réemplois de nuit qui ne collaient pas : l'aparté de la fuite quitte
+ * `bal-entree` (le hall du centre d'examen) pour `couloir-nuit`, la grille
+ * quitte `dortoirs` (l'aube) pour `grille-dortoir`, chacun avec son substitut
+ * au chemin définitif. `bal-entree` reste le décor de la fin de `ch2.photo`.
  */
 
 import { assetUrl } from '@/ui/assetUrl';
@@ -118,6 +123,12 @@ export const BACKDROPS: Record<string, Backdrop> = {
   'conduit-petits': { src: `${BACKDROP_ASSET}conduit-petits.webp` },
   /** Scène 6 (`ch2.cantine`), D38 : la cantine en feu, le vide-ordures au fond. */
   'cantine-feu': { src: `${BACKDROP_ASSET}cantine-feu.webp` },
+
+  // -- Chapitre 2, deux décors de nuit : manifeste et substituts du lot 5.C (MANIFEST.md, lot H). --
+  /** Scène 4 (`ch2.fuite`), D39 : le couloir de ceinture de l'académie, la nuit de l'attaque. */
+  'couloir-nuit': { src: `${BACKDROP_ASSET}couloir-nuit.webp` },
+  /** Scène 4 (`ch2.grille`), D40 : la grille du dortoir, verrouillée, la nuit de l'attaque. */
+  'grille-dortoir': { src: `${BACKDROP_ASSET}grille-dortoir.webp` },
 };
 
 /** Liste des clés valides, pour `validateDialogue(file, BACKDROP_KEYS)` (voir sa doc). */

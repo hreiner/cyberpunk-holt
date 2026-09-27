@@ -238,8 +238,21 @@ selon le même procédé qu'au lot 5.A.
 Réemplois assumés, qui ne sont pas des substituts :
 
 - `bal` (D17) pour le bal (`ch2.bal`, `ch2.bal.*`) et l'ouverture du slow ;
-- `bal-entree` pour l'aparté de la fuite (`ch2.fuite`) ;
-- `dortoirs` (D01) pour la grille (`ch2.grille`).
+- ~~`bal-entree` pour l'aparté de la fuite (`ch2.fuite`)~~ : remplacé au lot 5.C (`couloir-nuit`) ;
+- ~~`dortoirs` (D01) pour la grille (`ch2.grille`)~~ : remplacé au lot 5.C (`grille-dortoir`).
+
+### Deux décors de nuit (lot 5.C)
+
+Demande du propriétaire (2026-09-27) : les deux réemplois de la scène 4 ne collaient pas (le hall
+du centre d'examen et sa table de tasers pour l'aparté de la fuite ; le dortoir à l'aube pour la
+grille). Deux décors propres entrent au manifeste (lot H), avec les fiches `briefs/D39-*` et
+`briefs/D40-*` et leur prompt complet ; substituts posés au chemin définitif, même procédé qu'au
+lot 5.A. `bal-entree` reste le décor de la fin de `ch2.photo`.
+
+| Décor | Statut | Remplace |
+|---|---|---|
+| D39 couloir-nuit (`ch2.fuite`) | substitut posé, en attente de génération | le réemploi `bal-entree` (`hall.webp`) |
+| D40 grille-dortoir (`ch2.grille`) | substitut posé, en attente de génération | le réemploi `dortoirs` (D01) |
 
 ## Ordre de travail conseillé
 

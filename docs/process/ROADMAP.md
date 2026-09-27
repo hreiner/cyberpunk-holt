@@ -197,6 +197,7 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.13 | *(ajout du propriétaire)* **La mort de Zachary** : scène 7 ouverte sur Zachary mourant, gestes de soin sans jet, Abigail arrachée au corps ; plus les répliques de garde et celles de l'enfant | 5.15 | fait |
 | 5.16 | *(décision du propriétaire)* **Zachary blessé** : variante de portrait par réplique (format de dialogue), portrait P06b au manifeste avec son prompt | 5.13 | fait (génération P06b : propriétaire) |
 | 5.17 | *(QA du propriétaire)* **Décors et transitions** : un décor sur chaque dialogue, décor persistant, plus de carte entre scènes, le charcudoc parle ; images du lot G (conduits, cantine en feu) au manifeste | — | fait (génération lot G : propriétaire) |
+| 5.C | *(demande du propriétaire)* **Deux décors de nuit** : `couloir-nuit` (aparté de la fuite) et `grille-dortoir` (la grille), au manifeste avec prompts, substituts branchés | 5.17 | fait (génération lot H : propriétaire) |
 | 5.14 | *(ajout du propriétaire)* **Le Blue Purple** : scène 12 dite, une inconnue s'assoit à leur table et clôt le chapitre ; locuteur `inconnue`, deux décors, un portrait au manifeste | 5.16 | fait |
 | 5.12 | *(facultatif)* **Musique du slow**, coupée par la rafale | 5.5, la piste | à faire |
 
