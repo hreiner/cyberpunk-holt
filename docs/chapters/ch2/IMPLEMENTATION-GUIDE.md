@@ -9,8 +9,8 @@
 
 ## 1. Où en est l'epic
 
-Lots livrés : 5.1 à 5.11, 5.8b, 5.11b, 5.A, 5.B. Ajouts du propriétaire restants : 5.15
-(slow et rafale), 5.13 (mort de Zachary, répliques de garde et de l'enfant), 5.14 (Blue Purple) (voir ROADMAP, epic 5). Les onze scènes sont complètes. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
+Epic 5 close : tous les lots sont livrés, sauf 5.12 (musique, facultatif). Douze scènes ;
+variante de portrait par réplique (ADR 0028) ; locuteur `inconnue` (voir ROADMAP, epic 5). Les onze scènes sont complètes. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
 **garde = trois tours pour quatre veilleurs, voiture pillée à deux échecs** ; images du lot E
 générées (plus de substituts).
 

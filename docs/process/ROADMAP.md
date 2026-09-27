@@ -161,10 +161,10 @@ autorisation donnée directement par le propriétaire du projet.
 Ce qui reste hors de cette epic et attend toujours : les portraits et la musique (lot 2.11),
 l'export du dossier au joueur (lot 2.12).
 
-## Epic 5 — le chapitre 2, la nuit du bal
+## Epic 5 — le chapitre 2, la nuit du bal — **clos le 2026-09-27**
 
 **Objectif** : le soir du bal, l'académie tombe ; Franklyn fuit avec sa bande par les
-conduits, perd Zachary et finit la nuit chez un charcudoc. Onze scènes, environ 75 minutes,
+conduits, perd Zachary et finit la nuit chez un charcudoc, puis au Blue Purple. Douze scènes, environ 75 minutes,
 sans combat. Le chapitre 1 reste jouable et vert à chaque lot.
 
 Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md),
@@ -200,10 +200,11 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.12 | *(facultatif)* **Musique du slow**, coupée par la rafale | 5.5, la piste | à faire |
 
 Ordre de passage (décision du propriétaire, un lot à la fois) : 5.1, 5.2, 5.3, 5.A, 5.7, 5.4,
-5.5, 5.6, 5.8, 5.10, 5.9, 5.11.
+5.5, 5.6, 5.8, 5.8b, 5.10, 5.9, 5.11, puis les ajouts après QA : 5.B, 5.11b, 5.15, 5.13, 5.16,
+5.14. Seul 5.12 (facultatif) reste ouvert ; le portrait P06b attend la passe de génération.
 
 ## Après le chapitre 2
 
 Le chapitre 3 se conçoit selon [`../chapters/README.md`](../chapters/README.md), à partir de
-`CH2-LEGACY.md` (écrit au lot 5.11). Le dossier passe d'un chapitre à l'autre par l'archive
+`CH2-LEGACY.md` (écrit au lot 5.11, complété au lot 5.14). Le dossier passe d'un chapitre à l'autre par l'archive
 locale de l'ADR 0022. L'export du dossier sous forme de fichier (lot 2.12) reste ouvert.
