@@ -303,10 +303,16 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
       // l'ensemble des etiquettes NOUVELLES (hors heritage du profil) atteignables depuis cet
       // etat jusqu'a la fin du chapitre -- une fonction pure de l'etat, donc valide au cache.
       const sceneMemo = new Map<string, Set<string>>();
+      /** Derniere scene JOUEE (pas sautee par son `when`) qui a produit ce contexte. */
+      const lastPlayed = new WeakMap<NarrativeContext, string>();
 
       const walk = (sceneIndex: number, ctx: NarrativeContext): Set<string> => {
         if (sceneIndex >= CHAPTER_2.scenes.length) {
           completedPaths++;
+          // Lot 5.14 : toute nuit finit au Blue Purple (scene 12), qui ecrit le premier mot de
+          // Franklyn a l'inconnue, avant le bilan.
+          expect(lastPlayed.get(ctx), 'derniere scene jouee').toBe('ch2.bluepurple');
+          expect(ctx.dossier.entries.map((e) => e.key), 'entree du premier mot').toContain('ch2.inconnue.premier-mot');
           const tags = new Set<string>();
           for (const tag of ctx.dossier.tags) {
             if (!inheritedTags.has(tag)) tags.add(tag);
@@ -358,6 +364,7 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
           }
         }
         const collected = new Set<string>();
+        for (const outcome of outcomes) lastPlayed.set(outcome, scene.id);
         for (const outcome of outcomes) {
           for (const tag of walk(sceneIndex + 1, outcome)) collected.add(tag);
         }
@@ -391,11 +398,11 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
     expect(solitaireDossier.affinities.letitia).toBeGreaterThan(loyalDossier.affinities.letitia ?? 0);
   });
 
-  it('les 16 SceneDef du chapitre 2 (ADR 0021, TECH-DESIGN §4.4) : dialogues, sauf le bal, la fuite (lot 5.8), les conduits et la cantine (lot 5.9), le campement (lot 5.10)', () => {
+  it('les 17 SceneDef du chapitre 2 (ADR 0021, TECH-DESIGN §4.4) : dialogues, sauf le bal, la fuite (lot 5.8), les conduits et la cantine (lot 5.9), le campement (lot 5.10)', () => {
     // 14 scenes narratives + une SceneDef jumelle pour `ch2.fuite` (le porteur, `when` sur
     // `ch2.porteur` -- retour de l'orchestrateur du lot 5.8, TECH-DESIGN §4.4) + une pour
-    // `ch2.conduits` (meme file, lot 5.9).
-    expect(CHAPTER_2.scenes).toHaveLength(16);
+    // `ch2.conduits` (meme file, lot 5.9) + la scene 12, le Blue Purple (lot 5.14).
+    expect(CHAPTER_2.scenes).toHaveLength(17);
     const EXPLORE_SCENE_IDS = new Set(['ch2.bal', 'ch2.fuite', 'ch2.conduits', 'ch2.cantine', 'ch2.campement']);
     for (const scene of CHAPTER_2.scenes) {
       if (EXPLORE_SCENE_IDS.has(scene.id)) {

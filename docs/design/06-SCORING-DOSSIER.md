@@ -109,6 +109,7 @@ affinités) : voir GAME-DESIGN §7, "Ce que le chapitre lit".
 | `ch2.campement.tueur` | 9 (Murano) |
 | `ch2.fusil` | 10 (les décharges) |
 | `ch2.rendezvous.source` | 11 (le charcudoc) |
+| `ch2.inconnue.premier-mot` | 12 (le Blue Purple) : le premier mot de Franklyn à l'inconnue — `méfiant`, `direct` ou `silence` (il laisse parler John), suivi d'une glose ; réservée au chapitre 3 (lot 5.14) |
 
 Au lot 5.1, ce vocabulaire n'est encore posé que par le **squelette** de dialogues (un à trois
 nœuds par scène, `src/data/dialogues/ch2.*.json`) : les choix qui les posent y figurent déjà, à

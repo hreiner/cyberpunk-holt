@@ -224,6 +224,12 @@ export const CHAPTER_2_SCENES: SceneDef[] = [
   { id: 'ch2.murano', kind: 'dialogue', title: 'Murano', dialogueId: 'ch2.murano', number: 9 },
   { id: 'ch2.decharges', kind: 'dialogue', title: 'Les décharges', dialogueId: 'ch2.decharges', number: 10 },
   { id: 'ch2.charcudoc', kind: 'dialogue', title: 'Le charcudoc', dialogueId: 'ch2.charcudoc', number: 11 },
+  /**
+   * Le Blue Purple (lot 5.14, GAME-DESIGN scène 12) : le soir même, le rendez-vous. Une scène dite,
+   * sans carte, qui clôt le chapitre avant le bilan. L'inconnue et le premier mot de Franklyn
+   * (entrée `ch2.inconnue.premier-mot`) sont le mystère légué au chapitre 3.
+   */
+  { id: 'ch2.bluepurple', kind: 'dialogue', title: 'Le Blue Purple', dialogueId: 'ch2.bluepurple', number: 12 },
 ];
 
 /**
@@ -328,6 +334,17 @@ export const CH2_END: ChapterEndDef = {
       cases: [
         { when: { tag: 'voiture-pillee' }, value: 'pillée pendant la nuit' },
         { value: 'intacte au matin' },
+      ],
+    },
+    // Lot 5.14 : le premier mot de Franklyn à l'inconnue (scène 12), lu sur le drapeau posé avec
+    // l'entrée `ch2.inconnue.premier-mot`. Repli sans `when` : partie lancée après la scène 12.
+    {
+      label: 'Au Blue Purple',
+      cases: [
+        { when: { flag: 'ch2.inconnue.premier-mot', equals: 'mefiant' }, value: 'une inconnue ; Franklyn s’est méfié' },
+        { when: { flag: 'ch2.inconnue.premier-mot', equals: 'direct' }, value: 'une inconnue ; Franklyn est allé droit au but' },
+        { when: { flag: 'ch2.inconnue.premier-mot', equals: 'john' }, value: 'une inconnue ; John a parlé le premier' },
+        { value: 'une inconnue à leur table' },
       ],
     },
   ],

@@ -190,7 +190,8 @@ n'aurait donc pas suffi à marquer la distance voulue par ce profil.
 
 ```ts
 type SpeakerId = CharacterId | 'narrateur' | 'directeur' | 'instructeur' | 'otage' | 'radio'
-  | 'smith' | 'enfant' | 'murano' | 'guide' | 'charcudoc' | 'ganger';
+  | 'smith' | 'enfant' | 'murano' | 'guide' | 'charcudoc' | 'ganger'
+  | 'inconnue';                                            // lot 5.14, scène 12
 interface DialogueFile { /* … */ backdrop?: string }      // clé de src/data/backdrops.ts
 interface DialogueNode { /* … */
   backdrop?: string;                                      // remplace le décor à l'entrée du nœud
@@ -790,6 +791,23 @@ commandes de porte masqués avec les murs coupés.
   l'état de la nuit (propriété : au moins deux variantes selon l'état de Letitia) ;
   `CH2-LEGACY.md` transmet l'inconnue comme mystère du chapitre 3.
 - **Documents** : `CH2-LEGACY.md`, `CAPABILITIES.md` si besoin, `ART-PIPELINE.md`.
+- **Livré (lot 5.14)** :
+  - *Art* : D31, D32 et P19 étaient déjà générées et enregistrées (lot F) : ni manifeste, ni brief,
+    ni image touchés. Le lot branche le portrait (`inconnue` dans `SpeakerId`, `validate.ts`,
+    `PORTRAIT_SOURCES`, initiale `?` en secours).
+  - *Scène 12* : `entree` → `table` → attente en trois répliques (Grover sur le délai de Letitia,
+    « quelques heures » dès l'état 2 ; Abigail selon `abigail-brisee` ; John selon `vu-simulation`,
+    avec une seconde réplique si `a-tue`) → l'enfant avec `enfant-confiance` (il la voit le premier)
+    → `arrivee` (décor `blue-purple-rencontre`, elle parle aussitôt) → `premier-mot` (trois choix,
+    sans jet, entrée et drapeau miroir `ch2.inconnue.premier-mot`) → sa réponse → `fin`, sa réplique.
+    Pas de `speaker` de fichier : son portrait n'apparaît qu'à son arrivée. Bilan : ligne
+    « Au Blue Purple », lue sur le drapeau.
+  - *Murano* : `speaker` de fichier retiré de `ch2.murano.json` ; les trois répliques finales de
+    l'enfant deviennent terminales (le camion qui démarre passe dans leur texte), sinon son portrait
+    restait sur l'ancien nœud `fin`. Propriété dans `ch2Content.test.ts`, lecture DOM dans
+    `chapter2.spec.ts`.
+  - *Hors liste* : `ch2.charcudoc.json`, « un rendez-vous, pour demain » devient « pour ce soir »
+    (le charcudoc parle au matin ; la scène 12 a lieu le soir même).
 
 ### Dépendances
 

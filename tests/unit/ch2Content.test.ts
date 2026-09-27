@@ -899,6 +899,32 @@ describe('lot 5.13 : la mort de Zachary, la garde, l’enfant', () => {
     expect([...before].some((id) => (EGOUTS.nodes[id]?.lines ?? []).some((l) => l.who === 'zachary'))).toBe(true);
   });
 
+  /**
+   * Lot 5.14 (défaut relevé au lot 5.13) : même règle pour Murano. `ch2.murano` avait Murano pour
+   * locuteur de fichier, et son portrait revenait sur la narration qui suit sa mort (`fusil-charge`,
+   * `fin`…). Ses nœuds de mort sont les issues du choix qui écrit `ch2.campement.tueur`.
+   */
+  it('ch2.murano : à partir de sa mort, Murano ne parle plus et son portrait ne revient pas', () => {
+    const MURANO = DIALOGUES['ch2.murano'] as DialogueFile;
+    const deathNodes = allChoices(MURANO)
+      .filter((c) => (c.effects ?? []).some((e) => 'entry' in e && e.entry.key === 'ch2.campement.tueur'))
+      .flatMap((c) => [c.onSuccess, c.onFailure])
+      .filter((id): id is string => id !== undefined);
+    expect(deathNodes.length, 'quatre tueurs, deux issues chacun').toBe(8);
+    // Aucun repli de fichier sur lui : la narration garde le portrait de celui qui vient de parler.
+    expect(MURANO.speaker).not.toBe('murano');
+    for (const death of deathNodes) {
+      const lines = MURANO.nodes[death]?.lines ?? [];
+      expect(lines.length, `${death} : un autre prend la parole`).toBeGreaterThan(0);
+      expect(lines[lines.length - 1]?.who, death).not.toBe('murano');
+      for (const id of reachableFrom(MURANO, death)) {
+        for (const line of MURANO.nodes[id]?.lines ?? []) expect(line.who, `${id} : réplique de Murano après sa mort`).not.toBe('murano');
+      }
+    }
+    // Il parle bien avant (sinon ce test ne prouve rien).
+    expect(Object.values(MURANO.nodes).some((n) => (n.lines ?? []).some((l) => l.who === 'murano'))).toBe(true);
+  });
+
   // Lot 5.16 (ADR 0028) : le portrait livré de Zachary rit ; mourant, il parle sous sa variante.
   it('toute réplique de Zachary aux égouts, avant sa mort, utilise la variante « blesse »', () => {
     const before = reachableFrom(EGOUTS, EGOUTS.start, deathNodeId);
@@ -1014,5 +1040,137 @@ describe('lot 5.13 : la mort de Zachary, la garde, l’enfant', () => {
       all.push(...tient, ...reveil);
     }
     expect(new Set(all).size, 'huit répliques distinctes').toBe(8);
+  });
+});
+
+/**
+ * Lot 5.14 (ajout du propriétaire, GAME-DESIGN scène 12) : le Blue Purple. Le fichier n'a ni jet ni
+ * aléatoire : chaque chemin se déroule entièrement (DFS sur les choix), pour toutes les
+ * combinaisons de ce que la nuit a laissé -- état de Letitia, `abigail-brisee`, `a-tue`,
+ * `vu-simulation`, `enfant-confiance` et à qui l'enfant s'accroche.
+ */
+describe('lot 5.14 : le Blue Purple (ch2.bluepurple)', () => {
+  const BLUE = DIALOGUES['ch2.bluepurple'] as DialogueFile;
+  const PREMIER_MOT = 'ch2.inconnue.premier-mot';
+  /** Premier nœud où l'inconnue est à leur table : ce qui précède est l'attente. */
+  const ARRIVAL_NODE = 'arrivee';
+  const FACTOR_TAGS = ['abigail-brisee', 'a-tue', 'vu-simulation', 'enfant-confiance'] as const;
+
+  interface Night {
+    letitia: number;
+    tags: string[];
+    lien?: 'franklyn' | 'grover';
+  }
+  interface BluePath {
+    night: Night;
+    /** Répliques et narration de l'attente (avant l'arrivée de l'inconnue), dans l'ordre. */
+    waiting: string[];
+    trail: string[];
+    ctx: NarrativeContext;
+  }
+
+  const nights: Night[] = [];
+  for (let letitia = LETITIA_MIN; letitia <= LETITIA_MAX; letitia++) {
+    for (let mask = 0; mask < 1 << FACTOR_TAGS.length; mask++) {
+      const tags = FACTOR_TAGS.filter((_, i) => mask & (1 << i));
+      for (const lien of [undefined, 'franklyn', 'grover'] as const) nights.push({ letitia, tags, lien });
+    }
+  }
+
+  function walkBlue(night: Night): BluePath[] {
+    const paths: BluePath[] = [];
+    const explore = (prefix: number[]): void => {
+      let run = setFlag(createRunState('ch2Content::blue', { chapter: 2, sceneId: 'ch2.bluepurple', luck: 0 }), LETITIA_COUNTER, night.letitia);
+      if (night.lien) run = setFlag(run, 'ch2.enfant.lien', night.lien);
+      const runner = new DialogueRunner(BLUE, { dossier: { ...createDossier(), tags: night.tags }, run }, createRng('ch2Content::blue'));
+      const trail: string[] = [];
+      const waiting: string[] = [];
+      const note = (): void => {
+        const node = runner.current();
+        if (trail[trail.length - 1] === node.nodeId) return;
+        trail.push(node.nodeId);
+        if (!trail.includes(ARRIVAL_NODE)) waiting.push(node.text ?? '', ...node.lines.map((l) => `${l.who}: ${l.text}`));
+      };
+      const settle = (): void => {
+        note();
+        for (let guard = 0; guard < 40 && !runner.current().finished; guard++) {
+          const node = runner.current();
+          if (node.choices.length > 1) return;
+          if (node.choices[0]) runner.choose(node.choices[0].index);
+          else runner.advance();
+          note();
+        }
+      };
+      settle();
+      for (const index of prefix) {
+        runner.choose(index);
+        settle();
+      }
+      const node = runner.current();
+      if (node.finished) paths.push({ night, waiting, trail, ctx: runner.context });
+      else node.choices.forEach((c) => explore([...prefix, c.index]));
+    };
+    explore([]);
+    return paths;
+  }
+
+  const paths = nights.flatMap(walkBlue);
+
+  it('scène 12 : juste après le charcudoc, la dernière du chapitre', () => {
+    const scenes = CHAPTER_2.scenes;
+    expect(scenes[scenes.length - 1]).toMatchObject({ id: 'ch2.bluepurple', kind: 'dialogue', number: 12 });
+    expect(scenes[scenes.length - 2]?.id).toBe('ch2.charcudoc');
+  });
+
+  it('l’entrée ch2.inconnue.premier-mot est écrite sur tout chemin, avec le drapeau que lit le bilan', () => {
+    expect(paths.length).toBeGreaterThan(nights.length); // la décision a bien plusieurs issues
+    const values = new Set<string>();
+    for (const { night, trail, ctx } of paths) {
+      const label = `${JSON.stringify(night)} : ${trail.join(' > ')}`;
+      const entry = ctx.dossier.entries.find((e) => e.key === PREMIER_MOT);
+      expect(entry, label).toBeDefined();
+      expect(ctx.run.flags[PREMIER_MOT], label).toBeDefined();
+      values.add(entry!.value);
+    }
+    expect(values.size, 'méfiant, direct, laisser parler John').toBe(3);
+  });
+
+  it('aucun jet ni effet mécanique : seules l’entrée et son drapeau miroir sont écrits', () => {
+    for (const node of Object.values(BLUE.nodes)) expect(node.insight).toBeUndefined();
+    for (const choice of allChoices(BLUE)) expect(choice.check, choice.text).toBeUndefined();
+    for (const effect of allEffects(BLUE)) {
+      const ok = ('entry' in effect && effect.entry.key === PREMIER_MOT) || ('flag' in effect && effect.flag === PREMIER_MOT);
+      expect(ok, JSON.stringify(effect)).toBe(true);
+    }
+  });
+
+  it('l’attente lit la nuit : au moins deux variantes selon l’état de Letitia, et selon chaque étiquette', () => {
+    const waitingFor = (pred: (n: Night) => boolean): Set<string> =>
+      new Set(paths.filter((p) => pred(p.night)).map((p) => p.waiting.join(' | ')));
+    const byLetitia = new Set(paths.map((p) => p.waiting.find((w) => w.startsWith('grover:'))));
+    expect(byLetitia.size, 'la réplique sur le délai de Letitia').toBeGreaterThanOrEqual(2);
+    // Même nuit, seul l'état de Letitia change : l'attente change aussi (« quelques heures » / « demain soir »).
+    const base = (n: Night) => n.tags.length === 0 && n.lien === undefined;
+    expect(waitingFor((n) => base(n) && n.letitia === LETITIA_MIN)).not.toEqual(waitingFor((n) => base(n) && n.letitia === LETITIA_MAX));
+    for (const tag of FACTOR_TAGS) {
+      const without = waitingFor((n) => n.letitia === LETITIA_MIN && n.lien === undefined && n.tags.length === 0);
+      const withTag = waitingFor((n) => n.letitia === LETITIA_MIN && n.lien === undefined && n.tags.length === 1 && n.tags[0] === tag);
+      expect(withTag, `« ${tag} » ne change rien à l'attente`).not.toEqual(without);
+    }
+  });
+
+  it('le portrait de l’inconnue : absent de l’attente, le sien dès qu’elle s’assoit, et le dernier du chapitre', () => {
+    // Pas de locuteur de fichier : il afficherait son portrait sur l'entrée dans le bar.
+    expect(BLUE.speaker).toBeUndefined();
+    for (const { night, waiting, trail } of paths) {
+      const label = `${JSON.stringify(night)} : ${trail.join(' > ')}`;
+      expect(waiting.some((w) => w.startsWith('inconnue:')), label).toBe(false);
+      const arrival = BLUE.nodes[ARRIVAL_NODE] as DialogueNode;
+      expect(arrival.lines?.[arrival.lines.length - 1]?.who, 'elle parle dès son arrivée').toBe('inconnue');
+      const last = BLUE.nodes[trail[trail.length - 1] as string] as DialogueNode;
+      expect(last.lines?.[last.lines.length - 1]?.who, label).toBe('inconnue');
+      // Le décor de la rencontre, de son arrivée à la fin.
+      for (const id of trail.slice(trail.indexOf(ARRIVAL_NODE))) expect(BLUE.nodes[id]?.backdrop, id).toBe('blue-purple-rencontre');
+    }
   });
 });

@@ -27,6 +27,8 @@ const KNOWN_SPEAKERS: string[] = [
   'guide',
   'charcudoc',
   'ganger',
+  // Scene 12 (lot 5.14).
+  'inconnue',
 ];
 /** Alias d'equipe (ADR 0014 §7, lot 3.1) : valides comme locuteur de replique et comme `who` de jet/effet, jamais comme `DialogueFile.speaker`. */
 /** Variantes de portrait connues, par locuteur (ADR 0028) : voir la doc de `validateDialogue`. */

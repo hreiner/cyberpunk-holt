@@ -28,7 +28,9 @@ export type SpeakerId =
   | 'murano'
   | 'guide'
   | 'charcudoc'
-  | 'ganger';
+  | 'ganger'
+  // Scene 12 (lot 5.14) : l'inconnue du Blue Purple, portrait P19.
+  | 'inconnue';
 
 /**
  * Alias de locuteur/jet resolus a l'execution depuis `RunState.roster` (ADR
@@ -272,6 +274,7 @@ const STATIC_SPEAKER_LABELS: Record<Exclude<SpeakerId, CharacterId>, string> = {
   guide: 'Le guide',
   charcudoc: 'Le charcudoc',
   ganger: 'Le ganger',
+  inconnue: "L'inconnue",
 };
 
 function buildSpeakerLabels(): Record<SpeakerId, string> {

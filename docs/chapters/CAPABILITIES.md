@@ -56,7 +56,7 @@ serait 🔴.
 
 **Limites** : locuteurs en liste fermée — six cadets, narrateur, directeur, instructeur,
 otage, radio, et depuis l'ADR 0023 (chapitre 2) smith, enfant, murano, guide, charcudoc,
-ganger — un nouveau personnage parlant reste 🟡. Pas de minuterie de choix, pas de
+ganger, et l'inconnue du Blue Purple (lot 5.14) — un nouveau personnage parlant reste 🟡. Pas de minuterie de choix, pas de
 choix « silencieux » à la Telltale.
 
 ## RES — Les ressources et l'état
@@ -150,7 +150,7 @@ d'elles est 🔴 et demande un ADR.
 |---|---|---|---|---|
 | ART-01 | **Habillage 3D déclaratif** des pièces : catalogue de modèles, matières, luminaires qui éclairent | un nouveau lieu se compose avec l'existant | 🟢 si le catalogue suffit · art à produire sinon | ADR 0017, 0018, [ROOM-COMPOSITION](../art/ROOM-COMPOSITION.md) |
 | ART-02 | **Personnages humanoïdes animés** en exploration et en combat, figurants gris | — | 🟢 cadets · art pour tout nouveau visage | [ART-PIPELINE](../art/ART-PIPELINE.md) |
-| ART-03 | **Illustrations** : les décors plein cadre et portraits des chapitres 1 et 2 (suite d'images du slow, égouts, Badlands, décharges, clinique ; Smith, l'enfant, Murano, le guide, le charcudoc, un ganger), pipeline de génération documenté | chaque nouveau lieu ou visage = une fiche de brief | coût de production | [ORCHESTRATOR](../art/image-generation/ORCHESTRATOR.md) |
+| ART-03 | **Illustrations** : les décors plein cadre et portraits des chapitres 1 et 2 (suite d'images du slow, égouts, Badlands, décharges, clinique, le Blue Purple ; Smith, l'enfant, Murano, le guide, le charcudoc, un ganger, l'inconnue), pipeline de génération documenté | chaque nouveau lieu ou visage = une fiche de brief | coût de production | [ORCHESTRATOR](../art/image-generation/ORCHESTRATOR.md) |
 | ART-04 | **Bruitages synthétisés** du combat | — | gratuit | ADR 0010 |
 
 **Absents** : musique et ambiance sonore (lot 2.11), cinématiques.

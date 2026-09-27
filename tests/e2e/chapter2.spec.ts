@@ -170,7 +170,9 @@ test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ pag
   // depuis les lots 5.8 a 5.10, cinq scenes `explore` (bal, fuite, conduits, cantine, campement) -- on les traverse jusqu'a
   // l'ecran de fin, sans jamais rester bloque.
   let current = scene;
+  const played: string[] = [];
   for (let i = 0; i < 20 && !current.finished; i++) {
+    played.push(current.id);
     if (current.id === 'ch2.decharges') {
       // Defaut de QA (lot 5.11) : le portrait de Murano restait a l'ecran aux decharges -- le
       // repli « garder le dernier portrait » debordait d'un fichier de dialogue sur le suivant.
@@ -200,16 +202,28 @@ test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ pag
       }
     }
     await traverseDialogue(page);
+    if (current.id === 'ch2.murano') {
+      // Lot 5.14 (defaut releve au lot 5.13) : plus aucun portrait de Murano apres sa mort.
+      expect(await heroName(page), 'portrait de Murano apres sa mort').not.toBe('Murano');
+    }
+    if (current.id === 'ch2.bluepurple') {
+      // Scene 12 : la derniere replique est celle de l'inconnue, sous son portrait (P19).
+      expect(await heroName(page)).toBe("L'inconnue");
+      const src = await page.evaluate(() => [...document.querySelectorAll('[data-testid=hero] img')].pop()?.getAttribute('src') ?? '');
+      expect(src).toContain('inconnue.webp');
+    }
     current = await advanceToNextScene(page);
   }
 
   expect(current.finished, `le chapitre 2 devrait etre termine, scene courante : "${current.id}"`).toBe(true);
+  // Lot 5.14 : la nuit finit au Blue Purple (scene 12), juste apres le charcudoc, puis le bilan.
+  expect(played.slice(-2)).toEqual(['ch2.charcudoc', 'ch2.bluepurple']);
 
   // Le bilan de nuit (ChapterDef.end, ADR 0025) est a l'ecran : la photo, et une ligne par
   // survivant, par mort, par objet -- toutes renseignees.
   await expect(page.getByTestId('report-photo')).toBeVisible();
   const lines = await bilanLines(page);
-  for (const label of ['État de Letitia', 'Zachary', 'Abigail', "L'enfant", 'Murano', 'Le fusil', 'La voiture']) {
+  for (const label of ['État de Letitia', 'Zachary', 'Abigail', "L'enfant", 'Murano', 'Le fusil', 'La voiture', 'Au Blue Purple']) {
     expect(lines[label], `ligne « ${label} » du bilan`).toBeTruthy();
   }
   // Les entrees du chapitre (06-SCORING-DOSSIER.md) sont toutes ecrites au dossier.
@@ -223,6 +237,7 @@ test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ pag
     'ch2.campement.tueur',
     'ch2.fusil',
     'ch2.rendezvous.source',
+    'ch2.inconnue.premier-mot',
   ]) {
     expect(keys, `entree « ${key} » au dossier`).toContain(key);
   }

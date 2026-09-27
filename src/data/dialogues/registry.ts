@@ -44,6 +44,7 @@ import ch2Campement from './ch2.campement.json';
 import ch2Murano from './ch2.murano.json';
 import ch2Decharges from './ch2.decharges.json';
 import ch2Charcudoc from './ch2.charcudoc.json';
+import ch2BluePurple from './ch2.bluepurple.json';
 
 const FILES = [
   ch1Demo,
@@ -83,6 +84,7 @@ const FILES = [
   ch2Murano,
   ch2Decharges,
   ch2Charcudoc,
+  ch2BluePurple,
 ] as unknown as DialogueFile[];
 
 export const DIALOGUES: Record<string, DialogueFile> = FILES.reduce<Record<string, DialogueFile>>(

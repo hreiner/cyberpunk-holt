@@ -295,7 +295,8 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
 | `voiture-pillee` | 10 | 11 ; réservée au chapitre 3 |
 
 Entrées : `ch2.letitia.etat`, `ch2.zachary`, `ch2.zachary.adieu`, `ch2.campement.tueur`,
-`ch2.campement.insignes`, `ch2.fusil`, `ch2.rendezvous.source`.
+`ch2.campement.insignes`, `ch2.fusil`, `ch2.rendezvous.source`, `ch2.inconnue.premier-mot` (scène 12 :
+méfiant, direct, ou laisser parler John ; réservée au chapitre 3).
 
 ### Évaluation
 Pas de note : l'examen est fini. Un **bilan** façon procès-verbal (état de Letitia, voiture,

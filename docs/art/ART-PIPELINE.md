@@ -204,8 +204,8 @@ l'ADR 0003). Les substituts sont au chemin définitif.
 |---|---|---|
 | D33 rafale-gangers, D34 rafale-cadets, D35 rafale-zachary (`ch2.slow`, lot 5.15) | générées (lot F), branchées dans `ch2.slow` au lot 5.15, dans cet ordre après `attaque` (propriété de `ch2Content.test.ts`) | rien (clés nouvelles) |
 | D29 egouts-zachary, D30 egouts-arrachee (`ch2.egouts`, lot 5.13) | générées (lot F), branchées dans `ch2.egouts` au lot 5.13 : `egouts-zachary` de l'ouverture jusqu'au nœud de sa mort, `egouts-arrachee` jusqu'à la décision (propriété de `ch2Content.test.ts`) ; D22 `egouts` reste le décor de la suite | rien (clés nouvelles) |
-| D31 blue-purple, D32 blue-purple-rencontre (`ch2.bluepurple`, lot 5.14) | substitut posé, en attente de génération | rien (clés nouvelles) |
-| P19 inconnue | substitut posé (`public/assets/portraits/inconnue.webp`), **pas encore branché** | le locuteur `inconnue` n'existe pas encore dans `SpeakerId` : le lot 5.14 l'ajoute et renseigne `PORTRAIT_SOURCES` dans `src/ui/portraits.ts` |
+| D31 blue-purple, D32 blue-purple-rencontre (`ch2.bluepurple`, lot 5.14) | générées (lot F), branchées dans `ch2.bluepurple` au lot 5.14 : `blue-purple` pour l'entrée et l'attente, `blue-purple-rencontre` de l'arrivée de l'inconnue à la fin (propriété de `ch2Content.test.ts`) | rien (clés nouvelles) |
+| P19 inconnue | générée (lot F), **branchée** au lot 5.14 : locuteur `inconnue` (« L'inconnue ») dans `SpeakerId`, `PORTRAIT_SOURCES` renseigné ; elle ne parle qu'à partir de son arrivée, et c'est son portrait qui ferme le chapitre (vérifié sur le DOM par `chapter2.spec.ts`) | le repli initiale sur couleur |
 
 Les sept clés de décor sont enregistrées dans `src/data/backdrops.ts` ; le test de `BACKDROPS`
 (`tests/unit/narrativeValidate.test.ts`) vérifie que chaque fichier existe.

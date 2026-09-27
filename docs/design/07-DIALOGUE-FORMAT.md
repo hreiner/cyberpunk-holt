@@ -59,7 +59,9 @@ Un fichier de dialogue = un graphe de nœuds, en JSON, typé par `DialogueFile`.
 type SpeakerId = CharacterId | 'narrateur' | 'directeur' | 'instructeur' | 'otage' | 'radio'
   // Chapitre 2 (ADR 0023) : six locuteurs non-cadets. Faute de portrait livre,
   // src/ui/portraits.ts affiche l'initiale sur une couleur (Smith a deja le sien).
-  | 'smith' | 'enfant' | 'murano' | 'guide' | 'charcudoc' | 'ganger';
+  | 'smith' | 'enfant' | 'murano' | 'guide' | 'charcudoc' | 'ganger'
+  // Scène 12 (lot 5.14) : l'inconnue du Blue Purple, libellé « L'inconnue », portrait P19.
+  | 'inconnue';
 
 /**
  * Alias resolus a l'execution depuis `RunState.roster` (ADR 0014 §7, lot 3.1) :

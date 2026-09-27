@@ -64,6 +64,8 @@ const MURANO_COLOR = '#a65c32';
 const GUIDE_COLOR = '#7d93a8';
 const CHARCUDOC_COLOR = '#b0567c';
 const GANGER_COLOR = '#5a5a5a';
+/** Scene 12 (lot 5.14) : le violet du Blue Purple, distinct de toutes les couleurs ci-dessus. */
+const INCONNUE_COLOR = '#7b6fd6';
 
 /** Portraits valides du manifeste P01 a P12. La radio est la voix de Murphy. */
 const PORTRAIT_SOURCES: Partial<Record<SpeakerId, string>> = {
@@ -86,6 +88,8 @@ const PORTRAIT_SOURCES: Partial<Record<SpeakerId, string>> = {
   guide: assetUrl('portraits/guide.webp'),
   charcudoc: assetUrl('portraits/charcudoc.webp'),
   ganger: assetUrl('portraits/ganger.webp'),
+  // Scene 12 (lot 5.14) : P19, l'inconnue du Blue Purple.
+  inconnue: assetUrl('portraits/inconnue.webp'),
 };
 
 /**
@@ -159,6 +163,9 @@ function registryEntry(id: SpeakerId): Omit<PortraitSpec, 'badge'> {
     case 'ganger':
       // 'G' est deja pris par "guide" ci-dessus : initiale sur la 2e lettre du mot.
       return { id, name: 'Le ganger', color: GANGER_COLOR, initial: 'N' };
+    case 'inconnue':
+      // 'I' est deja pris par l'instructeur, 'N' par le ganger : son identite reste une question.
+      return { id, name: "L'inconnue", color: INCONNUE_COLOR, initial: '?' };
     default: {
       const sheet = getCharacter(id);
       return { id, name: sheet.name, color: sheet.placeholderColor };

@@ -196,7 +196,7 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 | 5.15 | *(ajout du propriétaire)* **Le slow et la rafale, enrichis** : slow à deux avec murmure, trois images de plus pour la bascule (gangers qui tirent, cadets sous le feu, Zachary qui protège Abigail) ; au manifeste avec prompts | 5.B | fait |
 | 5.13 | *(ajout du propriétaire)* **La mort de Zachary** : scène 7 ouverte sur Zachary mourant, gestes de soin sans jet, Abigail arrachée au corps ; plus les répliques de garde et celles de l'enfant | 5.15 | fait |
 | 5.16 | *(décision du propriétaire)* **Zachary blessé** : variante de portrait par réplique (format de dialogue), portrait P06b au manifeste avec son prompt | 5.13 | fait (génération P06b : propriétaire) |
-| 5.14 | *(ajout du propriétaire)* **Le Blue Purple** : scène 12 dite, une inconnue s'assoit à leur table et clôt le chapitre ; locuteur `inconnue`, deux décors, un portrait au manifeste | 5.16 | à faire |
+| 5.14 | *(ajout du propriétaire)* **Le Blue Purple** : scène 12 dite, une inconnue s'assoit à leur table et clôt le chapitre ; locuteur `inconnue`, deux décors, un portrait au manifeste | 5.16 | fait |
 | 5.12 | *(facultatif)* **Musique du slow**, coupée par la rafale | 5.5, la piste | à faire |
 
 Ordre de passage (décision du propriétaire, un lot à la fois) : 5.1, 5.2, 5.3, 5.A, 5.7, 5.4,

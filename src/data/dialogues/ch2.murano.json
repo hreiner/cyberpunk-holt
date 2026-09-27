@@ -1,6 +1,5 @@
 {
   "id": "ch2.murano",
-  "speaker": "murano",
   "backdrop": "campement",
   "start": "confrontation",
   "nodes": {
@@ -230,22 +229,16 @@
       ]
     },
     "enfant-grover": {
-      "text": "Quand on remonte dans le camion, l'enfant grimpe à côté de Grover et se serre contre lui, sans rien demander.",
-      "lines": [{ "who": "enfant", "text": "On part, hein ? Tous ensemble." }],
-      "to": "fin"
+      "text": "Le camion démarre au troisième essai. Derrière, le feu du campement rapetisse, puis disparaît. Dans la cabine, l'enfant s'est serré contre Grover, sans rien demander.",
+      "lines": [{ "who": "enfant", "text": "On part, hein ? Tous ensemble." }]
     },
     "enfant-franklyn": {
-      "text": "Quand on remonte dans le camion, l'enfant s'assoit contre Franklyn, sa manche serrée dans le poing.",
-      "lines": [{ "who": "enfant", "text": "On part, hein ? Tous ensemble." }],
-      "to": "fin"
+      "text": "Le camion démarre au troisième essai. Derrière, le feu du campement rapetisse, puis disparaît. Dans la cabine, l'enfant s'est assis contre Franklyn, sa manche serrée dans le poing.",
+      "lines": [{ "who": "enfant", "text": "On part, hein ? Tous ensemble." }]
     },
     "enfant-mefiant": {
-      "text": "L'enfant a tout regardé depuis le camion. Quand on remonte, il se met le plus loin possible, contre la ridelle.",
-      "lines": [{ "who": "enfant", "text": "Vous êtes pareils qu'eux, en fait." }],
-      "to": "fin"
-    },
-    "fin": {
-      "text": "Le camion démarre au troisième essai. Derrière, le feu du campement rapetisse, puis disparaît. Personne ne parle jusqu'aux décharges."
+      "text": "Le camion démarre au troisième essai. Derrière, le feu du campement rapetisse, puis disparaît. L'enfant a tout regardé depuis le camion. Il s'est mis le plus loin possible, contre la ridelle, et ne parle qu'une fois jusqu'aux décharges.",
+      "lines": [{ "who": "enfant", "text": "Vous êtes pareils qu'eux, en fait." }]
     }
   }
 }

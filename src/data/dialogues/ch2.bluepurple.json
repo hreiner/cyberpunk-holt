@@ -1,0 +1,224 @@
+{
+  "id": "ch2.bluepurple",
+  "backdrop": "blue-purple",
+  "start": "entree",
+  "nodes": {
+    "entree": {
+      "text": "Le soir même. Le Blue Purple tient dans un sous-sol, au bord de Night City : un néon bleu au-dessus des bouteilles, des lampes basses, un sol qui garde la pluie. Personne ne se retourne sur des uniformes déchirés. Ici, personne ne regarde personne.",
+      "to": "table"
+    },
+    "table": {
+      "text": "Ils prennent la table ronde du fond, dos au mur : Franklyn, John, Grover, Abigail, et l'enfant au bord d'une chaise. Pas de Zachary. Pas de Letitia. Franklyn cherche Smith des yeux. Elle n'est pas là.",
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "flag": "ch2.letitia.etat", "atLeast": 2 }],
+          "to": "attente-urgent"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "flag": "ch2.letitia.etat", "atLeast": 2 } }],
+          "to": "attente-calme"
+        }
+      ]
+    },
+    "attente-urgent": {
+      "text": "Grover n'a pas quitté des yeux l'horloge au-dessus du bar.",
+      "lines": [
+        { "who": "grover", "text": "Quelques heures, il a dit. Il en reste combien, maintenant ? On ne peut pas attendre toute la nuit." }
+      ],
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "abigail-brisee" }], "to": "abigail-brisee" },
+        { "text": "Continuer.", "conditions": [{ "not": { "tag": "abigail-brisee" } }], "to": "abigail-debout" }
+      ]
+    },
+    "attente-calme": {
+      "text": "Grover tourne un verre vide entre ses doigts, sans le remplir.",
+      "lines": [
+        { "who": "grover", "text": "Demain soir, il a dit. Elle tiendra. Il faut juste qu'on ait quelque chose à lui ramener d'ici là." }
+      ],
+      "choices": [
+        { "text": "Continuer.", "conditions": [{ "tag": "abigail-brisee" }], "to": "abigail-brisee" },
+        { "text": "Continuer.", "conditions": [{ "not": { "tag": "abigail-brisee" } }], "to": "abigail-debout" }
+      ]
+    },
+    "abigail-brisee": {
+      "text": "Abigail n'a pas enlevé sa veste. Elle fixe la chaise que personne n'a tirée.",
+      "lines": [{ "who": "abigail", "text": "Il aurait commandé pour tout le monde. Sans demander à personne." }],
+      "to": "john"
+    },
+    "abigail-debout": {
+      "text": "Abigail s'est assise face à la porte. Elle surveille l'entrée, comme on le leur a appris.",
+      "lines": [{ "who": "abigail", "text": "On attend. Si personne ne vient, on trouvera autre chose. On trouve toujours." }],
+      "to": "john"
+    },
+    "john": {
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "vu-simulation" }, { "not": { "tag": "a-tue" } }],
+          "to": "john-smith"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "vu-simulation" }, { "tag": "a-tue" }],
+          "to": "john-smith-mains"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "vu-simulation" } }, { "not": { "tag": "a-tue" } }],
+          "to": "john-charcudoc"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "vu-simulation" } }, { "tag": "a-tue" }],
+          "to": "john-charcudoc-mains"
+        }
+      ]
+    },
+    "john-smith": {
+      "text": "John boit une gorgée et repose le verre sans bruit.",
+      "lines": [{ "who": "john", "text": "Elle t'a dit d'attendre, à toi aussi ? Alors on attend." }],
+      "to": "enfant"
+    },
+    "john-smith-mains": {
+      "text": "Sous la table, Franklyn regarde ses mains. Elles ne tremblent plus ; il ne sait pas si c'est mieux. John boit une gorgée et repose le verre sans bruit.",
+      "lines": [
+        { "who": "john", "text": "Elle t'a dit d'attendre, à toi aussi ? Alors on attend." },
+        { "who": "john", "text": "Et pose tes mains sur la table. Personne ici ne sait ce qu'on a fait." }
+      ],
+      "to": "enfant"
+    },
+    "john-charcudoc": {
+      "text": "John boit une gorgée et repose le verre sans bruit.",
+      "lines": [
+        { "who": "john", "text": "Smith m'a donné ce bar. Le charcudoc aussi. Deux fois le même nom en une nuit, ça ne tombe pas du ciel." }
+      ],
+      "to": "enfant"
+    },
+    "john-charcudoc-mains": {
+      "text": "Sous la table, Franklyn regarde ses mains. Elles ne tremblent plus ; il ne sait pas si c'est mieux. John boit une gorgée et repose le verre sans bruit.",
+      "lines": [
+        { "who": "john", "text": "Smith m'a donné ce bar. Le charcudoc aussi. Deux fois le même nom en une nuit, ça ne tombe pas du ciel." },
+        { "who": "john", "text": "Et pose tes mains sur la table. Personne ici ne sait ce qu'on a fait." }
+      ],
+      "to": "enfant"
+    },
+    "enfant": {
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "enfant-confiance" }, { "not": { "flag": "ch2.enfant.lien", "equals": "franklyn" } }],
+          "to": "enfant-grover"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "tag": "enfant-confiance" }, { "flag": "ch2.enfant.lien", "equals": "franklyn" }],
+          "to": "enfant-franklyn"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "tag": "enfant-confiance" } }],
+          "to": "arrivee"
+        }
+      ]
+    },
+    "enfant-grover": {
+      "text": "L'enfant tire la manche de Grover, sans lâcher la salle des yeux.",
+      "lines": [{ "who": "enfant", "text": "La dame, là-bas. Elle nous regarde depuis qu'on est entrés." }],
+      "to": "arrivee"
+    },
+    "enfant-franklyn": {
+      "text": "L'enfant tire la manche de Franklyn, sans lâcher la salle des yeux.",
+      "lines": [{ "who": "enfant", "text": "La dame, là-bas. Elle nous regarde depuis qu'on est entrés." }],
+      "to": "arrivee"
+    },
+    "arrivee": {
+      "backdrop": "blue-purple-rencontre",
+      "text": "Une chaise racle. Une femme s'assoit à leur table sans rien demander, comme si la place lui était gardée : veste de cuir violette, cheveux bleu nuit sur un œil, un anneau rouge à l'oreille. Ce n'est pas Smith.",
+      "lines": [
+        { "who": "inconnue", "text": "Franklyn. John. Grover. Abigail." },
+        { "who": "inconnue", "text": "Et le petit. Lui, je ne connais pas encore son nom." }
+      ],
+      "to": "premier-mot"
+    },
+    "premier-mot": {
+      "backdrop": "blue-purple-rencontre",
+      "text": "Personne ne lui a donné ces noms. Elle attend, les mains à plat de part et d'autre de son verre. Les regards glissent vers Franklyn.",
+      "choices": [
+        {
+          "text": "« Qui êtes-vous ? Et qui vous a donné nos noms ? »",
+          "effects": [
+            { "flag": "ch2.inconnue.premier-mot", "value": "mefiant" },
+            {
+              "entry": {
+                "key": "ch2.inconnue.premier-mot",
+                "label": "Premier mot à l'inconnue",
+                "value": "méfiant : il lui a demandé qui elle était"
+              }
+            }
+          ],
+          "to": "mefiant"
+        },
+        {
+          "text": "« On est là pour Letitia. Deux mille crédits. Vous les avez ? »",
+          "effects": [
+            { "flag": "ch2.inconnue.premier-mot", "value": "direct" },
+            {
+              "entry": {
+                "key": "ch2.inconnue.premier-mot",
+                "label": "Premier mot à l'inconnue",
+                "value": "direct : il a parlé de Letitia et de la dette"
+              }
+            }
+          ],
+          "to": "direct"
+        },
+        {
+          "text": "Ne rien dire. Laisser parler John.",
+          "effects": [
+            { "flag": "ch2.inconnue.premier-mot", "value": "john" },
+            {
+              "entry": {
+                "key": "ch2.inconnue.premier-mot",
+                "label": "Premier mot à l'inconnue",
+                "value": "silence : il a laissé parler John"
+              }
+            }
+          ],
+          "to": "john-parle"
+        }
+      ]
+    },
+    "mefiant": {
+      "backdrop": "blue-purple-rencontre",
+      "text": "Elle ne cille pas.",
+      "lines": [{ "who": "inconnue", "text": "Personne ne me les a donnés. C'est ça qui devrait t'inquiéter." }],
+      "to": "fin"
+    },
+    "direct": {
+      "backdrop": "blue-purple-rencontre",
+      "text": "Un coin de sa bouche bouge. Pas tout à fait un sourire.",
+      "lines": [
+        { "who": "inconnue", "text": "Je sais combien. Je sais pour qui. Tu ne m'as pas demandé ce que ça te coûterait, à toi." }
+      ],
+      "to": "fin"
+    },
+    "john-parle": {
+      "backdrop": "blue-purple-rencontre",
+      "text": "Franklyn se tait. John se penche, les coudes sur la table, la voix basse.",
+      "lines": [
+        { "who": "john", "text": "On attendait quelqu'un d'autre." },
+        { "who": "inconnue", "text": "Tout le monde attend quelqu'un d'autre, ici. C'est pour ça qu'on y vient." }
+      ],
+      "to": "fin"
+    },
+    "fin": {
+      "backdrop": "blue-purple-rencontre",
+      "text": "Au bar, quelqu'un monte la musique. Elle pousse son verre au milieu de la table, intact.",
+      "lines": [
+        { "who": "inconnue", "text": "Buvez d'abord. Ensuite, je vous dirai ce que vaut votre nuit. Et à qui vous la devez." }
+      ]
+    }
+  }
+}
