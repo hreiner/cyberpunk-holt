@@ -102,8 +102,8 @@ du chapitre 1 ne bougent pas (sauvegardes, `?scene=`, e2e).
 | B4 | Carte `holt-nuit` : ASCII de `holt`, entités du bal et de la fuite, habillage `holt` enrichi (ballons, guirlandes, gâteaux, tables renversées) | `src/data/maps/holt-nuit.ts`, `src/data/exploreVisuals/holtNuit.ts` | aucun (nouvelle carte) | 0024 | 5.8 |
 | B5 | Cinq conversations annexes du bal, **avec les échos** (§4.6) | `ch2.bal.<cadet>.json` | aucun | — | 5.8 |
 | B6 | Suite d'images : `backdrop` par nœud, coupe franche | `types.ts`, `validate.ts`, `narrativeView.ts`, `sceneChrome.ts` ; contenu `ch2.slow.json` | format dialogue | 0023 | 5.3, 5.5 |
-| B7 | Musique : **plus tard**. Emplacement `sound.music` réservé dans l'ADR, non typé ; texte et bruitages en attendant | — | — | 0023 | 5.12 (facultatif) |
-| B8 | `sound.sfx` sur un nœud, qui réemploie les bruitages synthétisés (rafale, tir lointain, coupure) | `types.ts`, `src/audio/sfx.ts`, `narrativeView.ts` | format dialogue | 0023 | 5.3 |
+| B7 | Montage du slow chronométré, musique locale lancée par geste utilisateur et coupée à la rafale | `ui/slowCinematic.ts`, `chapter.ts` | aucun contrat public | 0029 | 5.12 |
+| B8 | `sound.sfx` sur un nœud ; échantillons CC0 pour rafale et tirs lointains, synthèse en repli | `types.ts`, `src/audio/sfx.ts`, `narrativeView.ts`, `exploreSession.ts` | format dialogue | 0023, 0029 | 5.3, 5.12 |
 | B9 | `SceneDef.followers` explicite ; file de 3 à 5 ; mesure de performance | `sceneRouter.ts`, `chapter.ts`, `exploreSession.ts` | `SceneDef` | 0024 | 5.7 |
 | B10 | Répliques de **pression** (`RadioCue.channel = 'pression'`) avec bruitage ; vérifiées aussi en exploration, affichées en ligne de narration | `radio.ts`, `data/chapters/ch2Radio.ts`, `chapter.ts` | aucun public | 0024 | 5.7 |
 | B11 | Portes fermées (`locked` + `lockedLine`), zones à effets (`tempo`) aux seuils | `explore/types.ts`, `validateMap.ts`, `exploreState.ts`, `chapter.ts` | `MapDef` | 0024 | 5.7 |
@@ -634,11 +634,16 @@ d'agent** — l'onglet automatisé plafonne `requestAnimationFrame` (une lecture
 headless ne dit rien de la tenue réelle) ; une mesure demande un navigateur au premier plan sur
 le poste du propriétaire.
 
-### Lot 5.12 — la musique du slow (facultatif)
+### Lot 5.12 — la musique et le montage du slow (livré)
 
-- **But** : une piste fournie par le propriétaire joue au slow et se coupe net sur la rafale
-  (`sound.music`, ADR 0023).
-- **Dépend de** : 5.5, et la piste.
+- **Livré** : `SlowCinematic` (ADR 0029) joue la piste locale du propriétaire après un clic,
+  montre six cadrages successifs en fondus, arrête le temps et la musique pour le seul choix de
+  murmure, puis coupe la piste à 58 s sur l'image d'attaque et le bruitage proche. Les tirs
+  lointains arrivent vers 34 s. Le lecteur peut couper le son ou passer la cinématique ; le
+  dialogue normal reprend sans perdre les choix de récit. Le mode debug `?ai=0` garde son parcours
+  synchrone. Les deux bruitages CC0 alimentent aussi les répliques de pression en exploration.
+- **Assets** : sources et traitement dans `public/assets/audio/ATTRIBUTION.md` ; plans D41 à D43
+  dans le manifeste d'images. La chanson reste hors Git, dans `public/assets/audio/` local.
 
 ### Lot 5.11b — les couloirs laissent voir la file *(décision du propriétaire, 2026-09-26)*
 

@@ -20,6 +20,7 @@ import type { PresentedChoice, PresentedNode, PresentedRoll, RadioCue, SpeakerId
 import { CHAPTERS, chapterOfScene } from '@/data/chapters';
 import { DIALOGUES } from '@/data/dialogues/registry';
 import { Sfx } from '@/audio/sfx';
+import { loadSession } from '@/core/save';
 import { GaugeView } from '@/ui/gaugeView';
 import type { GaugeStatus } from '@/ui/gaugeView';
 
@@ -250,7 +251,7 @@ export class NarrativeView {
    * ecran. Debloquee au premier geste sur cette vue (voir le constructeur),
    * comme `app.ts` le fait pour le combat.
    */
-  private readonly sfx = new Sfx(true);
+  private readonly sfx = new Sfx(true, loadSession().soundMuted);
   /** Cle `dialogueId#nodeId` du dernier noeud dont le bruitage a ete joue -- pour ne jouer qu'une fois par entree (voir `playNodeSound`). */
   private lastSfxNodeKey: string | null = null;
 
@@ -1029,8 +1030,13 @@ export class NarrativeView {
     this.root.hidden = false;
   }
 
+  setSoundMuted(muted: boolean): void {
+    this.sfx.setMuted(muted);
+  }
+
   hide(): void {
     this.root.hidden = true;
+    this.sfx.stopSamples();
   }
 
   dispose(): void {
@@ -1038,6 +1044,7 @@ export class NarrativeView {
     window.clearTimeout(this.sceneCardTimer);
     this.radioTimers.forEach((t) => window.clearTimeout(t));
     this.gaugeView.dispose();
+    this.sfx.stopSamples();
     this.root.remove();
   }
 

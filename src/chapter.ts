@@ -67,6 +67,7 @@ import { ExploreSession } from './exploreSession';
 import { GameApp } from './app';
 import type { TacticalOutcome } from './app';
 import { NarrativeView } from './ui/narrativeView';
+import { SlowCinematic } from './ui/slowCinematic';
 import type { NarrativeHud } from './ui/narrativeView';
 import type { GaugeStatus } from './ui/gaugeView';
 import { ReportView } from './ui/reportView';
@@ -254,6 +255,7 @@ export class ChapterApp {
   /** Tampon "CONTACT" (lot 3.7b, "Passer au combat") : voir `playContactTransition`. */
   private readonly contactHost: HTMLElement;
   private readonly view: NarrativeView;
+  private slowCinematic: SlowCinematic | null = null;
   private readonly reportView: ReportView;
   private readonly draftView: DraftView;
   /**
@@ -524,6 +526,7 @@ export class ChapterApp {
    * du dialogue ou de la conversation annexe en cours.
    */
   chooseOption(index: number): NarrativeOutcome {
+    this.cancelSlowCinematic();
     return this.withActiveRunner((runner) => runner.choose(index));
   }
 
@@ -558,6 +561,7 @@ export class ChapterApp {
    * `renderDialogue` / `renderExploreConversation`, qui n'enchainent jamais seules).
    */
   advance(): void {
+    this.cancelSlowCinematic();
     if (this.activeDialogue) {
       if (this.activeDialogue.current().finished) {
         this.completeDialogueScene(this.activeDialogue.context);
@@ -648,6 +652,7 @@ export class ChapterApp {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.cancelSlowCinematic();
     this.tacticalApp?.dispose();
     this.view.dispose();
     this.exploreSession.dispose();
@@ -729,6 +734,66 @@ export class ChapterApp {
     this.activeDialogue = new DialogueRunner(file, this.ctx, rng);
     this.view.show();
     this.renderDialogue();
+    // Le mode test `?ai=0` garde le dialogue synchrone pour l'API de debug et les parcours e2e.
+    if (scene.id === 'ch2.slow' && this.aiDelayMs > 0) this.startSlowCinematic();
+  }
+
+  private startSlowCinematic(): void {
+    const dancer = this.activeDialogue?.context.dossier.tags.includes('cavalier-letitia') ?? false;
+    const muted = loadSession().soundMuted;
+    this.view.setSoundMuted(muted);
+    this.slowCinematic = new SlowCinematic(
+      this.narrativeHost,
+      dancer,
+      {
+        onStart: () => {
+          const runner = this.activeDialogue;
+          const branch = runner?.current().choices[0];
+          if (!runner || !branch) return;
+          runner.choose(branch.index);
+          this.renderDialogue();
+        },
+        onEnterWhisper: () => {
+          const runner = this.activeDialogue;
+          if (!runner) return [];
+          runner.advance();
+          this.renderDialogue();
+          return runner.current().choices;
+        },
+        onWhisper: (index) => {
+          const runner = this.activeDialogue;
+          if (!runner) return null;
+          const outcome = runner.choose(index);
+          if (!outcome.ok) return null;
+          this.renderDialogue();
+          return runner.current().text ?? '';
+        },
+        onOtherCouple: () => {
+          this.activeDialogue?.advance();
+          this.renderDialogue();
+        },
+        onImpact: () => {
+          this.activeDialogue?.advance();
+          this.renderDialogue();
+          this.slowCinematic = null;
+        },
+        onSkip: () => {
+          this.slowCinematic = null;
+          this.renderDialogue();
+        },
+        onMuteChange: (soundMuted) => {
+          this.view.setSoundMuted(soundMuted);
+          this.exploreSession.setSoundMuted(soundMuted);
+          saveSession({ ...loadSession(), soundMuted });
+        },
+      },
+      muted,
+    );
+  }
+
+  private cancelSlowCinematic(): void {
+    this.slowCinematic?.dispose();
+    this.slowCinematic = null;
   }
 
   /**
@@ -1397,6 +1462,7 @@ export class ChapterApp {
   /* ------------------------------- scene courante ------------------------------ */
 
   private enterScene(scene: SceneDef | null): void {
+    this.cancelSlowCinematic();
     this.activeDialogue = null;
     this.activeExploreConversation = null;
     this.currentSceneDef = scene;

@@ -33,6 +33,7 @@
 
 import type * as THREE from 'three';
 import { createRng } from '@/core/rng';
+import { loadSession } from '@/core/save';
 import { getCharacter } from '@/rules/character';
 import { discoveredRoomIdsForMap } from '@/narrative';
 import type { FollowerId, GaugeDef, NarrativeContext, SceneDef } from '@/narrative';
@@ -150,8 +151,8 @@ export class ExploreSession {
   private hoveredEntityId: string | null = null;
   private lastPointerClient = { x: 0, y: 0 };
   private followerRigIds: string[] = [];
-  /** Bruitages d'exploration (ADR 0024 §2, ex. les repliques de pression) -- meme instance que `NarrativeView`. */
-  private readonly sfx = new Sfx(true);
+  /** Bruitages d'exploration (ADR 0024 §2, ex. les repliques de pression). */
+  private readonly sfx = new Sfx(true, loadSession().soundMuted);
   private readonly heldKeys: ExploreHeldKeys = {
     up: false,
     down: false,
@@ -181,6 +182,7 @@ export class ExploreSession {
   }
 
   private readonly onKeyDown = (e: KeyboardEvent): void => {
+    this.sfx.unlock();
     const panKey = EXPLORE_PAN_KEYS[e.key];
     if (panKey) {
       this.heldKeys[panKey] = true;
@@ -226,7 +228,15 @@ export class ExploreSession {
   constructor(
     private readonly host: HTMLElement,
     private readonly callbacks: ExploreSessionCallbacks,
-  ) {}
+  ) {
+    this.host.addEventListener('pointerdown', this.onPointerUnlock);
+  }
+
+  private readonly onPointerUnlock = (): void => this.sfx.unlock();
+
+  setSoundMuted(muted: boolean): void {
+    this.sfx.setMuted(muted);
+  }
 
   /* ---------------------------------- entree/sortie d'une etape ---------------------------------- */
 
@@ -455,6 +465,8 @@ export class ExploreSession {
 
   dispose(): void {
     this.pause();
+    this.host.removeEventListener('pointerdown', this.onPointerUnlock);
+    this.sfx.stopSamples();
     this.view?.dispose();
     this.renderer?.dispose();
     window.removeEventListener('resize', this.onResize);

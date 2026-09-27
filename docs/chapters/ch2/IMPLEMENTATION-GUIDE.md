@@ -9,7 +9,7 @@
 
 ## 1. Où en est l'epic
 
-Epic 5 close : tous les lots sont livrés, sauf 5.12 (musique, facultatif). Douze scènes ;
+Epic 5 close : tous les lots sont livrés, dont 5.12 (slow cinématique, musique locale). Douze scènes ;
 variante de portrait par réplique (ADR 0028) ; locuteur `inconnue` (voir ROADMAP, epic 5). Les onze scènes sont complètes. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
 **garde = trois tours pour quatre veilleurs, voiture pillée à deux échecs** ; images du lot E
 générées (plus de substituts).

@@ -1,9 +1,9 @@
 /**
- * Bruitages minimaux, synthetises avec Web Audio (aucun fichier son, voir ADR 0010).
+ * Bruitages de base synthetises avec Web Audio (ADR 0010).
  *
  * Volontairement sobre : un tir de taser, un impact, une chute, un clic d'interface.
- * L'audio narratif et la musique (epic 2, lot 2.11) reposeront sur Howler.js et de vrais
- * fichiers ; ce module reste alors le bruitage d'interface et de combat.
+ * Le chapitre 2 reemploie deux courts echantillons CC0 pour les tirs narratifs ;
+ * les recettes synthetisees restent le repli si un fichier ne peut pas etre lu.
  *
  * Le navigateur interdit de produire du son avant un geste de l'utilisateur : le contexte est
  * donc cree a la demande et repris (`resume`) au premier clic ou a la premiere touche.
@@ -36,6 +36,10 @@ export type SfxId = SfxName;
 
 const MASTER_VOLUME = 0.35;
 const NOISE_SECONDS = 0.6;
+const SAMPLE_FILES: Partial<Record<SfxName, { file: string; volume: number }>> = {
+  'distant-shot': { file: 'gunfire-distant.wav', volume: 0.42 },
+  burst: { file: 'gunfire-close.wav', volume: 0.78 },
+};
 
 interface Tone {
   type: OscillatorType;
@@ -92,6 +96,7 @@ export class Sfx {
   private master: GainNode | null = null;
   private noise: AudioBuffer | null = null;
   private muted: boolean;
+  private readonly activeSamples = new Set<HTMLAudioElement>();
 
   constructor(
     private readonly enabled: boolean,
@@ -106,6 +111,16 @@ export class Sfx {
 
   setMuted(muted: boolean): void {
     this.muted = muted;
+    if (muted) this.stopSamples();
+  }
+
+  stopSamples(): void {
+    for (const sample of this.activeSamples) {
+      sample.pause();
+      sample.removeAttribute('src');
+      sample.load();
+    }
+    this.activeSamples.clear();
   }
 
   /** A appeler depuis un geste utilisateur : leve le blocage de lecture automatique. */
@@ -115,6 +130,24 @@ export class Sfx {
   }
 
   play(name: SfxName): void {
+    if (this.muted) return;
+    const sample = SAMPLE_FILES[name];
+    if (sample && this.enabled) {
+      const media = new Audio(`${import.meta.env.BASE_URL}assets/audio/${sample.file}`);
+      media.volume = sample.volume;
+      this.activeSamples.add(media);
+      media.addEventListener('ended', () => this.activeSamples.delete(media), { once: true });
+      void media.play().catch(() => {
+        if (!this.activeSamples.has(media)) return;
+        this.activeSamples.delete(media);
+        this.playSynth(name);
+      });
+      return;
+    }
+    this.playSynth(name);
+  }
+
+  private playSynth(name: SfxName): void {
     if (this.muted) return;
     const context = this.ensureContext();
     if (!context || !this.master || context.state !== 'running') return;

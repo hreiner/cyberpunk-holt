@@ -102,7 +102,7 @@ interface DialogueNode {
   effects?: Effect[];              // appliqués à l'entrée du nœud, une seule fois
   insight?: InsightSpec;           // jet de réflexion prélable aux choix (ADR 0012)
   backdrop?: string;                // remplace le décor à l'entrée du nœud, et il RESTE jusqu'au prochain nœud qui en pose un (ADR 0023, addendum 5.17)
-  sound?: { sfx?: SfxId[] };        // bruitages synthétisés joués à l'entrée (ADR 0023) ; `music` réservé (lot 5.12)
+  sound?: { sfx?: SfxId[] };        // bruitages joués à l'entrée (ADR 0023) ; musique du slow hors format (ADR 0029)
   /**
    * RAPPEL : identifiant d'un autre nœud dont les RÉPLIQUES sont réaffichées en tête de
    * celui-ci, estompées, avant son propre contenu. À l'examen écrit, la question est posée
@@ -425,17 +425,17 @@ d'après). Un dialogue qui veut **revenir** au décor du fichier le redéclare d
 (`ch2.egouts`, nœud `ordre` : retour à `egouts`). Tout dialogue du chapitre 2 s'affiche sur un
 décor du registre, à chaque nœud (propriété de `ch2Content.test.ts`).
 
-Un changement de décor entre deux nœuds se fait en **coupe franche**, jamais un fondu : c'est
-ce qui permet une scène montrée en suite d'images (le slow, puis la rafale, ADR 0023) sans
-nouveau type de nœud. Une clé absente du registre est une anomalie de `validateDialogue` (voir
+Un changement de décor entre deux nœuds se fait en **coupe franche** dans le dialogue. Le montage
+du slow (ADR 0029) est une vue propre à cette scène qui fond ses plans fixes au-dessus du dialogue,
+sans changer ce contrat. Une clé absente du registre est une anomalie de `validateDialogue` (voir
 Validation) ; elle ne fait jamais planter le rendu, qui retombe silencieusement sur la suite de
 la résolution.
 
 `DialogueNode.sound = { sfx?: SfxId[] }` joue, à l'entrée du nœud et une seule fois, des
-bruitages synthétisés qui réemploient les recettes du combat (`src/audio/sfx.ts`, ADR 0010) :
-`burst` (une rafale), `distant-shot` (un tir lointain, étouffé), `cut` (la musique qui
-s'arrête net). L'emplacement `sound.music` est **réservé** à la piste du slow (lot 5.12,
-facultatif) ; il n'entrera dans le type qu'avec la piste elle-même.
+bruitages (`src/audio/sfx.ts`, ADR 0010) : `burst` (une rafale) et `distant-shot` (un tir lointain)
+emploient les deux échantillons CC0 du lot 5.12, avec synthèse de secours ; `cut` reste une
+recette synthétisée. La musique du slow et sa coupure sont pilotées par `SlowCinematic` (ADR 0029),
+sans champ `sound.music` dans le format.
 
 ## Variante de portrait par réplique (ADR 0028)
 

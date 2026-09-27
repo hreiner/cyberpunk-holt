@@ -63,7 +63,7 @@
     },
     "premiers-coups": {
       "backdrop": "attaque",
-      "sound": { "sfx": ["cut", "burst"] },
+      "sound": { "sfx": ["burst"] },
       "text": "La musique s'arrête net. Des coups sourds contre les portes, puis les vitres explosent vers l'intérieur.",
       "to": "franklyn-reagit"
     },

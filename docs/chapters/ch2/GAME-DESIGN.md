@@ -84,6 +84,17 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
     meurt en scène 7). Toujours sans sang à l'écran. Le jet de Perception et le choix
     plaquer/crier restent tels quels, placés dans cette suite.
 
+- **Mise en scène du slow (2026-09-27)** : un plan fixe à la fois, relié au suivant par un fondu
+  d'environ une seconde. Le montage dure environ 58 secondes après « Lancer le slow » ; la
+  chanson fournie par le propriétaire joue pendant cette durée. Franklyn et Letitia passent en
+  gros plan vers 8 s ; le jeu marque **une seule pause** vers 19 s pour le murmure, puis reprend
+  automatiquement. Abigail et Zachary prennent le cadre vers 27 s. Des tirs lointains percent la
+  musique vers 34 s, puis les portes fermées occupent le cadre vers 40 s et un dernier regard vers
+  47 s. À 58 s, la chanson se coupe net : image d'attaque et tirs proches. Le jet de Perception et
+  toutes les décisions qui suivent restent dans le dialogue. Un joueur sans `cavalier-letitia`
+  voit les mêmes signaux depuis le bord de la piste, sans pause de choix. Les tirs lointains et
+  proches reviennent dans les répliques de pression pendant la fuite.
+
 ### Scène 4 — Jusqu'au dortoir
 - **Fonction** : la fuite stressante. Franklyn est le seul à savoir où aller.
 - **Contenu** : en ouverture, John et Grover renversent les tables sur les gangers. Puis
@@ -312,8 +323,8 @@ fusil, enfant, Abigail, « Zachary — mort le soir du bal ») ; le joueur juge 
 | B4 | Salle principale en version bal, trajet jusqu'au dortoir (variante de la carte d'académie) | 2, 4 | EXP-01, EXP-04, ART-01 | 🟢 | habillage : ballons, gâteaux, guirlandes (art 🟡) |
 | B5 | 5 conversations du bal | 2 | DLG-01…05, DLG-08, EXP-03, EXP-07 | 🟢 | ~5 fichiers courts |
 | B6 | Slow et rafale en suite d'images | 3 | DLG-10 | 🟡 | variante 🟢 : 4 dialogues enchaînés ; réf. `Slow*.png`, `AttaqueBoom.png`, `boom.png` |
-| B7 | Musique du slow, coupée net | 3 | — | 🟡 | façon *Edgerunners*, à reprendre plus tard ; variante 🟢 : texte et bruitages ART-04 |
-| B8 | Bruitages de rafale et de tirs lointains | 3, 4, 5 | ART-04 | 🟢 | réemploi des sons de combat |
+| B7 | Musique du slow, coupée net | 3 | — | 🟡 | piste locale du propriétaire, montage chronométré ; coupure à la rafale |
+| B8 | Bruitages de rafale et de tirs lointains | 3, 4, 5 | ART-04 | 🟢 | deux échantillons CC0 réemployés dans la fuite |
 | B9 | Groupe de 3 à 5 en file | 4–6 | EXP-08 | 🟡 | variante 🟢 : deux visibles, le reste dit par la narration |
 | B10 | Fuite sous tempo : répliques de pression hors radio | 4, 5 | RES-03 | 🟡 | la radio sert de canal ; variante 🟢 : narration de zones |
 | B11 | Portes fermées par la narration, zones sonores | 4–6 | EXP-03, EXP-05 | 🟢 | |

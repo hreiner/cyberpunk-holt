@@ -180,6 +180,17 @@ dortoir (`ch2.grille`) reprend `dortoirs` (D01). *Ces deux réemplois sont rempl
 | D39 | Le couloir de ceinture de l'académie, la nuit de l'attaque · Scène 4, `ch2.fuite` (clé `couloir-nuit`, remplace `bal-entree`) | `public/assets/backdrops/couloir-nuit.webp` | décors D01 et D02 (l'académie), `Chapter2/BadlandsHoltenFeuPatrouilles.png` (le feu, la fumée), `Chapter2/AttaqueBoom.png` (l'éclair du tir, sans la discothèque) | à valider |
 | D40 | La grille du dortoir, verrouillée, la nuit de l'attaque · Scène 4, `ch2.grille` (clé `grille-dortoir`, remplace `dortoirs`) | `public/assets/backdrops/grille-dortoir.webp` | décor D01 (le dortoir derrière la grille), décor D02, `Chapter2/BadlandsHoltenFeuPatrouilles.png` (la lueur du feu) | à valider |
 
+## Lot I — plans du slow cinématique (2026-09-27)
+
+Images générées avec l'outil ImageGen puis cadrées en 1920 × 825 WebP. Elles prolongent D19 et
+D20 ; le propriétaire peut encore juger leur continuité visuelle en jouant le montage.
+
+| ID | Image | Fichier livré | Références d'identité | État |
+|---|---|---|---|---|
+| D41 | Franklyn et Letitia, plan rapproché du murmure | `public/assets/backdrops/slow-franklyn-letitia-close.webp` | D20, portraits P01 et P03, [brief](briefs/D41-slow-franklyn-letitia-close.md) | à valider |
+| D42 | Les portes fermées, le bruit au-delà | `public/assets/backdrops/slow-doors.webp` | D17, D20, [brief](briefs/D42-slow-doors.md) | à valider |
+| D43 | Abigail et Zachary, dernier plan calme | `public/assets/backdrops/slow-abigail-zachary-close.webp` | D19, portraits P02 et P06, [brief](briefs/D43-slow-abigail-zachary-close.md) | à valider |
+
 ## Plus tard (non planifié)
 
 Variantes d'expression des cadets (colère, peur, rire) pour le bal et le chapitre 2 ;
