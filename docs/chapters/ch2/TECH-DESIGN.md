@@ -756,6 +756,44 @@ commandes de porte masqués avec les murs coupés.
     À 3 000 nuits, avant et après : écarts ≤ 2 points sur toutes les lignes, du bruit
     (`abigail-brisee` 19,8 → 19,6 % pour Loyal, 19,9 → 19,4 % pour Solitaire, 39,6 → 38,5 % pour Neutre).
 
+### Lot 5.18 — cinématique de la mort de Zachary *(demande du propriétaire, 2026-09-27)*
+
+- **But** : donner à la scène 7 le temps d'un adieu, en réemployant la méthode du slow
+  ([ADR 0029](../../process/adr/0029-montage-chronometre-du-slow.md)). Le graphe
+  `ch2.egouts.json` demeure propriétaire de tous les choix, répliques et effets, dont l'entrée
+  `ch2.zachary` au seul nœud `mort`. Aucun jet ne peut sauver Zachary.
+- **Médias** : D29 ouvre et garde Abigail en train de soigner Zachary pendant le choix ; D44
+  montre Franklyn et Abigail essayant ensemble les premiers soins **si « Comprimer » est choisi** ; D45 cadre
+  le dernier échange ; D46 garde un silence autour de la mort ; D30 accompagne la décision
+  d'éloigner Abigail. Trois nouveaux WebP 1920 × 825, fondus de 1,1 s, mêmes visages et tunnel.
+  `sewer-drips.wav` boucle discrètement dès le lancement ; `abigail-sobbing.wav` est joué une fois
+  à `mort`. Sources CC0, extraits et provenance dans `public/assets/audio/ATTRIBUTION.md`.
+  `47. Let You Down.mp3`, fourni localement, est ignoré par Git.
+- **Conduite** : les temps ci-dessous sont ceux de l'**image** depuis « Lancer la cinématique ».
+  L'horloge s'arrête pendant les deux choix, la piste ne s'arrête jamais. Les légendes utilisent
+  le texte et les répliques du `DialogueRunner` après chaque avancée.
+
+| Temps visuel | Plan | Nœud / interaction | Son |
+|---|---|---|---|
+| 0–12 s | D29, Zachary conscient | `chute` | musique et filet d'eau |
+| 12 s | D29, Abigail soigne Zachary ; D44 après le choix « Comprimer » | avancer à `soins`, pause pour choisir un des trois gestes | musique et eau continuent |
+| 25 s | D45, Zachary et Abigail | `a-abigail`, les deux dernières phrases à Abigail | musique et eau |
+| 42 s | D45, regard vers Franklyn | choisir automatiquement la **seule** route visible de `a-franklyn`, selon dossier | musique et eau |
+| 56 s | D46, Zachary ne respire plus | `mort`, entrée `ch2.zachary` | pleurs d'Abigail, musique et eau |
+| 68 s | D30, Abigail refuse de le lâcher | `refus`, pause pour Franklyn ou Grover | musique et eau continuent |
+| 78 s | dialogue normal, décor `egouts` | `ordre`, puis tous les choix et jets pour Abigail et Letitia | musique et eau continuent |
+| sortie de `ch2.egouts` | scène suivante | après la dernière réplique et son clic | fondu musique et eau de 3 s |
+
+- **Raccord** : `ZacharyCinematic` se lance seulement en lecture normale. `?ai=0` garde le
+  dialogue synchrone pour l'API de debug et les parcours e2e. « Passer » retire les images au
+  nœud courant et laisse musique et eau jouer sous le dialogue. La sortie forcée ou la destruction
+  de l'application nettoie lecteurs et horloges. L'onglet caché suspend horloge et audio ; le muet
+  de session est partagé avec les autres vues. Un média manquant laisse le récit jouable.
+- **Réglage de départ** : musique 0,56, eau 0,28, pleurs **0,08** (volumes des éléments audio).
+  Le propriétaire a demandé des pleurs très bas, la prise de son étant peu agréable ; ils
+  restent sous la chanson et ne durent qu'un extrait de 13 s. Vérifier le mix à l'écoute sur le
+  poste de jeu.
+
 ### Lot 5.16 — Zachary blessé : une variante de portrait *(décision du propriétaire, 2026-09-27)*
 
 - **But** : relevé du lot 5.13 : le portrait livré de Zachary rit aux éclats pendant son agonie. Le

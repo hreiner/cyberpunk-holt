@@ -191,6 +191,18 @@ D20 ; le propriétaire peut encore juger leur continuité visuelle en jouant le 
 | D42 | Les portes fermées, le bruit au-delà | `public/assets/backdrops/slow-doors.webp` | D17, D20, [brief](briefs/D42-slow-doors.md) | à valider |
 | D43 | Abigail et Zachary, dernier plan calme | `public/assets/backdrops/slow-abigail-zachary-close.webp` | D19, portraits P02 et P06, [brief](briefs/D43-slow-abigail-zachary-close.md) | à valider |
 
+## Lot J — cinématique des égouts (2026-09-27)
+
+Images générées avec ImageGen à partir de D29 (lieu et identités), du portrait P01 (Franklyn)
+et de la bible de style, puis cadrées en 1920 × 825 WebP. L'absence de sang et la continuité
+des visages ont été vérifiées visuellement ; le propriétaire peut juger les raccords en jeu.
+
+| ID | Image | Fichier livré | Références d'identité | État |
+|---|---|---|---|---|
+| D44 | Franklyn et Abigail tentent les premiers soins sur Zachary | `public/assets/backdrops/egouts-first-aid.webp` | D29, P01, [brief](briefs/D44-egouts-first-aid.md) | à valider |
+| D45 | Les derniers mots de Zachary à Abigail | `public/assets/backdrops/egouts-last-words.webp` | D29, P01, [brief](briefs/D45-egouts-last-words.md) | à valider |
+| D46 | Zachary mort ; Abigail et Franklyn dans le silence | `public/assets/backdrops/egouts-abigail-grief.webp` | D29, P01, [brief](briefs/D46-egouts-abigail-grief.md) | à valider |
+
 ## Plus tard (non planifié)
 
 Variantes d'expression des cadets (colère, peur, rire) pour le bal et le chapitre 2 ;

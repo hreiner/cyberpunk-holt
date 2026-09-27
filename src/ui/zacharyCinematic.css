@@ -1,0 +1,13 @@
+.zachary-cinematic .slow-cinematic__story {
+  max-width: 970px;
+}
+
+.zachary-cinematic .slow-cinematic__caption {
+  white-space: pre-line;
+  font-size: clamp(1rem, 1.45vw, 1.4rem);
+  line-height: 1.5;
+}
+
+.zachary-cinematic .slow-cinematic__shade {
+  background: linear-gradient(0deg, rgb(from var(--ink) r g b / 96%), transparent 48%, transparent 78%, rgb(from var(--ink) r g b / 30%));
+}

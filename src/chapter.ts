@@ -68,6 +68,7 @@ import { GameApp } from './app';
 import type { TacticalOutcome } from './app';
 import { NarrativeView } from './ui/narrativeView';
 import { SlowCinematic } from './ui/slowCinematic';
+import { ZacharyCinematic } from './ui/zacharyCinematic';
 import type { NarrativeHud } from './ui/narrativeView';
 import type { GaugeStatus } from './ui/gaugeView';
 import { ReportView } from './ui/reportView';
@@ -256,6 +257,7 @@ export class ChapterApp {
   private readonly contactHost: HTMLElement;
   private readonly view: NarrativeView;
   private slowCinematic: SlowCinematic | null = null;
+  private zacharyCinematic: ZacharyCinematic | null = null;
   private readonly reportView: ReportView;
   private readonly draftView: DraftView;
   /**
@@ -527,6 +529,7 @@ export class ChapterApp {
    */
   chooseOption(index: number): NarrativeOutcome {
     this.slowCinematic?.dismissVisual();
+    this.zacharyCinematic?.dismissVisual();
     return this.withActiveRunner((runner) => runner.choose(index));
   }
 
@@ -562,6 +565,7 @@ export class ChapterApp {
    */
   advance(): void {
     this.slowCinematic?.dismissVisual();
+    this.zacharyCinematic?.dismissVisual();
     if (this.activeDialogue) {
       if (this.activeDialogue.current().finished) {
         this.completeDialogueScene(this.activeDialogue.context);
@@ -653,6 +657,7 @@ export class ChapterApp {
     if (this.disposed) return;
     this.disposed = true;
     this.cancelSlowCinematic();
+    this.cancelZacharyCinematic();
     this.tacticalApp?.dispose();
     this.view.dispose();
     this.exploreSession.dispose();
@@ -736,6 +741,7 @@ export class ChapterApp {
     this.renderDialogue();
     // Le mode test `?ai=0` garde le dialogue synchrone pour l'API de debug et les parcours e2e.
     if (scene.id === 'ch2.slow' && this.aiDelayMs > 0) this.startSlowCinematic();
+    if (scene.id === 'ch2.egouts' && this.aiDelayMs > 0) this.startZacharyCinematic();
   }
 
   private startSlowCinematic(): void {
@@ -792,6 +798,41 @@ export class ChapterApp {
   private cancelSlowCinematic(): void {
     this.slowCinematic?.dispose();
     this.slowCinematic = null;
+  }
+
+  private startZacharyCinematic(): void {
+    const muted = loadSession().soundMuted;
+    this.view.setSoundMuted(muted);
+    this.zacharyCinematic = new ZacharyCinematic(
+      this.narrativeHost,
+      {
+        current: () => this.activeDialogue?.current() ?? null,
+        advance: () => {
+          const runner = this.activeDialogue;
+          if (!runner || runner.current().choices.length) return null;
+          runner.advance();
+          this.renderDialogue();
+          return runner.current();
+        },
+        choose: (index) => {
+          const runner = this.activeDialogue;
+          if (!runner || !runner.choose(index).ok) return null;
+          this.renderDialogue();
+          return runner.current();
+        },
+        onMuteChange: (soundMuted) => {
+          this.view.setSoundMuted(soundMuted);
+          this.exploreSession.setSoundMuted(soundMuted);
+          saveSession({ ...loadSession(), soundMuted });
+        },
+      },
+      muted,
+    );
+  }
+
+  private cancelZacharyCinematic(): void {
+    this.zacharyCinematic?.dispose();
+    this.zacharyCinematic = null;
   }
 
   /**
@@ -891,6 +932,10 @@ export class ChapterApp {
     if (this.currentSceneDef?.id === 'ch2.slow') {
       this.slowCinematic?.fadeOut();
       this.slowCinematic = null;
+    }
+    if (this.currentSceneDef?.id === 'ch2.egouts') {
+      this.zacharyCinematic?.fadeOut();
+      this.zacharyCinematic = null;
     }
     this.activeDialogue = null;
     this.mergeContext(finalCtx);
@@ -1465,6 +1510,7 @@ export class ChapterApp {
 
   private enterScene(scene: SceneDef | null): void {
     this.cancelSlowCinematic();
+    this.cancelZacharyCinematic();
     this.activeDialogue = null;
     this.activeExploreConversation = null;
     this.currentSceneDef = scene;

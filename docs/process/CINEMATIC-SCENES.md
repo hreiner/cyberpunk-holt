@@ -1,7 +1,10 @@
 # Produire une scène cinématique à plans fixes
 
-Le slow du chapitre 2 est la référence livrée : [`src/ui/slowCinematic.ts`](../../src/ui/slowCinematic.ts),
+Le slow du chapitre 2 est la première référence livrée : [`src/ui/slowCinematic.ts`](../../src/ui/slowCinematic.ts),
 [`ch2.slow.json`](../../src/data/dialogues/ch2.slow.json), [ADR 0029](adr/0029-montage-chronometre-du-slow.md).
+La mort de Zachary fournit un second exemple, avec **deux pauses de choix** et un retour au
+dialogue longtemps avant la fin de la scène : [`src/ui/zacharyCinematic.ts`](../../src/ui/zacharyCinematic.ts),
+[`ch2.egouts.json`](../../src/data/dialogues/ch2.egouts.json) et [lot 5.18](../chapters/ch2/TECH-DESIGN.md).
 Ce document sert à préparer une autre scène **du même genre** : images fixes montées dans le
 temps, musique, bruitages, puis retour à un dialogue qui conserve ses choix et ses effets.
 Aujourd'hui chaque montage est une vue `src/ui/` propre à sa scène, branchée dans `chapter.ts` ;
@@ -103,6 +106,29 @@ ce raccourci est propre à l'intégration actuelle. Pour une nouvelle scène, é
 test et ses points d'entrée au même moment que son raccord au routeur. Une nouvelle API
 `window.__game` impose de mettre à jour [`DEBUG_API.md`](DEBUG_API.md) et
 `tests/e2e/debug-api.d.ts`.
+
+### Second exemple : Zachary dans les égouts
+
+Le lot 5.18 confirme que plusieurs pauses peuvent rester dans le **même** montage : le geste de
+secours puis le choix de qui éloigne Abigail. `ZacharyCinematic` affiche le texte, les répliques
+et les choix du nœud `PresentedNode` ; au choix, il repasse l'`index` d'origine au runner. Entre
+les deux, il fait traverser la route conditionnelle silencieuse `a-franklyn` en sélectionnant son
+seul choix visible. L'entrée de dossier `ch2.zachary` naît ainsi au nœud `mort`, une seule fois.
+
+La chanson joue depuis le clic initial jusqu'à la sortie **effective** de `ch2.egouts`. Le
+montage se retire dès `ordre`, avant les décisions et jets concernant Abigail et Letitia ;
+musique et eau restent sous tout ce dialogue, puis décroissent en trois secondes. Les pleurs CC0
+sont volontairement très bas (`volume = 0,08`) : la prise de son est peu agréable à niveau normal,
+selon le retour du propriétaire. Les extraits d'eau et de pleurs sont courts, mono 32 kHz, avec
+fondus aux bords ; leur source et transformation exacte sont dans `ATTRIBUTION.md`. Le fichier
+musical fourni par le propriétaire reste local, ignoré par Git et inclus dans les builds locaux
+de Vite tant qu'il est sous `public/`.
+
+Le lancement normal utilise une horloge visuelle qui s'arrête sur les choix ; `?ai=0` conserve
+le chemin synchrone de debug. « Passer » enlève seulement l'image et retrouve le nœud actuel.
+Les nouveaux plans sont D44–D46, raccordés à D29 et D30 ; leurs prompts et références sont au
+[manifeste](../art/image-generation/MANIFEST.md). Le mix, surtout la place des pleurs sous la
+musique, doit encore être jugé par le propriétaire à l'écoute réelle.
 
 ## 5. Vérifier et transmettre
 
