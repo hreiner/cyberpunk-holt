@@ -645,6 +645,12 @@ le poste du propriétaire.
   répliques de pression en exploration.
 - **Assets** : sources et traitement dans `public/assets/audio/ATTRIBUTION.md` ; plans D41 à D43
   dans le manifeste d'images. La chanson reste hors Git, dans `public/assets/audio/` local.
+- **Mix de départ** : musique `0,58`, tir lointain `0,42`, rafale proche `0,78` (volumes des
+  éléments audio) ; fondu musical final de 1,8 s. La chanson boucle si le dialogue dure plus
+  longtemps que la piste.
+- **Réemploi** : la [méthode de production des cinématiques](../../process/CINEMATIC-SCENES.md)
+  reprend la conduite, les médias, le raccord et les contrôles de ce lot. Retour du propriétaire
+  sur le montage : « really great cinematic » (2026-09-27).
 
 ### Lot 5.11b — les couloirs laissent voir la file *(décision du propriétaire, 2026-09-26)*
 

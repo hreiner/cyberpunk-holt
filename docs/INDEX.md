@@ -14,6 +14,7 @@ aucune conversation à retrouver.
 | coder sur l'exploration (epic 3) | [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md) puis [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md) |
 | comprendre la structure du code  | [`process/ARCHITECTURE.md`](process/ARCHITECTURE.md)                                                                     |
 | savoir ce qui reste à faire      | [`process/ROADMAP.md`](process/ROADMAP.md)                                                                               |
+| concevoir une scène cinématique  | [`process/CINEMATIC-SCENES.md`](process/CINEMATIC-SCENES.md) puis [`chapters/CAPABILITIES.md`](chapters/CAPABILITIES.md) |
 | brancher des modèles 3D          | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md)                                                                             |
 | concevoir le chapitre suivant    | [`chapters/README.md`](chapters/README.md) — trois phases, et quoi lire (ou pas) à chacune                               |
 
@@ -64,6 +65,7 @@ aucune conversation à retrouver.
 | [`process/ARCHITECTURE.md`](process/ARCHITECTURE.md)                                           | couches, dépendances, invariants                                                                                        |
 | [`process/ROADMAP.md`](process/ROADMAP.md)                                                     | les trois epics, découpés en lots livrables                                                                             |
 | [`process/CONVENTIONS.md`](process/CONVENTIONS.md)                                             | style de code, nommage, commits, langue                                                                                 |
+| [`process/CINEMATIC-SCENES.md`](process/CINEMATIC-SCENES.md)                                   | méthode de production des cinématiques à plans fixes : conduite, médias, raccord, vérification                          |
 | [`process/EXPLORATION-VISUAL-ORCHESTRATION.md`](process/EXPLORATION-VISUAL-ORCHESTRATION.md)   | prompt prêt pour l'implémentation déléguée à des agents Terra, avec jalons et revue visuelle                            |
 | [`process/EXPLORATION-VISUAL-IMPLEMENTATION.md`](process/EXPLORATION-VISUAL-IMPLEMENTATION.md) | plan d'implémentation L0–L7, statut courant, critères de sortie et handoff pour le prochain agent |
 | [`process/DORMITORY-AA-PILOT-ORCHESTRATION.md`](process/DORMITORY-AA-PILOT-ORCHESTRATION.md)   | pilote visuel autonome des dortoirs : Franklyn jouable, hausse de qualité des personnages et décors, preuves et mesures |

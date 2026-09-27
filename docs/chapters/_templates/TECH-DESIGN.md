@@ -56,6 +56,11 @@ jouable et vert à chaque lot ; aucun `Math.random()` ; `core`/`rules`/`tactical
   des tests d'AGENTS.md)
 - **Documents à mettre à jour** : (dont `../CAPABILITIES.md` si une capacité est livrée)
 
+> Pour ART-05, joindre au lot la conduite chronométrée (plans, légendes, bruitages, pause de
+> choix, sortie), le manifeste et les briefs d'images, la provenance audio, le raccord au
+> `DialogueRunner` et le moment du fondu musical. Modèle et vérifications dans
+> [`../../process/CINEMATIC-SCENES.md`](../../process/CINEMATIC-SCENES.md).
+
 ### Dépendances
 
 ```

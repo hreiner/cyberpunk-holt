@@ -42,6 +42,11 @@
 - **Lit l'héritage** : étiquettes, affinités, entrées du chapitre 1 qui modifient la scène.
 - **Écrit au dossier** : étiquettes, entrées, affinités.
 
+> Si cette scène est une cinématique à plans fixes (ART-05), préciser sa durée visée, les
+> rares moments où le joueur décide, ce que devient la musique pendant ces choix et pendant
+> l'action, ainsi que le point exact où le dialogue reprend. Conduite de référence :
+> [`../../process/CINEMATIC-SCENES.md`](../../process/CINEMATIC-SCENES.md).
+
 ## 5. Mécaniques nouvelles
 
 > Tout ce que le catalogue ne couvre pas. Pour chacune : l'intention joueur, la règle en

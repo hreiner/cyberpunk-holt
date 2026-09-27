@@ -49,7 +49,7 @@ serait 🔴.
 | DLG-07 | **DV variable** selon un compteur (`dvByCounter`) | une tension qui monte : vigilance, alerte, méfiance | 🟢 | ADR 0015 §3 |
 | DLG-08 | **Alias** `{equipier1}`, `{equipier2}`, `{rivale}` et variantes par cadet (`teammate`) | écrire une fois pour toutes les compositions d'équipe | 🟢 | ADR 0014 §7 |
 | DLG-09 | **Points d'entrée multiples** d'un même fichier (`startNode`) | plusieurs objets d'une pièce partagent un fichier, chacun son moment | 🟢 | 07 |
-| DLG-10 | **Portrait** du locuteur, avec **variante par réplique** (`portrait`, ex. Zachary blessé, ADR 0028), **décor plein cadre** par dialogue **ou par nœud** (registre `src/data/backdrops.ts`, coupe franche), **bruitage** de nœud (`sound.sfx`, synthétisé) | chaque dialogue a son image de lieu ; une scène en suite d'images (le slow, la rafale) ; un coup de feu entendu sans monter un système audio dédié | 🟢 si l'image/la clé existe · art ou nouveau bruitage à produire sinon | [UI-DESIGN-SYSTEM](../art/UI-DESIGN-SYSTEM.md), ADR 0023 |
+| DLG-10 | **Portrait** du locuteur, avec **variante par réplique** (`portrait`, ex. Zachary blessé, ADR 0028), **décor plein cadre** par dialogue **ou par nœud** (registre `src/data/backdrops.ts`, coupe franche), **bruitage** de nœud (`sound.sfx`) | chaque dialogue a son image de lieu ; une suite d'images avancée au clic (la rafale après le slow) ; un coup de feu entendu sur un nœud | 🟢 si l'image/la clé sonore existe · art ou nouveau bruitage à produire sinon | [UI-DESIGN-SYSTEM](../art/UI-DESIGN-SYSTEM.md), ADR 0023 |
 | DLG-11 | **Dé 3D** qui roule à l'écran, chaîne d'explosion visible | gratuit sur tout jet | gratuit | ADR 0012 |
 
 **Ajout du chapitre 2** : un nœud peut changer le **décor** (suite d'images, coupe franche) et jouer un **bruitage** ; une **condition sur le tempo** et un **compteur borné** servent les conséquences de fuite (DLG-04, DLG-05, DLG-10). Le portrait hero ne déborde jamais d'un fichier de dialogue sur le suivant (lot 5.11). Une réplique peut demander une variante du portrait de son locuteur, déclarée dans le registre des portraits (lot 5.16, ADR 0028) : une nouvelle variante coûte une image.
@@ -151,9 +151,11 @@ d'elles est 🔴 et demande un ADR.
 | ART-01 | **Habillage 3D déclaratif** des pièces : catalogue de modèles, matières, luminaires qui éclairent | un nouveau lieu se compose avec l'existant | 🟢 si le catalogue suffit · art à produire sinon | ADR 0017, 0018, [ROOM-COMPOSITION](../art/ROOM-COMPOSITION.md) |
 | ART-02 | **Personnages humanoïdes animés** en exploration et en combat, figurants gris | — | 🟢 cadets · art pour tout nouveau visage | [ART-PIPELINE](../art/ART-PIPELINE.md) |
 | ART-03 | **Illustrations** : les décors plein cadre et portraits des chapitres 1 et 2 (suite d'images du slow, égouts, Badlands, décharges, clinique, le Blue Purple ; Smith, l'enfant, Murano, le guide, le charcudoc, un ganger, l'inconnue), pipeline de génération documenté | chaque nouveau lieu ou visage = une fiche de brief | coût de production | [ORCHESTRATOR](../art/image-generation/ORCHESTRATOR.md) |
-| ART-04 | **Bruitages synthétisés** du combat | — | gratuit | ADR 0010 |
+| ART-04 | **Bruitages** du combat et des scènes : synthèse Web Audio ; `distant-shot` et `burst` lisent des échantillons CC0 avec synthèse de secours | coups de feu dans le dialogue et les répliques de pression en exploration | 🟢 si l'identifiant existe · production audio sinon | ADR 0010, 0029 |
+| ART-05 | **Cinématique à plans fixes** : images en fondu, musique et bruitages sur une chronologie, une pause de choix, puis retour au dialogue ; la musique peut continuer sous les choix et finir en fondu | réserver un moment de spectacle sans perdre les effets du dialogue ; le slow du chapitre 2 est l'exemple livré | 🟡 par scène (vue et raccord propres) + production des médias | [CINEMATIC-SCENES](../process/CINEMATIC-SCENES.md), ADR 0029 |
 
-**Absents** : musique et ambiance sonore (lot 2.11), cinématiques.
+**Absents** : système général de musique et d'ambiance sonore (lot 2.11), format déclaratif de
+cinématiques. ART-05 est aujourd'hui un montage propre à une scène, pas une capacité en données.
 
 ---
 

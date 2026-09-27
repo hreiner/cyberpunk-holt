@@ -40,3 +40,6 @@ plans WebP. La première lecture nécessite un clic du joueur, conformément aux
 build local inclut la piste si elle est présente dans `public/` : retirer ce fichier de tout
 artefact publié. Les volumes et le rythme sont des choix de mise en scène à juger à l'écoute sur
 le poste du propriétaire.
+
+La méthode réutilisable et la conduite du slow sont consignées dans
+[`CINEMATIC-SCENES.md`](../CINEMATIC-SCENES.md).

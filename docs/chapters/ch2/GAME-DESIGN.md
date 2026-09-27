@@ -326,7 +326,7 @@ fusil, enfant, Abigail, « Zachary — mort le soir du bal ») ; le joueur juge 
 | B4 | Salle principale en version bal, trajet jusqu'au dortoir (variante de la carte d'académie) | 2, 4 | EXP-01, EXP-04, ART-01 | 🟢 | habillage : ballons, gâteaux, guirlandes (art 🟡) |
 | B5 | 5 conversations du bal | 2 | DLG-01…05, DLG-08, EXP-03, EXP-07 | 🟢 | ~5 fichiers courts |
 | B6 | Slow et rafale en suite d'images | 3 | DLG-10 | 🟡 | variante 🟢 : 4 dialogues enchaînés ; réf. `Slow*.png`, `AttaqueBoom.png`, `boom.png` |
-| B7 | Musique du slow et de la fusillade, fondue à la fin | 3 | — | 🟡 | piste locale du propriétaire ; lecture continue pendant les choix |
+| B7 | Musique du slow et de la fusillade, fondue à la fin | 3 | ART-05 | 🟡 | piste locale du propriétaire ; lecture continue pendant les choix |
 | B8 | Bruitages de rafale et de tirs lointains | 3, 4, 5 | ART-04 | 🟢 | deux échantillons CC0 réemployés dans la fuite |
 | B9 | Groupe de 3 à 5 en file | 4–6 | EXP-08 | 🟡 | variante 🟢 : deux visibles, le reste dit par la narration |
 | B10 | Fuite sous tempo : répliques de pression hors radio | 4, 5 | RES-03 | 🟡 | la radio sert de canal ; variante 🟢 : narration de zones |
