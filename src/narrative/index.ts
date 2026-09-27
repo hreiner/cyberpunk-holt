@@ -53,6 +53,7 @@ export type { RadioCue } from './radio';
 export { pendingRadio, markHeard } from './radio';
 
 export { validateDialogue } from './validate';
+export type { PortraitVariantRegistry } from './validate';
 
 export type { SceneKind, SceneDef, Ch1Etape, FollowerId } from './sceneRouter';
 export {

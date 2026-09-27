@@ -14,7 +14,7 @@
 
 import { getCharacter } from '@/rules/character';
 import { assetUrl } from '@/ui/assetUrl';
-import type { SpeakerId } from '@/narrative';
+import type { PortraitVariantRegistry, SpeakerId } from '@/narrative';
 
 export interface PortraitSpec {
   id: SpeakerId;
@@ -87,6 +87,22 @@ const PORTRAIT_SOURCES: Partial<Record<SpeakerId, string>> = {
   charcudoc: assetUrl('portraits/charcudoc.webp'),
   ganger: assetUrl('portraits/ganger.webp'),
 };
+
+/**
+ * Variantes de portrait par locuteur (ADR 0028) : une replique les demande par
+ * `DialogueLine.portrait`. La cle est le nom de la variante dans les donnees,
+ * la valeur l'image servie. P06b : Zachary blesse, pour son agonie aux egouts
+ * (lot 5.16). Keith, le surveillant, n'est pas un locuteur : ses trois
+ * expressions restent pilotees par sa vigilance (`surveillantPortraitSource`).
+ */
+export const PORTRAIT_VARIANTS: Partial<Record<SpeakerId, Readonly<Record<string, string>>>> = {
+  zachary: { blesse: assetUrl('portraits/zachary-blesse.webp') },
+};
+
+/** Noms des variantes par locuteur, pour `validateDialogue(file, BACKDROP_KEYS, PORTRAIT_VARIANT_KEYS)`. */
+export const PORTRAIT_VARIANT_KEYS: PortraitVariantRegistry = Object.fromEntries(
+  Object.entries(PORTRAIT_VARIANTS).map(([id, variants]) => [id, Object.keys(variants ?? {})]),
+);
 
 const SURVEILLANT_PORTRAIT_SOURCES = {
   neutre: assetUrl('portraits/surveillant.webp'),
@@ -163,9 +179,13 @@ export function surveillantPortraitSource(vigilance: number): string {
   return SURVEILLANT_PORTRAIT_SOURCES.neutre;
 }
 
-/** Fiche de portrait d'un locuteur : nom, couleur, matricule et image livree. */
-export function portraitFor(id: SpeakerId): PortraitSpec {
-  const src = PORTRAIT_SOURCES[id];
+/**
+ * Fiche de portrait d'un locuteur : nom, couleur, matricule et image livree.
+ * `variant` (ADR 0028) remplace l'image par celle de la variante ; une variante
+ * inconnue retombe en silence sur l'image par defaut (`validateDialogue` la signale en amont).
+ */
+export function portraitFor(id: SpeakerId, variant?: string): PortraitSpec {
+  const src = (variant !== undefined ? PORTRAIT_VARIANTS[id]?.[variant] : undefined) ?? PORTRAIT_SOURCES[id];
   return { ...registryEntry(id), badge: badgeFor(id), ...(src ? { src } : {}) };
 }
 
@@ -429,9 +449,9 @@ function svgPlaceholder(spec: PortraitSpec, size: PortraitSize): string {
     </svg>`;
 }
 
-/** Element DOM pret a poser : `<img>` si `src` est renseigne, sinon le placeholder SVG. */
-export function portraitElement(id: SpeakerId, size: PortraitSize): HTMLElement {
-  const spec = portraitFor(id);
+/** Element DOM pret a poser : `<img>` si `src` est renseigne, sinon le placeholder SVG. `variant` : voir `portraitFor`. */
+export function portraitElement(id: SpeakerId, size: PortraitSize, variant?: string): HTMLElement {
+  const spec = portraitFor(id, variant);
   const { w, h } = SIZES[size];
 
   const wrap = document.createElement('div');

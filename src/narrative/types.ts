@@ -115,6 +115,13 @@ export interface DialogueNode {
 export interface DialogueLine {
   who: SpeakerId | TeamAlias;
   text: string;
+  /**
+   * Variante du portrait de `who` pour CETTE replique (ADR 0028), ex. `"blesse"` pour
+   * Zachary mourant aux egouts. Facultative : absente, le portrait par defaut. Les variantes
+   * sont declarees par locuteur dans `src/ui/portraits.ts` (`PORTRAIT_VARIANTS`) ; une
+   * variante inconnue, ou posee sur un alias d'equipe, est une anomalie de `validateDialogue`.
+   */
+  portrait?: string;
 }
 
 export interface DialogueChoice {

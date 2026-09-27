@@ -6,6 +6,8 @@ import { validateDialogue } from '@/narrative/validate';
 // JSON directement (donnee brute, hors src/narrative), il peut donc importer
 // src/data librement -- voir la doc de `knownBackdrops` dans validate.ts.
 import { BACKDROPS, BACKDROP_KEYS } from '@/data/backdrops';
+// Variantes de portrait (ADR 0028), meme injection que les decors.
+import { PORTRAIT_VARIANTS, PORTRAIT_VARIANT_KEYS } from '@/ui/portraits';
 
 const DIALOGUES_DIR = join(process.cwd(), 'src', 'data', 'dialogues');
 const PUBLIC_DIR = join(process.cwd(), 'public');
@@ -316,9 +318,18 @@ describe('validateDialogue', () => {
       const raw = readFileSync(join(DIALOGUES_DIR, file), 'utf8');
       const parsed: unknown = JSON.parse(raw);
       expect(
-        validateDialogue(parsed, BACKDROP_KEYS),
-        `${file} : ${validateDialogue(parsed, BACKDROP_KEYS).join(' | ')}`,
+        validateDialogue(parsed, BACKDROP_KEYS, PORTRAIT_VARIANT_KEYS),
+        `${file} : ${validateDialogue(parsed, BACKDROP_KEYS, PORTRAIT_VARIANT_KEYS).join(' | ')}`,
       ).toEqual([]);
+    }
+  });
+
+  it('chaque variante de portrait pointe vers un fichier present dans public/ (ADR 0028)', () => {
+    const sources = Object.values(PORTRAIT_VARIANTS).flatMap((variants) => Object.values(variants ?? {}));
+    expect(sources.length).toBeGreaterThan(0);
+    for (const src of sources) {
+      const diskPath = join(PUBLIC_DIR, src.slice(src.indexOf('assets/')));
+      expect(existsSync(diskPath), `${src} (${diskPath} absent)`).toBe(true);
     }
   });
 

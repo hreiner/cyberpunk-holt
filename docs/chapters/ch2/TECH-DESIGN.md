@@ -762,6 +762,13 @@ commandes de porte masqués avec les murs coupés.
   les répliques de Zachary mourant affichent la variante, lue sur le DOM ; le chapitre 1 est
   inchangé.
 - **Documents** : `07-DIALOGUE-FORMAT.md`, `CAPABILITIES.md` (DLG), `ART-PIPELINE.md`.
+- **Livré (lot 5.16)** : `DialogueLine.portrait?` (ADR 0028), variantes déclarées dans
+  `PORTRAIT_VARIANTS` (`src/ui/portraits.ts`) et injectées dans `validateDialogue` en troisième
+  argument (`PORTRAIT_VARIANT_KEYS`), comme les décors ; une variante sur un alias d'équipe est
+  refusée. Le repli « dernier locuteur » garde la variante affichée (voir l'ADR). Le moteur la
+  recopie dans `PresentedLine.portrait` : `dialogueRunner.ts`, `debug-api.d.ts` et
+  `DEBUG_API.md` touchés en plus de la liste. P06b au manifeste (lot F), brief avec prompt,
+  substitut posé.
 
 ### Lot 5.14 — le Blue Purple *(ajout du propriétaire, 2026-09-26)*
 

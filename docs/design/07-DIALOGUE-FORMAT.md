@@ -115,7 +115,11 @@ interface DialogueNode {
   to?: string;                     // nœud suivant ; absent et sans choix = fin
 }
 
-interface DialogueLine { who: SpeakerId | TeamAlias; text: string }
+interface DialogueLine {
+  who: SpeakerId | TeamAlias;
+  text: string;
+  portrait?: string;               // variante du portrait de `who` (ADR 0028), ex. "blesse"
+}
 
 interface DialogueChoice {
   text: string;                    // préfixé [Compétence] quand il y a un jet
@@ -418,6 +422,24 @@ bruitages synthétisés qui réemploient les recettes du combat (`src/audio/sfx.
 s'arrête net). L'emplacement `sound.music` est **réservé** à la piste du slow (lot 5.12,
 facultatif) ; il n'entrera dans le type qu'avec la piste elle-même.
 
+## Variante de portrait par réplique (ADR 0028)
+
+Une réplique peut demander une **variante** du portrait de son locuteur : `"portrait": "blesse"`
+(Zachary mourant, `ch2.egouts`). Le champ est facultatif ; absent, le portrait par défaut.
+Les variantes sont déclarées **par locuteur** dans le registre des portraits
+(`PORTRAIT_VARIANTS`, `src/ui/portraits.ts`) : aujourd'hui `zachary` → `blesse`.
+
+```json
+{ "who": "zachary", "portrait": "blesse", "text": "C'était bien, ce slow." }
+```
+
+La variante vaut pour la vignette de la réplique **et** pour le portrait hero quand la réplique
+est la dernière du nœud. Sur un nœud sans réplique, le hero garde l'image affichée, **variante
+comprise** (la règle « dernier locuteur du fichier » conserve l'image du moment, elle ne
+recalcule rien) ; le locuteur de fichier (`DialogueFile.speaker`) s'affiche toujours sous son
+portrait par défaut. Pas de variante sur un alias d'équipe (`equipier1`…) : son locuteur réel
+n'est connu qu'à l'exécution.
+
 ## La radio
 
 Les répliques de l'instructeur ne sont **pas** des nœuds. Elles vivent dans `src/data/radio.ts` :
@@ -467,7 +489,10 @@ sur **tous** les fichiers de `src/data/dialogues/` et doit trouver zéro anomali
 - une clé `backdrop` (fichier ou nœud) absente de `src/data/backdrops.ts` (ADR 0023, lot
   5.3) — `validateDialogue(file, knownBackdrops)` prend cette liste en second argument
   plutôt que de l'importer (`src/narrative` ne dépend jamais de `src/data`, voir
-  ARCHITECTURE.md) ; l'appelant (tests, contenu) la lui passe explicitement.
+  ARCHITECTURE.md) ; l'appelant (tests, contenu) la lui passe explicitement ;
+- une variante de portrait (`DialogueLine.portrait`) non déclarée pour ce locuteur, ou posée
+  sur un alias d'équipe (ADR 0028, lot 5.16) — même injection, en troisième argument :
+  `validateDialogue(file, BACKDROP_KEYS, PORTRAIT_VARIANT_KEYS)`.
 
 `equipier1`/`equipier2`/`rivale` sont acceptés comme locuteur (`DialogueLine.who`) et
 comme `who` de jet/effet partout où un `CharacterId` l'est, mais jamais comme

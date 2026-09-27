@@ -15,6 +15,7 @@ import { applyEffect, createRunState, evaluateCondition, validateDialogue } from
 import type { Condition, DialogueFile, Effect, NarrativeContext } from '@/narrative';
 import { dialogueBackdropKey } from '@/ui/sceneChrome';
 import { BACKDROP_KEYS } from '@/data/backdrops';
+import { PORTRAIT_VARIANT_KEYS } from '@/ui/portraits';
 
 /** Compteur borné réel du chapitre 2 (TECH-DESIGN §4.6, B18), réutilisé pour les trois premiers cas. */
 const LETITIA_ETAT = 'ch2.letitia.etat';
@@ -95,6 +96,24 @@ const CASES: Array<{ name: string; run: () => void }> = [
       // Une clé RÉELLE du registre ne doit, elle, jamais être signalée.
       const known = { id: 'test.backdrop.connu', backdrop: BACKDROP_KEYS[0], start: 'a', nodes: { a: { text: 'x' } } };
       expect(validateDialogue(known, BACKDROP_KEYS)).toEqual([]);
+    },
+  },
+  {
+    name: 'variante de portrait (ADR 0028) : connue acceptée, inconnue ou sur un alias refusée',
+    run: () => {
+      const withLine = (line: Record<string, string>) => ({
+        id: 'test.portrait',
+        start: 'a',
+        nodes: { a: { lines: [{ text: 'x', ...line }] } },
+      });
+      const errors = (line: Record<string, string>) =>
+        validateDialogue(withLine(line), BACKDROP_KEYS, PORTRAIT_VARIANT_KEYS);
+      expect(errors({ who: 'zachary', portrait: 'blesse' })).toEqual([]);
+      expect(errors({ who: 'zachary' })).toEqual([]); // sans variante : inchangé
+      const refused = (m: string) => m.includes('variante de portrait');
+      expect(errors({ who: 'zachary', portrait: 'hilare' }).some(refused)).toBe(true);
+      expect(errors({ who: 'abigail', portrait: 'blesse' }).some(refused)).toBe(true); // propre à Zachary
+      expect(errors({ who: 'equipier1', portrait: 'blesse' }).some(refused)).toBe(true);
     },
   },
 ];

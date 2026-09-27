@@ -158,6 +158,8 @@ export interface PresentedInsight extends PresentedCheck {
 export interface PresentedLine {
   who: SpeakerId;
   text: string;
+  /** Variante de portrait demandee par la replique (`DialogueLine.portrait`, ADR 0028), recopiee telle quelle. */
+  portrait?: string;
 }
 
 export interface PresentedNode {
@@ -778,6 +780,7 @@ export class DialogueRunner {
     return (node.lines ?? []).map((line) => ({
       who: resolveSpeakerAlias(line.who, this.ctx.run),
       text: applyTemplates(line.text, this.ctx.run),
+      ...(line.portrait !== undefined ? { portrait: line.portrait } : {}),
     }));
   }
 

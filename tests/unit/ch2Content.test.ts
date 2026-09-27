@@ -899,6 +899,20 @@ describe('lot 5.13 : la mort de Zachary, la garde, l’enfant', () => {
     expect([...before].some((id) => (EGOUTS.nodes[id]?.lines ?? []).some((l) => l.who === 'zachary'))).toBe(true);
   });
 
+  // Lot 5.16 (ADR 0028) : le portrait livré de Zachary rit ; mourant, il parle sous sa variante.
+  it('toute réplique de Zachary aux égouts, avant sa mort, utilise la variante « blesse »', () => {
+    const before = reachableFrom(EGOUTS, EGOUTS.start, deathNodeId);
+    let count = 0;
+    for (const id of before) {
+      for (const line of EGOUTS.nodes[id]?.lines ?? []) {
+        if (line.who !== 'zachary') continue;
+        count += 1;
+        expect(line.portrait, `${id} : « ${line.text} »`).toBe('blesse');
+      }
+    }
+    expect(count, 'Zachary parle avant sa mort (sinon ce test ne prouve rien)').toBeGreaterThan(0);
+  });
+
   it('la séquence de deuil (jusqu’à la décision) ne porte aucun jet ni effet mécanique', () => {
     const mourning = reachableFrom(EGOUTS, EGOUTS.start, DECISION_NODE);
     for (const id of mourning) {

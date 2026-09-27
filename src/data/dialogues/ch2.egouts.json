@@ -36,8 +36,8 @@
       "backdrop": "egouts-zachary",
       "text": "Zachary lève la main, trouve le poignet d'Abigail et le serre, pour qu'elle arrête.",
       "lines": [
-        { "who": "zachary", "text": "Abi. Arrête. Reste là, c'est tout." },
-        { "who": "zachary", "text": "C'était bien, ce slow." }
+        { "who": "zachary", "portrait": "blesse", "text": "Abi. Arrête. Reste là, c'est tout." },
+        { "who": "zachary", "portrait": "blesse", "text": "C'était bien, ce slow." }
       ],
       "to": "a-franklyn"
     },
@@ -77,31 +77,31 @@
     "franklyn-loyal-proche": {
       "backdrop": "egouts-zachary",
       "text": "Puis ses yeux cherchent Franklyn.",
-      "lines": [{ "who": "zachary", "text": "Binôme. T'es des nôtres, quoi qu'il arrive. Ramène-les. Tous." }],
+      "lines": [{ "who": "zachary", "portrait": "blesse", "text": "Binôme. T'es des nôtres, quoi qu'il arrive. Ramène-les. Tous." }],
       "to": "mort"
     },
     "franklyn-loyal": {
       "backdrop": "egouts-zachary",
       "text": "Puis ses yeux cherchent Franklyn.",
-      "lines": [{ "who": "zachary", "text": "T'es des nôtres, Franklyn. Quoi qu'il arrive. Ramène-les." }],
+      "lines": [{ "who": "zachary", "portrait": "blesse", "text": "T'es des nôtres, Franklyn. Quoi qu'il arrive. Ramène-les." }],
       "to": "mort"
     },
     "franklyn-proche": {
       "backdrop": "egouts-zachary",
       "text": "Puis ses yeux cherchent Franklyn.",
-      "lines": [{ "who": "zachary", "text": "Mon binôme. Occupe-toi d'elle. Promets." }],
+      "lines": [{ "who": "zachary", "portrait": "blesse", "text": "Mon binôme. Occupe-toi d'elle. Promets." }],
       "to": "mort"
     },
     "franklyn-froid": {
       "backdrop": "egouts-zachary",
       "text": "Puis ses yeux cherchent Franklyn, et s'arrêtent sur lui un moment.",
-      "lines": [{ "who": "zachary", "text": "On s'est jamais trop aimés, toi et moi. Sors-les d'ici quand même." }],
+      "lines": [{ "who": "zachary", "portrait": "blesse", "text": "On s'est jamais trop aimés, toi et moi. Sors-les d'ici quand même." }],
       "to": "mort"
     },
     "franklyn-neutre": {
       "backdrop": "egouts-zachary",
       "text": "Puis ses yeux cherchent Franklyn.",
-      "lines": [{ "who": "zachary", "text": "Franklyn. Sors-les d'ici. D'accord ?" }],
+      "lines": [{ "who": "zachary", "portrait": "blesse", "text": "Franklyn. Sors-les d'ici. D'accord ?" }],
       "to": "mort"
     },
     "mort": {

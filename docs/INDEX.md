@@ -102,3 +102,4 @@ aucune conversation à retrouver.
 | [0025](process/adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md) | Jauges d'état et bilan de chapitre déclarés en données |
 | [0026](process/adr/0026-habillage-exploration-par-etape.md) | Habillage d'exploration par étape |
 | [0027](process/adr/0027-couloirs-deduits-du-plan-murs-en-coupe.md) | Couloirs déduits du plan, murs en coupe |
+| [0028](process/adr/0028-variante-de-portrait-par-replique.md) | Variante de portrait par réplique |

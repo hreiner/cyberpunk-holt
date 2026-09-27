@@ -631,8 +631,9 @@ export class NarrativeView {
     return surveillantPortraitSource(this.currentHud.vigilance?.level ?? 0);
   }
 
-  private scenePortraitElement(speaker: SpeakerId, size: 'thumb' | 'hero'): HTMLElement {
-    const portrait = portraitElement(speaker, size);
+  /** `variant` : variante demandee par la replique (`PresentedLine.portrait`, ADR 0028). */
+  private scenePortraitElement(speaker: SpeakerId, size: 'thumb' | 'hero', variant?: string): HTMLElement {
+    const portrait = portraitElement(speaker, size, variant);
     const source = this.scenePortraitSource(speaker);
     const image = portrait.querySelector('img');
     if (source && image) {
@@ -646,10 +647,17 @@ export class NarrativeView {
     return this.scenePortraitSource(speaker) ? 'Le surveillant' : portraitFor(speaker).name;
   }
 
-  /** Portrait "hero" : le dernier locuteur du noeud, repli sur `speaker` (fichier) si narration pure. */
+  /**
+   * Portrait "hero" : le dernier locuteur du noeud, AVEC la variante de sa replique (ADR 0028),
+   * repli sur `speaker` (fichier, portrait par defaut) si narration pure. Sur un noeud sans
+   * locuteur determinable, le hero affiche reste tel quel, variante comprise : c'est l'image du
+   * moment qui demeure, jamais un portrait recalcule (Zachary blesse ne redevient pas rieur
+   * sur la narration qui suit sa replique).
+   */
   private renderHero(node: PresentedNode, dialogueId: string): void {
     const lastLine = node.lines[node.lines.length - 1];
     const speaker = lastLine?.who ?? node.speaker;
+    const variant = lastLine?.portrait;
     if (!speaker) {
       // Aucun locuteur determinable (narration seule, sans `speaker` de fichier) : dans le MEME
       // fichier, on garde le dernier portrait affiche plutot que de faire clignoter le hero ; dans
@@ -658,7 +666,7 @@ export class NarrativeView {
       return;
     }
     this.heroDialogueId = dialogueId;
-    const portraitKey = `${speaker}:${this.scenePortraitSource(speaker) ?? ''}`;
+    const portraitKey = `${speaker}:${variant ?? ''}:${this.scenePortraitSource(speaker) ?? ''}`;
     if (portraitKey === this.heroPortraitKey) return;
     this.heroPortraitKey = portraitKey;
 
@@ -670,7 +678,7 @@ export class NarrativeView {
 
     // Fondu croise 160ms (section "Mouvement") : le nouveau portrait se pose
     // par-dessus l'ancien puis celui-ci est retire une fois la transition finie.
-    const el = this.scenePortraitElement(speaker, 'hero');
+    const el = this.scenePortraitElement(speaker, 'hero', variant);
     el.classList.add('narrative-hero-portrait', 'is-entering');
     const previous = Array.from(this.heroPortraitsEl.children);
     this.heroPortraitsEl.appendChild(el);
@@ -724,6 +732,7 @@ export class NarrativeView {
 
     this.linesEl.innerHTML = '';
     let lastWho: SpeakerId | null = null;
+    let lastVariant: string | undefined;
     node.lines.forEach((line, i) => {
       const spec = portraitFor(line.who);
       // Repliques consecutives du meme locuteur (docs/art/UI-DESIGN-SYSTEM.md,
@@ -731,8 +740,10 @@ export class NarrativeView {
       // serie, les suivantes s'alignent sous le texte -- un filet de la couleur
       // du personnage, a la place de la vignette, garde le lien visible avec le
       // portrait au-dessus.
-      const continued = line.who === lastWho;
+      // Une variante differente (ADR 0028) rouvre la serie : la vignette doit la montrer.
+      const continued = line.who === lastWho && line.portrait === lastVariant;
       lastWho = line.who;
+      lastVariant = line.portrait;
 
       const row = document.createElement('p');
       row.className = continued ? 'narrative-line narrative-line--continued' : 'narrative-line';
@@ -743,7 +754,7 @@ export class NarrativeView {
         spacer.style.setProperty('--speaker-color', spec.color);
         row.appendChild(spacer);
       } else {
-        row.appendChild(this.scenePortraitElement(line.who, 'thumb'));
+        row.appendChild(this.scenePortraitElement(line.who, 'thumb', line.portrait));
       }
       const body = document.createElement('span');
       body.className = 'narrative-line-body';

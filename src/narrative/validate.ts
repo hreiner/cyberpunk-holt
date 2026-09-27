@@ -29,6 +29,9 @@ const KNOWN_SPEAKERS: string[] = [
   'ganger',
 ];
 /** Alias d'equipe (ADR 0014 §7, lot 3.1) : valides comme locuteur de replique et comme `who` de jet/effet, jamais comme `DialogueFile.speaker`. */
+/** Variantes de portrait connues, par locuteur (ADR 0028) : voir la doc de `validateDialogue`. */
+export type PortraitVariantRegistry = Readonly<Partial<Record<string, readonly string[]>>>;
+
 const KNOWN_TEAM_ALIASES: string[] = ['equipier1', 'equipier2', 'rivale'];
 /** Gabarits reconnus dans les textes (`{equipier1}`...) -- voir aliases.ts. */
 const KNOWN_TEMPLATES: string[] = ['equipier1', 'equipier2', 'rivale', 'franklyn'];
@@ -47,8 +50,18 @@ const KNOWN_DV: string[] = Object.keys(DV);
  * tests/unit/narrativeValidate.test.ts). Sans argument (repli `[]`), toute
  * cle posee est signalee inconnue -- un fichier qui ne pose jamais `backdrop`
  * (tout le chapitre 1 aujourd'hui) n'est jamais concerne.
+ *
+ * `knownPortraitVariants` : variantes de portrait par locuteur (ADR 0028), declarees dans
+ * `src/ui/portraits.ts` (`PORTRAIT_VARIANT_KEYS`) -- injectees pour la meme raison que les
+ * decors (`src/narrative` n'importe jamais `src/ui`). Sans argument, toute variante posee
+ * (`DialogueLine.portrait`) est signalee inconnue ; une replique sans `portrait` (tout le
+ * contenu d'avant le lot 5.16) n'est jamais concernee.
  */
-export function validateDialogue(file: unknown, knownBackdrops: readonly string[] = []): string[] {
+export function validateDialogue(
+  file: unknown,
+  knownBackdrops: readonly string[] = [],
+  knownPortraitVariants: PortraitVariantRegistry = {},
+): string[] {
   const errors: string[] = [];
 
   if (!isRecord(file)) {
@@ -105,7 +118,7 @@ export function validateDialogue(file: unknown, knownBackdrops: readonly string[
       errors.push(`${id}#${nodeId} : le noeud n'est pas un objet valide.`);
       continue;
     }
-    validateNode(id, nodeId, node, nodeIds, nodes, knownBackdrops, errors);
+    validateNode(id, nodeId, node, nodeIds, nodes, knownBackdrops, knownPortraitVariants, errors);
   }
 
   if (typeof start === 'string' && nodeIds.includes(start)) {
@@ -130,6 +143,7 @@ function validateNode(
   nodeIds: string[],
   nodes: Record<string, unknown>,
   knownBackdrops: readonly string[],
+  knownPortraitVariants: PortraitVariantRegistry,
   errors: string[],
 ): void {
   const prefix = `${fileId}#${nodeId}`;
@@ -160,6 +174,7 @@ function validateNode(
     if (!isKnownSpeaker(line.who) && !isTeamAlias(line.who)) {
       errors.push(`${prefix} : locuteur inconnu "${String(line.who)}" dans une replique.`);
     }
+    if (line.portrait !== undefined) validatePortraitVariant(prefix, line.who, line.portrait, knownPortraitVariants, errors);
     validateTemplates(prefix, 'une replique', line.text, errors);
   }
 
@@ -411,6 +426,28 @@ function reachableFrom(start: string, nodes: Record<string, unknown>): Set<strin
 
 function isKnownSpeaker(value: unknown): value is SpeakerId {
   return typeof value === 'string' && KNOWN_SPEAKERS.includes(value);
+}
+
+/**
+ * Variante de portrait d'une replique (ADR 0028) : une chaine declaree pour CE locuteur. Un
+ * alias d'equipe est refuse : son locuteur reel n'est connu qu'a l'execution, la variante ne
+ * peut donc pas etre verifiee ici.
+ */
+function validatePortraitVariant(
+  prefix: string,
+  who: unknown,
+  variant: unknown,
+  known: PortraitVariantRegistry,
+  errors: string[],
+): void {
+  if (isTeamAlias(who)) {
+    errors.push(`${prefix} : variante de portrait "${String(variant)}" sur un alias d'equipe ("${String(who)}"), interdit.`);
+    return;
+  }
+  const variants = typeof who === 'string' ? known[who] : undefined;
+  if (typeof variant !== 'string' || !(variants ?? []).includes(variant)) {
+    errors.push(`${prefix} : variante de portrait "${String(variant)}" inconnue pour "${String(who)}".`);
+  }
 }
 
 /** Cle de `DialogueFile.backdrop`/`DialogueNode.backdrop` (ADR 0023) : voir la doc de `knownBackdrops` plus haut. */

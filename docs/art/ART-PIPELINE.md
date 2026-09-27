@@ -210,6 +210,17 @@ l'ADR 0003). Les substituts sont au chemin définitif.
 Les sept clés de décor sont enregistrées dans `src/data/backdrops.ts` ; le test de `BACKDROPS`
 (`tests/unit/narrativeValidate.test.ts`) vérifie que chaque fichier existe.
 
+### Zachary blessé, une variante de portrait (lot 5.16)
+
+Décision du propriétaire du 2026-09-27 : le portrait P06 rit aux éclats pendant l'agonie de
+Zachary. Une réplique peut désormais demander une **variante** du portrait de son locuteur
+(ADR 0028) ; les variantes sont déclarées dans `PORTRAIT_VARIANTS` (`src/ui/portraits.ts`), et le
+test de `narrativeValidate.test.ts` vérifie que chaque fichier de variante existe.
+
+| Portrait | Statut | Remplace |
+|---|---|---|
+| P06b zachary-blesse (variante `blesse` de `zachary`, `ch2.egouts`) | substitut posé (`public/assets/portraits/zachary-blesse.webp`, même procédé que 5.A), **branché** sur les sept répliques d'agonie ; fiche `briefs/P06b-zachary-blesse.md` avec son prompt complet, en attente de génération | le portrait par défaut P06 sur ces répliques |
+
 ## Ordre de travail conseillé
 
 1. Portraits 2D des six cadets — fort impact, faible risque.

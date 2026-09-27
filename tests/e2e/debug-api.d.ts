@@ -68,6 +68,8 @@ export interface E2EPresentedChoice {
 export interface E2EDialogueLine {
   who: string;
   text: string;
+  /** Variante de portrait demandee par la replique (`DialogueLine.portrait`, ADR 0028), ex. "blesse". */
+  portrait?: string;
 }
 
 export interface E2EPresentedRollModifier {
