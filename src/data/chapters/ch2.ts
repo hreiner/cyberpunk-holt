@@ -289,6 +289,12 @@ export const CH2_END: ChapterEndDef = {
         { value: 'stable' },
       ],
     },
+    // Lot 5.19 (decision du proprietaire, 2026-09-27) : la dette est un ultimatum, le meme quel
+    // que soit l'etat de Letitia (GAME-DESIGN scene 11). Cas unique, sans condition.
+    {
+      label: 'La dette',
+      cases: [{ value: '2 000 crédits d’ici demain soir, ou le charcudoc se paie sur Letitia' }],
+    },
     {
       label: 'Zachary',
       cases: [{ value: 'mort le soir du bal' }],
@@ -334,6 +340,15 @@ export const CH2_END: ChapterEndDef = {
       cases: [
         { when: { tag: 'voiture-pillee' }, value: 'pillée pendant la nuit' },
         { value: 'intacte au matin' },
+      ],
+    },
+    // Lot 5.19 : le rendez-vous vient de John, qui le tient de Smith ; avec `vu-simulation`,
+    // Franklyn l'a aussi entendu de Smith elle-meme. Miroir de l'entree `ch2.rendezvous.source`.
+    {
+      label: 'Le rendez-vous',
+      cases: [
+        { when: { tag: 'vu-simulation' }, value: 'le Blue Purple, par Smith en personne, puis John' },
+        { value: 'le Blue Purple, par John, de la part de Smith' },
       ],
     },
     // Lot 5.14 : le premier mot de Franklyn à l'inconnue (scène 12), lu sur le drapeau posé avec

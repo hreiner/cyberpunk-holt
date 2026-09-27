@@ -313,6 +313,10 @@ describe('chapitre 2 (lot 5.1/5.2) : le squelette de 14 scenes s enchaine jusqu 
           // Franklyn a l'inconnue, avant le bilan.
           expect(lastPlayed.get(ctx), 'derniere scene jouee').toBe('ch2.bluepurple');
           expect(ctx.dossier.entries.map((e) => e.key), 'entree du premier mot').toContain('ch2.inconnue.premier-mot');
+          // Lot 5.19 : le rendez-vous vient de John (et de Smith), jamais du charcudoc.
+          const source = ctx.dossier.entries.find((e) => e.key === 'ch2.rendezvous.source');
+          expect(source, 'entree de la source du rendez-vous').toBeDefined();
+          expect(source?.value, 'source du rendez-vous').not.toMatch(/charcudoc/i);
           const tags = new Set<string>();
           for (const tag of ctx.dossier.tags) {
             if (!inheritedTags.has(tag)) tags.add(tag);

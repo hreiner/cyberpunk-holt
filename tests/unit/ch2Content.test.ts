@@ -283,6 +283,8 @@ describe('chapitre 2 (lot 5.5) : garde de contenu', () => {
         { dialogueId: 'ch2.bal.zachary', flag: 'ch2.bal.zachary.fait', readIn: 'ch2.egouts', dvNotch: true },
         { dialogueId: 'ch2.bal.abigail', flag: 'ch2.bal.abigail.fait', readIn: 'ch2.grille', dvNotch: true },
         { dialogueId: 'ch2.bal.john', flag: 'ch2.bal.john.fait', readIn: 'ch2.decharges', dvNotch: false },
+        // Lot 5.19 : John relance le Blue Purple à la sortie du charcudoc, et devance la question.
+        { dialogueId: 'ch2.bal.john', flag: 'ch2.bal.john.fait', readIn: 'ch2.charcudoc', dvNotch: false },
         { dialogueId: 'ch2.bal.grover', flag: 'ch2.bal.grover.fait', readIn: 'ch2.enfant', dvNotch: true },
       ];
 
@@ -1158,7 +1160,7 @@ describe('lot 5.14 : le Blue Purple (ch2.bluepurple)', () => {
       new Set(paths.filter((p) => pred(p.night)).map((p) => p.waiting.join(' | ')));
     const byLetitia = new Set(paths.map((p) => p.waiting.find((w) => w.startsWith('grover:'))));
     expect(byLetitia.size, 'la réplique sur le délai de Letitia').toBeGreaterThanOrEqual(2);
-    // Même nuit, seul l'état de Letitia change : l'attente change aussi (« quelques heures » / « demain soir »).
+    // Même nuit, seul l'état de Letitia change : l'attente change aussi (le ton de Grover, pas le délai : lot 5.19).
     const base = (n: Night) => n.tags.length === 0 && n.lien === undefined;
     expect(waitingFor((n) => base(n) && n.letitia === LETITIA_MIN)).not.toEqual(waitingFor((n) => base(n) && n.letitia === LETITIA_MAX));
     for (const tag of FACTOR_TAGS) {
@@ -1249,6 +1251,109 @@ describe('lot 5.17 : décors et paroles du chapitre 2', () => {
     // Seule citation restante : l'adieu de Letitia (une cadette, hors du périmètre de ce lot).
     for (const [id, node] of Object.entries(file.nodes)) {
       if (id !== 'adieu-chaleureux') expect(node.text ?? '', id).not.toMatch(/«/);
+    }
+  });
+});
+
+/**
+ * Lot 5.19 (décision du propriétaire, 2026-09-27) : « le charcudoc ne fait pas de cadeau ».
+ * Le charcudoc pose un ultimatum — deux mille crédits demain soir, sinon il se paie sur Letitia —
+ * et ne donne aucune piste ; c'est John qui relance le Blue Purple, dehors. Marcheur sur TOUTES
+ * les nuits qui comptent après le marchandage (état de Letitia, écho du bal de John,
+ * `vu-simulation`, `cavalier-letitia` et l'affinité, `enfant-confiance` et son lien) : chaque
+ * aiguillage du fichier n'a qu'un choix visible, on le suit jusqu'au bout.
+ */
+describe('lot 5.19 : le charcudoc ne fait pas de cadeau', () => {
+  const CHARCUDOC = DIALOGUES['ch2.charcudoc'] as DialogueFile;
+  const SOURCE = 'ch2.rendezvous.source';
+  /** Toute expression de délai : si elle change avec l'état de Letitia, l'échéance n'est plus unique. */
+  const DEADLINE = /demain soir|demain matin|ce soir|cette nuit|aujourd'hui|quelques heures|\d+\s*heures/gi;
+  /** Ce qui ressemblerait à une piste donnée par le charcudoc. */
+  const LEAD = /blue purple|smith|rendez-vous|un nom|quelqu'un|un bar|une adresse/i;
+
+  interface CharcuPath {
+    letitia: number;
+    charcudoc: string[];
+    ctx: NarrativeContext;
+    trail: string[];
+  }
+
+  const paths: CharcuPath[] = [];
+  for (let letitia = LETITIA_MIN; letitia <= LETITIA_MAX; letitia++) {
+    for (const johnFait of [false, true]) {
+      for (const tagMask of [0, 1, 2, 3, 4, 5, 6, 7]) {
+        const tags = (['vu-simulation', 'cavalier-letitia', 'enfant-confiance'] as const).filter((_, i) => tagMask & (1 << i));
+        for (const affinity of [0, 2]) {
+          for (const lien of [undefined, 'franklyn'] as const) {
+            let run = setFlag(createRunState('ch2Content::charcu', { chapter: 2, sceneId: 'ch2.charcudoc', luck: 0 }), LETITIA_COUNTER, letitia);
+            if (johnFait) run = setFlag(run, 'ch2.bal.john.fait', true);
+            if (lien) run = setFlag(run, 'ch2.enfant.lien', lien);
+            const base = createDossier();
+            const dossier = { ...base, tags: [...tags], affinities: { ...base.affinities, letitia: affinity } };
+            const runner = new DialogueRunner(CHARCUDOC, { dossier, run }, createRng('ch2Content::charcu'), { startNode: 'accueil' });
+            const charcudoc: string[] = [];
+            const trail: string[] = [];
+            for (let guard = 0; guard < 40; guard++) {
+              const node = runner.current();
+              trail.push(node.nodeId);
+              charcudoc.push(...node.lines.filter((l) => l.who === 'charcudoc').map((l) => l.text));
+              if (node.finished) break;
+              expect(node.choices.length, `${node.nodeId} : un seul choix visible`).toBeLessThanOrEqual(1);
+              if (node.choices[0]) runner.choose(node.choices[0].index);
+              else runner.advance();
+            }
+            expect(runner.current().finished, trail.join(' > ')).toBe(true);
+            paths.push({ letitia, charcudoc, ctx: runner.context, trail });
+          }
+        }
+      }
+    }
+  }
+
+  it('le charcudoc ne pose aucune piste : ni nom, ni lieu, ni l’entrée du rendez-vous', () => {
+    for (const { charcudoc, trail } of paths) {
+      expect(charcudoc.length, trail.join(' > ')).toBeGreaterThan(0);
+      for (const text of charcudoc) expect(text, trail.join(' > ')).not.toMatch(LEAD);
+    }
+    // Le nœud qui écrit la source du rendez-vous fait parler John, pas le charcudoc.
+    for (const [id, node] of Object.entries(CHARCUDOC.nodes)) {
+      if (!(node.effects ?? []).some((e) => 'entry' in e && e.entry.key === SOURCE)) continue;
+      const speakers = new Set((node.lines ?? []).map((l) => l.who));
+      expect([...speakers], id).toEqual(['john']);
+    }
+  });
+
+  it('l’entrée ch2.rendezvous.source est écrite sur tout chemin, et ne vaut jamais « le charcudoc »', () => {
+    const values = new Set<string>();
+    for (const { ctx, trail } of paths) {
+      const entry = ctx.dossier.entries.find((e) => e.key === SOURCE);
+      expect(entry, trail.join(' > ')).toBeDefined();
+      expect(entry!.value, trail.join(' > ')).not.toMatch(/charcudoc/i);
+      values.add(entry!.value);
+    }
+    expect(values.size, 'John seul, ou Smith en personne puis John').toBe(2);
+    // Aucun autre fichier ne la réécrit en « le charcudoc ».
+    for (const { id, file } of ch2Files()) {
+      for (const e of allEffects(file)) {
+        if ('entry' in e && e.entry.key === SOURCE) expect(e.entry.value, id).not.toMatch(/charcudoc/i);
+      }
+    }
+  });
+
+  it('l’échéance est la même quel que soit l’état de Letitia : demain soir, chez le charcudoc comme dans la bouche de Grover', () => {
+    for (const { letitia, charcudoc, trail } of paths) {
+      const deadlines = new Set(charcudoc.flatMap((t) => (t.match(DEADLINE) ?? []).map((d) => d.toLowerCase())));
+      expect([...deadlines], `état ${letitia} : ${trail.join(' > ')}`).toEqual(['demain soir']);
+    }
+    // Mais le ton change : l'état de Letitia se lit dans ce qu'il dit d'elle.
+    const byState = (s: number) => new Set(paths.filter((p) => p.letitia === s).map((p) => p.charcudoc.join(' | ')));
+    expect(byState(LETITIA_MIN)).not.toEqual(byState(LETITIA_MAX));
+    // Au Blue Purple, Grover cite la même échéance dans chacune de ses variantes d'attente.
+    const blue = DIALOGUES['ch2.bluepurple'] as DialogueFile;
+    const grover = Object.values(blue.nodes).flatMap((n) => (n.lines ?? []).filter((l) => l.who === 'grover').map((l) => l.text));
+    expect(grover.length).toBeGreaterThanOrEqual(2);
+    for (const text of grover) {
+      expect([...new Set((text.match(DEADLINE) ?? []).map((d) => d.toLowerCase()))], text).toEqual(['demain soir']);
     }
   });
 });

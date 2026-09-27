@@ -296,7 +296,7 @@ Les quatre **leviers de fun** retenus par le propriétaire (GAME-DESIGN §11), t
   |---|---|---|
   | `ch2.bal.zachary.fait` | 7 | calmer Abigail : DV −1 cran |
   | `ch2.bal.abigail.fait` | 4 | l'outil est en poche : DV de la grille Normale |
-  | `ch2.bal.john.fait` | 10 | John parle du rendez-vous avant la question |
+  | `ch2.bal.john.fait` | 10, 11 | John parle du rendez-vous avant la question (aux décharges, puis à la sortie du charcudoc, lot 5.19) |
   | `ch2.bal.grover.fait` | 5 | +2 à la Persuasion de Grover sur l'enfant |
 
   L'échelle des DV est celle de `DV` : un cran = passer d'un nom au suivant, jamais un nombre.
@@ -888,6 +888,60 @@ commandes de porte masqués avec les murs coupés.
     Smith et Murano parlent déjà en `lines` : rien n'a changé pour eux. La règle « le portrait
     ne reste pas sur la narration qui suit » est étendue de l'enfant au charcudoc, au guide et au
     ganger (`ch2Content.test.ts`).
+
+### Lot 5.19 — le charcudoc ne fait pas de cadeau *(demande du propriétaire, 2026-09-27)*
+
+- **But** : la demande du propriétaire, mot pour mot : « Le dialogue du charcudoc doit être
+  beaucoup moins "gentil". Le message est simple : soit les gamins rapportent 2 000 crédits
+  demain soir, soit il se paiera en nature (comprendre en organes) sur la patiente. Et il ne les
+  met pas sur une piste : c'est John qui doit reparler du Blue Purple, vu qu'il a l'info. »
+  1. Le charcudoc pose un ultimatum sec : 2 000 crédits **demain soir**, sinon il se paie sur
+     Letitia. L'organe est **sous-entendu** (un mot froid et commercial, un regard qui soupèse),
+     jamais montré : pas de gore. Il ne donne ni nom, ni piste, ni conseil, et ne rassure pas.
+     L'état de Letitia change sa façon de parler d'elle, **pas l'échéance**.
+  2. Dehors, John relance le Blue Purple (l'info de Smith, au bal), selon `ch2.bal.john.fait`
+     et `vu-simulation`. L'entrée `ch2.rendezvous.source` le nomme, plus le charcudoc.
+  3. En aval : l'attente de Grover au Blue Purple cite l'échéance unique ; la réplique de John
+     au bar ne parle plus du charcudoc ; le bilan dit la dette ; `CH2-LEGACY.md` met à jour
+     les mystères.
+- **Dépend de** : 5.14, 5.17
+- **Lire** : AGENTS.md ; `IMPLEMENTATION-GUIDE.md` ; GAME-DESIGN scènes 2, 5, 10, 11, 12 et §7 ;
+  `ch2.charcudoc.json`, `ch2.bluepurple.json`, `ch2.decharges.json`, `ch2.bal.john.json`,
+  `ch2.smith.json` ; `data/chapters/ch2.ts` (le bilan) ; `CH2-LEGACY.md`.
+- **Toucher** : `ch2.charcudoc.json`, `ch2.bluepurple.json`, `data/chapters/ch2.ts` (bilan),
+  `ch2Content.test.ts`, `chapter2Flow.test.ts`, `chapter2.spec.ts` (lignes du bilan),
+  GAME-DESIGN (scènes 11 et 12, §11), `06-SCORING-DOSSIER.md`, `CH2-LEGACY.md`, ce document.
+- **Fini quand** :
+  - le charcudoc ne pose aucune piste : aucune de ses répliques ne nomme un lieu, une personne
+    ou un rendez-vous, et le nœud qui écrit `ch2.rendezvous.source` fait parler John ;
+  - l'entrée `ch2.rendezvous.source` est écrite sur tout chemin (marcheur du fichier et
+    `chapter2Flow`), et ne vaut jamais « le charcudoc » ;
+  - l'échéance est la même quel que soit l'état de Letitia, chez le charcudoc comme dans les
+    variantes d'attente de Grover (propriété), alors que le ton, lui, change ;
+  - `ch2Content`, `chapter2Flow`, `npm run verify` et `tests/e2e/chapter2.spec.ts` sont verts.
+- **Documents** : GAME-DESIGN (scène 11, décision datée ; §11), `06-SCORING-DOSSIER.md`,
+  `CH2-LEGACY.md`, §4.6 (échos du bal : `ch2.bal.john.fait` relu aussi en scène 11).
+- **Livré (lot 5.19)** :
+  - *Le charcudoc* : `accueil` (il examine Letitia sans un mot pour elle ; « Deux mille crédits.
+    Demain soir, ici. » ; « Pas d'avance, pas de ristourne, pas de discussion. ») →
+    `accueil-reponse` (Franklyn : « Et si on ne les a pas ? ») → `delai-intro` (le regard qui
+    soupèse ; quatre branches silencieuses qui écrivent `ch2.letitia.etat`) →
+    `ultimatum-solide` (états 0–1 : « Au détail, elle vaut plus que votre dette » ; « Elle
+    tiendra jusqu'à demain soir ») ou `ultimatum-abimee` (états 2–3 : « Sur ce qui est encore
+    bon » ; « Demain soir, pas une heure de plus […] elle ne vaudra bientôt plus grand-chose »)
+    → `reponse` (Franklyn) → adieux (inchangés) → l'enfant (inchangé) → `dehors`.
+    `delai-urgent` et `delai-calme` disparaissent.
+  - *John, dehors* (décor `clinique-rue`) : quatre nœuds terminaux, `john-seul`, `john-bal`,
+    `john-smith`, `john-bal-smith`, selon `ch2.bal.john.fait` (il devance la question) et
+    `vu-simulation` (« Elle t'a dit la même chose ? »). Ils écrivent `ch2.rendezvous.source` :
+    `John, qui le tenait de Smith`, ou `Smith en personne, puis John`.
+  - *Blue Purple* : Grover dit « Demain soir, il a dit » dans ses deux variantes (le ton suit
+    l'état de Letitia) ; `john-charcudoc*` devient `john-bal*` ; `john-smith*` ne repose plus la
+    question déjà posée dehors.
+  - *Bilan* : deux lignes, « La dette » (cas unique) et « Le rendez-vous » (selon
+    `vu-simulation`).
+  - *Décharges* : relu, inchangé — John y parle d'« un endroit pour demain » sans le nommer ;
+    la sortie du charcudoc le nomme et dit d'où il vient.
 
 ### Dépendances
 

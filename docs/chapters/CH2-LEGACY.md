@@ -9,7 +9,8 @@ court ; les sources font foi ([`ch2/GAME-DESIGN.md`](ch2/GAME-DESIGN.md),
 > État décrit : le chapitre complet, douze scènes, de la photo au Blue Purple (lot 5.14). Les
 > lots 5.13 (la mort de Zachary jouée en scène 7) et 5.15 (le slow allongé, Zachary touché en
 > protégeant Abigail) ne changent pas ce que le dossier transmet ; le lot 5.14 y ajoute l'entrée
-> `ch2.inconnue.premier-mot`.
+> `ch2.inconnue.premier-mot`. Le lot 5.19 durcit le charcudoc (un ultimatum, aucune piste) et
+> fait venir le rendez-vous de John : l'entrée `ch2.rendezvous.source` change de valeurs.
 
 ## Où en est l'histoire
 
@@ -19,8 +20,10 @@ ceinture, le dortoir, les conduits (où ils trouvent **un enfant** de la seconde
 la cantine en feu, puis tombent dans les égouts. **Zachary meurt** là, le soir du bal. Dans les
 Badlands, un campement : **Murano**, un vieil homme au fusil, est tué pour son camion. La nuit
 se tient aux décharges, en tours de garde. Au matin, un gamin guide le groupe jusqu'à une
-clinique de Night City : le **charcudoc** garde Letitia contre **2 000 crédits** et donne un
-nom — un rendez-vous, pour le soir même, au **Blue Purple**.
+clinique de Night City. Le **charcudoc** pose un ultimatum : **2 000 crédits demain soir**, sinon
+il se paie sur Letitia (en pièces : c'est sous-entendu, jamais dit en clair). Il ne donne aucune
+piste. Dehors, c'est **John** qui relance le rendez-vous que Smith lui a donné au bal : le
+**Blue Purple**, le soir même.
 
 Le soir même, la bande entre au Blue Purple, un bar en sous-sol au bord de Night City. Smith n'y
 est pas. Une courte attente, puis **une inconnue** s'assoit à leur table : elle connaît leurs
@@ -64,7 +67,7 @@ Le chapitre 2 **relit** aussi le vocabulaire du chapitre 1 (`loyal-bande`, `soli
 | `ch2.campement.insignes` | reconnus sur-le-champ, ou trouvés sur Murano après sa mort | 9 |
 | `ch2.campement.tueur` | `Franklyn`, `John`, `Grover`, `Abigail` | 9 |
 | `ch2.fusil` | chargé d'une cartouche, vide, tiré en l'air aux décharges, laissé au guide, gardé | 9 à 11 (la dernière valeur écrite fait foi) |
-| `ch2.rendezvous.source` | `le charcudoc` | 11 |
+| `ch2.rendezvous.source` | `John, qui le tenait de Smith` ; `Smith en personne, puis John` (avec `vu-simulation`) | 11 (John, à la sortie de la clinique) |
 | `ch2.inconnue.premier-mot` | `méfiant` (il demande qui elle est), `direct` (Letitia et la dette), `silence` (il laisse parler John), chacun suivi d'une glose | 12 (le Blue Purple) |
 | `ch2.chance` | Chance dépensée au chapitre (moteur) | au fil du chapitre |
 
@@ -90,18 +93,24 @@ chapitre 2, pas lire un drapeau.
 
 1. **Les insignes au scorpion.** Un gang organisé, cousu main, a attaqué l'académie ; Murano en
    était, ou en portait le signe. Qui ils sont, pourquoi HOLT : rien n'est dit.
-2. **Le rendez-vous au Blue Purple.** Trois sources convergent — Smith (si le joueur fait le
-   détour), John (qui le tient de Smith, relu aux décharges), le charcudoc (toujours). L'entrée
-   ne retient que le charcudoc. Au bar, Smith n'est pas venue, et l'inconnue n'en dit
-   rien : rien n'indique si elle la connaît, ni si elle vient à sa place.
+2. **Le rendez-vous au Blue Purple.** Il vient de **Smith**, et d'elle seule : elle l'a donné à
+   John au bal (« un truc bizarre »), et à Franklyn dans son labo s'il a fait le détour. C'est
+   John qui le relance à la sortie de la clinique ; le charcudoc, lui, n'a donné aucune piste.
+   L'entrée `ch2.rendezvous.source` dit si Franklyn l'a entendu de Smith en personne ou
+   seulement par John. Au bar, Smith n'est pas venue, et l'inconnue n'en dit rien : rien
+   n'indique si elle la connaît, ni si elle vient à sa place.
 3. **La simulation de Smith.** La machine du labo montre la simulation qui revient à Franklyn
    depuis ses dix ans. Smith promet des réponses « pas au fond d'un conduit ». `vu-simulation`
    dit si le joueur l'a vue.
-4. **La dette du charcudoc.** 2 000 crédits pour garder Letitia. Personne n'a cette somme ; le
-   rendez-vous est présenté comme la seule issue.
-5. **L'état de Letitia.** Elle ne meurt jamais au chapitre 2. Son délai (« demain soir » ou
-   « quelques heures ») dépend de l'entrée `ch2.letitia.etat` : c'est au chapitre 3 de décider
-   ce que coûte un « état critique ».
+4. **L'ultimatum du charcudoc.** 2 000 crédits **demain soir**, ou il se paie sur Letitia — en
+   organes, sous-entendu, jamais montré. Personne n'a cette somme ; le rendez-vous de Smith, que
+   John relance, est la seule issue. Le chapitre 3 s'ouvre donc sur un compte à rebours d'un
+   jour : que la bande paie, négocie ou reprenne Letitia de force, c'est à lui de le trancher.
+   Le bilan le rappelle (ligne « La dette »).
+5. **L'état de Letitia.** Elle ne meurt jamais au chapitre 2. L'échéance ne dépend pas de son
+   état (demain soir, toujours) ; l'entrée `ch2.letitia.etat` change seulement la façon dont le
+   charcudoc parle d'elle (« elle tiendra » ou « elle ne vaudra bientôt plus grand-chose ») :
+   c'est au chapitre 3 de décider ce que coûte un « état critique ».
 6. **L'enfant.** Un petit de la seconde génération, sans nom au chapitre 2 ; il suit le groupe.
 7. **L'inconnue du Blue Purple.** Veste de cuir violette, cheveux bleu nuit sur un œil (portrait
    P19, locuteur `inconnue`, « L'inconnue »). Elle connaît les noms des quatre cadets, pas celui

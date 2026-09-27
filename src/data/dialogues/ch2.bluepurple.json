@@ -25,7 +25,7 @@
     "attente-urgent": {
       "text": "Grover n'a pas quitté des yeux l'horloge au-dessus du bar.",
       "lines": [
-        { "who": "grover", "text": "Quelques heures, il a dit. Il en reste combien, maintenant ? On ne peut pas attendre toute la nuit." }
+        { "who": "grover", "text": "Demain soir, il a dit. Elle respirait mal, quand on est partis. Chaque heure qu'on passe ici, c'est lui qui la compte." }
       ],
       "choices": [
         { "text": "Continuer.", "conditions": [{ "tag": "abigail-brisee" }], "to": "abigail-brisee" },
@@ -35,7 +35,7 @@
     "attente-calme": {
       "text": "Grover tourne un verre vide entre ses doigts, sans le remplir.",
       "lines": [
-        { "who": "grover", "text": "Demain soir, il a dit. Elle tiendra. Il faut juste qu'on ait quelque chose à lui ramener d'ici là." }
+        { "who": "grover", "text": "Demain soir, il a dit. Elle tiendra jusque-là. C'est pas sa blessure qui me fait peur, c'est la façon dont il la regardait." }
       ],
       "choices": [
         { "text": "Continuer.", "conditions": [{ "tag": "abigail-brisee" }], "to": "abigail-brisee" },
@@ -67,39 +67,39 @@
         {
           "text": "Continuer.",
           "conditions": [{ "not": { "tag": "vu-simulation" } }, { "not": { "tag": "a-tue" } }],
-          "to": "john-charcudoc"
+          "to": "john-bal"
         },
         {
           "text": "Continuer.",
           "conditions": [{ "not": { "tag": "vu-simulation" } }, { "tag": "a-tue" }],
-          "to": "john-charcudoc-mains"
+          "to": "john-bal-mains"
         }
       ]
     },
     "john-smith": {
       "text": "John boit une gorgée et repose le verre sans bruit.",
-      "lines": [{ "who": "john", "text": "Elle t'a dit d'attendre, à toi aussi ? Alors on attend." }],
+      "lines": [{ "who": "john", "text": "Elle nous a dit d'attendre, à tous les deux. Alors on attend." }],
       "to": "enfant"
     },
     "john-smith-mains": {
       "text": "Sous la table, Franklyn regarde ses mains. Elles ne tremblent plus ; il ne sait pas si c'est mieux. John boit une gorgée et repose le verre sans bruit.",
       "lines": [
-        { "who": "john", "text": "Elle t'a dit d'attendre, à toi aussi ? Alors on attend." },
+        { "who": "john", "text": "Elle nous a dit d'attendre, à tous les deux. Alors on attend." },
         { "who": "john", "text": "Et pose tes mains sur la table. Personne ici ne sait ce qu'on a fait." }
       ],
       "to": "enfant"
     },
-    "john-charcudoc": {
+    "john-bal": {
       "text": "John boit une gorgée et repose le verre sans bruit.",
       "lines": [
-        { "who": "john", "text": "Smith m'a donné ce bar. Le charcudoc aussi. Deux fois le même nom en une nuit, ça ne tombe pas du ciel." }
+        { "who": "john", "text": "Smith a dit que ça compterait. Elle n'a jamais dit qu'elle viendrait. Alors on attend." }
       ],
       "to": "enfant"
     },
-    "john-charcudoc-mains": {
+    "john-bal-mains": {
       "text": "Sous la table, Franklyn regarde ses mains. Elles ne tremblent plus ; il ne sait pas si c'est mieux. John boit une gorgée et repose le verre sans bruit.",
       "lines": [
-        { "who": "john", "text": "Smith m'a donné ce bar. Le charcudoc aussi. Deux fois le même nom en une nuit, ça ne tombe pas du ciel." },
+        { "who": "john", "text": "Smith a dit que ça compterait. Elle n'a jamais dit qu'elle viendrait. Alors on attend." },
         { "who": "john", "text": "Et pose tes mains sur la table. Personne ici ne sait ce qu'on a fait." }
       ],
       "to": "enfant"

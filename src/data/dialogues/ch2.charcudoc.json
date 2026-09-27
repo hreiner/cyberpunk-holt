@@ -66,16 +66,66 @@
     },
     "accueil": {
       "backdrop": "clinique-accueil",
-      "text": "Le charcudoc, dans son échoppe de fortune, écoute avant d'ausculter Letitia. Ce qu'il va dire n'est pas une offre : c'est la seule porte encore ouverte, cette nuit.",
-      "lines": [{ "who": "charcudoc", "text": "Deux mille crédits. En attendant, elle reste ici." }],
+      "text": "Le charcudoc fait allonger Letitia sur une table d'inox, soulève le pansement du bout d'un gant, le laisse retomber. Il se redresse sans un mot pour elle.",
+      "lines": [
+        { "who": "charcudoc", "text": "Deux mille crédits. Demain soir, ici." },
+        { "who": "charcudoc", "text": "Pas d'avance, pas de ristourne, pas de discussion." }
+      ],
       "to": "accueil-reponse"
     },
     "accueil-reponse": {
-      "lines": [{ "who": "franklyn", "text": "Deux mille. On les trouvera." }],
+      "lines": [{ "who": "franklyn", "text": "Et si on ne les a pas ?" }],
+      "to": "delai-intro"
+    },
+    "delai-intro": {
+      "text": "Il ne répond pas tout de suite. Son regard fait le tour de Letitia, lentement, de la tête aux pieds. Comme on estime un lot.",
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "flag": "ch2.letitia.etat", "atLeast": 3 }],
+          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "état critique" } }],
+          "to": "ultimatum-abimee"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "flag": "ch2.letitia.etat", "equals": 2 }],
+          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "blessure grave" } }],
+          "to": "ultimatum-abimee"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "flag": "ch2.letitia.etat", "equals": 1 }],
+          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "blessure sérieuse" } }],
+          "to": "ultimatum-solide"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "flag": "ch2.letitia.etat", "atLeast": 1 } }],
+          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "stable" } }],
+          "to": "ultimatum-solide"
+        }
+      ]
+    },
+    "ultimatum-solide": {
+      "lines": [
+        { "who": "charcudoc", "text": "Alors je me paie sur elle. Elle est jeune, elle est solide. Au détail, elle vaut plus que votre dette." },
+        { "who": "charcudoc", "text": "Elle tiendra jusqu'à demain soir. Ça, j'y veille." }
+      ],
+      "to": "reponse"
+    },
+    "ultimatum-abimee": {
+      "lines": [
+        { "who": "charcudoc", "text": "Alors je me paie sur elle. Sur ce qui est encore bon, en tout cas." },
+        { "who": "charcudoc", "text": "Demain soir, pas une heure de plus. Et ne traînez pas : dans cet état, elle ne vaudra bientôt plus grand-chose." }
+      ],
+      "to": "reponse"
+    },
+    "reponse": {
+      "lines": [{ "who": "franklyn", "text": "Vous ne la touchez pas. On sera là demain soir." }],
       "to": "adieux-intro"
     },
     "adieux-intro": {
-      "text": "Il faut la laisser là, et repartir sans elle.",
+      "text": "Le charcudoc a déjà tourné le dos pour se laver les mains. Il faut la laisser là, et repartir sans elle.",
       "choices": [
         {
           "text": "Continuer.",
@@ -96,65 +146,14 @@
     },
     "adieu-chaleureux": {
       "text": "Franklyn reste un instant de trop, la main sur la sienne. Elle sourit, à peine : « Va. Reviens me chercher. »",
-      "to": "delai-intro"
+      "to": "fin"
     },
     "adieu-pudique": {
       "text": "Il cherche quelque chose à dire, ne trouve qu'un geste maladroit sur son épaule. Elle hoche la tête, ça suffit.",
-      "to": "delai-intro"
+      "to": "fin"
     },
     "adieu-distant": {
       "text": "Un signe de tête, rien de plus. Ce n'est pas le moment des mots, et ça ne l'a jamais été entre eux.",
-      "to": "delai-intro"
-    },
-    "delai-intro": {
-      "text": "Le charcudoc referme sa trousse.",
-      "choices": [
-        {
-          "text": "Continuer.",
-          "conditions": [{ "flag": "ch2.letitia.etat", "atLeast": 3 }],
-          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "état critique" } }],
-          "to": "delai-urgent"
-        },
-        {
-          "text": "Continuer.",
-          "conditions": [{ "flag": "ch2.letitia.etat", "equals": 2 }],
-          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "blessure grave" } }],
-          "to": "delai-urgent"
-        },
-        {
-          "text": "Continuer.",
-          "conditions": [{ "flag": "ch2.letitia.etat", "equals": 1 }],
-          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "blessure sérieuse" } }],
-          "to": "delai-calme"
-        },
-        {
-          "text": "Continuer.",
-          "conditions": [{ "not": { "flag": "ch2.letitia.etat", "atLeast": 1 } }],
-          "effects": [{ "entry": { "key": "ch2.letitia.etat", "label": "État de Letitia", "value": "stable" } }],
-          "to": "delai-calme"
-        }
-      ]
-    },
-    "delai-urgent": {
-      "text": "Il parle sans lever les yeux de sa trousse. Puis, presque à contrecœur, il glisse un nom.",
-      "lines": [
-        { "who": "charcudoc", "text": "Quelques heures, pas plus. Elle n'a pas le temps d'attendre demain." },
-        { "who": "charcudoc", "text": "Il y a quelqu'un qui cherche des gamins comme vous. Un nom, un endroit, ce soir. Vous le tenez pas de moi." }
-      ],
-      "effects": [
-        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "le charcudoc" } }
-      ],
-      "to": "fin"
-    },
-    "delai-calme": {
-      "text": "Il ne se presse pas. Puis, presque à contrecœur, il glisse un nom.",
-      "lines": [
-        { "who": "charcudoc", "text": "Demain soir. Elle tiendra." },
-        { "who": "charcudoc", "text": "Il y a quelqu'un qui cherche des gamins comme vous. Un nom, un endroit, ce soir. Vous le tenez pas de moi." }
-      ],
-      "effects": [
-        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "le charcudoc" } }
-      ],
       "to": "fin"
     },
     "fin": {
@@ -178,15 +177,93 @@
     },
     "fin-grover": {
       "text": "Il faut partir, maintenant, sans elle. La nuit est finie ; ce qu'elle a coûté ne l'est pas encore. Sur le seuil, l'enfant glisse sa main dans celle de Grover.",
-      "lines": [{ "who": "enfant", "text": "Elle va revenir, elle ?" }]
+      "lines": [{ "who": "enfant", "text": "Elle va revenir, elle ?" }],
+      "to": "dehors"
     },
     "fin-franklyn": {
       "text": "Il faut partir, maintenant, sans elle. La nuit est finie ; ce qu'elle a coûté ne l'est pas encore. Sur le seuil, l'enfant attrape la manche de Franklyn.",
-      "lines": [{ "who": "enfant", "text": "Elle va revenir, elle ?" }]
+      "lines": [{ "who": "enfant", "text": "Elle va revenir, elle ?" }],
+      "to": "dehors"
     },
     "fin-mefiant": {
       "text": "Il faut partir, maintenant, sans elle. La nuit est finie ; ce qu'elle a coûté ne l'est pas encore. Sur le seuil, l'enfant ne quitte pas le charcudoc des yeux.",
-      "lines": [{ "who": "enfant", "text": "Je l'aime pas, lui. Il compte les gens avec les yeux." }]
+      "lines": [{ "who": "enfant", "text": "Je l'aime pas, lui. Il compte les gens avec les yeux." }],
+      "to": "dehors"
+    },
+    "dehors": {
+      "choices": [
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "flag": "ch2.bal.john.fait", "equals": true } }, { "not": { "tag": "vu-simulation" } }],
+          "to": "john-seul"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "flag": "ch2.bal.john.fait", "equals": true }, { "not": { "tag": "vu-simulation" } }],
+          "to": "john-bal"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "not": { "flag": "ch2.bal.john.fait", "equals": true } }, { "tag": "vu-simulation" }],
+          "to": "john-smith"
+        },
+        {
+          "text": "Continuer.",
+          "conditions": [{ "flag": "ch2.bal.john.fait", "equals": true }, { "tag": "vu-simulation" }],
+          "to": "john-bal-smith"
+        }
+      ]
+    },
+    "john-seul": {
+      "backdrop": "clinique-rue",
+      "text": "Dehors, le jour se lève sur la rue. Personne ne dit rien pendant un long moment. C'est John qui finit par parler, les yeux sur la porte de la clinique.",
+      "lines": [
+        { "who": "john", "text": "Deux mille crédits. Personne ne va nous les prêter." },
+        {
+          "who": "john",
+          "text": "L'endroit dont je t'ai parlé cette nuit, c'est Smith qui me l'a donné. Au bal, elle m'a pris à part pour un truc bizarre : un bar, le Blue Purple. Elle a dit que ça compterait."
+        },
+        { "who": "john", "text": "Ce soir, on y va. C'est tout ce qui nous reste." }
+      ],
+      "effects": [
+        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "John, qui le tenait de Smith" } }
+      ]
+    },
+    "john-bal": {
+      "backdrop": "clinique-rue",
+      "text": "Dehors, le jour se lève sur la rue. John n'attend pas que quelqu'un pose la question.",
+      "lines": [
+        {
+          "who": "john",
+          "text": "Le Blue Purple. Je te l'ai dit au bal : Smith m'a pris à part pour ça. Sur le coup, j'ai cru à un truc bizarre, rien de plus."
+        },
+        { "who": "john", "text": "Ce soir, on y va. C'est tout ce qui nous reste." }
+      ],
+      "effects": [
+        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "John, qui le tenait de Smith" } }
+      ]
+    },
+    "john-smith": {
+      "backdrop": "clinique-rue",
+      "text": "Dehors, le jour se lève sur la rue. Personne ne dit rien pendant un long moment. C'est John qui finit par parler, les yeux sur la porte de la clinique.",
+      "lines": [
+        { "who": "john", "text": "Smith m'a pris à part, au bal. Un truc bizarre, je croyais : un bar, le Blue Purple." },
+        { "who": "john", "text": "Elle t'a dit la même chose, dans son labo ? Alors ce soir, on y va. C'est tout ce qui nous reste." }
+      ],
+      "effects": [
+        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "Smith en personne, puis John" } }
+      ]
+    },
+    "john-bal-smith": {
+      "backdrop": "clinique-rue",
+      "text": "Dehors, le jour se lève sur la rue. John n'attend pas que quelqu'un pose la question.",
+      "lines": [
+        { "who": "john", "text": "Le Blue Purple. Smith me l'a donné au bal, et à toi dans son labo. Elle t'a dit la même chose, hein ?" },
+        { "who": "john", "text": "Deux fois le même nom en une nuit, ça ne tombe pas du ciel. Ce soir, on y va." }
+      ],
+      "effects": [
+        { "entry": { "key": "ch2.rendezvous.source", "label": "Source du rendez-vous", "value": "Smith en personne, puis John" } }
+      ]
     }
   }
 }

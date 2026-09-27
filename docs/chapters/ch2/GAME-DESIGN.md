@@ -165,6 +165,17 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
   Franklyn ou par Grover, au choix du joueur, sans effet mécanique. La décision existante (calmer
   Abigail d'abord ou soigner Letitia d'abord) suit, inchangée.
 
+- **Cinématique des égouts (2026-09-27).** La scène de deuil se regarde en plans fixes, dans
+  l'eau et le silence des égouts, avec « Let You Down » en fond. Le premier plan montre Zachary
+  conscient ; Abigail tente les premiers soins dans tous les parcours, et un plan montre
+  explicitement Franklyn l'aider **si le joueur choisit de comprimer la plaie**. Zachary ne peut
+  être sauvé par aucun des gestes. Le joueur choisit ce geste puis, plus tard, qui éloigne
+  Abigail du corps. L'image attend à ces deux choix, tandis que la musique continue. Derniers
+  mots, mort et pleurs sont espacés pour laisser la scène respirer. Les décisions sur Abigail et
+  Letitia reviennent au dialogue normal, toujours sous la chanson ; elle ne fond qu'à la fin
+  effective de la scène des égouts, pendant trois secondes. « Passer » rend le dialogue en cours
+  sans sauter un choix ni interrompre la chanson.
+
 ### Scène 8 — Laisser Zachary
 - **Fonction** : le dialogue le plus dur. L'académie brûle au loin, les phares des
   patrouilles cherchent les survivants, on ne peut pas porter le corps plus loin.
@@ -229,15 +240,23 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
 - **Réemploi** : DLG-02, 03 (×4), 04, 07.
 
 ### Scène 11 — Le charcudoc
-- **Fonction et contenu** : fermer la journée sur une dette. Un gamin guide la bande contre
-  paiement jusqu'à une clinique crasseuse. Le charcudoc demande 2 000 crédits et garde
-  Letitia « jusqu'à demain ». Le rendez-vous est la seule issue. Un bilan clôt le chapitre.
+- **Fonction et contenu** : fermer la journée sur un ultimatum. Un gamin guide la bande contre
+  paiement jusqu'à une clinique crasseuse. Le charcudoc ne fait pas de cadeau : **2 000 crédits
+  demain soir**, sinon il se paie sur Letitia. L'organe reste **sous-entendu** : un mot froid et
+  commercial (« au détail », « ce qui est encore bon »), un regard qui soupèse, rien de montré,
+  pas de sang. Il ne donne ni nom, ni piste, ni conseil, et ne rassure pas. Dehors, c'est **John**
+  qui relance le Blue Purple : il tient l'info de Smith, qui l'a pris à part au bal. Sa réplique
+  lit `ch2.bal.john.fait` (il devance la question, comme aux décharges) et `vu-simulation`
+  (« Elle t'a dit la même chose ? »). Elle ouvre la scène 12.
+  *(Décision du propriétaire, 2026-09-27 : « Le dialogue du charcudoc doit être beaucoup moins
+  "gentil" » ; le rendez-vous vient de John, plus du charcudoc. Lot 5.19.)*
 - **Décisions et jets** :
   - Payer le guide avec *le fusil* ou avec *des pièces de la voiture* (impossible si
     `voiture-pillee`). Marchandage [Persuasion] DV 15 ; **réussite** : on garde les deux.
   - Les adieux à Letitia : trois registres selon `cavalier-letitia` et l'affinité.
-  - L'état de Letitia fixe le délai (« demain soir » ou « quelques heures »). Elle ne meurt
-    jamais dans ce chapitre.
+  - L'échéance est **unique** : demain soir, quel que soit l'état de Letitia. Son état change
+    seulement la façon dont le charcudoc parle d'elle (« elle tiendra » ; « elle ne vaudra
+    bientôt plus grand-chose »). Elle ne meurt jamais dans ce chapitre.
 - **Écrit** : `ch2.letitia.etat`, `ch2.fusil`, `ch2.rendezvous.source`. **Réemploi** :
   DLG-01, 02, 04, 05 ; STR-03.
 
@@ -246,7 +265,7 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
   sans Zachary, sans Letitia restée chez le charcudoc — entre au **Blue Purple**, un bar de
   Night City, pour le rendez-vous. Smith n'est pas là.
 - **Contenu** : une scène dite, en plein cadre, sans carte. L'entrée dans le bar, une courte
-  attente : deux ou trois répliques de la bande qui lisent la nuit (le délai de Letitia,
+  attente : deux ou trois répliques de la bande qui lisent la nuit (l'échéance de Letitia, dite selon son état,
   `abigail-brisee`, `a-tue`, qui a donné le rendez-vous). Puis **une inconnue** s'assoit à leur
   table. Ce n'est pas Smith ; elle connaît leurs noms. Son identité est le mystère du chapitre 3.
   Sa réplique déclenche la fin du chapitre, puis le bilan.
@@ -385,3 +404,4 @@ fusil, enfant, Abigail, « Zachary — mort le soir du bal ») ; le joueur juge 
 | 2026-09-26 | *(QA)* La mort de Zachary se voit trop peu | Scène 7 ouverte sur Zachary mourant : gestes de soin sans jet ni mécanique (scène de deuil), deux visuels (Abigail le soigne ; Abigail arrachée à son corps) |
 | 2026-09-26 | *(QA)* Il manque la fin au Blue Purple | Scène 12 dite : attente courte, une inconnue (pas Smith) s'assoit à leur table, fin du chapitre ; entrée `ch2.inconnue.premier-mot` |
 | 2026-09-26 | *(QA)* Le slow passe trop vite, la bascule manque de violence | Slow à deux avec murmure (±1 Letitia, sans jet) ; trois images de plus pour la rafale, dont Zachary qui protège Abigail de son corps |
+| 2026-09-27 | *(QA)* Le charcudoc est trop « gentil » | Ultimatum sec : 2 000 crédits demain soir, sinon il se paie sur Letitia (organe sous-entendu, rien de montré) ; échéance unique quel que soit son état ; aucune piste. Dehors, c'est John qui relance le Blue Purple (l'info de Smith au bal) ; `ch2.rendezvous.source` le nomme (lot 5.19) |

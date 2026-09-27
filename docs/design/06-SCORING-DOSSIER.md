@@ -108,7 +108,7 @@ affinités) : voir GAME-DESIGN §7, "Ce que le chapitre lit".
 | `ch2.campement.insignes` | 9 (le campement) |
 | `ch2.campement.tueur` | 9 (Murano) |
 | `ch2.fusil` | 10 (les décharges) |
-| `ch2.rendezvous.source` | 11 (le charcudoc) |
+| `ch2.rendezvous.source` | 11 (à la sortie de chez le charcudoc, par John) : `John, qui le tenait de Smith`, ou `Smith en personne, puis John` avec `vu-simulation` ; plus jamais « le charcudoc », qui ne donne aucune piste (lot 5.19) |
 | `ch2.inconnue.premier-mot` | 12 (le Blue Purple) : le premier mot de Franklyn à l'inconnue — `méfiant`, `direct` ou `silence` (il laisse parler John), suivi d'une glose ; réservée au chapitre 3 (lot 5.14) |
 
 Au lot 5.1, ce vocabulaire n'est encore posé que par le **squelette** de dialogues (un à trois

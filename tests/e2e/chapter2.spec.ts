@@ -223,7 +223,7 @@ test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ pag
   // survivant, par mort, par objet -- toutes renseignees.
   await expect(page.getByTestId('report-photo')).toBeVisible();
   const lines = await bilanLines(page);
-  for (const label of ['État de Letitia', 'Zachary', 'Abigail', "L'enfant", 'Murano', 'Le fusil', 'La voiture', 'Au Blue Purple']) {
+  for (const label of ['État de Letitia', 'Zachary', 'Abigail', "L'enfant", 'Murano', 'Le fusil', 'La voiture', 'La dette', 'Le rendez-vous', 'Au Blue Purple']) {
     expect(lines[label], `ligne « ${label} » du bilan`).toBeTruthy();
   }
   // Les entrees du chapitre (06-SCORING-DOSSIER.md) sont toutes ecrites au dossier.
