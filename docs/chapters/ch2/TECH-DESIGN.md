@@ -743,12 +743,32 @@ commandes de porte masqués avec les murs coupés.
     À 3 000 nuits, avant et après : écarts ≤ 2 points sur toutes les lignes, du bruit
     (`abigail-brisee` 19,8 → 19,6 % pour Loyal, 19,9 → 19,4 % pour Solitaire, 39,6 → 38,5 % pour Neutre).
 
+### Lot 5.16 — Zachary blessé : une variante de portrait *(décision du propriétaire, 2026-09-27)*
+
+- **But** : relevé du lot 5.13 : le portrait livré de Zachary rit aux éclats pendant son agonie. Le
+  propriétaire veut un portrait « blessé » (P06b) qu'il génère, et le format de dialogue apprend à
+  choisir la **variante** d'un portrait par réplique.
+- **Dépend de** : 5.13
+- **Lire** : §4.3 ; ADR 0023 ; `07-DIALOGUE-FORMAT.md` ; `src/narrative/types.ts`, `validate.ts` ;
+  `src/ui/portraits.ts`, `narrativeView.ts` (le portrait courant et son repli) ; `ch2.egouts.json` ;
+  `MANIFEST.md`, `STYLE-BIBLE.md`, le brief du portrait de Zachary (P06) et `D35`, `D29` pour
+  l'identité et la blessure.
+- **Toucher** : `types.ts`, `validate.ts` (variante inconnue signalée), `portraits.ts`,
+  `narrativeView.ts`, `ch2.egouts.json` (répliques de l'agonie), `MANIFEST.md` et un brief P06b
+  **avec son prompt complet**, un substitut `portraits/zachary-blesse.webp`, un ADR court,
+  `07-DIALOGUE-FORMAT.md`, les tests.
+- **Fini quand** : une réplique peut demander la variante d'un portrait, sans rien changer aux
+  dialogues existants ; une variante inconnue est refusée par `validateDialogue` ; aux égouts,
+  les répliques de Zachary mourant affichent la variante, lue sur le DOM ; le chapitre 1 est
+  inchangé.
+- **Documents** : `07-DIALOGUE-FORMAT.md`, `CAPABILITIES.md` (DLG), `ART-PIPELINE.md`.
+
 ### Lot 5.14 — le Blue Purple *(ajout du propriétaire, 2026-09-26)*
 
 - **But** : la scène 12 (GAME-DESIGN, scène 12) : une scène `dialogue` après `ch2.charcudoc`,
   qui clôt le chapitre avant le bilan ; un locuteur `inconnue` ; deux décors (le bar,
   la rencontre) et un portrait.
-- **Dépend de** : 5.13
+- **Dépend de** : 5.16
 - **Lire** : GAME-DESIGN §4 (scènes 11, 12), §7 ; `ch2.charcudoc.json` ; `data/chapters/ch2.ts` ;
   §4.3 (locuteurs) ; `docs/design/06-SCORING-DOSSIER.md` (entrées du chapitre 2) ;
   `MANIFEST.md`, `STYLE-BIBLE.md`.
