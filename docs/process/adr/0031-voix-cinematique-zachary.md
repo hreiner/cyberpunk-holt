@@ -20,7 +20,9 @@ chanson avec eau et pleurs ; les derniers mots ont cinq variantes liées au doss
   heurter le blocage d'autoplay du navigateur.
 - Un lecteur VO partagé par les deux cinématiques gère l'arrêt, le muet et l'onglet caché.
   Pendant une prise, musique, eau, pleurs et bruitages actifs baissent, puis reviennent. Les
-  choix et l'horloge visuelle existants ne changent pas ; « Passer » coupe la prise en cours.
+  pistes continues changent de volume sur 0,5 s et leur fondu s'interrompt proprement si la
+  scène se termine. Les choix et l'horloge visuelle existants ne changent pas ; « Passer »
+  coupe la prise en cours.
 
 ## Conséquences
 

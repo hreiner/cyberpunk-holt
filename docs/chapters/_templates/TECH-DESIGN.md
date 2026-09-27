@@ -58,7 +58,10 @@ jouable et vert à chaque lot ; aucun `Math.random()` ; `core`/`rules`/`tactical
 
 > Pour ART-05, joindre au lot la conduite chronométrée (plans, légendes, bruitages, pause de
 > choix, sortie), le manifeste et les briefs d'images, la provenance audio, le raccord au
-> `DialogueRunner` et le moment du fondu musical. Modèle et vérifications dans
+> `DialogueRunner` et le moment du fondu musical. Si la scène est parlée, chiffrer les niveaux
+> normaux/sous voix et les fondus de **0,5 s** à l'entrée comme à la sortie d'une réplique ;
+> prévoir l'interruption d'un fondu par la réplique suivante et la priorité du fondu final.
+> Modèle et vérifications dans
 > [`../../process/CINEMATIC-SCENES.md`](../../process/CINEMATIC-SCENES.md).
 
 ### Dépendances

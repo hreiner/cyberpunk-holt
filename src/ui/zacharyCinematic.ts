@@ -1,6 +1,7 @@
 /** Montage de la mort de Zachary. Les choix et effets restent dans DialogueRunner. */
 import type { PresentedChoice, PresentedNode } from '@/narrative';
 import { assetUrl } from '@/ui/assetUrl';
+import { AudioVolumeFade } from '@/ui/audioVolumeFade';
 import './slowCinematic.css';
 import './zacharyCinematic.css';
 
@@ -47,6 +48,7 @@ export class ZacharyCinematic {
   private readonly music = new Audio(MUSIC);
   private readonly sewer = new Audio(SEWER);
   private readonly sobbing = new Audio(SOBBING);
+  private readonly voiceMixFade = new AudioVolumeFade();
   private readonly preloadedImages: HTMLImageElement[] = [];
   private shownImage = 0;
   private started = false;
@@ -227,9 +229,11 @@ export class ZacharyCinematic {
   /** Garde l'eau et la chanson présentes sans couvrir les derniers mots. */
   setVoiceSpeaking(speaking: boolean): void {
     if (this.disposed || this.fading) return;
-    this.music.volume = speaking ? MUSIC_DUCKED_VOLUME : MUSIC_VOLUME;
-    this.sewer.volume = speaking ? SEWER_DUCKED_VOLUME : SEWER_VOLUME;
-    this.sobbing.volume = speaking ? SOBBING_DUCKED_VOLUME : SOBBING_VOLUME;
+    this.voiceMixFade.to([
+      { audio: this.music, volume: speaking ? MUSIC_DUCKED_VOLUME : MUSIC_VOLUME },
+      { audio: this.sewer, volume: speaking ? SEWER_DUCKED_VOLUME : SEWER_VOLUME },
+      { audio: this.sobbing, volume: speaking ? SOBBING_DUCKED_VOLUME : SOBBING_VOLUME },
+    ]);
   }
 
   private readonly toggleMute = (): void => {
@@ -275,14 +279,16 @@ export class ZacharyCinematic {
     if (this.disposed || this.fading) return;
     this.dismissVisual();
     this.fading = true;
+    this.voiceMixFade.cancel();
     const startedAt = performance.now();
     const musicVolume = this.music.volume;
     const sewerVolume = this.sewer.volume;
+    const sobbingVolume = this.sobbing.volume;
     this.fadeTimer = window.setInterval(() => {
       const remaining = 1 - Math.min(1, (performance.now() - startedAt) / FADE_MS);
       this.music.volume = musicVolume * remaining;
       this.sewer.volume = sewerVolume * remaining;
-      this.sobbing.volume = SOBBING_VOLUME * remaining;
+      this.sobbing.volume = sobbingVolume * remaining;
       if (remaining <= 0) this.dispose();
     }, 40);
   }
@@ -291,6 +297,7 @@ export class ZacharyCinematic {
     if (this.disposed) return;
     this.disposed = true;
     this.dismissVisual();
+    this.voiceMixFade.cancel();
     window.clearInterval(this.fadeTimer);
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
     for (const audio of [this.music, this.sewer, this.sobbing]) {

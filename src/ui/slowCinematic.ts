@@ -2,6 +2,7 @@
 import { Sfx } from '@/audio/sfx';
 import type { PresentedChoice } from '@/narrative';
 import { assetUrl } from '@/ui/assetUrl';
+import { AudioVolumeFade } from '@/ui/audioVolumeFade';
 import './slowCinematic.css';
 
 export const SLOW_CINEMATIC_TIMES = {
@@ -44,6 +45,7 @@ export class SlowCinematic {
   private readonly startButton: HTMLButtonElement;
   private readonly muteButton: HTMLButtonElement;
   private readonly music = new Audio(MUSIC);
+  private readonly voiceMixFade = new AudioVolumeFade();
   private readonly sfx: Sfx;
   private readonly preloadedImages: HTMLImageElement[] = [];
   private shownImage = 0;
@@ -250,7 +252,7 @@ export class SlowCinematic {
   /** Baisse la chanson pendant une réplique pour préserver son intelligibilité. */
   setVoiceSpeaking(speaking: boolean): void {
     if (this.disposed || this.fading) return;
-    this.music.volume = speaking ? MUSIC_DUCKED_VOLUME : MUSIC_VOLUME;
+    this.voiceMixFade.to([{ audio: this.music, volume: speaking ? MUSIC_DUCKED_VOLUME : MUSIC_VOLUME }]);
   }
 
   private readonly toggleMute = (): void => {
@@ -293,6 +295,7 @@ export class SlowCinematic {
     if (this.disposed || this.fading) return;
     this.dismissVisual();
     this.fading = true;
+    this.voiceMixFade.cancel();
     const startedAt = performance.now();
     const initialVolume = this.music.volume;
     this.fadeTimer = window.setInterval(() => {
@@ -306,6 +309,7 @@ export class SlowCinematic {
     if (this.disposed) return;
     this.disposed = true;
     this.dismissVisual();
+    this.voiceMixFade.cancel();
     window.clearInterval(this.fadeTimer);
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
     this.music.pause();

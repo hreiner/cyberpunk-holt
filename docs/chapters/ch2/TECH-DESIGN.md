@@ -800,7 +800,9 @@ commandes de porte masqués avec les murs coupés.
   voix narrative. La chanson passe de 0,56 à 0,22, l'eau de 0,28 à 0,13 et les pleurs de
   0,08 à 0,03 pendant une prise, puis reviennent. Le `ChapterVoiceover` commun gère le muet,
   l'onglet caché, « Passer » et l'arrêt au changement de scène. Les textes restent dans
-  `ch2.egouts.json`, les prises et Audio Tags dans `ch2ZacharyVoices.ts`.
+  `ch2.egouts.json`, les prises et Audio Tags dans `ch2ZacharyVoices.ts`. Ces baisses et
+  remontées se font sur **0,5 s**, depuis le volume courant ; le fondu final de scène annule
+  le fondu de voix avant de prendre la main.
 
 ### Lot 5.16 — Zachary blessé : une variante de portrait *(décision du propriétaire, 2026-09-27)*
 

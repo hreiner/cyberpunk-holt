@@ -53,14 +53,18 @@ personnages des scènes suivantes.
 La chanson du slow est à `0,58` au repos et `0,28` pendant une prise. Le lecteur de voix est à
 `0,9`. Les bruitages du dialogue passent à **15 % de leur volume habituel** pendant une voix ;
 le tir proche à `0,78` descend donc à `0,117` pendant Zachary, sans disparaître. Ce sont des
-réglages de départ, pas une mesure de sonie : décider du mix définitif à l'écoute en jeu, au
-casque et sur haut-parleurs. La chanson fournie localement par le propriétaire n'est pas
+réglages de départ, pas une mesure de sonie. La chanson descend et remonte par un fondu de
+**0,5 s** à chaque transition de voix, depuis son volume instantané si une autre transition
+est déjà en cours ; le fondu de sortie de scène garde la priorité. Décider du mix définitif
+à l'écoute en jeu, au casque et sur haut-parleurs. La chanson fournie localement n'est pas
 versionnée et ne doit pas se retrouver dans un artefact public sans droit de diffusion.
 
 Aux égouts, la chanson passe de `0,56` à `0,22` pendant une prise, l'eau de `0,28` à `0,13`,
-les pleurs de `0,08` à `0,03`. Ces niveaux reviennent quand la voix s'achève ; le clic « Passer »
-coupe la prise sans effacer les choix. La chanson « Let You Down », elle aussi fournie localement,
-ne doit pas être distribuée sans droit. Zachary garde Lukas, mais ses prises des égouts sont
+les pleurs de `0,08` à `0,03`. Chanson, eau et pleurs prennent **0,5 s** pour descendre ou
+remonter, sans saut si une voix en interrompt une autre. Ces niveaux reviennent quand la voix
+s'achève ; le clic « Passer » coupe la prise sans effacer les choix. La chanson « Let You Down »,
+elle aussi fournie localement, ne doit pas être distribuée sans droit. Zachary garde Lukas,
+mais ses prises des égouts sont
 plus lentes (`speed = 0,94`) et moins stylisées (`style = 0,24`) que celles du bal.
 
 ## Reprendre la production

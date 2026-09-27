@@ -26,6 +26,15 @@ rester jouable. Dans le design technique, remplir une conduite comme celle-ci :
 | … | plan de bascule | phrase brève | effet + musique selon l'intention | retour au dialogue normal |
 | sortie de la scène | vue suivante | — | durée du fondu | sortie effective du routeur |
 
+**Dès cette conduite**, si une voix passe sur la musique ou une ambiance continue, écrire
+son niveau normal, son niveau sous voix et la durée des deux transitions. Le réglage de départ
+du projet est un **fondu de 0,5 s à la baisse comme à la remontée**, à partir du volume courant
+si une seconde réplique interrompt le premier fondu. Le fondu final de scène prend ensuite la
+priorité : il ne doit pas lutter contre un fondu de voix encore actif. Prévoir aussi les plages
+sans narration et ce qui doit rester audible sous une réplique (tirs, eau, pleurs). Ce choix
+fait partie du game design sonore, avant de générer les médias ; consigner ses niveaux finaux
+dans le design technique et les valider à l'écoute.
+
 Décider explicitement si le temps indiqué est celui de l'image ou celui de la piste. Dans le
 slow, l'horloge **visuelle** s'arrête au murmure ; la chanson continue. Une longue attente décale
 donc les images par rapport à la chanson. Si une future scène doit toucher un temps musical exact,
@@ -86,6 +95,7 @@ Le partage de responsabilités du slow est le modèle à reprendre :
 | `src/chapter.ts` | création à l'entrée de la scène ; callbacks vers le `DialogueRunner` ; maintien du lecteur musical après la disparition des images ; fondu à la sortie **effective** de la scène ; nettoyage sur changement forcé ou destruction de l'app |
 | `src/data/dialogues/ch2.slow.json` | branches, texte du joueur, effets, jet, bruitage attaché au nœud d'attaque |
 | `src/audio/sfx.ts` | échantillons, volumes et synthèse de secours ; les mêmes identifiants servent au dialogue et à l'exploration |
+| `src/ui/audioVolumeFade.ts` | fondu de 0,5 s des pistes continues sous une voix, interrompable et repris au volume instantané ; le fondu final de scène l'annule |
 
 Passer les URL des images et de la piste par `assetUrl` pour respecter la base Vite ; `Sfx` utilise
 également `import.meta.env.BASE_URL`. Précharger les plans avant leurs fondus et laisser le récit
@@ -137,8 +147,11 @@ musique, doit encore être jugé par le propriétaire à l'écoute réelle.
 2. Dans le navigateur, jouer une fois chaque branche décisive. Contrôler les plans et les fondus
    aux quelques temps clés ; inspecter les réponses réseau des médias et les erreurs JavaScript.
 3. Pendant le choix, les tirs et le dialogue après le montage, vérifier que le lecteur musical
-   reste actif. À la sortie de la scène, vérifier la baisse du volume puis l'arrêt. Tester aussi
-   le muet et un changement d'onglet. Le slow a été vérifié ainsi avec l'horloge Playwright.
+   reste actif. Pour chaque voix, vérifier le volume au début, vers 0,25 s et après 0,5 s,
+   puis la remontée symétrique ; enchaîner vite deux prises pour déceler un saut de volume.
+   À la sortie de la scène, vérifier que le fondu final prend la main sans remontée parasite,
+   puis que la piste s'arrête. Tester aussi le muet et un changement d'onglet. Le slow a été
+   vérifié ainsi avec l'horloge Playwright.
 4. Écouter sur le poste de jeu : intelligibilité de la musique, perception des tirs lointains,
    choc des tirs proches et douceur du fondu final. Les tests d'état audio confirment la lecture,
    pas la qualité ressentie du mix.

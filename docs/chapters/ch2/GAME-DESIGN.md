@@ -72,8 +72,8 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
   moments calmes du slow. Le plan des portes n'a **pas** de voix, et aucune narration ne revient
   après le début de la fusillade. Franklyn et Letitia murmurent selon le choix du joueur ;
   Zachary dit « Ça va. Ça va. Reste baissée. » après la rafale. Les tirs baissent sous cette
-  seule réplique et reprennent ensuite. La chanson baisse pendant les voix, le sous-titre
-  reste français et l'image attend la fin des deux voix au murmure. Conduite :
+  seule réplique et reprennent ensuite. La chanson baisse et remonte sur 0,5 s autour des voix.
+  Le sous-titre reste français et l'image attend la fin des deux voix au murmure. Conduite :
   [`VOICE-DESIGN.md`](VOICE-DESIGN.md), ADR 0030.
 - **Contenu** : une suite d'images générées : la bande autour de la piste, le ou les deux
   couples, les premiers coups, la rafale, les gangers qui entrent. La chanson continue sous
@@ -160,7 +160,7 @@ fête qui bascule en cauchemar, puis l'épuisement et des choix sales.
 - **VO (2026-09-27)** : deux amorces retenues du narrateur, puis Zachary s'adresse à Abigail
   et à Franklyn (cinq variantes exclusives selon le dossier). Abigail dit « Zach ? », puis
   refuse de le lâcher. Pas de narrateur au moment de la mort ni sur le plan où on l'éloigne.
-  La chanson, l'eau et les pleurs baissent pendant une réplique et reviennent ensuite ; les
+  La chanson, l'eau et les pleurs baissent pendant une réplique puis remontent sur 0,5 s ; les
   deux choix de la cinématique restent jouables. Conduite et reprise :
   [`VOICE-DESIGN.md`](VOICE-DESIGN.md), ADR 0031.
 - **Décisions et jets** : l'ordre des actions est le choix.

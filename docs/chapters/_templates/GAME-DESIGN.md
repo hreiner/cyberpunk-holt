@@ -44,7 +44,10 @@
 
 > Si cette scène est une cinématique à plans fixes (ART-05), préciser sa durée visée, les
 > rares moments où le joueur décide, ce que devient la musique pendant ces choix et pendant
-> l'action, ainsi que le point exact où le dialogue reprend. Conduite de référence :
+> l'action, ainsi que le point exact où le dialogue reprend. Si des voix sont prévues,
+> décider **dès cette phase** quels moments restent silencieux, quelles pistes continues
+> baissent sous les voix et comment elles reviennent : fondu de départ **0,5 s dans les deux
+> sens**, à ajuster seulement après écoute. Conduite de référence :
 > [`../../process/CINEMATIC-SCENES.md`](../../process/CINEMATIC-SCENES.md).
 
 ## 5. Mécaniques nouvelles
