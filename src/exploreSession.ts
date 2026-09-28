@@ -272,6 +272,7 @@ export class ExploreSession {
     this.view?.setNightMood(mapDef.id in CHAPTER_2_VISUALS ? nightMoodForEtape(scene.etape) : null);
     this.syncVisibility();
     this.hud?.setGauge(this.gaugeStatusFor(ctx));
+    this.hud?.setLuck(ctx.run.luck);
   }
 
   /**
@@ -434,6 +435,7 @@ export class ExploreSession {
     }
     this.hud.setObjective(this.state.objectiveStatus());
     this.hud.setGauge(this.gaugeStatusFor(this.callbacks.getContext()));
+    this.hud.setLuck(this.callbacks.getContext().run.luck);
     if (!this.briefLine) this.briefLine = new BriefLineView(this.host);
     this.attachKeyboard();
     this.startLoop();

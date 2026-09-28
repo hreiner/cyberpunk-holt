@@ -631,7 +631,7 @@ describe('la Chance de Franklyn (ADR 0015 §2)', () => {
     expect(runner.context.dossier.tags).toContain('distrait');
   });
 
-  it('un jet de coequipier (who resout vers quelqu un d autre que Franklyn) n entre jamais en attente de Chance', () => {
+  it('un jet de coequipier rate de peu entre aussi en attente de Chance (ADR 0033 : reserve du groupe)', () => {
     const graph: DialogueFile = {
       id: 'test.chance-coequipier',
       start: 'depart',
@@ -651,10 +651,17 @@ describe('la Chance de Franklyn (ADR 0015 §2)', () => {
         echec: { text: 'ko' },
       },
     };
-    const runner = new DialogueRunner(graph, chanceContext(3), createRng('luck-john-53'));
-    runner.choose(0);
-    expect(runner.current().pendingRoll).toBeUndefined();
-    expect(runner.current().nodeId).toBe('echec');
+    // Premiere graine ou le jet de John echoue d'au plus 3 : il doit attendre la Chance de Franklyn.
+    let runner: DialogueRunner | null = null;
+    for (let i = 0; i < 200 && !runner; i++) {
+      const candidate = new DialogueRunner(graph, chanceContext(3), createRng(`luck-john-${i}`));
+      candidate.choose(0);
+      if (candidate.current().pendingRoll) runner = candidate;
+    }
+    expect(runner, 'aucune graine ne rate de peu : le test ne prouve rien').not.toBeNull();
+    const missingBy = runner!.current().pendingRoll!.missingBy;
+    expect(runner!.spendLuck(missingBy).ok).toBe(true);
+    expect(runner!.current().nodeId).toBe('succes');
   });
 
   it('un echec trop lourd pour la Chance restante se resout tout de suite, sans attente', () => {

@@ -28,6 +28,7 @@ import {
   applyEffects,
   createDraftState,
   createRunState,
+  startingLuck,
   discoverRoom,
   evaluateCondition,
   exploreFollowerIds,
@@ -320,7 +321,7 @@ export class ChapterApp {
         : createRunState(seed, {
             chapter: chapterId,
             sceneId: this.chapterDef.scenes[0]?.id ?? '',
-            luck: this.chapterDef.initialLuck,
+            luck: startingLuck(this.chapterDef, dossier),
           });
     this.ctx = { dossier, run };
 
@@ -1660,6 +1661,9 @@ export class ChapterApp {
    * touche jamais (voir `startNewGame`, qui n'appelle pas `archiveDossier`).
    */
   private showChapterEnd(): void {
+    // ADR 0033 : la Chance restante suit le dossier (archive comprise) jusqu'au chapitre suivant.
+    this.ctx = { ...this.ctx, dossier: { ...this.ctx.dossier, carriedLuck: this.ctx.run.luck } };
+    saveDossier(this.ctx.dossier);
     archiveDossier(this.chapterDef.id, this.ctx.dossier);
     this.hideAllViews();
     this.setActiveHost('report');
@@ -1698,7 +1702,7 @@ export class ChapterApp {
     this.chapterDef = def;
     this.ctx = {
       dossier,
-      run: createRunState(seed, { chapter: def.id, sceneId: def.scenes[0]?.id ?? '', luck: def.initialLuck }),
+      run: createRunState(seed, { chapter: def.id, sceneId: def.scenes[0]?.id ?? '', luck: startingLuck(def, dossier) }),
     };
     this.router = new SceneRouter(def.scenes, this.ctx, def.etapeFlag);
     this.ctx = this.router.context;

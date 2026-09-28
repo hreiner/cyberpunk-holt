@@ -111,3 +111,4 @@ aucune conversation à retrouver.
 | [0030](process/adr/0030-voix-anglaises-sous-titres-francais-bal.md) | Voix anglaises et sous-titres français pour le bal |
 | [0031](process/adr/0031-voix-cinematique-zachary.md) | Voix de la cinématique de Zachary et mix adaptatif |
 | [0032](process/adr/0032-briefing-cinematique-et-choix-du-taser.md) | Briefing cinématique et vrai choix du porteur de taser |
+| [0033](process/adr/0033-chance-reserve-unique.md) | Une seule réserve de Chance pour toute la partie |

@@ -441,7 +441,7 @@ export class NarrativeView {
 
     this.luckEl.hidden = false;
     this.luckEl.innerHTML = `
-      <p class="narrative-luck-text">Il manque ${pending.missingBy} — dépenser ${pending.missingBy} Chance ?</p>
+      <p class="narrative-luck-text">Il manque ${pending.missingBy} — dépenser ${pending.missingBy} Chance ? (il en reste ${pending.luckAvailable})</p>
       <div class="narrative-luck-actions">
         <button type="button" class="btn btn--primary" data-testid="luck-spend">Dépenser ${pending.missingBy} Chance</button>
         <button type="button" class="btn" data-testid="luck-accept">Accepter l'échec</button>

@@ -12,6 +12,7 @@
 import type { RadioCue } from './radio';
 import type { SceneDef } from './sceneRouter';
 import type { ChapterEndDef } from './chapterEnd';
+import type { Dossier } from '@/core/dossier';
 
 /** Deux chapitres a ce jour (ADR 0021). Un troisieme s'ajoute en etendant cette union. */
 export type ChapterId = 1 | 2;
@@ -58,4 +59,13 @@ export interface ChapterDef {
   /** Jauges d'etat visibles (ADR 0025 §1) -- absent ou vide : aucune jauge pour ce chapitre. */
   gauges?: GaugeDef[];
   end: ChapterEndRef | ChapterEndDef;
+}
+
+/**
+ * Chance au debut d'un chapitre (ADR 0033) : une seule reserve pour toute la partie -- celle
+ * qui restait a la fin du chapitre precedent (`Dossier.carriedLuck`), sinon la Chance de
+ * depart du chapitre (nouvelle partie, profil du chapitre 2).
+ */
+export function startingLuck(def: ChapterDef, dossier: Dossier): number {
+  return dossier.carriedLuck ?? def.initialLuck;
 }

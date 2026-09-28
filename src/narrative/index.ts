@@ -67,6 +67,7 @@ export {
 } from './sceneRouter';
 
 export type { ChapterId, ChapterDef, ChapterEndRef, GaugeDef } from './chapter';
+export { startingLuck } from './chapter';
 
 export type {
   ChapterEndDef,

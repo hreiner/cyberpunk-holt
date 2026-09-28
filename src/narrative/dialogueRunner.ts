@@ -649,9 +649,9 @@ export class DialogueRunner {
 
   /**
    * Bascule le runner en attente de Chance (ADR 0015 §2) si -- et seulement
-   * si -- le jet vient d'ECHOUER, qu'il a ete lance par FRANKLYN (jamais un
-   * coequipier : `who` resolu, alias compris), et que la marge manquante
-   * (`-margin`) tient dans la Chance restante. Sinon ne fait rien : l'appelant
+   * si -- le jet vient d'ECHOUER et que la marge manquante (`-margin`) tient
+   * dans la Chance restante. Tout jet, y compris celui d'un coequipier (ADR 0033 :
+   * la Chance de Franklyn est la reserve du groupe pour toute la partie). Sinon ne fait rien : l'appelant
    * doit alors resoudre l'issue immediatement via `finishCheck`.
    */
   private maybeEnterAwaitingLuck(
@@ -661,7 +661,6 @@ export class DialogueRunner {
     target: PendingLuckTarget,
   ): boolean {
     if (result.success) return false;
-    if (resolved.sheet.id !== 'franklyn') return false;
     const missingBy = -result.margin;
     if (missingBy <= 0 || missingBy > this.ctx.run.luck) return false;
 

@@ -120,7 +120,7 @@ du chapitre 1 ne bougent pas (sauvegardes, `?scene=`, e2e).
 | B22 | **Relais de garde** (§4.6) : ordre des veilleurs, joker de l'enfant | `ch2.decharges.json` | aucun | — | 5.6 |
 | B23 | Bilan déclaré en données, **avec la photo** (§4.6) | `narrative/chapterEnd.ts`, `ui/reportView.ts`, `data/chapters/ch2.ts` | `ChapterDef` | 0025 | 5.4, 5.6 |
 | B24 | 7 étiquettes, 7 entrées : vocabulaire fermé, test | `docs/design/06-SCORING-DOSSIER.md`, `ch2Content.test.ts` | vocabulaire du dossier | — | 5.1 (liste), 5.5+ |
-| B25 | Chance du chapitre : 3, réserve pleine, non héritée | `data/chapters/ch2.ts` | — | 0021 | 5.1 |
+| B25 | Chance du chapitre : 3 pour un départ sur profil ; sinon la réserve laissée par le chapitre 1 (ADR 0033 remplace « réserve pleine, non héritée ») | `data/chapters/ch2.ts`, `narrative/chapter.ts` | — | 0021, 0033 | 5.1 |
 | B26, B27 | Écartés : variantes 🟢 retenues (B9 à B12) | — | — | — | — |
 
 ## 4. Contrats de données nouveaux ou modifiés

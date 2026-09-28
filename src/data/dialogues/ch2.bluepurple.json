@@ -4,7 +4,7 @@
   "start": "entree",
   "nodes": {
     "entree": {
-      "text": "Le soir même. Le Blue Purple tient dans un sous-sol, au bord de Night City : un néon bleu au-dessus des bouteilles, des lampes basses, un sol qui garde la pluie. Personne ne se retourne sur des uniformes déchirés. Ici, personne ne regarde personne.",
+      "text": "Le soir même. Le Blue Purple tient dans un sous-sol, au bord de Night City : un néon bleu au-dessus des bouteilles, des lampes basses, un sol qui garde la pluie. Personne ne se retourne sur des uniformes déchirés. Ici, personne ne regarde personne. Ils ont passé la journée à marcher dans une ville qui ne ralentit pour personne, sans savoir où dormir, ni à qui se fier.",
       "to": "table"
     },
     "table": {
@@ -215,7 +215,7 @@
     },
     "fin": {
       "backdrop": "blue-purple-rencontre",
-      "text": "Au bar, quelqu'un monte la musique. Elle pousse son verre au milieu de la table, intact.",
+      "text": "Au bar, quelqu'un monte la musique. Franklyn lève les yeux vers le soupirail : là-haut, Night City brille comme dans les brochures de l'académie, la ville qu'ils ont attendue pendant des années. Ils y sont, enfin. Sans Zachary, sans Letitia, avec une dette sur la tête et un mort sur la conscience. Une ville qui n'a jamais été faite pour des gamins comme eux. L'inconnue pousse son verre au milieu de la table, intact.",
       "lines": [
         { "who": "inconnue", "text": "Buvez d'abord. Ensuite, je vous dirai ce que vaut votre nuit. Et à qui vous la devez." }
       ]

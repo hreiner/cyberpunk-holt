@@ -1,10 +1,14 @@
 {
   "id": "ch2.decharges",
   "backdrop": "decharges",
-  "start": "arrivee",
+  "start": "trajet",
   "nodes": {
+    "trajet": {
+      "text": "Des heures de piste dans le noir, entassés dans le camion volé. Letitia gémit à chaque cahot. Puis une lueur monte à l'horizon, grandit, dévore le ciel : Night City. Les tours, les néons, la ville dont ils parlaient tous les soirs au dortoir. Ils devaient y entrer en uniforme, le diplôme en poche. Pas comme ça. Pas avec du sang sur les mains.",
+      "to": "arrivee"
+    },
     "arrivee": {
-      "text": "Les décharges, à la lisière de Night City. Le camion de Murano tousse une dernière fois et s'arrête, à sec, entre deux montagnes de ferraille. Le fusil est posé en travers des genoux de John.",
+      "text": "Les décharges, à la lisière de la ville. Le camion de Murano tousse une dernière fois et s'arrête, à sec, entre deux montagnes de ferraille. Le fusil est posé en travers des genoux de John. Personne ne descend tout de suite. Plus d'académie, plus d'instructeurs, plus d'ordres à suivre : rien qu'une ville immense qui ne sait même pas qu'ils existent.",
       "choices": [
         {
           "text": "Continuer.",
@@ -158,7 +162,7 @@
       "to": "garde-intro"
     },
     "garde-intro": {
-      "text": "La nuit à tenir, avant le jour. Quelqu'un doit veiller sur la voiture — et sur Letitia.",
+      "text": "La nuit à tenir, avant le jour. Au loin, la ville ne dort pas : des sirènes, des moteurs, des cris qui ne s'adressent à personne. Ici, ils ne sont plus des cadets. Juste des gamins dans la ferraille, sans nom ni adresse. Quelqu'un doit veiller sur la voiture — et sur Letitia.",
       "choices": [
         {
           "text": "Organiser des tours de garde.",

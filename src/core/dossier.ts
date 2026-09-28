@@ -38,6 +38,12 @@ export interface Dossier {
   practicalScore: ExerciseScore | null;
   /** Note de l'examen ecrit (scene 3, ADR 0012), une fois la copie terminee. */
   writtenScore: WrittenScore | null;
+  /**
+   * Chance restante a la fin du dernier chapitre termine (ADR 0033 : une seule reserve pour
+   * toute la partie). `null` tant qu'aucun chapitre n'est fini -- le chapitre suivant part
+   * alors de sa Chance de depart (`ChapterDef.initialLuck`), cas d'un profil du chapitre 2.
+   */
+  carriedLuck: number | null;
   updatedAt: string;
 }
 
@@ -65,6 +71,7 @@ export function createDossier(candidate: CharacterId = 'franklyn'): Dossier {
     entries: [],
     practicalScore: null,
     writtenScore: null,
+    carriedLuck: null,
     updatedAt: new Date(0).toISOString(),
   };
 }
@@ -113,5 +120,7 @@ export function migrateDossier(raw: unknown): Dossier {
     practicalScore: candidate.practicalScore ?? null,
     // Absent sur tout dossier v1 (avant l'ADR 0012) : jamais un dossier illisible pour autant.
     writtenScore: candidate.writtenScore ?? null,
+    // Absent avant l'ADR 0033 : le chapitre suivant repart alors de sa Chance de depart.
+    carriedLuck: typeof candidate.carriedLuck === 'number' ? Math.max(0, candidate.carriedLuck) : null,
   };
 }

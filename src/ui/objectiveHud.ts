@@ -14,6 +14,7 @@ import './explore.css';
 import type { ObjectiveStatus } from '@/explore';
 import { GaugeView } from '@/ui/gaugeView';
 import type { GaugeStatus } from '@/ui/gaugeView';
+import { INITIAL_LUCK } from '@/narrative';
 
 export interface HudInteractable {
   id: string;
@@ -40,6 +41,7 @@ export class ObjectiveHud {
   private readonly selectedLabel: HTMLElement;
   private readonly gaugeSlot: HTMLElement;
   private readonly gaugeView: GaugeView;
+  private readonly luckChip: HTMLElement;
 
   private holdTimer: ReturnType<typeof setTimeout> | null = null;
   private pinging = false;
@@ -87,6 +89,12 @@ export class ObjectiveHud {
     this.gaugeSlot.dataset.testid = 'gauge-slot';
     this.root.insertBefore(this.gaugeSlot, this.panel);
     this.gaugeView = new GaugeView(this.gaugeSlot);
+    // Chance restante (ADR 0033) : la reserve de toute la partie reste visible hors dialogue,
+    // memes pastilles que le panneau narratif (`NarrativeView.renderStatus`).
+    this.luckChip = document.createElement('div');
+    this.luckChip.className = 'gauge-hud panel status-chip';
+    this.luckChip.dataset.testid = 'explore-luck';
+    this.gaugeSlot.appendChild(this.luckChip);
 
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('keyup', this.onKeyUp);
@@ -95,6 +103,13 @@ export class ObjectiveHud {
   /** Jauge d'etat courante (ADR 0025 §1) -- `null` : rien a afficher (absente du chapitre, ou avant sa scene `from`). */
   setGauge(status: GaugeStatus | null): void {
     this.gaugeView.render(status);
+  }
+
+  /** Chance restante de Franklyn (`RunState.luck`, ADR 0033). */
+  setLuck(luck: number): void {
+    const pips = Array.from({ length: INITIAL_LUCK }, (_, i) => `<span class="status-pip ${i < luck ? 'is-filled' : 'is-empty'}"></span>`).join('');
+    this.luckChip.innerHTML = `<span class="status-chip-label">Chance</span><span class="status-pips">${pips}</span>`;
+    this.luckChip.title = `Chance restante : ${luck}`;
   }
 
   /* ------------------------------------------------------------------ */

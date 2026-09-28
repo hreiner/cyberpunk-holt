@@ -43,15 +43,17 @@
       "to": "vehicule"
     },
     "vehicule": {
-      "text": "Reste le véhicule : la seule façon de quitter les Badlands avant le jour. Les clés sont sur le contact.",
+      "text": "Reste le camion : la seule façon de quitter les Badlands avant le jour. À pied, Letitia ne tiendra pas jusqu'au matin. Les clés sont sur le contact.",
       "lines": [
-        { "who": "murano", "text": "Personne ne touche à ce camion. Les petits rentrent avant l'aube." },
-        { "who": "john", "text": "Il ne nous laissera pas partir avec. Et s'il nous laisse partir, il leur dira par où on est passés." }
+        { "who": "murano", "text": "Personne ne touche à ce camion. Les petits rentrent avant l'aube. Avec ce qu'ils ont pris chez vous." },
+        { "who": "john", "text": "Tu as compris ? Ceux qui ont tiré sur l'académie, ce soir, c'est son camp. Ils seront là avant le jour." },
+        { "who": "grover", "text": "On peut l'attacher. Prendre le camion et le laisser là." },
+        { "who": "john", "text": "Et à l'aube, il leur montre la piste. Ils nous rattrapent avant midi, et Letitia avec. Il ne doit pas pouvoir parler." }
       ],
       "to": "qui"
     },
     "qui": {
-      "text": "Personne ne le dit à voix haute. Tout le monde a compris. Grover regarde ailleurs.",
+      "text": "Personne ne le dit à voix haute, mais tout le monde a compris : pour que Letitia voie le matin, Murano ne doit pas le voir. Il faut le tuer. Reste à savoir qui. Grover regarde ailleurs.",
       "choices": [
         {
           "text": "[Discrétion] Le faire toi-même : contourner la tente, dans son dos.",

@@ -4,7 +4,7 @@
   "start": "rue",
   "nodes": {
     "rue": {
-      "text": "Un gamin accepte de guider le groupe, contre paiement, jusqu'à une clinique crasseuse en bordure de Night City.",
+      "text": "Un gamin des décharges accepte de les guider, contre paiement, jusqu'à une clinique crasseuse en bordure de Night City. Il a douze ans, peut-être, et il connaît la ville mieux qu'eux tous réunis. Dans les rues, personne ne les regarde : des uniformes déchirés, une fille en sang sur un brancard de fortune, c'est un matin comme un autre, ici.",
       "to": "marchandage"
     },
     "marchandage": {

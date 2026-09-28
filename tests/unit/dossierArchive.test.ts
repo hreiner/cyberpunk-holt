@@ -11,6 +11,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { addTags, createDossier } from '@/core/dossier';
 import { archiveDossier, loadArchivedDossier, saveDossier } from '@/core/save';
+import { CHAPTER_2, CH2_PROFILES } from '@/data/chapters';
+import { startingLuck } from '@/narrative';
 
 /** Faux `localStorage` en memoire, assez complet pour `core/save.ts` (get/set/removeItem). */
 class FakeStorage implements Storage {
@@ -45,6 +47,15 @@ describe('archive du dossier entre chapitres (ADR 0022 §1)', () => {
   beforeEach(() => {
     storage = new FakeStorage();
     (globalThis as unknown as { localStorage: Storage }).localStorage = storage;
+  });
+
+  it('la Chance est une seule reserve pour la partie (ADR 0033) : elle traverse l archive, un profil repart plein', () => {
+    archiveDossier(1, { ...createDossier(), carriedLuck: 1 });
+    expect(startingLuck(CHAPTER_2, loadArchivedDossier(1)!)).toBe(1);
+    expect(startingLuck(CHAPTER_2, CH2_PROFILES.loyal.build())).toBe(CHAPTER_2.initialLuck);
+    // Une archive d'avant l'ADR 0033 n'a pas le champ : repli sur la Chance de depart.
+    storage.setItem('holt.archive.ch1.v1', JSON.stringify({ ...createDossier(), carriedLuck: undefined }));
+    expect(startingLuck(CHAPTER_2, loadArchivedDossier(1)!)).toBe(CHAPTER_2.initialLuck);
   });
 
   it('un dossier archive en fin de chapitre se relit identique au depart du chapitre suivant', () => {

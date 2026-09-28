@@ -26,7 +26,7 @@ export const CH2_ETAPE_FLAG = 'ch2.etape';
  */
 export type Ch2Etape = 'bal' | 'fuite' | 'conduits' | 'cantine' | 'campement';
 
-/** Chance de Franklyn au chapitre 2 : reserve pleine, non heritee du chapitre 1 (TECH-DESIGN B25). */
+/** Chance de depart du chapitre 2 sans chapitre 1 joue (profil) ; sinon, la reserve heritee (ADR 0033, `startingLuck`). */
 export const CH2_INITIAL_LUCK = 3;
 
 /**
