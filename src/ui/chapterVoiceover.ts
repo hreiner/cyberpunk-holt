@@ -1,12 +1,14 @@
 /** Lecture des prises anglaises du chapitre, sous le texte français du dialogue. */
 import { CH2_BALL_VOICE_FILES } from '@/data/ch2BallVoices';
 import { CH2_ZACHARY_VOICE_FILES } from '@/data/ch2ZacharyVoices';
+import { CH1_HALL_VOICE_FILES } from '@/data/ch1HallVoices';
 import { assetUrl } from './assetUrl';
 
 const VOICE_VOLUME = 0.9;
 const VOICE_FILES: Readonly<Record<string, string>> = {
   ...CH2_BALL_VOICE_FILES,
   ...CH2_ZACHARY_VOICE_FILES,
+  ...CH1_HALL_VOICE_FILES,
 };
 
 export class ChapterVoiceover {

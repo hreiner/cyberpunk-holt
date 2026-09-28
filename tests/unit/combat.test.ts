@@ -34,6 +34,17 @@ describe('mise en place', () => {
     expect(tasers).toHaveLength(2);
   });
 
+  it('respecte le porteur choisi et attribue le second taser a un autre cadet', () => {
+    const selected = assignLoadout(DEFAULT_BLUE, true, 'franklyn');
+    expect(selected['franklyn']).toContain('taser');
+    expect(selected['john']).toContain('taser');
+    expect(selected['zachary']).not.toContain('taser');
+
+    const setup = { ...defaultSetup(), blueTaserBearer: 'franklyn' as CharacterId };
+    expect(new TacticalCombat(setup).unit('franklyn').items).toContain('taser');
+    expect(assignLoadout(DEFAULT_BLUE, false, 'abigail')['john']).toContain('taser');
+  });
+
   it('classe les unites par initiative decroissante', () => {
     const combat = freshCombat();
     const inits = combat.state.order.map((id) => combat.unit(id).initiative);

@@ -25,9 +25,10 @@ français. L'anglais est une VO, pas une traduction littérale mot à mot.
 
 Les identifiants et paramètres du casting sont dans
 [`ch2BallVoices.ts`](../../../src/data/ch2BallVoices.ts) ; les textes et Audio Tags de la mort
-de Zachary sont dans [`ch2ZacharyVoices.ts`](../../../src/data/ch2ZacharyVoices.ts). Grover n'a **pas** de voix
-choisie : ses textes restent silencieux. Aucun casting n'est encore validé pour les nouveaux
-personnages des scènes suivantes.
+de Zachary sont dans [`ch2ZacharyVoices.ts`](../../../src/data/ch2ZacharyVoices.ts). La voix
+« Jett — Gritty and Spunky Young Hero » est désormais choisie pour Grover au briefing du
+chapitre 1 ; ses textes du chapitre 2 restent silencieux tant qu'une conduite VO propre à ces
+scènes n'est pas produite. Aucun casting n'est encore validé pour les autres nouveaux personnages.
 
 ## Conduite livrée
 

@@ -112,6 +112,8 @@ export interface TacticalSetup {
   red: CharacterId[];
   blueState: TeamState;
   redState: TeamState;
+  /** Porteur choisi au briefing ; absent pour les anciennes parties et les démarrages directs. */
+  blueTaserBearer?: CharacterId;
   /** Limite de rounds avant fin d'exercice. */
   roundLimit: number;
 }

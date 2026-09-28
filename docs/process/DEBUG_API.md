@@ -201,6 +201,8 @@ raison étant un texte français affichable tel quel.
 | `?scene=<id>` | démarre directement sur une scène du chapitre (`ch1.intro`, `ch1.vers-cantine`, `ch1.exam`, `ch1.hub`, `ch1.salle1`, `ch1.affrontement`, `ch2.photo`, ...) plutôt qu'au début — indispensable pour développer et tester une scène sans rejouer les précédentes. Sur une scène `explore`, démarre directement sur la carte, au point d'apparition de l'étape (`SceneDef.spawn`, une entrée à froid — voir "Méthodes d'exploration") |
 | `?dice=0` | désactive la mise en scène du dé 3D (`src/render/dice3d.ts`) pour tout jet narratif : `NarrativeView.playRoll()` résout alors immédiatement, sans overlay ni clic requis. Sans effet sur `window.__game` (`choose()`/`rollInsight()`/`advance()` sont déjà synchrones, avec ou sans mise en scène — voir plus bas) ; utile pour un parcours de test qui n'a pas besoin de l'animation |
 
+**Sélecteur de scène de la QA** (écran titre, lien « Aller à une scène (QA) ») : la même chose que `?scene=`, mais avec l'état d'une **branche** — porteur de Letitia, équipe du tirage, étiquettes, affinités, drapeaux et tempo que les scènes précédentes auraient posés — plus une graine libre et le profil du chapitre 2. Le catalogue vit dans `src/dev/scenePresets.ts` (une variante par défaut par scène, branches choisies d'après les conditions que lit le contenu ; `tests/unit/scenePresets.test.ts` garde que chaque variante atteint sa scène). Choisir une variante écrit la partie comme une sauvegarde ordinaire puis recharge sur `?seed=<graine>` : c'est une vraie **reprise** (`isResumingRun`), donc recharger la page reprend la partie en cours.
+
 ## Exemples
 
 Rejouer une partie complète depuis la console :

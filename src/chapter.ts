@@ -16,7 +16,7 @@ import { createDossier, setPracticalScore } from '@/core/dossier';
 import type { CharacterId } from '@/rules/character';
 import { FLAG_VIDEO_WATCHED, courseResultFromFlags, courseResultToScoreInput, scoreExercise } from '@/rules/scoring';
 import type { ExerciseScore } from '@/rules/scoring';
-import { DEFAULT_BLUE, DEFAULT_RED, DEFAULT_ROUND_LIMIT, defaultTeamState } from '@/tactical/combat';
+import { CH1_TASER_BEARER_FLAG, DEFAULT_BLUE, DEFAULT_RED, DEFAULT_ROUND_LIMIT, defaultTeamState, resolveBriefingTaserBearer } from '@/tactical/combat';
 import type { TacticalSetup } from '@/tactical/types';
 import {
   DialogueRunner,
@@ -70,6 +70,7 @@ import { NarrativeView } from './ui/narrativeView';
 import { SlowCinematic } from './ui/slowCinematic';
 import { ChapterVoiceover } from './ui/chapterVoiceover';
 import { ZacharyCinematic } from './ui/zacharyCinematic';
+import { HallCinematic } from './ui/hallCinematic';
 import type { NarrativeHud } from './ui/narrativeView';
 import type { GaugeStatus } from './ui/gaugeView';
 import { ReportView } from './ui/reportView';
@@ -258,10 +259,12 @@ export class ChapterApp {
   private readonly contactHost: HTMLElement;
   private readonly view: NarrativeView;
   private slowCinematic: SlowCinematic | null = null;
+  private hallCinematic: HallCinematic | null = null;
   private readonly voiceover = new ChapterVoiceover(
     (speaking) => {
       this.slowCinematic?.setVoiceSpeaking(speaking);
       this.zacharyCinematic?.setVoiceSpeaking(speaking);
+      this.hallCinematic?.setVoiceSpeaking(speaking);
       this.view.setSoundEffectsDucked(speaking);
     },
     loadSession().soundMuted,
@@ -575,6 +578,7 @@ export class ChapterApp {
   advance(): void {
     this.slowCinematic?.dismissVisual();
     this.zacharyCinematic?.dismissVisual();
+    this.hallCinematic?.dismissVisual();
     if (this.activeDialogue) {
       if (this.activeDialogue.current().finished) {
         this.completeDialogueScene(this.activeDialogue.context);
@@ -668,6 +672,7 @@ export class ChapterApp {
     this.cancelSlowCinematic();
     this.voiceover.dispose();
     this.cancelZacharyCinematic();
+    this.cancelHallCinematic();
     this.tacticalApp?.dispose();
     this.view.dispose();
     this.exploreSession.dispose();
@@ -861,6 +866,57 @@ export class ChapterApp {
   private cancelZacharyCinematic(): void {
     this.zacharyCinematic?.dispose();
     this.zacharyCinematic = null;
+  }
+
+  private startHallCinematic(): void {
+    const muted = loadSession().soundMuted;
+    this.view.setSoundMuted(muted);
+    this.voiceover.setMuted(muted);
+    this.hallCinematic = new HallCinematic(
+      this.narrativeHost,
+      {
+        current: () => this.activeExploreConversation?.runner.current() ?? null,
+        advance: () => {
+          const runner = this.activeExploreConversation?.runner;
+          if (!runner || runner.current().choices.length) return null;
+          runner.advance();
+          this.renderExploreConversation();
+          return runner.current();
+        },
+        choose: (index) => {
+          const runner = this.activeExploreConversation?.runner;
+          if (!runner || !runner.choose(index).ok) return null;
+          this.renderExploreConversation();
+          return runner.current();
+        },
+        onStart: () => {
+          this.voiceover.reset();
+          this.renderExploreConversation();
+        },
+        onComplete: () => {
+          const entry = this.activeExploreConversation;
+          if (!entry || entry.runner.current().nodeId !== 'depart') return;
+          entry.runner.advance();
+          this.completeExploreConversation();
+        },
+        onSkip: () => {
+          this.voiceover.reset();
+          this.renderExploreConversation();
+        },
+        onMuteChange: (soundMuted) => {
+          this.view.setSoundMuted(soundMuted);
+          this.voiceover.setMuted(soundMuted);
+          this.exploreSession.setSoundMuted(soundMuted);
+          saveSession({ ...loadSession(), soundMuted });
+        },
+      },
+      muted,
+    );
+  }
+
+  private cancelHallCinematic(): void {
+    this.hallCinematic?.dispose();
+    this.hallCinematic = null;
   }
 
   /**
@@ -1298,6 +1354,7 @@ export class ChapterApp {
     this.setActiveHost('dialogue'); // -> exploreSession.pause() : encart/bulles masques pendant la conversation
     this.view.show();
     this.renderExploreConversation();
+    if (dialogueId === 'ch1.centre-hall' && this.aiDelayMs > 0) this.startHallCinematic();
     return null;
   }
 
@@ -1313,13 +1370,20 @@ export class ChapterApp {
       this.buildHud(entry.runner.context.run, sceneId),
       entry.dialogueId,
     );
-    this.voiceover.observeNode(entry.dialogueId, node.nodeId);
+    // La VO du briefing commence avec la chanson, au clic « Lancer », jamais sous l'écran de départ.
+    if (entry.dialogueId !== 'ch1.centre-hall' || this.aiDelayMs === 0 || this.hallCinematic) {
+      this.voiceover.observeNode(entry.dialogueId, node.nodeId);
+    }
     this.checkRadio(entry.runner.context);
   }
 
   private completeExploreConversation(): void {
     const entry = this.activeExploreConversation;
     if (!entry) return;
+    if (entry.dialogueId === 'ch1.centre-hall') {
+      this.hallCinematic?.fadeOut();
+      this.hallCinematic = null;
+    }
     this.voiceover.reset();
     // `ObjectiveDef.completesWhen` (lot 5.11) : le dialogue du déclencheur peut rendre la main
     // sans clore l'étape (« Pas tout de suite », au bal). Il n'est alors pas marqué « déjà joué » :
@@ -1430,11 +1494,13 @@ export class ChapterApp {
    */
   private buildTacticalSetup(): TacticalSetup {
     const run = this.ctx.run;
+    const blueTaserBearer = resolveBriefingTaserBearer(run.roster.blue, run.flags[CH1_TASER_BEARER_FLAG]);
     return {
       seed: run.seed,
       blue: [...run.roster.blue],
       red: [...run.roster.red],
       blueState: run.teams.blue,
+      blueTaserBearer,
       // `run.teams.red` porte deja l'etat complet resolu par resolveOffscreenTeam
       // (voir enterDialogueScene) : plus de reconstruction a la volee ici.
       redState: run.teams.red,
@@ -1543,6 +1609,7 @@ export class ChapterApp {
     this.voiceover.reset();
     this.cancelSlowCinematic();
     this.cancelZacharyCinematic();
+    this.cancelHallCinematic();
     this.activeDialogue = null;
     this.activeExploreConversation = null;
     this.currentSceneDef = scene;

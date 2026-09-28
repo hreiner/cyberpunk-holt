@@ -95,7 +95,7 @@ export function defaultSetup(seed = 'holt-demo'): TacticalSetup {
  * sensee, et cela evite un desequilibre arbitraire lie a l'ordre de la liste.
  * Le kit de soin est une ressource d'equipe (`TeamState.healkits`).
  */
-export function assignLoadout(ids: CharacterId[], extraTaser: boolean): Record<string, ItemId[]> {
+export function assignLoadout(ids: CharacterId[], extraTaser: boolean, taserBearer?: CharacterId): Record<string, ItemId[]> {
   const out: Record<string, ItemId[]> = {};
   for (const id of ids) out[id] = [];
 
@@ -107,9 +107,9 @@ export function assignLoadout(ids: CharacterId[], extraTaser: boolean): Record<s
       a.localeCompare(b)
     );
   });
-  const first = byShooting[0];
+  const first = taserBearer && ids.includes(taserBearer) ? taserBearer : byShooting[0];
   if (first) (out[first] as ItemId[]).push('taser');
-  const second = byShooting[1];
+  const second = byShooting.find((id) => id !== first);
   if (extraTaser && second) (out[second] as ItemId[]).push('taser');
 
   const hacker = [...ids]
@@ -125,6 +125,17 @@ export function assignLoadout(ids: CharacterId[], extraTaser: boolean): Record<s
   if (hacker) (out[hacker] as ItemId[]).push('hackingTool');
 
   return out;
+}
+
+export const CH1_TASER_BEARER_FLAG = 'ch1.loadout.taserBearer';
+
+/** Résout le choix du briefing contre le roster réellement tiré ; valeur invalide = attribution historique. */
+export function resolveBriefingTaserBearer(blue: readonly CharacterId[], slot: unknown): CharacterId | undefined {
+  const teammates = blue.filter((id) => id !== 'franklyn');
+  const selected = slot === 'franklyn' ? 'franklyn'
+    : slot === 'equipier1' ? teammates[0]
+      : slot === 'equipier2' ? teammates[1] : undefined;
+  return selected && blue.includes(selected) ? selected : undefined;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -160,7 +171,7 @@ export class TacticalCombat {
   private buildInitialState(): CombatState {
     const units = {} as Record<CharacterId, Unit>;
     const placeTeam = (ids: CharacterId[], team: TeamId, spawns: Vec2[], teamState: TeamState) => {
-      const loadout = assignLoadout(ids, teamState.extraTaser);
+      const loadout = assignLoadout(ids, teamState.extraTaser, team === 'blue' ? this.setup.blueTaserBearer : undefined);
       ids.forEach((id, index) => {
         const sheet = getCharacter(id);
         const spawn = spawns[index % spawns.length] as Vec2;

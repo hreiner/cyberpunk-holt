@@ -162,3 +162,59 @@ musique, doit encore être jugé par le propriétaire à l'écoute réelle.
 les briefs d'images, la provenance audio, et [`CAPABILITIES.md`](../chapters/CAPABILITIES.md) si
 une capacité nouvelle est réellement disponible. Une nouvelle décision de structure demande un
 ADR ; pour le slow, c'est [0029](adr/0029-montage-chronometre-du-slow.md).
+
+## 6. Refaire les voix anglaises d'une cinématique
+
+Le briefing du chapitre 1 est un exemple complet : [conduite](../chapters/CH1-HALL-CINEMATIC.md),
+dialogue français [`ch1.centre-hall.json`](../../src/data/dialogues/ch1.centre-hall.json),
+adaptations anglaises et casting [`ch1HallVoices.ts`](../../src/data/ch1HallVoices.ts),
+générateur [`generate-ch1-hall-voices.ts`](../../scripts/generate-ch1-hall-voices.ts),
+lecture commune [`chapterVoiceover.ts`](../../src/ui/chapterVoiceover.ts). **La VO est anglaise ;
+les textes, choix et sous-titres à l'écran restent en français.** Écrire une adaptation courte
+pour l'oral, fidèle au sens plutôt qu'une traduction mot à mot. Un nœud de dialogue correspond à
+une prise ; les moments sans voix (ici, le choix du taser) laissent vivre la chanson. Si un nœud
+contient deux locuteurs, le scinder ou déclarer explicitement une séquence de deux prises.
+
+### Authentification et commande
+
+La CLI ElevenLabs installée sur le poste utilise **OAuth**, conservé dans le gestionnaire
+d'identifiants Windows (`elevenlabs:OAuth`). La connexion se vérifie avec `elevenlabs auth status` ;
+aucune clé API n'est nécessaire pour cette méthode. Si `elevenlabs` n'est pas dans le `PATH` de
+l'agent sous Windows, les scripts utilisent directement
+`%APPDATA%/npm/node_modules/@elevenlabs/cli/bin/cli.js` avec Node. En environnement sandboxé,
+la lecture de ce chemin et l'appel réseau peuvent demander une escalade d'exécution. Ne jamais
+afficher ni copier le jeton OAuth dans le dépôt. Si la CLI est absente, l'installer avec
+`npm i -g @elevenlabs/cli`, puis `elevenlabs auth login` sur le poste du propriétaire.
+
+```bash
+npx tsx scripts/generate-ch1-hall-voices.ts
+npx tsx scripts/generate-ch1-hall-voices.ts --file=tease-grover --force
+```
+
+Sans `--force`, les fichiers déjà présents sont conservés. Toujours cibler une seule prise avec
+`--file` lorsqu'un texte change : `--force` seul refait toute la scène et consomme le quota.
+Le générateur écrit 14 MP3 légers dans `public/assets/audio/voices/ch1-hall/`, puis
+`manifest.json` avec `ready:true` si toutes les prises existent. Les MP3 sont reliés par
+`CH1_HALL_VOICE_FILES` au `ChapterVoiceover` ; une nouvelle scène doit suivre le même circuit.
+Après un changement de texte français, mettre à jour le prompt anglais correspondant et
+regénérer sa prise.
+
+### Casting et rythme du briefing
+
+Franklyn, Abigail, Zachary, John et Letitia reprennent les identifiants et paramètres du bal
+(`CH2_BALL_VOICES`). Grover est **Jett — Gritty and Spunky Young Hero**
+(`6IwYbsNENZgAB1dtBZDp`) ; l'instructeur est **George — War-torn Seargant**
+(`GLSWsaquVBsIPLPPRi2s`). Ce George est **distinct** du narrateur George du chapitre 2
+(`JBFqnCBsd6RMkjVDRZzb`). Les deux identifiants ont été retrouvés par `voices get_shared`
+avec la session OAuth, pas devinés à partir du prénom. Le nom de la voix peut changer dans la
+bibliothèque ; conserver l'identifiant et le libellé choisi dans les données. Pour une nouvelle
+voix, chercher le titre complet et inspecter les résultats avant de générer.
+
+Les prises du briefing durent de 1 à 10,9 s. La conduite laisse chaque prise finir avant le
+nœud suivant, avec une courte respiration ; mesurer les durées après génération, puis régler les
+temps visuels, pas l'inverse. Au lancement, le `ChapterVoiceover` rejoue le nœud initial après
+le geste utilisateur pour que le navigateur puisse lire la voix. La musique reste continue :
+volume `0,48`, abaissé à `0,22` durant une voix avec 0,5 s de fondu, puis remontée ; pause
+visuelle au choix sans pause sonore ; fondu final de 3 s à la sortie effective du dialogue.
+Tester « Passer » avant le lancement et pendant la lecture, le muet, l'onglet caché et le
+retour à l'exploration. Le clic sur « Passer » ne doit jamais perdre le choix ni la chanson.

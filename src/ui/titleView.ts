@@ -15,11 +15,16 @@
  * DEUXIEME vue plein cadre dans ce meme composant -- `showProfilePicker` --
  * plutot qu'un fichier separe, l'ecran titre restant le seul point d'entree
  * ADR 0022 §3 concerne).
+ *
+ * « Aller a une scene (QA) » ouvre une troisieme vue, le selecteur de scene et de branche
+ * (`src/ui/scenePicker.ts`, catalogue `src/dev/scenePresets.ts`).
  */
 
 import { assetUrl } from '@/ui/assetUrl';
 import { CH2_PROFILES } from '@/data/chapters';
 import type { ProfileId } from '@/data/chapters';
+import { renderScenePicker } from '@/ui/scenePicker';
+import type { ScenePickerChoice } from '@/ui/scenePicker';
 
 export interface TitleViewCallbacks {
   onNewGame(): void;
@@ -28,12 +33,15 @@ export interface TitleViewCallbacks {
   onContinueChapter2(): void;
   /** Demarre le chapitre 2 sur le profil `profile` (ADR 0022 §3, `ch2Profiles.ts`). */
   onChooseProfile(profile: ProfileId): void;
+  /** QA : demarre directement sur une scene et une branche (`src/dev/scenePresets.ts`). */
+  onJumpToScene(choice: ScenePickerChoice): void;
 }
 
 export class TitleView {
   private readonly root: HTMLElement;
   private readonly mainScreen: HTMLElement;
   private readonly profileScreen: HTMLElement;
+  private readonly sceneScreen: HTMLElement;
 
   /**
    * @param resumableSceneTitle Titre francais de la scene reprise (ex.
@@ -74,7 +82,9 @@ export class TitleView {
             ? `<button type="button" class="title-link" data-testid="title-choose-profile">Choisir un profil</button>`
             : ''
         }
+        <button type="button" class="title-link" data-testid="title-scene-picker">Aller à une scène (QA)</button>
       </div>
+      <div class="title-content scene-picker-host" data-testid="title-scene-screen" style="display: none"></div>
       <div class="title-content profile-picker" data-testid="title-profile-picker" style="display: none">
         <h2 class="profile-picker-title">Chapitre 2 — Choisir un profil</h2>
         <p class="profile-picker-subtitle">
@@ -102,6 +112,8 @@ export class TitleView {
 
     this.mainScreen = this.root.querySelector('[data-testid="title-main"]') as HTMLElement;
     this.profileScreen = this.root.querySelector('[data-testid="title-profile-picker"]') as HTMLElement;
+    this.sceneScreen = this.root.querySelector('[data-testid="title-scene-screen"]') as HTMLElement;
+    renderScenePicker(this.sceneScreen, (choice) => callbacks.onJumpToScene(choice), () => this.showMain());
 
     this.root.querySelector('[data-testid="title-newgame"]')?.addEventListener('click', () => callbacks.onNewGame());
     this.root.querySelector('[data-testid="title-resume"]')?.addEventListener('click', () => callbacks.onResume());
@@ -114,6 +126,9 @@ export class TitleView {
     this.root
       .querySelector('[data-testid="title-choose-profile"]')
       ?.addEventListener('click', () => this.showProfilePicker());
+    this.root
+      .querySelector('[data-testid="title-scene-picker"]')
+      ?.addEventListener('click', () => this.showScenePicker());
     this.root.querySelector('[data-testid="title-profile-back"]')?.addEventListener('click', () => this.showMain());
     for (const id of Object.keys(CH2_PROFILES) as ProfileId[]) {
       this.root
@@ -133,8 +148,14 @@ export class TitleView {
     this.profileScreen.style.display = '';
   }
 
+  private showScenePicker(): void {
+    this.mainScreen.style.display = 'none';
+    this.sceneScreen.style.display = '';
+  }
+
   private showMain(): void {
     this.profileScreen.style.display = 'none';
+    this.sceneScreen.style.display = 'none';
     this.mainScreen.style.display = '';
   }
 

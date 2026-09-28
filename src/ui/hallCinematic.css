@@ -1,0 +1,18 @@
+.hall-cinematic .slow-cinematic__story {
+  max-width: 980px;
+}
+
+.hall-cinematic .slow-cinematic__caption {
+  white-space: pre-line;
+  font-size: clamp(1.05rem, 1.6vw, 1.42rem);
+}
+
+.hall-cinematic .slow-cinematic__choices {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 700px) {
+  .hall-cinematic .slow-cinematic__choices {
+    grid-template-columns: 1fr;
+  }
+}

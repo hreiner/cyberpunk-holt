@@ -1,0 +1,126 @@
+/* Sélecteur de scène de la QA (src/ui/scenePicker.ts) : une feuille défilante posée sur
+   l'illustration de l'écran titre, une ligne par scène, une pastille par branche. */
+
+.title-content.scene-picker-host {
+  justify-content: flex-start;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.scene-picker {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 100%;
+  min-height: 0;
+  text-align: left;
+}
+
+.scene-picker-header {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgb(from var(--bone) r g b / 15%);
+}
+
+.scene-picker-header h2 {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-xl);
+}
+
+.scene-picker-header p {
+  margin: 4px 0 12px;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+}
+
+.scene-picker-badge {
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  font-size: var(--fs-sm);
+  vertical-align: middle;
+}
+
+.scene-picker-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 20px;
+}
+
+.scene-picker-options label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--bone-dim);
+  font-size: var(--fs-sm);
+}
+
+.scene-picker-options input,
+.scene-picker-options select {
+  min-width: 180px;
+  padding: 6px 8px;
+  background: var(--ink);
+  border: 1px solid rgb(from var(--bone) r g b / 30%);
+  color: var(--bone);
+  font: inherit;
+}
+
+.scene-picker-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 20px 20px;
+}
+
+.scene-picker-chapter h3 {
+  margin: 16px 0 8px;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+}
+
+.scene-picker-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scene-picker-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 8px 0;
+  border-top: 1px solid rgb(from var(--bone) r g b / 8%);
+}
+
+.scene-picker-scene {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 240px;
+  max-width: 100%;
+}
+
+.scene-picker-title {
+  color: var(--bone);
+}
+
+.scene-picker-id {
+  color: var(--bone-dim);
+  font-size: var(--fs-xs, 0.75rem);
+}
+
+.scene-picker-variants {
+  display: flex;
+  flex: 1 1 300px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.scene-picker-variant {
+  padding: 4px 10px;
+  font-size: var(--fs-sm);
+}

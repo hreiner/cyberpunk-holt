@@ -203,6 +203,20 @@ des visages ont été vérifiées visuellement ; le propriétaire peut juger les
 | D45 | Les derniers mots de Zachary à Abigail | `public/assets/backdrops/egouts-last-words.webp` | D29, P01, [brief](briefs/D45-egouts-last-words.md) | à valider |
 | D46 | Zachary mort ; Abigail et Franklyn dans le silence | `public/assets/backdrops/egouts-abigail-grief.webp` | D29, P01, [brief](briefs/D46-egouts-abigail-grief.md) | à valider |
 
+## Lot K — briefing du centre d'entraînement (2026-09-27)
+
+Quatre images générées avec ImageGen, raccordées à D11 (parking) et D12 (hall), puis cadrées en
+1920 × 825 WebP. D50 a été **refait** après le retour du propriétaire avec une planche des six
+portraits en référence ; la première version avait le bon geste mais des visages génériques.
+Les masters PNG et la planche sont conservés hors Git dans `art-masters/` / la sortie ImageGen.
+
+| ID | Image | Fichier livré | Références | État |
+|---|---|---|---|---|
+| D47 | Les six cadets quittent le fourgon au soleil | `public/assets/backdrops/centre-arrival-cinematic.webp` | D11, D12, [brief](briefs/D47-centre-arrival-cinematic.md) | à valider |
+| D48 | L'instructeur briefe les six cadets | `public/assets/backdrops/centre-briefing-cinematic.webp` | D12, portrait instructeur, [brief](briefs/D48-centre-briefing-cinematic.md) | à valider |
+| D49 | Le taser, le kit et l'outil de piratage | `public/assets/backdrops/centre-equipment-cinematic.webp` | D12, [brief](briefs/D49-centre-equipment-cinematic.md) | à valider |
+| D50 | Les six cadets joignent les mains et se souhaitent bonne chance | `public/assets/backdrops/centre-good-luck-cinematic.webp` | D12, portraits des six cadets, [brief](briefs/D50-centre-good-luck-cinematic.md) | à valider |
+
 ## Plus tard (non planifié)
 
 Variantes d'expression des cadets (colère, peur, rire) pour le bal et le chapitre 2 ;

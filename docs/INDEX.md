@@ -44,6 +44,7 @@ aucune conversation à retrouver.
 | [`chapters/_templates/`](chapters/_templates/)               | gabarits `GAME-DESIGN.md` et `TECH-DESIGN.md`                                              |
 | [`chapters/ch2/SCENARIO.md`](chapters/ch2/SCENARIO.md)       | le scénario du chapitre 2, à écrire par le propriétaire                                    |
 | [`chapters/ch2/VOICE-DESIGN.md`](chapters/ch2/VOICE-DESIGN.md) | casting, conduite et méthode pour poursuivre les voix du chapitre 2                     |
+| [`chapters/CH1-HALL-CINEMATIC.md`](chapters/CH1-HALL-CINEMATIC.md) | conduite, choix tactique et voix du briefing cinématique du chapitre 1 |
 
 ## Art
 
@@ -109,3 +110,4 @@ aucune conversation à retrouver.
 | [0029](process/adr/0029-montage-chronometre-du-slow.md) | Montage chronométré du slow et assets audio locaux |
 | [0030](process/adr/0030-voix-anglaises-sous-titres-francais-bal.md) | Voix anglaises et sous-titres français pour le bal |
 | [0031](process/adr/0031-voix-cinematique-zachary.md) | Voix de la cinématique de Zachary et mix adaptatif |
+| [0032](process/adr/0032-briefing-cinematique-et-choix-du-taser.md) | Briefing cinématique et vrai choix du porteur de taser |

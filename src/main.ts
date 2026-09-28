@@ -11,7 +11,9 @@ import './ui/styles.css';
 import { ChapterApp } from './chapter';
 import { installDebugApi } from './debug/gameApi';
 import { TitleView } from './ui/titleView';
-import { loadArchivedDossier, loadSession } from './core/save';
+import { loadArchivedDossier, loadSession, saveDossier, saveSession } from './core/save';
+import { randomSeedLabel } from './core/rng';
+import { buildScenePresetStart } from './dev/scenePresets';
 import type { ChapterId } from './narrative';
 import { CHAPTERS } from './data/chapters';
 import type { ProfileId } from './data/chapters';
@@ -125,6 +127,20 @@ if (characterAssetsReady) {
       onChooseProfile: (profile) => {
         chapter.startChapter(2, { profile });
         title.dismiss();
+      },
+      // QA (src/dev/scenePresets.ts) : ecrit la partie de la branche choisie comme une
+      // sauvegarde ordinaire, puis recharge sur sa graine -- `ChapterApp` la REPREND
+      // (`isResumingRun`), sans point d'entree dedie. `?seed=` saute l'ecran titre.
+      onJumpToScene: ({ variantId, seed, profile }) => {
+        const runSeed = seed ?? randomSeedLabel();
+        const start = buildScenePresetStart(variantId, { seed: runSeed, profile });
+        if (!start) return;
+        chapter.dispose();
+        saveDossier(start.dossier);
+        saveSession({ ...loadSession(), lastSeed: runSeed, run: start.run });
+        const next = new URLSearchParams(window.location.search);
+        next.set('seed', runSeed);
+        window.location.search = next.toString();
       },
     });
   }

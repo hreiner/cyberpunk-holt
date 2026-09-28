@@ -1,76 +1,134 @@
 {
   "id": "ch1.centre-hall",
   "speaker": "instructeur",
-  "start": "briefing",
+  "start": "arrivee",
   "nodes": {
+    "arrivee": {
+      "text": "Le fourgon s'arrête dans la cour du centre d'entraînement. Les six cadets descendent ensemble, encore portés par leurs plaisanteries.",
+      "lines": [
+        {
+          "who": "franklyn",
+          "text": "C'est plus grand que sur les plans. Vous avez tous révisé le bon bâtiment, au moins ?"
+        }
+      ],
+      "to": "abigail"
+    },
+    "abigail": {
+      "lines": [
+        {
+          "who": "abigail",
+          "text": "Aujourd'hui, on est adversaires. Ce soir, je vous garde quand même une place dans le fourgon."
+        }
+      ],
+      "to": "briefing"
+    },
     "briefing": {
-      "text": "L'instructeur attend au centre du hall, une planchette sous le bras, entouré de béton taggé et de néons morts. Derrière lui, la première porte du parcours, déjà close.",
+      "text": "Dans le hall, l'instructeur attend derrière une table de matériel. Il laisse passer le dernier rire avant de parler.",
       "lines": [
         {
           "who": "instructeur",
-          "text": "Six cadets, deux équipes, un seul exercice : simulation de libération d'otage en milieu confiné. Vous entrez par vagues de trois, chaque salle notée comme l'écrit de ce matin."
-        },
-        { "who": "instructeur", "text": "Trois objets pour l'équipe. Partagez-les bien, vous ne les retrouverez pas en cours de route." }
+          "text": "Six cadets. Deux équipes de trois. Exercice de libération d'otage en milieu confiné."
+        }
+      ],
+      "to": "regles"
+    },
+    "regles": {
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Vous avancez salle par salle. Chaque décision compte dans votre note, comme à l'écrit ce matin. Et oui, je verrai aussi ce que vous faites quand vous pensez être seuls."
+        }
+      ],
+      "to": "zachary"
+    },
+    "zachary": {
+      "lines": [{ "who": "zachary", "text": "Bonne chance pour finir deuxième, Franklyn." }],
+      "to": "franklyn"
+    },
+    "franklyn": {
+      "lines": [
+        { "who": "franklyn", "text": "Garde ton souffle pour la cour. Tu risques d'en avoir besoin." }
+      ],
+      "to": "grover"
+    },
+    "grover": {
+      "lines": [
+        { "who": "grover", "text": "Zachary, pour une fois, essaie d'écouter les consignes avant de foncer." }
+      ],
+      "to": "john"
+    },
+    "john": {
+      "lines": [{ "who": "john", "text": "Il les connaît. Il préfère juste les raconter après coup." }],
+      "to": "letitia"
+    },
+    "letitia": {
+      "lines": [
+        {
+          "who": "letitia",
+          "text": "Je note que personne ne parie sur le silence. Ça, au moins, c'est prudent."
+        }
       ],
       "to": "materiel"
     },
     "materiel": {
-      "text": "Il tend les trois objets l'un après l'autre, sans se soucier de savoir qui les prendrait le mieux.",
+      "text": "L'instructeur découvre trois objets sur la table : un taser d'entraînement, un kit de soins et un outil de piratage.",
       "lines": [
-        { "who": "instructeur", "text": "Le pistolet taser. Touché, la cible reste au sol jusqu'à un soin." },
-        { "who": "franklyn", "text": "Je le prends." },
-        { "who": "instructeur", "text": "Le kit de soin, un seul usage. {equipier2}, à vous." },
-        { "who": "instructeur", "text": "Et l'outil de piratage. {equipier1}, il ouvrira les portes et les systèmes qui résisteront." }
+        {
+          "who": "instructeur",
+          "text": "Chaque équipe prend un taser, un kit de soins commun et un outil de piratage. Capitaine, à vous de choisir qui porte le taser."
+        }
       ],
+      "to": "choix-taser"
+    },
+    "choix-taser": {
+      "text": "Qui portera le taser de l'équipe bleue ?",
       "choices": [
-        { "text": "Continuer.", "conditions": [{ "teammate": "john" }], "to": "reaction-john" },
         {
-          "text": "Continuer.",
-          "conditions": [{ "not": { "teammate": "john" } }, { "teammate": "zachary" }],
-          "to": "reaction-zachary"
+          "text": "Je le garde.",
+          "to": "choix-fait",
+          "effects": [{ "flag": "ch1.loadout.taserBearer", "value": "franklyn" }]
         },
         {
-          "text": "Continuer.",
-          "conditions": [
-            { "not": { "teammate": "john" } },
-            { "not": { "teammate": "zachary" } },
-            { "teammate": "letitia" }
-          ],
-          "to": "reaction-letitia"
+          "text": "Le confier à {equipier1}.",
+          "to": "choix-fait",
+          "effects": [{ "flag": "ch1.loadout.taserBearer", "value": "equipier1" }]
         },
         {
-          "text": "Continuer.",
-          "conditions": [
-            { "not": { "teammate": "john" } },
-            { "not": { "teammate": "zachary" } },
-            { "not": { "teammate": "letitia" } }
-          ],
-          "to": "reaction-generic"
+          "text": "Le confier à {equipier2}.",
+          "to": "choix-fait",
+          "effects": [{ "flag": "ch1.loadout.taserBearer", "value": "equipier2" }]
         }
       ]
     },
-    "reaction-john": {
-      "lines": [{ "who": "john", "text": "Je le tiens serré. Personne n'y touche avant moi." }],
-      "to": "depart"
-    },
-    "reaction-zachary": {
+    "choix-fait": {
+      "text": "Le taser change de main. Les regards reviennent vers la première porte.",
       "lines": [
-        { "who": "zachary", "text": "Et moi je fais quoi, je pousse les portes à mains nues ?" },
-        { "who": "instructeur", "text": "Vous poussez, cadet. C'est déjà un talent." }
+        {
+          "who": "instructeur",
+          "text": "Le kit reste à l'équipe. L'outil ira à celui qui sait s'en servir. Dans les salles, pensez ensemble avant de courir chacun pour soi."
+        }
+      ],
+      "to": "bonne-chance"
+    },
+    "bonne-chance": {
+      "text": "Juste avant de se séparer, les six cadets réunissent leurs mains au milieu du cercle.",
+      "lines": [{ "who": "franklyn", "text": "Bonne chance, tout le monde." }],
+      "to": "abigail-retour"
+    },
+    "abigail-retour": {
+      "lines": [
+        { "who": "abigail", "text": "À ce soir. Et personne ne monte dans le fourgon sans les autres." }
       ],
       "to": "depart"
     },
-    "reaction-letitia": {
-      "lines": [{ "who": "letitia", "text": "Trois objets pour six personnes. Il va falloir se coordonner, pas foncer." }],
-      "to": "depart"
-    },
-    "reaction-generic": {
-      "text": "Personne ne relève ; l'équipe se contente d'un signe de tête.",
-      "to": "depart"
-    },
     "depart": {
-      "text": "L'instructeur désigne la première porte du menton et s'écarte.",
-      "lines": [{ "who": "instructeur", "text": "Première salle. La fumée, c'est prévu. Le reste, moins. En route." }]
+      "text": "L'instructeur s'écarte et déverrouille la première porte.",
+      "lines": [
+        {
+          "who": "instructeur",
+          "text": "Première salle. La fumée est prévue. Le reste, c'est votre examen. En route."
+        }
+      ]
     }
   }
 }

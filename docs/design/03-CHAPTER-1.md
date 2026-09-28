@@ -137,7 +137,19 @@ Thème : **simulation de libération d'otage**. Trois objets partagés entre tro
 |---|---|
 | Pistolet taser | touché = immobilisé jusqu'à un soin |
 | Kit de soin | un usage, ranime un coéquipier |
-| Outil de piratage | ouvre les portes et les systèmes |
+  | Outil de piratage | ouvre les portes et les systèmes |
+
+  **Briefing cinématique au hall** : après avoir traversé le parking, Franklyn parle à
+  l'instructeur. Le briefing devient un montage fixe d'environ 100 secondes, sur « Me Machine ».
+  L'instructeur explique l'épreuve et le matériel ; Abigail rappelle que les deux équipes
+  restent amies, Zachary provoque Franklyn, Grover, John et Letitia lui répondent. Franklyn
+  choisit qui de son équipe porte le premier taser : lui-même ou l'un des deux coéquipiers du
+  tirage. Avant de se séparer, **les six joignent les mains et se souhaitent bonne chance**.
+  Le kit est commun et l'outil revient au meilleur technicien non organique. Le joueur reprend
+  dans la salle 1 ; le bal ne devient pas une cinématique de fin de chapitre 1. La conduite,
+  les voix et la règle de « Passer » sont dans
+  [`CH1-HALL-CINEMATIC.md`](../chapters/CH1-HALL-CINEMATIC.md) ; la décision de charge est dans
+  [ADR 0032](../process/adr/0032-briefing-cinematique-et-choix-du-taser.md).
 
 ### Salle 1 — la porte et le chien
 

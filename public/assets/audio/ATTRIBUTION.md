@@ -41,3 +41,18 @@ qu'elle est absente de tout artefact destiné à être publié : le build Vite l
 La piste `47. Let You Down.mp3` est également fournie localement par le propriétaire pour la
 cinématique des égouts. Elle est ignorée par Git. Elle reste présente dans un build local si le
 fichier est dans `public/` ; l'enlever de tout artefact publié sans licence de diffusion.
+
+## Briefing du centre d'entraînement — chapitre 1
+
+`13. Me Machine.mp3` est fourni localement par le propriétaire pour cette cinématique, à usage
+privé. Le fichier est ignoré par Git mais copié dans un build Vite local s'il reste sous `public/`.
+La piste commence au clic, joue sous le choix et les voix, puis s'éteint en trois secondes à la
+sortie du dialogue.
+
+Les 14 prises MP3 anglaises de `voices/ch1-hall/` ont été générées avec ElevenLabs `eleven_v3`,
+au format MP3 44,1 kHz / 128 kbit/s. Sous-titres et choix restent en français. Les textes anglais,
+Audio Tags, identifiants de voix et noms de fichiers sont dans
+[`src/data/ch1HallVoices.ts`](../../../src/data/ch1HallVoices.ts) ; la commande reproductible est
+`npx tsx scripts/generate-ch1-hall-voices.ts` après connexion OAuth de la CLI. Franklyn, Abigail,
+Zachary, John et Letitia reprennent les voix du bal ; Grover utilise « Jett — Gritty and Spunky
+Young Hero » et l'instructeur « George — War-torn Seargant » (voix différente du narrateur George).
