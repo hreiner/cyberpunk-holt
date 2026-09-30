@@ -201,6 +201,8 @@ export class NarrativeView {
   private readonly narrationEl: HTMLElement;
   private readonly linesEl: HTMLElement;
   private readonly offscreenEl: HTMLElement;
+  /** Noeud (`dialogue:noeud`) sur lequel la video de securite a ete montree : elle disparait au suivant. */
+  private offscreenNodeKey: string | null = null;
   private readonly stampEl: HTMLElement;
   private readonly luckEl: HTMLElement;
   private readonly insightEl: HTMLElement;
@@ -361,6 +363,13 @@ export class NarrativeView {
       // disputent l'ecran (voir docs/process/DEBUG_API.md).
       this.animatingRoll = null;
       this.callbacks.cancelRoll();
+    }
+
+    // Retour de QA : la video de securite ne vit que sur le noeud ou elle apparait.
+    if (this.offscreenNodeKey !== null && this.offscreenNodeKey !== `${dialogueId}:${node.nodeId}`) {
+      this.offscreenNodeKey = null;
+      this.offscreenEl.hidden = true;
+      this.offscreenEl.innerHTML = '';
     }
 
     if (sceneId) this.root.dataset.zone = sceneZone(sceneId);
@@ -1020,6 +1029,7 @@ export class NarrativeView {
    */
   showOffscreenLog(log: string[]): void {
     if (log.length === 0) return;
+    this.offscreenNodeKey = `${this.currentDialogueId}:${this.currentNode?.nodeId ?? ''}`;
     this.offscreenEl.hidden = false;
     this.offscreenEl.innerHTML =
       '<span class="offscreen-tag">Vidéo de sécurité — équipe adverse</span>' +

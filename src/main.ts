@@ -114,9 +114,9 @@ if (characterAssetsReady) {
     const hasChapter1Archive = loadArchivedDossier(1) !== null;
     const title = new TitleView(container, resumeSceneTitle, hasChapter1Archive, {
       onNewGame: () => {
-        // Graine fraiche, jamais celle (eventuellement reprise) avec laquelle
-        // `chapter` vient d'etre construit -- voir `ChapterApp.startNewGame`.
-        chapter.startNewGame();
+        // Graine fraiche et TOUJOURS le chapitre 1 (retour de QA) : jamais la graine ni le
+        // chapitre de la session eventuellement reprise en arriere-plan par `chapter`.
+        chapter.startChapter(1);
         title.dismiss();
       },
       onResume: () => title.dismiss(),

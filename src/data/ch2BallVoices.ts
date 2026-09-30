@@ -40,12 +40,6 @@ export const CH2_BALL_VOICE_CUES: readonly Ch2BallVoiceCue[] = [
     prompt: '[softly] She smiles, then follows him to the middle of the floor.',
   },
   {
-    id: 'ch2.bal#refus',
-    file: 'bal-letitia-refuses',
-    voice: 'letitia',
-    prompt: '[gently] A drink, not a dance.',
-  },
-  {
     id: 'ch2.bal.john#debut',
     file: 'bal-john-meeting',
     voice: 'john',
