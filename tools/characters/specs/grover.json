@@ -1,0 +1,49 @@
+{
+  "id": "grover",
+  "macro": {
+    "gender": 1.0,
+    "age": 0.42,
+    "muscle": 0.3,
+    "weight": 0.3,
+    "height": 0.55,
+    "proportions": 0.55,
+    "caucasian": 0.05,
+    "african": 0.0,
+    "asian": 0.95
+  },
+  "skin": "young_asian_male",
+  "hair": "cortu_shaggy_green_hair",
+  "eyebrows": "eyebrow004",
+  "clothes": [
+    "mindfront_m_suit_01",
+    "toigo_ankle_boots_male"
+  ],
+  "face": {
+    "head/head-oval": 0.4,
+    "cheek/l-cheek-bones-incr": 0.25,
+    "cheek/r-cheek-bones-incr": 0.25,
+    "chin/chin-width-decr": 0.4,
+    "neck/neck-scale-horiz-decr": 0.2,
+    "ears/l-ear-scale-decr": 0.2,
+    "ears/r-ear-scale-decr": 0.2,
+    "eyes/l-eye-scale-incr": 0.5,
+    "eyes/r-eye-scale-incr": 0.5,
+    "eyes/l-eye-height2-incr": 0.3,
+    "eyes/r-eye-height2-incr": 0.3,
+    "chin/chin-triangle": 0.3,
+    "cheek/l-cheek-volume-decr": 0.25,
+    "cheek/r-cheek-volume-decr": 0.25,
+    "eyes/l-eye-epicanthus-in": 0.35,
+    "eyes/r-eye-epicanthus-in": 0.35,
+    "eyes/l-eye-corner2-up": 0.3,
+    "eyes/r-eye-corner2-up": 0.3,
+    "nose/nose-compression-compress": 0.15,
+    "nose/nose-scale-depth-decr": 0.15,
+    "nose/nose-width1-decr": 0.2
+  },
+  "hairBack": {
+    "z": 0.955,
+    "back": 0.03,
+    "up": 0.03
+  }
+}

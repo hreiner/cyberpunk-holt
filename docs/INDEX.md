@@ -48,6 +48,10 @@ aucune conversation à retrouver.
 
 ## Art
 
+Étude autonome du dortoir : [design et commandes](design/10-DORMITORY-AAA-STUDY.md),
+[ADR 0034](process/adr/0034-dortoir-etude-visuelle-autonome.md).
+Généralisation du décor : [périmètre et estimation](art/EXPLORATION-DECOR-ROLLOUT.md).
+
 | Document                                                                       | Contenu                                                                                                         |
 | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
 | [`art/ART-DIRECTION.md`](art/ART-DIRECTION.md)                                 | direction artistique, palette, contraintes de lisibilité                                                        |
@@ -57,6 +61,7 @@ aucune conversation à retrouver.
 | [`art/ROOM-COMPOSITION.md`](art/ROOM-COMPOSITION.md)                           | audit de composition pièce par pièce : usage, ancre narrative, implantation du mobilier et circulation         |
 | [`art/DORMITORY-AA-PILOT-REVIEW.md`](art/DORMITORY-AA-PILOT-REVIEW.md)           | pilote autonome jouable du dortoir : comparaison visuelle, mesures, limites et réemploi proposé                 |
 | [`art/MIXAMO-PILOT.md`](art/MIXAMO-PILOT.md)                                     | essai d'un personnage Mixamo et d'une marche sur place, conversion Blender et critères visuels                  |
+| [`art/CHARACTER-PIPELINE-FINDINGS.md`](art/CHARACTER-PIPELINE-FINDINGS.md)       | pipeline personnages MPFB → Mixamo : recettes, pièges et limites pour créer un nouveau personnage                |
 | [`art/REFERENCES.md`](art/REFERENCES.md)                                       | index et description des images de référence (`art/Reference_pictures/`)                                        |
 | [`art/image-generation/ORCHESTRATOR.md`](art/image-generation/ORCHESTRATOR.md) | production des illustrations : orchestrateur, bible de style, manifeste, fiches par image                       |
 

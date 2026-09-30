@@ -1,0 +1,44 @@
+{
+  "id": "zachary",
+  "macro": {
+    "gender": 0.9,
+    "age": 0.36,
+    "muscle": 0.5,
+    "weight": 0.4,
+    "height": 0.58,
+    "proportions": 0.6,
+    "caucasian": 0.25,
+    "african": 0.2,
+    "asian": 0.55
+  },
+  "skin": "young_asian_male",
+  "hair": "toigo_blunt_bob_with_bangs",
+  "eyebrows": "eyebrow004",
+  "clothes": [
+    "mindfront_m_suit_01",
+    "toigo_ankle_boots_male"
+  ],
+  "face": {
+    "head/head-round": 0.4,
+    "cheek/l-cheek-volume-incr": 0.3,
+    "cheek/r-cheek-volume-incr": 0.3,
+    "cheek/l-cheek-bones-incr": 0.25,
+    "cheek/r-cheek-bones-incr": 0.25,
+    "mouth/mouth-angles-up": 1.0,
+    "mouth/mouth-scale-horiz-incr": 0.5,
+    "mouth/mouth-lowerlip-volume-incr": 0.3,
+    "mouth/mouth-laugh-lines-out": 0.5,
+    "eyes/l-eye-scale-incr": 0.3,
+    "eyes/r-eye-scale-incr": 0.3,
+    "eyes/l-eye-height1-decr": 0.4,
+    "eyes/r-eye-height1-decr": 0.4,
+    "eyes/l-eye-epicanthus-in": 0.4,
+    "eyes/r-eye-epicanthus-in": 0.4,
+    "nose/nose-scale-depth-decr": 0.3,
+    "chin/chin-width-decr": 0.2
+  },
+  "hairShorten": {
+    "fromZ": 0.935,
+    "factor": 0.3
+  }
+}

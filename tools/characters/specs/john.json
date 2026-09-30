@@ -1,0 +1,42 @@
+{
+  "id": "john",
+  "macro": {
+    "gender": 1.0,
+    "age": 0.42,
+    "muscle": 0.6,
+    "weight": 0.4,
+    "height": 0.6,
+    "proportions": 0.6,
+    "caucasian": 1.0,
+    "african": 0.0,
+    "asian": 0.0
+  },
+  "skin": "young_caucasian_male",
+  "hair": "short01",
+  "eyebrows": "eyebrow004",
+  "clothes": [
+    "mindfront_m_suit_01",
+    "toigo_ankle_boots_male"
+  ],
+  "face": {
+    "head/head-oval": 0.4,
+    "cheek/l-cheek-bones-incr": 0.3,
+    "cheek/r-cheek-bones-incr": 0.3,
+    "chin/chin-width-decr": 0.0,
+    "neck/neck-scale-horiz-decr": 0.2,
+    "ears/l-ear-scale-decr": 0.2,
+    "ears/r-ear-scale-decr": 0.2,
+    "eyebrows/eyebrows-angle-down": 1.4,
+    "eyebrows/eyebrows-trans-down": 0.9,
+    "mouth/mouth-angles-down": 0.4,
+    "eyes/l-eye-eyefold-angle-down": 0.5,
+    "eyes/r-eye-eyefold-angle-down": 0.5,
+    "chin/chin-width-incr": 0.5,
+    "chin/chin-prominent-incr": 0.4,
+    "cheek/l-cheek-volume-decr": 0.3,
+    "cheek/r-cheek-volume-decr": 0.3,
+    "eyes/l-eye-scale-incr": 0.25,
+    "eyes/r-eye-scale-incr": 0.25,
+    "forehead/forehead-temple-decr": 0.2
+  }
+}

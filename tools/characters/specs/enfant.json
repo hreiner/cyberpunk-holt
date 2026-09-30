@@ -1,0 +1,27 @@
+{
+  "id": "enfant",
+  "macro": {
+    "gender": 0.75,
+    "age": 0.15,
+    "muscle": 0.2,
+    "weight": 0.3,
+    "height": 0.4,
+    "proportions": 0.5,
+    "caucasian": 0.05,
+    "african": 0.85,
+    "asian": 0.1
+  },
+  "skin": "young_african_male",
+  "hair": "cortu_short_messy_hair",
+  "eyebrows": "eyebrow004",
+  "clothes": [
+    "elvs_sporty_tracksuit_hoodie_dress1",
+    "shoes02"
+  ],
+  "face": {
+    "eyes/l-eye-scale-incr": 0.6,
+    "eyes/r-eye-scale-incr": 0.6,
+    "eyebrows/eyebrows-angle-up": 0.6,
+    "mouth/mouth-scale-horiz-decr": 0.2
+  }
+}

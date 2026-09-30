@@ -4,7 +4,15 @@ import tseslint from 'typescript-eslint';
 export default tseslint.config(
   {
     // `art-masters/` est hors depot (voir .gitignore) : outillage local de la fabrique d'images.
-    ignores: ['dist/**', 'node_modules/**', 'playwright-report/**', 'test-results/**', 'coverage/**', 'art-masters/**'],
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'playwright-report/**',
+      'test-results/**',
+      'coverage/**',
+      'art-masters/**',
+      '.dream-loop/**',
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
