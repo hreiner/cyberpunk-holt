@@ -112,7 +112,7 @@ export function assignLoadout(ids: CharacterId[], extraTaser: boolean, taserBear
   const second = byShooting.find((id) => id !== first);
   if (extraTaser && second) (out[second] as ItemId[]).push('taser');
 
-  const hacker = [...ids]
+  const hackers = [...ids]
     .filter((id) => !hasTrait(getCharacter(id), 'organique'))
     .sort((a, b) => {
       const sa = getCharacter(a);
@@ -121,7 +121,9 @@ export function assignLoadout(ids: CharacterId[], extraTaser: boolean, taserBear
         sb.attributes.TECH + sb.skills.piratage - (sa.attributes.TECH + sa.skills.piratage) ||
         a.localeCompare(b)
       );
-    })[0];
+    });
+  // Retour de QA : un porteur de taser ne cumule pas l'outil, tant qu'un autre peut le prendre.
+  const hacker = hackers.find((id) => !(out[id] as ItemId[]).includes('taser')) ?? hackers[0];
   if (hacker) (out[hacker] as ItemId[]).push('hackingTool');
 
   return out;

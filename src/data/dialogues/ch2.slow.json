@@ -88,7 +88,7 @@
       ]
     },
     "plaque": {
-      "backdrop": "attaque",
+      "backdrop": "rafale-plaque",
       "text": "Il se jette sur Letitia et la plaque au sol de tout son poids. La rafale passe au ras de leurs têtes. Une balle lui ouvre le flanc, juste sous les côtes : un demi-pas plus tôt, elle la prenait en pleine poitrine. Letitia se tord sous lui, le souffle coupé, la main rouge. Touchée, mais vivante. Il s'en est fallu d'un rien.",
       "effects": [{ "counter": "ch2.letitia.etat", "delta": 1, "min": 0, "max": 3 }],
       "to": "rafale-gangers"

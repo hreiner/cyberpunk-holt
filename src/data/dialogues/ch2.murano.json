@@ -43,6 +43,7 @@
       "to": "vehicule"
     },
     "vehicule": {
+      "backdrop": "murano-camion",
       "text": "Reste le camion : la seule façon de quitter les Badlands avant le jour. À pied, Letitia ne tiendra pas jusqu'au matin. Les clés sont sur le contact.",
       "lines": [
         { "who": "murano", "text": "Personne ne touche à ce camion. Les petits rentrent avant l'aube. Avec ce qu'ils ont pris chez vous." },
@@ -106,44 +107,52 @@
       ]
     },
     "franklyn-reussi": {
+      "backdrop": "campement",
       "text": "Trois pas dans l'ombre de la toile. Murano n'a pas le temps de se retourner. Le fusil tombe dans la poussière sans avoir tiré, et Franklyn reste là, les mains vides, à regarder ce qu'il vient de faire.",
       "lines": [{ "who": "grover", "text": "Tu n'avais pas à le faire toi-même. Tu le sais, ça ?" }],
       "to": "fusil-charge"
     },
     "franklyn-rate": {
+      "backdrop": "campement",
       "text": "Un caillou roule sous sa semelle. Murano se retourne, le coup part — la détonation roule sur les Badlands, personne n'est touché. Le percuteur claque ensuite dans le vide : c'était sa dernière cartouche. La suite se fait vite, loin du feu, et c'est Franklyn qui la fait.",
       "sound": { "sfx": ["shot"] },
       "lines": [{ "who": "grover", "text": "Tu n'avais pas à le faire toi-même. Tu le sais, ça ?" }],
       "to": "fusil-vide"
     },
     "john-reussi": {
+      "backdrop": "campement",
       "text": "John traverse le camp d'un pas égal, comme on va parler à quelqu'un. Murano lève le fusil une seconde trop tard. John revient seul et ne regarde personne.",
       "lines": [{ "who": "john", "text": "C'est fait. On n'en parle plus." }],
       "to": "fusil-charge"
     },
     "john-rate": {
+      "backdrop": "campement",
       "text": "Murano le voit venir de loin. Le coup part — personne n'est touché, la décharge se perd dans la nuit. Le percuteur claque dans le vide : sa dernière cartouche. John finit ce qu'il a commencé, derrière le camion.",
       "sound": { "sfx": ["shot"] },
       "lines": [{ "who": "john", "text": "C'est fait. On n'en parle plus." }],
       "to": "fusil-vide"
     },
     "grover-reussi": {
+      "backdrop": "campement",
       "text": "Grover s'approche en parlant de Letitia, de l'académie, de rien. Murano l'écoute. C'est l'erreur. Quand Grover revient, il s'assoit loin des autres, dos au feu.",
       "lines": [{ "who": "grover", "text": "Ne me demande plus jamais ça." }],
       "to": "fusil-charge"
     },
     "grover-rate": {
+      "backdrop": "campement",
       "text": "Grover hésite une seconde de trop. Le coup part, à côté — personne n'est touché. Le percuteur claque dans le vide : c'était la dernière. Grover va au bout quand même, et revient sans rien dire.",
       "sound": { "sfx": ["shot"] },
       "lines": [{ "who": "grover", "text": "Ne me demande plus jamais ça." }],
       "to": "fusil-vide"
     },
     "abigail-reussi": {
+      "backdrop": "campement",
       "text": "Abigail marche droit sur lui, dans sa robe de bal déchirée. Murano ne voit pas une menace : il voit une gamine perdue. Elle revient avec le fusil, le visage vide.",
       "lines": [{ "who": "grover", "text": "Abigail… Abigail, regarde-moi." }],
       "to": "fusil-charge"
     },
     "abigail-rate": {
+      "backdrop": "campement",
       "text": "Murano comprend trop tard, mais il comprend. Le coup part au-dessus d'elle — personne n'est touché. Le percuteur claque dans le vide : sa dernière cartouche. Abigail ne s'arrête pas pour autant.",
       "sound": { "sfx": ["shot"] },
       "lines": [{ "who": "grover", "text": "Abigail… Abigail, regarde-moi." }],

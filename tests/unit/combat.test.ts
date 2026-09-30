@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { playToEnd } from '@/tactical/ai';
 import { DEFAULT_BLUE, DEFAULT_RED, TacticalCombat, assignLoadout, defaultSetup } from '@/tactical/combat';
+import { getCharacter, hasTrait } from '@/rules/character';
 import type { CharacterId } from '@/rules/character';
 
 function freshCombat(seed = 'test-combat'): TacticalCombat {
@@ -26,6 +27,22 @@ describe('mise en place', () => {
     const loadout = assignLoadout(['john', 'franklyn', 'abigail'] as CharacterId[], false);
     expect(loadout['john']).not.toContain('hackingTool');
     expect(loadout['franklyn']).toContain('hackingTool');
+  });
+
+  it('ne cumule le taser et l outil de piratage que si personne d autre ne peut prendre l outil', () => {
+    const cadets: CharacterId[] = ['franklyn', 'zachary', 'john', 'grover', 'letitia', 'abigail'];
+    for (const a of cadets) for (const b of cadets) for (const c of cadets) {
+      const team = [a, b, c];
+      if (new Set(team).size < 3) continue;
+      for (const bearer of [undefined, ...team]) for (const extra of [false, true]) {
+        const loadout = assignLoadout(team, extra, bearer);
+        const both = team.find((id) => loadout[id]!.includes('taser') && loadout[id]!.includes('hackingTool'));
+        if (!both) continue;
+        // Cumul toléré seulement faute d'alternative : tout autre non-organique porte déjà un taser.
+        const free = team.filter((id) => id !== both && !loadout[id]!.includes('taser') && !hasTrait(getCharacter(id), 'organique'));
+        expect(free, `${team.join('+')} porteur ${bearer} extra ${extra}`).toEqual([]);
+      }
+    }
   });
 
   it('ajoute un second taser quand l armoire a ete forcee', () => {

@@ -217,6 +217,21 @@ Les masters PNG et la planche sont conservés hors Git dans `art-masters/` / la 
 | D49 | Le taser, le kit et l'outil de piratage | `public/assets/backdrops/centre-equipment-cinematic.webp` | D12, [brief](briefs/D49-centre-equipment-cinematic.md) | à valider |
 | D50 | Les six cadets joignent les mains et se souhaitent bonne chance | `public/assets/backdrops/centre-good-luck-cinematic.webp` | D12, portraits des six cadets, [brief](briefs/D50-centre-good-luck-cinematic.md) | à valider |
 
+## Lot L — dramatisation, retours de QA (2026-09-29)
+
+Quatre plans demandés après la réécriture des textes (transition vers le bal, ouverture des
+décharges, Letitia plaquée, Murano). Les quatre images sont produites et intégrées :
+clés du registre `src/data/backdrops.ts` posées sur les nœuds indiqués. Le décor entre
+parenthèses est celui que la scène retrouve ensuite, posé explicitement sur le nœud suivant
+(le décor en vigueur persiste d'un nœud à l'autre).
+
+| ID | Image | Fichier livré | Références | État |
+|---|---|---|---|---|
+| D51 | Le retour en fourgon avant le bal, les six cadets hilares · `ch1.bal` nœud `retour` (puis `bal`) | `public/assets/backdrops/retour-fourgon.webp` | D10, D47, D09, portraits P01 à P06, [brief](briefs/D51-retour-fourgon.md) | à valider |
+| D52 | Le camion de Murano sur la piste, Night City à l'horizon · `ch2.decharges` nœud `trajet` (puis `decharges`) | `public/assets/backdrops/piste-night-city.webp` | D27, D24, `Chapter2/NightCityDecharge.png`, `Chapter2/Badlands.png`, [brief](briefs/D52-piste-night-city.md) | à valider |
+| D53 | Franklyn plaque Letitia sous la rafale · `ch2.slow` nœud `plaque` (puis `rafale-gangers`) | `public/assets/backdrops/rafale-plaque.webp` | D20, D21, D33, portraits P01 et P03, [brief](briefs/D53-rafale-plaque.md) | à valider |
+| D54 | Murano barre l'accès au camion · `ch2.murano` nœuds `vehicule` et `qui` (puis `campement`) | `public/assets/backdrops/murano-camion.webp` | D27, P15, `Chapter2/MuranoBadlandsCamps.png`, [brief](briefs/D54-murano-camion.md) | à valider |
+
 ## Plus tard (non planifié)
 
 Variantes d'expression des cadets (colère, peur, rire) pour le bal et le chapitre 2 ;

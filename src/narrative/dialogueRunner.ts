@@ -816,11 +816,20 @@ export class DialogueRunner {
     // de reussir (ADR 0012) : jamais en attente, jamais apres un echec.
     const revealBest = Boolean(node.insight) && this.insightStatus === 'success';
     const out: PresentedChoice[] = [];
+    // Aiguillage (retour de QA : trois « Continuer. » identiques au bal) : des choix sans jet au
+    // meme libelle sont indiscernables pour le joueur -- le PREMIER eligible l'emporte, dans
+    // l'ordre du fichier (le repli sans condition en dernier), comme `SceneRouter`.
+    const routingTexts = new Set<string>();
     (node.choices ?? []).forEach((choice, index) => {
       if (choice.conditions && !evaluateAll(choice.conditions, this.ctx)) return;
+      const text = applyTemplates(choice.text, this.ctx.run);
+      if (!choice.check) {
+        if (routingTexts.has(text)) return;
+        routingTexts.add(text);
+      }
       const presented: PresentedChoice = {
         index,
-        text: applyTemplates(choice.text, this.ctx.run),
+        text,
         check: this.presentCheck(choice),
       };
       if (revealBest && choice.best) presented.best = true;

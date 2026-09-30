@@ -118,6 +118,16 @@ export const BACKDROPS: Record<string, Backdrop> = {
   'couloir-nuit': { src: `${BACKDROP_ASSET}couloir-nuit.webp` },
   /** Scène 4 (`ch2.grille`), D40 : la grille du dortoir, verrouillée, la nuit de l'attaque. */
   'grille-dortoir': { src: `${BACKDROP_ASSET}grille-dortoir.webp` },
+
+  // -- Dramatisation, retours de QA (MANIFEST.md, lot L). --
+  /** Chapitre 1 (`ch1.bal`, nœud `retour`), D51 : le retour en fourgon, les six cadets hilares. */
+  'retour-fourgon': { src: `${BACKDROP_ASSET}retour-fourgon.webp` },
+  /** Scène 10 (`ch2.decharges`, nœud `trajet`), D52 : le camion de Murano, Night City à l'horizon. */
+  'piste-night-city': { src: `${BACKDROP_ASSET}piste-night-city.webp` },
+  /** Scène 3 (`ch2.slow`, nœud `plaque`), D53 : Franklyn plaque Letitia sous la rafale. */
+  'rafale-plaque': { src: `${BACKDROP_ASSET}rafale-plaque.webp` },
+  /** Scène 9 (`ch2.murano`, nœuds `vehicule`/`qui`), D54 : Murano barre l'accès au camion. */
+  'murano-camion': { src: `${BACKDROP_ASSET}murano-camion.webp` },
 };
 
 /** Liste des clés valides, pour `validateDialogue(file, BACKDROP_KEYS)` (voir sa doc). */

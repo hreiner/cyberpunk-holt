@@ -905,3 +905,32 @@ describe('DialogueRunner : noeuds d aiguillage', () => {
     expect(runner.current().nodeId).toBe('jet');
   });
 });
+
+describe('aiguillage par « Continuer. » conditionnels (retour de QA du bal)', () => {
+  it('des choix sans jet au même libellé ne s affichent qu une fois : le premier éligible l emporte', () => {
+    const graph: DialogueFile = {
+      id: 'test.aiguillage',
+      start: 'salut',
+      nodes: {
+        salut: {
+          text: 'Grover salue.',
+          choices: [
+            { text: 'Continuer.', conditions: [{ tag: 'legaliste' }], to: 'principes' },
+            { text: 'Continuer.', conditions: [{ tag: 'pragmatique' }], to: 'pragmatique' },
+            { text: 'Continuer.', to: 'repli' },
+          ],
+        },
+        principes: { text: 'a' },
+        pragmatique: { text: 'b' },
+        repli: { text: 'c' },
+      },
+    };
+    const base = context();
+    const ctx = { ...base, dossier: { ...base.dossier, tags: ['legaliste', 'pragmatique'] } };
+    const runner = new DialogueRunner(graph, ctx, createRng('aiguillage'));
+    const choices = runner.current().choices;
+    expect(choices).toHaveLength(1);
+    runner.choose(choices[0]!.index);
+    expect(runner.current().nodeId).toBe('principes');
+  });
+});

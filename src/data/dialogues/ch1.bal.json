@@ -1,8 +1,21 @@
 {
   "id": "ch1.bal",
   "speaker": "directeur",
-  "start": "annonce",
+  "start": "retour",
   "nodes": {
+    "retour": {
+      "backdrop": "retour-fourgon",
+      "text": "Le fourgon cahote sur la piste du retour, dans la lumière rasante du soir. À l'arrière, plus personne ne tient en place : on refait l'exercice salle par salle, on compare les réponses de l'examen écrit, Zachary jure qu'il a eu six sur six et personne ne le croit. Quand les grilles de la Holt Academy apparaissent enfin, tout le monde ne pense déjà plus qu'à une chose : le bal.",
+      "lines": [
+        { "who": "zachary", "text": "Ce soir, on danse. Et demain, on est flics. Tous ensemble." }
+      ],
+      "to": "arrivee"
+    },
+    "arrivee": {
+      "backdrop": "bal",
+      "text": "Une heure plus tard, tout le monde se retrouve dans la salle des fêtes de l'académie, les uniformes de gala à peine repassés, les cheveux encore mouillés de la douche.",
+      "to": "annonce"
+    },
     "annonce": {
       "text": "Les lumières de la salle des fêtes se reflètent sur les uniformes de gala. Le directeur monte sur l'estrade, une tablette à la main, et appelle les cadets un à un pour annoncer leur note d'examen pratique.",
       "lines": [
