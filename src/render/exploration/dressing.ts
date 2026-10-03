@@ -44,7 +44,9 @@ function visibilityKeyOf(placement: ExploreVisualPlacement): string {
 }
 function parseVisibilityKey(key: string): { base: string; etape?: string } {
   const sep = key.indexOf(ETAPE_KEY_SEP);
-  return sep === -1 ? { base: key } : { base: key.slice(0, sep), etape: key.slice(sep + ETAPE_KEY_SEP.length) };
+  return sep === -1
+    ? { base: key }
+    : { base: key.slice(0, sep), etape: key.slice(sep + ETAPE_KEY_SEP.length) };
 }
 
 interface InstanceCandidate {
@@ -66,6 +68,8 @@ export interface ExploreDressingVisibility {
 export interface ExploreDressingFactory {
   create(placement: ExploreVisualPlacement): THREE.Object3D;
   dispose(): void;
+  /** Environnement emprunté à la scène, sans transfert de propriété. */
+  setEnvironment?(texture: THREE.Texture | null): void;
 }
 
 interface MountedPlacement {
@@ -100,6 +104,7 @@ export class ExploreDressing {
    * `Math.random()` (regle n°1 d'AGENTS.md) : deux lueurs de la meme scene ne
    * clignotent donc jamais en phase, sans tirage.
    */
+  private readonly animatedMaterials = new Set<THREE.ShaderMaterial>();
   private readonly flickeringLights: { light: THREE.PointLight; base: number; phase: number }[] = [];
 
   constructor(
@@ -120,6 +125,14 @@ export class ExploreDressing {
           }
         });
       }
+      object.traverse((child) => {
+        if (!(child instanceof THREE.Mesh)) return;
+        const materials = Array.isArray(child.material) ? child.material : [child.material];
+        for (const material of materials) {
+          if (material instanceof THREE.ShaderMaterial && material.userData.exploreTimeUniform)
+            this.animatedMaterials.add(material);
+        }
+      });
       this.root.add(object);
       return { placement, object };
     });
@@ -132,15 +145,34 @@ export class ExploreDressing {
    * gratuit a appeler systematiquement.
    */
   tick(elapsedSeconds: number): void {
+    for (const material of this.animatedMaterials) {
+      const uniform = material.uniforms[material.userData.exploreTimeUniform as string];
+      if (uniform) uniform.value = elapsedSeconds;
+    }
     for (const { light, base, phase } of this.flickeringLights) {
-      const wobble = Math.sin(elapsedSeconds * 6.2 + phase) * 0.5 + Math.sin(elapsedSeconds * 13.1 + phase * 2) * 0.5;
+      const wobble =
+        Math.sin(elapsedSeconds * 6.2 + phase) * 0.5 + Math.sin(elapsedSeconds * 13.1 + phase * 2) * 0.5;
       light.intensity = base * (0.72 + wobble * 0.28);
     }
+  }
+
+  /** Transmet le PMREM aux matières possédées par la fabrique. */
+  setEnvironment(texture: THREE.Texture | null): void {
+    this.factory.setEnvironment?.(texture);
   }
 
   /** Modèle sémantique explicitement associé à une entité interactive, s'il existe. */
   objectForEntity(entityId: string): THREE.Object3D | undefined {
     return this.entityObjects.get(entityId);
+  }
+
+  /** Keep a specialized closure synchronized with the sole gameplay door state. */
+  setDoorOpen(doorId: string, open: boolean): void {
+    for (const { placement, object } of this.mounted) {
+      if (placement.doorStateId !== doorId) continue;
+      const closure = object.getObjectByName('door-closure');
+      if (closure) closure.visible = !open;
+    }
   }
 
   /**
@@ -156,7 +188,7 @@ export class ExploreDressing {
     for (const { placement, object } of this.mounted) {
       // Un placement lie a une entite reste un objet individuel : picking direct et
       // visibilite propre (`ExploreView.setVisibleEntities`), voir ADR 0017.
-      if (placement.entityId) continue;
+      if (placement.entityId || placement.doorStateId) continue;
       const visibilityKey = visibilityKeyOf(placement);
       object.traverse((child) => {
         if (!(child instanceof THREE.Mesh) || child instanceof THREE.InstancedMesh) return;
@@ -198,7 +230,9 @@ export class ExploreDressing {
   syncVisibility(state: ExploreDressingVisibility): void {
     for (const { placement, object } of this.mounted) {
       const visibleByRoom =
-        'roomId' in placement ? state.discoveredRoomIds.has(placement.roomId) : placement.visibility === 'exterior';
+        'roomId' in placement
+          ? state.discoveredRoomIds.has(placement.roomId)
+          : placement.visibility === 'exterior';
       const visibleByEntity = !placement.entityId || state.visibleEntityIds.has(placement.entityId);
       const visibleByEtape = !placement.etape || placement.etape === state.etape;
       object.visible = visibleByRoom && visibleByEntity && visibleByEtape;
@@ -220,6 +254,7 @@ export class ExploreDressing {
     this.instancedMeshes.length = 0;
     this.instancedByVisibilityKey.clear();
     this.root.clear();
+    this.animatedMaterials.clear();
     this.factory.dispose();
   }
 }

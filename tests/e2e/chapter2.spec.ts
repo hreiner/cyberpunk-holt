@@ -86,7 +86,9 @@ async function lookAt(page: Page, cell: { x: number; y: number }): Promise<void>
 async function clickEntityAndWaitDialogue(page: Page, label: string): Promise<void> {
   const point = await canvasPointForLabel(page, label);
   await page.mouse.click(point.x, point.y);
-  await page.waitForFunction(() => window.__game.node() !== null, undefined, { timeout: 20_000 });
+  // La grille peut demander la traversée entière de HOLT ; le navigateur
+  // de test peut ralentir ce trajet. Garder une marge sans contourner la marche ni l'interaction.
+  await page.waitForFunction(() => window.__game.node() !== null, undefined, { timeout: 30_000 });
 }
 
 /** Clique, dans le panneau de dialogue, le choix dont le texte contient `text`. */
@@ -145,13 +147,13 @@ const EXPLORE_TRIGGERS: Record<string, string> = {
 };
 
 /**
- * Lot 5.9 : ce qu'une scène `explore` impose AVANT son déclencheur -- le boîtier du ventilateur
- * des conduits ouvre la seule route vers l'enfant, puis vers la cantine. On le joue comme un
- * joueur, pour que la cantine se trouve réellement atteignable (plus bas), pas seulement
- * déclenchable à distance.
+ * Beats joués avant le déclencheur : le ventilateur obligatoire, ainsi que la conversation
+ * facultative avec Zachary et la fouille des tentes. Chaque beat rend la main à l'exploration.
  */
-const EXPLORE_PREREQUISITES: Record<string, string[]> = {
+const EXPLORE_BEATS: Record<string, string[]> = {
+  'ch2.bal': ['bal.zachary'],
   'ch2.conduits': ['conduits.ventilateur'],
+  'ch2.campement': ['campement.insignes'],
 };
 
 test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ page }) => {
@@ -179,10 +181,11 @@ test('?chapter=2 : les scenes s enchainent jusqu a l ecran de fin', async ({ pag
       expect(await heroName(page), 'aucun portrait herite de ch2.murano aux decharges').not.toBe('Murano');
     }
     if (current.kind === 'explore') {
-      for (const entityId of EXPLORE_PREREQUISITES[current.id] ?? []) {
+      for (const entityId of EXPLORE_BEATS[current.id] ?? []) {
         await page.evaluate((id) => window.__game.interact(id), entityId);
         await traverseDialogue(page);
         await page.evaluate(() => window.__game.advance());
+        expect((await page.evaluate(() => window.__game.scene())).id).toBe(current.id);
       }
       if (current.id === 'ch2.cantine') {
         // La porte de la cantine s'est ouverte avec l'enfant, le ventilateur avec son boîtier :

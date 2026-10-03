@@ -24,7 +24,7 @@
  *                Aucun contact au sol, donc aucune case bloquee.
  * - `threshold`: monte sur un mur ou un encadrement de porte (`#`/`+`).
  */
-export type ExploreVisualOccupancy = 'solid' | 'flat' | 'overhead' | 'threshold';
+export type ExploreVisualOccupancy = 'solid' | 'vegetation' | 'flat' | 'overhead' | 'wall' | 'threshold';
 
 export interface ExploreVisualModelDef {
   occupancy: ExploreVisualOccupancy;
@@ -42,9 +42,12 @@ export interface ExploreVisualModelDef {
 export const EXPLORE_VISUAL_MODELS = {
   /* -- Dortoirs et vie commune ------------------------------------------ */
   'bed-cadet': { occupancy: 'solid', cells: [2, 3], reads: 'un lit de cadet, tete au mur' },
+  'dormitory-bunk': { occupancy: 'solid', cells: [2, 3], reads: 'un lit superpose de dortoir, tete au mur' },
   'bedside-table': { occupancy: 'solid', cells: [1, 1], reads: 'une table de chevet, entre deux lits' },
   'locker-bank': { occupancy: 'solid', cells: [1, 4], reads: 'une rangee de casiers' },
+  'dormitory-locker-bank': { occupancy: 'solid', cells: [1, 4], reads: 'une rangee de casiers du dortoir' },
   'waiting-bench': { occupancy: 'solid', cells: [3, 1], reads: 'un banc adosse' },
+  'dormitory-bench': { occupancy: 'solid', cells: [3, 1], reads: 'un banc habite du dortoir' },
   'canteen-table': { occupancy: 'solid', cells: [2, 2], reads: 'une table de refectoire' },
   'canteen-chair': { occupancy: 'solid', cells: [1, 1], reads: 'une chaise tournee vers sa table' },
   'canteen-podium': { occupancy: 'solid', cells: [3, 1], reads: 'l’estrade du directeur' },
@@ -68,6 +71,7 @@ export const EXPLORE_VISUAL_MODELS = {
 
   /* -- Colonne ouest : services de l'academie ---------------------------- */
   'admin-desk': { occupancy: 'solid', cells: [3, 1], reads: 'un guichet d’accueil' },
+  'holt-reception-desk': { occupancy: 'solid', cells: [3, 1], reads: 'le guichet d’accueil de l’académie' },
   'netrun-station': { occupancy: 'solid', cells: [2, 1], reads: 'un poste de netrun a deux ecrans' },
   'netrun-terminal': { occupancy: 'solid', cells: [1, 1], reads: 'un terminal isole, reste allume' },
   'medical-bed': { occupancy: 'solid', cells: [1, 2], reads: 'un lit medical' },
@@ -75,30 +79,62 @@ export const EXPLORE_VISUAL_MODELS = {
   'weapon-rack': { occupancy: 'solid', cells: [2, 1], reads: 'un ratelier de tasers' },
   'weapon-case': { occupancy: 'solid', cells: [2, 1], reads: 'une caisse de materiel fermee' },
   'archive-shelves': { occupancy: 'solid', cells: [2, 1], reads: 'un rayonnage d’archives' },
+  'holt-archive-shelves': {
+    occupancy: 'solid',
+    cells: [2, 1],
+    reads: 'un rayonnage de dossiers et de boîtes d’archives',
+  },
   'server-shelves': { occupancy: 'solid', cells: [2, 1], reads: 'une baie de serveurs' },
   transformer: { occupancy: 'solid', cells: [2, 2], reads: 'un transformateur et ses isolateurs' },
   workbench: { occupancy: 'solid', cells: [3, 2], reads: 'un etabli de maintenance' },
+  'medical-workbench': { occupancy: 'solid', cells: [3, 2], reads: 'une paillasse clinique en inox' },
+  'maintenance-workbench': {
+    occupancy: 'solid',
+    cells: [3, 2],
+    reads: 'un établi de maintenance électrique',
+  },
+  'garage-workbench': { occupancy: 'solid', cells: [3, 2], reads: 'un etabli de service pour les fourgons' },
 
   /* -- Entrainement, cour, garage ---------------------------------------- */
   'exam-desk': { occupancy: 'solid', cells: [1, 1], reads: 'un pupitre d’examen et son siege' },
   'training-rig': { occupancy: 'solid', cells: [3, 3], reads: 'une cage d’agres' },
   'punching-bag': { occupancy: 'solid', cells: [1, 1], reads: 'un sac de frappe sur son portique' },
   'courtyard-tree': { occupancy: 'solid', cells: [1, 1], reads: 'l’arbre de la cour' },
+  'courtyard-planter': { occupancy: 'vegetation', cells: [1, 1], reads: 'un bac de plantation en béton' },
+  'courtyard-planter-trough': {
+    occupancy: 'vegetation',
+    cells: [2, 1],
+    reads: 'une jardinière longue en béton',
+  },
   'square-basin': { occupancy: 'solid', cells: [3, 3], reads: 'le bassin carre' },
   'police-van': { occupancy: 'solid', cells: [3, 5], reads: 'un fourgon de police gare' },
 
   /* -- Centre d'examen desaffecte ---------------------------------------- */
   'exam-van': { occupancy: 'solid', cells: [3, 5], reads: 'le fourgon qui vous a depose' },
   'exam-terminal': { occupancy: 'solid', cells: [2, 2], reads: 'un ilot de supervision' },
+  'exam-secure-locker': {
+    occupancy: 'solid',
+    cells: [2, 3],
+    reads: 'une armoire blindee du centre d’examen',
+  },
+  'exam-equipment-cage': {
+    occupancy: 'solid',
+    cells: [2, 1],
+    reads: 'une cage a materiel de l’ancien centre',
+  },
   'security-station': { occupancy: 'solid', cells: [2, 2], reads: 'un poste de securite et son siege' },
   'secure-locker': { occupancy: 'solid', cells: [2, 2], reads: 'une armoire blindee' },
-  'equipment-cage': { occupancy: 'solid', cells: [2, 1], reads: 'une cage a materiel grillagee' },
   'industrial-service-bank': {
     occupancy: 'solid',
     cells: [3, 1],
     reads: 'une banque technique de maintenance',
   },
   'signal-pylon': { occupancy: 'solid', cells: [1, 1], reads: 'un pylone de signalisation' },
+  'exam-waiting-bench': {
+    occupancy: 'solid',
+    cells: [3, 1],
+    reads: 'un banc d’attente métallique du centre',
+  },
   'gas-rack': { occupancy: 'solid', cells: [2, 1], reads: 'des bouteilles sous pression' },
   'k9-course-gate': { occupancy: 'solid', cells: [2, 1], reads: 'un obstacle de parcours cynophile' },
   'kennel-run': { occupancy: 'solid', cells: [3, 2], reads: 'un enclos a chien, grille ouverte' },
@@ -107,21 +143,25 @@ export const EXPLORE_VISUAL_MODELS = {
   'crate-stack': { occupancy: 'solid', cells: [2, 2], reads: 'des caisses sur palette' },
 
   /* -- Modeles Kenney du kit d'usine (GLB) ------------------------------- */
-  'factory:machine-fortified': { occupancy: 'solid', cells: [2, 3], reads: 'une armoire securisee scellee' },
   'factory:hopper-high-square': { occupancy: 'solid', cells: [2, 2], reads: 'une tremie de filtration' },
   'factory:warning-traffic': { occupancy: 'solid', cells: [1, 1], reads: 'une barriere de chantier' },
 
   /* -- Marquages peints au sol ------------------------------------------- */
   'hazard-floor-zone': { occupancy: 'flat', cells: [3, 2], reads: 'une zone hachuree au sol' },
   'exit-chevrons': { occupancy: 'flat', cells: [4, 2], reads: 'des chevrons qui montrent la sortie' },
+  'garage-parking-marking': {
+    occupancy: 'flat',
+    cells: [1, 5],
+    reads: 'une ligne de stationnement peinte au sol',
+  },
   'combat-circle': { occupancy: 'flat', cells: [5, 5], reads: 'le cercle de combat peint au sol' },
 
   /* -- Suspendu : jamais un obstacle ------------------------------------- */
-  'strip-light': { occupancy: 'overhead', cells: [2, 1], reads: 'une reglette encore vivante' },
-  'pipe-run': { occupancy: 'overhead', cells: [4, 1], reads: 'une conduite qui longe le plafond' },
-  'vent-duct': { occupancy: 'overhead', cells: [3, 1], reads: 'une gaine de ventilation eventree' },
+  'conduit-wall-run': { occupancy: 'overhead', cells: [4, 1], reads: 'une conduite fixée au mur du conduit' },
   'warning-beacon': { occupancy: 'overhead', cells: [1, 1], reads: 'un gyrophare mural' },
-  'overhead-service-gantry': { occupancy: 'overhead', cells: [5, 1], reads: 'un portique suspendu' },
+  'wall-strip-light': { occupancy: 'wall', cells: [2, 1], reads: 'une applique fixee au mur' },
+  'wall-pipe-run': { occupancy: 'wall', cells: [4, 1], reads: 'une conduite de service fixee au mur' },
+  'wall-vent-duct': { occupancy: 'wall', cells: [3, 1], reads: 'une gaine eventree fixee au mur' },
 
   /* -- Monte sur un mur ou un encadrement -------------------------------- */
   'security-panel': { occupancy: 'threshold', cells: [1, 1], reads: 'le panneau electronique d’une porte' },
@@ -208,7 +248,7 @@ export const EXPLORE_VISUAL_MODELS = {
     reads: 'le boîtier de commande du ventilateur, scellé au mur, un voyant rouge',
   },
   'duct-lamp': {
-    occupancy: 'overhead',
+    occupancy: 'wall',
     cells: [1, 1],
     reads: 'une ampoule grillagée, faible, qui grésille — la seule lumière du conduit',
   },

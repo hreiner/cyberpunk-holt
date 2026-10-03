@@ -88,11 +88,11 @@ function fillBlock(x0: number, y0: number, w: number, h: number, ch: string): vo
 }
 
 /**
- * Pièces (et tronçons de conduit) : chaque rectangle est à la fois une zone de sol creusée dans
- * la roche de murs et une `RoomDef` -- les murs en coupe du rendu se calculent sur les bords des
- * `RoomDef` (`ExploreView.computeRoomSides`), coupés en permanence. Depuis l'ADR 0027, un conduit hors
- * de toute pièce serait un couloir, coupé seulement quand Franklyn y est ; les tronçons restent des
- * `RoomDef` `alwaysDiscovered` (lot 5.9), ce qui revient au même pour la file.
+ * Pièces (et tronçons de conduit) : chaque rectangle est une zone de sol et une `RoomDef`, donc
+ * la même géométrie décrit le sol, la découverte des contenus et les bords de l'enveloppe. Les murs
+ * restent fixes, entiers et hauts de 2,45 m ; la découverte révèle les finitions et le contenu des
+ * trois pièces, sans couper les parois. Les tronçons sont des `RoomDef` `alwaysDiscovered` (lot 5.9)
+ * pour que le conduit et la file restent visibles tout au long du parcours.
  */
 export const CONDUITS_RECTS = {
   bouche: { origin: { x: 16, y: 15 }, width: 1, height: 10 }, // la bouche, depuis le dortoir
@@ -107,7 +107,8 @@ export const CONDUITS_RECTS = {
   cantine: { origin: { x: 26, y: 10 }, width: 7, height: 12 },
 } as const;
 
-for (const { origin, width, height } of Object.values(CONDUITS_RECTS)) fillBlock(origin.x, origin.y, width, height, '.');
+for (const { origin, width, height } of Object.values(CONDUITS_RECTS))
+  fillBlock(origin.x, origin.y, width, height, '.');
 
 /** Le ventilateur : une porte verrouillée dans le conduit nord-sud (mur horizontal de part et d'autre). */
 export const VENTILATEUR_CELL = { x: 24, y: 11 } as const;
@@ -157,8 +158,9 @@ for (const { x, y, w, h, ch } of Object.values(CONDUITS_BLOCKS)) fillBlock(x, y,
 /**
  * La roche entre les conduits n'est pas un mur : seules les cases de mur qui BORDENT un sol ou une
  * porte (huit voisins) restent `#`, le reste devient du vide (` `, non rendu). Sans cela, la
- * masse de murs pleins de 3 m entre deux conduits d'une case cachait Franklyn et sa file à la
- * caméra isométrique (première manche de captures du lot).
+ * l'ancien volume de murs pleins entre deux conduits d'une case cachait Franklyn et sa file à la
+ * caméra isométrique (première manche de captures du lot) ; les cellules conservées forment
+ * maintenant les parois fixes qui bordent réellement un espace accessible.
  */
 function carveVoid(): void {
   const open = (x: number, y: number) => {
@@ -169,7 +171,8 @@ function carveVoid(): void {
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
       if (grid[y]?.[x] !== '#') continue;
-      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (open(x + dx, y + dy)) keep.add(`${x},${y}`);
+      for (let dy = -1; dy <= 1; dy++)
+        for (let dx = -1; dx <= 1; dx++) if (open(x + dx, y + dy)) keep.add(`${x},${y}`);
     }
   }
   for (let y = 0; y < HEIGHT; y++) {
@@ -180,7 +183,8 @@ carveVoid();
 
 const ASCII: string[] = grid.map((row, y) => {
   const line = row.join('');
-  if (line.length !== WIDTH) throw new Error(`conduits.ts : ligne ${y} de largeur ${line.length}, attendu ${WIDTH}`);
+  if (line.length !== WIDTH)
+    throw new Error(`conduits.ts : ligne ${y} de largeur ${line.length}, attendu ${WIDTH}`);
   return line;
 });
 
@@ -191,8 +195,18 @@ const ROOMS: RoomDef[] = [
   { id: 'bifurcation', title: 'La bifurcation', rect: CONDUITS_RECTS.bifurcation, alwaysDiscovered: true },
   { id: 'annexe', title: "L'annexe", rect: CONDUITS_RECTS.annexe, alwaysDiscovered: true },
   { id: 'annexe-nord', title: "L'annexe", rect: CONDUITS_RECTS.annexeNord, alwaysDiscovered: true },
-  { id: 'conduit-petits', title: 'Le conduit des petits', rect: CONDUITS_RECTS.conduitPetits, alwaysDiscovered: true },
-  { id: 'conduit-ventilateur', title: 'Le ventilateur', rect: CONDUITS_RECTS.ventilateur, alwaysDiscovered: true },
+  {
+    id: 'conduit-petits',
+    title: 'Le conduit des petits',
+    rect: CONDUITS_RECTS.conduitPetits,
+    alwaysDiscovered: true,
+  },
+  {
+    id: 'conduit-ventilateur',
+    title: 'Le ventilateur',
+    rect: CONDUITS_RECTS.ventilateur,
+    alwaysDiscovered: true,
+  },
   { id: 'conduit-pales', title: 'Le conduit des petits', rect: CONDUITS_RECTS.pales, alwaysDiscovered: true },
   { id: 'labo', title: 'Le labo de Smith', rect: CONDUITS_RECTS.labo },
   { id: 'petits', title: 'Le dortoir des petits', rect: CONDUITS_RECTS.petits },

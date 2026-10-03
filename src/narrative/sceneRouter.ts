@@ -408,6 +408,13 @@ export const CHAPTER_1_SCENES: SceneDef[] = [
       title: 'Franchir la salle 2',
       context: 'Une armoire sécurisée, une porte verrouillée en face.',
       completionTrigger: 'salle2.porte-nord',
+      tasks: [
+        {
+          id: 'ch1.salle2.armoire',
+          label: "examiner l'armoire pour récupérer un second taser",
+          entityIds: ['salle2.armoire'],
+        },
+      ],
     },
   },
   {

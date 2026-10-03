@@ -8,6 +8,7 @@
  */
 
 import * as THREE from 'three';
+import { createIndustrialCoverDetails, type IndustrialCoverCell } from './exploration/industrialCoverDetails';
 import type { Rng } from '@/core/rng';
 import { ITEM_COLORS } from '@/data/items';
 import { EnvironmentMaterials } from '@/render/exploration/materials';
@@ -84,6 +85,7 @@ export class YardView {
   private readonly tileGeometry: THREE.PlaneGeometry;
   /** Matières partagées (containers, sol) : une instance par YardView, libérée par `dispose()`. */
   private readonly materials: EnvironmentMaterials;
+  private readonly industrialCoverDetails: ReturnType<typeof createIndustrialCoverDetails>;
   /** Géométries et matériaux propres au décor (containers, caisses, sol), à libérer avec la vue. */
   private readonly obstacleGeometries: THREE.BufferGeometry[] = [];
   private readonly obstacleMaterials: THREE.Material[] = [];
@@ -132,19 +134,17 @@ export class YardView {
     const h = map.height * CELL_SIZE_METERS;
     const groundMaterial = this.materials.get('asphalt');
     if (groundMaterial.map) {
-      groundMaterial.map.repeat.set(Math.max(1, w / GROUND_TEXTURE_SPAN), Math.max(1, h / GROUND_TEXTURE_SPAN));
+      groundMaterial.map.repeat.set(
+        Math.max(1, w / GROUND_TEXTURE_SPAN),
+        Math.max(1, h / GROUND_TEXTURE_SPAN),
+      );
     }
     this.groundPlane = new THREE.Mesh(new THREE.PlaneGeometry(w, h), groundMaterial);
     this.groundPlane.rotation.x = -Math.PI / 2;
     this.groundPlane.receiveShadow = true;
     this.root.add(this.groundPlane);
 
-    this.grid = new THREE.GridHelper(
-      Math.max(w, h),
-      Math.max(map.width, map.height),
-      LINE_COLOR,
-      LINE_COLOR,
-    );
+    this.grid = new THREE.GridHelper(Math.max(w, h), Math.max(map.width, map.height), LINE_COLOR, LINE_COLOR);
     (this.grid.material as THREE.Material).opacity = 0.25;
     (this.grid.material as THREE.Material).transparent = true;
     this.grid.position.y = 0.01;
@@ -152,6 +152,18 @@ export class YardView {
 
     /* --- containers et caisses --- */
     this.buildObstacles(rng);
+    const coverCells: IndustrialCoverCell[] = [];
+    for (let y = 0; y < map.height; y++)
+      for (let x = 0; x < map.width; x++) {
+        const kind = map.kindAt({ x, y });
+        if (kind === 'container' || kind === 'crate') coverCells.push({ x, y, kind });
+      }
+    this.industrialCoverDetails = createIndustrialCoverDetails({
+      cells: coverCells,
+      world: (cell) => cellToWorld(map, cell),
+      materials: this.materials,
+    });
+    this.root.add(this.industrialCoverDetails.group);
 
     /* --- zones de deploiement --- */
     this.spawnGeometry = new THREE.RingGeometry(0.5, 0.62, 20);
@@ -237,7 +249,8 @@ export class YardView {
         if (kind !== 'container' && kind !== 'crate') continue;
         const { x: wx, z: wz } = cellToWorld(this.map, { x, y });
         if (kind === 'container') {
-          const tint = containerIndex === rareContainerIndex ? RARE_CONTAINER_TINT : rng.pick(CONTAINER_TINTS);
+          const tint =
+            containerIndex === rareContainerIndex ? RARE_CONTAINER_TINT : rng.pick(CONTAINER_TINTS);
           containerIndex++;
           const mesh = new THREE.Mesh(containerGeo, materialForTint(tint));
           mesh.position.set(wx, 1.3, wz);
@@ -335,6 +348,7 @@ export class YardView {
    * nouvelle partie empilerait les ressources de la precedente.
    */
   dispose(): void {
+    this.industrialCoverDetails.dispose();
     this.materials.dispose();
     for (const geometry of this.obstacleGeometries) geometry.dispose();
     for (const material of this.obstacleMaterials) material.dispose();

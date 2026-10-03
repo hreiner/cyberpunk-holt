@@ -65,10 +65,10 @@
       ]
     },
     "armoire-resistante": {
-      "text": "Le mécanisme tient bon malgré les efforts ; la combinaison reste hors de portée. Il faut lâcher l'affaire et rejoindre la porte."
+      "text": "Le mécanisme tient bon malgré les efforts ; la combinaison reste hors de portée. Il faudra renoncer à l'armoire pour ouvrir la porte au nord."
     },
     "armoire-ignoree": {
-      "text": "L'équipe laisse l'armoire fermée et se dirige droit vers la porte, sans un regard en arrière."
+      "text": "L'équipe laisse l'armoire fermée. La porte au nord reste à ouvrir."
     },
     "porte": {
       "text": "La porte est verrouillée par un boîtier électronique standard, semblable à celui de la première salle.",

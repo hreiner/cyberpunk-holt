@@ -4,8 +4,8 @@
  *
  * Deux climats sur une même carte, portés d'abord par la LUMIÈRE (TECH-DESIGN §7 : « lumière et
  * narration avant le mobilier ») :
- *   - les conduits : presque noirs (`setNightMood('conduits')`), des ampoules grillagées rares et
- *     faibles (`duct-lamp`, qui grésillent), des conduites au plafond, et au bout de l'annexe la
+ *   - les conduits : nocturnes et lisibles (`setNightMood('conduits')`), des ampoules grillagées rares et
+ *     faibles (`duct-lamp`, qui grésillent), des conduites plaquées contre les parois, et au bout de l'annexe la
  *     lueur cyan de la machine de la simulation, seule lumière du labo de Smith ;
  *   - la cantine : chaude et rouge (`setNightMood('cantine')`), deux brasiers (`blaze`, lumière
  *     rouge forte qui vacille), des lueurs au sol et de la fumée.
@@ -38,13 +38,23 @@ function blockCells({ x, y, w, h }: Block): Cell[] {
 }
 
 /** Meuble plein posé sur un bloc de la carte, dans une pièce qui se découvre (voir `campement.ts`). */
-function solidOn(id: string, model: ExploreVisualModelId, block: Block, roomId: string): ExploreVisualPlacement {
+function solidOn(
+  id: string,
+  model: ExploreVisualModelId,
+  block: Block,
+  roomId: string,
+): ExploreVisualPlacement {
   const cells = blockCells(block);
   return { id, model, cell: { x: block.x, y: block.y }, footprint: cells, replaces: cells, roomId };
 }
 
 /** Objet d'une case (au sol, suspendu ou au mur), dans le conduit (toujours visible). */
-function inDuct(id: string, model: ExploreVisualModelId, cell: Cell, rotation?: ExploreVisualRotation): ExploreVisualPlacement {
+function inDuct(
+  id: string,
+  model: ExploreVisualModelId,
+  cell: Cell,
+  rotation?: ExploreVisualRotation,
+): ExploreVisualPlacement {
   return { id, model, cell, footprint: [cell], visibility: 'exterior', ...(rotation ? { rotation } : {}) };
 }
 
@@ -53,12 +63,12 @@ function inRoom(id: string, model: ExploreVisualModelId, cell: Cell, roomId: str
   return { id, model, cell, footprint: [cell], roomId };
 }
 
-/** Conduite au plafond sur quatre cases, est-ouest (rotation 0) ou nord-sud (90). */
+/** Conduite murale sur quatre cases ; rotation 90 longe un mur latéral du conduit. */
 function pipe(id: string, from: Cell, rotation: 0 | 90): ExploreVisualPlacement {
   const footprint = Array.from({ length: 4 }, (_, i) =>
     rotation === 0 ? { x: from.x + i, y: from.y } : { x: from.x, y: from.y + i },
   );
-  return { id, model: 'pipe-run', cell: from, footprint, rotation, visibility: 'exterior' };
+  return { id, model: 'conduit-wall-run', cell: from, footprint, rotation, visibility: 'exterior' };
 }
 
 export const CONDUITS_VISUALS: ExploreVisualMapDef = {
@@ -66,8 +76,8 @@ export const CONDUITS_VISUALS: ExploreVisualMapDef = {
   placements: [
     /* -- Les conduits : du noir, et de loin en loin une ampoule ---------------------------- */
     pipe('conduits.conduite-bouche', { x: 16, y: 19 }, 90),
-    inDuct('conduits.lampe-bouche', 'duct-lamp', { x: 16, y: 17 }),
-    inDuct('conduits.lampe-bifurcation', 'duct-lamp', { x: 16, y: 12 }),
+    inDuct('conduits.lampe-bouche', 'duct-lamp', { x: 16, y: 17 }, 90),
+    inDuct('conduits.lampe-bifurcation', 'duct-lamp', { x: 16, y: 12 }, 90),
     pipe('conduits.conduite-annexe', { x: 9, y: 13 }, 0),
     inDuct('conduits.poussiere-annexe', 'blue-dust', { x: 12, y: 13 }),
     inDuct('conduits.poussiere-nord', 'blue-dust', { x: 8, y: 10 }),
@@ -77,12 +87,15 @@ export const CONDUITS_VISUALS: ExploreVisualMapDef = {
     // Le ventilateur, sur la case de sa porte (face au sud, d'où l'on arrive), et son boîtier au
     // mur ouest (face tournée vers l'est, vers le conduit et la caméra). Le boîtier porte
     // l'apparence de l'entité qui ouvre la porte.
-    inDuct('conduits.ventilateur', 'duct-fan', VENTILATEUR_CELL),
+    {
+      ...inDuct('conduits.ventilateur', 'duct-fan', VENTILATEUR_CELL),
+      doorStateId: 'conduits.ventilateur-pales',
+    },
     {
       ...inDuct('conduits.boitier', 'fan-control', COMMANDE_CELL, 270),
       entityId: 'conduits.ventilateur',
     },
-    inDuct('conduits.lampe-ventilateur', 'duct-lamp', { x: 24, y: 12 }),
+    inDuct('conduits.lampe-ventilateur', 'duct-lamp', { x: 24, y: 12 }, 90),
 
     /* -- Le labo de Smith : la machine, seule lumière -------------------------------------- */
     // Écran tourné vers le sud (l'entrée du labo, et la caméra).
@@ -97,7 +110,7 @@ export const CONDUITS_VISUALS: ExploreVisualMapDef = {
     solidOn('petits.lit-4', 'bed-cadet', CONDUITS_BLOCKS.lit4, 'petits'),
     solidOn('petits.casiers', 'locker-bank', CONDUITS_BLOCKS.casiers, 'petits'),
     inRoom('petits.affaires', 'locker-open', { x: 21, y: 6 }, 'petits'),
-    inRoom('petits.veilleuse', 'duct-lamp', { x: 25, y: 6 }, 'petits'),
+    inRoom('petits.veilleuse', 'duct-lamp', { x: 25, y: 2 }, 'petits'),
 
     /* -- La cantine en feu : rouge, chaude ------------------------------------------------- */
     solidOn('cantine.table-1', 'canteen-table', CONDUITS_BLOCKS.table1, 'cantine'),

@@ -10,8 +10,9 @@ import { CENTRE_EXAMEN_MAP } from '@/data/maps/centre-examen';
 import { YARD_MAP_ASCII } from '@/data/yard-map';
 import { getMap, MAPS } from '@/data/maps';
 import { hasDialogue, DIALOGUES } from '@/data/dialogues/registry';
-import { CH1_ETAPE_FLAG, CHAPTER_1_SCENES, createRunState, setFlag } from '@/narrative';
+import { CH1_ETAPE_FLAG, CHAPTER_1_SCENES, createRunState, DialogueRunner, setFlag } from '@/narrative';
 import { createDossier } from '@/core/dossier';
+import { createRng } from '@/core/rng';
 
 describe('carte du centre d’examen désaffecté', () => {
   it('est valide (voir la liste des erreurs en cas d’échec)', () => {
@@ -271,6 +272,92 @@ describe('la salle 1 se joue beat par beat (correctif du hall/des salles chaîn�
     const state = new ExploreState(CENTRE_EXAMEN_MAP, ctxAt('hall'));
     expect(state.isDoorOpen('hall.porte-nord')).toBe(false);
     expect(state.interact('hall.porte-nord').kind).toBe('door-locked');
+  });
+});
+
+describe('le détour facultatif de l’armoire en salle 2', () => {
+  function contextSalle2() {
+    return {
+      dossier: createDossier(),
+      run: setFlag(createRunState('armoire-salle2'), CH1_ETAPE_FLAG, 'salle2'),
+    };
+  }
+
+  function objectifSalle2() {
+    const objective = CHAPTER_1_SCENES.find((scene) => scene.id === 'ch1.salle2')?.objective;
+    if (!objective) throw new Error('scène « ch1.salle2 » introuvable');
+    return objective;
+  }
+
+  it('présente l’armoire comme interaction atteignable sans terminer l’étape', () => {
+    const state = new ExploreState(CENTRE_EXAMEN_MAP, contextSalle2(), { spawn: 'salle2' });
+    state.setObjective(objectifSalle2());
+    const cabinet = CENTRE_EXAMEN_MAP.entities.find((entity) => entity.id === 'salle2.armoire');
+    expect(cabinet).not.toHaveProperty('opensDoorAfterDialogue');
+
+    expect(state.listInteractables().find((item) => item.id === 'salle2.armoire')).toMatchObject({
+      type: 'object',
+      label: "Forcer l'armoire sécurisée",
+      reachable: true,
+    });
+    expect(state.requestInteract('salle2.armoire')).toEqual({ ok: true });
+
+    const events = [];
+    for (let tick = 0; tick < 40 && state.isMoving(); tick++) events.push(...state.tick(250));
+    expect(events.find((event) => event.kind === 'interaction-fired')).toMatchObject({
+      entityId: 'salle2.armoire',
+      outcome: { kind: 'dialogue', dialogueId: 'ch1.salle2', startNode: 'choix-armoire' },
+    });
+    expect(state.objectiveStatus()?.complete).toBe(false);
+    expect(state.isDoorOpen('salle2.porte-nord')).toBe(false);
+    expect(state.objectiveStatus()?.tasks).toContainEqual({
+      id: 'ch1.salle2.armoire',
+      label: "examiner l'armoire pour récupérer un second taser",
+      count: 1,
+      target: 1,
+      done: true,
+    });
+  });
+
+  it('réserve l’ouverture et la fin de l’étape au beat de la porte nord', () => {
+    const state = new ExploreState(CENTRE_EXAMEN_MAP, contextSalle2(), { spawn: 'salle2' });
+    state.setObjective(objectifSalle2());
+    const door = CENTRE_EXAMEN_MAP.entities.find((entity) => entity.id === 'salle2.porte-nord');
+    expect(door).toMatchObject({
+      type: 'door',
+      locked: true,
+      dialogueId: 'ch1.salle2',
+      startNode: 'porte',
+    });
+
+    expect(state.interact('salle2.porte-nord')).toMatchObject({
+      kind: 'dialogue',
+      dialogueId: 'ch1.salle2',
+      startNode: 'porte',
+    });
+    expect(state.objectiveStatus()?.complete).toBe(true);
+  });
+
+  it.each([
+    { cas: 'réussite', seed: 'armoire-4', choix: 0, nœud: 'armoire-ouverte', tempo: 2, taser: true, flag: true },
+    { cas: 'échec', seed: 'armoire-3', choix: 0, nœud: 'armoire-resistante', tempo: 2, taser: false, flag: false },
+    { cas: 'abandon', seed: 'armoire-ignore', choix: 1, nœud: 'armoire-ignoree', tempo: 0, taser: false, flag: false },
+  ])('$cas de l’armoire résout son beat sans ouvrir celui de la porte', ({ seed, choix, nœud, tempo, taser, flag }) => {
+    const file = DIALOGUES['ch1.salle2'];
+    if (!file) throw new Error('Dialogue ch1.salle2 introuvable');
+    const ctx = { dossier: createDossier(), run: createRunState(seed) };
+    const runner = new DialogueRunner(file, ctx, createRng(seed), { startNode: 'choix-armoire' });
+
+    expect(runner.current().nodeId).toBe('choix-armoire');
+    expect(runner.choose(choix).ok).toBe(true);
+    expect(runner.current().nodeId).toBe(nœud);
+    expect(runner.context.run.tempo).toBe(tempo);
+    expect(runner.context.run.teams.blue.extraTaser).toBe(taser);
+    expect(runner.context.run.flags['ch1.salle2.armoire-forcee']).toBe(flag ? true : undefined);
+
+    runner.advance();
+    expect(runner.finished).toBe(true);
+    expect(runner.current().nodeId).not.toBe('porte');
   });
 });
 

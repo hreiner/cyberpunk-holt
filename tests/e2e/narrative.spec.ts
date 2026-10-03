@@ -204,18 +204,20 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
   await page.evaluate(() => window.__game.advance());
   expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle2');
 
-  // Salle 2 : l'armoire d'abord (conversation annexe, "le choix couteux", n'avance pas le
-  // routeur), puis la porte nord (declencheur, deja "faite" -- avance sans rejouer).
+  // Salle 2 : le détour de l'armoire propose réellement le second taser, puis la porte
+  // joue son propre verrou. Le détour reste facultatif et ne termine pas l'étape.
   await page.evaluate(() => window.__game.interact('salle2.armoire'));
+  expect(await page.evaluate(() => window.__game.node()?.nodeId)).toBe('choix-armoire');
+  expect(await page.evaluate(() => window.__game.node()?.choices.map((choice) => choice.text)))
+    .toContain("[Piratage] Forcer le verrou de l'armoire sécurisée.");
   await traverseDialogue(page);
   await page.evaluate(() => window.__game.advance());
   expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle2'); // conversation annexe : pas d'avancee
-  // Le dialogue de l'armoire raconte l'ouverture de la porte : le passage doit déjà être
-  // physiquement libre avant le clic qui termine l'objectif.
-  await page.evaluate(() => window.__game.walkTo(26, 31));
-  expect((await page.evaluate(() => window.__game.explore()))?.leader).toEqual({ x: 26, y: 31 });
   await page.evaluate(() => window.__game.interact('salle2.porte-nord'));
-  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle3'); // deja "faite" via l'armoire -> avance directement
+  expect(await page.evaluate(() => window.__game.node()?.nodeId)).toBe('porte');
+  await traverseDialogue(page);
+  await page.evaluate(() => window.__game.advance());
+  expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle3');
 
   // Salle 3 : choisit explicitement de rester malgre le gaz (2e choix de "choix-rester")
   // pour garantir la video (`renseignement`), plutot que le 1er choix par defaut ("foncer").
@@ -265,7 +267,9 @@ test('le chapitre s enchaine reellement : intro, examen, affrontement', async ({
 
   /* --- 5. Jusqu'au proces-verbal : le combat termine, le poste "parcours interieur" du
    * bareme n'est plus a zero (defaut historique corrige par ce lot). --- */
-  await page.evaluate(() => window.__game.runToEnd());
+  await page.getByTestId('auto-resolve').click();
+  await expect(page.getByTestId('report-continue')).toBeVisible();
+  expect((await page.evaluate(() => window.__game.state())).phase).toBe('finished');
   const dossierAfterCombat = await page.evaluate(() => window.__game.dossier());
   expect(dossierAfterCombat.practicalScore).not.toBeNull();
   expect(dossierAfterCombat.practicalScore?.tags).toContain('renseignement');

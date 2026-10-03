@@ -35,22 +35,36 @@ aucune conversation à retrouver.
 
 ## Chapitres — concevoir la suite
 
-| Document                                                     | Contenu                                                                                    |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| [`chapters/README.md`](chapters/README.md)                   | **point d'entrée** : scénario → game design → design technique → lots ; lectures par phase |
-| [`chapters/CAPABILITIES.md`](chapters/CAPABILITIES.md)       | la palette : ce que le jeu sait faire, vu du concepteur, avec le coût d'un réemploi        |
-| [`chapters/CH1-LEGACY.md`](chapters/CH1-LEGACY.md)           | ce que le chapitre 1 transmet : état de l'histoire, dossier, mystères                      |
-| [`chapters/ENGINE-COUPLING.md`](chapters/ENGINE-COUPLING.md) | (phase 2) les endroits où le moteur suppose encore le chapitre 1                           |
-| [`chapters/_templates/`](chapters/_templates/)               | gabarits `GAME-DESIGN.md` et `TECH-DESIGN.md`                                              |
-| [`chapters/ch2/SCENARIO.md`](chapters/ch2/SCENARIO.md)       | le scénario du chapitre 2, à écrire par le propriétaire                                    |
-| [`chapters/ch2/VOICE-DESIGN.md`](chapters/ch2/VOICE-DESIGN.md) | casting, conduite et méthode pour poursuivre les voix du chapitre 2                     |
-| [`chapters/CH1-HALL-CINEMATIC.md`](chapters/CH1-HALL-CINEMATIC.md) | conduite, choix tactique et voix du briefing cinématique du chapitre 1 |
+| Document                                                           | Contenu                                                                                    |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| [`chapters/README.md`](chapters/README.md)                         | **point d'entrée** : scénario → game design → design technique → lots ; lectures par phase |
+| [`chapters/CAPABILITIES.md`](chapters/CAPABILITIES.md)             | la palette : ce que le jeu sait faire, vu du concepteur, avec le coût d'un réemploi        |
+| [`chapters/CH1-LEGACY.md`](chapters/CH1-LEGACY.md)                 | ce que le chapitre 1 transmet : état de l'histoire, dossier, mystères                      |
+| [`chapters/ENGINE-COUPLING.md`](chapters/ENGINE-COUPLING.md)       | (phase 2) les endroits où le moteur suppose encore le chapitre 1                           |
+| [`chapters/_templates/`](chapters/_templates/)                     | gabarits `GAME-DESIGN.md` et `TECH-DESIGN.md`                                              |
+| [`chapters/ch2/SCENARIO.md`](chapters/ch2/SCENARIO.md)             | le scénario du chapitre 2, à écrire par le propriétaire                                    |
+| [`chapters/ch2/VOICE-DESIGN.md`](chapters/ch2/VOICE-DESIGN.md)     | casting, conduite et méthode pour poursuivre les voix du chapitre 2                        |
+| [`chapters/CH1-HALL-CINEMATIC.md`](chapters/CH1-HALL-CINEMATIC.md) | conduite, choix tactique et voix du briefing cinématique du chapitre 1                     |
 
 ## Art
 
 Étude autonome du dortoir : [design et commandes](design/10-DORMITORY-AAA-STUDY.md),
 [ADR 0034](process/adr/0034-dortoir-etude-visuelle-autonome.md).
 Généralisation du décor : [périmètre et estimation](art/EXPLORATION-DECOR-ROLLOUT.md).
+Intégration du dortoir dans le chapitre : [plan d'exécution avec agents Luna](process/DORMITORY-AAA-INTEGRATION-PLAN.md).
+Résultat du jalon : [captures, mesures et vérifications](art/DORMITORY-AAA-INTEGRATION-REVIEW.md).
+Reprise demandée le 1er octobre : [rendu fidèle au pilote, ADR 0036](process/adr/0036-rendu-dortoir-fidele-au-pilote.md).
+Résultat de la reprise : [décor, perspective, captures et mesures](art/DORMITORY-AAA-FIDELITY-REVIEW.md).
+Suite demandée après validation : [plan de toute l'école, pièce par pièce](process/HOLT-AAA-ROLLOUT-PLAN.md).
+Socle du déploiement : [ADR 0037 — enveloppe et profils HOLT](process/adr/0037-enveloppe-et-profils-visuels-holt.md).
+Résultat de toute l'école : [revue finale, raccords, caméra et performances](art/HOLT-AAA-ROLLOUT-REVIEW.md).
+Extension à tous les autres lieux : [plan d'exécution](process/EXPLORATION-AAA-ROLLOUT-PLAN.md),
+[ADR 0038](process/adr/0038-profils-decor-toutes-explorations.md).
+Résultat des autres lieux et du hangar : [première livraison](art/EXPLORATION-AAA-ROLLOUT-REVIEW.md),
+puis [corrections après revue des images](art/EXPLORATION-AAA-VISUAL-FIXES.md).
+Reprise actuelle : [murs fixes, découverte et revue des 39 pièces](art/EXPLORATION-STATIC-WALLS-REVIEW.md).
+Interactions après la refonte : [anneaux, Zachary, armoire et résultat automatique](art/EXPLORATION-INTERACTION-REVIEW.md).
+Feuillage réemployé : [asset, prompt et provenance](art/HOLT-AAA-ASSETS.md).
 
 | Document                                                                       | Contenu                                                                                                         |
 | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
@@ -58,10 +72,10 @@ Généralisation du décor : [périmètre et estimation](art/EXPLORATION-DECOR-R
 | [`art/UI-DESIGN-SYSTEM.md`](art/UI-DESIGN-SYSTEM.md)                           | design system de l'interface HTML/CSS (« Encre rouge ») : jetons, typographie, formes, portraits, écrans        |
 | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md)                                   | de la référence au GLB dans le jeu, et comment remplacer les capsules                                           |
 | [`art/EXPLORATION-VISUAL-DESIGN.md`](art/EXPLORATION-VISUAL-DESIGN.md)         | design finalisé : exploration 3D picturale cyberpunk, nouveaux plans, personnages animés et critères de qualité |
-| [`art/ROOM-COMPOSITION.md`](art/ROOM-COMPOSITION.md)                           | audit de composition pièce par pièce : usage, ancre narrative, implantation du mobilier et circulation         |
-| [`art/DORMITORY-AA-PILOT-REVIEW.md`](art/DORMITORY-AA-PILOT-REVIEW.md)           | pilote autonome jouable du dortoir : comparaison visuelle, mesures, limites et réemploi proposé                 |
-| [`art/MIXAMO-PILOT.md`](art/MIXAMO-PILOT.md)                                     | essai d'un personnage Mixamo et d'une marche sur place, conversion Blender et critères visuels                  |
-| [`art/CHARACTER-PIPELINE-FINDINGS.md`](art/CHARACTER-PIPELINE-FINDINGS.md)       | pipeline personnages MPFB → Mixamo : recettes, pièges et limites pour créer un nouveau personnage                |
+| [`art/ROOM-COMPOSITION.md`](art/ROOM-COMPOSITION.md)                           | audit de composition pièce par pièce : usage, ancre narrative, implantation du mobilier et circulation          |
+| [`art/DORMITORY-AA-PILOT-REVIEW.md`](art/DORMITORY-AA-PILOT-REVIEW.md)         | pilote autonome jouable du dortoir : comparaison visuelle, mesures, limites et réemploi proposé                 |
+| [`art/MIXAMO-PILOT.md`](art/MIXAMO-PILOT.md)                                   | essai d'un personnage Mixamo et d'une marche sur place, conversion Blender et critères visuels                  |
+| [`art/CHARACTER-PIPELINE-FINDINGS.md`](art/CHARACTER-PIPELINE-FINDINGS.md)     | pipeline personnages MPFB → Mixamo : recettes, pièges et limites pour créer un nouveau personnage               |
 | [`art/REFERENCES.md`](art/REFERENCES.md)                                       | index et description des images de référence (`art/Reference_pictures/`)                                        |
 | [`art/image-generation/ORCHESTRATOR.md`](art/image-generation/ORCHESTRATOR.md) | production des illustrations : orchestrateur, bible de style, manifeste, fiches par image                       |
 
@@ -74,7 +88,7 @@ Généralisation du décor : [périmètre et estimation](art/EXPLORATION-DECOR-R
 | [`process/CONVENTIONS.md`](process/CONVENTIONS.md)                                             | style de code, nommage, commits, langue                                                                                 |
 | [`process/CINEMATIC-SCENES.md`](process/CINEMATIC-SCENES.md)                                   | méthode de production des cinématiques à plans fixes : conduite, médias, raccord, vérification                          |
 | [`process/EXPLORATION-VISUAL-ORCHESTRATION.md`](process/EXPLORATION-VISUAL-ORCHESTRATION.md)   | prompt prêt pour l'implémentation déléguée à des agents Terra, avec jalons et revue visuelle                            |
-| [`process/EXPLORATION-VISUAL-IMPLEMENTATION.md`](process/EXPLORATION-VISUAL-IMPLEMENTATION.md) | plan d'implémentation L0–L7, statut courant, critères de sortie et handoff pour le prochain agent |
+| [`process/EXPLORATION-VISUAL-IMPLEMENTATION.md`](process/EXPLORATION-VISUAL-IMPLEMENTATION.md) | plan d'implémentation L0–L7, statut courant, critères de sortie et handoff pour le prochain agent                       |
 | [`process/DORMITORY-AA-PILOT-ORCHESTRATION.md`](process/DORMITORY-AA-PILOT-ORCHESTRATION.md)   | pilote visuel autonome des dortoirs : Franklyn jouable, hausse de qualité des personnages et décors, preuves et mesures |
 | [`process/TESTING.md`](process/TESTING.md)                                                     | stratégie de test et quoi tester où                                                                                     |
 | [`process/DEBUG_API.md`](process/DEBUG_API.md)                                                 | contrat de `window.__game`                                                                                              |
@@ -82,38 +96,44 @@ Généralisation du décor : [périmètre et estimation](art/EXPLORATION-DECOR-R
 
 ## Décisions prises (ADR)
 
-| N°                                                                           | Décision                                                                                         |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| [0001](process/adr/0001-camera-isometrique.md)                               | Caméra isométrique 3/4 fixe                                                                      |
-| [0002](process/adr/0002-rng-deterministe.md)                                 | RNG seedé injecté partout                                                                        |
-| [0003](process/adr/0003-taser-sans-points-de-vie.md)                         | Le taser neutralise, il n'y a pas de points de vie en exercice                                   |
-| [0004](process/adr/0004-abstraction-rig.md)                                  | Les personnages passent par une abstraction `CharacterRig`                                       |
-| [0005](process/adr/0005-dialogues-json-maison.md)                            | Dialogues en JSON typé maison plutôt qu'Ink                                                      |
-| [0006](process/adr/0006-francais-en-dur.md)                                  | Français écrit en dur, pas d'i18n                                                                |
-| [0007](process/adr/0007-pas-de-physique-en-epic-1.md)                        | Pas de moteur physique tant que l'exploration n'existe pas                                       |
-| [0008](process/adr/0008-joueur-controle-trois-cadets.md)                     | Le joueur contrôle les trois cadets de son équipe                                                |
-| [0009](process/adr/0009-animation-des-deplacements-et-equipement-visible.md) | Déplacements animés côté rendu, matériel visible (équipe du joueur seulement)                    |
-| [0010](process/adr/0010-evenements-de-combat-et-bruitages-synthetises.md)    | Événements de combat pour le rendu (tirs, chutes), bruitages synthétisés                         |
-| [0011](process/adr/0011-moteur-narratif-etat-de-partie-et-radio.md)          | Moteur narratif : dossier / état de partie séparés, radio en couche parallèle, routeur de scènes |
-| [0012](process/adr/0012-examen-ecrit-jet-de-reflexion-et-mise-en-scene.md)   | Examen écrit : jet de réflexion, meilleure réponse et mise en scène du dé                        |
-| [0013](process/adr/0013-exploration-temps-reel-sur-grille.md)                | Exploration en temps réel sur la grille, sans moteur physique (remplace 0007)                    |
-| [0014](process/adr/0014-tirage-franklyn-capitaine-equipes-dynamiques.md)     | Le tirage : Franklyn capitaine, équipes composées par le joueur                                  |
-| [0015](process/adr/0015-concentration-chance-et-triche.md)                   | Concentration, Chance et triche à l'examen                                                       |
-| [0016](process/adr/0016-vue-tactique-ecran-separe.md)                        | Le passage au combat reste une coupure vers un écran tactique séparé                             |
-| [0017](process/adr/0017-habillage-exploration-declaratif.md)                 | Habillage d'exploration déclaratif, séparé du gameplay                                           |
-| [0018](process/adr/0018-lumieres-locales-luminaires-et-matieres-procedurales.md) | Lumières locales bon marché pour les luminaires, matières procédurales enrichies              |
-| [0019](process/adr/0019-matieres-photo-pour-les-sols-dexploration.md)           | Matières photo pour les sols d'exploration, réemployées par teinte                            |
-| [0020](process/adr/0020-pilote-dortoir-isole-et-options-art.md)                   | Pilote du dortoir isolé et options d'art de la vue                                             |
-| [0021](process/adr/0021-plusieurs-chapitres-chapterdef.md) | Plusieurs chapitres : `ChapterDef` et `RunState.chapter` |
-| [0022](process/adr/0022-dossier-entre-chapitres-archive-et-profils.md) | Le dossier entre deux chapitres : archive locale, suite directe, profils |
-| [0023](process/adr/0023-format-dialogue-decor-bruitage-tempo-locuteurs.md) | Format de dialogue : décor et bruitage par nœud, compteur borné, tempo, locuteurs |
-| [0024](process/adr/0024-exploration-fuite-zones-pression-suiveurs.md) | Exploration de fuite : zones à effets, pression, suiveurs déclarés, habillage par registre |
-| [0025](process/adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md) | Jauges d'état et bilan de chapitre déclarés en données |
-| [0026](process/adr/0026-habillage-exploration-par-etape.md) | Habillage d'exploration par étape |
-| [0027](process/adr/0027-couloirs-deduits-du-plan-murs-en-coupe.md) | Couloirs déduits du plan, murs en coupe |
-| [0028](process/adr/0028-variante-de-portrait-par-replique.md) | Variante de portrait par réplique |
-| [0029](process/adr/0029-montage-chronometre-du-slow.md) | Montage chronométré du slow et assets audio locaux |
-| [0030](process/adr/0030-voix-anglaises-sous-titres-francais-bal.md) | Voix anglaises et sous-titres français pour le bal |
-| [0031](process/adr/0031-voix-cinematique-zachary.md) | Voix de la cinématique de Zachary et mix adaptatif |
-| [0032](process/adr/0032-briefing-cinematique-et-choix-du-taser.md) | Briefing cinématique et vrai choix du porteur de taser |
-| [0033](process/adr/0033-chance-reserve-unique.md) | Une seule réserve de Chance pour toute la partie |
+| N°                                                                               | Décision                                                                                         |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [0001](process/adr/0001-camera-isometrique.md)                                   | Caméra isométrique 3/4 fixe                                                                      |
+| [0002](process/adr/0002-rng-deterministe.md)                                     | RNG seedé injecté partout                                                                        |
+| [0003](process/adr/0003-taser-sans-points-de-vie.md)                             | Le taser neutralise, il n'y a pas de points de vie en exercice                                   |
+| [0004](process/adr/0004-abstraction-rig.md)                                      | Les personnages passent par une abstraction `CharacterRig`                                       |
+| [0005](process/adr/0005-dialogues-json-maison.md)                                | Dialogues en JSON typé maison plutôt qu'Ink                                                      |
+| [0006](process/adr/0006-francais-en-dur.md)                                      | Français écrit en dur, pas d'i18n                                                                |
+| [0007](process/adr/0007-pas-de-physique-en-epic-1.md)                            | Pas de moteur physique tant que l'exploration n'existe pas                                       |
+| [0008](process/adr/0008-joueur-controle-trois-cadets.md)                         | Le joueur contrôle les trois cadets de son équipe                                                |
+| [0009](process/adr/0009-animation-des-deplacements-et-equipement-visible.md)     | Déplacements animés côté rendu, matériel visible (équipe du joueur seulement)                    |
+| [0010](process/adr/0010-evenements-de-combat-et-bruitages-synthetises.md)        | Événements de combat pour le rendu (tirs, chutes), bruitages synthétisés                         |
+| [0011](process/adr/0011-moteur-narratif-etat-de-partie-et-radio.md)              | Moteur narratif : dossier / état de partie séparés, radio en couche parallèle, routeur de scènes |
+| [0012](process/adr/0012-examen-ecrit-jet-de-reflexion-et-mise-en-scene.md)       | Examen écrit : jet de réflexion, meilleure réponse et mise en scène du dé                        |
+| [0013](process/adr/0013-exploration-temps-reel-sur-grille.md)                    | Exploration en temps réel sur la grille, sans moteur physique (remplace 0007)                    |
+| [0014](process/adr/0014-tirage-franklyn-capitaine-equipes-dynamiques.md)         | Le tirage : Franklyn capitaine, équipes composées par le joueur                                  |
+| [0015](process/adr/0015-concentration-chance-et-triche.md)                       | Concentration, Chance et triche à l'examen                                                       |
+| [0016](process/adr/0016-vue-tactique-ecran-separe.md)                            | Le passage au combat reste une coupure vers un écran tactique séparé                             |
+| [0017](process/adr/0017-habillage-exploration-declaratif.md)                     | Habillage d'exploration déclaratif, séparé du gameplay                                           |
+| [0018](process/adr/0018-lumieres-locales-luminaires-et-matieres-procedurales.md) | Lumières locales bon marché pour les luminaires, matières procédurales enrichies                 |
+| [0019](process/adr/0019-matieres-photo-pour-les-sols-dexploration.md)            | Matières photo pour les sols d'exploration, réemployées par teinte                               |
+| [0020](process/adr/0020-pilote-dortoir-isole-et-options-art.md)                  | Pilote du dortoir isolé et options d'art de la vue                                               |
+| [0021](process/adr/0021-plusieurs-chapitres-chapterdef.md)                       | Plusieurs chapitres : `ChapterDef` et `RunState.chapter`                                         |
+| [0022](process/adr/0022-dossier-entre-chapitres-archive-et-profils.md)           | Le dossier entre deux chapitres : archive locale, suite directe, profils                         |
+| [0023](process/adr/0023-format-dialogue-decor-bruitage-tempo-locuteurs.md)       | Format de dialogue : décor et bruitage par nœud, compteur borné, tempo, locuteurs                |
+| [0024](process/adr/0024-exploration-fuite-zones-pression-suiveurs.md)            | Exploration de fuite : zones à effets, pression, suiveurs déclarés, habillage par registre       |
+| [0025](process/adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md)               | Jauges d'état et bilan de chapitre déclarés en données                                           |
+| [0026](process/adr/0026-habillage-exploration-par-etape.md)                      | Habillage d'exploration par étape                                                                |
+| [0027](process/adr/0027-couloirs-deduits-du-plan-murs-en-coupe.md)               | Couloirs déduits du plan, murs en coupe                                                          |
+| [0028](process/adr/0028-variante-de-portrait-par-replique.md)                    | Variante de portrait par réplique                                                                |
+| [0029](process/adr/0029-montage-chronometre-du-slow.md)                          | Montage chronométré du slow et assets audio locaux                                               |
+| [0030](process/adr/0030-voix-anglaises-sous-titres-francais-bal.md)              | Voix anglaises et sous-titres français pour le bal                                               |
+| [0031](process/adr/0031-voix-cinematique-zachary.md)                             | Voix de la cinématique de Zachary et mix adaptatif                                               |
+| [0032](process/adr/0032-briefing-cinematique-et-choix-du-taser.md)               | Briefing cinématique et vrai choix du porteur de taser                                           |
+| [0033](process/adr/0033-chance-reserve-unique.md)                                | Une seule réserve de Chance pour toute la partie                                                 |
+| [0034](process/adr/0034-dortoir-etude-visuelle-autonome.md)                      | Étude visuelle autonome du dortoir                                                               |
+| [0035](process/adr/0035-decor-dortoir-integre.md)                                | Réemploi du décor du dortoir dans l'exploration, sans personnages                                |
+| [0036](process/adr/0036-rendu-dortoir-fidele-au-pilote.md)                       | Reprise des murs, lumières et reflets du dortoir réel vers la qualité du pilote                  |
+| [0037](process/adr/0037-enveloppe-et-profils-visuels-holt.md)                    | Enveloppe complète et profils de rendu de l'académie HOLT                                        |
+| [0038](process/adr/0038-profils-decor-toutes-explorations.md)                    | Profils de décor communs aux cinq cartes d’exploration et reprise du hangar                      |
+| [0039](process/adr/0039-murs-exploration-entiers.md)                             | Murs entiers à hauteur fixe ; la découverte ne révèle que les contenus                           |

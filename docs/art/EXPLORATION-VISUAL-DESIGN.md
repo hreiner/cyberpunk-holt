@@ -10,6 +10,30 @@ Plan de réalisation :
 Orchestration :
 [`../process/EXPLORATION-VISUAL-ORCHESTRATION.md`](../process/EXPLORATION-VISUAL-ORCHESTRATION.md).
 
+Le 30 septembre 2026, le décor de l'étude AAA du dortoir est intégré dans HOLT et
+HOLT-nuit ([ADR 0035](../process/adr/0035-decor-dortoir-integre.md)). Ce jalon conserve
+le plan et la caméra du chapitre : huit superposés, casiers et bancs détaillés,
+béton gris, acier bleu ardoise, baies hautes sur la façade est et lumières locales.
+La cible du propriétaire pour cette intégration est **30 ips à 1080p sur GTX 1070**,
+soit p95 ≤ 33,3 ms. Les seuils de départ ci-dessous restent des repères pour les
+autres lots ; les personnages font l'objet d'un travail séparé. La qualité et les
+mesures réelles figurent dans [la revue d'intégration](DORMITORY-AAA-INTEGRATION-REVIEW.md).
+
+Le 1er octobre 2026, le propriétaire demande une reprise complète de cette intégration,
+jugée trop éloignée du pilote sur les murs, la lumière et les reflets. L'objectif devient
+de retrouver ces qualités dans la scène jouable, en employant la marge de la cible
+30 ips : [ADR 0036](../process/adr/0036-rendu-dortoir-fidele-au-pilote.md).
+La coque, la perspective et les effets effectivement intégrés sont décrits dans
+[la revue du 1er octobre](DORMITORY-AAA-FIDELITY-REVIEW.md).
+
+Le 2 octobre 2026, cette direction est étendue aux onze pièces et trois couloirs
+HOLT/HOLT-nuit : murs, sols, portes thématiques, mobilier, fenêtres et profils de
+lumière. La reprise finale abaisse les cloisons intérieures à 2,45 m, ferme leurs
+raccords et relève la perspective à environ 40° pour lire le plan dès le départ.
+[Revue et mesures finales](HOLT-AAA-ROLLOUT-REVIEW.md),
+[ADR 0037](../process/adr/0037-enveloppe-et-profils-visuels-holt.md).
+Les autres cartes et les personnages restent des travaux séparés.
+
 ## 1. Le résultat recherché
 
 **Une académie de béton clair, dessinée par la lumière du désert, que l'on explore comme
@@ -360,3 +384,34 @@ aucun mobilier traversé, interface lisible à 720p, aucun crash ni ressource ou
 
 Hors périmètre : nouveau moteur, combat fusionné avec l'exploration, refonte des règles,
 nouveau système de quêtes, réécriture du chapitre, refonte générale du HUD, production audio.
+
+## Extension des décors validés — 2 octobre 2026
+
+Le registre de profils s'étend aux cinq cartes d'exploration existantes : HOLT, HOLT-nuit,
+centre-examen, conduits et campement ([ADR 0038](../process/adr/0038-profils-decor-toutes-explorations.md)).
+Le centre, les souterrains et le campement réemploient les matières, la perspective plongeante,
+les lumières et la gestion des ressources du dortoir, avec une composition propre à chaque pièce.
+Le hangar HOLT reçoit une seconde passe de paroi et de véhicules. La cour garde les mêmes couverts
+et leurs emprises pendant la transition vers la vue tactique ; les ferrures et sangles sont partagées
+entre les deux vues. Les personnages restent un chantier distinct.
+
+Les extrémités de murs sont rognées à la rencontre du plan perpendiculaire, sans déplacer les centres
+canoniques : cela ferme les raccords et supprime les croisillons des chaperons aux angles. Les accessoires
+suivent la longueur et la coupe réelle du tronçon. Les modèles déclarés `wall` longent des cellules
+murales ou leurs voisines immédiates, y compris au-dessus d'un meuble déjà posé : ils ne deviennent
+ni plafond ni nouvelle collision. Un test global conserve la contrainte d'emprise honnête.
+
+Les grandes lames de feu opaques deviennent deux ou trois quads transparents avec un shader animé,
+sans nouvelle lumière ni nouvelle ombre. La factory possède leurs géométries et matériaux ; le tick
+du décor met à jour leur temps. Les souterrains gardent des reflets petits et localisés ; cour et campement
+restent mats. Les flammes, les éclairages et les meubles d'une pièce cachée restent invisibles.
+
+## Corrections visuelles transversales
+
+L'occultation prend en compte les jambes et le torse du meneur ainsi que les suiveurs visibles,
+en tenant compte des ouvertures et des allèges des fenêtres. Les chaperons de mur sont mats et moins dominants ; les
+ambiances nocturnes gardent des silhouettes et des matières lisibles. Les tentes du campement
+ont leur pignon fermé, et les fourgons ont un pare-brise dégagé de leur carrosserie et un vitrage fumé réfléchissant.
+
+L’habillage retire deux héritages suspendus du dortoir — la réglette lumineuse et le conduit de
+ventilation — et déplace la veilleuse du dortoir des petits de 25,6 à 25,2. La veilleuse est déclarée murale dans le catalogue et posée à 2,22 m, sous le chaperon.

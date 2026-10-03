@@ -94,29 +94,36 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
 
 - **Usage** : l'alimentation et l'air de toute l'aile ; ça bourdonne.
 - **Coup d'œil** : les deux transformateurs, côte à côte — le bruit vient d'un seul endroit.
-- **Espace** : transformateurs **groupés contre le mur ouest** ; établi de maintenance au
-  mur sud, **sous la gaine qu'il dessert** ; conduite et balise au plafond de l'allée.
+- **Espace** : transformateurs **groupés contre le mur ouest** ; établi électrique détaillé
+  au sud. Les conduites de puissance et d'air longent les cloisons dans deux chemins de câble
+  à hauteur lisible ; l'allée centrale reste dégagée, sans gaine ni balise suspendue. Une baie
+  étroite au sud donne sur les Badlands.
 
 ### Couloirs (ouest, est, ceinture)
 
 - **Usage** : relier, et montrer le contrôle institutionnel.
 - **Coup d'œil** : la porte condamnée de la seconde génération `(0,25)`, la seule anomalie
   d'un couloir par ailleurs répétitif.
-- **Espace** : rien au sol. Les couloirs ne sont pas des `RoomDef` : un placement qui y
-  vivrait devrait être déclaré `visibility: 'exterior'` (toujours visible), ce qui est
-  cohérent avec « les couloirs ne se découvrent pas » (08-EXPLORATION). Ils restent nus
-  pour l'instant — c'est un manque assumé, pas un oubli.
+- **Espace** : rien au sol. Les couloirs ne sont pas des `RoomDef` et restent toujours
+  visibles. À l'ouest, trois baies étroites cadrent les Badlands ; les appliques et chemins
+  techniques suivent les cloisons. Les plaques « ADMINISTRATION » et « ACCÈS INTERDIT »
+  repèrent les deux portes sans encombrer la traversée.
 
 ### Dortoirs — `dortoirs`
 
 - **Usage** : où dorment les 13-17 ans ; Franklyn s'y réveille.
 - **Coup d'œil** : son lit (on y apparaît), puis son casier, puis l'allée vers le sud.
 - **Espace** : « lits en rangées ouest et est, pièce commune au centre » (09-MAPS). Quatre
-  lits **tête au mur ouest**, quatre **tête au mur est**, deux bancs de casiers adossés au
+  lits **superposés tête au mur ouest**, quatre **superposés tête au mur est**, deux bancs de casiers adossés au
   mur nord au-dessus de la pièce commune, bancs et sas de contrôle au mur sud. Le centre
   (`x33-43`) est vide : on s'y habille, on s'y croise, et l'allée vers les deux sorties
   sud est franche. La porte du couloir de ceinture `(25,7)` tombe dans le trou laissé
   exprès entre les deux lits ouest.
+- **Matières et détails** : réemploi du décor de l'étude AAA (ADR 0035), sur les huit
+  emprises existantes : cadres tubulaires, literie plissée, rangées de casiers bleus,
+  affaires sous les lits, béton et lumière des Badlands. Le mur ouest est celui du
+  couloir ; les fenêtres décoratives suivent les façades réelles. La variante de nuit
+  garde ce mobilier et sa découverte propre, avec un casier décoratif sans interaction.
 
 ### Cour intérieure — `cour-interieure`
 
@@ -153,9 +160,14 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
 ### Garage — `garage`
 
 - **Usage** : le garage des fourgons ; c'est par là qu'on part au centre d'examen.
-- **Coup d'œil** : le fourgon prêt au départ, et les chevrons vers la porte nord.
+- **Coup d'œil** : le fourgon prêt au départ, les chevrons vers la porte nord et une ligne d'appliques industrielles qui guide l'allée.
 - **Espace** : les deux fourgons garés **le long des murs ouest et est**, nez au nord,
-  allée centrale libre du seuil jusqu'aux portières ; établi et fûts au fond nord.
+  allée centrale libre du seuil jusqu'aux portières ; établi et fûts au fond nord. Les
+  parois en tôle ondulée portent des montants d'acier espacés, un canal de câbles horizontal,
+  un rail anti-choc bas avec ses petites ferrures et de longues appliques murales ; les angles
+  exposés peuvent recevoir une protection en laiton jauni. Tous ces détails restent plaqués aux
+  vrais murs, s'interrompent aux fenêtres et passages et suivent leur coupe. Aucun plafond,
+  traverse ou luminaire suspendu ne passe au-dessus de l'allée.
 
 ---
 
@@ -167,8 +179,11 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
 - **Coup d'œil** : la façade et sa porte, au nord, au bout d'un marquage au sol.
 - **Espace** : le fourgon garé **sur le côté est**, pas au milieu de l'aire de manœuvre ;
   fûts et caisses dans les angles ouest ; deux barrières de chantier qui encadrent le
-  chemin ; pylône de signalisation à l'angle nord-est. Le centre est vide — c'est une aire
-  de manœuvre, son vide est son usage — et le marquage mène droit à la porte.
+  chemin ; pylône de signalisation à l'angle nord-est. Le fourgon porte une livrée passée,
+  des vitres et ferrures ternies : ce n'est plus le véhicule d'intervention entretenu de
+  l'académie. Le centre est vide — c'est une aire de manœuvre, son vide est son usage — et
+  le marquage usé mène droit à la porte ; la réglette reste plaquée à la façade, sans
+  portique au-dessus de l'approche.
 
 ### Hall d'entrée — `hall`
 
@@ -179,7 +194,9 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
   salle 1 ; caisses dans l'angle sud-ouest. Le centre est vide et marqué : les deux bancs
   le regardent, l'instructeur s'y tient. Circulation directe du sas sud au centre, puis à
   la porte nord — que la **balise d'objectif** désigne, les chevrons peints n'étant qu'une
-  redite (voir « Moins d'accessoires » plus bas).
+  redite (voir « Moins d'accessoires » plus bas). Les bancs sont en lames d'acier usées ;
+  le marquage ne luit pas et la réglette est une applique latérale. Aucun portique ne barre
+  la vue au-dessus de l'instructeur.
 
 ### Salle 1 — la porte et le chien — `salle1`
 
@@ -193,6 +210,8 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
   sécurité. Le mur nord reste **nu** : la salle 1 est la salle du chien, pas une réserve
   de plus. Le centre reste vide ; la traversée est **oblique**, du seuil sud-est au seuil
   nord-ouest, ce qui donne la vue en biais que le design demande sans cacher les sorties.
+  Le poste de sécurité garde ses écrans éteints et ses tiroirs ouverts ; les réglettes et la
+  conduite passent contre les côtés, jamais au-dessus du chien ni des deux seuils.
 
 ### Salle 2 — le choix coûteux — `salle2`
 
@@ -202,7 +221,9 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
 - **Espace** : l'armoire occupe le mur ouest à elle seule, avec ses caisses au sud ; tout
   le reste du matériel est aligné au mur est (deux cages). Le centre est traversé en
   diagonale du seuil sud-ouest au seuil nord-est. La composition pose le choix : l'armoire
-  d'un côté, la porte de l'autre, rien entre les deux.
+  d'un côté, la porte de l'autre, rien entre les deux. L'armoire longue porte ses propres
+  renforts, charnières et commande mécanique ; les cages sont grillagées et patinées, avec
+  leurs ferrures visibles. Deux appliques en bord de pièce éclairent le détour sans plafond.
 
 ### Salle 3 — le gaz et la vidéo — `salle3`
 
@@ -211,10 +232,11 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
 - **Coup d'œil** : l'îlot de supervision au centre, puis la sortie nord dans son axe.
 - **Espace** : **seule pièce du centre où le centre est occupé**, et c'est justifié : une
   salle de contrôle a sa console au milieu (09-MAPS le dit explicitement, « ordinateur au
-  centre »). Autour, du vide. La gaine éventrée est **au-dessus du chemin vers la sortie**,
-  avec la zone hachurée sous elle : on comprend d'où vient le gaz et où il faut aller du
-  même coup d'œil. Bouteilles sous pression au mur nord, banque de filtration au mur ouest,
-  trémie et fûts dans les angles est.
+  centre »). Autour, du vide. La gaine éventrée, sa conduite et la réglette suivent les
+  murs latéraux ; rien ne traverse le chemin ni ne pend au plafond. La zone hachurée reste
+  au sol, devant la sortie nord : on lit le danger sans perdre la vue sur l'issue. Bouteilles
+  sous pression au mur nord, banque de filtration au mur ouest, trémie et fûts dans les
+  angles est. La balise d'urgence reste fixée au mur ouest.
 
 ### Cour de containers — `cour`
 
@@ -223,8 +245,8 @@ note pour chaque modèle ce que le joueur doit y reconnaître.
 - **Espace** : **intouchable**. La cour est l'empreinte de [`yard-map.ts`](../../src/data/yard-map.ts)
   recopiée case pour case, et le test de correspondance de
   [`centreExamenMap.test.ts`](../../tests/unit/centreExamenMap.test.ts) en dépend. Le seul
-  habillage admis y est **plat ou suspendu** — un portique au-dessus du portail — parce
-  qu'il ne touche aucune case de collision.
+  habillage admis y est **plat** : un marquage usé accompagne le portail sans ajouter de
+  volume, modifier une collision ni barrer la vue sur la cour.
 
 ---
 
@@ -241,6 +263,34 @@ Même chose pour la signalétique. Depuis que l'entité qui fait avancer l'étap
 posés dans chaque pièce ne disaient rien de plus qu'elle et lui faisaient concurrence : ils
 sont retirés, sauf là où la fiction les demande (le gyrophare de la salle 3, que le gaz
 justifie). **Un seul signal rouge à l'écran**, et c'est celui qui compte.
+
+---
+
+## Cartes du chapitre 2
+
+### Conduits et cantine des petits — `conduits`
+
+- **Usage** : traversée d'un conduit technique jusqu'au dortoir, au laboratoire et à la cantine
+  en feu.
+- **Coup d'œil** : la file étroite, les pales qui barrent le passage, puis la lumière cyan du
+  laboratoire ou le brasier rouge de la cantine selon l'étape.
+- **Espace** : les conduites suivent les parois des tronçons et les ampoules sont fixées aux
+  murs, avec leur lumière faible sur le passage. Rien ne pend au plafond bas. Le labo garde sa
+  machine seule dans la pénombre ; lits et casiers restent lisibles dans le dortoir. Les tables
+  et le comptoir de la cantine gardent l'allée centrale ouverte entre les deux foyers. Les pales
+  et le cadre restent visibles comme un obstacle quand elles sont fermées ; le groupe des pales
+  disparaît à l'ouverture de la porte.
+
+### Campement des Scorpions — `campement`
+
+- **Usage** : une halte improvisée dans les ruines, avant le dialogue avec Murano.
+- **Coup d'œil** : le feu bas au centre ; derrière, les deux tentes au nord-ouest et le vieux
+  camion de Murano au nord-est.
+- **Espace** : les emprises de la carte restent intactes. Les tentes en bâche ont des réparations
+  visibles et leurs haubans restent dans leur empreinte ; le camion garde une cabine vitrée,
+  des roues et des tôles cabossées plutôt qu'une masse abstraite. Caisses à l'est et fûts au
+  sud-ouest cadrent la cour sans empiéter sur l'entrée ni sur Murano. Le feu est la seule source
+  chaude, basse et contenue, dans le grand vide du camp.
 
 ---
 

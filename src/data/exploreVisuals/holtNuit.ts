@@ -106,18 +106,25 @@ function buffetTable(cell: Cell, rotation: ExploreVisualPlacement['rotation']): 
   };
 }
 
-/**
- * Guirlande de lampions, suspendue au-dessus de la piste (`overhead`, aucune case bloquée --
- * posée sur une rangée ENTIÈREMENT franchissable de l'ancienne grille, jamais les rangées de
- * pupitres elles-mêmes qui alternaient case bloquante/franchissable avant `deriveNightAscii`).
- */
-function stringLights(id: string, x: number, y: number, rotation: ExploreVisualPlacement['rotation']): ExploreVisualPlacement {
+/** Guirlande fixée en hauteur contre un mur plein, empreinte orientée le long de la paroi. */
+function stringLights(
+  id: string,
+  x: number,
+  y: number,
+  rotation: ExploreVisualPlacement['rotation'],
+  offset: NonNullable<ExploreVisualPlacement['offset']>,
+): ExploreVisualPlacement {
+  const vertical = rotation === 90 || rotation === 270;
+  const footprint = vertical
+    ? [{ x, y }, { x, y: y + 1 }, { x, y: y + 2 }]
+    : [{ x, y }, { x: x + 1, y }, { x: x + 2, y }];
   return {
     id,
     model: 'party-string-lights',
-    cell: { x: x + 1, y },
-    footprint: [{ x, y }, { x: x + 1, y }, { x: x + 2, y }],
+    cell: vertical ? { x, y: y + 1 } : { x: x + 1, y },
+    footprint,
     rotation,
+    offset,
     roomId: 'salles-entrainement',
     etape: 'bal',
   };
@@ -175,13 +182,11 @@ const BAL_PLACEMENTS: ExploreVisualPlacement[] = [
     etape: 'bal',
   },
   ...BUFFET_CELLS.map((cell) => buffetTable(cell, cell.x === 30 ? 90 : 270)),
-  // Guirlandes de lampions : deux au-dessus des rangées voisines (36/40), deux de plus
-  // directement au-dessus de la piste (38, rangée du milieu) -- "plus de guirlandes visibles"
-  // et un repère lumineux net sur la piste elle-même (revue du 2026-09-26).
-  stringLights('bal.guirlande-nord', 33, 36, 0),
-  stringLights('bal.guirlande-sud', 33, 40, 0),
-  stringLights('bal.guirlande-piste-ouest', 31, DANCE_FLOOR_ROW, 0),
-  stringLights('bal.guirlande-piste-est', 38, DANCE_FLOOR_ROW, 0),
+  // Quatre guirlandes murales, hors de l'axe de la piste et sans bande suspendue au-dessus des cadets.
+  stringLights('bal.guirlande-nord', 34, 33, 0, { x: 0, y: 0, z: -0.42 }),
+  stringLights('bal.guirlande-sud', 30, 49, 0, { x: 0, y: 0, z: 0.42 }),
+  stringLights('bal.guirlande-piste-ouest', 26, 34, 90, { x: -0.42, y: 0, z: 0 }),
+  stringLights('bal.guirlande-piste-est', 46, 33, 0, { x: 0, y: 0, z: -0.42 }),
 ];
 
 const FUITE_PLACEMENTS: ExploreVisualPlacement[] = [

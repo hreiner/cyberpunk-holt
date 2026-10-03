@@ -55,8 +55,16 @@ export const DORMITORY_PILOT_MAP: MapDef = {
 
 function translate(placement: ExploreVisualPlacement): ExploreVisualPlacement {
   const move = (cell: { x: number; y: number }) => ({ x: cell.x - OFFSET_X, y: cell.y });
+  // This earlier visual study keeps its original kit even when the chapter's
+  // dormitory receives the AAA models. Its custom factory and baseline expect these IDs.
+  const legacyModels: Partial<Record<ExploreVisualPlacement['model'], ExploreVisualPlacement['model']>> = {
+    'dormitory-bunk': 'bed-cadet',
+    'dormitory-locker-bank': 'locker-bank',
+    'dormitory-bench': 'waiting-bench',
+  };
   return {
     ...placement,
+    model: legacyModels[placement.model] ?? placement.model,
     cell: move(placement.cell),
     footprint: placement.footprint?.map(move),
     replaces: placement.replaces?.map(move),

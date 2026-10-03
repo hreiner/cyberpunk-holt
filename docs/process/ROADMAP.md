@@ -13,20 +13,20 @@ contenu narratif sur un moteur déjà stable.
 **État : clos.** Le jeu démarre, l'affrontement final se joue de bout en bout, une note
 est calculée. Déplacements animés, matériel lisible, retours visuels et sonores du tir.
 
-| Lot | Contenu | État |
-|---|---|---|
-| 1.1 | Projet : Vite, TypeScript strict, ESLint, Prettier, structure | fait |
-| 1.2 | RNG déterministe, moteur de dés CPRED-lite, fiches en JSON | fait |
-| 1.3 | Dossier du candidat, sauvegarde tolérante aux pannes | fait |
-| 1.4 | Grille, ligne de vue, couvert, recherche de chemin | fait |
-| 1.5 | Moteur de combat : initiative, actions, taser, mine, soins | fait |
-| 1.6 | IA de l'équipe adverse | fait |
-| 1.7 | Barème de l'examen pratique | fait |
-| 1.8 | Rendu isométrique, décor procédural, rigs de remplacement | fait |
-| 1.9 | HUD : bandeau, ordre d'initiative, fiche, actions, journal de dés | fait |
-| 1.10 | API `window.__game`, tests unitaires et e2e, simulateur d'équilibrage | fait |
+| Lot  | Contenu                                                                                                                                           | État |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| 1.1  | Projet : Vite, TypeScript strict, ESLint, Prettier, structure                                                                                     | fait |
+| 1.2  | RNG déterministe, moteur de dés CPRED-lite, fiches en JSON                                                                                        | fait |
+| 1.3  | Dossier du candidat, sauvegarde tolérante aux pannes                                                                                              | fait |
+| 1.4  | Grille, ligne de vue, couvert, recherche de chemin                                                                                                | fait |
+| 1.5  | Moteur de combat : initiative, actions, taser, mine, soins                                                                                        | fait |
+| 1.6  | IA de l'équipe adverse                                                                                                                            | fait |
+| 1.7  | Barème de l'examen pratique                                                                                                                       | fait |
+| 1.8  | Rendu isométrique, décor procédural, rigs de remplacement                                                                                         | fait |
+| 1.9  | HUD : bandeau, ordre d'initiative, fiche, actions, journal de dés                                                                                 | fait |
+| 1.10 | API `window.__game`, tests unitaires et e2e, simulateur d'équilibrage                                                                             | fait |
 | 1.11 | Déplacements animés, matériel visible, silhouettes derrière les décors ([ADR 0009](adr/0009-animation-des-deplacements-et-equipement-visible.md)) | fait |
-| 1.12 | Retours du tir (trait, impact, chute) et bruitages ([ADR 0010](adr/0010-evenements-de-combat-et-bruitages-synthetises.md)) | fait |
+| 1.12 | Retours du tir (trait, impact, chute) et bruitages ([ADR 0010](adr/0010-evenements-de-combat-et-bruitages-synthetises.md))                        | fait |
 
 ### Clôture de l'epic 1
 
@@ -48,19 +48,19 @@ Reportés, sans bloquer la clôture :
 `npm run verify` est vert. Spécifications complètes dans
 [`../design/03-CHAPTER-1.md`](../design/03-CHAPTER-1.md).
 
-| Lot | Contenu | État |
-|---|---|---|
-| 2.1 | Routeur de scènes : enchaîner les scènes, passer l'état, sauvegarder entre elles | fait |
-| 2.2 | Moteur de dialogue selon [`07-DIALOGUE-FORMAT.md`](../design/07-DIALOGUE-FORMAT.md), plus l'interface associée | fait |
-| 2.3 | Scènes 1 et 2 : introduction et discours du directeur | fait |
-| 2.4 | Scène 3 : examen écrit, entrées au dossier | fait |
-| 2.5 | Scènes 4 et 5 : tirage des équipes et hub de dialogue, affinités | fait |
-| 2.6 | Scène 6 : trajet en fourgon | fait |
-| 2.7 | Scène 7 : les trois salles, objets, dilemmes, état d'équipe | fait |
-| 2.8 | Résolution hors champ de l'équipe adverse, remarques radio, minuteur invisible | fait |
-| 2.9 | Branchement de l'état du parcours sur la phase tactique | fait |
-| 2.10 | Scène 9 : bal de promo, conséquences, note complète | fait |
-| 2.11 | Portraits 2D, ambiance sonore, musique | à faire |
+| Lot  | Contenu                                                                                                                   | État    |
+| ---- | ------------------------------------------------------------------------------------------------------------------------- | ------- |
+| 2.1  | Routeur de scènes : enchaîner les scènes, passer l'état, sauvegarder entre elles                                          | fait    |
+| 2.2  | Moteur de dialogue selon [`07-DIALOGUE-FORMAT.md`](../design/07-DIALOGUE-FORMAT.md), plus l'interface associée            | fait    |
+| 2.3  | Scènes 1 et 2 : introduction et discours du directeur                                                                     | fait    |
+| 2.4  | Scène 3 : examen écrit, entrées au dossier                                                                                | fait    |
+| 2.5  | Scènes 4 et 5 : tirage des équipes et hub de dialogue, affinités                                                          | fait    |
+| 2.6  | Scène 6 : trajet en fourgon                                                                                               | fait    |
+| 2.7  | Scène 7 : les trois salles, objets, dilemmes, état d'équipe                                                               | fait    |
+| 2.8  | Résolution hors champ de l'équipe adverse, remarques radio, minuteur invisible                                            | fait    |
+| 2.9  | Branchement de l'état du parcours sur la phase tactique                                                                   | fait    |
+| 2.10 | Scène 9 : bal de promo, conséquences, note complète                                                                       | fait    |
+| 2.11 | Portraits 2D, ambiance sonore, musique                                                                                    | à faire |
 | 2.12 | Export du dossier au joueur (fichier) — plus bloquant : le chapitre 2 lit une archive locale depuis le lot 5.2 (ADR 0022) | à faire |
 
 ### Dépendances entre lots
@@ -113,16 +113,16 @@ Références : [`08-EXPLORATION.md`](../design/08-EXPLORATION.md),
 [0015](adr/0015-concentration-chance-et-triche.md),
 [0016](adr/0016-vue-tactique-ecran-separe.md).
 
-| Lot | Contenu | Dépend de | État |
-|---|---|---|---|
-| 3.1 | **Moteur narratif, extensions** : alias `equipier1`/`equipier2`, gabarits `{equipier1}`, `startNode` choisi par l'appelant, réflexion facultative avec coût (`insight.cost`), état `awaitingLuck` + `spendLuck` / `acceptRoll`, API de debug | — | fait |
-| 3.2 | **Le tirage** : équipes dans le `RunState`, choix d'Abigail, affinités et étiquettes, fin de `DEFAULT_BLUE`/`DEFAULT_RED` hors tests, parcours hors champ et notation sur les vraies équipes, écran de tirage, simulateur d'équilibre sur les cinq compositions atteignables (voir ADR 0014, "Correctif lot 3.2") | 3.1 | fait |
-| 3.3 | **L'examen vivant** : concentration, Chance au dé (« dépenser N Chance ? »), triche et vigilance du surveillant, contenu `ch1.exam`, étiquettes `tricheur` / `pris-a-tricher` lues au bal ; DV variable pilotée par un compteur (`dvByCounter`) | 3.1 | fait |
-| 3.4 | **Coéquipiers variables dans le contenu** : fourgon, salles, conversations, bal réécrits avec les alias et des variantes par cadet ; dispute Zachary/Grover ; le test « aucun cul-de-sac » tire aussi les compositions ; condition `teammate` | 3.2 | fait |
-| 3.5 | **Socle d'exploration** : couche `src/explore/` (cartes, entités, déclencheurs, objectifs), format `MapDef` et validateur, rendu des lieux (murs en coupe, portes, mobilier en blocs), clic pour se déplacer, caméra libre (flèches, molette, `C`), survol et étiquettes, encart d'objectif, API de debug ; une carte d'essai | 3.1 | fait |
-| 3.6 | **L'académie HOLT** : la carte (52 × 64), les étapes 1 à 6 en exploration, figurants et répliques brèves, cadets placés au temps libre, groupe qui suit après le tirage ; la liste du hub disparaît, on aborde les cadets sur la carte | 3.2, 3.5 | fait |
-| 3.7 | **Le centre d'examen** : la carte (3.7a), les salles découpées en entités jouées pour de bon, tampon « CONTACT » et coupure vers l'écran tactique (même terrain des deux côtés, ADR 0016), retour au procès-verbal (3.7b) | 3.4, 3.6 | fait |
-| 3.8 | **Revue de bout en bout** : partie complète jouée à la souris, captures, performances (cible GTX 1070), tests e2e du parcours complet | tout | à faire |
+| Lot | Contenu                                                                                                                                                                                                                                                                                                                       | Dépend de | État    |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------- |
+| 3.1 | **Moteur narratif, extensions** : alias `equipier1`/`equipier2`, gabarits `{equipier1}`, `startNode` choisi par l'appelant, réflexion facultative avec coût (`insight.cost`), état `awaitingLuck` + `spendLuck` / `acceptRoll`, API de debug                                                                                  | —         | fait    |
+| 3.2 | **Le tirage** : équipes dans le `RunState`, choix d'Abigail, affinités et étiquettes, fin de `DEFAULT_BLUE`/`DEFAULT_RED` hors tests, parcours hors champ et notation sur les vraies équipes, écran de tirage, simulateur d'équilibre sur les cinq compositions atteignables (voir ADR 0014, "Correctif lot 3.2")             | 3.1       | fait    |
+| 3.3 | **L'examen vivant** : concentration, Chance au dé (« dépenser N Chance ? »), triche et vigilance du surveillant, contenu `ch1.exam`, étiquettes `tricheur` / `pris-a-tricher` lues au bal ; DV variable pilotée par un compteur (`dvByCounter`)                                                                               | 3.1       | fait    |
+| 3.4 | **Coéquipiers variables dans le contenu** : fourgon, salles, conversations, bal réécrits avec les alias et des variantes par cadet ; dispute Zachary/Grover ; le test « aucun cul-de-sac » tire aussi les compositions ; condition `teammate`                                                                                 | 3.2       | fait    |
+| 3.5 | **Socle d'exploration** : couche `src/explore/` (cartes, entités, déclencheurs, objectifs), format `MapDef` et validateur, rendu des lieux (murs en coupe, portes, mobilier en blocs), clic pour se déplacer, caméra libre (flèches, molette, `C`), survol et étiquettes, encart d'objectif, API de debug ; une carte d'essai | 3.1       | fait    |
+| 3.6 | **L'académie HOLT** : la carte (52 × 64), les étapes 1 à 6 en exploration, figurants et répliques brèves, cadets placés au temps libre, groupe qui suit après le tirage ; la liste du hub disparaît, on aborde les cadets sur la carte                                                                                        | 3.2, 3.5  | fait    |
+| 3.7 | **Le centre d'examen** : la carte (3.7a), les salles découpées en entités jouées pour de bon, tampon « CONTACT » et coupure vers l'écran tactique (même terrain des deux côtés, ADR 0016), retour au procès-verbal (3.7b)                                                                                                     | 3.4, 3.6  | fait    |
+| 3.8 | **Revue de bout en bout** : partie complète jouée à la souris, captures, performances (cible GTX 1070), tests e2e du parcours complet                                                                                                                                                                                         | tout      | à faire |
 
 Ordre de passage : 3.1 seul ; puis 3.2 et 3.5 en parallèle (fichiers disjoints) ; puis 3.3
 et 3.4 ; puis 3.6 ; puis 3.7 ; enfin 3.8.
@@ -138,22 +138,38 @@ Cette epic ne touche pas au gameplay : elle habille ce qui existe. Décisions :
 Références : [`../art/EXPLORATION-VISUAL-DESIGN.md`](../art/EXPLORATION-VISUAL-DESIGN.md),
 [`../art/ROOM-COMPOSITION.md`](../art/ROOM-COMPOSITION.md).
 
-| Passe | Contenu | État |
-|---|---|---|
-| A | **Cohérence du décor** : un document d'usage par pièce, les dix-sept pièces recomposées dessus ; catalogue de modèles avec emprise déclarée et test d'accord avec la carte de collision | fait |
-| B | **Personnages en combat** : les humanoïdes animés de l'exploration remplacent les capsules ; couleur d'équipe aux épaulettes, émissif sur l'unité active, échelle et éclairage revus | fait |
-| C | **Matières et lumières locales** : murs distincts des sols, linoléum des pièces propres, les luminaires du décor éclairent vraiment | fait |
-| D | **Matières photo** : textures CC0 pour les grandes surfaces, échelle et répétition traitées | fait |
-| E | **La cour tactique** : conteneurs et terrain, palette désaturée conforme à la direction artistique | fait |
-| F | **Le mobilier manquant** : les pièces qui n'avaient aucun siège, aucun poste de travail | fait |
-| G | **Performance et simplification** : murs et décor répétitif fusionnés en instances, accessoires réduits, personnages assis posés sur leur siège, balise sur ce qui fait avancer l'histoire | fait |
-| H | **Revue visuelle de bout en bout** : une partie complète regardée écran par écran, performances sur la cible | à faire |
+| Passe | Contenu                                                                                                                                                                                    | État    |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- |
+| A     | **Cohérence du décor** : un document d'usage par pièce, les dix-sept pièces recomposées dessus ; catalogue de modèles avec emprise déclarée et test d'accord avec la carte de collision    | fait    |
+| B     | **Personnages en combat** : les humanoïdes animés de l'exploration remplacent les capsules ; couleur d'équipe aux épaulettes, émissif sur l'unité active, échelle et éclairage revus       | fait    |
+| C     | **Matières et lumières locales** : murs distincts des sols, linoléum des pièces propres, les luminaires du décor éclairent vraiment                                                        | fait    |
+| D     | **Matières photo** : textures CC0 pour les grandes surfaces, échelle et répétition traitées                                                                                                | fait    |
+| E     | **La cour tactique** : conteneurs et terrain, palette désaturée conforme à la direction artistique                                                                                         | fait    |
+| F     | **Le mobilier manquant** : les pièces qui n'avaient aucun siège, aucun poste de travail                                                                                                    | fait    |
+| G     | **Performance et simplification** : murs et décor répétitif fusionnés en instances, accessoires réduits, personnages assis posés sur leur siège, balise sur ce qui fait avancer l'histoire | fait    |
+| H     | **Revue visuelle de bout en bout** : une partie complète regardée écran par écran, performances sur la cible                                                                               | à faire |
+
+Ajout autorisé du 2 octobre 2026 : le décor de toute l'école HOLT/HOLT-nuit est
+repris au niveau du dortoir pilote, avec cloisons communes à demi-hauteur,
+raccords continus et caméra plus plongeante. Le
+[journal H0–H15](HOLT-AAA-ROLLOUT-PLAN.md) et la
+[revue finale](../art/HOLT-AAA-ROLLOUT-REVIEW.md) consignent cette livraison et
+ses mesures autour de 30 ips à 1080p sur GTX 1070. Cette première revue couvre HOLT. L'extension aux six zones du centre, aux dix
+zones des souterrains et au campement, avec reprise du hangar, est maintenant
+réalisée : [lots E0–E13](EXPLORATION-AAA-ROLLOUT-PLAN.md) et
+[revue des autres lieux](../art/EXPLORATION-AAA-ROLLOUT-REVIEW.md), puis
+[corrections issues des captures](../art/EXPLORATION-AAA-VISUAL-FIXES.md).
+La reprise suivante stabilise tous les murs, fusionne la séparation cantine–examen et reprend
+les 39 pièces sous plusieurs angles : [revue et preuves](../art/EXPLORATION-STATIC-WALLS-REVIEW.md),
+[ADR 0039](adr/0039-murs-exploration-entiers.md).
+La passe H reste ouverte pour la revue visuelle du parcours global, incluant
+les écrans narratifs et cinématiques, au-delà de ces décors d'exploration.
 
 Mesures de la passe G (mêmes conditions que la mesure de départ) : salle 1 461 → 132 appels de
 dessin, dortoir 493 → 151. Le seuil de [`../art/EXPLORATION-VISUAL-DESIGN.md`](../art/EXPLORATION-VISUAL-DESIGN.md)
 §5 est de 250.
 
-Point ouvert : la photo de béton des sols (`concrete-diff-1k.jpg`) reste le maillon faible de
+Point historique, à réexaminer hors HOLT : la photo de béton des sols (`concrete-diff-1k.jpg`) reste le maillon faible de
 l'académie — trop marquée pour être étirée sur une pièce, trop directionnelle pour être répétée.
 La remplacer suppose de télécharger un asset externe, ce que certains agents refusent sans une
 autorisation donnée directement par le propriétaire du projet.
@@ -176,33 +192,33 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 [0024](adr/0024-exploration-fuite-zones-pression-suiveurs.md),
 [0025](adr/0025-jauges-et-bilan-de-chapitre-en-donnees.md).
 
-| Lot | Contenu | Dépend de | État |
-|---|---|---|---|
-| 5.1 | **Le chapitre 2 se lance** : `ChapterDef` et registre des chapitres, `RunState.chapter`, clés par chapitre (étape, Chance, entrées), `?chapter=2`, `startChapter` ; 14 scènes en dialogues squelettes, profil Neutre, bilan provisoire ; `ch1.bal` harmonisé (Smith, Zachary) | — | fait |
-| 5.2 | **Le dossier passe** : archive en fin de chapitre 1, « Chapitre 2 » depuis l'écran de fin et l'écran titre, trois profils de départ | 5.1 | fait |
-| 5.3 | **Format de dialogue étendu** : décor et bruitage par nœud, compteur borné, condition `tempo`, six locuteurs, registre des décors | 5.1 | fait |
-| 5.4 | **Jauge et bilan** : état de Letitia visible, bilan déclaré en données avec la photo souvenir | 5.3 | fait |
-| 5.5 | **Scènes dites** : photo, slow et rafale en suite d'images, égouts, adieu à Zachary | 5.3, 5.4 | fait |
-| 5.6 | **Décharges et charcudoc** : relais de garde, adieux, bilan rempli ; simulateur de la nuit et ajustement des DV | 5.4, 5.5 | fait (garde : trois tours, pillage à deux échecs, décision du propriétaire) |
-| 5.7 | **L'exploration sait fuir** : habillage par registre, zones à effets, pression en exploration, suiveurs par scène, profil `enfant` ; mesure de cinq suiveurs | 5.1, 5.3 | fait (B9 : deux suiveurs visibles, décision du propriétaire, appliquée au lot 5.8) |
-| 5.8 | **Le bal et la fuite** : carte `holt-nuit`, conversations du bal et leurs échos, fuite sous tempo jusqu'à la grille | 5.5, 5.7 | fait |
-| 5.8b | *(ajouté par le propriétaire)* **Habillage de la nuit** : `holt-nuit` habillé par étape (ADR 0026) — bal de nuit (piste, buffets, guirlandes), fuite dans la pénombre et le feu ; plan dérivé sans collisions invisibles ; second suiveur visible | 5.8 | fait |
-| 5.9 | **Conduits et cantine** : carte `conduits`, détour chez Smith, ventilateur, l'enfant, la cantine en feu | 5.7, 5.8 | fait |
-| 5.10 | **Le campement** : carte `campement`, insignes, matériel, qui tue Murano | 5.5, 5.7 | fait |
-| 5.A | **Illustrations** : décors et six portraits du chapitre 2 inscrits au manifeste de génération, avec des substituts `.webp` en attendant la passe du propriétaire | 5.3 | fait |
-| 5.11 | **Revue de bout en bout** : une nuit par profil et depuis une vraie archive, performances, `CH2-LEGACY.md`, `CAPABILITIES.md` | tout | fait |
-| 5.11b | *(décision du propriétaire)* **Les couloirs laissent voir la file** : murs coupés dans les couloirs comme dans les pièces (relevé de la revue) | 5.11 | fait |
-| 5.B | *(ajout du propriétaire)* **Images des ajouts** : D29 à D35 et P19 au manifeste avec leurs prompts, substituts posés ; génération par le propriétaire | 5.11 | fait (génération : propriétaire) |
-| 5.15 | *(ajout du propriétaire)* **Le slow et la rafale, enrichis** : slow à deux avec murmure, trois images de plus pour la bascule (gangers qui tirent, cadets sous le feu, Zachary qui protège Abigail) ; au manifeste avec prompts | 5.B | fait |
-| 5.13 | *(ajout du propriétaire)* **La mort de Zachary** : scène 7 ouverte sur Zachary mourant, gestes de soin sans jet, Abigail arrachée au corps ; plus les répliques de garde et celles de l'enfant | 5.15 | fait |
-| 5.16 | *(décision du propriétaire)* **Zachary blessé** : variante de portrait par réplique (format de dialogue), portrait P06b au manifeste avec son prompt | 5.13 | fait (génération P06b : propriétaire) |
-| 5.17 | *(QA du propriétaire)* **Décors et transitions** : un décor sur chaque dialogue, décor persistant, plus de carte entre scènes, le charcudoc parle ; images du lot G (conduits, cantine en feu) au manifeste | — | fait (génération lot G : propriétaire) |
-| 5.C | *(demande du propriétaire)* **Deux décors de nuit** : `couloir-nuit` (aparté de la fuite) et `grille-dortoir` (la grille), au manifeste avec prompts, substituts branchés | 5.17 | fait (génération lot H : propriétaire) |
-| 5.14 | *(ajout du propriétaire)* **Le Blue Purple** : scène 12 dite, une inconnue s'assoit à leur table et clôt le chapitre ; locuteur `inconnue`, deux décors, un portrait au manifeste | 5.16 | fait |
-| 5.12 | **Slow cinématique** : musique locale continue sous les choix et la fusillade, fondu final, tirs lointains et proches CC0 (ADR 0029) | 5.5, la piste | fait (chanson locale hors Git) |
-| 5.18 | **Zachary, cinématique des égouts** : trois plans nouveaux, premiers soins et adieu chronométrés, ambiance et pleurs CC0, « Let You Down » continue sous tous les choix et fond à la sortie de la scène | 5.13, méthode 5.12 | fait (chanson locale hors Git) |
-| 5.20 | **Voix du bal, essai VO** : dialogues anglais sous texte français, murmure joué selon le choix, narration arrêtée avant les portes, chanson et tirs baissés pendant les voix (ADR 0030) | 5.12, casting du propriétaire | fait (écoute finale du mix à valider) |
-| 5.21 | **Voix de la mort de Zachary** : derniers mots selon le dossier, Abigail, narration retenue, mix de la chanson/eau/pleurs et sous-titres français (ADR 0031) | 5.18, 5.20 | fait (écoute finale du mix à valider) |
+| Lot   | Contenu                                                                                                                                                                                                                                                                       | Dépend de                     | État                                                                               |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------- |
+| 5.1   | **Le chapitre 2 se lance** : `ChapterDef` et registre des chapitres, `RunState.chapter`, clés par chapitre (étape, Chance, entrées), `?chapter=2`, `startChapter` ; 14 scènes en dialogues squelettes, profil Neutre, bilan provisoire ; `ch1.bal` harmonisé (Smith, Zachary) | —                             | fait                                                                               |
+| 5.2   | **Le dossier passe** : archive en fin de chapitre 1, « Chapitre 2 » depuis l'écran de fin et l'écran titre, trois profils de départ                                                                                                                                           | 5.1                           | fait                                                                               |
+| 5.3   | **Format de dialogue étendu** : décor et bruitage par nœud, compteur borné, condition `tempo`, six locuteurs, registre des décors                                                                                                                                             | 5.1                           | fait                                                                               |
+| 5.4   | **Jauge et bilan** : état de Letitia visible, bilan déclaré en données avec la photo souvenir                                                                                                                                                                                 | 5.3                           | fait                                                                               |
+| 5.5   | **Scènes dites** : photo, slow et rafale en suite d'images, égouts, adieu à Zachary                                                                                                                                                                                           | 5.3, 5.4                      | fait                                                                               |
+| 5.6   | **Décharges et charcudoc** : relais de garde, adieux, bilan rempli ; simulateur de la nuit et ajustement des DV                                                                                                                                                               | 5.4, 5.5                      | fait (garde : trois tours, pillage à deux échecs, décision du propriétaire)        |
+| 5.7   | **L'exploration sait fuir** : habillage par registre, zones à effets, pression en exploration, suiveurs par scène, profil `enfant` ; mesure de cinq suiveurs                                                                                                                  | 5.1, 5.3                      | fait (B9 : deux suiveurs visibles, décision du propriétaire, appliquée au lot 5.8) |
+| 5.8   | **Le bal et la fuite** : carte `holt-nuit`, conversations du bal et leurs échos, fuite sous tempo jusqu'à la grille                                                                                                                                                           | 5.5, 5.7                      | fait                                                                               |
+| 5.8b  | _(ajouté par le propriétaire)_ **Habillage de la nuit** : `holt-nuit` habillé par étape (ADR 0026) — bal de nuit (piste, buffets, guirlandes), fuite dans la pénombre et le feu ; plan dérivé sans collisions invisibles ; second suiveur visible                             | 5.8                           | fait                                                                               |
+| 5.9   | **Conduits et cantine** : carte `conduits`, détour chez Smith, ventilateur, l'enfant, la cantine en feu                                                                                                                                                                       | 5.7, 5.8                      | fait                                                                               |
+| 5.10  | **Le campement** : carte `campement`, insignes, matériel, qui tue Murano                                                                                                                                                                                                      | 5.5, 5.7                      | fait                                                                               |
+| 5.A   | **Illustrations** : décors et six portraits du chapitre 2 inscrits au manifeste de génération, avec des substituts `.webp` en attendant la passe du propriétaire                                                                                                              | 5.3                           | fait                                                                               |
+| 5.11  | **Revue de bout en bout** : une nuit par profil et depuis une vraie archive, performances, `CH2-LEGACY.md`, `CAPABILITIES.md`                                                                                                                                                 | tout                          | fait                                                                               |
+| 5.11b | _(décision du propriétaire)_ **Les couloirs laissent voir la file** : murs coupés dans les couloirs comme dans les pièces (relevé de la revue)                                                                                                                                | 5.11                          | fait                                                                               |
+| 5.B   | _(ajout du propriétaire)_ **Images des ajouts** : D29 à D35 et P19 au manifeste avec leurs prompts, substituts posés ; génération par le propriétaire                                                                                                                         | 5.11                          | fait (génération : propriétaire)                                                   |
+| 5.15  | _(ajout du propriétaire)_ **Le slow et la rafale, enrichis** : slow à deux avec murmure, trois images de plus pour la bascule (gangers qui tirent, cadets sous le feu, Zachary qui protège Abigail) ; au manifeste avec prompts                                               | 5.B                           | fait                                                                               |
+| 5.13  | _(ajout du propriétaire)_ **La mort de Zachary** : scène 7 ouverte sur Zachary mourant, gestes de soin sans jet, Abigail arrachée au corps ; plus les répliques de garde et celles de l'enfant                                                                                | 5.15                          | fait                                                                               |
+| 5.16  | _(décision du propriétaire)_ **Zachary blessé** : variante de portrait par réplique (format de dialogue), portrait P06b au manifeste avec son prompt                                                                                                                          | 5.13                          | fait (génération P06b : propriétaire)                                              |
+| 5.17  | _(QA du propriétaire)_ **Décors et transitions** : un décor sur chaque dialogue, décor persistant, plus de carte entre scènes, le charcudoc parle ; images du lot G (conduits, cantine en feu) au manifeste                                                                   | —                             | fait (génération lot G : propriétaire)                                             |
+| 5.C   | _(demande du propriétaire)_ **Deux décors de nuit** : `couloir-nuit` (aparté de la fuite) et `grille-dortoir` (la grille), au manifeste avec prompts, substituts branchés                                                                                                     | 5.17                          | fait (génération lot H : propriétaire)                                             |
+| 5.14  | _(ajout du propriétaire)_ **Le Blue Purple** : scène 12 dite, une inconnue s'assoit à leur table et clôt le chapitre ; locuteur `inconnue`, deux décors, un portrait au manifeste                                                                                             | 5.16                          | fait                                                                               |
+| 5.12  | **Slow cinématique** : musique locale continue sous les choix et la fusillade, fondu final, tirs lointains et proches CC0 (ADR 0029)                                                                                                                                          | 5.5, la piste                 | fait (chanson locale hors Git)                                                     |
+| 5.18  | **Zachary, cinématique des égouts** : trois plans nouveaux, premiers soins et adieu chronométrés, ambiance et pleurs CC0, « Let You Down » continue sous tous les choix et fond à la sortie de la scène                                                                       | 5.13, méthode 5.12            | fait (chanson locale hors Git)                                                     |
+| 5.20  | **Voix du bal, essai VO** : dialogues anglais sous texte français, murmure joué selon le choix, narration arrêtée avant les portes, chanson et tirs baissés pendant les voix (ADR 0030)                                                                                       | 5.12, casting du propriétaire | fait (écoute finale du mix à valider)                                              |
+| 5.21  | **Voix de la mort de Zachary** : derniers mots selon le dossier, Abigail, narration retenue, mix de la chanson/eau/pleurs et sous-titres français (ADR 0031)                                                                                                                  | 5.18, 5.20                    | fait (écoute finale du mix à valider)                                              |
 
 Ordre de passage (décision du propriétaire, un lot à la fois) : 5.1, 5.2, 5.3, 5.A, 5.7, 5.4,
 5.5, 5.6, 5.8, 5.8b, 5.10, 5.9, 5.11, puis les ajouts après QA : 5.B, 5.11b, 5.15, 5.13, 5.16,

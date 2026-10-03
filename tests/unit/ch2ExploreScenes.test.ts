@@ -20,7 +20,7 @@ import type { SceneDef } from '@/narrative';
 import { evaluateCondition, withEtape } from '@/narrative';
 import { createDossier } from '@/core/dossier';
 import { createRunState } from '@/narrative/runState';
-import { ExploreMap, computeReach } from '@/explore';
+import { ExploreMap, ExploreState, computeReach } from '@/explore';
 import type { Cell, EntityDef } from '@/explore';
 
 const exploreScenes = CHAPTER_2.scenes.filter((s) => s.kind === 'explore');
@@ -158,6 +158,42 @@ describe('étapes d’exploration du chapitre 2 (CHAPTER_2.scenes, lot 5.8)', ()
   it('"ch2.bal" ne déclare aucun suiveur (la bande est déjà placée dans la salle par ses entités)', () => {
     const bal = exploreScenes.find((s) => s.id === 'ch2.bal');
     expect(bal?.followers).toEqual([]);
+  });
+
+  it('les cadets du bal et les insignes au campement restent interactifs dans leur pièce', () => {
+    const cases = [
+      {
+        sceneId: 'ch2.bal',
+        mapId: 'holt-nuit',
+        target: { x: 32, y: 46 },
+        ids: ['bal.letitia', 'bal.zachary', 'bal.abigail', 'bal.john', 'bal.grover'],
+      },
+      {
+        sceneId: 'ch2.campement',
+        mapId: 'campement',
+        target: { x: 5, y: 6 },
+        ids: ['campement.insignes'],
+      },
+    ];
+
+    for (const testCase of cases) {
+      const scene = exploreScenes.find((candidate) => candidate.id === testCase.sceneId) as SceneDef;
+      const ctx = withEtape(
+        { dossier: createDossier(), run: createRunState(`markers::${scene.id}`, { chapter: 2, sceneId: scene.id, luck: 0 }) },
+        scene,
+        CHAPTER_2.etapeFlag,
+      );
+      const map = getMap(testCase.mapId);
+      const state = new ExploreState(map, ctx, { spawn: scene.spawn });
+      state.walkTo(testCase.target.x, testCase.target.y);
+
+      const interactables = new Map(state.listInteractables().map((entry) => [entry.id, entry]));
+      for (const id of testCase.ids) {
+        expect(interactables.get(id), `${scene.id}/${id} doit être interactif dans sa pièce`).toMatchObject({
+          reachable: true,
+        });
+      }
+    }
   });
 
   it(

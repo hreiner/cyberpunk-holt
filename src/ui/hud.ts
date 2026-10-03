@@ -28,6 +28,7 @@ export type HudActionId =
 
 export interface HudCallbacks {
   onAction(id: HudActionId): void;
+  onAutoResolve(): void;
   onSelectTarget(id: CharacterId): void;
   onRestart(): void;
   /** Tourne la camera de `step` quarts de tour (+1 : sens horaire). */
@@ -122,12 +123,17 @@ export class Hud {
     return el as HTMLElement;
   }
 
-  render(combat: TacticalCombat, playerTeam: 'blue' | 'red', pendingMode: string | null): void {
+  render(
+    combat: TacticalCombat,
+    playerTeam: 'blue' | 'red',
+    pendingMode: string | null,
+    autoResolving = false,
+  ): void {
     const state = combat.state;
     this.renderBanner(state, playerTeam);
     this.renderOrder(combat, playerTeam);
     this.renderSheet(combat, playerTeam);
-    this.renderActions(combat, playerTeam, pendingMode);
+    this.renderActions(combat, playerTeam, pendingMode, autoResolving);
     this.renderLog(state);
     this.footer.textContent = `Graine : ${state.seed} — clic ou appui : déplacer · maj+clic : courir · glisser : déplacer la vue · molette ou pincer : zoomer · A/E ou les boutons Caméra : pivoter (un cadet caché derrière un conteneur reste visible en silhouette)`;
   }
@@ -240,6 +246,7 @@ export class Hud {
     combat: TacticalCombat,
     playerTeam: 'blue' | 'red',
     pendingMode: string | null,
+    autoResolving: boolean,
   ): void {
     const unit = combat.currentUnit();
     const playable = combat.state.phase === 'playing' && unit.team === playerTeam;
@@ -270,6 +277,17 @@ export class Hud {
       el.disabled = !playable || !b.enabled;
       el.addEventListener('click', () => this.callbacks.onAction(b.id));
       this.actionBar.appendChild(el);
+    }
+
+    if (combat.state.phase === 'playing') {
+      const auto = document.createElement('button');
+      auto.className = 'btn';
+      auto.textContent = autoResolving ? 'Résolution…' : 'Résultat automatique';
+      auto.dataset.testid = 'auto-resolve';
+      auto.disabled = autoResolving;
+      auto.setAttribute('aria-busy', String(autoResolving));
+      auto.addEventListener('click', () => this.callbacks.onAutoResolve());
+      this.actionBar.appendChild(auto);
     }
   }
 

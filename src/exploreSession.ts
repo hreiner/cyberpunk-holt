@@ -31,7 +31,11 @@
  * (`handleExploreInteraction`).
  */
 
-import type * as THREE from 'three';
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { createRng } from '@/core/rng';
 import { loadSession } from '@/core/save';
 import { getCharacter } from '@/rules/character';
@@ -43,6 +47,8 @@ import { ExploreView, KEY_ZOOM_SPEED } from '@/render/exploreView';
 import type { HoverTarget } from '@/render/exploreView';
 import type { NightMood } from '@/render/exploration/atmosphere';
 import { createGameRenderer, rendererDescription } from '@/render/rendererSetup';
+import { createDormitoryEnvironment } from '@/render/exploration/dormitoryEnvironment';
+import { explorationSceneProfile } from '@/render/exploration/explorationSceneProfiles';
 import { TAP_SLOP_PX } from '@/render/pointerGestures';
 import { Sfx } from '@/audio/sfx';
 import type { SfxId } from '@/audio/sfx';
@@ -62,6 +68,7 @@ const CHAPTER_2_VISUALS: Record<string, ExploreVisualMapDef> = {
   [CONDUITS_VISUALS.mapId]: CONDUITS_VISUALS,
   [CAMPEMENT_VISUALS.mapId]: CAMPEMENT_VISUALS,
 };
+const DORMITORY_PILOT_EXPOSURE = 1.2;
 import { ObjectiveHud } from './ui/objectiveHud';
 import type { GaugeStatus } from './ui/gaugeView';
 import { BriefLineView } from './ui/briefLine';
@@ -112,7 +119,7 @@ export interface ExploreSessionCallbacks {
   onEvent(ev: ExploreEvent): void;
 }
 
-/** Compteurs WebGL de la dernière image d'exploration, pour la validation visuelle L7. */
+/** Compteurs WebGL de la dernière image d'exploration, ombres incluses. */
 export interface ExploreRenderStats {
   drawCalls: number;
   triangles: number;
@@ -144,11 +151,17 @@ export class ExploreSession {
   mapDef: MapDef | null = null;
 
   private renderer: THREE.WebGLRenderer | null = null;
+  /** Compositeur AAA du pilote, activé uniquement sur HOLT et HOLT-nuit. */
+  private dormitoryComposer: EffectComposer | null = null;
+  private dormitoryRenderPass: RenderPass | null = null;
+  /** Préfiltrage partagé jour/nuit ; les vues empruntent sa texture, la session la détruit. */
+  private dormitoryEnvironment: THREE.WebGLRenderTarget | null = null;
   private canvas: HTMLCanvasElement | null = null;
   /** HUD/bulles : recrees a chaque entree (voir `resume`/`pause`) pour ne jamais laisser un ecouteur clavier global actif pendant un dialogue ou le combat. */
   private hud: ObjectiveHud | null = null;
   private briefLine: BriefLineView | null = null;
   private hoveredEntityId: string | null = null;
+  private hoveredCharacterName: string | null = null;
   private lastPointerClient = { x: 0, y: 0 };
   private followerRigIds: string[] = [];
   /** Bruitages d'exploration (ADR 0024 §2, ex. les repliques de pression). */
@@ -222,8 +235,21 @@ export class ExploreSession {
   private readonly onResize = (): void => {
     if (!this.renderer || !this.view) return;
     this.renderer.setSize(this.host.clientWidth, this.host.clientHeight, false);
-    this.view.resize(this.aspect());
+    this.dormitoryComposer?.setSize(this.host.clientWidth, this.host.clientHeight);
+    this.view.resize(this.aspect(), this.host.clientWidth, this.host.clientHeight);
   };
+
+  private disposeDormitoryComposer(): void {
+    if (!this.dormitoryComposer) return;
+    // Composer targets and each pass's private material/targets have separate owners.
+    for (const pass of this.dormitoryComposer.passes) {
+      const ownedPass = pass as typeof pass & { dispose?: () => void };
+      ownedPass.dispose?.();
+    }
+    this.dormitoryComposer.dispose();
+    this.dormitoryComposer = null;
+    this.dormitoryRenderPass = null;
+  }
 
   constructor(
     private readonly host: HTMLElement,
@@ -333,8 +359,15 @@ export class ExploreSession {
    * un seul visible a l'ecran, confirme par `window.__game.explore().followers`, deux
    * entrees identiques).
    */
-  private buildWorld(mapDef: MapDef, ctx: NarrativeContext, scene: SceneDef, followerIds: FollowerId[]): void {
+  private buildWorld(
+    mapDef: MapDef,
+    ctx: NarrativeContext,
+    scene: SceneDef,
+    followerIds: FollowerId[],
+  ): void {
     this.view?.dispose();
+    const isEnhancedMap = explorationSceneProfile(mapDef.id) !== null;
+    if (!isEnhancedMap) this.disposeDormitoryComposer();
     this.followerRigIds = [];
     this.mapDef = mapDef;
     this.state = new ExploreState(mapDef, ctx, {
@@ -347,6 +380,9 @@ export class ExploreSession {
       this.canvas = document.createElement('canvas');
       this.host.appendChild(this.canvas);
       this.renderer = createGameRenderer({ canvas: this.canvas, shadows: true, toneMappingExposure: 1.08 });
+      // Three remet ses compteurs à zéro APRÈS le rendu des ombres par défaut.
+      // Une remise à zéro par image conserve le coût complet, sans changer le renderer partagé.
+      this.renderer.info.autoReset = false;
       this.wireCanvasInput(this.canvas);
     }
 
@@ -372,6 +408,23 @@ export class ExploreSession {
       // Lot 5.10 : meme override pour `campement` (`CHAPTER_2_VISUALS`).
       CHAPTER_2_VISUALS[mapDef.id] ? { visuals: CHAPTER_2_VISUALS[mapDef.id] } : {},
     );
+    if (isEnhancedMap) {
+      if (!this.dormitoryComposer) {
+        this.dormitoryComposer = new EffectComposer(this.renderer!);
+        this.dormitoryRenderPass = new RenderPass(this.view.scene, this.view.renderCamera);
+        this.dormitoryComposer.addPass(this.dormitoryRenderPass);
+        this.dormitoryComposer.addPass(new UnrealBloomPass(new THREE.Vector2(800, 450), 0.19, 0.5, 1.6));
+        this.dormitoryComposer.addPass(new OutputPass());
+      } else if (this.dormitoryRenderPass) {
+        this.dormitoryRenderPass.scene = this.view.scene;
+        this.dormitoryRenderPass.camera = this.view.renderCamera;
+      }
+    }
+    if (isEnhancedMap) {
+      this.dormitoryEnvironment ??= createDormitoryEnvironment(this.renderer);
+      this.view.setDormitoryEnvironment(this.dormitoryEnvironment.texture);
+      this.view.initializeDormitoryPilotLighting(this.host.clientWidth, this.host.clientHeight);
+    }
     // La préférence système concerne les animations de présentation (caméra, repère,
     // poses d'attente), jamais l'avancée de `ExploreState` ni sa vitesse de déplacement.
     this.view.setReducedMotion(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
@@ -379,6 +432,8 @@ export class ExploreSession {
     this.view.updateRigPosition('leader', this.state.leaderCell(), false, 0);
     this.view.centerOn(this.state.leaderCell());
     this.renderer.setSize(this.host.clientWidth, this.host.clientHeight, false);
+    this.dormitoryComposer?.setSize(this.host.clientWidth, this.host.clientHeight);
+    this.view.resize(this.aspect(), this.host.clientWidth, this.host.clientHeight);
     // Avant la première frame : évite un flash "tout caché" (la vue part pessimiste, voir
     // `ExploreView.buildRoomFloors`/`registerVisualEntity`) le temps que la boucle démarre.
     this.syncVisibility();
@@ -444,6 +499,7 @@ export class ExploreSession {
   pause(): void {
     this.stopLoop();
     this.detachKeyboard();
+    this.view?.clearHover();
     this.hud?.dispose();
     this.hud = null;
     this.briefLine?.dispose();
@@ -460,6 +516,7 @@ export class ExploreSession {
   resetWorld(): void {
     this.pause();
     this.view?.dispose();
+    this.disposeDormitoryComposer();
     this.view = null;
     this.state = null;
     this.mapDef = null;
@@ -470,6 +527,9 @@ export class ExploreSession {
     this.host.removeEventListener('pointerdown', this.onPointerUnlock);
     this.sfx.stopSamples();
     this.view?.dispose();
+    this.disposeDormitoryComposer();
+    this.dormitoryEnvironment?.dispose();
+    this.dormitoryEnvironment = null;
     this.renderer?.dispose();
     window.removeEventListener('resize', this.onResize);
   }
@@ -533,6 +593,7 @@ export class ExploreSession {
       down.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (down.size === 1) travelPx = 0;
       if (down.size === 2) {
+        this.view?.clearHover();
         // Un pincement n'est jamais un tapotement : on le disqualifie tout de suite, sinon
         // relever le deuxième doigt enverrait le meneur marcher là où on voulait zoomer.
         travelPx = Number.POSITIVE_INFINITY;
@@ -568,6 +629,7 @@ export class ExploreSession {
 
       travelPx += Math.hypot(e.clientX - previous.x, e.clientY - previous.y);
       if (travelPx <= TAP_SLOP_PX) return;
+      this.view?.clearHover();
       const from = ndcFrom(previous.x, previous.y);
       const to = ndcFrom(e.clientX, e.clientY);
       this.view?.dragGround(from.x, from.y, to.x, to.y);
@@ -585,15 +647,22 @@ export class ExploreSession {
       const wasTap = !cancelled && travelPx <= TAP_SLOP_PX;
       pinchPx = 0;
       travelPx = 0;
-      if (!wasTap) return;
+      if (!wasTap) {
+        this.view?.clearHover();
+        return;
+      }
       const { x, y } = ndcFrom(e.clientX, e.clientY);
-      // Au doigt, rien n'a survolé la case avant l'appui : on pose le survol d'abord, pour que
-      // le rendu et l'étiquette désignent bien ce qu'on vient de toucher.
-      if (e.pointerType === 'touch') this.view?.handlePointerMove(x, y);
+      // A tap has no previous hover; anchor its HTML label at the actual contact point.
+      this.lastPointerClient = { x: e.clientX, y: e.clientY };
+      this.view?.handlePointerMove(x, y);
       this.view?.handleClick(x, y);
     };
     canvas.addEventListener('pointerup', (e) => release(e, false));
     canvas.addEventListener('pointercancel', (e) => release(e, true));
+    canvas.addEventListener('pointerleave', (e) => {
+      // Touch pointers leave automatically after release; keep the tap label visible.
+      if (e.pointerType !== 'touch' && down.size === 0) this.view?.clearHover();
+    });
 
     canvas.addEventListener(
       'wheel',
@@ -608,10 +677,14 @@ export class ExploreSession {
   }
 
   private handleHover(target: HoverTarget | null): void {
+    this.hoveredCharacterName = target?.type === 'character' ? target.name : null;
     if (target?.type === 'entity') {
       this.hoveredEntityId = target.id;
       const info = this.state?.listInteractables().find((i) => i.id === target.id);
       this.hud?.setHoverLabel(info?.label ?? target.id, info?.reachable ?? true, this.lastPointerClient);
+    } else if (target?.type === 'character') {
+      this.hoveredEntityId = null;
+      this.hud?.setHoverLabel(target.name, true, this.lastPointerClient);
     } else {
       this.hoveredEntityId = null;
       this.hud?.setHoverLabel(null);
@@ -621,7 +694,8 @@ export class ExploreSession {
   /** Clic (ou selection clavier) sur un interactable : marche jusqu'a la case d'interaction, puis declenche. */
   private requestInteract(entityId: string): void {
     const res = this.state?.requestInteract(entityId);
-    if (res && !res.ok) console.warn(`ChapterApp (exploration) : interaction refusee (${entityId}) : ${res.reason}`);
+    if (res && !res.ok)
+      console.warn(`ChapterApp (exploration) : interaction refusee (${entityId}) : ${res.reason}`);
   }
 
   /**
@@ -680,14 +754,30 @@ export class ExploreSession {
       }
 
       const interactables = state.listInteractables();
-      this.hud?.setInteractables(interactables.map((it) => ({ id: it.id, label: it.label, reachable: it.reachable })));
+      this.hud?.setInteractables(
+        interactables.map((it) => ({ id: it.id, label: it.label, reachable: it.reachable })),
+      );
       this.syncVisibility(interactables);
       if (this.hoveredEntityId) {
         const info = interactables.find((i) => i.id === this.hoveredEntityId);
         if (info) this.hud?.setHoverLabel(info.label, info.reachable, this.lastPointerClient);
+      } else if (this.hoveredCharacterName) {
+        this.hud?.setHoverLabel(this.hoveredCharacterName, true, this.lastPointerClient);
       }
 
-      renderer.render(view.scene, view.camera.camera);
+      renderer.info.reset();
+      if (view.isEnhancedExplorationRenderingActive && this.dormitoryComposer) {
+        if (this.dormitoryRenderPass) this.dormitoryRenderPass.camera = view.renderCamera;
+        const previousExposure = renderer.toneMappingExposure;
+        renderer.toneMappingExposure = DORMITORY_PILOT_EXPOSURE;
+        try {
+          this.dormitoryComposer.render();
+        } finally {
+          renderer.toneMappingExposure = previousExposure;
+        }
+      } else {
+        renderer.render(view.scene, view.renderCamera);
+      }
       this.rafId = requestAnimationFrame(frame);
     };
 
@@ -727,7 +817,8 @@ export class ExploreSession {
     // Une porte/zone n'est pas dans `entityIds` (elles ne sont pas des "contenus" de piece) mais
     // reste visible des que sa piece l'est : la balise suit donc la presence dans `list`, seule
     // source qui tienne compte a la fois de la condition d'etape et de la decouverte.
-    const target = trigger && list.some((i) => i.id === trigger) ? (this.entity(trigger)?.cell ?? null) : null;
+    const target =
+      trigger && list.some((i) => i.id === trigger) ? (this.entity(trigger)?.cell ?? null) : null;
     this.view.setObjectiveTarget(target);
   }
 

@@ -50,6 +50,7 @@ const VISUAL_MAPS: Array<{ map: MapDef; visuals: ExploreVisualMapDef }> = [
 const key = ({ x, y }: Cell): string => `${x},${y}`;
 /** Bloquante au sens de la légende commune (09-MAPS "Format des cartes"). */
 const BLOCKING = new Set(['o', 'T']);
+const VEGETATION = new Set(['~']);
 const WALKABLE = new Set(['.', '+']);
 
 /**
@@ -70,6 +71,19 @@ function inTacticalArea(map: MapDef, cell: Cell): boolean {
 }
 
 describe('plans d’habillage d’exploration', () => {
+  it('réserve les nouveaux modèles du dortoir à HOLT et à sa variante nocturne', () => {
+    const placements = VISUAL_MAPS.flatMap(({ map, visuals }) =>
+      visuals.placements
+        .filter((placement) => placement.model.startsWith('dormitory-'))
+        .map((placement) => ({ mapId: map.id, placement })),
+    );
+    expect(placements.length).toBeGreaterThan(0);
+    for (const { mapId, placement } of placements) {
+      expect(['holt', 'holt-nuit'], placement.id).toContain(mapId);
+      expect('roomId' in placement && placement.roomId, placement.id).toBe('dortoirs');
+    }
+  });
+
   it('ne contredisent jamais l’ASCII de la carte', () => {
     const errors: string[] = [];
     for (const { map, visuals } of VISUAL_MAPS) {
@@ -126,7 +140,7 @@ describe('plans d’habillage d’exploration', () => {
         }
 
         // 2. Personne ne se pose sur les cases d'un autre, à sa hauteur.
-        const layer = model.occupancy === 'solid' || model.occupancy === 'flat' ? 'sol' : 'air';
+        const layer = model.occupancy === 'solid' || model.occupancy === 'vegetation' || model.occupancy === 'flat' ? 'sol' : 'air';
         for (const cell of footprint) {
           const inMap =
             cell.x >= 0 && cell.x < (map.ascii[0]?.length ?? 0) && cell.y >= 0 && cell.y < map.ascii.length;
@@ -176,6 +190,17 @@ describe('plans d’habillage d’exploration', () => {
             }
             break;
           }
+          case 'vegetation': {
+            if (!tiles.every((tile) => VEGETATION.has(tile))) {
+              errors.push(`${where} : jardinière hors d’un massif végétal — ${describe()}`);
+            }
+            const replaced = new Set(replaces.map(key));
+            const missing = footprint.filter((cell) => !replaced.has(key(cell)));
+            if (missing.length > 0) {
+              errors.push(`${where} : jardinière qui ne remplace pas ${missing.map(key).join(' ')} — bloc générique rendu en double`);
+            }
+            break;
+          }
           case 'flat':
           case 'overhead': {
             const bad = footprint.filter((cell, i) => !WALKABLE.has(tiles[i] as string));
@@ -185,6 +210,24 @@ describe('plans d’habillage d’exploration', () => {
               );
             }
             if (replaces.length > 0) errors.push(`${where} : ${model.occupancy} ne remplace jamais un bloc`);
+            break;
+          }
+          case 'wall': {
+            const wallTiles = new Set(['#', '+']);
+            const bad = footprint.filter((cell) => {
+              const tile = map.ascii[cell.y]?.[cell.x];
+              if (wallTiles.has(tile ?? '?')) return false;
+              return ![
+                { x: cell.x - 1, y: cell.y },
+                { x: cell.x + 1, y: cell.y },
+                { x: cell.x, y: cell.y - 1 },
+                { x: cell.x, y: cell.y + 1 },
+              ].some((neighbor) => wallTiles.has(map.ascii[neighbor.y]?.[neighbor.x] ?? '?'));
+            });
+            if (bad.length > 0) {
+              errors.push(`${where} : élément mural sans contact avec un mur — ${bad.map(key).join(' ')}`);
+            }
+            if (replaces.length > 0) errors.push(`${where} : un élément mural ne remplace jamais un bloc`);
             break;
           }
           case 'threshold': {
@@ -198,7 +241,7 @@ describe('plans d’habillage d’exploration', () => {
 
         for (const cell of replaces) {
           const tile = map.ascii[cell.y]?.[cell.x];
-          if (!BLOCKING.has(tile ?? '?')) errors.push(`${where} : remplacement ${key(cell)} sur "${tile}"`);
+          if (!BLOCKING.has(tile ?? '?') && !VEGETATION.has(tile ?? '?')) errors.push(`${where} : remplacement ${key(cell)} sur "${tile}"`);
           dressed.add(key(cell));
         }
       }
@@ -208,7 +251,7 @@ describe('plans d’habillage d’exploration', () => {
       //    le joueur se cogner à une boîte grise que personne n'a voulue.
       map.ascii.forEach((row, y) => {
         [...row].forEach((tile, x) => {
-          if (!BLOCKING.has(tile)) return;
+          if (!BLOCKING.has(tile) && !VEGETATION.has(tile)) return;
           if (inTacticalArea(map, { x, y })) return;
           if (!dressed.has(key({ x, y }))) {
             errors.push(

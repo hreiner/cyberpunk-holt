@@ -2,7 +2,7 @@
  * Test end-to-end de l'exploration du chapitre 1 (ADR 0013, epic 3 lot 3.6b).
  *
  * Meme principe que narrative.spec.ts : on pilote `window.__game` (voir
- * docs/process/DEBUG_API.md), on ne clique pas dans le canvas. Ce fichier
+ * docs/process/DEBUG_API.md), avec quelques vrais clics pour vérifier le picking. Ce fichier
  * couvre ce que narrative.spec.ts ne peut pas (`ChapterApp` melange DOM et
  * logique, donc hors de portee de vitest/Node -- voir docs/process/TESTING.md) :
  * le parcours reel etapes 1 a 6 (reveil -> cantine -> discours -> pupitre ->
@@ -56,7 +56,11 @@ async function exploreCanvasSize(page: Page): Promise<{ width: number; height: n
  * au-delà de 450 ms) ; réessayer jusqu'à ce que la caméra soit réellement stable est la version
  * fiable de la même idée.
  */
-async function canvasPointForLabel(page: Page, label: string, attempts = 20): Promise<{ x: number; y: number }> {
+async function canvasPointForLabel(
+  page: Page,
+  label: string,
+  attempts = 20,
+): Promise<{ x: number; y: number }> {
   const sweepOnce = (expectedLabel: string) =>
     page.evaluate((lbl) => {
       const canvas = document.querySelector<HTMLCanvasElement>('.chapter-host-explore canvas');
@@ -83,7 +87,9 @@ async function canvasPointForLabel(page: Page, label: string, attempts = 20): Pr
     // synchrone -- défaut réel constaté (le même pixel change de cible d'une image à l'autre).
     // Laisser passer une image puis revérifier CE point précis filtre ces faux positifs sans
     // reprendre tout le balayage à chaque fois.
-    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    await page.evaluate(
+      () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+    );
     const stillThere = await page.evaluate(
       ({ x, y, expectedLabel }) => {
         const canvas = document.querySelector<HTMLCanvasElement>('.chapter-host-explore canvas');
@@ -96,7 +102,10 @@ async function canvasPointForLabel(page: Page, label: string, attempts = 20): Pr
     );
     if (stillThere) point = candidate;
   }
-  expect(point, `entité « ${label} » introuvable (ou instable) au survol du canvas après ${attempts} balayages`).not.toBeNull();
+  expect(
+    point,
+    `entité « ${label} » introuvable (ou instable) au survol du canvas après ${attempts} balayages`,
+  ).not.toBeNull();
   if (!point) throw new Error(`entité « ${label} » introuvable au survol du canvas`);
   return point;
 }
@@ -245,6 +254,18 @@ test('le chapitre 1 se joue de bout en bout par l’API de debug (réveil -> fou
   expect(runAfterReveil.flags['ch1.etape']).toBe('reveil');
   const leaderAtSpawn = explore?.leader;
 
+  // Le mobilier détaillé du dortoir garde le raccord objet -> clic -> réplique.
+  // Vérifier ce clic dans le parcours complet évite une spécification par meuble.
+  await page.evaluate(() => window.__game.walkTo(34, 3));
+  await page.keyboard.press('c');
+  const lockerPoint = await canvasPointForLabel(page, 'Ouvrir le casier');
+  await page.mouse.click(lockerPoint.x, lockerPoint.y);
+  await expect(page.getByTestId('brief-line-narration')).toContainText('Un casier métallique cabossé');
+  expect(await page.evaluate(() => window.__game.scene())).toMatchObject({
+    id: 'ch1.vers-cantine',
+    kind: 'explore',
+  });
+
   /* --- 2. Marche jusqu'à la place de la cantine, s'assoit -> ch1.discours (dialogue) --- */
   scene = await walkAndInteract(page, 'cantine.place-franklyn', { x: 41, y: 20 }); // SPAWNS.cantine
   expect(scene).toMatchObject({ id: 'ch1.discours', kind: 'dialogue' });
@@ -358,7 +379,7 @@ test('un vrai clic canvas atteint la porte visée', async ({ page }) => {
   expect(await page.evaluate(() => window.__game.node()?.nodeId)).toBe('sortie');
 });
 
-test('la porte ouverte depuis l’armoire reste franchissable après une reprise', async ({ page }) => {
+test('le détour de l’armoire repris laisse le verrou de la porte à jouer', async ({ page }) => {
   await boot(page, 'ch1.salle2', 'e2e-salle2-resume');
   await page.evaluate(() => window.__game.interact('salle2.armoire'));
   await traverseDialogue(page);
@@ -368,9 +389,13 @@ test('la porte ouverte depuis l’armoire reste franchissable après une reprise
   await page.waitForFunction(() => '__game' in window);
   await page.getByTestId('title-resume').click();
   expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle2');
-  await page.evaluate(() => window.__game.walkTo(26, 31));
-  expect((await page.evaluate(() => window.__game.explore()))?.leader).toEqual({ x: 26, y: 31 });
+  const run = await page.evaluate(() => window.__game.runState());
+  expect(run.flags['ch1.salle2::choix-armoire.fait']).toBe(true);
+  expect(run.flags['ch1.salle2::porte.fait']).not.toBe(true);
   await page.evaluate(() => window.__game.interact('salle2.porte-nord'));
+  expect(await page.evaluate(() => window.__game.node()?.nodeId)).toBe('porte');
+  await traverseDialogue(page);
+  await advanceScene(page);
   expect((await page.evaluate(() => window.__game.scene())).id).toBe('ch1.salle3');
 });
 

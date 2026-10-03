@@ -1,0 +1,222 @@
+{
+  "date": "2026-09-30",
+  "build": "main-BZJQidHY.js",
+  "measurements": [
+    {
+      "browser": "153.0.8010.12",
+      "viewport": [1920, 1080],
+      "deviceScaleFactor": 1,
+      "seed": "dormitory-integration",
+      "samples": [
+        {
+          "label": "Dortoir jour",
+          "frames": 600,
+          "medianMs": 16.69999999999891,
+          "p95Ms": 16.799999999999272,
+          "p99Ms": 16.80000000000109,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1,
+            "drawCalls": 353,
+            "triangles": 903120,
+            "geometries": 107,
+            "textures": 52
+          }
+        },
+        {
+          "label": "Dortoir nuit",
+          "frames": 600,
+          "medianMs": 16.69999999999709,
+          "p95Ms": 16.700000000004366,
+          "p99Ms": 16.80000000000291,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1,
+            "drawCalls": 426,
+            "triangles": 1002502,
+            "geometries": 140,
+            "textures": 71
+          }
+        },
+        {
+          "label": "HOLT vue large",
+          "frames": 600,
+          "medianMs": 16.69999999999709,
+          "p95Ms": 16.79999999998836,
+          "p99Ms": 16.80000000000291,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1,
+            "drawCalls": 427,
+            "triangles": 1172884,
+            "geometries": 121,
+            "textures": 54
+          }
+        }
+      ],
+      "memory": [
+        {
+          "cycle": 0,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1,
+            "drawCalls": 280,
+            "triangles": 943348,
+            "geometries": 140,
+            "textures": 83
+          }
+        },
+        {
+          "cycle": 1,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1,
+            "drawCalls": 280,
+            "triangles": 943348,
+            "geometries": 140,
+            "textures": 83
+          }
+        },
+        {
+          "cycle": 2,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1,
+            "drawCalls": 280,
+            "triangles": 943348,
+            "geometries": 140,
+            "textures": 83
+          }
+        }
+      ],
+      "memoryStable": true,
+      "resize": {
+        "width": 1280,
+        "height": 720,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1,
+          "drawCalls": 280,
+          "triangles": 943348,
+          "geometries": 140,
+          "textures": 83
+        }
+      },
+      "errors": []
+    },
+    {
+      "browser": "153.0.8010.12",
+      "viewport": [1920, 1080],
+      "deviceScaleFactor": 1.5,
+      "seed": "dormitory-integration",
+      "samples": [
+        {
+          "label": "Dortoir jour",
+          "frames": 600,
+          "medianMs": 16.69999999999891,
+          "p95Ms": 16.700000000000728,
+          "p99Ms": 16.80000000000109,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1.5,
+            "drawCalls": 347,
+            "triangles": 902792,
+            "geometries": 107,
+            "textures": 52
+          }
+        },
+        {
+          "label": "Dortoir nuit",
+          "frames": 600,
+          "medianMs": 16.69999999999709,
+          "p95Ms": 16.700000000004366,
+          "p99Ms": 16.80000000000291,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1.5,
+            "drawCalls": 385,
+            "triangles": 991232,
+            "geometries": 140,
+            "textures": 71
+          }
+        },
+        {
+          "label": "HOLT vue large",
+          "frames": 600,
+          "medianMs": 16.69999999999709,
+          "p95Ms": 16.799999999995634,
+          "p99Ms": 16.80000000000291,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1.5,
+            "drawCalls": 427,
+            "triangles": 1172884,
+            "geometries": 121,
+            "textures": 54
+          }
+        }
+      ],
+      "memory": [
+        {
+          "cycle": 0,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1.5,
+            "drawCalls": 280,
+            "triangles": 943348,
+            "geometries": 140,
+            "textures": 83
+          }
+        },
+        {
+          "cycle": 1,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1.5,
+            "drawCalls": 280,
+            "triangles": 943348,
+            "geometries": 140,
+            "textures": 83
+          }
+        },
+        {
+          "cycle": 2,
+          "stats": {
+            "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "pixelRatio": 1.5,
+            "drawCalls": 280,
+            "triangles": 943348,
+            "geometries": 140,
+            "textures": 83
+          }
+        }
+      ],
+      "memoryStable": true,
+      "resize": {
+        "width": 1920,
+        "height": 1080,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1.5,
+          "drawCalls": 280,
+          "triangles": 943348,
+          "geometries": 140,
+          "textures": 83
+        }
+      },
+      "errors": []
+    }
+  ],
+  "materialLifecycle": {
+    "before": {
+      "version": 3,
+      "width": 512
+    },
+    "loaded": {
+      "version": 4,
+      "width": 512
+    },
+    "disposedIgnoresLateLoad": true,
+    "offlineFallback": true
+  }
+}

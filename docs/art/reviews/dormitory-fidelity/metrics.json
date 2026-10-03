@@ -1,0 +1,894 @@
+{
+  "date": "2026-10-01",
+  "description": "Reprise du dortoir vers le pilote; mesures du build final, 600 intervalles RAF par vue.",
+  "dpr1": {
+    "base": "http://127.0.0.1:4173/cyberpunk-holt/",
+    "browser": "153.0.8010.12",
+    "deviceScaleFactor": 1,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "seed": "dormitory-integration",
+    "errors": [],
+    "samples": [
+      {
+        "label": "Dortoir jour",
+        "medianMs": 16.69999999999891,
+        "p95Ms": 16.799999999999272,
+        "p99Ms": 16.80000000000109,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1,
+          "drawCalls": 815,
+          "triangles": 1819668,
+          "geometries": 130,
+          "textures": 68
+        },
+        "state": {
+          "mapId": "holt",
+          "leader": {
+            "x": 38,
+            "y": 8
+          },
+          "followers": [],
+          "objective": {
+            "id": "ch1.vers-cantine",
+            "title": "Rejoindre la cantine",
+            "context": "Le directeur s'adresse à la promotion.",
+            "tasks": [
+              {
+                "id": "ch1.vers-cantine.parler",
+                "label": "parler aux cadets",
+                "count": 0,
+                "target": 4,
+                "done": false
+              }
+            ],
+            "complete": false
+          },
+          "interactables": [
+            {
+              "id": "dortoir.casier",
+              "type": "object",
+              "cell": {
+                "x": 35,
+                "y": 2
+              },
+              "interactionCell": {
+                "x": 34,
+                "y": 3
+              },
+              "label": "Ouvrir le casier",
+              "reachable": true
+            },
+            {
+              "id": "dortoir.figurant-1",
+              "type": "npc",
+              "cell": {
+                "x": 39,
+                "y": 8
+              },
+              "interactionCell": {
+                "x": 38,
+                "y": 8
+              },
+              "label": "Parler au cadet",
+              "reachable": true
+            },
+            {
+              "id": "dortoir.figurant-2",
+              "type": "npc",
+              "cell": {
+                "x": 41,
+                "y": 11
+              },
+              "interactionCell": {
+                "x": 40,
+                "y": 10
+              },
+              "label": "Parler à la cadette",
+              "reachable": true
+            },
+            {
+              "id": "couloir.figurant-1",
+              "type": "npc",
+              "cell": {
+                "x": 33,
+                "y": 13
+              },
+              "interactionCell": {
+                "x": 34,
+                "y": 12
+              },
+              "label": "Parler au cadet",
+              "reachable": true
+            },
+            {
+              "id": "couloir.figurant-2",
+              "type": "npc",
+              "cell": {
+                "x": 36,
+                "y": 13
+              },
+              "interactionCell": {
+                "x": 35,
+                "y": 12
+              },
+              "label": "Parler aux cadettes",
+              "reachable": true
+            },
+            {
+              "id": "administration.bureau",
+              "type": "door",
+              "cell": {
+                "x": 11,
+                "y": 0
+              },
+              "interactionCell": {
+                "x": 12,
+                "y": 1
+              },
+              "label": "Frapper à la porte",
+              "reachable": true
+            },
+            {
+              "id": "corridor-ouest.acces-seconde-generation",
+              "type": "door",
+              "cell": {
+                "x": 0,
+                "y": 25
+              },
+              "interactionCell": {
+                "x": 1,
+                "y": 24
+              },
+              "label": "Essayer la porte",
+              "reachable": true
+            }
+          ],
+          "discoveredRooms": [
+            "dortoirs"
+          ]
+        }
+      },
+      {
+        "label": "Dortoir nuit",
+        "medianMs": 16.69999999999709,
+        "p95Ms": 16.799999999995634,
+        "p99Ms": 16.80000000000291,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1,
+          "drawCalls": 585,
+          "triangles": 1898374,
+          "geometries": 153,
+          "textures": 87
+        },
+        "state": {
+          "mapId": "holt-nuit",
+          "leader": {
+            "x": 38,
+            "y": 8
+          },
+          "followers": [],
+          "objective": {
+            "id": "ch2.bal",
+            "title": "Profiter du bal",
+            "context": "La dernière soirée avant le départ. Letitia attend qu’on l’invite — rien ne presse.",
+            "tasks": [
+              {
+                "id": "ch2.bal.parler",
+                "label": "parler à la bande",
+                "count": 0,
+                "target": 4,
+                "done": false
+              }
+            ],
+            "complete": false
+          },
+          "interactables": [
+            {
+              "id": "bal.letitia",
+              "type": "npc",
+              "cell": {
+                "x": 38,
+                "y": 34
+              },
+              "interactionCell": {
+                "x": 37,
+                "y": 34
+              },
+              "label": "Parler à Letitia",
+              "reachable": false
+            },
+            {
+              "id": "bal.zachary",
+              "type": "npc",
+              "cell": {
+                "x": 32,
+                "y": 46
+              },
+              "interactionCell": {
+                "x": 31,
+                "y": 45
+              },
+              "label": "Parler à Zachary",
+              "reachable": false
+            },
+            {
+              "id": "bal.abigail",
+              "type": "npc",
+              "cell": {
+                "x": 44,
+                "y": 42
+              },
+              "interactionCell": {
+                "x": 43,
+                "y": 41
+              },
+              "label": "Parler à Abigail",
+              "reachable": false
+            },
+            {
+              "id": "bal.john",
+              "type": "npc",
+              "cell": {
+                "x": 32,
+                "y": 36
+              },
+              "interactionCell": {
+                "x": 31,
+                "y": 35
+              },
+              "label": "Parler à John",
+              "reachable": false
+            },
+            {
+              "id": "bal.grover",
+              "type": "npc",
+              "cell": {
+                "x": 42,
+                "y": 36
+              },
+              "interactionCell": {
+                "x": 41,
+                "y": 35
+              },
+              "label": "Parler à Grover",
+              "reachable": false
+            }
+          ],
+          "discoveredRooms": [
+            "salles-entrainement",
+            "dortoirs"
+          ]
+        }
+      },
+      {
+        "label": "HOLT vue large",
+        "medianMs": 16.69999999999709,
+        "p95Ms": 16.70000000001164,
+        "p99Ms": 16.80000000000291,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1,
+          "drawCalls": 769,
+          "triangles": 1891582,
+          "geometries": 135,
+          "textures": 70
+        },
+        "state": {
+          "mapId": "holt",
+          "leader": {
+            "x": 23,
+            "y": 20
+          },
+          "followers": [
+            {
+              "x": 23,
+              "y": 22
+            },
+            {
+              "x": 23,
+              "y": 23
+            }
+          ],
+          "objective": {
+            "id": "ch1.hub",
+            "title": "Rejoindre le garage",
+            "context": "Le fourgon part dès que l'équipe est prête.",
+            "tasks": [
+              {
+                "id": "ch1.hub.parler",
+                "label": "parler aux cadets",
+                "count": 0,
+                "target": 5,
+                "done": false
+              }
+            ],
+            "complete": false
+          },
+          "interactables": [
+            {
+              "id": "entrainement.sac-de-frappe",
+              "type": "object",
+              "cell": {
+                "x": 30,
+                "y": 46
+              },
+              "interactionCell": {
+                "x": 29,
+                "y": 45
+              },
+              "label": "Examiner le sac de frappe",
+              "reachable": true
+            },
+            {
+              "id": "entrainement.zachary",
+              "type": "npc",
+              "cell": {
+                "x": 32,
+                "y": 46
+              },
+              "interactionCell": {
+                "x": 31,
+                "y": 45
+              },
+              "label": "Parler à Zachary",
+              "reachable": true
+            },
+            {
+              "id": "administration.bureau",
+              "type": "door",
+              "cell": {
+                "x": 11,
+                "y": 0
+              },
+              "interactionCell": {
+                "x": 10,
+                "y": 1
+              },
+              "label": "Frapper à la porte",
+              "reachable": true
+            },
+            {
+              "id": "corridor-ouest.acces-seconde-generation",
+              "type": "door",
+              "cell": {
+                "x": 0,
+                "y": 25
+              },
+              "interactionCell": {
+                "x": 1,
+                "y": 24
+              },
+              "label": "Essayer la porte",
+              "reachable": true
+            },
+            {
+              "id": "garage.fourgon",
+              "type": "object",
+              "cell": {
+                "x": 42,
+                "y": 57
+              },
+              "interactionCell": {
+                "x": 41,
+                "y": 56
+              },
+              "label": "Monter dans le fourgon",
+              "reachable": true
+            }
+          ],
+          "discoveredRooms": [
+            "dortoirs",
+            "cantine",
+            "salles-entrainement",
+            "garage"
+          ]
+        }
+      }
+    ],
+    "memory": [
+      {
+        "cycle": 0,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1,
+          "drawCalls": 540,
+          "triangles": 1810740,
+          "geometries": 160,
+          "textures": 100
+        }
+      },
+      {
+        "cycle": 1,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1,
+          "drawCalls": 540,
+          "triangles": 1810740,
+          "geometries": 159,
+          "textures": 100
+        }
+      },
+      {
+        "cycle": 2,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1,
+          "drawCalls": 540,
+          "triangles": 1810740,
+          "geometries": 159,
+          "textures": 100
+        }
+      }
+    ],
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "memoryStable": true,
+    "resize": {
+      "width": 1280,
+      "height": 720,
+      "stats": {
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "pixelRatio": 1,
+        "drawCalls": 540,
+        "triangles": 1810740,
+        "geometries": 159,
+        "textures": 100
+      }
+    }
+  },
+  "dpr15": {
+    "base": "http://127.0.0.1:4173/cyberpunk-holt/",
+    "browser": "153.0.8010.12",
+    "deviceScaleFactor": 1.5,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "seed": "dormitory-integration",
+    "errors": [],
+    "samples": [
+      {
+        "label": "Dortoir jour",
+        "medianMs": 16.69999999999891,
+        "p95Ms": 16.799999999999272,
+        "p99Ms": 16.80000000000109,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1.5,
+          "drawCalls": 800,
+          "triangles": 1819508,
+          "geometries": 129,
+          "textures": 68
+        },
+        "state": {
+          "mapId": "holt",
+          "leader": {
+            "x": 38,
+            "y": 8
+          },
+          "followers": [],
+          "objective": {
+            "id": "ch1.vers-cantine",
+            "title": "Rejoindre la cantine",
+            "context": "Le directeur s'adresse à la promotion.",
+            "tasks": [
+              {
+                "id": "ch1.vers-cantine.parler",
+                "label": "parler aux cadets",
+                "count": 0,
+                "target": 4,
+                "done": false
+              }
+            ],
+            "complete": false
+          },
+          "interactables": [
+            {
+              "id": "dortoir.casier",
+              "type": "object",
+              "cell": {
+                "x": 35,
+                "y": 2
+              },
+              "interactionCell": {
+                "x": 34,
+                "y": 3
+              },
+              "label": "Ouvrir le casier",
+              "reachable": true
+            },
+            {
+              "id": "dortoir.figurant-1",
+              "type": "npc",
+              "cell": {
+                "x": 39,
+                "y": 8
+              },
+              "interactionCell": {
+                "x": 38,
+                "y": 8
+              },
+              "label": "Parler au cadet",
+              "reachable": true
+            },
+            {
+              "id": "dortoir.figurant-2",
+              "type": "npc",
+              "cell": {
+                "x": 41,
+                "y": 11
+              },
+              "interactionCell": {
+                "x": 40,
+                "y": 10
+              },
+              "label": "Parler à la cadette",
+              "reachable": true
+            },
+            {
+              "id": "couloir.figurant-1",
+              "type": "npc",
+              "cell": {
+                "x": 33,
+                "y": 13
+              },
+              "interactionCell": {
+                "x": 34,
+                "y": 12
+              },
+              "label": "Parler au cadet",
+              "reachable": true
+            },
+            {
+              "id": "couloir.figurant-2",
+              "type": "npc",
+              "cell": {
+                "x": 36,
+                "y": 13
+              },
+              "interactionCell": {
+                "x": 35,
+                "y": 12
+              },
+              "label": "Parler aux cadettes",
+              "reachable": true
+            },
+            {
+              "id": "administration.bureau",
+              "type": "door",
+              "cell": {
+                "x": 11,
+                "y": 0
+              },
+              "interactionCell": {
+                "x": 12,
+                "y": 1
+              },
+              "label": "Frapper à la porte",
+              "reachable": true
+            },
+            {
+              "id": "corridor-ouest.acces-seconde-generation",
+              "type": "door",
+              "cell": {
+                "x": 0,
+                "y": 25
+              },
+              "interactionCell": {
+                "x": 1,
+                "y": 24
+              },
+              "label": "Essayer la porte",
+              "reachable": true
+            }
+          ],
+          "discoveredRooms": [
+            "dortoirs"
+          ]
+        }
+      },
+      {
+        "label": "Dortoir nuit",
+        "medianMs": 16.69999999999709,
+        "p95Ms": 16.700000000004366,
+        "p99Ms": 16.80000000000291,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1.5,
+          "drawCalls": 559,
+          "triangles": 1861092,
+          "geometries": 153,
+          "textures": 87
+        },
+        "state": {
+          "mapId": "holt-nuit",
+          "leader": {
+            "x": 38,
+            "y": 8
+          },
+          "followers": [],
+          "objective": {
+            "id": "ch2.bal",
+            "title": "Profiter du bal",
+            "context": "La dernière soirée avant le départ. Letitia attend qu’on l’invite — rien ne presse.",
+            "tasks": [
+              {
+                "id": "ch2.bal.parler",
+                "label": "parler à la bande",
+                "count": 0,
+                "target": 4,
+                "done": false
+              }
+            ],
+            "complete": false
+          },
+          "interactables": [
+            {
+              "id": "bal.letitia",
+              "type": "npc",
+              "cell": {
+                "x": 38,
+                "y": 34
+              },
+              "interactionCell": {
+                "x": 37,
+                "y": 34
+              },
+              "label": "Parler à Letitia",
+              "reachable": false
+            },
+            {
+              "id": "bal.zachary",
+              "type": "npc",
+              "cell": {
+                "x": 32,
+                "y": 46
+              },
+              "interactionCell": {
+                "x": 31,
+                "y": 45
+              },
+              "label": "Parler à Zachary",
+              "reachable": false
+            },
+            {
+              "id": "bal.abigail",
+              "type": "npc",
+              "cell": {
+                "x": 44,
+                "y": 42
+              },
+              "interactionCell": {
+                "x": 43,
+                "y": 41
+              },
+              "label": "Parler à Abigail",
+              "reachable": false
+            },
+            {
+              "id": "bal.john",
+              "type": "npc",
+              "cell": {
+                "x": 32,
+                "y": 36
+              },
+              "interactionCell": {
+                "x": 31,
+                "y": 35
+              },
+              "label": "Parler à John",
+              "reachable": false
+            },
+            {
+              "id": "bal.grover",
+              "type": "npc",
+              "cell": {
+                "x": 42,
+                "y": 36
+              },
+              "interactionCell": {
+                "x": 41,
+                "y": 35
+              },
+              "label": "Parler à Grover",
+              "reachable": false
+            }
+          ],
+          "discoveredRooms": [
+            "salles-entrainement",
+            "dortoirs"
+          ]
+        }
+      },
+      {
+        "label": "HOLT vue large",
+        "medianMs": 16.69999999999709,
+        "p95Ms": 16.70000000001164,
+        "p99Ms": 16.80000000000291,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1.5,
+          "drawCalls": 769,
+          "triangles": 1891582,
+          "geometries": 135,
+          "textures": 70
+        },
+        "state": {
+          "mapId": "holt",
+          "leader": {
+            "x": 23,
+            "y": 20
+          },
+          "followers": [
+            {
+              "x": 23,
+              "y": 22
+            },
+            {
+              "x": 23,
+              "y": 23
+            }
+          ],
+          "objective": {
+            "id": "ch1.hub",
+            "title": "Rejoindre le garage",
+            "context": "Le fourgon part dès que l'équipe est prête.",
+            "tasks": [
+              {
+                "id": "ch1.hub.parler",
+                "label": "parler aux cadets",
+                "count": 0,
+                "target": 5,
+                "done": false
+              }
+            ],
+            "complete": false
+          },
+          "interactables": [
+            {
+              "id": "entrainement.sac-de-frappe",
+              "type": "object",
+              "cell": {
+                "x": 30,
+                "y": 46
+              },
+              "interactionCell": {
+                "x": 29,
+                "y": 45
+              },
+              "label": "Examiner le sac de frappe",
+              "reachable": true
+            },
+            {
+              "id": "entrainement.zachary",
+              "type": "npc",
+              "cell": {
+                "x": 32,
+                "y": 46
+              },
+              "interactionCell": {
+                "x": 31,
+                "y": 45
+              },
+              "label": "Parler à Zachary",
+              "reachable": true
+            },
+            {
+              "id": "administration.bureau",
+              "type": "door",
+              "cell": {
+                "x": 11,
+                "y": 0
+              },
+              "interactionCell": {
+                "x": 10,
+                "y": 1
+              },
+              "label": "Frapper à la porte",
+              "reachable": true
+            },
+            {
+              "id": "corridor-ouest.acces-seconde-generation",
+              "type": "door",
+              "cell": {
+                "x": 0,
+                "y": 25
+              },
+              "interactionCell": {
+                "x": 1,
+                "y": 24
+              },
+              "label": "Essayer la porte",
+              "reachable": true
+            },
+            {
+              "id": "garage.fourgon",
+              "type": "object",
+              "cell": {
+                "x": 42,
+                "y": 57
+              },
+              "interactionCell": {
+                "x": 41,
+                "y": 56
+              },
+              "label": "Monter dans le fourgon",
+              "reachable": true
+            }
+          ],
+          "discoveredRooms": [
+            "dortoirs",
+            "cantine",
+            "salles-entrainement",
+            "garage"
+          ]
+        }
+      }
+    ],
+    "memory": [
+      {
+        "cycle": 0,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1.5,
+          "drawCalls": 540,
+          "triangles": 1810740,
+          "geometries": 159,
+          "textures": 100
+        }
+      },
+      {
+        "cycle": 1,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1.5,
+          "drawCalls": 540,
+          "triangles": 1810740,
+          "geometries": 159,
+          "textures": 100
+        }
+      },
+      {
+        "cycle": 2,
+        "stats": {
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "pixelRatio": 1.5,
+          "drawCalls": 540,
+          "triangles": 1810740,
+          "geometries": 159,
+          "textures": 100
+        }
+      }
+    ],
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "memoryStable": true,
+    "resize": {
+      "width": 1920,
+      "height": 1080,
+      "stats": {
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1070 (0x00001B81) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "pixelRatio": 1.5,
+        "drawCalls": 540,
+        "triangles": 1810740,
+        "geometries": 159,
+        "textures": 100
+      }
+    }
+  },
+  "materials": {
+    "before": {
+      "version": 3,
+      "width": 1024
+    },
+    "loaded": {
+      "version": 4,
+      "width": 1024
+    },
+    "disposedIgnoresLateLoad": true,
+    "offlineFallback": true
+  }
+}

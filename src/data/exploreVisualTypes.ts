@@ -37,6 +37,8 @@ export type ExploreVisualPlacement = ExploreVisualVisibility & {
   footprint?: readonly Cell[];
   /** Entite existante dont ce placement porte l'apparence, sans creer de declencheur. */
   entityId?: string;
+  /** Specialized door dressing follows its real state without becoming an interaction. */
+  doorStateId?: string;
   /** Cases `o`/`T` dont le placeholder generique est retire du rendu seulement. */
   replaces?: readonly Cell[];
   /**

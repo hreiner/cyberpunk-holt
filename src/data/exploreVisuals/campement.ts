@@ -18,7 +18,11 @@
  * `ExploreSession` pour cette carte -- c'est le feu qui porte la lecture.
  */
 import type { Cell } from '@/explore';
-import type { ExploreVisualMapDef, ExploreVisualModelId, ExploreVisualPlacement } from '../exploreVisualTypes';
+import type {
+  ExploreVisualMapDef,
+  ExploreVisualModelId,
+  ExploreVisualPlacement,
+} from '../exploreVisualTypes';
 import { CAMPEMENT_BLOCKS } from '../maps/campement';
 
 type Block = (typeof CAMPEMENT_BLOCKS)[keyof typeof CAMPEMENT_BLOCKS];
@@ -36,7 +40,14 @@ function blockCells({ x, y, w, h }: Block): Cell[] {
  */
 function solidOn(id: string, model: ExploreVisualModelId, block: Block): ExploreVisualPlacement {
   const cells = blockCells(block);
-  return { id, model, cell: { x: block.x, y: block.y }, footprint: cells, replaces: cells, visibility: 'exterior' };
+  return {
+    id,
+    model,
+    cell: { x: block.x, y: block.y },
+    footprint: cells,
+    replaces: cells,
+    visibility: 'exterior',
+  };
 }
 
 export const CAMPEMENT_VISUALS: ExploreVisualMapDef = {

@@ -17,5 +17,8 @@ Thumbs.db
 /.dream-loop/
 *.log
 
+# Local QA captures; selected evidence is explicitly versioned with its review.
+/docs/art/reviews/
+
 # Masters des illustrations (lourds, hors dépôt) — voir docs/art/image-generation/ORCHESTRATOR.md
 art-masters/

@@ -203,12 +203,16 @@ en scène qui change :
 
 Le format de dialogue gagne pour cela un **nœud d'entrée** choisi par l'entité
 (`dialogueId` + `startNode`), voir [`07-DIALOGUE-FORMAT.md`](07-DIALOGUE-FORMAT.md).
-L'armoire de la salle 2 joue aussi le piratage de la porte dans son dialogue : son champ
-`opensDoorAfterDialogue` désigne `salle2.porte-nord`. Le passage s'ouvre réellement à la
-fin de la conversation ; un clic sur la porte fait ensuite avancer vers la salle 3 sans
-refermer le battant. Après un rechargement en salle 2, la porte retrouve son état ouvert
-si cette conversation est déjà terminée. La porte peut aussi être abordée directement
-sans ouvrir l'armoire.
+En salle 2, l'armoire est un détour facultatif : son dialogue permet de la forcer pour
+obtenir un second taser, au prix de deux points de tempo. L'issue du dialogue ne déplace
+pas l'équipe et n'ouvre pas la porte nord. Celle-ci garde son propre beat de piratage,
+déclenché par `salle2.porte-nord` ; le joueur doit donc l'aborder séparément, qu'il ait
+forcé ou ignoré l'armoire. Seule cette porte termine l'étape et ouvre le passage vers la
+salle 3.
+
+L'objectif affiche dès l'entrée le détour facultatif « examiner l'armoire pour récupérer
+un second taser » avec son compteur 0/1. Ce compteur indique que le joueur a examiné
+l'armoire ; seul le jet réussi donne le taser.
 
 Le portail de la cour reste porté par une `zone` (`cour.portail`, déclencheur officiel de
 l'objectif — inchangé, voir `tests/unit/sceneRouterExplore.test.ts`) : « le portail est un seuil,

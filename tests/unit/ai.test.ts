@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { decideAction, playAiTurn, playToEnd } from '@/tactical/ai';
+import {
+  AUTOMATIC_RESOLUTION_MAX_TURNS,
+  decideAction,
+  playAiTurn,
+  playToEnd,
+  resolveCombatAutomatically,
+} from '@/tactical/ai';
 import { TacticalCombat, defaultSetup } from '@/tactical/combat';
 import { d10AtLeast, estimateShot } from '@/tactical/queries';
 
@@ -37,6 +43,40 @@ describe('IA tactique', () => {
     playToEnd(a);
     playToEnd(b);
     expect(a.state.units).toEqual(b.state.units);
+  });
+
+  it('résout les deux équipes depuis l’état courant, de façon seedée et bornée', () => {
+    const resolve = () => {
+      const combat = new TacticalCombat(defaultSetup('ia-resultat-auto'));
+      const firstUnit = combat.currentUnitId();
+      combat.endTurn();
+      expect(combat.currentUnitId()).not.toBe(firstUnit);
+
+      const beforeBoundedAttempt = JSON.stringify(combat.state);
+      expect(resolveCombatAutomatically(combat, 0)).toEqual({ finished: false, turns: 0 });
+      expect(JSON.stringify(combat.state)).toBe(beforeBoundedAttempt);
+
+      const existingLogLength = combat.state.log.length;
+      const result = resolveCombatAutomatically(combat);
+      expect(result.finished).toBe(true);
+      expect(result.turns).toBeLessThanOrEqual(AUTOMATIC_RESOLUTION_MAX_TURNS);
+      expect(combat.state.phase).toBe('finished');
+      expect(combat.state.log.length).toBeGreaterThan(existingLogLength);
+      expect(combat.state.log[0]?.text).toContain('ia-resultat-auto');
+      for (const team of ['blue', 'red'] as const) {
+        expect(
+          combat.state.log.some((entry) => entry.unit && combat.unit(entry.unit).team === team),
+        ).toBe(true);
+      }
+      return {
+        winner: combat.state.winner,
+        round: combat.state.round,
+        units: combat.state.units,
+        log: combat.state.log,
+      };
+    };
+
+    expect(resolve()).toEqual(resolve());
   });
 });
 

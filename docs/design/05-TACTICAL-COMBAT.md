@@ -40,6 +40,13 @@ contient bien trois déploiements par camp et une mine.
 4. Au-delà de **12 rounds**, l'exercice s'arrête : l'équipe ayant le plus de cadets debout
    l'emporte.
 
+Pendant l'affrontement, le bouton **Résultat automatique** permet de confier les deux
+équipes à l'IA jusqu'à la fin. Il reprend l'état courant (actions déjà jouées, matériel,
+cadets neutralisés et générateurs seedés) et produit le bilan, la note et la sauvegarde
+habituels. Il fonctionne aussi pendant un tour adverse ou une animation : les effets en
+attente sont arrêtés avant la résolution. Il est désactivé pendant le calcul et disparaît
+une fois l'exercice terminé. Cette résolution ne garantit pas la victoire.
+
 ### Déplacement
 
 Huit directions, **une case = un point**, y compris en diagonale. Une diagonale est

@@ -81,19 +81,18 @@ export const CENTRE_EXAMEN_VISUALS: ExploreVisualMapDef = {
     // Le seul marquage encore lisible de l'aire mène droit à la porte : c'est
     // le chemin, et c'est ce qui rend la porte évidente sans flèche de HUD.
     light('parking.marque-acces', 'hazard-floor-zone', 'parking', 20, 63, 3, 2, 0),
-    light('parking.reglette-entree', 'strip-light', 'parking', 20, 62, 2, 1, 0),
+    light('parking.reglette-entree', 'wall-strip-light', 'parking', 20, 62, 2, 1, 0),
 
     /* -- Hall d'entrée : le centre est vide, l'instructeur s'y tient ---- */
-    solid('hall.banc-ouest', 'waiting-bench', 'hall', 13, 55, 1, 3, 270),
-    solid('hall.banc-est', 'waiting-bench', 'hall', 30, 55, 1, 3, 90),
+    solid('hall.banc-ouest', 'exam-waiting-bench', 'hall', 13, 55, 1, 3, 270),
+    solid('hall.banc-est', 'exam-waiting-bench', 'hall', 30, 55, 1, 3, 90),
     solid('hall.banque-technique', 'industrial-service-bank', 'hall', 14, 52, 3, 1, 0),
-    solid('hall.cage-materiel', 'equipment-cage', 'hall', 28, 52, 2, 1, 0),
+    solid('hall.cage-materiel', 'exam-equipment-cage', 'hall', 28, 52, 2, 1, 0),
     solid('hall.caisses', 'crate-stack', 'hall', 13, 59, 2, 2, 0),
     // Marquage de rassemblement : les deux bancs le regardent, l'instructeur
     // se tient dessus. C'est l'ancre du hall et elle est seule au milieu.
     light('hall.marque-briefing', 'hazard-floor-zone', 'hall', 20, 56, 3, 2, 0),
-    light('hall.reglette-briefing', 'strip-light', 'hall', 21, 55, 2, 1, 0),
-    light('hall.portique-service', 'overhead-service-gantry', 'hall', 19, 53, 5, 1, 0),
+    light('hall.reglette-briefing', 'wall-strip-light', 'hall', 13, 54, 1, 2, 270),
 
     /* -- Salle 1 : la porte, le chien, l'otage -------------------------- */
     // Tout le mobilier est sur les bords. Le chien est le seul volume au
@@ -116,22 +115,21 @@ export const CENTRE_EXAMEN_VISUALS: ExploreVisualMapDef = {
     light('salle1.portail-nord', 'exam-door-portal', 'salle1', 17, 41, 1, 1, 180),
     // Autour du chien : le couloir peint de l'ancien parcours, et rien d'autre.
     light('salle1.marque-k9', 'hazard-floor-zone', 'salle1', 18, 45, 3, 2, 0),
-    light('salle1.reglette-chien', 'strip-light', 'salle1', 19, 44, 2, 1, 0),
-    light('salle1.reglette-entree', 'strip-light', 'salle1', 25, 49, 2, 1, 0),
-    light('salle1.conduite-nord', 'pipe-run', 'salle1', 21, 42, 4, 1, 0),
+    light('salle1.reglette-chien', 'wall-strip-light', 'salle1', 13, 43, 1, 2, 270),
+    light('salle1.reglette-entree', 'wall-strip-light', 'salle1', 30, 48, 1, 2, 90),
+    light('salle1.conduite-nord', 'wall-pipe-run', 'salle1', 21, 42, 4, 1, 0),
 
     /* -- Salle 2 : l'armoire seule d'un côté, la porte de l'autre ------- */
-    solid('salle2.armoire', 'factory:machine-fortified', 'salle2', 13, 35, 2, 3, 0, {
+    solid('salle2.armoire', 'exam-secure-locker', 'salle2', 13, 35, 2, 3, 0, {
       entityId: 'salle2.armoire',
-      scale: 1.45,
     }),
-    solid('salle2.cage-nord', 'equipment-cage', 'salle2', 30, 34, 1, 2, 270),
-    solid('salle2.cage-sud', 'equipment-cage', 'salle2', 30, 37, 1, 2, 270),
+    solid('salle2.cage-nord', 'exam-equipment-cage', 'salle2', 30, 34, 1, 2, 270),
+    solid('salle2.cage-sud', 'exam-equipment-cage', 'salle2', 30, 37, 1, 2, 270),
     solid('salle2.caisses', 'crate-stack', 'salle2', 13, 39, 2, 2, 0),
     light('salle2.portail-nord', 'exam-door-portal', 'salle2', 26, 31, 1, 1, 0),
     // Le trajet du seuil sud-ouest au seuil nord-est, peint au sol.
-    light('salle2.reglette-armoire', 'strip-light', 'salle2', 15, 36, 2, 1, 0),
-    light('salle2.reglette-porte', 'strip-light', 'salle2', 25, 34, 2, 1, 0),
+    light('salle2.reglette-armoire', 'wall-strip-light', 'salle2', 13, 38, 1, 2, 270),
+    light('salle2.reglette-porte', 'wall-strip-light', 'salle2', 30, 34, 1, 2, 90),
 
     /* -- Salle 3 : l'îlot de contrôle, le gaz, la sortie nord ----------- */
     solid('salle3.console', 'exam-terminal', 'salle3', 21, 26, 2, 2, 0, {
@@ -142,19 +140,19 @@ export const CENTRE_EXAMEN_VISUALS: ExploreVisualMapDef = {
     solid('salle3.futs', 'barrel-stack', 'salle3', 29, 22, 2, 2, 0),
     solid('salle3.bouteilles', 'gas-rack', 'salle3', 13, 23, 2, 1, 0),
     light('salle3.portail-nord', 'exam-door-portal', 'salle3', 21, 21, 1, 1, 0),
-    // La gaine éventrée est AU-DESSUS du chemin vers la sortie : on comprend
-    // d'où vient le gaz, et où il faut aller, du même coup d'œil.
-    light('salle3.gaine-eventree', 'vent-duct', 'salle3', 20, 24, 3, 1, 0),
+    // La gaine éventrée reste sur le mur ouest, au-dessus des bouteilles, et
+    // souffle vers la zone au sol sans barrer la vue vers la sortie.
+    light('salle3.gaine-eventree', 'wall-vent-duct', 'salle3', 13, 24, 1, 3, 270),
     light('salle3.zone-toxique', 'hazard-floor-zone', 'salle3', 20, 22, 3, 2, 0),
-    light('salle3.reglette-console', 'strip-light', 'salle3', 21, 28, 2, 1, 0),
-    light('salle3.conduite-est', 'pipe-run', 'salle3', 25, 25, 4, 1, 0),
-    light('salle3.balise-urgence', 'warning-beacon', 'salle3', 15, 30, 1, 1, 0),
+    light('salle3.reglette-console', 'wall-strip-light', 'salle3', 30, 26, 1, 2, 90),
+    light('salle3.conduite-est', 'wall-pipe-run', 'salle3', 15, 22, 4, 1, 0),
+    light('salle3.balise-urgence', 'warning-beacon', 'salle3', 13, 29, 1, 1, 270),
 
     /* -- Cour de containers : la géométrie tactique reste intacte ------- */
     // Rien de solide ici : la cour est le rectangle repris tel quel de
     // `yard-map.ts` et toute case ajoutée casserait la correspondance avec le
-    // moteur de combat. Seuls un marquage plat et un portique suspendu
-    // désignent le portail, sans toucher une seule case de collision.
-    light('cour.portique-portail', 'overhead-service-gantry', 'cour', 19, 20, 5, 1, 0),
+    // moteur de combat. Un marquage plat désigne le portail sans toucher au ciel
+    // ni à une seule case de collision.
+    light('cour.portique-portail', 'hazard-floor-zone', 'cour', 19, 19, 3, 2, 0),
   ],
 };

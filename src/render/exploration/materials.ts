@@ -21,9 +21,13 @@ type MaterialKey =
   | 'wood'
   | 'cyanSignal'
   | 'amberSignal'
+  | 'cyanPaint'
+  | 'amberPaint'
   | 'alarmRed'
   | 'rust'
-  | 'containerSteel';
+  | 'containerSteel'
+  | 'canopyLeaves'
+  | 'barkWood';
 
 /**
  * `grain` : densité du mouchetis fin (agrégat de béton) -- 0 pour les matières qui n'en ont pas
@@ -32,7 +36,14 @@ type MaterialKey =
  */
 const PALETTE: Record<
   MaterialKey,
-  { base: string; stroke: string; dark: string; metalness?: number; grain?: number; seams?: 'wall' | 'floorTile' }
+  {
+    base: string;
+    stroke: string;
+    dark: string;
+    metalness?: number;
+    grain?: number;
+    seams?: 'wall' | 'floorTile';
+  }
 > = {
   creamConcrete: { base: '#a89d85', stroke: '#cabfa4', dark: '#7d7669', grain: 0.5 },
   creamConcreteWall: { base: '#9c937f', stroke: '#bcb096', dark: '#726b5c', grain: 0.4, seams: 'wall' },
@@ -52,9 +63,13 @@ const PALETTE: Record<
   wood: { base: '#67564a', stroke: '#947964', dark: '#40342e' },
   cyanSignal: { base: '#32aeca', stroke: '#a8eeed', dark: '#166174', metalness: 0.35 },
   amberSignal: { base: '#e0a83e', stroke: '#ffe2a1', dark: '#81571c', metalness: 0.3 },
+  cyanPaint: { base: '#32aeca', stroke: '#a8eeed', dark: '#166174' },
+  amberPaint: { base: '#e0a83e', stroke: '#ffe2a1', dark: '#81571c' },
   alarmRed: { base: '#b64037', stroke: '#ef8171', dark: '#5e2527', metalness: 0.25 },
   rust: { base: '#714a36', stroke: '#a36a48', dark: '#442c25', metalness: 0.3 },
   containerSteel: { base: '#b7b7ae', stroke: '#e0dfd2', dark: '#737a78', metalness: 0.5 },
+  canopyLeaves: { base: '#71803b', stroke: '#9aa84f', dark: '#3f4e2a', grain: 0 },
+  barkWood: { base: '#765b3c', stroke: '#9a7a52', dark: '#473526', grain: 0 },
 };
 
 /**
@@ -74,16 +89,22 @@ const PHOTO_URL: Partial<Record<MaterialKey, string>> = {
   clinicTile: `${ASSET_BASE}assets/exploration/tile-infirmerie-1k.jpg`,
   asphalt: `${ASSET_BASE}assets/exploration/asphalt-parking-1k.jpg`,
   corrugatedSteel: `${ASSET_BASE}assets/exploration/corrugated-steel-garage-1k.jpg`,
+  canopyLeaves: `${ASSET_BASE}assets/exploration/courtyard-canopy-leaves.webp`,
+  barkWood: `${ASSET_BASE}assets/exploration/wood-laminate-cantine-1k.jpg`,
 };
 
 const ROUGHNESS_OVERRIDE: Partial<Record<MaterialKey, number>> = {
   cyanSignal: 0.42,
   amberSignal: 0.42,
+  cyanPaint: 0.85,
+  amberPaint: 0.85,
   alarmRed: 0.42,
   clinicTile: 0.42,
   warmLaminate: 0.55,
   corrugatedSteel: 0.58,
   asphalt: 0.96,
+  canopyLeaves: 1,
+  barkWood: 0.88,
 };
 
 /**
@@ -94,6 +115,8 @@ const ROUGHNESS_OVERRIDE: Partial<Record<MaterialKey, number>> = {
  */
 const BASE_COLOR: Partial<Record<MaterialKey, THREE.Color>> = {
   corrugatedSteel: new THREE.Color(0.82, 0.88, 0.96),
+  canopyLeaves: new THREE.Color(0xffffff),
+  barkWood: new THREE.Color(0x95734c),
 };
 
 const CANVAS_SIZE = 256;
@@ -116,6 +139,27 @@ function paintedTexture(key: MaterialKey, rng: Rng): THREE.CanvasTexture {
   canvas.height = size;
   const context = canvas.getContext('2d');
   if (!context) throw new Error('Canvas 2D indisponible pour les matières d’exploration.');
+  if (key === 'canopyLeaves') {
+    // Repli alpha si la texture dédiée ne charge pas : silhouette feuillue, jamais un carré opaque.
+    context.clearRect(0, 0, size, size);
+    const greens = ['#596b32', '#71823c', '#899747', '#a1a855'];
+    for (let index = 0; index < 46; index++) {
+      context.save();
+      context.translate(14 + rng.next() * (size - 28), 14 + rng.next() * (size - 28));
+      context.rotate(rng.next() * Math.PI);
+      context.fillStyle = greens[index % greens.length]!;
+      context.globalAlpha = 0.72 + rng.next() * 0.28;
+      context.beginPath();
+      context.ellipse(0, 0, 4 + rng.next() * 7, 2 + rng.next() * 4, 0, 0, Math.PI * 2);
+      context.fill();
+      context.restore();
+    }
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    return texture;
+  }
   context.fillStyle = palette.base;
   context.fillRect(0, 0, size, size);
 
@@ -158,7 +202,14 @@ function paintedTexture(key: MaterialKey, rng: Rng): THREE.CanvasTexture {
   // Vignette d'occlusion douce aux coins : casse la platitude d'un aplat répété sans dessiner
   // de motif directionnel qui glisserait pendant le panoramique (EXPLORATION-VISUAL-DESIGN.md
   // "stables pendant le panoramique").
-  const vignette = context.createRadialGradient(size / 2, size / 2, size * 0.28, size / 2, size / 2, size * 0.72);
+  const vignette = context.createRadialGradient(
+    size / 2,
+    size / 2,
+    size * 0.28,
+    size / 2,
+    size / 2,
+    size * 0.72,
+  );
   vignette.addColorStop(0, 'rgba(0,0,0,0)');
   vignette.addColorStop(1, 'rgba(0,0,0,0.16)');
   context.globalAlpha = 1;
@@ -256,7 +307,10 @@ export class EnvironmentMaterials {
       color: BASE_COLOR[key] ?? 0xffffff,
       map: texture,
       roughness: ROUGHNESS_OVERRIDE[key] ?? 0.86,
-      metalness: palette.metalness ?? 0,
+      metalness: key === 'canopyLeaves' || key === 'barkWood' ? 0 : (palette.metalness ?? 0),
+      ...(key === 'canopyLeaves'
+        ? { alphaTest: 0.4, side: THREE.DoubleSide, transparent: false, depthWrite: true }
+        : {}),
       emissive:
         key === 'cyanSignal'
           ? new THREE.Color('#0b3d4b')

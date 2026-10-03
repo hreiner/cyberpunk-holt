@@ -71,10 +71,11 @@
  *                              corrigé : le panneau jouait auparavant toute la salle et
  *                              terminait l'objectif à lui seul).
  *   salle2.armoire          -> ch1.salle2, nœud "choix-armoire" (forcer l'armoire, tempo) ;
- *                              conversation annexe.
+ *                              conversation annexe, n'ouvre pas la porte nord.
  *   salle2.porte-nord       -> ch1.salle2, nœud "porte" (continuer sans l'armoire) ;
  *                              verrouillée (`locked: true`) pour que l'interaction ouvre le
- *                              dialogue au lieu d'un simple battant ; complète l'objectif.
+ *                              dialogue au lieu d'un simple battant ; c'est le seul beat qui
+ *                              ouvre la porte et complète l'objectif.
  *   salle3.entree (zone)    -> ligne courte (`line`) à l'entrée : la porte qui se verrouille,
  *                              le gaz.
  *   salle3.ordinateur       -> ch1.salle3, nœud "arrivee" (jets de Résistance, vidéo) ;
@@ -418,9 +419,6 @@ const ENTITIES: EntityDef[] = [
     // Détour facultatif ("le choix coûteux") : conversation annexe, n'avance pas le routeur.
     dialogueId: 'ch1.salle2',
     startNode: 'choix-armoire',
-    // Ce dialogue comprend aussi le piratage de la porte : elle doit être réellement ouverte
-    // avant que le joueur la franchisse, même si l'armoire n'est pas le déclencheur d'objectif.
-    opensDoorAfterDialogue: 'salle2.porte-nord',
   },
   {
     id: 'salle2.porte-nord',

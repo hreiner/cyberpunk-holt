@@ -36,6 +36,14 @@ export interface AiDecision {
   rationale: string;
 }
 
+/** Tours IA maximum pour une résolution automatique, au-delà des 12 rounds du combat. */
+export const AUTOMATIC_RESOLUTION_MAX_TURNS = 200;
+
+export interface AutomaticResolutionResult {
+  finished: boolean;
+  turns: number;
+}
+
 /** Decide et renvoie la prochaine action de l'unite courante, sans l'executer. */
 export function decideAction(combat: TacticalCombat, unit: Unit): AiDecision {
   const sheet = getCharacter(unit.id);
@@ -194,9 +202,24 @@ export function playAiTurn(combat: TacticalCombat, maxActions = 8): void {
   if (combat.state.phase === 'playing' && combat.currentUnitId() === unitId) combat.endTurn();
 }
 
-/** Fait jouer l'IA jusqu'a la fin de l'exercice (utilise par les tests et le debug). */
-export function playToEnd(combat: TacticalCombat, maxTurns = 200): void {
-  for (let i = 0; i < maxTurns && combat.state.phase === 'playing'; i++) {
+/**
+ * Fait jouer les deux équipes par l'IA jusqu'à la fin, depuis l'état courant
+ * et les flux seedés de ce même combat. La borne protège l'appelant si une
+ * future règle empêche le moteur d'atteindre son round limite.
+ */
+export function resolveCombatAutomatically(
+  combat: TacticalCombat,
+  maxTurns = AUTOMATIC_RESOLUTION_MAX_TURNS,
+): AutomaticResolutionResult {
+  let turns = 0;
+  while (turns < maxTurns && combat.state.phase === 'playing') {
     playAiTurn(combat);
+    turns++;
   }
+  return { finished: combat.state.phase === 'finished', turns };
+}
+
+/** Fait jouer l'IA jusqu'a la fin de l'exercice (utilise par les tests et le debug). */
+export function playToEnd(combat: TacticalCombat, maxTurns = AUTOMATIC_RESOLUTION_MAX_TURNS): void {
+  resolveCombatAutomatically(combat, maxTurns);
 }

@@ -7,17 +7,17 @@ chapitre 1 : [`09-MAPS-CHAPTER-1.md`](09-MAPS-CHAPTER-1.md).
 ## L'intention
 
 Le chapitre 1 cesse d'être une suite d'écrans de dialogue. Comme dans un CRPG à la
-*Baldur's Gate*, **on se déplace dans les lieux**, et c'est en arrivant quelque part — en
+_Baldur's Gate_, **on se déplace dans les lieux**, et c'est en arrivant quelque part — en
 s'asseyant à son pupitre, en poussant une porte, en abordant un cadet — que la scène se
 déclenche. Le joueur **vit la journée de Franklyn** au lieu de la lire.
 
 Trois modes, un seul monde :
 
-| Mode | Temps | Contrôle | Quand |
-|---|---|---|---|
-| **Exploration** | temps réel | clic pour se déplacer, clic pour interagir | par défaut |
-| **Dialogue** | figé | le panneau de dialogue (inchangé) | déclenché par une interaction ou une zone |
-| **Tactique** | tour par tour | le combat existant | déclenché par l'entrée dans la zone de l'affrontement |
+| Mode            | Temps         | Contrôle                                   | Quand                                                 |
+| --------------- | ------------- | ------------------------------------------ | ----------------------------------------------------- |
+| **Exploration** | temps réel    | clic pour se déplacer, clic pour interagir | par défaut                                            |
+| **Dialogue**    | figé          | le panneau de dialogue (inchangé)          | déclenché par une interaction ou une zone             |
+| **Tactique**    | tour par tour | le combat existant                         | déclenché par l'entrée dans la zone de l'affrontement |
 
 L'exploration ne remplace aucun système existant : elle les **relie**. Les dialogues, les
 jets, le dé 3D, la radio, le combat restent ce qu'ils sont.
@@ -36,23 +36,23 @@ jets, le dé 3D, la radio, le combat restent ce qu'ils sont.
 
 ## Contrôles
 
-| Action | Souris | Tactile | Clavier |
-|---|---|---|---|
-| Se déplacer | clic gauche sur le sol | **appui** sur le sol | — |
-| Interagir | clic gauche sur un objet ou un personnage | **appui** dessus | `Espace` sur l'objet survolé le plus proche |
-| Déplacer la caméra | glisser | **glisser** | les quatre **flèches** |
-| Recentrer sur Franklyn | — | — | `C` |
-| Tourner la caméra | — | — | `A` / `E` (quarts de tour, comme en tactique) |
-| Zoom | **molette**, en continu | **pincer** à deux doigts | `+` / `−` |
-| Montrer l'objectif | — | — | `Tab` maintenu |
-| Journal | — | — | `J` |
+| Action                 | Souris                                    | Tactile                  | Clavier                                       |
+| ---------------------- | ----------------------------------------- | ------------------------ | --------------------------------------------- |
+| Se déplacer            | clic gauche sur le sol                    | **appui** sur le sol     | —                                             |
+| Interagir              | clic gauche sur un objet ou un personnage | **appui** dessus         | `Espace` sur l'objet survolé le plus proche   |
+| Déplacer la caméra     | glisser                                   | **glisser**              | les quatre **flèches**                        |
+| Recentrer sur Franklyn | —                                         | —                        | `C`                                           |
+| Tourner la caméra      | —                                         | —                        | `A` / `E` (quarts de tour, comme en tactique) |
+| Zoom                   | **molette**, en continu                   | **pincer** à deux doigts | `+` / `−`                                     |
+| Montrer l'objectif     | —                                         | —                        | `Tab` maintenu                                |
+| Journal                | —                                         | —                        | `J`                                           |
 
 **Le jeu se conduit entièrement au doigt.** Une tablette n'a ni flèches ni molette : si un
 geste n'existe qu'au clavier, la fonction n'existe pas là-bas. D'où la règle qui gouverne la
 colonne tactile : **appui court = un ordre, glissé = la caméra.** Le verdict tombe au
 relâchement, jamais à la pose — sans quoi le moindre début de panoramique enverrait Franklyn
 marcher. **Le même partage vaut sur le terrain tactique** : appui = ordre, glissé = la vue se
-déplace, pincement = zoom. Le glissé y a d'abord fait *pivoter* la caméra ; c'était une erreur,
+déplace, pincement = zoom. Le glissé y a d'abord fait _pivoter_ la caméra ; c'était une erreur,
 et elle s'est vue tout de suite sur tablette — c'est le même doigt sur le même genre de carte,
 il doit faire la même chose des deux côtés. La rotation garde les boutons « Caméra » du HUD,
 qui la nomment.
@@ -74,6 +74,11 @@ geste.
 - **Survol** : un objet interactif s'entoure d'un liseré `--bone`, le curseur change, et une
   étiquette affiche le verbe et la cible, en casse normale : « Parler à John »,
   « Examiner l'armoire », « S'asseoir ».
+- **Noms des personnages** : aucune étiquette permanente en 3D. Le nom de Franklyn
+  et des suiveurs apparaît dans l'infobulle HTML au survol ou à l'appui tactile,
+  sans reflet dans le sol. Viser un membre du groupe affiche son nom sans envoyer
+  d'ordre de déplacement ; viser le sol ou sortir du canvas à la souris ferme l'infobulle,
+  comme un glissé ou un pincement. Les PNJ gardent leur verbe d'interaction.
 - **Interaction** : clic → le personnage marche jusqu'à la case d'interaction (adjacente),
   se tourne, puis l'action se déclenche. Si le chemin est impossible, l'étiquette l'indique
   (« Hors d'atteinte ») au lieu de ne rien faire.
@@ -117,33 +122,85 @@ geste.
 - La caméra **se recentre d'elle-même** aux seuls moments où le joueur perdrait le fil :
   au début d'une étape, après un changement de lieu, et à la sortie d'un dialogue. Jamais
   pendant un déplacement.
-- **Murs en coupe.** Les intérieurs ont des murs de 3 m. Les murs **situés entre la caméra
-  et l'intérieur de la pièce** (côtés sud et est pour l'orientation par défaut, recalculés à
-  chaque rotation) sont rendus **coupés à 0,4 m**, arête supérieure soulignée. On voit
-  toujours dans les pièces ; on lit toujours leur plan. C'est la règle de lisibilité n° 5
-  d'ART-DIRECTION appliquée aux intérieurs.
-- **Les couloirs aussi, quand Franklyn y est** (ADR 0027). Un couloir n'est pas déclaré : c'est
-  tout espace de sol hors des pièces de la carte, déduit du plan. Tant que Franklyn s'y trouve,
-  ses murs tournés vers la caméra sont coupés comme ceux d'une pièce — on voit la file qui le
-  suit. Dès qu'il entre dans une pièce, les murs du couloir reprennent leur hauteur : le mur du
-  couloir est souvent le mur du fond de la pièce voisine, et celle-ci garde sa profondeur.
-  Franchir un seuil de porte ne fait rien basculer.
-- Pas de plafond. Les portes ouvertes sont des trouées ; les portes fermées, des panneaux
-  pleins de la hauteur du mur coupé.
+- **Les murs d'exploration restent entiers et visibles**, quelle que soit la caméra, la salle
+  occupée, la position du groupe ou la découverte. Aucun mur — façade, mur sur cour, cloison,
+  mur de couloir ou d'extérieur — ne se coupe, ne s'abaisse et ne disparaît pour révéler le
+  joueur ou le contenu d'une autre pièce. Les ouvertures sont de vraies ouvertures du décor ;
+  les portes suivent leur état de jeu. La lisibilité vient du plan, des ouvertures et du cadrage.
+- **Hauteurs fixes par type de lieu** : façades et murs donnant sur une cour à 4,9 m ; cloisons
+  intérieures à 2,45 m. Au centre d'examen, les façades autour de la cour de containers font
+  4,9 m. Dans les conduits et le campement, les murs font 2,45 m. Les murs partagés gardent
+  une seule hauteur et une seule géométrie continue, quel que soit le côté depuis lequel on les
+  regarde.
+- Pas de plafond ni d'élément suspendu au-dessus d'un passage. Cette politique remplace les
+  règles historiques de murs en coupe des ADR 0013 et 0027 et les coupes automatiques décrites
+  par les ADR 0036 à 0038 ; voir [ADR 0039](../process/adr/0039-murs-exploration-entiers.md).
+- La caméra plonge à environ **70° dans les conduits** d'une case de large, via
+  `cameraElevationDeg` du profil visuel, afin de lire le passage entre ses parois fixes ;
+  HOLT, le centre d'examen et le campement gardent environ 55°.
+  Le dortoir HOLT/HOLT-nuit dispose d'une exception visuelle autorisée par le propriétaire
+  le 1er octobre 2026 ([ADR 0036](../process/adr/0036-rendu-dortoir-fidele-au-pilote.md)) :
+  reprendre les volumes, les fenêtres, les matières et le rendu du pilote autonome, et
+  adapter la caméra si nécessaire, y compris en perspective. Les quatre
+  orientations et les contrôles restent utilisables ; clics et repères écran suivent
+  la caméra rendue. Aucun élément suspendu ne doit masquer les occupants.
+  Le rayon commun au survol et au clic utilise cette même caméra : l'anneau du sol
+  désigne la case visée dans l'image, quel que soit le zoom ou le quart de tour.
+
+Cette direction s'étend à toute l'académie HOLT/HOLT-nuit suivant le
+[plan pièce par pièce](../process/HOLT-AAA-ROLLOUT-PLAN.md) et l'
+[ADR 0037](../process/adr/0037-enveloppe-et-profils-visuels-holt.md). La caméra
+perspective vise avec un décalage vertical de 22 m (environ 55° vers le bas), au
+lieu des 8,5 m (environ 29°) du pilote initial. Les façades extérieures et celles
+qui donnent sur la cour font 4,9 m ; les cloisons partagées entre pièces ou
+couloirs font 2,45 m dès la construction. Structure commune, finitions distinctes
+par face ; centres de murs et accessoires sont canoniques le long de chaque run
+contigu, pour garder les raccords aux seuils. Les façades du pilote du dortoir
+sont prolongées à leurs extrémités pour rejoindre les murs voisins. Les fenêtres
+sont des ouvertures du décor, sans changer les collisions ASCII.
+
+Pour HOLT, l'enveloppe reste entière, visible et finie avant la découverte des contenus.
+Les pièces non découvertes ne montrent que leur structure ; leur mobilier et leurs entités
+restent cachés jusqu'à l'entrée de Franklyn. Cette règle vaut pour toutes les cartes, y compris
+les couloirs, les cours et l'extérieur. Elle remplace les coupes automatiques historiquement
+décrites par les ADR 0036 et 0037.
+
+Les profils convertis partagent une pool d'éclairage locale et un seul miroir
+planaire actif : son gain décroît entre les zooms 26 et 34 et il est coupé à partir
+de 34. Les sols mats de l'armurerie et des archives conservent seulement matières
+et environnement. Les personnages et leurs animations ne font pas partie de ce lot.
+En perspective, le recentrage vise la case ou la pièce demandée, même au bord
+du bâtiment ; la navigation manuelle reste bornée à la carte.
+
+Depuis le 2 octobre, le [plan des autres lieux](../process/EXPLORATION-AAA-ROLLOUT-PLAN.md)
+et l'[ADR 0038](../process/adr/0038-profils-decor-toutes-explorations.md) appliquent ce socle
+au centre d'examen, aux conduits et au campement. Le centre garde des façades de 4,9 m
+et des cloisons de 2,45 m ; les souterrains et le campement utilisent 2,45 m. L'enveloppe
+est complète dès le départ, alors que les finitions des pièces et leurs contenus suivent
+la découverte. Aucun plafond ni élément suspendu ne doit cacher le parcours. Les appliques des nouveaux lieux
+se fixent aux murs réels ; les lumières de remplissage des conduits restent dans leur zone
+avec une portée limitée. Le hangar HOLT reçoit des détails de paroi et de véhicules.
+
+Les fermetures spécialisées déclarées par doorStateId suivent l'état de la porte réelle.
+Dans les conduits, le cadre du ventilateur demeure et ses pales dégagent le passage après
+l'ouverture. Le boîtier garde son interaction ; aucun déclencheur supplémentaire n'est créé.
+Cour et campement restent mats ; les trois petites zones de reflet dans les souterrains
+sont limitées au labo, au dortoir des petits et à la cantine. Le terrain de la cour conserve
+exactement ses cellules tactiques et ses couverts hauts/bas.
 
 ## Les objets du monde
 
 Tout ce qui réagit dans une carte est une **entité** déclarée dans les données de la carte
 (format dans [`09-MAPS-CHAPTER-1.md`](09-MAPS-CHAPTER-1.md)) :
 
-| Type | Déclenche | Exemples |
-|---|---|---|
-| `npc` | un dialogue (ou une réplique brève, voir plus bas) | les cinq cadets, le directeur, un instructeur |
-| `object` | un dialogue court, souvent un jet | l'armoire sécurisée, l'ordinateur de la salle 3, un panneau de porte |
-| `seat` | une scène, en s'asseyant | le pupitre de Franklyn, sa place au réfectoire |
-| `door` | ouverture, ou un dialogue si verrouillée | portes des salles, portail de la cour |
-| `exit` | changement de lieu | (voir la note ci-dessous — aucune carte du chapitre 1 ne s'en sert) |
-| `zone` | invisible, se déclenche **une fois** en y entrant | l'entrée de la salle 3 (le gaz), l'arrivée dans la cour de containers, un seuil de fuite (chapitre 2) |
+| Type     | Déclenche                                          | Exemples                                                                                              |
+| -------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `npc`    | un dialogue (ou une réplique brève, voir plus bas) | les cinq cadets, le directeur, un instructeur                                                         |
+| `object` | un dialogue court, souvent un jet                  | l'armoire sécurisée, l'ordinateur de la salle 3, un panneau de porte                                  |
+| `seat`   | une scène, en s'asseyant                           | le pupitre de Franklyn, sa place au réfectoire                                                        |
+| `door`   | ouverture, ou un dialogue si verrouillée           | portes des salles, portail de la cour                                                                 |
+| `exit`   | changement de lieu                                 | (voir la note ci-dessous — aucune carte du chapitre 1 ne s'en sert)                                   |
+| `zone`   | invisible, se déclenche **une fois** en y entrant  | l'entrée de la salle 3 (le gaz), l'arrivée dans la cour de containers, un seuil de fuite (chapitre 2) |
 
 Chaque entité peut porter une **condition** (format `Condition` des dialogues) : un cadet
 n'est au réfectoire qu'avant le discours, la porte du garage ne s'ouvre qu'une fois
@@ -179,11 +236,11 @@ brève ne pose jamais d'effet : ce qui compte passe par un vrai dialogue.
 
 Deux formes, selon le porteur — et l'écriture suit :
 
-| Porteur | Forme | À l'écran |
-|---|---|---|
-| `npc` | ce que le personnage **dit** | bulle au-dessus de la tête, entre guillemets |
-| `object` | ce que Franklyn **voit** | ligne de narration discrète en bas de l'écran |
-| `zone` | ce que la pièce **impose** en y entrant | même ligne de narration que l'`object` |
+| Porteur  | Forme                                   | À l'écran                                     |
+| -------- | --------------------------------------- | --------------------------------------------- |
+| `npc`    | ce que le personnage **dit**            | bulle au-dessus de la tête, entre guillemets  |
+| `object` | ce que Franklyn **voit**                | ligne de narration discrète en bas de l'écran |
+| `zone`   | ce que la pièce **impose** en y entrant | même ligne de narration que l'`object`        |
 
 Écrire une description dans la `line` d'un `npc` (« Un cadet enfile ses bottes ») la fait
 sortir de sa bouche entre guillemets : une entité `npc` parle, toujours.
@@ -261,10 +318,13 @@ d'exploration porte **un objectif principal** et, éventuellement, des **faculta
   compris quand la salle visée n'est pas encore découverte.
 - **Ce qui fait avancer l'histoire se voit.** L'entité qui termine l'étape porte une **balise**
   permanente — un anneau rouge qui respire au sol et un chevron flottant au-dessus, rendu
-  par-dessus le décor pour ne jamais se perdre derrière un mur coupé. Le rouge est réservé à
+  par-dessus le décor pour rester lisible près des murs. Le rouge est réservé à
   ça sur la carte : il n'y en a **jamais qu'une à l'écran**, et le joueur n'a plus à essayer
   les quinze anneaux d'une pièce pour trouver lequel compte. Les interactions facultatives
-  gardent leur anneau discret — la différence entre les deux est le message.
+  gardent leur anneau discret — la différence entre les deux est le message. Toute entité
+  interactive actuellement visible (cadet, figurant, objet ou siège) garde cet anneau ; il
+  reste facultatif et ne remplace jamais l'indice rouge de l'objectif. Sa surface doit dépasser
+  le sol et ses finitions locales, afin qu'un profil de pièce ne puisse pas l'enterrer.
 - **Un déclencheur peut attendre qu'on s'engage** (`ObjectiveDef.completesWhen`, lot 5.11). Par
   défaut, le dialogue de l'entité qui termine l'étape la clôt à sa fin. Avec `completesWhen`, il ne
   la clôt que si la condition est vraie à ce moment-là ; sinon il rend la main à l'exploration,
@@ -330,12 +390,12 @@ lui, ne connaît que ce rectangle et ne change pas d'une ligne.
 
 L'exploration doit rester pilotable sans souris, pour les tests de bout en bout :
 
-| Appel | Effet |
-|---|---|
-| `__game.explore()` | état : lieu, position, objectif, entités proches et interactives |
-| `__game.walkTo(x, y)` | téléporte **ou** déplace instantanément (pas d'animation) |
+| Appel                       | Effet                                                            |
+| --------------------------- | ---------------------------------------------------------------- |
+| `__game.explore()`          | état : lieu, position, objectif, entités proches et interactives |
+| `__game.walkTo(x, y)`       | téléporte **ou** déplace instantanément (pas d'animation)        |
 | `__game.interact(entityId)` | déclenche l'entité comme si on avait cliqué dessus, sans marcher |
-| `__game.completeStep()` | réservé au développement : passe l'objectif courant |
+| `__game.completeStep()`     | réservé au développement : passe l'objectif courant              |
 
 Toutes synchrones, dans l'esprit de `choose()` et de `rollInsight()`. Contrat à reporter
 dans [`../process/DEBUG_API.md`](../process/DEBUG_API.md).

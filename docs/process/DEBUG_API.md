@@ -109,6 +109,12 @@ identifiants qu'avant le lot 3.7b, mais des scènes `explore` désormais, plus `
 la cour (`ch1.cour`, qui se termine par le passage au combat). Toutes synchrones, dans
 l'esprit de `choose()`.
 
+Depuis l'intégration du dortoir (ADR 0035), `exploreRenderStats()` cumule les appels
+et triangles de l'image complète, **ombres incluses**, avec une remise à zéro avant
+le rendu. Les mesures anciennes utilisaient le reset automatique de Three après
+la passe d'ombres : leurs appels/triangles ne sont pas directement comparables.
+Les champs et leur typage restent identiques.
+
 | Méthode | Renvoie | Effet |
 |---|---|---|
 | `explore()` | `ExploreDebugSnapshot`, ou `null` | instantané hors de toute scène `explore` : lieu (`mapId`), case du meneur et des coéquipiers (`leader`/`followers`), objectif courant (`objective`, `null` si aucun), entités interactives actives ET découvertes (`interactables`, avec leur case, leur libellé de survol et si elles sont atteignables — un `npc`/`object`/`seat` d'une pièce pas encore visitée, 08-EXPLORATION.md "La découverte des lieux", n'y figure pas : cet instantané est un miroir fidèle de ce que le joueur perçoit, pas une vue "développeur" à part, sous peine qu'un test de bout en bout reste vert en pilotant une entité injoignable en jouant), pièces découvertes cette partie sur ce lieu (`discoveredRooms`, `RoomDef.id`) — un test qui doit atteindre une entité d'une pièce pas encore visitée y entre d'abord avec `walkTo`, exactement comme un joueur |

@@ -14,7 +14,7 @@ import type { CharacterId } from '@/rules/character';
 import type { ScoreInput } from '@/rules/scoring';
 import { Sfx } from '@/audio/sfx';
 import { ITEM_COLORS } from '@/data/items';
-import { decideAction, playAiTurn } from '@/tactical/ai';
+import { decideAction, playAiTurn, resolveCombatAutomatically } from '@/tactical/ai';
 import { TacticalCombat, defaultSetup } from '@/tactical/combat';
 import { samePos } from '@/tactical/grid';
 import { computeReach, pathTo } from '@/tactical/pathfinding';
@@ -118,6 +118,7 @@ export class GameApp {
   private selectedTarget: CharacterId | null = null;
   private pendingMode: 'placeMine' | 'run' | null = null;
   private aiTimer: ReturnType<typeof setTimeout> | null = null;
+  private automaticResolving = false;
   private disposed = false;
   private readonly onFinished?: (outcome: TacticalOutcome) => void;
   /** Garantit un seul appel a `onFinished` par combat (voir `buildScene`, qui le reinitialise). */
@@ -149,6 +150,7 @@ export class GameApp {
     });
     this.hud = new Hud(container, {
       onAction: (id) => this.handleAction(id),
+      onAutoResolve: () => this.resolveAutomatically(),
       onSelectTarget: (id) => {
         this.selectedTarget = id;
       },
@@ -186,6 +188,8 @@ export class GameApp {
 
   startWith(setup: TacticalSetup): void {
     if (this.aiTimer) clearTimeout(this.aiTimer);
+    this.aiTimer = null;
+    this.automaticResolving = false;
     this.aiUnit = null;
     this.aiActions = 0;
     this.combat = new TacticalCombat(setup);
@@ -607,7 +611,7 @@ export class GameApp {
   }
 
   private handleAction(id: HudActionId): void {
-    if (this.busy) return;
+    if (this.automaticResolving || this.busy) return;
     const unit = this.combat.currentUnit();
     const target = this.selectedTarget;
     switch (id) {
@@ -654,10 +658,58 @@ export class GameApp {
 
   /** Execute une action et rafraichit tout. Renvoie true si l'action a abouti. */
   perform(action: Action): boolean {
+    if (this.automaticResolving) return false;
     const outcome = this.combat.perform(action);
     this.refresh();
     if (outcome.ok) this.scheduleAi();
     return outcome.ok;
+  }
+
+  /** Laisse l'IA résoudre le vrai combat courant, puis suit le callback normal de fin/scoring. */
+  private resolveAutomatically(): void {
+    if (this.automaticResolving || this.combat.state.phase !== 'playing') return;
+    this.automaticResolving = true;
+    if (this.aiTimer) clearTimeout(this.aiTimer);
+    this.aiTimer = null;
+    this.aiUnit = null;
+    this.aiActions = 0;
+    this.pendingMode = null;
+    this.selectedTarget = null;
+    this.cancelPresentation();
+    this.refresh();
+
+    let finished = false;
+    try {
+      const result = resolveCombatAutomatically(this.combat);
+      finished = result.finished;
+      // The synchronous simulation has no rendered effects: discard its event batch and
+      // snap every rig to the actual final state before the ordinary completion callback.
+      this.eventCursor = this.combat.state.events.length;
+      this.snapRigsToCombat();
+    } finally {
+      this.automaticResolving = false;
+    }
+    this.refresh();
+    if (!finished) this.scheduleAi();
+  }
+
+  /** Cancels queued/active presentation without changing the combat model or its RNG streams. */
+  private cancelPresentation(): void {
+    this.queue.clear();
+    this.effects.dispose();
+    this.effects.group.removeFromParent();
+    this.effects = new EffectsLayer();
+    this.view.root.add(this.effects.group);
+    this.eventCursor = this.combat.state.events.length;
+    this.snapRigsToCombat();
+  }
+
+  private snapRigsToCombat(): void {
+    for (const unit of Object.values(this.combat.state.units)) {
+      const position = cellToWorld(this.combat.map, unit.pos);
+      this.animators.get(unit.id)?.snapTo(position.x, position.z);
+      this.lastCells.set(unit.id, { ...unit.pos });
+    }
   }
 
   /* ---------------------------------- IA ----------------------------------- */
@@ -749,7 +801,7 @@ export class GameApp {
   private refresh(): void {
     this.syncRigs();
     this.updateOverlay();
-    this.hud.render(this.combat, this.playerTeam, this.pendingMode);
+    this.hud.render(this.combat, this.playerTeam, this.pendingMode, this.automaticResolving);
     // Notifie la fin de combat une seule fois : `refresh()` est le point de passage
     // commun a toutes les facons de terminer un combat (clic joueur, IA, debug API).
     if (this.combat.state.phase === 'finished' && !this.finishedNotified) {
