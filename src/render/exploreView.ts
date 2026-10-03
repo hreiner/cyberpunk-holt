@@ -19,7 +19,7 @@ import type { Rng } from '@/core/rng';
 import { CHARACTER_IDS, getCharacter, type CharacterId, type CharacterSheet } from '@/rules/character';
 import { ExploreMap, LEADER_SPEED, posKey, roomAt, YARD_SIZE } from '@/explore';
 import type { Cell, DoorEntity, EntityDef, MapDef, RoomDef } from '@/explore';
-import { isExplorationCharacterRig, type CharacterRig } from './characterRig';
+import { isExplorationCharacterRig, type CharacterRig, type ExplorationPose } from './characterRig';
 import { createCadetExplorationRig, createHumanExplorationRig } from './exploration/cadetRig';
 import { createExploreNpcRig, type ExploreNpcRig } from './exploration/npcRig';
 import { CHILD_VISUAL_PROFILE } from '@/data/exploreVisuals/characterProfiles';
@@ -1833,7 +1833,7 @@ export class ExploreView {
       const { x: wx, z: wz } = cellToWorld(this.map, e.cell);
 
       if (e.type === 'npc') {
-        const rig = this.createNpcRig(e.id, wx, wz);
+        const rig = this.createNpcRig(e.id, wx, wz, e.pose);
         rig.object.userData.entityId = e.id;
         this.root.add(rig.object);
         this.pickables.push(rig.object);
@@ -1917,7 +1917,12 @@ export class ExploreView {
   }
 
   /** Les cinq cadets nommés réemploient leur vrai rig; le chien garde une silhouette quadrupède. */
-  private createNpcRig(entityId: string, x: number, z: number): ExploreNpcRig {
+  private createNpcRig(
+    entityId: string,
+    x: number,
+    z: number,
+    pose: ExplorationPose = 'talk',
+  ): ExploreNpcRig {
     const candidate = entityId.split('.').at(-1);
     if (candidate && (CHARACTER_IDS as readonly string[]).includes(candidate)) {
       const sheet = getCharacter(candidate as CharacterId);
@@ -1925,7 +1930,7 @@ export class ExploreView {
       rig.setEquipment([]);
       rig.setEquipmentLineVisible(false);
       rig.setWorldPosition(x, z);
-      rig.playExplorationPose('talk');
+      rig.playExplorationPose(pose);
       return rig;
     }
     const rig = createExploreNpcRig(entityId);
@@ -2227,7 +2232,7 @@ export class ExploreView {
       () =>
         createHumanExplorationRig(
           { id, name: "L'enfant" },
-          { profile: CHILD_VISUAL_PROFILE, teamColor: PARTY_RING_COLOR },
+          { profile: CHILD_VISUAL_PROFILE, mpfbLook: 'enfant', teamColor: PARTY_RING_COLOR },
         ),
       false,
     );
@@ -2283,7 +2288,8 @@ export class ExploreView {
       rig.faceTowards(x, z);
     }
     rig.setWorldPosition(x, z);
-    rig.play(moving ? 'run' : 'idle');
+    // Exploration walks (ADR 0041): the gait matches LEADER_SPEED, a brisk walk.
+    rig.play(moving ? 'walk' : 'idle');
     if (isExplorationCharacterRig(rig)) rig.setExplorationMotionSpeed(LEADER_SPEED);
     rig.update(dt);
     this.lastRigPos.set(id, { x, z });

@@ -4,7 +4,7 @@ Run (see README.md):
     blender --background --python build_character.py -- <spec.json> <out_dir>
 
 The spec is a JSON file (specs/*.json). The skeleton carries the real `mixamorig:*` bone names so
-Mixamo clips play on it after src/dev/mixamoRetarget.ts.
+Mixamo clips play on it after src/render/characters/mixamoRetarget.ts.
 """
 import json
 import os
@@ -288,8 +288,9 @@ bpy.ops.export_scene.gltf(
     filepath=glb,
     export_format="GLB",
     use_selection=True,
-    export_apply=False,
+    export_apply=True,  # bake the shape-key mix (face/body targets) into the mesh
     export_skins=True,
+    export_morph=False,  # face-target shape keys as morph targets: ~8 MB per character, unused at runtime
     export_animations=False,
     export_yup=True,
     export_image_format="AUTO",

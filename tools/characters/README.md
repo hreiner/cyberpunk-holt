@@ -2,8 +2,8 @@
 
 One JSON spec per character (`specs/*.json`: macro body, face targets, skin, hair, clothes) →
 `public/assets/mixamo/<id>/<id>.glb`. The rig carries the real `mixamorig:*` bone names, so the
-Mixamo idle/walk clips play on it through `src/dev/mixamoRetarget.ts`. How each one is painted and
-dressed (palette, rim colour, patches) lives in `src/dev/cadetLooks.ts`.
+Mixamo idle/walk clips play on it through `src/render/characters/mixamoRetarget.ts`. How each one is painted and
+dressed (palette, rim colour, patches) lives in `src/render/characters/cadetLooks.ts`.
 
 Needs Blender 4.2 with the MPFB2 extension and its system assets, plus the MakeHuman community
 packs `suits03`, `shoes01`, `shirts01`, `hair01` (see `public/assets/mixamo/ATTRIBUTION.md`).

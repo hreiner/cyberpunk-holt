@@ -146,3 +146,4 @@ Feuillage réemployé : [asset, prompt et provenance](art/HOLT-AAA-ASSETS.md).
 | [0038](process/adr/0038-profils-decor-toutes-explorations.md)                    | Profils de décor communs aux cinq cartes d’exploration et reprise du hangar                      |
 | [0039](process/adr/0039-murs-exploration-entiers.md)                             | Murs entiers à hauteur fixe ; la découverte ne révèle que les contenus                           |
 | [0040](process/adr/0040-stabiliser-cout-entree-salle.md)                         | Stabiliser le coût du premier accès aux salles                                                    |
+| [0041](process/adr/0041-personnages-mpfb-dans-le-jeu.md)                         | Les cadets MPFB remplacent les humanoïdes Quaternius dans le jeu                                  |

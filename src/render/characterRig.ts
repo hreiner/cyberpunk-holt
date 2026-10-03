@@ -32,7 +32,7 @@ export type RigAnimation = 'idle' | 'walk' | 'run' | 'shoot' | 'down' | 'revive'
  * personnage sur un siège demande une vraie animation d'assise, pas une pose calculée ; tant
  * qu'elle n'existe pas, les figurants se tiennent DEBOUT (décision du propriétaire du projet).
  */
-export type ExplorationPose = 'lean' | 'talk' | 'inspect';
+export type ExplorationPose = 'lean' | 'talk' | 'inspect' | 'dance';
 
 export interface CharacterRig {
   readonly id: string;

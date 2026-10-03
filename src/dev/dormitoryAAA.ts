@@ -11,9 +11,8 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createRng } from '../core/rng';
 import { preloadCadetAssets } from '../render/exploration/characterAssets';
 import { createHumanExplorationRig } from '../render/exploration/cadetRig';
-import { createExoFranklyn } from './franklynExo';
 import { createCadet, POSES, type Cadet, type PoseName } from './cadet';
-import { CAST_ORDER, LOOKS } from './cadetLooks';
+import { CAST_ORDER, LOOKS } from '@/render/characters/cadetLooks';
 
 /** Dedicated art study, intentionally independent of chapter state and saves. */
 const params = new URLSearchParams(location.search);
@@ -658,10 +657,9 @@ scene.add(rig.object);
 // The chapter rig only supplies position, facing and speed here; the visible Franklyn is skinned
 // directly on the Mixamo skeleton.
 rig.object.getObjectByName('personnage-modele:franklyn')!.visible = false;
-// Custom MPFB Franklyn by default; `?body=exo` keeps the stock Mixamo Exo Gray for comparison.
 // `?lead=abigail` (etc.) plays another cadet; `?cast=1` lines the rest of the cast up in the aisle.
 const leadLook = LOOKS[params.get('lead') ?? 'franklyn'] ?? LOOKS.franklyn!;
-let franklyn = params.get('body') === 'exo' ? await createExoFranklyn() : await createCadet(leadLook);
+let franklyn = await createCadet(leadLook);
 rig.object.add(franklyn.object);
 Object.assign(window, { __franklyn: franklyn });
 
@@ -709,6 +707,9 @@ const POSE_LABELS: Record<PoseName | 'idle', string> = {
   sad: 'Triste',
   wave: 'Signe',
   run: 'Court',
+  dance1: 'Danse 1',
+  dance2: 'Danse 2',
+  dance3: 'Danse 3',
 };
 let poseChoice: PoseName | null = POSES.find((name) => name === params.get('pose')) ?? null;
 const poseSelector = document.createElement('nav');

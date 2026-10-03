@@ -68,7 +68,8 @@ CONFORT : on joue sans. Ce qui ne l'est pas — se déplacer, interagir, cadrer 
 geste.
 
 - Le personnage suit le chemin A* le plus court, **en mouvement continu** (interpolé entre
-  les cases, comme les déplacements animés de l'ADR 0009), à **4 cases/s**. Un nouveau clic
+  les cases, comme les déplacements animés de l'ADR 0009), à **2,2 cases/s** : une marche soutenue,
+  animée par le clip de marche (ADR 0041 ; c'était 4 cases/s au pas de course). Un nouveau clic
   remplace la destination à tout moment.
 - Un clic sur une case inaccessible déplace vers la case accessible la plus proche.
 - **Survol** : un objet interactif s'entoure d'un liseré `--bone`, le curseur change, et une

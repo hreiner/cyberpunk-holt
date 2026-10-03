@@ -96,8 +96,13 @@ interface DoorOpener {
   opensDoorAfterDialogue?: string;
 }
 
+/** Attitude d'un personnage posé sur la carte (rendu seulement, aucun effet de jeu). */
+export type NpcPose = 'talk' | 'dance' | 'lean' | 'inspect';
+
 export interface NpcEntity extends EntityBase, Labeled, BriefLine, DialogueEntry, DoorOpener {
   type: 'npc';
+  /** Cadets nommés : attitude jouée sur place, `talk` par défaut (`ExploreView.createNpcRig`). */
+  pose?: NpcPose;
 }
 
 export interface ObjectEntity extends EntityBase, Labeled, BriefLine, DialogueEntry, DoorOpener {

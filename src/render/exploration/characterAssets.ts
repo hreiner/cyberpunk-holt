@@ -1,6 +1,7 @@
 /** Shared, redistributable Quaternius humanoids used by exploration actors. */
 import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
+import { preloadMpfbCast } from '../characters/mpfbAssets';
 
 const ASSET_BASE = import.meta.env.BASE_URL;
 
@@ -24,6 +25,10 @@ export function preloadCadetAssets(): Promise<void> {
       loader.loadAsync(`${ASSET_BASE}assets/exploration/cadet-male-uniform.glb`),
       loader.loadAsync(`${ASSET_BASE}assets/exploration/cadet-male.glb`),
       loader.loadAsync(`${ASSET_BASE}assets/exploration/cadet-female.glb`),
+      // Cadets et enfant MPFB (ADR 0041). Un échec ne bloque pas le jeu : repli Quaternius.
+      preloadMpfbCast().catch((error: unknown) => {
+        console.warn('[HOLT] personnages MPFB indisponibles, repli sur les humanoïdes Quaternius', error);
+      }),
     ])
       .then(([male, maleHead, female]) => {
         cache = { male, maleHead, female };

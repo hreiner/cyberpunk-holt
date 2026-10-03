@@ -2,7 +2,7 @@
 
 Retour d'expérience de l'étude visuelle du dortoir (Franklyn, Abigail, Zachary, Letitia, John,
 Grover, l'enfant). Objectif : créer un nouveau personnage en quelques minutes sans refaire les
-mêmes erreurs. Outils : `tools/characters/` ; rendu : `src/dev/cadet*.ts` ; attributions :
+mêmes erreurs. Outils : `tools/characters/` ; rendu : `src/render/characters/` (jeu) et `src/dev/cadet.ts` (étude) ; attributions :
 `public/assets/mixamo/ATTRIBUTION.md`.
 
 ## 1. Chaîne de production
@@ -69,7 +69,7 @@ Les CC-BY exigent l'attribution (déjà dans `ATTRIBUTION.md`).
 | Ombre noire / « nœuds » au cou et aux poignets | pas de coque d'encre sur la peau ni sur les cheveux (`inked` dans `styleCadet`) |
 | Mains pâles et raides | boucle de doigts détendue dans le retargeter (`curl`) |
 | FBX : squelettes dupliqués, corps trop grand | exporter en **GLB** (un seul skin) |
-| Textures lourdes (27 Mo/perso) | `maxTexture` 1024 dans la spec ; encore ~10 Mo/perso (piste : `export_morph=False`) |
+| GLB lourds (27 Mo/perso, puis ~11 Mo) | `maxTexture` 1024 (spec) ; export avec `export_apply=True` + `export_morph=False` (les cibles de visage en shape keys pesaient ~8 Mo et ne servent pas à l'exécution) ; `run.sh` enchaîne `gltf-transform prune` (données orphelines) puis `webp` (textures). Résultat : **~2,1–2,5 Mo/perso** (7 perso = 16 Mo au lieu de 78). Vérifier le rendu après coup |
 | Décalques (bandes, écussons) qui flottent ou se détachent des manches | ne pas les attacher à un os : **les skinner comme le vêtement** (poids du sommet le plus proche + inverse du skinning, `makeCloth`/`stick`) |
 | Décalque mal placé sur la peau | la géométrie brute du maillage peau n'est pas dans le repère skinné ; utiliser `inverseSkin` (matrice de skinning inverse), jamais un simple décalage |
 | Décalque invisible (sous le tissu) | soulever de ~5 mm le long de la normale, `polygonOffset` |
@@ -116,11 +116,20 @@ dans `exo/`, l'ajouter à `POSES` et à `POSE_LABELS`.
 Téléchargement via le MCP Mixamo : **il faut le mode headless** (`MIXAMO_HEADLESS=1` dans
 `.mcp.json`). En mode fenêtre, `save_as` échoue avec « browser has been closed ».
 
-## 8. Ce qui reste à améliorer
+## 8. Dans le jeu (ADR 0041)
+
+`MpfbCadetRig` (`src/render/characters/mpfbCadetRig.ts`) remplace l'humanoïde Quaternius pour
+les six cadets et l'enfant, en exploration comme en tactique ; `?rig=quaternius` rétablit
+l'ancien rendu. `mpfbAssets.ts` précharge les GLB et les clips, habille chaque personnage une
+fois (patron), puis chaque rig clone le patron. Clips du jeu : `MPFB_CLIP_FILES` (un clip absent
+retombe sur le repos). Ajouter un personnage au jeu = l'ajouter à `LOOKS` ; un acteur dont l'id
+diffère passe `mpfbLook` à `createHumanExplorationRig`.
+
+## 9. Ce qui reste à améliorer
 
 - Visages : têtes MPFB génériques, expressions impossibles → envisager une texture de visage peinte
   à la main ou un autre générateur.
 - Coiffures : passer aux cheveux natifs pour Abigail, Zachary, Grover, Letitia (décision en attente).
-- Poids des GLB (~10 Mo chacun), uniformes des références (chemise+cravate de Grover, veste de
+- Uniformes des références (chemise+cravate de Grover, veste de
   cérémonie de Letitia, tunique à col mao de Zachary) seulement approchés.
 - Marche non revérifiée pour les six nouveaux personnages ; `npm run verify` non lancé.

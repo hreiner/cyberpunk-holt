@@ -13,7 +13,7 @@ import {
   GANGER_VISUAL_PROFILE,
   type CadetVisualProfile,
 } from '@/data/exploreVisuals/characterProfiles';
-import { createHumanExplorationRig, type CadetRig } from './cadetRig';
+import { createHumanExplorationRig, type CadetExplorationRig } from './cadetRig';
 
 export interface ExploreNpcRig {
   readonly object: THREE.Object3D;
@@ -30,7 +30,7 @@ export function createExploreNpcRig(entityId: string): ExploreNpcRig {
 
 class HumanNpcRig implements ExploreNpcRig {
   readonly object: THREE.Object3D;
-  private readonly rig: CadetRig;
+  private readonly rig: CadetExplorationRig;
 
   constructor(entityId: string) {
     // Silhouettes des gangers de la fuite (ADR 0024 §3, B12, lot 5.8) : profil deja prepare au
@@ -53,7 +53,7 @@ class HumanNpcRig implements ExploreNpcRig {
     if (entityId === 'petits.enfant') {
       this.rig = createHumanExplorationRig(
         { id: entityId, name: entityId },
-        { profile: CHILD_VISUAL_PROFILE, showLabel: false, showRing: false },
+        { profile: CHILD_VISUAL_PROFILE, mpfbLook: 'enfant', showLabel: false, showRing: false },
       );
       this.object = this.rig.object;
       this.object.name = `npc:${entityId}`;

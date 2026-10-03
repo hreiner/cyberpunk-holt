@@ -135,6 +135,8 @@ const ENTITIES: EntityDef[] = [
     id: 'bal.abigail',
     type: 'npc',
     cell: { x: 44, y: 42 },
+    // Sur la piste : son dialogue la renvoie danser (« Elle retourne vers la piste »).
+    pose: 'dance',
     dialogueId: 'ch2.bal.abigail',
     label: 'Parler à Abigail',
     condition: etape('bal'),

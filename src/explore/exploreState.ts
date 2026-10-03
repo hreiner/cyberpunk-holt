@@ -23,8 +23,11 @@ import type {
   RoomDef,
 } from './types';
 
-/** Cases parcourues par seconde. Leader : 08-EXPLORATION.md "Contrôles". */
-export const LEADER_SPEED = 4;
+/**
+ * Cases parcourues par seconde (une case = 1 m) : une marche soutenue, que le clip de marche des
+ * cadets MPFB rend naturellement (ADR 0041). Leader : 08-EXPLORATION.md "Contrôles".
+ */
+export const LEADER_SPEED = 2.2;
 /** Distance de filature des coéquipiers, en cases (08-EXPLORATION.md "Le groupe"). */
 export const FOLLOW_GAP = 1.5;
 

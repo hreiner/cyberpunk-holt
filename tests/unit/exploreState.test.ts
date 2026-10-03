@@ -11,7 +11,7 @@ function ctx(): NarrativeContext {
 }
 
 describe('ExploreState — mouvement', () => {
-  it('marche en continu vers la case cliquée, à 4 cases/s', () => {
+  it('marche en continu vers la case cliquée, à LEADER_SPEED cases/s', () => {
     const state = new ExploreState(SMALL_MAP, ctx());
     // (2,1) : sol libre, en ligne droite depuis le spawn (2,4) -- une case occupée par une
     // entité est couverte séparément, voir "ExploreState — jamais sur une entité" plus bas.
@@ -19,11 +19,11 @@ describe('ExploreState — mouvement', () => {
     expect(res.ok).toBe(true);
     expect(state.isMoving()).toBe(true);
 
-    // 4 cases/s : au bout de 500 ms, 2 cases parcourues depuis (2,4).
+    // Au bout de 500 ms, LEADER_SPEED / 2 cases parcourues depuis (2,4).
     state.tick(500);
     const pos = state.leaderPosition();
     const distFromStart = Math.hypot(pos.x - 2, pos.y - 4);
-    expect(distFromStart).toBeCloseTo(2, 1);
+    expect(distFromStart).toBeCloseTo(LEADER_SPEED / 2, 1);
   });
 
   it('arrive exactement sur la case cible et redevient immobile', () => {
@@ -373,8 +373,8 @@ describe('ExploreState — zones', () => {
    * de tout son budget de déplacement puis ne vérifiait les zones qu'une fois, sur la position
    * d'arrivée -- un grand pas (jeu qui rame, ou simplement un `dtMs` généreux) pouvait donc
    * traverser une zone sans jamais la déclencher. `CORRIDOR_MAP` place "midzone" (une case, x=3)
-   * entre le spawn (x=1) et une cible bien plus loin (x=8) : à 4 cases/s, un seul `tick(1000)`
-   * fait franchir 4 cases d'un coup, en passant PAR x=3 sans jamais s'y arrêter.
+   * entre le spawn (x=1) et une cible bien plus loin (x=8) : à 2,2 cases/s, un seul `tick(1000)`
+   * fait franchir plus de 2 cases d'un coup, en passant PAR x=3 sans jamais s'y arrêter.
    */
   it('un grand pas (tick(1000)) ne saute pas une zone traversée en chemin', () => {
     const state = new ExploreState(CORRIDOR_MAP, ctx());
@@ -404,8 +404,10 @@ describe('ExploreState — zones', () => {
     const smallSteps = runSmallSteps();
     expect(bigStep.fired).toBe(true);
     expect(smallSteps.fired).toBe(true);
-    // Le sous-échantillonnage ne change ni la trajectoire ni la position finale (ADR 0013 §3).
-    expect(bigStep.pos).toEqual(smallSteps.pos);
+    // Le sous-échantillonnage ne change ni la trajectoire ni la position finale (ADR 0013 §3),
+    // aux arrondis de flottant près (2,2 cases/s n'est pas exact en binaire).
+    expect(bigStep.pos.x).toBeCloseTo(smallSteps.pos.x, 9);
+    expect(bigStep.pos.y).toBeCloseTo(smallSteps.pos.y, 9);
   });
 });
 
@@ -472,7 +474,7 @@ describe('ExploreState — API de debug', () => {
 
 // Vitesse : sanity check sur la constante documentée (08-EXPLORATION.md "Contrôles").
 describe('LEADER_SPEED', () => {
-  it('vaut 4 cases par seconde', () => {
-    expect(LEADER_SPEED).toBe(4);
+  it('vaut 2,2 cases par seconde (marche soutenue)', () => {
+    expect(LEADER_SPEED).toBe(2.2);
   });
 });

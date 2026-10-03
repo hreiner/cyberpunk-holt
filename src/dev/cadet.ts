@@ -2,9 +2,9 @@ import * as T from 'three';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
-import { createMixamoRetarget } from './mixamoRetarget';
-import { dressCadet, styleCadet } from './cadetStyle';
-import { LOOKS, type CadetLook } from './cadetLooks';
+import { createMixamoRetarget } from '@/render/characters/mixamoRetarget';
+import { dressCadet, mergeDecals, styleCadet } from '@/render/characters/cadetStyle';
+import { LOOKS, type CadetLook } from '@/render/characters/cadetLooks';
 
 /**
  * A HOLT cadet built with MPFB2 (Blender, headless; see tools/characters) on a Mixamo skeleton:
@@ -37,6 +37,9 @@ export const POSES = [
   'sad',
   'wave',
   'run',
+  'dance1',
+  'dance2',
+  'dance3',
 ] as const;
 export type PoseName = (typeof POSES)[number];
 
@@ -89,7 +92,8 @@ export async function createCadet(look: CadetLook) {
 
   const params = new URLSearchParams(location.search);
   styleCadet(meshes, look, { mode: params.get('style') === 'pbr' ? 'pbr' : 'toon' });
-  await dressCadet(root, meshes, look);
+  dressCadet(root, meshes, look);
+  if (params.get('decals') !== 'split') mergeDecals(root);
   for (const mesh of meshes) {
     mesh.castShadow = true;
     mesh.receiveShadow = true;

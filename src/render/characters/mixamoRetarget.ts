@@ -138,7 +138,9 @@ export function createMixamoRetarget(
       for (const l of links) {
         if (l.curl) {
           // Rest pose in the parent's frame, flexed a little per joint: fingers follow the hand.
-          l.dst.quaternion.copy(q.setFromAxisAngle(l.curl.axis, l.curl.angle * curlGain).multiply(l.dstRestLocal));
+          l.dst.quaternion.copy(
+            q.setFromAxisAngle(l.curl.axis, l.curl.angle * curlGain).multiply(l.dstRestLocal),
+          );
           continue;
         }
         if (l.hold) {

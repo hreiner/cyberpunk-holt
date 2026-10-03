@@ -5,7 +5,8 @@ import type { CadetLook } from './cadetLooks';
 
 /**
  * Cyberpunk-anime look for the MPFB cast: opaque materials, stepped (cel) shading and an
- * inverted-hull ink outline that follows the skin. Study scene only.
+ * inverted-hull ink outline that follows the skin. Shared by the game rig (`mpfbCadetRig.ts`) and
+ * the dormitory study (`src/dev/cadet.ts`).
  */
 
 function ramp(steps: number[]) {
@@ -111,18 +112,18 @@ export function styleCadet(meshes: T.Mesh[], look: CadetLook, options: StyleOpti
     if (toon) {
       material = new T.MeshToonMaterial({
         name: source.name,
-        map: source.map,
+        map: source.map ?? null,
         color: tint ?? (source.map ? 0xffffff : source.color),
         gradientMap: isSkin ? skinGradient : gradient,
-        alphaMap: source.alphaMap,
+        alphaMap: source.alphaMap ?? null,
         alphaTest: isCutout ? 0.5 : 0,
         side: isCutout ? T.DoubleSide : T.FrontSide,
       });
     } else {
       material = new T.MeshStandardMaterial({
         name: source.name,
-        map: source.map,
-        normalMap: source.normalMap,
+        map: source.map ?? null,
+        normalMap: source.normalMap ?? null,
         roughness: 0.62,
         alphaTest: isCutout ? 0.5 : 0,
         side: isCutout ? T.DoubleSide : T.FrontSide,
@@ -281,19 +282,14 @@ function canvasTexture(w: number, h: number, draw: (ctx: CanvasRenderingContext2
 }
 
 /** Repaints every garment atlas in the look's palette, then sews the patches its decal flags ask for. */
-export async function dressCadet(root: T.Object3D, meshes: T.Mesh[], look: CadetLook) {
+export function dressCadet(root: T.Object3D, meshes: T.Mesh[], look: CadetLook) {
   const isTop = (m: T.Mesh) =>
     /jacket|suit|shirt|hoodie|tracksuit|elegant/i.test(m.name) && !/pants/i.test(m.name);
   const isLegs = (m: T.Mesh) => /pants/i.test(m.name);
   const isGarment = (m: T.Mesh) => /jacket|pants|suit|shirt|hoodie|tracksuit|elegant/i.test(m.name);
 
-  const waitForImage = async (map: T.Texture) => {
-    for (let waited = 0; waited < 20000; waited += 50) {
-      const image = map.image as { width?: number } | null;
-      if (image && (image.width ?? 0) > 0) break;
-      await new Promise((resolve) => setTimeout(resolve, 50));
-    }
-  };
+  // GLTFLoader resolves once every texture is decoded, so the atlases can be read right away.
+  const ready = (map: T.Texture) => ((map.image as { width?: number } | null)?.width ?? 0) > 0;
 
   const hp = look.hairPaint;
   if (hp) {
@@ -301,7 +297,7 @@ export async function dressCadet(root: T.Object3D, meshes: T.Mesh[], look: Cadet
       if (!/short0\d|hair|bob|braid|bangs|bun/i.test(mesh.name)) continue;
       const material = mesh.material as T.MeshToonMaterial;
       if (!material.map) continue;
-      await waitForImage(material.map);
+      if (!ready(material.map)) continue;
       material.map = repaint(material.map, (col, { l }) => {
         col.setHSL(hp.hue, hp.sat, hp.lo + Math.min(1, l * hp.gain) * hp.range);
       });
@@ -315,7 +311,7 @@ export async function dressCadet(root: T.Object3D, meshes: T.Mesh[], look: Cadet
     const material = mesh.material as T.MeshToonMaterial | T.MeshStandardMaterial;
     const map = material.map;
     if (!map) continue;
-    await waitForImage(map);
+    if (!ready(map)) continue;
     material.map = repaint(map, (col, { l }) => {
       // Luminance survives (seams, pockets, folds); hue and saturation are replaced. Near-white
       // shirt cloth (dropAbove) goes dark so only the jacket reads.
@@ -396,6 +392,7 @@ export async function dressCadet(root: T.Object3D, meshes: T.Mesh[], look: Cadet
     );
     decal.bind(cloth.mesh.skeleton, cloth.mesh.bindMatrix);
     decal.frustumCulled = false;
+    decal.userData.decal = true;
     cloth.mesh.parent?.add(decal);
   };
 
@@ -736,5 +733,90 @@ export async function dressCadet(root: T.Object3D, meshes: T.Mesh[], look: Cadet
     }
     for (const side of [1, -1])
       stick(top, origin.clone().add(V(side * 0.075, -0.075, 0)), front, up, V(0.1, 0.07, 0.1), flap);
+  }
+}
+
+/**
+ * One draw call for all of a character's patches: their canvases are packed into one atlas and
+ * their (already skinned) geometries merged, per skeleton. The game templates use it; a cadet
+ * otherwise costs 8-12 extra draw calls, each repeated in every shadow pass.
+ */
+export function mergeDecals(root: T.Object3D): void {
+  const groups = new Map<T.Skeleton, T.SkinnedMesh[]>();
+  root.traverse((node) => {
+    if (node instanceof T.SkinnedMesh && node.userData.decal) {
+      const list = groups.get(node.skeleton) ?? [];
+      list.push(node);
+      groups.set(node.skeleton, list);
+    }
+  });
+  const PAD = 4;
+  for (const decals of groups.values()) {
+    if (decals.length < 2) continue;
+    const maps = decals.map((d) => (d.material as T.MeshBasicMaterial).map!);
+    const images = maps.map((m) => m.image as HTMLCanvasElement);
+    // Shelf packing, tallest first.
+    const width = Math.max(1024, ...images.map((i) => i.width + 2 * PAD));
+    const order = images.map((_, i) => i).sort((a, b) => images[b]!.height - images[a]!.height);
+    const slots: { x: number; y: number }[] = [];
+    let x = 0;
+    let y = 0;
+    let shelf = 0;
+    for (const i of order) {
+      const image = images[i]!;
+      if (x + image.width + 2 * PAD > width) {
+        x = 0;
+        y += shelf;
+        shelf = 0;
+      }
+      slots[i] = { x: x + PAD, y: y + PAD };
+      x += image.width + 2 * PAD;
+      shelf = Math.max(shelf, image.height + 2 * PAD);
+    }
+    const height = y + shelf;
+    const atlas = canvasTexture(width, height, (ctx) => {
+      images.forEach((image, i) => ctx.drawImage(image, slots[i]!.x, slots[i]!.y));
+    });
+
+    const geometries = decals.map((decal, i) => {
+      const geometry = decal.geometry.clone();
+      const uv = geometry.getAttribute('uv');
+      const { x: sx, y: sy } = slots[i]!;
+      const image = images[i]!;
+      const mirrored = maps[i]!.repeat.x < 0;
+      for (let k = 0; k < uv.count; k++) {
+        const u0 = T.MathUtils.clamp(uv.getX(k), 0, 1);
+        const v0 = T.MathUtils.clamp(uv.getY(k), 0, 1);
+        const u = mirrored ? 1 - u0 : u0;
+        // Canvas textures are flipped in Y: v = 1 is the top row of the image.
+        uv.setXY(k, (sx + u * image.width) / width, 1 - (sy + (1 - v0) * image.height) / height);
+      }
+      return geometry;
+    });
+    const merged = mergeGeometries(geometries);
+    for (const geometry of geometries) geometry.dispose();
+    if (!merged) continue;
+    const first = decals[0]!;
+    const material = first.material as T.MeshBasicMaterial;
+    const mesh = new T.SkinnedMesh(
+      merged,
+      new T.MeshBasicMaterial({
+        map: atlas,
+        transparent: true,
+        polygonOffset: true,
+        polygonOffsetFactor: material.polygonOffsetFactor,
+      }),
+    );
+    mesh.name = 'decals';
+    mesh.userData.decal = true;
+    mesh.bind(first.skeleton, first.bindMatrix);
+    mesh.frustumCulled = false;
+    first.parent?.add(mesh);
+    for (const decal of decals) {
+      decal.removeFromParent();
+      decal.geometry.dispose();
+      (decal.material as T.MeshBasicMaterial).map?.dispose();
+      (decal.material as T.Material).dispose();
+    }
   }
 }

@@ -7,11 +7,14 @@ import {
   type CadetHair,
   type CadetVisualProfile,
 } from '@/data/exploreVisuals/characterProfiles';
-import { CARRIED_ITEMS, ITEM_COLORS, ITEM_ICONS } from '@/data/items';
+import { ITEM_COLORS } from '@/data/items';
 import type { CharacterSheet } from '@/rules/character';
 import type { ItemId } from '@/tactical/types';
 import type { ExplorationCharacterRig, ExplorationPose, RigAnimation } from '../characterRig';
 import { acquireCadetAssets, getMaleHeadAsset, releaseCadetAssets, type HumanModel } from './characterAssets';
+import { RigOverlay } from './rigOverlay';
+import { MpfbCadetRig } from '../characters/mpfbCadetRig';
+import { hasMpfbLook, mpfbCastEnabled } from '../characters/mpfbAssets';
 
 export type CadetExplorationRig = ExplorationCharacterRig;
 interface VisualActor {
@@ -39,6 +42,11 @@ export interface HumanRigOptions {
   readonly pilotFranklyn?: boolean;
   /** Ring/badge color; `DEFAULT_RING_COLOR` when omitted (see `createHumanExplorationRig`). */
   readonly teamColor?: number;
+  /**
+   * Personnage MPFB à employer pour cet acteur (`cadetLooks.ts`), quand son id n'en est pas un :
+   * l'enfant des conduits (`petits.enfant`) et le suiveur `enfant` portent le modèle `enfant`.
+   */
+  readonly mpfbLook?: string;
 }
 
 const CADET_HEIGHT = 1.75;
@@ -52,17 +60,6 @@ const TACTICAL_HEIGHT_BOOST = 1.18;
 const TRANSITION_SECONDS = 0.18;
 const WALK_METRES_PER_CYCLE = 1.5;
 const RUN_METRES_PER_CYCLE = 2.35;
-const LABEL_CANVAS = { width: 224, height: 56 } as const;
-/** Etiquette agrandie en tactique : deux lignes (nom + materiel), cf. `drawLabel`. */
-const TACTICAL_LABEL_CANVAS = { width: 256, height: 96 } as const;
-const LABEL_WORLD_WIDTH = 2.35;
-/**
- * Repris a 1,5 m (etait 2,9, environ trois fois la largeur d'un cadet -- signale en revue sur
- * `07-john-tete-hires.png`) : la plaque doit accompagner le personnage, pas le recouvrir.
- */
-const TACTICAL_LABEL_WORLD_WIDTH = 1.5;
-/** Silhouette "rayon X" : capsule generique dessinee uniquement la ou un conteneur masque le cadet. */
-const XRAY_RADIUS = 0.3;
 const DEFAULT_RING_COLOR = 0xa1433e;
 /** Emissif leger de l'unite active (tactique) -- ART-DIRECTION.md, regle de lisibilite 2 :
  *  "L'unite active est mise en evidence -- emissif leger ET anneau opaque", pas l'un ou l'autre. */
@@ -92,12 +89,36 @@ export function createCadetExplorationRig(
   teamColor = DEFAULT_RING_COLOR,
   options: HumanRigOptions = {},
 ): CadetExplorationRig {
-  return new CadetRig(sheet, teamColor, options);
+  return createMpfbRig(sheet, teamColor, options) ?? new CadetRig(sheet, teamColor, options);
 }
 
 /** The same skinned factory also makes adult staff and background cadets. */
-export function createHumanExplorationRig(actor: VisualActor, options: HumanRigOptions): CadetRig {
-  return new CadetRig(actor, options.teamColor ?? DEFAULT_RING_COLOR, options);
+export function createHumanExplorationRig(actor: VisualActor, options: HumanRigOptions): CadetExplorationRig {
+  const teamColor = options.teamColor ?? DEFAULT_RING_COLOR;
+  return createMpfbRig(actor, teamColor, options) ?? new CadetRig(actor, teamColor, options);
+}
+
+/**
+ * Les cadets, et l'enfant, ont un modèle MPFB dédié (ADR 0041) ; les adultes, les gangers et les
+ * figurants anonymes gardent l'humanoïde Quaternius. Repli Quaternius si la distribution MPFB n'a
+ * pas pu être chargée, ou avec `?rig=quaternius`.
+ */
+function createMpfbRig(
+  actor: VisualActor,
+  teamColor: number,
+  options: HumanRigOptions,
+): CadetExplorationRig | null {
+  const look = options.mpfbLook ?? actor.id;
+  // A custom Quaternius profile (ganger, staff) means "not this cast", unless a look is named.
+  if (options.pilotFranklyn || (options.profile && !options.mpfbLook)) return null;
+  if (!mpfbCastEnabled() || !hasMpfbLook(look)) return null;
+  return new MpfbCadetRig(actor.id, look, {
+    name: actor.name,
+    teamColor,
+    tactical: options.tactical,
+    showLabel: options.showLabel,
+    showRing: options.showRing,
+  });
 }
 
 export class CadetRig implements CadetExplorationRig {
@@ -114,13 +135,7 @@ export class CadetRig implements CadetExplorationRig {
   private readonly ownedGeometries: THREE.BufferGeometry[] = [];
   /** Quaternius armatures import at 100x scale; attachments use metre-sized coordinates. */
   private readonly attachments = new Map<THREE.Object3D, THREE.Group>();
-  private readonly ring: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>;
-  private readonly label: THREE.Sprite;
-  private readonly labelCanvas: HTMLCanvasElement;
-  private readonly labelTexture: THREE.CanvasTexture;
-  private readonly labelWorldWidth: number;
-  private readonly name: string;
-  private readonly teamColor: number;
+  private readonly overlay: RigOverlay;
   private readonly tactical: boolean;
   private readonly head: THREE.Object3D;
   private readonly chest: THREE.Object3D;
@@ -138,18 +153,13 @@ export class CadetRig implements CadetExplorationRig {
   private reducedMotion = false;
   private disposed = false;
   private highlighted = false;
-  private items: readonly ItemId[] | null = [];
-  private equipmentLineVisible: boolean;
   /** Emissif "de base" (remplissage tactique) par materiau, pour que `setHighlighted` l'AJOUTE
    *  au lieu de l'ecraser -- voir `applyTacticalFill`. Vide en exploration. */
   private readonly baseEmissive = new Map<THREE.MeshStandardMaterial, THREE.Color>();
 
   constructor(actor: VisualActor, teamColor: number, options: HumanRigOptions = {}) {
     this.id = actor.id;
-    this.name = actor.name;
-    this.teamColor = teamColor;
     this.tactical = options.tactical ?? false;
-    this.equipmentLineVisible = this.tactical;
     const profile = options.profile ?? CADET_VISUAL_PROFILES[actor.id as keyof typeof CADET_VISUAL_PROFILES];
     if (!profile) throw new Error(`Profil visuel manquant pour ${actor.id}`);
     const modelType = options.model ?? (actor.id === 'abigail' || actor.id === 'letitia' ? 'female' : 'male');
@@ -200,69 +210,14 @@ export class CadetRig implements CadetExplorationRig {
     this.addEquipment();
     if (options.pilotFranklyn) this.addPilotFranklyn();
 
-    const ringMaterial = new THREE.MeshBasicMaterial({
-      color: teamColor,
-      transparent: true,
-      opacity: 0.55,
-      depthWrite: false,
+    this.overlay = new RigOverlay(this.object, {
+      name: actor.name,
+      teamColor,
+      tactical: this.tactical,
+      height,
+      showLabel: options.showLabel !== false,
+      showRing: options.showRing !== false,
     });
-    this.ownedMaterials.push(ringMaterial);
-    this.ring = new THREE.Mesh(new THREE.RingGeometry(0.43, 0.51, 20), ringMaterial);
-    this.ring.rotation.x = -Math.PI / 2;
-    this.ring.position.y = 0.012;
-    this.ring.visible = options.showRing !== false;
-    this.object.add(this.ring);
-
-    // Silhouette "rayon X" (tactique seulement) : dessinee uniquement la ou un conteneur
-    // masque le cadet -- ART-DIRECTION.md, regle de lisibilite 5, "rien ne masque un personnage".
-    if (this.tactical) {
-      const xrayMaterial = new THREE.MeshBasicMaterial({
-        color: teamColor,
-        transparent: true,
-        opacity: 0.5,
-        depthFunc: THREE.GreaterDepth,
-        depthWrite: false,
-      });
-      this.ownedMaterials.push(xrayMaterial);
-      const xrayGeometry = new THREE.CapsuleGeometry(
-        XRAY_RADIUS,
-        Math.max(0.1, height - 2 * XRAY_RADIUS),
-        4,
-        8,
-      );
-      this.ownedGeometries.push(xrayGeometry);
-      const xray = new THREE.Mesh(xrayGeometry, xrayMaterial);
-      xray.position.y = height / 2;
-      xray.renderOrder = 10;
-      this.object.add(xray);
-    }
-
-    const labelCanvasSize = this.tactical ? TACTICAL_LABEL_CANVAS : LABEL_CANVAS;
-    this.labelWorldWidth = this.tactical ? TACTICAL_LABEL_WORLD_WIDTH : LABEL_WORLD_WIDTH;
-    this.labelCanvas = document.createElement('canvas');
-    this.labelCanvas.width = labelCanvasSize.width;
-    this.labelCanvas.height = labelCanvasSize.height;
-    this.labelTexture = new THREE.CanvasTexture(this.labelCanvas);
-    this.labelTexture.colorSpace = THREE.SRGBColorSpace;
-    this.label = new THREE.Sprite(
-      new THREE.SpriteMaterial({
-        map: this.labelTexture,
-        transparent: true,
-        depthTest: false,
-        depthWrite: false,
-      }),
-    );
-    this.label.name = 'cadet-label';
-    this.label.scale.set(
-      this.labelWorldWidth,
-      (this.labelWorldWidth * labelCanvasSize.height) / labelCanvasSize.width,
-      1,
-    );
-    this.label.position.y = height + (this.tactical ? 0.52 : 0.42);
-    this.label.visible = options.showLabel !== false;
-    this.label.renderOrder = 20;
-    this.object.add(this.label);
-    this.drawLabel();
 
     this.mixer = new THREE.AnimationMixer(this.model);
     for (const name of Object.keys(CLIP_NAME) as RigAnimation[]) {
@@ -289,10 +244,9 @@ export class CadetRig implements CadetExplorationRig {
   play(animation: RigAnimation): void {
     if (this.disposed) return;
     if (animation === 'revive') {
-      const wasDown = this.current === 'down';
       this.current = 'idle';
       this.crossFadeTo('idle');
-      if (this.tactical && wasDown) this.drawLabel();
+      this.overlay.setDown(false);
       return;
     }
     if (animation === this.current && this.currentPose === null) return;
@@ -300,11 +254,10 @@ export class CadetRig implements CadetExplorationRig {
       this.visual.position.y = 0;
       this.resetPose();
     }
-    const wasDown = this.current === 'down';
     this.currentPose = null;
     this.current = animation;
     this.crossFadeTo(animation);
-    if (this.tactical && (animation === 'down' || wasDown)) this.drawLabel();
+    this.overlay.setDown(animation === 'down');
   }
 
   setExplorationMotionSpeed(metresPerSecond: number): void {
@@ -326,84 +279,24 @@ export class CadetRig implements CadetExplorationRig {
   setHighlighted(on: boolean): void {
     if (on === this.highlighted) return;
     this.highlighted = on;
-    this.ring.material.opacity = on ? 1 : 0.55;
-    // Anneau opaque ET emissif leger sur tout le modele (tactique seulement -- l'exploration
-    // n'a pas d'unite "active" a signaler de cette facon). S'AJOUTE au remplissage de base
-    // (`applyTacticalFill`), ne l'ecrase pas -- sinon l'unite active redeviendrait plus sombre
-    // que ses coequipiers des qu'elle rend la main.
+    this.overlay.setHighlighted(on);
+    // Emissif leger sur tout le modele (tactique seulement -- l'exploration n'a pas d'unite
+    // "active" a signaler de cette facon). S'AJOUTE au remplissage de base (`applyTacticalFill`),
+    // ne l'ecrase pas -- sinon l'unite active redeviendrait plus sombre que ses coequipiers des
+    // qu'elle rend la main. ART-DIRECTION.md, regle de lisibilite 2 : emissif ET anneau opaque.
     if (this.tactical) {
       for (const [material, base] of this.baseEmissive) {
         material.emissive.copy(base);
         if (on) material.emissive.add(HIGHLIGHT_COLOR);
       }
-      this.drawLabel();
     }
   }
   setEquipment(items: readonly ItemId[] | null): void {
     for (const [item, node] of this.equipment) node.visible = items?.includes(item) ?? false;
-    const same =
-      items === null || this.items === null
-        ? items === this.items
-        : items.length === this.items.length && items.every((item, i) => item === this.items?.[i]);
-    this.items = items === null ? null : [...items];
-    if (!same && this.tactical) this.drawLabel();
+    this.overlay.setItems(items);
   }
   setEquipmentLineVisible(visible: boolean): void {
-    if (this.equipmentLineVisible === visible) return;
-    this.equipmentLineVisible = visible;
-    this.drawLabel();
-  }
-
-  /**
-   * Etiquette flottante : nom du cadet (bord a la couleur d'equipe), "(à terre)" quand
-   * neutralise, et, en tactique (`equipmentLineVisible`), une ligne de pictogrammes du
-   * materiel -- meme convention que l'ancien `PlaceholderRig`. En exploration, la plaque
-   * ne porte que le nom, jamais redessinee en cours de jeu (voir `tactical`).
-   */
-  private drawLabel(): void {
-    const ctx = this.labelCanvas.getContext('2d');
-    if (!ctx) return;
-    const width = this.labelCanvas.width;
-    const height = this.labelCanvas.height;
-    const down = this.current === 'down';
-    ctx.clearRect(0, 0, width, height);
-
-    const boxHeight = this.equipmentLineVisible ? height - 8 : Math.min(56, height - 8);
-    ctx.globalAlpha = down ? 0.65 : 1;
-    ctx.fillStyle = 'rgba(10, 12, 18, 0.88)';
-    ctx.strokeStyle = `#${this.teamColor.toString(16).padStart(6, '0')}`;
-    ctx.lineWidth = this.highlighted ? 6 : 4;
-    ctx.beginPath();
-    ctx.roundRect(4, 4, width - 8, boxHeight, 12);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#f4f2ea';
-    ctx.font = '700 27px "Barlow Semi Condensed", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const nameY = this.equipmentLineVisible ? 26 : boxHeight / 2 + 1;
-    ctx.fillText(down ? `${this.name} (à terre)` : this.name, width / 2, nameY, width - 20);
-
-    if (this.equipmentLineVisible) {
-      const items = this.items;
-      const carried = items ? CARRIED_ITEMS.filter((item) => items.includes(item)) : [];
-      if (items === null || carried.length === 0) {
-        ctx.fillStyle = '#9aa0ad';
-        ctx.font = '400 19px "Barlow Semi Condensed", sans-serif';
-        ctx.fillText(items === null ? 'matériel inconnu' : 'sans matériel', width / 2, 68);
-      } else {
-        ctx.font = '400 30px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
-        const step = 46;
-        const start = width / 2 - ((carried.length - 1) * step) / 2;
-        carried.forEach((item, i) => {
-          ctx.fillStyle = `#${ITEM_COLORS[item].toString(16).padStart(6, '0')}`;
-          ctx.fillText(ITEM_ICONS[item], start + i * step, 68);
-        });
-      }
-    }
-    ctx.globalAlpha = 1;
-    this.labelTexture.needsUpdate = true;
+    this.overlay.setEquipmentLineVisible(visible);
   }
 
   playExplorationPose(pose: ExplorationPose | null): void {
@@ -424,7 +317,8 @@ export class CadetRig implements CadetExplorationRig {
     if (pose === 'lean') {
       rotate(this.chest, 0, 0, -0.18);
       rotate(this.leftArm, -0.35);
-    } else if (pose === 'talk') {
+    } else if (pose === 'talk' || pose === 'dance') {
+      // No dance clip on the Quaternius rig: a dancer simply stands chatting.
       rotate(this.rightArm, -0.35);
       rotate(this.head, 0, 0.12);
     } else {
@@ -453,9 +347,7 @@ export class CadetRig implements CadetExplorationRig {
     this.disposed = true;
     this.mixer.stopAllAction();
     this.mixer.uncacheRoot(this.model);
-    this.ring.geometry.dispose();
-    this.labelTexture.dispose();
-    (this.label.material as THREE.Material).dispose();
+    this.overlay.dispose();
     for (const geometry of this.ownedGeometries) geometry.dispose();
     for (const material of this.ownedMaterials) material.dispose();
     releaseCadetAssets();
@@ -691,7 +583,7 @@ export class CadetRig implements CadetExplorationRig {
     );
     mine.rotation.x = Math.PI / 2;
     this.equipment.set('mine', mine);
-    this.setEquipment([]);
+    for (const node of this.equipment.values()) node.visible = false;
   }
 
   /** Tailored jacket, raised collar and carried kit. All parts follow the Quaternius bones. */
