@@ -83,7 +83,8 @@ interface Cast {
   readonly templates: ReadonlyMap<string, Template>;
   /** Squelette Mixamo sans maillage, au repos (T-pose) : source du retarget. */
   readonly skeleton: THREE.Object3D;
-  readonly clips: ReadonlyMap<MpfbClip, THREE.AnimationClip>;
+  /** Filled as clips arrive: the optional ones load after startup. */
+  readonly clips: Map<MpfbClip, THREE.AnimationClip>;
 }
 
 let cast: Cast | undefined;
@@ -116,39 +117,41 @@ export function preloadMpfbCast(): Promise<void> {
 
 async function load(): Promise<void> {
   const gltf = new GLTFLoader();
-  const fbx = new FBXLoader();
   const looks = Object.values(LOOKS);
-  const clipEntries = Object.entries(MPFB_CLIP_FILES) as [MpfbClip, string][];
-  const [scenes, sources] = await Promise.all([
+  // Only the locomotion clips block startup; the others (shoot, fall, dances...) stream in after.
+  const [scenes, required] = await Promise.all([
     Promise.all(looks.map((look) => gltf.loadAsync(`${BASE}${look.id}/${look.id}.glb`))),
-    Promise.all(
-      clipEntries.map(([clip, file]) =>
-        fbx.loadAsync(`${BASE}exo/${file}.fbx`).catch((error: unknown) => {
-          if (REQUIRED.includes(clip)) throw error;
-          console.warn(`[HOLT] clip ${file}.fbx absent : repli sur la pose de repos`);
-          return null;
-        }),
-      ),
-    ),
+    Promise.all(REQUIRED.map((clip) => loadClip(clip))),
   ]);
-
   const clips = new Map<MpfbClip, THREE.AnimationClip>();
-  clipEntries.forEach(([clip], i) => {
-    const source = sources[i];
-    const animation = source?.animations.find((c) => c.tracks.length > 0) ?? source?.animations[0];
-    if (!animation) return;
-    const trim = TRIM[clip];
-    const used = trim
-      ? THREE.AnimationUtils.subclip(animation, clip, Math.round(trim[0] * 30), Math.round(trim[1] * 30), 30)
-      : animation;
-    if (PINNED.includes(clip)) groundHips(used, 'pin');
-    else if (clip.startsWith('dance')) groundHips(used, 'detrend');
-    clips.set(clip, used);
-  });
-  const walk = sources[clipEntries.findIndex(([clip]) => clip === 'walk')]!;
+  REQUIRED.forEach((clip, i) => clips.set(clip, required[i]!.animation));
   const templates = new Map<string, Template>();
   looks.forEach((look, i) => templates.set(look.id, makeTemplate(look, scenes[i]!.scene)));
+  const walk = required[REQUIRED.indexOf('walk')]!.source;
   cast = { templates, skeleton: skeletonOnly(walk), clips };
+
+  const optional = (Object.keys(MPFB_CLIP_FILES) as MpfbClip[]).filter((clip) => !REQUIRED.includes(clip));
+  for (const clip of optional) {
+    loadClip(clip)
+      .then(({ animation }) => clips.set(clip, animation))
+      .catch(() =>
+        console.warn(`[HOLT] clip ${MPFB_CLIP_FILES[clip]}.fbx absent : repli sur la pose de repos`),
+      );
+  }
+}
+
+const fbx = new FBXLoader();
+async function loadClip(clip: MpfbClip): Promise<{ source: THREE.Object3D; animation: THREE.AnimationClip }> {
+  const source = await fbx.loadAsync(`${BASE}exo/${MPFB_CLIP_FILES[clip]}.fbx`);
+  const raw = source.animations.find((c) => c.tracks.length > 0) ?? source.animations[0];
+  if (!raw) throw new Error(`Clip vide : ${MPFB_CLIP_FILES[clip]}.fbx`);
+  const trim = TRIM[clip];
+  const animation = trim
+    ? THREE.AnimationUtils.subclip(raw, clip, Math.round(trim[0] * 30), Math.round(trim[1] * 30), 30)
+    : raw;
+  if (PINNED.includes(clip)) groundHips(animation, 'pin');
+  else if (clip.startsWith('dance')) groundHips(animation, 'detrend');
+  return { source, animation };
 }
 
 function makeTemplate(look: CadetLook, scene: THREE.Object3D): Template {
@@ -207,6 +210,7 @@ export interface MpfbBody {
   readonly character: THREE.Object3D;
   /** Squelette source invisible, à animer avec un `AnimationMixer`. */
   readonly source: THREE.Object3D;
+  /** Shared and filled in the background: a clip absent now may be there on the next play. */
   readonly clips: ReadonlyMap<MpfbClip, THREE.AnimationClip>;
 }
 

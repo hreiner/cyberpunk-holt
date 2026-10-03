@@ -154,7 +154,11 @@ export function styleCadet(meshes: T.Mesh[], look: CadetLook, options: StyleOpti
 
 // ---- identity pass ----------------------------------------------------------------------
 
-function repaint(texture: T.Texture, fn: (c: T.Color, hsl: { h: number; s: number; l: number }) => void) {
+/**
+ * Recolours an atlas from each pixel's HSL lightness alone (`fn(l)` gives the new colour): a
+ * 256-entry table replaces per-pixel colour maths, about ten times faster at load.
+ */
+function repaint(texture: T.Texture, fn: (l: number) => T.Color) {
   const image = texture.image as CanvasImageSource & { width: number; height: number };
   const canvas = document.createElement('canvas');
   canvas.width = image.width;
@@ -163,15 +167,22 @@ function repaint(texture: T.Texture, fn: (c: T.Color, hsl: { h: number; s: numbe
   ctx.drawImage(image, 0, 0);
   const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const px = data.data;
-  const color = new T.Color();
-  const hsl = { h: 0, s: 0, l: 0 };
+  const lut = new Uint8ClampedArray(256 * 3);
+  for (let i = 0; i < 256; i++) {
+    const color = fn(i / 255);
+    lut[i * 3] = Math.round(color.r * 255);
+    lut[i * 3 + 1] = Math.round(color.g * 255);
+    lut[i * 3 + 2] = Math.round(color.b * 255);
+  }
   for (let i = 0; i < px.length; i += 4) {
-    color.setRGB(px[i]! / 255, px[i + 1]! / 255, px[i + 2]! / 255);
-    color.getHSL(hsl);
-    fn(color, hsl);
-    px[i] = Math.round(color.r * 255);
-    px[i + 1] = Math.round(color.g * 255);
-    px[i + 2] = Math.round(color.b * 255);
+    const r = px[i]!;
+    const g = px[i + 1]!;
+    const b = px[i + 2]!;
+    // HSL lightness = (max + min) / 2.
+    const l = (Math.max(r, g, b) + Math.min(r, g, b)) >> 1;
+    px[i] = lut[l * 3]!;
+    px[i + 1] = lut[l * 3 + 1]!;
+    px[i + 2] = lut[l * 3 + 2]!;
   }
   ctx.putImageData(data, 0, 0);
   const out = new T.CanvasTexture(canvas);
@@ -265,6 +276,36 @@ function makeCloth(mesh: T.SkinnedMesh): Cloth {
   return { mesh, surface, nearest, rest, inverseSkin, inverseFor };
 }
 
+/** The triangles of `cloth.surface` with a corner within `radius` of `center` (world space). */
+function nearbySurface(cloth: Cloth, center: T.Vector3, radius: number): T.Mesh {
+  const source = cloth.surface.geometry;
+  const position = source.getAttribute('position');
+  const normal = source.getAttribute('normal');
+  const index = source.getIndex();
+  const local = center.clone().applyMatrix4(new T.Matrix4().copy(cloth.surface.matrixWorld).invert());
+  const r2 = radius * radius;
+  const v = new T.Vector3();
+  const near = (i: number) => v.fromBufferAttribute(position, i).distanceToSquared(local) <= r2;
+  const positions: number[] = [];
+  const normals: number[] = [];
+  const triangles = index ? index.count / 3 : position.count / 3;
+  for (let t = 0; t < triangles; t++) {
+    const corners = [0, 1, 2].map((k) => (index ? index.getX(t * 3 + k) : t * 3 + k));
+    if (!corners.some(near)) continue;
+    for (const i of corners) {
+      positions.push(position.getX(i), position.getY(i), position.getZ(i));
+      normals.push(normal.getX(i), normal.getY(i), normal.getZ(i));
+    }
+  }
+  const geometry = new T.BufferGeometry();
+  geometry.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('normal', new T.Float32BufferAttribute(normals, 3));
+  const mesh = new T.Mesh(geometry);
+  mesh.matrixAutoUpdate = false;
+  mesh.matrixWorld.copy(cloth.surface.matrixWorld);
+  return mesh;
+}
+
 function canvasTexture(w: number, h: number, draw: (ctx: CanvasRenderingContext2D) => void, flip = false) {
   const canvas = document.createElement('canvas');
   canvas.width = w;
@@ -298,9 +339,9 @@ export function dressCadet(root: T.Object3D, meshes: T.Mesh[], look: CadetLook) 
       const material = mesh.material as T.MeshToonMaterial;
       if (!material.map) continue;
       if (!ready(material.map)) continue;
-      material.map = repaint(material.map, (col, { l }) => {
-        col.setHSL(hp.hue, hp.sat, hp.lo + Math.min(1, l * hp.gain) * hp.range);
-      });
+      material.map = repaint(material.map, (l) =>
+        new T.Color().setHSL(hp.hue, hp.sat, hp.lo + Math.min(1, l * hp.gain) * hp.range),
+      );
       material.needsUpdate = true;
     }
   }
@@ -312,12 +353,12 @@ export function dressCadet(root: T.Object3D, meshes: T.Mesh[], look: CadetLook) 
     const map = material.map;
     if (!map) continue;
     if (!ready(map)) continue;
-    material.map = repaint(map, (col, { l }) => {
+    material.map = repaint(map, (l) => {
       // Luminance survives (seams, pockets, folds); hue and saturation are replaced. Near-white
       // shirt cloth (dropAbove) goes dark so only the jacket reads.
       const light =
         c.dropAbove !== undefined && l > c.dropAbove ? c.lo : c.lo + Math.min(1, l * c.gain) * c.range;
-      col.setHSL(c.hue, c.sat, light);
+      return new T.Color().setHSL(c.hue, c.sat, light);
     });
     material.color.set(0xffffff);
     material.needsUpdate = true;
@@ -355,7 +396,14 @@ export function dressCadet(root: T.Object3D, meshes: T.Mesh[], look: CadetLook) 
     const orientation = new T.Euler().setFromRotationMatrix(
       new T.Matrix4().lookAt(hit.point, hit.point.clone().add(n), upDir),
     );
-    const geometry = new DecalGeometry(cloth.surface, hit.point, orientation, size);
+    // DecalGeometry clips every triangle of the mesh it is given: hand it only the patch's
+    // neighbourhood (it was ~40 ms per patch on a whole garment, most of the dressing time).
+    const geometry = new DecalGeometry(
+      nearbySurface(cloth, hit.point, size.length()),
+      hit.point,
+      orientation,
+      size,
+    );
     const pos = geometry.getAttribute('position');
     const nor = geometry.getAttribute('normal');
     const inverse = new T.Matrix4().copy(cloth.surface.matrixWorld).invert();

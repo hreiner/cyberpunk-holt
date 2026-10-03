@@ -49,6 +49,8 @@ export class MpfbCadetRig implements ExplorationCharacterRig {
   private readonly baseEmissive = new Map<THREE.MeshToonMaterial | THREE.MeshStandardMaterial, THREE.Color>();
   private readonly sourceToCharacter: number;
   private current: MpfbClip = 'idle';
+  /** Clip asked for; differs from `current` while it is still loading. */
+  private wanted: MpfbClip = 'idle';
   private currentAnimation: RigAnimation = 'idle';
   private currentPose: ExplorationPose | null = null;
   private motionSpeed = 0;
@@ -166,6 +168,8 @@ export class MpfbCadetRig implements ExplorationCharacterRig {
 
   update(dt: number): void {
     if (this.disposed) return;
+    // A pose asked for before its clip had loaded starts as soon as the clip is there.
+    if (this.wanted !== this.current && this.body.clips.has(this.wanted)) this.crossFadeTo(this.wanted);
     const moving = this.current === 'walk' || this.current === 'run';
     if (this.reducedMotion && !moving) return;
     this.mixer.update(Math.min(dt, 0.1));
@@ -181,8 +185,11 @@ export class MpfbCadetRig implements ExplorationCharacterRig {
     for (const item of this.owned) item.dispose();
   }
 
-  /** Clip demandé, ou le repos si ce clip n'a pas été livré (`mpfbAssets.ts`). */
+  /** Clip demandé, ou le repos s'il n'est pas (encore) chargé (`mpfbAssets.ts`). */
   private crossFadeTo(clip: MpfbClip): void {
+    this.wanted = clip;
+    const late = this.body.clips.get(clip);
+    if (late && !this.actions.has(clip)) this.actions.set(clip, this.mixer.clipAction(late));
     const target = this.actions.has(clip) ? clip : 'idle';
     const next = this.actions.get(target)!;
     this.current = target;
