@@ -49,6 +49,7 @@ import type { NightMood } from '@/render/exploration/atmosphere';
 import { createGameRenderer, rendererDescription } from '@/render/rendererSetup';
 import { createDormitoryEnvironment } from '@/render/exploration/dormitoryEnvironment';
 import { explorationSceneProfile } from '@/render/exploration/explorationSceneProfiles';
+import { createStableSceneLights, type StableSceneLights } from '@/render/exploration/stableSceneLights';
 import { TAP_SLOP_PX } from '@/render/pointerGestures';
 import { Sfx } from '@/audio/sfx';
 import type { SfxId } from '@/audio/sfx';
@@ -148,6 +149,7 @@ export class ExploreSession {
    */
   state: ExploreState | null = null;
   view: ExploreView | null = null;
+  private stableLights: StableSceneLights | null = null;
   mapDef: MapDef | null = null;
 
   private renderer: THREE.WebGLRenderer | null = null;
@@ -365,6 +367,8 @@ export class ExploreSession {
     scene: SceneDef,
     followerIds: FollowerId[],
   ): void {
+    this.stableLights?.dispose();
+    this.stableLights = null;
     this.view?.dispose();
     const isEnhancedMap = explorationSceneProfile(mapDef.id) !== null;
     if (!isEnhancedMap) this.disposeDormitoryComposer();
@@ -437,6 +441,18 @@ export class ExploreSession {
     // Avant la première frame : évite un flash "tout caché" (la vue part pessimiste, voir
     // `ExploreView.buildRoomFloors`/`registerVisualEntity`) le temps que la boucle démarre.
     this.syncVisibility();
+    this.stableLights = createStableSceneLights(this.view.scene);
+    this.stableLights.update(this.view.camera.getTarget());
+    // Compile hidden furniture too, using the same output as the actual render pass.
+    const previousTarget = this.renderer.getRenderTarget();
+    this.renderer.setRenderTarget(this.dormitoryComposer?.readBuffer ?? null);
+    try {
+      // Submit shader work ahead of discovery; no uncancellable readiness polling survives
+      // a disposed world (Three's compileAsync polls material properties internally).
+      this.renderer.compile(this.view.scene, this.view.renderCamera);
+    } finally {
+      this.renderer.setRenderTarget(previousTarget);
+    }
   }
 
   /** Case cible du repere "Tab maintenu" (08-EXPLORATION.md "Les objectifs") : celle du `completionTrigger`. */
@@ -515,6 +531,8 @@ export class ExploreSession {
    */
   resetWorld(): void {
     this.pause();
+    this.stableLights?.dispose();
+    this.stableLights = null;
     this.view?.dispose();
     this.disposeDormitoryComposer();
     this.view = null;
@@ -526,6 +544,8 @@ export class ExploreSession {
     this.pause();
     this.host.removeEventListener('pointerdown', this.onPointerUnlock);
     this.sfx.stopSamples();
+    this.stableLights?.dispose();
+    this.stableLights = null;
     this.view?.dispose();
     this.disposeDormitoryComposer();
     this.dormitoryEnvironment?.dispose();
@@ -758,6 +778,7 @@ export class ExploreSession {
         interactables.map((it) => ({ id: it.id, label: it.label, reachable: it.reachable })),
       );
       this.syncVisibility(interactables);
+      this.stableLights?.update(view.camera.getTarget());
       if (this.hoveredEntityId) {
         const info = interactables.find((i) => i.id === this.hoveredEntityId);
         if (info) this.hud?.setHoverLabel(info.label, info.reachable, this.lastPointerClient);

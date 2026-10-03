@@ -64,6 +64,7 @@ Résultat des autres lieux et du hangar : [première livraison](art/EXPLORATION-
 puis [corrections après revue des images](art/EXPLORATION-AAA-VISUAL-FIXES.md).
 Reprise actuelle : [murs fixes, découverte et revue des 39 pièces](art/EXPLORATION-STATIC-WALLS-REVIEW.md).
 Interactions après la refonte : [anneaux, Zachary, armoire et résultat automatique](art/EXPLORATION-INTERACTION-REVIEW.md).
+Performance d'entrée en salle : [mesures avant/après et vérifications](art/EXPLORATION-ROOM-PERFORMANCE-REVIEW.md), [ADR 0040](process/adr/0040-stabiliser-cout-entree-salle.md).
 Feuillage réemployé : [asset, prompt et provenance](art/HOLT-AAA-ASSETS.md).
 
 | Document                                                                       | Contenu                                                                                                         |
@@ -137,3 +138,4 @@ Feuillage réemployé : [asset, prompt et provenance](art/HOLT-AAA-ASSETS.md).
 | [0037](process/adr/0037-enveloppe-et-profils-visuels-holt.md)                    | Enveloppe complète et profils de rendu de l'académie HOLT                                        |
 | [0038](process/adr/0038-profils-decor-toutes-explorations.md)                    | Profils de décor communs aux cinq cartes d’exploration et reprise du hangar                      |
 | [0039](process/adr/0039-murs-exploration-entiers.md)                             | Murs entiers à hauteur fixe ; la découverte ne révèle que les contenus                           |
+| [0040](process/adr/0040-stabiliser-cout-entree-salle.md)                         | Stabiliser le coût du premier accès aux salles                                                    |

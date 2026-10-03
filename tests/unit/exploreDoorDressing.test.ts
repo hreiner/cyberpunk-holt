@@ -56,3 +56,40 @@ it('ouvre une fermeture spécialisée sans fusionner ses pièces ni dévoiler sa
     material.dispose();
   }
 });
+
+it('synchronise les lots fusionnés avec la découverte et leur étape précalculées', () => {
+  const geometry = new THREE.BoxGeometry();
+  const material = new THREE.MeshBasicMaterial();
+  const factory = {
+    create(_placement: ExploreVisualPlacement) {
+      return new THREE.Mesh(geometry, material);
+    },
+    dispose: vi.fn(),
+  };
+  const dressing = new ExploreDressing(
+    {
+      mapId: 'test',
+      placements: [
+        { id: 'desk-a', model: 'duct-fan', cell: { x: 1, y: 1 }, roomId: 'labo', etape: 'bal' },
+        { id: 'desk-b', model: 'duct-fan', cell: { x: 2, y: 1 }, roomId: 'labo', etape: 'bal' },
+      ],
+    },
+    factory,
+  );
+  try {
+    const [instances] = dressing.root.children.filter(
+      (child): child is THREE.InstancedMesh => child instanceof THREE.InstancedMesh,
+    );
+    expect(instances).toBeDefined();
+    dressing.syncVisibility({ discoveredRoomIds: new Set(), visibleEntityIds: new Set(), etape: 'bal' });
+    expect(instances?.visible).toBe(false);
+    dressing.syncVisibility({ discoveredRoomIds: new Set(['labo']), visibleEntityIds: new Set(), etape: 'fuite' });
+    expect(instances?.visible).toBe(false);
+    dressing.syncVisibility({ discoveredRoomIds: new Set(['labo']), visibleEntityIds: new Set(), etape: 'bal' });
+    expect(instances?.visible).toBe(true);
+  } finally {
+    dressing.dispose();
+    geometry.dispose();
+    material.dispose();
+  }
+});

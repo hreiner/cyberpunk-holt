@@ -188,6 +188,19 @@ Cour et campement restent mats ; les trois petites zones de reflet dans les sout
 sont limitées au labo, au dortoir des petits et à la cantine. Le terrain de la cour conserve
 exactement ses cellules tactiques et ses couverts hauts/bas.
 
+## Coût de la première entrée en salle
+
+Une salle nouvellement découverte ne doit pas provoquer une pause de plusieurs secondes pour
+compiler ses variantes d'éclairage. Les profils d'exploration gardent un nombre stable de
+sources de lumière GPU entre les salles ; leur priorité et intensité changent sans modifier la
+structure des variantes de shader. Les matériaux du décor, y compris ceux des pièces encore
+cachées, sont préchauffés une fois avant d'être révélés. Le préchauffage ne rend jamais visibles
+les contenus inconnus et ne modifie pas le rythme des animations locales, dont le feu.
+
+La mise en œuvre et les chiffres avant/après sont consignés dans [ADR 0040](../process/adr/0040-stabiliser-cout-entree-salle.md)
+et la [revue de performance](../art/EXPLORATION-ROOM-PERFORMANCE-REVIEW.md), avec les visites de
+salles, la revue visuelle et la stabilité des ressources après plusieurs cycles de cartes.
+
 ## Les objets du monde
 
 Tout ce qui réagit dans une carte est une **entité** déclarée dans les données de la carte

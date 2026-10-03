@@ -1,6 +1,6 @@
 /** Shared wall and HOLT doorway renderer; all geometry here is owned by this instance. */
 import * as THREE from 'three';
-import type { ExploreMap, WallSide } from '@/explore';
+import type { ExploreMap } from '@/explore';
 import type { DormitoryMaterials } from './dormitoryMaterials';
 import type { EnvironmentMaterials } from './materials';
 import {
@@ -18,11 +18,9 @@ import { holtWallFinish } from './holtWallFinishes';
 import { createWallSpanResolver } from './holtWallSpans';
 
 export const HOLT_ARCHITECTURE_WALL_HEIGHT = 4.9;
-export const HOLT_ARCHITECTURE_CUT_HEIGHT = 0.4;
 const WALL_DEPTH = 0.34;
 const WALL_CROWN_HEIGHT = 0.07;
 const WALL_CROWN_OVERHANG = 0.025;
-const CUT_CROWN_HEIGHT = 0.05;
 const WINDOW_ENVIRONMENT_INTENSITY = 0.12;
 const DOOR_WIDTH = 0.88;
 const DOOR_HEIGHT = 2.32;
@@ -32,10 +30,6 @@ export interface HoltArchitectureState {
   active: boolean;
   discoveredRoomIds: ReadonlySet<string>;
   night?: boolean;
-  /** Preferred cell-level cut selection, keys are "roomId:side" or "x,y". */
-  cutCellKeys?: ReadonlySet<string>;
-  /** Compatibility fallback for callers that only know wall sides. */
-  cutSides?: ReadonlySet<WallSide>;
   activeDoorIds?: ReadonlySet<string>;
   isDoorOpen?: (doorId: string) => boolean;
 }
@@ -44,8 +38,6 @@ export interface HoltArchitecture {
   readonly group: THREE.Group;
   readonly layout: HoltArchitectureLayout;
   readonly geometry: ReadonlyMap<string, HoltWallShape>;
-  /** Actual grouped wall portions; accessories follow the same cut decision. */
-  readonly cutCellGroups: readonly ReadonlySet<string>[];
   /** Only actual interactive door entities are pickable. */
   readonly pickables: readonly THREE.Object3D[];
   setState(state: HoltArchitectureState): void;
@@ -55,12 +47,6 @@ export interface HoltArchitecture {
 }
 
 interface SideGroups {
-  roomId: string;
-  side: HoltWallSide;
-  segmentId: string;
-  alwaysVisible: boolean;
-  visibilityRoomIds: Set<string>;
-  cellKeys: Set<string>;
   windows: Array<{
     roomId: string;
     viewRoomId?: string;
@@ -70,32 +56,21 @@ interface SideGroups {
   }>;
   root: THREE.Group;
   full: THREE.Group;
-  cut: THREE.Group;
   doorLeaves: Array<{
     id?: string;
-    cellKey: string;
     root: THREE.Group;
     fullLeaf: THREE.Group;
-    cutLeaf: THREE.Group;
-    fullFrame: THREE.Group;
-    cutFrame: THREE.Group;
     initialOpen: boolean;
     lastOpen?: boolean;
-    lastActive?: boolean;
   }>;
 }
 
-const cellKey = (x: number, y: number) => `${x},${y}`;
 const sideKey = (roomId: string, side: HoltWallSide, segmentId: string) => `${roomId}:${side}:${segmentId}`;
-
-interface RenderWallCell extends HoltWallCell {
-  members: readonly HoltWallCell[];
-}
 
 function coalescePhysicalWalls(
   cells: readonly HoltWallCell[],
   geometry: ReadonlyMap<string, HoltWallShape>,
-): RenderWallCell[] {
+): HoltWallCell[] {
   const groups = new Map<string, HoltWallCell[]>();
   for (const cell of cells) {
     const center = geometry.get(cell.id)?.center ?? { x: cell.x, y: cell.y };
@@ -115,7 +90,6 @@ function coalescePhysicalWalls(
             .map((face) => [`${face.roomId}:${face.side}:${face.segmentId}`, face] as const),
         ).values(),
       ],
-      members,
     };
   });
 }
@@ -310,12 +284,7 @@ export function createHoltArchitecture(options: {
     return landscapeMaterial;
   };
 
-  const ensureSide = (
-    roomId: string,
-    side: HoltWallSide,
-    segmentId: string,
-    alwaysVisible = false,
-  ): SideGroups => {
+  const ensureSide = (roomId: string, side: HoltWallSide, segmentId: string): SideGroups => {
     const key = sideKey(roomId, side, segmentId);
     const current = sideGroups.get(key);
     if (current) return current;
@@ -323,21 +292,12 @@ export function createHoltArchitecture(options: {
     parent.name = `holt-wall-${key}`;
     const full = new THREE.Group();
     full.name = `${key}-full-height`;
-    const cut = new THREE.Group();
-    cut.name = `${key}-cutaway`;
-    parent.add(full, cut);
+    parent.add(full);
     group.add(parent);
     const created: SideGroups = {
-      roomId,
-      side,
-      segmentId,
-      alwaysVisible,
-      visibilityRoomIds: new Set([roomId]),
-      cellKeys: new Set(),
       windows: [],
       root: parent,
       full,
-      cut,
       doorLeaves: [],
     };
     sideGroups.set(key, created);
@@ -520,7 +480,7 @@ export function createHoltArchitecture(options: {
 
   // A physical wall cell is emitted once and attached to its first declared room face.
   // This gives later shared-wall profiles a stable ownership point without duplicate slabs.
-  const cellsBySide = new Map<string, RenderWallCell[]>();
+  const cellsBySide = new Map<string, HoltWallCell[]>();
   for (const cell of fullWall) {
     const face = cell.faces[0];
     if (!face) continue;
@@ -532,27 +492,16 @@ export function createHoltArchitecture(options: {
   for (const cells of cellsBySide.values()) {
     const face = cells[0]?.faces[0];
     if (!face) continue;
-    const sides = ensureSide(face.roomId, face.side, face.segmentId, face.alwaysVisible);
+    const sides = ensureSide(face.roomId, face.side, face.segmentId);
     const wallFull: Array<{ position: THREE.Vector3; scale: THREE.Vector3; yaw?: number }> = [];
-    const wallCut: Array<{ position: THREE.Vector3; scale: THREE.Vector3; yaw?: number }> = [];
     const facePaint = new Map<
       THREE.Material,
       {
         full: Array<{ position: THREE.Vector3; scale: THREE.Vector3 }>;
-        cut: Array<{ position: THREE.Vector3; scale: THREE.Vector3 }>;
       }
     >();
     const capFull: Array<{ position: THREE.Vector3; scale: THREE.Vector3; yaw?: number }> = [];
-    const capCut: Array<{ position: THREE.Vector3; scale: THREE.Vector3; yaw?: number }> = [];
     for (const cell of cells) {
-      for (const cellFace of cell.faces) {
-        sides.visibilityRoomIds.add(cellFace.roomId);
-        sides.alwaysVisible ||= Boolean(cellFace.alwaysVisible);
-      }
-      for (const member of cell.members) {
-        sides.cellKeys.add(cellKey(member.x, member.y));
-        sides.cellKeys.add(member.id);
-      }
       const at = architectureWallWorld(map, cell, face, geometry);
       const span = resolveSpan(cell, 1.02, WALL_DEPTH);
       const spanAt = at.clone();
@@ -631,18 +580,10 @@ export function createHoltArchitecture(options: {
           ),
         });
       }
-      wallCut.push({
-        position: spanAt.clone().setY(HOLT_ARCHITECTURE_CUT_HEIGHT / 2),
-        scale: new THREE.Vector3(
-          cell.axis === 'vertical' ? WALL_DEPTH : span.length,
-          HOLT_ARCHITECTURE_CUT_HEIGHT,
-          cell.axis === 'vertical' ? span.length : WALL_DEPTH,
-        ),
-      });
       for (const faceDef of cell.faces) {
         const lower = holtWallFinish(faceDef.roomId).lower;
         const material = lower === 'petrolPaint' ? petrolPaint : dormitoryMaterials.get(lower);
-        const paint = facePaint.get(material) ?? { full: [], cut: [] };
+        const paint = facePaint.get(material) ?? { full: [] };
         facePaint.set(material, paint);
         // Offset toward the room-facing side of its boundary plane.
         const sideSign = faceDef.side === 'west' || faceDef.side === 'north' ? 1 : -1;
@@ -660,14 +601,6 @@ export function createHoltArchitecture(options: {
             cell.axis === 'vertical' ? paintSpan.length : 0.018,
           ),
         });
-        paint.cut.push({
-          position: paintAt.clone().setY(0.2),
-          scale: new THREE.Vector3(
-            cell.axis === 'vertical' ? 0.018 : paintSpan.length,
-            0.4,
-            cell.axis === 'vertical' ? paintSpan.length : 0.018,
-          ),
-        });
       }
       const capSpan = resolveSpan(cell, 1.04, WALL_DEPTH + 0.05);
       const capAt = at.clone();
@@ -682,14 +615,6 @@ export function createHoltArchitecture(options: {
           cell.axis === 'vertical' ? capSpan.length : WALL_DEPTH + WALL_CROWN_OVERHANG * 2,
         ),
       });
-      capCut.push({
-        position: capAt.clone().setY(HOLT_ARCHITECTURE_CUT_HEIGHT + CUT_CROWN_HEIGHT / 2),
-        scale: new THREE.Vector3(
-          cell.axis === 'vertical' ? WALL_DEPTH + WALL_CROWN_OVERHANG * 2 : capSpan.length,
-          CUT_CROWN_HEIGHT,
-          cell.axis === 'vertical' ? capSpan.length : WALL_DEPTH + WALL_CROWN_OVERHANG * 2,
-        ),
-      });
     }
     // Shared load-bearing partitions remain concrete on both sides. Corrugated sheets
     // dress the garage's own façades, independently of profile registration order.
@@ -701,13 +626,10 @@ export function createHoltArchitecture(options: {
         ? environmentMaterials.get('corrugatedSteel')
         : wallMaterial;
     addInstances(sides.full, unitBox, body, wallFull, ownInstancedMeshes);
-    addInstances(sides.cut, unitBox, body, wallCut, ownInstancedMeshes);
     for (const [material, paint] of facePaint) {
       addInstances(sides.full, unitBox, material, paint.full, ownInstancedMeshes);
-      addInstances(sides.cut, unitBox, material, paint.cut, ownInstancedMeshes);
     }
     addInstances(sides.full, unitBox, crownMaterial, capFull, ownInstancedMeshes);
-    addInstances(sides.cut, unitBox, crownMaterial, capCut, ownInstancedMeshes);
   }
 
   // Shared frame details are instanced by side/material. The leaf remains a small, stateful
@@ -729,32 +651,25 @@ export function createHoltArchitecture(options: {
     const face = first.faces[0];
     const otherFace = second.faces[0];
     if (!face || !otherFace) continue;
-    const sides = ensureSide(face.roomId, face.side, face.segmentId, face.alwaysVisible);
-    for (const owner of second.faces) sides.visibilityRoomIds.add(owner.roomId);
-    sides.cellKeys.add(cellKey(second.x, second.y));
+    const sides = ensureSide(face.roomId, face.side, face.segmentId);
     const a = architectureWallWorld(map, first, face, geometry);
     const b = architectureWallWorld(map, second, otherFace, geometry);
     const center = a.clone().add(b).multiplyScalar(0.5);
     const span = a.distanceTo(b) + WALL_DEPTH;
     const alongZ = first.axis === 'horizontal';
     const passageHeaderHeight = doorHeaderHeightAt(first);
-    const lining = (parent: THREE.Group, height: number) => {
-      const pieces = [-1, 1].map((direction) => ({
-        position: center
-          .clone()
-          .add(new THREE.Vector3(alongZ ? direction * 0.48 : 0, height / 2, alongZ ? 0 : direction * 0.48)),
-        scale: new THREE.Vector3(alongZ ? 0.065 : span, height, alongZ ? span : 0.065),
-      }));
-      addInstances(parent, unitBox, frameMaterial, pieces, ownInstancedMeshes);
-    };
-    lining(sides.full, DOOR_HEIGHT);
-    lining(sides.cut, HOLT_ARCHITECTURE_CUT_HEIGHT);
+    const lining = [-1, 1].map((direction) => ({
+      position: center
+        .clone()
+        .add(new THREE.Vector3(alongZ ? direction * 0.48 : 0, DOOR_HEIGHT / 2, alongZ ? 0 : direction * 0.48)),
+      scale: new THREE.Vector3(alongZ ? 0.065 : span, DOOR_HEIGHT, alongZ ? span : 0.065),
+    }));
+    addInstances(sides.full, unitBox, frameMaterial, lining, ownInstancedMeshes);
     const threshold = {
       position: center.clone().setY(0.035),
       scale: new THREE.Vector3(alongZ ? 0.94 : span, 0.04, alongZ ? span : 0.94),
     };
     addInstances(sides.full, unitBox, darkSteel, [threshold], ownInstancedMeshes);
-    addInstances(sides.cut, unitBox, darkSteel, [threshold], ownInstancedMeshes);
     addInstances(
       sides.full,
       unitBox,
@@ -771,9 +686,7 @@ export function createHoltArchitecture(options: {
   for (const opening of openings) {
     const face = opening.faces[0];
     if (face) {
-      const sides = ensureSide(face.roomId, face.side, face.segmentId, face.alwaysVisible);
-      sides.cellKeys.add(cellKey(opening.x, opening.y));
-      sides.cellKeys.add(opening.id);
+      const sides = ensureSide(face.roomId, face.side, face.segmentId);
       const at = architectureWallWorld(map, opening, face, geometry);
       const yaw = sideYaw(opening.axis);
       const isVertical = opening.axis === 'vertical';
@@ -782,8 +695,6 @@ export function createHoltArchitecture(options: {
       const jambDepth = WALL_DEPTH + 0.08;
       const fullFrame = new THREE.Group();
       fullFrame.name = `${opening.id}-holt-door-frame`;
-      const cutFrame = new THREE.Group();
-      cutFrame.name = `${opening.id}-holt-cut-door-frame`;
       const framePieces = pairedPassages.has(opening.id)
         ? []
         : [
@@ -813,34 +724,6 @@ export function createHoltArchitecture(options: {
       fullFrame.position.copy(at);
       fullFrame.rotation.y = yaw;
       sides.full.add(fullFrame);
-
-      // In a cutaway, retain only the threshold and the short jamb feet. The doorway stays
-      // genuinely open unless an active closed door leaf occupies the passage.
-      const cutFramePieces = pairedPassages.has(opening.id)
-        ? []
-        : [
-            {
-              p: new THREE.Vector3(0, 0.02, 0),
-              s: new THREE.Vector3(DOOR_WIDTH + 0.12, 0.04, jambDepth + 0.05),
-            },
-            {
-              p: new THREE.Vector3(-DOOR_WIDTH / 2, HOLT_ARCHITECTURE_CUT_HEIGHT / 2, 0),
-              s: new THREE.Vector3(0.09, HOLT_ARCHITECTURE_CUT_HEIGHT, jambDepth),
-            },
-            {
-              p: new THREE.Vector3(DOOR_WIDTH / 2, HOLT_ARCHITECTURE_CUT_HEIGHT / 2, 0),
-              s: new THREE.Vector3(0.09, HOLT_ARCHITECTURE_CUT_HEIGHT, jambDepth),
-            },
-          ];
-      for (const piece of cutFramePieces) {
-        const mesh = new THREE.Mesh(unitBox, frameMaterial);
-        mesh.position.copy(piece.p);
-        mesh.scale.copy(piece.s);
-        cutFrame.add(mesh);
-      }
-      cutFrame.position.copy(at);
-      cutFrame.rotation.y = yaw;
-      sides.cut.add(cutFrame);
 
       // Fill the wall above the portal and continue its crown across the doorway.
       const tympan = new THREE.Mesh(unitBox, wallMaterial);
@@ -877,7 +760,6 @@ export function createHoltArchitecture(options: {
       else leafRoot.position.x -= 0.4;
       leafRoot.rotation.y = yaw;
       const fullLeaf = new THREE.Group();
-      const cutLeaf = new THREE.Group();
       const finish = holtDoorFinish(
         opening.faces.map((owner) => owner.roomId),
         opening.doorId,
@@ -951,27 +833,7 @@ export function createHoltArchitecture(options: {
         details,
         ownInstancedMeshes,
       );
-      const cutPanel = new THREE.Mesh(unitBox, doorBody);
-      cutPanel.name = 'holt-door-cut-leaf';
-      cutPanel.position.set(DOOR_WIDTH / 2, HOLT_ARCHITECTURE_CUT_HEIGHT / 2, 0);
-      cutPanel.scale.set(DOOR_WIDTH, HOLT_ARCHITECTURE_CUT_HEIGHT, doorDepth);
-      cutPanel.castShadow = true;
-      cutPanel.receiveShadow = true;
-      cutLeaf.add(cutPanel);
-      const cutInset = new THREE.Mesh(unitBox, doorInset);
-      cutInset.position.set(DOOR_WIDTH / 2, HOLT_ARCHITECTURE_CUT_HEIGHT * 0.58, doorDepth / 2 + 0.007);
-      cutInset.scale.set(DOOR_WIDTH * 0.66, 0.12, 0.018);
-      cutLeaf.add(cutInset);
-      const cutHandle = new THREE.Mesh(unitBox, edgeMetal);
-      cutHandle.position.set(DOOR_WIDTH * 0.77, HOLT_ARCHITECTURE_CUT_HEIGHT * 0.49, doorDepth / 2 + 0.026);
-      cutHandle.scale.set(0.045, 0.12, 0.045);
-      cutLeaf.add(cutHandle);
-      for (const front of [cutInset, cutHandle]) {
-        const back = front.clone();
-        back.position.z *= -1;
-        cutLeaf.add(back);
-      }
-      leafRoot.add(fullLeaf, cutLeaf);
+      leafRoot.add(fullLeaf);
       leafRoot.userData.architectureCellId = opening.id;
       leafRoot.userData.isPassageLining = pairedPassages.has(opening.id) && !opening.doorId;
       if (opening.doorId) {
@@ -982,12 +844,8 @@ export function createHoltArchitecture(options: {
       const doorEntity = map.def.entities.find((entity) => entity.id === opening.doorId);
       sides.doorLeaves.push({
         id: opening.doorId,
-        cellKey: cellKey(opening.x, opening.y),
         root: leafRoot,
         fullLeaf,
-        cutLeaf,
-        fullFrame,
-        cutFrame,
         initialOpen: opening.doorId ? !(doorEntity?.type === 'door' && doorEntity.locked) : true,
       });
     }
@@ -1000,7 +858,6 @@ export function createHoltArchitecture(options: {
     const sides = sideGroups.get(key);
     if (!sides) continue;
     const fullRibs: Array<{ position: THREE.Vector3; scale: THREE.Vector3; yaw?: number }> = [];
-    const cutRibs: Array<{ position: THREE.Vector3; scale: THREE.Vector3; yaw?: number }> = [];
     for (const cell of cells) {
       for (const cellFace of cell.faces) {
         if (
@@ -1031,19 +888,9 @@ export function createHoltArchitecture(options: {
           fullRibs.push({ position: at.clone().setY(y), scale: horizontalScale.clone() });
         }
         fullRibs.push({ position: at.clone().setY(wallHeight / 2), scale: verticalScale });
-        const cutHorizontalScale = horizontalScale.clone();
-        cutHorizontalScale.y = 0.022;
-        cutRibs.push({ position: at.clone().setY(0.36), scale: cutHorizontalScale });
-        const cutVerticalScale = verticalScale.clone();
-        cutVerticalScale.y = HOLT_ARCHITECTURE_CUT_HEIGHT;
-        cutRibs.push({
-          position: at.clone().setY(HOLT_ARCHITECTURE_CUT_HEIGHT / 2),
-          scale: cutVerticalScale,
-        });
       }
     }
     addInstances(sides.full, unitBox, darkSteel, fullRibs, ownInstancedMeshes);
-    addInstances(sides.cut, unitBox, darkSteel, cutRibs, ownInstancedMeshes);
   }
 
   let previousSignature: string | undefined;
@@ -1057,14 +904,12 @@ export function createHoltArchitecture(options: {
         const active = !door.id || !state.activeDoorIds || state.activeDoorIds.has(door.id);
         const open = door.id ? (state.isDoorOpen?.(door.id) ?? door.initialOpen) : true;
         doorStates.set(door, { active, open });
-        return `${door.id ?? door.cellKey}:${active ? 1 : 0}:${open ? 1 : 0}`;
+        return `${door.id ?? String(door.root.userData.architectureCellId)}:${active ? 1 : 0}:${open ? 1 : 0}`;
       })
       .join('|');
     const signature = [
       state.active ? '1' : '0',
       setKey(state.discoveredRoomIds),
-      setKey(state.cutCellKeys),
-      [...(state.cutSides ?? [])].sort().join(','),
       setKey(state.activeDoorIds),
       state.night ? 'night' : 'day',
       doorSnapshot,
@@ -1074,15 +919,9 @@ export function createHoltArchitecture(options: {
     previousSignature = signature;
     if (landscapeMaterial) landscapeMaterial.color.setHex(state.night ? 0x71819b : 0xffffff);
     for (const sides of sideGroups.values()) {
-      const isCut = state.cutCellKeys
-        ? state.cutCellKeys.has(sides.segmentId) ||
-          state.cutCellKeys.has(sideKey(sides.roomId, sides.side, sides.segmentId)) ||
-          [...sides.cellKeys].some((key) => state.cutCellKeys?.has(key))
-        : Boolean(state.cutSides?.has(sides.side));
       // Architectural shell stays legible before discovery; discovery gates the room contents.
       const show = state.active;
-      sides.full.visible = show && !isCut;
-      sides.cut.visible = show && isCut;
+      sides.full.visible = show;
       for (const window of sides.windows) {
         const discovered =
           (window.alwaysVisible || state.discoveredRoomIds.has(window.roomId)) &&
@@ -1097,18 +936,12 @@ export function createHoltArchitecture(options: {
         // Keep the actual lock/open state visible outside the active interaction step;
         // activeDoorIds only controls whether the leaf can be picked.
         door.root.visible = show && !door.root.userData.isPassageLining;
-        door.fullLeaf.visible = !isCut;
-        door.cutLeaf.visible = isCut;
-        door.fullFrame.visible = !isCut;
-        door.cutFrame.visible = isCut;
-        setRaycastEnabled(door.fullLeaf, show && doorActive && !isCut);
-        setRaycastEnabled(door.cutLeaf, show && doorActive && isCut);
+        setRaycastEnabled(door.fullLeaf, show && doorActive);
         if (door.lastOpen !== isOpen) {
           const opening = layout.cells.find((cell) => cell.id === door.root.userData.architectureCellId);
           door.root.rotation.y = sideYaw(opening?.axis ?? 'horizontal') + (isOpen ? Math.PI / 2 : 0);
           door.lastOpen = isOpen;
         }
-        if (door.lastActive !== doorActive) door.lastActive = doorActive;
       }
     }
   };
@@ -1118,7 +951,6 @@ export function createHoltArchitecture(options: {
     group,
     layout,
     geometry,
-    cutCellGroups: [...sideGroups.values()].map((sides) => sides.cellKeys),
     pickables,
     setState,
     setEnvironment(texture) {

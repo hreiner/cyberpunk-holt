@@ -77,6 +77,13 @@ interface MountedPlacement {
   object: THREE.Object3D;
 }
 
+interface InstancedVisibilityGroup {
+  instances: THREE.InstancedMesh[];
+  exterior: boolean;
+  roomId?: string;
+  etape?: string;
+}
+
 /**
  * Modeles dont la `PointLight` vacille (`tick`) : les feux (`fire-glow`, lot 5.8b ; `campfire`,
  * lot 5.10 ; les brasiers de la cantine, `blaze`, lot 5.9) et les ampoules qui gresillent dans
@@ -93,7 +100,7 @@ export class ExploreDressing {
   private readonly mounted: MountedPlacement[];
   private readonly entityObjects = new Map<string, THREE.Object3D>();
   /** Lots fusionnes (voir en-tete), indexes par la meme cle de visibilite qu'un placement decoratif. */
-  private readonly instancedByVisibilityKey = new Map<string, THREE.InstancedMesh[]>();
+  private readonly instancedByVisibilityKey = new Map<string, InstancedVisibilityGroup>();
   /** A liberer explicitement (voir `dispose`) : ni la geometrie ni la matiere ne leur appartiennent. */
   private readonly instancedMeshes: THREE.InstancedMesh[] = [];
   /**
@@ -218,8 +225,17 @@ export class ExploreDressing {
       this.root.add(instanced);
       this.instancedMeshes.push(instanced);
       const group = this.instancedByVisibilityKey.get(visibilityKey);
-      if (group) group.push(instanced);
-      else this.instancedByVisibilityKey.set(visibilityKey, [instanced]);
+      if (group) group.instances.push(instanced);
+      else {
+        const parsed = parseVisibilityKey(visibilityKey);
+        const exterior = parsed.base === EXTERIOR_KEY;
+        this.instancedByVisibilityKey.set(visibilityKey, {
+          instances: [instanced],
+          exterior,
+          roomId: exterior ? undefined : parsed.base.slice('room:'.length),
+          etape: parsed.etape,
+        });
+      }
       // Les maillages d'origine sont remplacés par leur instance : on les détache (jamais
       // disposés, leur géométrie/matière reste possédée par la fabrique, voir en-tête).
       for (const candidate of candidates) candidate.mesh.parent?.remove(candidate.mesh);
@@ -237,9 +253,8 @@ export class ExploreDressing {
       const visibleByEtape = !placement.etape || placement.etape === state.etape;
       object.visible = visibleByRoom && visibleByEntity && visibleByEtape;
     }
-    for (const [visibilityKey, instances] of this.instancedByVisibilityKey) {
-      const { base, etape } = parseVisibilityKey(visibilityKey);
-      const visibleByRoom = base === EXTERIOR_KEY || state.discoveredRoomIds.has(base.slice('room:'.length));
+    for (const { exterior, roomId, etape, instances } of this.instancedByVisibilityKey.values()) {
+      const visibleByRoom = exterior || (roomId !== undefined && state.discoveredRoomIds.has(roomId));
       const visibleByEtape = !etape || etape === state.etape;
       const visible = visibleByRoom && visibleByEtape;
       for (const instanced of instances) instanced.visible = visible;

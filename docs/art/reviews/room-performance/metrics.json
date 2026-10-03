@@ -1,0 +1,380 @@
+{
+  "date": "2026-10-03",
+  "environment": "Chromium, 1600x900, Vite dev, ANGLE D3D11, NVIDIA GTX 1070",
+  "method": "Fresh browser per run, first room discoveries using debug walkTo, 24 animation frames per room, CDP CPU profiler; no screenshots during measurement; GPU driver shader cache not controlled",
+  "rooms": [
+    {
+      "map": "holt",
+      "room": "administration",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 2783.2,
+        "frameP95Ms": 33.4,
+        "maximumRenderMs": 2774.8,
+        "newPrograms": 23,
+        "programs": 64,
+        "longTasksMs": [
+          2781
+        ]
+      },
+      "after": {
+        "maximumFrameMs": 49.9,
+        "frameP95Ms": 33.3,
+        "maximumRenderMs": 36.5,
+        "newPrograms": 1,
+        "programs": 48,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "holt",
+      "room": "interface",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 33.4,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 10.7,
+        "newPrograms": 0,
+        "programs": 64,
+        "longTasksMs": []
+      },
+      "after": {
+        "maximumFrameMs": 33.3,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 9.8,
+        "newPrograms": 0,
+        "programs": 48,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "holt",
+      "room": "infirmerie",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 10.8,
+        "newPrograms": 0,
+        "programs": 64,
+        "longTasksMs": []
+      },
+      "after": {
+        "maximumFrameMs": 16.7,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 9.2,
+        "newPrograms": 0,
+        "programs": 48,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "holt",
+      "room": "armurerie",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 16.7,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 10.8,
+        "newPrograms": 0,
+        "programs": 64,
+        "longTasksMs": []
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 10.4,
+        "newPrograms": 0,
+        "programs": 48,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "holt",
+      "room": "archives",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 10.7,
+        "newPrograms": 0,
+        "programs": 64,
+        "longTasksMs": []
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 9.4,
+        "newPrograms": 0,
+        "programs": 48,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "holt",
+      "room": "local-technique",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 13.3,
+        "newPrograms": 0,
+        "programs": 64,
+        "longTasksMs": []
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 11.2,
+        "newPrograms": 0,
+        "programs": 48,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "holt",
+      "room": "cour-interieure",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 2849.9,
+        "frameP95Ms": 33.3,
+        "maximumRenderMs": 2853.3,
+        "newPrograms": 25,
+        "programs": 89,
+        "longTasksMs": [
+          2857
+        ]
+      },
+      "after": {
+        "maximumFrameMs": 66.7,
+        "frameP95Ms": 33.4,
+        "maximumRenderMs": 68.2,
+        "newPrograms": 0,
+        "programs": 48,
+        "longTasksMs": [
+          72
+        ]
+      }
+    },
+    {
+      "map": "holt",
+      "room": "cantine",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 700,
+        "frameP95Ms": 33.4,
+        "maximumRenderMs": 681,
+        "newPrograms": 3,
+        "programs": 92,
+        "longTasksMs": [
+          685
+        ]
+      },
+      "after": {
+        "maximumFrameMs": 33.4,
+        "frameP95Ms": 33.4,
+        "maximumRenderMs": 31.1,
+        "newPrograms": 0,
+        "programs": 48,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "holt",
+      "room": "salles-entrainement",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 33.3,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 15.6,
+        "newPrograms": 0,
+        "programs": 92,
+        "longTasksMs": []
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 12.7,
+        "newPrograms": 0,
+        "programs": 48,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "holt",
+      "room": "garage",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 13.4,
+        "newPrograms": 0,
+        "programs": 92,
+        "longTasksMs": []
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 15.8,
+        "newPrograms": 0,
+        "programs": 48,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "centre-examen",
+      "room": "cour",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 4.5,
+        "newPrograms": 0,
+        "programs": 33,
+        "longTasksMs": []
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 3.9,
+        "newPrograms": 0,
+        "programs": 32,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "centre-examen",
+      "room": "salle3",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 2349.9,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 2359.4,
+        "newPrograms": 16,
+        "programs": 49,
+        "longTasksMs": [
+          2361
+        ]
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 4.5,
+        "newPrograms": 0,
+        "programs": 32,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "centre-examen",
+      "room": "salle2",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 2616.6,
+        "frameP95Ms": 33.3,
+        "maximumRenderMs": 2630.5,
+        "newPrograms": 16,
+        "programs": 65,
+        "longTasksMs": [
+          2632
+        ]
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.7,
+        "maximumRenderMs": 5.1,
+        "newPrograms": 0,
+        "programs": 32,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "centre-examen",
+      "room": "salle1",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 2933.2,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 2942,
+        "newPrograms": 16,
+        "programs": 81,
+        "longTasksMs": [
+          2944
+        ]
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 5.8,
+        "newPrograms": 0,
+        "programs": 32,
+        "longTasksMs": []
+      }
+    },
+    {
+      "map": "centre-examen",
+      "room": "hall",
+      "reached": true,
+      "before": {
+        "maximumFrameMs": 3566.5,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 3571.2,
+        "newPrograms": 21,
+        "programs": 102,
+        "longTasksMs": [
+          3573
+        ]
+      },
+      "after": {
+        "maximumFrameMs": 16.8,
+        "frameP95Ms": 16.8,
+        "maximumRenderMs": 16.2,
+        "newPrograms": 1,
+        "programs": 33,
+        "longTasksMs": []
+      }
+    }
+  ],
+  "lifecycle": {
+    "cycles": [
+      {
+        "geometries": 320,
+        "textures": 137,
+        "unownedGeometries": 0
+      },
+      {
+        "geometries": 318,
+        "textures": 137,
+        "unownedGeometries": 0
+      },
+      {
+        "geometries": 318,
+        "textures": 137,
+        "unownedGeometries": 0
+      },
+      {
+        "geometries": 318,
+        "textures": 137,
+        "unownedGeometries": 0
+      },
+      {
+        "geometries": 318,
+        "textures": 137,
+        "unownedGeometries": 0
+      },
+      {
+        "geometries": 318,
+        "textures": 137,
+        "unownedGeometries": 0
+      }
+    ],
+    "visits": 18,
+    "resourcesStable": true,
+    "fan": {
+      "door": true,
+      "closureVisible": false
+    },
+    "errors": []
+  },
+  "errors": []
+}

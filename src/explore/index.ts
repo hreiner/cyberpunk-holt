@@ -3,6 +3,7 @@
 export type {
   Cell,
   Rect,
+  WallSide,
   RoomDef,
   EntityType,
   NpcEntity,
@@ -49,5 +50,3 @@ export type {
   ExploreEvent,
   ExploreDebugSnapshot,
 } from './exploreState';
-export { computeCorridors } from './corridors';
-export type { CorridorLayout, CorridorRegion, WallSide } from './corridors';

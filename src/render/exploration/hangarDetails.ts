@@ -3,25 +3,16 @@ import type { ExploreMap } from '@/explore';
 import type { DormitoryMaterials, DormitorySurfaceKey } from './dormitoryMaterials';
 import type { HoltArchitectureLayout, HoltWallCell, HoltWallSide } from './holtArchitectureLayout';
 import { HOLT_EXTERIOR_WALL_HEIGHT, HOLT_INTERIOR_WALL_HEIGHT, type HoltWallShape } from './holtWallGeometry';
-
 import { createWallSpanResolver } from './holtWallSpans';
 
 const ROOM_ID = 'garage';
 const WALL_DEPTH = 0.34;
 const EPSILON = 0.012;
-const CUT_HEIGHT = 0.4;
 
 type DetailMaterial = Extract<DormitorySurfaceKey, 'darkSteel' | 'edgeSteel' | 'linen' | 'brass'>;
 
 interface InstanceDetail {
-  readonly wallKeys: readonly string[];
   readonly full: THREE.Matrix4;
-  readonly cut: THREE.Matrix4 | null;
-}
-
-interface MaterialBatch {
-  readonly mesh: THREE.InstancedMesh;
-  readonly details: InstanceDetail[];
 }
 
 const keyAt = (x: number, y: number) => `${x},${y}`;
@@ -58,14 +49,6 @@ function instanceMatrix(position: THREE.Vector3, scale: THREE.Vector3): THREE.Ma
   return new THREE.Matrix4().compose(position, new THREE.Quaternion(), scale);
 }
 
-function wallKeys(cell: HoltWallCell, side: HoltWallSide, segmentId: string): string[] {
-  return [keyAt(cell.x, cell.y), cell.id, segmentId, `${ROOM_ID}:${side}:${segmentId}`];
-}
-
-function wallIsCut(keys: ReadonlySet<string>, detail: InstanceDetail): boolean {
-  return detail.wallKeys.some((key) => keys.has(key));
-}
-
 /**
  * Adds restrained service details directly to the garage's real wall cells. All instances borrow
  * shared dormitory materials; only the unit box and the instance buffers belong to this view.
@@ -77,7 +60,7 @@ export function createHangarDetails(options: {
   wallGeometry: ReadonlyMap<string, HoltWallShape>;
 }): {
   group: THREE.Group;
-  update(discovered: boolean, cutCellKeys: ReadonlySet<string>): void;
+  update(discovered: boolean): void;
   dispose(): void;
 } {
   const { map, materials, architectureLayout, wallGeometry } = options;
@@ -85,23 +68,15 @@ export function createHangarDetails(options: {
   const group = new THREE.Group();
   group.name = 'holt-garage-wall-details';
   const detailsByMaterial = new Map<DetailMaterial, InstanceDetail[]>();
-  const batches: MaterialBatch[] = [];
+  const batches: THREE.InstancedMesh[] = [];
   const unitBox = new THREE.BoxGeometry(1, 1, 1);
-  const zeroMatrix = new THREE.Matrix4().makeScale(0, 0, 0);
   group.visible = false;
   let disposed = false;
-  let previousSignature = '';
 
   const addDetail = (
     material: DetailMaterial,
-    wallCell: HoltWallCell,
-    side: HoltWallSide,
-    segmentId: string,
     position: THREE.Vector3,
     fullScale: THREE.Vector3,
-    cutScale: THREE.Vector3 | null,
-    cutPosition?: THREE.Vector3,
-    keysOverride?: readonly string[],
   ) => {
     let details = detailsByMaterial.get(material);
     if (!details) {
@@ -109,9 +84,7 @@ export function createHangarDetails(options: {
       detailsByMaterial.set(material, details);
     }
     details.push({
-      wallKeys: keysOverride ?? wallKeys(wallCell, side, segmentId),
       full: instanceMatrix(position, fullScale),
-      cut: cutScale ? instanceMatrix(cutPosition ?? position, cutScale) : null,
     });
   };
 
@@ -127,7 +100,7 @@ export function createHangarDetails(options: {
     return [{ cell, side: face.side, segmentId: face.segmentId }];
   });
 
-  for (const { cell, side, segmentId } of garageCells) {
+  for (const { cell, side } of garageCells) {
     const shape = wallGeometry.get(cell.id);
     const span = resolveSpan(cell, 0.96, WALL_DEPTH);
     const center = cellWorld(map, span.center.x, span.center.y);
@@ -138,36 +111,17 @@ export function createHangarDetails(options: {
     const atSurface = (depth: number, offset = depth / 2 + EPSILON) =>
       center.clone().addScaledVector(normal, WALL_DEPTH / 2 + offset);
 
-    // Continuous low rub rail: it remains wholly below the 0.4 m cutaway edge.
+    // Continuous low rub rail follows the immutable full-height garage wall.
     const railPosition = atSurface(0.11);
     railPosition.y = 0.28;
-    addDetail(
-      'darkSteel',
-      cell,
-      side,
-      segmentId,
-      railPosition,
-      alongWallScale(cell.axis, span.length, 0.14, 0.11),
-      alongWallScale(cell.axis, span.length, 0.14, 0.11),
-    );
+    addDetail('darkSteel', railPosition, alongWallScale(cell.axis, span.length, 0.14, 0.11));
 
-    // Panel uprights begin above the rail and shorten to the wall's visible cut remnant.
+    // Panel uprights begin above the rail and remain on the full-height wall.
     const uprightBase = 0.35;
     const uprightHeight = Math.max(0.08, Math.min(2.05, height - uprightBase - 0.1));
     const uprightPosition = atSurface(0.075);
     uprightPosition.y = uprightBase + uprightHeight / 2;
-    const cutUprightHeight = Math.max(0.015, CUT_HEIGHT - uprightBase);
-    const cutUprightPosition = uprightPosition.clone().setY(uprightBase + cutUprightHeight / 2);
-    addDetail(
-      'edgeSteel',
-      cell,
-      side,
-      segmentId,
-      uprightPosition,
-      alongWallScale(cell.axis, 0.052, uprightHeight, 0.075),
-      alongWallScale(cell.axis, 0.052, cutUprightHeight, 0.075),
-      cutUprightPosition,
-    );
+    addDetail('edgeSteel', uprightPosition, alongWallScale(cell.axis, 0.052, uprightHeight, 0.075));
     // Two flush fasteners on each rail bracket keep the modular wall hardware legible up close.
     const fastenerOffset = Math.max(0.015, Math.min(0.43, span.length / 2 - 0.035));
     for (const along of [-fastenerOffset, fastenerOffset]) {
@@ -175,30 +129,14 @@ export function createHangarDetails(options: {
       if (cell.axis === 'horizontal') fastenerPosition.x += along;
       else fastenerPosition.z += along;
       fastenerPosition.y = 0.28;
-      addDetail(
-        'brass',
-        cell,
-        side,
-        segmentId,
-        fastenerPosition,
-        alongWallScale(cell.axis, 0.035, 0.035, 0.018),
-        alongWallScale(cell.axis, 0.035, 0.035, 0.018),
-      );
+      addDetail('brass', fastenerPosition, alongWallScale(cell.axis, 0.035, 0.035, 0.018));
     }
 
-    // Cable trunking sits below the high window sills and vanishes with any cut wall cell.
+    // Cable trunking sits below the high window sills.
     const channelY = Math.min(2.12, height - 0.28);
     const channelPosition = atSurface(0.13);
     channelPosition.y = channelY;
-    addDetail(
-      'darkSteel',
-      cell,
-      side,
-      segmentId,
-      channelPosition,
-      alongWallScale(cell.axis, span.length, 0.12, 0.13),
-      null,
-    );
+    addDetail('darkSteel', channelPosition, alongWallScale(cell.axis, span.length, 0.12, 0.13));
   }
 
   // Long paired luminaires sit on uninterrupted wall runs. Window and door cells split a run,
@@ -242,36 +180,12 @@ export function createHangarDetails(options: {
         const housingDepth = 0.105;
         center.addScaledVector(normal, WALL_DEPTH / 2 + housingDepth / 2 + EPSILON);
         center.y = lampY;
-        const wallKeysForPair = [
-          ...wallKeys(first.cell, first.side, first.segmentId),
-          ...wallKeys(second.cell, second.side, second.segmentId),
-        ];
         const housingScale = alongWallScale(first.cell.axis, 1.72, 0.14, housingDepth);
-        addDetail(
-          'darkSteel',
-          first.cell,
-          first.side,
-          first.segmentId,
-          center,
-          housingScale,
-          null,
-          undefined,
-          wallKeysForPair,
-        );
+        addDetail('darkSteel', center, housingScale);
 
         const diffuserPosition = center.clone().addScaledVector(normal, housingDepth / 2 + 0.008);
         const diffuserScale = alongWallScale(first.cell.axis, 1.48, 0.045, 0.012);
-        addDetail(
-          'linen',
-          first.cell,
-          first.side,
-          first.segmentId,
-          diffuserPosition,
-          diffuserScale,
-          null,
-          undefined,
-          wallKeysForPair,
-        );
+        addDetail('linen', diffuserPosition, diffuserScale);
       }
       run = [];
     };
@@ -295,7 +209,7 @@ export function createHangarDetails(options: {
       `${x - 1},${y + height}`,
       `${x + width},${y + height}`,
     ]);
-    for (const { cell, side, segmentId } of garageCells) {
+    for (const { cell, side } of garageCells) {
       if (!corners.has(keyAt(cell.x, cell.y))) continue;
       const span = resolveSpan(cell, 0.96, WALL_DEPTH);
       const position = cellWorld(map, span.center.x, span.center.y).addScaledVector(
@@ -303,17 +217,7 @@ export function createHangarDetails(options: {
         WALL_DEPTH / 2 + 0.055,
       );
       position.y = 0.43;
-      const cutPosition = position.clone().setY(CUT_HEIGHT / 2);
-      addDetail(
-        'brass',
-        cell,
-        side,
-        segmentId,
-        position,
-        alongWallScale(cell.axis, 0.12, 0.78, 0.035),
-        alongWallScale(cell.axis, 0.12, CUT_HEIGHT, 0.035),
-        cutPosition,
-      );
+      addDetail('brass', position, alongWallScale(cell.axis, 0.12, 0.78, 0.035));
     }
   }
 
@@ -326,34 +230,20 @@ export function createHangarDetails(options: {
     details.forEach((detail, index) => mesh.setMatrixAt(index, detail.full));
     mesh.instanceMatrix.needsUpdate = true;
     group.add(mesh);
-    batches.push({ mesh, details });
+    batches.push(mesh);
   }
 
-  const update = (discovered: boolean, cutCellKeys: ReadonlySet<string>) => {
+  const update = (discovered: boolean) => {
     if (disposed) return;
     group.visible = discovered;
-    if (!discovered) {
-      previousSignature = '';
-      return;
-    }
-    const signature = [...cutCellKeys].sort().join('|');
-    if (signature === previousSignature) return;
-    previousSignature = signature;
-    for (const batch of batches) {
-      batch.details.forEach((detail, index) => {
-        const matrix = wallIsCut(cutCellKeys, detail) ? (detail.cut ?? zeroMatrix) : detail.full;
-        batch.mesh.setMatrixAt(index, matrix);
-      });
-      batch.mesh.instanceMatrix.needsUpdate = true;
-    }
   };
 
   const dispose = () => {
     if (disposed) return;
     disposed = true;
-    for (const batch of batches) {
-      batch.mesh.dispose();
-      group.remove(batch.mesh);
+    for (const mesh of batches) {
+      mesh.dispose();
+      group.remove(mesh);
     }
     unitBox.dispose();
     group.clear();

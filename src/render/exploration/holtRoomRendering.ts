@@ -13,8 +13,6 @@ const CELL_KEY = (x: number, y: number) => `${x},${y}`;
 export interface HoltRoomRenderingState {
   activeZoneId: string | null;
   discoveredRoomIds: ReadonlySet<string>;
-  /** Real map wall-cell keys (`x,y`), with optional profile side keys for convenience. */
-  cutCellKeys: ReadonlySet<string>;
   night: NightMood;
   leaderCell?: Cell;
 }
@@ -37,11 +35,9 @@ interface WallCell {
 }
 
 interface InstancePlacement {
-  key: string;
   position: THREE.Vector3;
   scale: THREE.Vector3;
   yaw: number;
-  hideWhenCut: boolean;
 }
 
 function worldCell(map: ExploreMap, x: number, y: number): THREE.Vector3 {
@@ -143,33 +139,11 @@ function labelTexture(text: string): THREE.CanvasTexture {
   return texture;
 }
 
-function cellIsCut(keys: ReadonlySet<string>, profile: HoltRenderProfile, wall: WallCell): boolean {
-  return (
-    keys.has(CELL_KEY(wall.cell.x, wall.cell.y)) ||
-    keys.has(`${profile.zoneId}:${wall.side}`) ||
-    keys.has(profile.zoneId)
-  );
-}
-
-function wallKeyIsCut(keys: ReadonlySet<string>, profile: HoltRenderProfile, key: string): boolean {
-  const [coordinates, sideValue] = key.split(':');
-  const [x, y] = (coordinates ?? '').split(',').map(Number);
-  const side = sideValue as WallCell['side'];
-  if (!Number.isFinite(x) || !Number.isFinite(y)) return false;
-  return cellIsCut(keys, profile, {
-    cell: { x: x!, y: y! },
-    side,
-    axis: side === 'west' || side === 'east' ? 'vertical' : 'horizontal',
-    center: new THREE.Vector3(),
-    inward: new THREE.Vector3(),
-    height: HOLT_EXTERIOR_WALL_HEIGHT,
-  });
-}
-
 function addInstancedPlacements(
   parent: THREE.Group,
   geometry: THREE.BufferGeometry,
   material: THREE.Material,
+  ownedInstancedMeshes: Set<THREE.InstancedMesh>,
   placements: readonly InstancePlacement[],
 ): THREE.InstancedMesh | null {
   if (!placements.length) return null;
@@ -186,42 +160,8 @@ function addInstancedPlacements(
   }
   mesh.instanceMatrix.needsUpdate = true;
   parent.add(mesh);
+  ownedInstancedMeshes.add(mesh);
   return mesh;
-}
-
-function setPlacementMatrices(
-  mesh: THREE.InstancedMesh | null,
-  placements: readonly InstancePlacement[],
-  cutKeys: ReadonlySet<string>,
-  profile: HoltRenderProfile,
-): void {
-  if (!mesh) return;
-  const matrix = new THREE.Matrix4();
-  const rotation = new THREE.Quaternion();
-  for (let i = 0; i < placements.length; i++) {
-    const item = placements[i]!;
-    const [xText, yWithSide] = item.key.split(':')[0]!.split(',');
-    const cut =
-      item.hideWhenCut &&
-      cellIsCut(cutKeys, profile, {
-        cell: { x: Number(xText), y: Number(yWithSide) },
-        side: item.key.endsWith(':east')
-          ? 'east'
-          : item.key.endsWith(':north')
-            ? 'north'
-            : item.key.endsWith(':south')
-              ? 'south'
-              : 'west',
-        axis: 'vertical',
-        center: new THREE.Vector3(),
-        inward: new THREE.Vector3(),
-        height: HOLT_EXTERIOR_WALL_HEIGHT,
-      });
-    rotation.setFromAxisAngle(new THREE.Vector3(0, 1, 0), item.yaw);
-    matrix.compose(item.position, rotation, cut ? new THREE.Vector3(0, 0, 0) : item.scale);
-    mesh.setMatrixAt(i, matrix);
-  }
-  mesh.instanceMatrix.needsUpdate = true;
 }
 
 function buildZoneFinish(
@@ -234,10 +174,9 @@ function buildZoneFinish(
   ownedMaterials: Set<THREE.Material>,
   ownedGeometries: Set<THREE.BufferGeometry>,
   ownedTextures: Set<THREE.Texture>,
+  ownedInstancedMeshes: Set<THREE.InstancedMesh>,
 ): {
   floorMaterial: THREE.MeshStandardMaterial;
-  cuttable: Array<{ mesh: THREE.InstancedMesh | null; placements: InstancePlacement[] }>;
-  wallFixtures: Array<{ root: THREE.Group; key: string }>;
 } {
   const rect = profile.rect!;
   const isHolt = map.def.id === 'holt' || map.def.id === 'holt-nuit';
@@ -287,7 +226,6 @@ function buildZoneFinish(
   );
   floor.receiveShadow = true;
   zone.add(floor);
-  const cuttable: Array<{ mesh: THREE.InstancedMesh | null; placements: InstancePlacement[] }> = [];
 
   if (
     profile.finish.family === 'canteen' ||
@@ -321,17 +259,12 @@ function buildZoneFinish(
         position: new THREE.Vector3(floor.position.x, 0.032, floor.position.z - rect.height / 2 + y),
         scale: new THREE.Vector3(rect.width, 0.006, 0.006),
       });
-    const seamPlacements = seams.map((seam, index) => ({
-      key: `${profile.zoneId}:floor-joint:${index}`,
+    const seamPlacements = seams.map((seam) => ({
       position: seam.position,
       scale: seam.scale,
       yaw: 0,
-      hideWhenCut: false,
     }));
-    cuttable.push({
-      mesh: addInstancedPlacements(zone, seamGeometry, seamMaterial, seamPlacements),
-      placements: seamPlacements,
-    });
+    addInstancedPlacements(zone, seamGeometry, seamMaterial, ownedInstancedMeshes, seamPlacements);
   }
 
   if (isHolt && profile.finish.family === 'canteen') {
@@ -367,7 +300,6 @@ function buildZoneFinish(
     profile.finish.baseboardMaterial.slice('dormitory:'.length) as DormitorySurfaceKey,
   );
   const conduitMaterial = materials.get('darkSteel');
-  const wallFixtures: Array<{ root: THREE.Group; key: string }> = [];
 
   for (const side of ['west', 'east', 'north', 'south'] as const) {
     const sideWalls = walls.filter((wall) => wall.side === side);
@@ -387,11 +319,9 @@ function buildZoneFinish(
       const length = span?.length ?? 0.98;
       const offset = wall.inward.clone().multiplyScalar(WALL_DEPTH / 2 + 0.014);
       baseboards.push({
-        key: `${CELL_KEY(wall.cell.x, wall.cell.y)}:${side}`,
         position: center.clone().add(offset).setY(0.12),
         scale: new THREE.Vector3(vertical ? 0.045 : length, 0.24, vertical ? length : 0.045),
         yaw: 0,
-        hideWhenCut: false,
       });
       const pipeHeight = Math.min(profile.finish.family === 'maintenance' ? 1.95 : 3.63, wall.height - 0.22);
       const pipeAt = center.clone().add(offset).setY(pipeHeight);
@@ -405,7 +335,6 @@ function buildZoneFinish(
         ) ?? false;
       if (!crossesWindow)
         conduits.push({
-          key: `${CELL_KEY(wall.cell.x, wall.cell.y)}:${side}`,
           position: pipeAt,
           scale: new THREE.Vector3(
             vertical ? 0.12 : length,
@@ -413,37 +342,29 @@ function buildZoneFinish(
             vertical ? length : 0.12,
           ),
           yaw: 0,
-          hideWhenCut: true,
         });
       if (!crossesWindow && profile.finish.family === 'maintenance')
         conduits.push({
-          key: `${CELL_KEY(wall.cell.x, wall.cell.y)}:${side}`,
           position: center
             .clone()
             .add(offset)
             .setY(Math.min(1.58, wall.height - 0.22)),
           scale: new THREE.Vector3(vertical ? 0.07 : length, 0.055, vertical ? length : 0.07),
           yaw: 0,
-          hideWhenCut: true,
         });
       if (profile.finish.family === 'interface')
         lowConduits.push({
-          key: `${CELL_KEY(wall.cell.x, wall.cell.y)}:${side}`,
           position: center
             .clone()
             .add(offset)
             .setY(Math.min(1.28, wall.height - 0.22)),
           scale: new THREE.Vector3(vertical ? 0.075 : length, 0.055, vertical ? length : 0.075),
           yaw: 0,
-          hideWhenCut: true,
         });
     }
-    const baseMesh = addInstancedPlacements(zone, baseboardGeometry, baseboardMaterial, baseboards);
-    cuttable.push({ mesh: baseMesh, placements: baseboards });
-    const conduitMesh = addInstancedPlacements(zone, conduitGeometry, conduitMaterial, conduits);
-    cuttable.push({ mesh: conduitMesh, placements: conduits });
-    const lowConduitMesh = addInstancedPlacements(zone, conduitGeometry, conduitMaterial, lowConduits);
-    cuttable.push({ mesh: lowConduitMesh, placements: lowConduits });
+    addInstancedPlacements(zone, baseboardGeometry, baseboardMaterial, ownedInstancedMeshes, baseboards);
+    addInstancedPlacements(zone, conduitGeometry, conduitMaterial, ownedInstancedMeshes, conduits);
+    addInstancedPlacements(zone, conduitGeometry, conduitMaterial, ownedInstancedMeshes, lowConduits);
   }
 
   // Recessed luminaires are emissive fixtures only. A small shared light pool below lights the
@@ -601,8 +522,6 @@ function buildZoneFinish(
     if (!wall) continue;
     const root = new THREE.Group();
     root.name = `${profile.zoneId}-wall-light-${index}`;
-    const key = `${CELL_KEY(wall.cell.x, wall.cell.y)}:${sconce.side}`;
-    root.userData.wallCellKey = CELL_KEY(wall.cell.x, wall.cell.y);
     root.position.copy(wall.center).add(wall.inward.clone().multiplyScalar(WALL_DEPTH / 2 + 0.035));
     root.position.y = Math.min(2.65, wall.height - 0.3);
     const body = new THREE.Mesh(sconceGeometry, sconceMaterial);
@@ -611,7 +530,6 @@ function buildZoneFinish(
     diffuser.position.z = wall.inward.z * 0.11;
     root.add(body, diffuser);
     zone.add(root);
-    wallFixtures.push({ root, key });
   }
 
   const signMaterialBase = new THREE.MeshStandardMaterial({
@@ -650,7 +568,6 @@ function buildZoneFinish(
     if (!wall) continue;
     const root = new THREE.Group();
     root.name = `${profile.zoneId}-sign-${index}`;
-    root.userData.wallCellKey = CELL_KEY(wall.cell.x, wall.cell.y);
     root.position.copy(wall.center).add(wall.inward.clone().multiplyScalar(WALL_DEPTH / 2 + 0.028));
     // Interior door plaques are shorter and sit just under the lowered lintel.
     const shortOpening = layoutCell?.kind === 'opening' && wall.height < HOLT_EXTERIOR_WALL_HEIGHT;
@@ -678,10 +595,9 @@ function buildZoneFinish(
     face.position.z = 0.027;
     root.add(plaque, face);
     zone.add(root);
-    wallFixtures.push({ root, key: `${CELL_KEY(wall.cell.x, wall.cell.y)}:${side}` });
   }
 
-  return { floorMaterial, cuttable, wallFixtures };
+  return { floorMaterial };
 }
 
 /**
@@ -710,14 +626,13 @@ export function createHoltRoomRendering(options: {
   const ownedGeometries = new Set<THREE.BufferGeometry>();
   const ownedMaterials = new Set<THREE.Material>();
   const ownedTextures = new Set<THREE.Texture>();
+  const ownedInstancedMeshes = new Set<THREE.InstancedMesh>();
   const floorMaterials = new Map<string, THREE.MeshStandardMaterial>();
   const zones = new Map<
     string,
     {
       group: THREE.Group;
       profile: HoltRenderProfile;
-      cuttable: Array<{ mesh: THREE.InstancedMesh | null; placements: InstancePlacement[] }>;
-      wallFixtures: Array<{ root: THREE.Group; key: string }>;
     }
   >();
 
@@ -726,7 +641,7 @@ export function createHoltRoomRendering(options: {
     const zoneRoot = new THREE.Group();
     zoneRoot.name = `holt-profile-${profile.id}`;
     group.add(zoneRoot);
-    const { floorMaterial, cuttable, wallFixtures } = buildZoneFinish(
+    const { floorMaterial } = buildZoneFinish(
       zoneRoot,
       map,
       profile,
@@ -736,13 +651,12 @@ export function createHoltRoomRendering(options: {
       ownedMaterials,
       ownedGeometries,
       ownedTextures,
+      ownedInstancedMeshes,
     );
     floorMaterials.set(profile.zoneId, floorMaterial);
     zones.set(profile.zoneId, {
       group: zoneRoot,
       profile,
-      cuttable,
-      wallFixtures,
     });
   }
 
@@ -752,6 +666,7 @@ export function createHoltRoomRendering(options: {
   group.add(lightsGroup);
   const spot = new THREE.SpotLight(0xffd4a4, 0, 22, 0.72, 0.76, 1.15);
   spot.name = 'holt-active-zone-shadow-key';
+  spot.userData.stableShadow = true;
   spot.castShadow = true;
   spot.shadow.mapSize.set(2048, 2048);
   spot.shadow.camera.near = 0.5;
@@ -773,7 +688,6 @@ export function createHoltRoomRendering(options: {
     const signature = [
       state.activeZoneId ?? '',
       [...state.discoveredRoomIds].sort().join(','),
-      [...state.cutCellKeys].sort().join(','),
       state.night ?? '',
       state.leaderCell ? `${Math.floor(state.leaderCell.x / 2)},${Math.floor(state.leaderCell.y / 2)}` : '',
     ].join('|');
@@ -784,11 +698,6 @@ export function createHoltRoomRendering(options: {
         zone.profile.visibility === 'always' ||
         Boolean(zone.profile.roomId && state.discoveredRoomIds.has(zone.profile.roomId));
       zone.group.visible = discovered;
-      for (const fixture of zone.wallFixtures) {
-        fixture.root.visible = discovered && !wallKeyIsCut(state.cutCellKeys, zone.profile, fixture.key);
-      }
-      for (const item of zone.cuttable)
-        setPlacementMatrices(item.mesh, item.placements, state.cutCellKeys, zone.profile);
     }
     const candidateZone = state.activeZoneId ? zones.get(state.activeZoneId) : undefined;
     const activeZone =
@@ -898,7 +807,8 @@ export function createHoltRoomRendering(options: {
       disposed = true;
       spot.shadow.map?.dispose();
       spot.shadow.map = null;
-      for (const zone of zones.values()) for (const item of zone.cuttable) item.mesh?.dispose();
+      for (const mesh of ownedInstancedMeshes) mesh.dispose();
+      ownedInstancedMeshes.clear();
       for (const geometry of ownedGeometries) geometry.dispose();
       for (const texture of ownedTextures) texture.dispose();
       for (const material of ownedMaterials) material.dispose();

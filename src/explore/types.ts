@@ -25,9 +25,11 @@ export interface Rect {
   height: number;
 }
 
+/** Direction of a wall relative to the space it borders. */
+export type WallSide = 'north' | 'south' | 'east' | 'west';
+
 /**
- * Pièce nommée : sert au calcul des murs en coupe (quel côté est "entre la
- * caméra et l'intérieur") et, plus tard, au titre affiché à l'entrée.
+ * Pièce nommée : délimite la découverte des contenus et les profils du décor.
  */
 export interface RoomDef {
   id: string;
@@ -37,7 +39,7 @@ export interface RoomDef {
    * Exemptée de la découverte pièce par pièce (08-EXPLORATION.md "La découverte des lieux") :
    * toujours affichée pleinement éclairée, comme un couloir ou un extérieur. Réservé à la cour
    * de containers du centre d'examen ("le portail est un seuil, pas une porte, et l'affrontement
-   * doit se voir venir") — c'est une `RoomDef` uniquement pour les murs en coupe/le titre, pas
+   * doit se voir venir") — c'est une `RoomDef` pour le profil du décor et le titre, pas
    * pour la découverte. Absent ou `false` partout ailleurs : une pièce ordinaire se découvre.
    */
   alwaysDiscovered?: boolean;

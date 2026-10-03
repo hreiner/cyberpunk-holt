@@ -13,7 +13,6 @@ import type { DormitoryMaterials } from '@/render/exploration/dormitoryMaterials
 import type { EnvironmentMaterials } from '@/render/exploration/materials';
 import { ExploreView } from '@/render/exploreView';
 import { HOLT_RENDER_PROFILES } from '@/render/exploration/holtRenderProfiles';
-import { buildHoltWallGeometry } from '@/render/exploration/holtWallGeometry';
 import { explorationSceneProfile } from '@/render/exploration/explorationSceneProfiles';
 
 describe('enveloppe HOLT', () => {
@@ -59,42 +58,6 @@ describe('enveloppe HOLT', () => {
     material.dispose();
   });
 
-  it('conserve toutes les parois à leur hauteur construite quels que soient le déplacement et la caméra', () => {
-    const layout = buildHoltArchitectureLayout(HOLT_MAP, HOLT_STAGED_ARCHITECTURE_PROFILES);
-    const geometry = buildHoltWallGeometry(layout);
-    const view = Object.assign(Object.create(ExploreView.prototype) as object, {
-      holtArchitecture: { layout, geometry },
-      holtCutCellKeys: new Set(['17,27', '38,62']),
-      holtAccessoryCutCellKeys: new Set(['17,28']),
-      syncHoltArchitecture: vi.fn(),
-      syncHoltRoomRendering: vi.fn(),
-      quarter: 0,
-      activeRoomId: null as string | null,
-      activeHoltZoneId: 'couloir-est',
-      leaderCell: { x: 21, y: 27 },
-    }) as unknown as {
-      quarter: number;
-      activeRoomId: string | null;
-      activeHoltZoneId: string;
-      leaderCell: { x: number; y: number };
-      holtCutCellKeys: Set<string>;
-      holtAccessoryCutCellKeys: Set<string>;
-      isCut(sides: string[]): boolean;
-      updateHoltCutaway(): void;
-    };
-    for (const quarter of [0, 1, 2, 3]) {
-      view.quarter = quarter;
-      for (const room of [null, 'armurerie', 'cour-interieure', 'garage']) {
-        view.activeRoomId = room;
-        view.activeHoltZoneId = room ?? 'couloir-est';
-        view.leaderCell = room === 'garage' ? { x: 38, y: 56 } : { x: 21, y: 27 };
-        view.updateHoltCutaway();
-        expect(view.holtCutCellKeys.size).toBe(0);
-        expect(view.holtAccessoryCutCellKeys.size).toBe(0);
-        expect(view.isCut(['north', 'south', 'east', 'west'])).toBe(false);
-      }
-    }
-  });
   it('conserve les trois vrais accès du dortoir, puis couvre les parois de toutes les pièces sans doubler les séparations', () => {
     for (const map of [HOLT_MAP, HOLT_NUIT_MAP]) {
       const dormitory = buildHoltArchitectureLayout(map, HOLT_DORMITORY_ARCHITECTURE);
@@ -277,18 +240,19 @@ describe('enveloppe HOLT', () => {
     const disposed = vi.fn();
     for (const geometry of geometries) geometry.addEventListener('dispose', disposed);
     const discovered = new Set(HOLT_NUIT_MAP.rooms.map((room) => room.id));
-    const cuts = new Set<string>();
-    const state = { active: true, discoveredRoomIds: discovered, cutCellKeys: cuts };
+    const state = { active: true, discoveredRoomIds: discovered };
     architecture.setState(state);
     const visibleFullBefore: THREE.Object3D[] = [];
     architecture.group.traverseVisible((object) => {
       if (object.name.includes('full-height')) visibleFullBefore.push(object);
     });
     expect(visibleFullBefore.length).toBeGreaterThan(0);
-    for (const cell of architecture.layout.cells) cuts.add(`${cell.x},${cell.y}`);
-    architecture.setState(state);
-    expect(visibleFullBefore.every((object) => !object.visible)).toBe(true);
     architecture.setState({ ...state, activeDoorIds: new Set(), isDoorOpen: () => false });
+    const visibleFullAfter: THREE.Object3D[] = [];
+    architecture.group.traverseVisible((object) => {
+      if (object.name.includes('full-height')) visibleFullAfter.push(object);
+    });
+    expect(visibleFullAfter).toHaveLength(visibleFullBefore.length);
     const closedLeaves: THREE.Object3D[] = [];
     architecture.group.traverseVisible((object) => {
       if (object.name.endsWith('-holt-door-leaf')) closedLeaves.push(object);
