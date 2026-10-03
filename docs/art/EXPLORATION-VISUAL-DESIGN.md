@@ -1,5 +1,10 @@
 # Exploration — design de la refonte visuelle
 
+**Pour produire une nouvelle zone avec le moteur livré**, suivre le
+[guide graphique actuel](EXPLORATION-GRAPHICS-GUIDE.md). Ce document conserve les
+intentions et étapes historiques de la refonte ; les règles actuelles de murs fixes,
+caméra, reflets et performance sont celles des ADR 0039/0040 et du guide.
+
 Statut : **design finalisé, implémentation autorisée et en cours**, 22 septembre 2026. Direction choisie par le
 propriétaire : **3D picturale, surfaces illustrées et atmosphère**. Le propriétaire autorise
 également la recomposition des plans et le déplacement des objets, et demande des

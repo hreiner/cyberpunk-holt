@@ -15,7 +15,7 @@ interface MapDef {
   id: string;                    // "holt", "centre-examen"
   title: string;                 // « Académie HOLT »
   ascii: string[];               // une ligne par rangée, 1 caractère = 1 case de 1 m
-  rooms: RoomDef[];              // rectangles nommés : titre affiché à l'entrée, calcul des murs en coupe
+  rooms: RoomDef[];              // rectangles intérieurs : titre, découverte des contenus, profils de décor
   entities: EntityDef[];         // npc, object, seat, door, exit, zone (voir 08)
   spawns: Record<string, Cell>;  // points d'apparition nommés : "lit-franklyn", "fourgon"…
   tacticalArea?: { origin: Cell; mapId: 'yard' }; // la cour de combat embarquée (centre d'examen)
@@ -27,7 +27,7 @@ Légende ASCII commune :
 | Car. | Sens | Bloque le passage | Bloque la vue |
 |---|---|---|---|
 | `.` | sol | non | non |
-| `#` | mur (3 m, coupé côté caméra) | oui | oui |
+| `#` | mur entier, à hauteur fixe selon le profil du lieu | oui | oui |
 | `+` | porte (entité `door` à la même case) | selon état | selon état |
 | `=` | vitre, grille | oui | non |
 | `o` | mobilier bas : table, lit, caisse, pupitre | oui | non |
@@ -37,6 +37,12 @@ Légende ASCII commune :
 
 Les conteneurs de la cour tactique gardent leur légende propre (`#`, `o`, `m`, `B`, `R`),
 lue par le moteur de combat sur le seul rectangle `tacticalArea`.
+
+Les hauteurs et la visibilité des murs suivent désormais l'[ADR 0039](../process/adr/0039-murs-exploration-entiers.md) :
+façades et murs sur cour à 4,9 m, cloisons intérieures à 2,45 m ; conduits et campement
+à 2,45 m. La découverte révèle les contenus, sans couper ni masquer l'enveloppe.
+Pour créer une pièce ou une nouvelle carte avec les kits actuels, suivre le
+[guide graphique de production](../art/EXPLORATION-GRAPHICS-GUIDE.md).
 
 Un test unitaire valide chaque carte : rectangularité, portes sur un mur, toutes les
 entités sur une case accessible ou adjacente à une case accessible, **toute case

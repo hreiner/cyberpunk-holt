@@ -1,0 +1,4 @@
+interface:
+  display_name: "HOLT — revue graphique d'exploration"
+  short_description: "Corriger le rendu et les freezes d'entrée en salle"
+  default_prompt: 'Utilise $holt-exploration-review pour examiner cette zone, corriger ses défauts graphiques et vérifier les performances concernées.'

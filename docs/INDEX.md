@@ -12,6 +12,7 @@ aucune conversation à retrouver.
 | coder sur le combat              | [`design/05-TACTICAL-COMBAT.md`](design/05-TACTICAL-COMBAT.md)                                                           |
 | coder sur le narratif (epic 2)   | [`design/03-CHAPTER-1.md`](design/03-CHAPTER-1.md) puis [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md)   |
 | coder sur l'exploration (epic 3) | [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md) puis [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md) |
+| créer ou revoir un décor d'exploration | [`art/EXPLORATION-GRAPHICS-GUIDE.md`](art/EXPLORATION-GRAPHICS-GUIDE.md) — couches, recettes, pièges et skills du dépôt |
 | comprendre la structure du code  | [`process/ARCHITECTURE.md`](process/ARCHITECTURE.md)                                                                     |
 | savoir ce qui reste à faire      | [`process/ROADMAP.md`](process/ROADMAP.md)                                                                               |
 | concevoir une scène cinématique  | [`process/CINEMATIC-SCENES.md`](process/CINEMATIC-SCENES.md) puis [`chapters/CAPABILITIES.md`](chapters/CAPABILITIES.md) |
@@ -47,6 +48,12 @@ aucune conversation à retrouver.
 | [`chapters/CH1-HALL-CINEMATIC.md`](chapters/CH1-HALL-CINEMATIC.md) | conduite, choix tactique et voix du briefing cinématique du chapitre 1                     |
 
 ## Art
+
+Méthode réutilisable pour les prochains lieux : [guide graphique de production](art/EXPLORATION-GRAPHICS-GUIDE.md).
+Skills du dépôt : [`holt-exploration-zone`](../.agents/skills/holt-exploration-zone/SKILL.md)
+pour intégrer un décor, [`holt-exploration-review`](../.agents/skills/holt-exploration-review/SKILL.md)
+pour en revoir la qualité et les performances. Invocations : `$holt-exploration-zone`
+et `$holt-exploration-review` ; leurs références restent dans `docs/`.
 
 Étude autonome du dortoir : [design et commandes](design/10-DORMITORY-AAA-STUDY.md),
 [ADR 0034](process/adr/0034-dortoir-etude-visuelle-autonome.md).

@@ -1,0 +1,4 @@
+interface:
+  display_name: "HOLT — nouvelle zone d'exploration"
+  short_description: 'Créer un décor cohérent avec le dortoir validé'
+  default_prompt: "Utilise $holt-exploration-zone pour intégrer une nouvelle zone d'exploration avec les kits graphiques actuels."
