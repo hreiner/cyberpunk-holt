@@ -3,6 +3,14 @@
 Ce dépôt est **autosuffisant** : tout le contexte du projet est ici. Aucun document externe,
 aucune conversation à retrouver.
 
+## Adaptation en comics
+
+[`comics/holt-12-pages/v2/README.md`](comics/holt-12-pages/v2/README.md) : seconde édition de l'album autonome
+**HOLT — Le S de solidarité**, scénario des chapitres 1 et 2, bible visuelle, prompts
+par case et journal de revue. Douze pages de récit avec couverture et quatrième, 60 cases
+en dessin d'animation avec bulles intégrées. Première édition conservée.
+Les images et le livre assemblé restent localement dans `art-masters/comics/holt-12-pages/v2/`.
+
 ## Par où commencer
 
 | Vous voulez…                     | Lisez                                                                                                                    |
