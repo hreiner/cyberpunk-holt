@@ -15,21 +15,21 @@
 
 ### Invariants rappelés
 
-Les huit règles d'AGENTS.md §3 valent pour chaque lot. En particulier : le chapitre 1 reste
-jouable et vert à chaque lot ; aucun `Math.random()` ; `core`/`rules`/`tactical` sans
+Les huit règles d'AGENTS.md §3 valent pour chaque lot. En particulier : les chapitres livrés restent
+jouables et verts à chaque lot ; aucun `Math.random()` ; `core`/`rules`/`tactical` sans
 `three` ni DOM ; texte joueur en français dans les données.
 
 ## 2. Couplages soldés
 
-| Couplage ([`../ENGINE-COUPLING.md`](../ENGINE-COUPLING.md)) | Décision | Lot |
-|---|---|---|
-| | généraliser / dupliquer / laisser | |
+| Couplage ([`../ENGINE-COUPLING.md`](../ENGINE-COUPLING.md)) | Décision                          | Lot |
+| ----------------------------------------------------------- | --------------------------------- | --- |
+|                                                             | généraliser / dupliquer / laisser |     |
 
 ## 3. Réponse aux besoins
 
-| Besoin (GAME-DESIGN §8) | Solution | Fichiers | Contrat touché | ADR | Lot |
-|---|---|---|---|---|---|
-| B1 | | | aucun / format dialogue / `MapDef` / `RunState` / `Dossier` / `__game` | | |
+| Besoin (GAME-DESIGN §8) | Solution | Fichiers | Contrat touché                                                         | ADR | Lot |
+| ----------------------- | -------- | -------- | ---------------------------------------------------------------------- | --- | --- |
+| B1                      |          |          | aucun / format dialogue / `MapDef` / `RunState` / `Dossier` / `__game` |     |     |
 
 ## 4. Contrats de données nouveaux ou modifiés
 
@@ -38,8 +38,8 @@ jouable et vert à chaque lot ; aucun `Math.random()` ; `core`/`rules`/`tactical
 
 ## 5. ADR
 
-| N° | Titre | Statut |
-|---|---|---|
+| N°  | Titre | Statut |
+| --- | ----- | ------ |
 
 ## 6. Lots
 
@@ -73,4 +73,4 @@ N.1 ──▶ N.2 ──▶ …
 ## 7. Risques
 
 | Risque | Parade |
-|---|---|
+| ------ | ------ |

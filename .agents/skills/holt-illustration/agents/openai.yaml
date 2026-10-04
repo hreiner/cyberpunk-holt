@@ -1,0 +1,4 @@
+interface:
+  display_name: "Illustrations HOLT"
+  short_description: "Produire les assets 2D cohérents du jeu"
+  default_prompt: "Utilise $holt-illustration pour réaliser la tâche HOLT demandée et suivre ses sources."

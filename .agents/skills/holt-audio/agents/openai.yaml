@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audio HOLT"
+  short_description: "Produire et mixer musique, bruitages et VO"
+  default_prompt: "Utilise $holt-audio pour réaliser la tâche HOLT demandée et suivre ses sources."

@@ -1,26 +1,27 @@
 /** Regénère les prises VO du bal avec la CLI ElevenLabs déjà authentifiée. */
 import { spawnSync } from 'node:child_process';
-import { mkdirSync, existsSync } from 'node:fs';
+import { mkdirSync, existsSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CH2_BALL_VOICE_CUES, CH2_BALL_VOICES } from '../src/data/ch2BallVoices';
+import { generationOptions } from './audio-generation-options';
 
 const outputDir = resolve('public/assets/audio/voices/ch2-bal');
-const force = process.argv.includes('--force');
-const selectedFile = process.argv.find((arg) => arg.startsWith('--file='))?.slice('--file='.length);
+const { selected: selectedFile, force, dryRun } = generationOptions(process.argv.slice(2), 'file');
 if (selectedFile && !CH2_BALL_VOICE_CUES.some((cue) => cue.file === selectedFile)) {
   throw new Error(`Prise inconnue : ${selectedFile}`);
 }
 // Sous Windows, le shim npm est un .cmd ; appeler son fichier JS évite le shell et ses échappements.
 const cliScript =
-  process.platform === 'win32'
+  process.env.HOLT_ELEVENLABS_CLI ??
+  (process.platform === 'win32'
     ? resolve(process.env.APPDATA ?? '', 'npm/node_modules/@elevenlabs/cli/bin/cli.js')
-    : null;
-mkdirSync(outputDir, { recursive: true });
+    : null);
+if (!dryRun) mkdirSync(outputDir, { recursive: true });
 
 for (const cue of CH2_BALL_VOICE_CUES) {
   if (selectedFile && cue.file !== selectedFile) continue;
   const output = resolve(outputDir, `${cue.file}.mp3`);
-  if (!force && existsSync(output)) {
+  if (!force && existsSync(output) && statSync(output).size > 0) {
     process.stdout.write(`Déjà présent : ${cue.file}\n`);
     continue;
   }
@@ -32,7 +33,8 @@ for (const cue of CH2_BALL_VOICE_CUES) {
     speed: voice.speed,
     use_speaker_boost: true,
   });
-  process.stdout.write(`Génération : ${cue.file} (${cue.voice})\n`);
+  process.stdout.write(`${dryRun ? 'Prévu' : 'Génération'} : ${cue.file} (${cue.voice})\n`);
+  if (dryRun) continue;
   const result = spawnSync(
     cliScript ? process.execPath : 'elevenlabs',
     [

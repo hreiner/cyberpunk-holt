@@ -10,9 +10,16 @@
 ## 1. Où en est l'epic
 
 Epic 5 close : tous les lots sont livrés, dont 5.12 (slow cinématique, musique locale). Douze scènes ;
-variante de portrait par réplique (ADR 0028) ; locuteur `inconnue` (voir ROADMAP, epic 5). Les onze scènes sont complètes. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
+variante de portrait par réplique (ADR 0028) ; locuteur `inconnue` (voir ROADMAP, epic 5).
+Les douze scènes sont complètes. Décisions du propriétaire déjà appliquées : **B9 = deux suiveurs visibles** ;
 **garde = trois tours pour quatre veilleurs, voiture pillée à deux échecs** ; images du lot E
 générées (plus de substituts).
+
+Compléments livrés depuis cette base : cinématiques slow/égouts et VO anglaises
+([conduite](VOICE-DESIGN.md)), rig MPFB partagé (ADR 0041), murs fixes et découverte
+(ADR 0039/0040), fond musical par scène/pièce (ADR 0042). Pour ces couches, suivre les
+[recettes actuelles](../../WORKFLOWS.md) au lieu des anciens plans d'intégration.
+La Chance traverse les chapitres par `Dossier.carriedLuck` (ADR 0033).
 
 ## 2. Les contrats, en une ligne chacun
 
@@ -30,7 +37,7 @@ Dialogue — `src/narrative/types.ts` (contrat complet : `docs/design/07-DIALOGU
   `tempo` (atLeast/atMost), `not`, `all`, `any`.
 - `Effect` : `affinity {who, delta}` (borné ±3), `tag`, `entry {key,label,value}`,
   `flag {value}`, `counter {delta, min?, max?}`, `tempo n`, `team`, `writtenScore`.
-- Locuteurs du chapitre 2 : `smith`, `enfant`, `murano`, `guide`, `charcudoc`, `ganger`.
+- Locuteurs ajoutés au chapitre 2 : `smith`, `enfant`, `murano`, `guide`, `charcudoc`, `ganger`, `inconnue`.
 - Décors : clés de `src/data/backdrops.ts` (`validateDialogue` refuse une clé inconnue).
   Bruitages : `SfxId` de `src/audio/sfx.ts` (`burst`, `distant-shot`, `cut`, …).
 
@@ -65,19 +72,19 @@ Exploration — `src/explore/types.ts`, `src/data/exploreVisualTypes.ts` :
 
 ## 3. Carte des fichiers du chapitre 2
 
-| Scène | Dialogue(s) | Carte / habillage |
-|---|---|---|
-| 1 photo | `ch2.photo.json` | — |
-| 2 bal | `ch2.bal.json` (Letitia), `ch2.bal.{zachary,abigail,john,grover}.json` | `maps/holt-nuit.ts`, `exploreVisuals/holtNuit.ts` (étape `bal`) |
-| 3 slow | `ch2.slow.json` (suite d'images, porteur, route de fuite) | — |
-| 4 fuite | `ch2.fuite.json` (aparté), `ch2.grille.json` | `holt-nuit` (étape `fuite`) |
-| 5 conduits | `ch2.conduits.json` (ventilateur), `ch2.enfant.json`, `ch2.smith.json` (détour) | `maps/conduits.ts`, `exploreVisuals/conduits.ts` (étape `conduits`) |
-| 6 cantine | `ch2.cantine.json` (vide-ordures, trappe) | `conduits` (étape `cantine`) |
-| 7 égouts | `ch2.egouts.json` | — |
-| 8 adieu | `ch2.adieu.json` | — |
-| 9 campement | `ch2.campement.json` (insignes), `ch2.murano.json` (matériel, qui tue) | `maps/campement.ts`, `exploreVisuals/campement.ts` (étape `campement`) |
-| 10 décharges | `ch2.decharges.json` (relais de garde) | — |
-| 11 charcudoc | `ch2.charcudoc.json` | — |
+| Scène        | Dialogue(s)                                                                     | Carte / habillage                                                      |
+| ------------ | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 1 photo      | `ch2.photo.json`                                                                | —                                                                      |
+| 2 bal        | `ch2.bal.json` (Letitia), `ch2.bal.{zachary,abigail,john,grover}.json`          | `maps/holt-nuit.ts`, `exploreVisuals/holtNuit.ts` (étape `bal`)        |
+| 3 slow       | `ch2.slow.json` (suite d'images, porteur, route de fuite)                       | —                                                                      |
+| 4 fuite      | `ch2.fuite.json` (aparté), `ch2.grille.json`                                    | `holt-nuit` (étape `fuite`)                                            |
+| 5 conduits   | `ch2.conduits.json` (ventilateur), `ch2.enfant.json`, `ch2.smith.json` (détour) | `maps/conduits.ts`, `exploreVisuals/conduits.ts` (étape `conduits`)    |
+| 6 cantine    | `ch2.cantine.json` (vide-ordures, trappe)                                       | `conduits` (étape `cantine`)                                           |
+| 7 égouts     | `ch2.egouts.json`                                                               | —                                                                      |
+| 8 adieu      | `ch2.adieu.json`                                                                | —                                                                      |
+| 9 campement  | `ch2.campement.json` (insignes), `ch2.murano.json` (matériel, qui tue)          | `maps/campement.ts`, `exploreVisuals/campement.ts` (étape `campement`) |
+| 10 décharges | `ch2.decharges.json` (relais de garde)                                          | —                                                                      |
+| 11 charcudoc | `ch2.charcudoc.json`                                                            | —                                                                      |
 
 Chapitre : `src/data/chapters/ch2.ts` (scènes, jauge, bilan `CH2_END`, `Ch2Etape`),
 `ch2Profiles.ts` (loyal, solitaire, neutre), `ch2Radio.ts`. Cartes : `docs/design/10-MAPS-CHAPTER-2.md`.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comics HOLT"
+  short_description: "Adapter le récit en album illustré et lettré"
+  default_prompt: "Utilise $holt-comics pour réaliser la tâche HOLT demandée et suivre ses sources."

@@ -3,6 +3,12 @@
 Ce dépôt est **autosuffisant** : tout le contexte du projet est ici. Aucun document externe,
 aucune conversation à retrouver.
 
+**Démarrage par tâche : [WORKFLOWS.md](WORKFLOWS.md).** Chapitres, combat, personnages,
+Mixamo, musique, bruitages, voix ElevenLabs, cinématiques, illustrations et comics :
+la table donne le skill, la première lecture, les commandes et la preuve attendue.
+[Profils et missions](process/AGENT-WORKFLOW.md) · [outils locaux](process/TOOLS.md) ·
+[audit des sessions et corrections](process/WORKFLOW-AUDIT.md).
+
 ## Adaptation en comics
 
 [`comics/holt-12-pages/v2/README.md`](comics/holt-12-pages/v2/README.md) : seconde édition de l'album autonome
@@ -13,35 +19,39 @@ Les images et le livre assemblé restent localement dans `art-masters/comics/hol
 
 ## Par où commencer
 
-| Vous voulez…                     | Lisez                                                                                                                    |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| comprendre les règles de travail | [`../AGENTS.md`](../AGENTS.md)                                                                                           |
-| comprendre le jeu                | [`design/00-VISION.md`](design/00-VISION.md) puis [`design/01-SETTING.md`](design/01-SETTING.md)                         |
-| coder sur le combat              | [`design/05-TACTICAL-COMBAT.md`](design/05-TACTICAL-COMBAT.md)                                                           |
-| coder sur le narratif (epic 2)   | [`design/03-CHAPTER-1.md`](design/03-CHAPTER-1.md) puis [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md)   |
-| coder sur l'exploration (epic 3) | [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md) puis [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md) |
-| créer ou revoir un décor d'exploration | [`art/EXPLORATION-GRAPHICS-GUIDE.md`](art/EXPLORATION-GRAPHICS-GUIDE.md) — couches, recettes, pièges et skills du dépôt |
-| comprendre la structure du code  | [`process/ARCHITECTURE.md`](process/ARCHITECTURE.md)                                                                     |
-| savoir ce qui reste à faire      | [`process/ROADMAP.md`](process/ROADMAP.md)                                                                               |
-| concevoir une scène cinématique  | [`process/CINEMATIC-SCENES.md`](process/CINEMATIC-SCENES.md) puis [`chapters/CAPABILITIES.md`](chapters/CAPABILITIES.md) |
-| brancher des modèles 3D          | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md)                                                                             |
-| concevoir le chapitre suivant    | [`chapters/README.md`](chapters/README.md) — trois phases, et quoi lire (ou pas) à chacune                               |
+| Vous voulez…                                   | Lisez                                                                                                                          |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| comprendre les règles de travail               | [`../AGENTS.md`](../AGENTS.md)                                                                                                 |
+| comprendre le jeu                              | [`design/00-VISION.md`](design/00-VISION.md) puis [`design/01-SETTING.md`](design/01-SETTING.md)                               |
+| coder sur le combat                            | [`design/05-TACTICAL-COMBAT.md`](design/05-TACTICAL-COMBAT.md)                                                                 |
+| coder sur le narratif (epic 2)                 | [`design/03-CHAPTER-1.md`](design/03-CHAPTER-1.md) puis [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md)         |
+| coder sur l'exploration (epic 3)               | [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md) puis [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md)       |
+| créer ou revoir un décor d'exploration         | [`art/EXPLORATION-GRAPHICS-GUIDE.md`](art/EXPLORATION-GRAPHICS-GUIDE.md) — couches, recettes, pièges et skills du dépôt        |
+| comprendre la structure du code                | [`process/ARCHITECTURE.md`](process/ARCHITECTURE.md)                                                                           |
+| savoir ce qui reste à faire                    | [`process/ROADMAP.md`](process/ROADMAP.md)                                                                                     |
+| concevoir une scène cinématique                | [`process/CINEMATIC-SCENES.md`](process/CINEMATIC-SCENES.md) puis [`chapters/CAPABILITIES.md`](chapters/CAPABILITIES.md)       |
+| brancher des modèles 3D                        | [`art/ART-PIPELINE.md`](art/ART-PIPELINE.md)                                                                                   |
+| concevoir le chapitre suivant                  | [`chapters/README.md`](chapters/README.md) — trois phases, et quoi lire (ou pas) à chacune                                     |
+| produire ou mixer musique, bruitages et voix   | [`art/AUDIO-WORKFLOW.md`](art/AUDIO-WORKFLOW.md) — OAuth, scripts ciblés, mix et preuve                                        |
+| créer un personnage ou récupérer une animation | [`art/CHARACTER-PIPELINE-FINDINGS.md`](art/CHARACTER-PIPELINE-FINDINGS.md), [`art/MIXAMO-WORKFLOW.md`](art/MIXAMO-WORKFLOW.md) |
+| produire un comics complet                     | [`art/COMICS-WORKFLOW.md`](art/COMICS-WORKFLOW.md) — bible de l'édition, pages lettrées et livre                               |
 
 ## Design — le jeu
 
-| Document                                                         | Contenu                                                                        |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| [`design/00-VISION.md`](design/00-VISION.md)                     | intention, références, périmètre, ce que le jeu n'est pas                      |
-| [`design/01-SETTING.md`](design/01-SETTING.md)                   | univers, académie HOLT, ton, thèmes                                            |
-| [`design/02-RULES-CPRED-LITE.md`](design/02-RULES-CPRED-LITE.md) | le système de jeu complet : attributs, compétences, jets, difficultés          |
-| [`design/03-CHAPTER-1.md`](design/03-CHAPTER-1.md)               | déroulé complet du chapitre 1, scène par scène                                 |
-| [`design/04-CHARACTERS.md`](design/04-CHARACTERS.md)             | les six cadets : fiches, traits, secrets, relations                            |
-| [`design/05-TACTICAL-COMBAT.md`](design/05-TACTICAL-COMBAT.md)   | spécification du combat tour par tour et de l'IA                               |
-| [`design/06-SCORING-DOSSIER.md`](design/06-SCORING-DOSSIER.md)   | barème de l'examen et dossier du candidat                                      |
-| [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md)   | format des dialogues : graphe, conditions, effets, radio, validation           |
-| [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md)           | le mode exploration : contrôles, caméra, entités, objectifs, passage au combat |
-| [`design/11-SOUND-DESIGN.md`](design/11-SOUND-DESIGN.md) | conduite du fond musical, ambiances, niveaux et priorités cinématiques ; [production](art/audio-generation/README.md) et [revue](art/SOUND-PASS-REVIEW.md) |
-| [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md)     | format des cartes, l'académie HOLT (plan du MJ), le centre d'examen            |
+| Document                                                                 | Contenu                                                                                                                                                    |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`design/00-VISION.md`](design/00-VISION.md)                             | intention, références, périmètre, ce que le jeu n'est pas                                                                                                  |
+| [`design/01-SETTING.md`](design/01-SETTING.md)                           | univers, académie HOLT, ton, thèmes                                                                                                                        |
+| [`design/02-RULES-CPRED-LITE.md`](design/02-RULES-CPRED-LITE.md)         | le système de jeu complet : attributs, compétences, jets, difficultés                                                                                      |
+| [`design/03-CHAPTER-1.md`](design/03-CHAPTER-1.md)                       | déroulé complet du chapitre 1, scène par scène                                                                                                             |
+| [`design/04-CHARACTERS.md`](design/04-CHARACTERS.md)                     | les six cadets : fiches, traits, secrets, relations                                                                                                        |
+| [`design/05-TACTICAL-COMBAT.md`](design/05-TACTICAL-COMBAT.md)           | spécification du combat tour par tour et de l'IA                                                                                                           |
+| [`design/TACTICAL-COMBAT-OPTIONS.md`](design/TACTICAL-COMBAT-OPTIONS.md) | proposition de combats plus décisifs : diagnostic, trois options, techniques et maquettes interactives ; aucune règle adoptée                              |
+| [`design/06-SCORING-DOSSIER.md`](design/06-SCORING-DOSSIER.md)           | barème de l'examen et dossier du candidat                                                                                                                  |
+| [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md)           | format des dialogues : graphe, conditions, effets, radio, validation                                                                                       |
+| [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md)                   | le mode exploration : contrôles, caméra, entités, objectifs, passage au combat                                                                             |
+| [`design/11-SOUND-DESIGN.md`](design/11-SOUND-DESIGN.md)                 | conduite du fond musical, ambiances, niveaux et priorités cinématiques ; [production](art/audio-generation/README.md) et [revue](art/SOUND-PASS-REVIEW.md) |
+| [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md)             | format des cartes, l'académie HOLT (plan du MJ), le centre d'examen                                                                                        |
 
 ## Chapitres — concevoir la suite
 
@@ -52,7 +62,8 @@ Les images et le livre assemblé restent localement dans `art-masters/comics/hol
 | [`chapters/CH1-LEGACY.md`](chapters/CH1-LEGACY.md)                 | ce que le chapitre 1 transmet : état de l'histoire, dossier, mystères                      |
 | [`chapters/ENGINE-COUPLING.md`](chapters/ENGINE-COUPLING.md)       | (phase 2) les endroits où le moteur suppose encore le chapitre 1                           |
 | [`chapters/_templates/`](chapters/_templates/)                     | gabarits `GAME-DESIGN.md` et `TECH-DESIGN.md`                                              |
-| [`chapters/ch2/SCENARIO.md`](chapters/ch2/SCENARIO.md)             | le scénario du chapitre 2, à écrire par le propriétaire                                    |
+| [`chapters/ch2/SCENARIO.md`](chapters/ch2/SCENARIO.md)             | scénario livré du chapitre 2, source du récit                                              |
+| [`chapters/CH2-LEGACY.md`](chapters/CH2-LEGACY.md)                 | point de départ du chapitre 3 : groupe, dettes, mystères et dossier transmis               |
 | [`chapters/ch2/VOICE-DESIGN.md`](chapters/ch2/VOICE-DESIGN.md)     | casting, conduite et méthode pour poursuivre les voix du chapitre 2                        |
 | [`chapters/CH1-HALL-CINEMATIC.md`](chapters/CH1-HALL-CINEMATIC.md) | conduite, choix tactique et voix du briefing cinématique du chapitre 1                     |
 
@@ -101,7 +112,7 @@ Feuillage réemployé : [asset, prompt et provenance](art/HOLT-AAA-ASSETS.md).
 | Document                                                                                       | Contenu                                                                                                                 |
 | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | [`process/ARCHITECTURE.md`](process/ARCHITECTURE.md)                                           | couches, dépendances, invariants                                                                                        |
-| [`process/ROADMAP.md`](process/ROADMAP.md)                                                     | les trois epics, découpés en lots livrables                                                                             |
+| [`process/ROADMAP.md`](process/ROADMAP.md)                                                     | epics, lots livrés et travaux restants                                                                                  |
 | [`process/CONVENTIONS.md`](process/CONVENTIONS.md)                                             | style de code, nommage, commits, langue                                                                                 |
 | [`process/CINEMATIC-SCENES.md`](process/CINEMATIC-SCENES.md)                                   | méthode de production des cinématiques à plans fixes : conduite, médias, raccord, vérification                          |
 | [`process/EXPLORATION-VISUAL-ORCHESTRATION.md`](process/EXPLORATION-VISUAL-ORCHESTRATION.md)   | prompt prêt pour l'implémentation déléguée à des agents Terra, avec jalons et revue visuelle                            |
@@ -154,6 +165,7 @@ Feuillage réemployé : [asset, prompt et provenance](art/HOLT-AAA-ASSETS.md).
 | [0037](process/adr/0037-enveloppe-et-profils-visuels-holt.md)                    | Enveloppe complète et profils de rendu de l'académie HOLT                                        |
 | [0038](process/adr/0038-profils-decor-toutes-explorations.md)                    | Profils de décor communs aux cinq cartes d’exploration et reprise du hangar                      |
 | [0039](process/adr/0039-murs-exploration-entiers.md)                             | Murs entiers à hauteur fixe ; la découverte ne révèle que les contenus                           |
-| [0040](process/adr/0040-stabiliser-cout-entree-salle.md)                         | Stabiliser le coût du premier accès aux salles                                                    |
-| [0041](process/adr/0041-personnages-mpfb-dans-le-jeu.md)                         | Les cadets MPFB remplacent les humanoïdes Quaternius dans le jeu                                  |
-| [0042](process/adr/0042-fond-musical-et-ambiances.md) | Fond musical et ambiances continus, préférence sonore commune et priorité cinématique |
+| [0040](process/adr/0040-stabiliser-cout-entree-salle.md)                         | Stabiliser le coût du premier accès aux salles                                                   |
+| [0041](process/adr/0041-personnages-mpfb-dans-le-jeu.md)                         | Les cadets MPFB remplacent les humanoïdes Quaternius dans le jeu                                 |
+| [0042](process/adr/0042-fond-musical-et-ambiances.md)                            | Fond musical et ambiances continus, préférence sonore commune et priorité cinématique            |
+| [0043](process/adr/0043-skills-et-profils-adosses-aux-docs.md)                   | Recettes communes dans docs, skills de projet et profils Codex/Claude générés                    |

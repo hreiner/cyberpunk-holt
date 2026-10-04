@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation HOLT"
+  short_description: "Réconcilier docs, recettes et profils agents"
+  default_prompt: "Utilise $holt-maintain-docs pour réaliser la tâche HOLT demandée et suivre ses sources."

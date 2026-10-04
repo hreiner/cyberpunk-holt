@@ -1,25 +1,26 @@
 /** Génère les prises anglaises du briefing avec la CLI ElevenLabs connectée en OAuth. */
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CH1_HALL_VOICE_CUES, CH1_HALL_VOICES } from '../src/data/ch1HallVoices';
+import { generationOptions } from './audio-generation-options';
 
 const outputDir = resolve('public/assets/audio/voices/ch1-hall');
-const selectedFile = process.argv.find((arg) => arg.startsWith('--file='))?.slice('--file='.length);
-const force = process.argv.includes('--force');
+const { selected: selectedFile, force, dryRun } = generationOptions(process.argv.slice(2), 'file');
 if (selectedFile && !CH1_HALL_VOICE_CUES.some((cue) => cue.file === selectedFile)) {
   throw new Error(`Prise inconnue : ${selectedFile}`);
 }
 const cliScript =
-  process.platform === 'win32'
+  process.env.HOLT_ELEVENLABS_CLI ??
+  (process.platform === 'win32'
     ? resolve(process.env.APPDATA ?? '', 'npm/node_modules/@elevenlabs/cli/bin/cli.js')
-    : null;
-mkdirSync(outputDir, { recursive: true });
+    : null);
+if (!dryRun) mkdirSync(outputDir, { recursive: true });
 
 for (const cue of CH1_HALL_VOICE_CUES) {
   if (selectedFile && cue.file !== selectedFile) continue;
   const output = resolve(outputDir, `${cue.file}.mp3`);
-  if (!force && existsSync(output)) continue;
+  if (!force && existsSync(output) && statSync(output).size > 0) continue;
   const voice = CH1_HALL_VOICES[cue.voice];
   const settings = JSON.stringify({
     stability: voice.stability,
@@ -28,7 +29,8 @@ for (const cue of CH1_HALL_VOICE_CUES) {
     speed: voice.speed,
     use_speaker_boost: true,
   });
-  process.stdout.write(`Génération : ${cue.file} (${cue.voice})\n`);
+  process.stdout.write(`${dryRun ? 'Prévu' : 'Génération'} : ${cue.file} (${cue.voice})\n`);
+  if (dryRun) continue;
   const result = spawnSync(
     cliScript ? process.execPath : 'elevenlabs',
     [
@@ -58,5 +60,10 @@ for (const cue of CH1_HALL_VOICE_CUES) {
   }
 }
 
-const ready = CH1_HALL_VOICE_CUES.every((cue) => existsSync(resolve(outputDir, `${cue.file}.mp3`)));
-writeFileSync(resolve(outputDir, 'manifest.json'), JSON.stringify({ ready }));
+if (!dryRun) {
+  const ready = CH1_HALL_VOICE_CUES.every((cue) => {
+    const output = resolve(outputDir, `${cue.file}.mp3`);
+    return existsSync(output) && statSync(output).size > 0;
+  });
+  writeFileSync(resolve(outputDir, 'manifest.json'), JSON.stringify({ ready }));
+}

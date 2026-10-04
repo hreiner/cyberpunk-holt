@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personnages HOLT"
+  short_description: "Créer corps, uniformes et animations MPFB"
+  default_prompt: "Utilise $holt-character pour réaliser la tâche HOLT demandée et suivre ses sources."

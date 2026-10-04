@@ -1,0 +1,44 @@
+[
+  {
+    "name": "holt-coordinator",
+    "description": "Coordinate bounded HOLT lots, file ownership and final integration.",
+    "procedure": "docs/process/agents/coordinator.md"
+  },
+  {
+    "name": "holt-designer",
+    "description": "Design a HOLT chapter or tactical change before implementation.",
+    "procedure": "docs/process/agents/designer.md"
+  },
+  {
+    "name": "holt-lot",
+    "claudeName": "lot-agent",
+    "description": "Implement one HOLT lot from its design and handoff guide.",
+    "procedure": "docs/process/agents/lot.md"
+  },
+  {
+    "name": "holt-character-artist",
+    "description": "Create and integrate HOLT MPFB characters and Mixamo animations.",
+    "procedure": "docs/process/agents/character-artist.md"
+  },
+  {
+    "name": "holt-audio-director",
+    "description": "Produce and integrate HOLT music, ambience, effects and voiceovers.",
+    "procedure": "docs/process/agents/audio-director.md"
+  },
+  {
+    "name": "holt-art-director",
+    "description": "Produce coherent HOLT game illustrations or comic pages.",
+    "procedure": "docs/process/agents/art-director.md"
+  },
+  {
+    "name": "holt-visual-reviewer",
+    "description": "Diagnose and fix HOLT decor, camera, picking or rendering performance.",
+    "procedure": "docs/process/agents/visual-reviewer.md"
+  },
+  {
+    "name": "holt-repo-reviewer",
+    "description": "Review HOLT code, documentation and validation evidence independently.",
+    "procedure": "docs/process/agents/repo-reviewer.md",
+    "readOnly": true
+  }
+]

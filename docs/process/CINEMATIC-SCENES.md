@@ -18,13 +18,13 @@ Dans le game design, noter l'effet recherché, le point de départ, la durée vi
 main du joueur et les variations selon le dossier. Indiquer chaque décision ou jet qui doit
 rester jouable. Dans le design technique, remplir une conduite comme celle-ci :
 
-| Temps depuis le lancement | Plan et cadrage | Texte à l'écran | Son | Dialogue / interaction |
-|---|---|---|---|---|
-| 0 s | plan d'ouverture | une phrase courte | musique | geste de lancement ; branche selon le dossier |
-| … | nouveau plan | une idée par plan | bruitage éventuel | avance automatique du nœud si nécessaire |
-| … | plan de choix | question | préciser si la musique continue | horloge visuelle en pause ; **choix réel du `DialogueRunner`** |
-| … | plan de bascule | phrase brève | effet + musique selon l'intention | retour au dialogue normal |
-| sortie de la scène | vue suivante | — | durée du fondu | sortie effective du routeur |
+| Temps depuis le lancement | Plan et cadrage  | Texte à l'écran   | Son                               | Dialogue / interaction                                         |
+| ------------------------- | ---------------- | ----------------- | --------------------------------- | -------------------------------------------------------------- |
+| 0 s                       | plan d'ouverture | une phrase courte | musique                           | geste de lancement ; branche selon le dossier                  |
+| …                         | nouveau plan     | une idée par plan | bruitage éventuel                 | avance automatique du nœud si nécessaire                       |
+| …                         | plan de choix    | question          | préciser si la musique continue   | horloge visuelle en pause ; **choix réel du `DialogueRunner`** |
+| …                         | plan de bascule  | phrase brève      | effet + musique selon l'intention | retour au dialogue normal                                      |
+| sortie de la scène        | vue suivante     | —                 | durée du fondu                    | sortie effective du routeur                                    |
 
 **Dès cette conduite**, si une voix passe sur la musique ou une ambiance continue, écrire
 son niveau normal, son niveau sous voix et la durée des deux transitions. Le réglage de départ
@@ -89,13 +89,13 @@ contrôler l'artefact avant publication.
 
 Le partage de responsabilités du slow est le modèle à reprendre :
 
-| Endroit | Responsabilité |
-|---|---|
-| `src/ui/slowCinematic.ts` et `.css` | temps, préchargement et fondu entre deux `<img>`, légendes, choix affiché, musique, bruitage prévu par la conduite, bouton de lancement et « Passer » |
-| `src/chapter.ts` | création à l'entrée de la scène ; callbacks vers le `DialogueRunner` ; maintien du lecteur musical après la disparition des images ; fondu à la sortie **effective** de la scène ; nettoyage sur changement forcé ou destruction de l'app |
-| `src/data/dialogues/ch2.slow.json` | branches, texte du joueur, effets, jet, bruitage attaché au nœud d'attaque |
-| `src/audio/sfx.ts` | échantillons, volumes et synthèse de secours ; les mêmes identifiants servent au dialogue et à l'exploration |
-| `src/ui/audioVolumeFade.ts` | fondu de 0,5 s des pistes continues sous une voix, interrompable et repris au volume instantané ; le fondu final de scène l'annule |
+| Endroit                             | Responsabilité                                                                                                                                                                                                                            |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/ui/slowCinematic.ts` et `.css` | temps, préchargement et fondu entre deux `<img>`, légendes, choix affiché, musique, bruitage prévu par la conduite, bouton de lancement et « Passer »                                                                                     |
+| `src/chapter.ts`                    | création à l'entrée de la scène ; callbacks vers le `DialogueRunner` ; maintien du lecteur musical après la disparition des images ; fondu à la sortie **effective** de la scène ; nettoyage sur changement forcé ou destruction de l'app |
+| `src/data/dialogues/ch2.slow.json`  | branches, texte du joueur, effets, jet, bruitage attaché au nœud d'attaque                                                                                                                                                                |
+| `src/audio/sfx.ts`                  | échantillons, volumes et synthèse de secours ; les mêmes identifiants servent au dialogue et à l'exploration                                                                                                                              |
+| `src/ui/audioVolumeFade.ts`         | fondu de 0,5 s des pistes continues sous une voix, interrompable et repris au volume instantané ; le fondu final de scène l'annule                                                                                                        |
 
 Passer les URL des images et de la piste par `assetUrl` pour respecter la base Vite ; `Sfx` utilise
 également `import.meta.env.BASE_URL`. Précharger les plans avant leurs fondus et laisser le récit
@@ -191,8 +191,9 @@ npx tsx scripts/generate-ch1-hall-voices.ts
 npx tsx scripts/generate-ch1-hall-voices.ts --file=tease-grover --force
 ```
 
-Sans `--force`, les fichiers déjà présents sont conservés. Toujours cibler une seule prise avec
-`--file` lorsqu'un texte change : `--force` seul refait toute la scène et consomme le quota.
+Sans `--force`, les fichiers non vides sont conservés. `--force` exige une seule prise
+`--file` ; l'absence de cible est refusée avant génération. Ajouter `--dry-run` pour
+prévisualiser sans écrire ni appeler le service. [Procédure audio](../art/AUDIO-WORKFLOW.md).
 Le générateur écrit 14 MP3 légers dans `public/assets/audio/voices/ch1-hall/`, puis
 `manifest.json` avec `ready:true` si toutes les prises existent. Les MP3 sont reliés par
 `CH1_HALL_VOICE_FILES` au `ChapterVoiceover` ; une nouvelle scène doit suivre le même circuit.

@@ -1,7 +1,8 @@
 /** Génération OAuth ; masters hors dépôt, fichiers existants conservés. */
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { generationOptions } from './audio-generation-options';
 
 interface AudioBrief {
   id: string;
@@ -14,24 +15,25 @@ const brief = JSON.parse(readFileSync(resolve('docs/art/audio-generation/backgro
   ambienceModel: string;
   assets: AudioBrief[];
 };
-const selected = process.argv.find((arg) => arg.startsWith('--asset='))?.slice('--asset='.length);
-const force = process.argv.includes('--force');
-const musicOnly = process.argv.includes('--music-only');
-if (force && !selected) throw new Error('La régénération exige --asset=<identifiant>.');
+const { selected, force, dryRun, musicOnly } = generationOptions(process.argv.slice(2), 'asset');
 if (selected && !brief.assets.some(({ id }) => id === selected)) throw new Error(`Son inconnu : ${selected}`);
+if (musicOnly && selected && brief.assets.find(({ id }) => id === selected)?.kind !== 'music') {
+  throw new Error('La cible doit être une musique avec --music-only.');
+}
 const outputDir = resolve('art-masters/audio/background');
-mkdirSync(outputDir, { recursive: true });
+if (!dryRun) mkdirSync(outputDir, { recursive: true });
 const cliScript =
-  process.platform === 'win32'
+  process.env.HOLT_ELEVENLABS_CLI ??
+  (process.platform === 'win32'
     ? resolve(process.env.APPDATA ?? '', 'npm/node_modules/@elevenlabs/cli/bin/cli.js')
-    : null;
+    : null);
 
 for (const asset of brief.assets) {
   if (musicOnly && asset.kind !== 'music') continue;
   if (selected && asset.id !== selected) continue;
   const output = resolve(outputDir, `${asset.id}.mp3`);
   // Une réponse interrompue peut laisser un fichier vide : elle reste régénérable.
-  if (!force && existsSync(output) && readFileSync(output).length > 0) continue;
+  if (!force && existsSync(output) && statSync(output).size > 0) continue;
   const request =
     asset.kind === 'music'
       ? ['music', 'compose', '--output-format', 'mp3_48000_192']
@@ -53,7 +55,8 @@ for (const asset of brief.assets) {
           loop: true,
           prompt_influence: 0.5,
         };
-  process.stdout.write(`Génération : ${asset.id} (${asset.seconds} s)\n`);
+  process.stdout.write(`${dryRun ? 'Prévu' : 'Génération'} : ${asset.id} (${asset.seconds} s)\n`);
+  if (dryRun) continue;
   const result = spawnSync(
     cliScript ? process.execPath : 'elevenlabs',
     [

@@ -4,6 +4,14 @@ La partie la plus risquée d'un projet 3D solo n'est pas la modélisation, c'est
 et l'animation**. Ce document décrit comment on l'évite aujourd'hui et comment on le
 traitera demain, **sans jamais toucher au gameplay**.
 
+**Pipeline courant, 4 octobre 2026 :** les six cadets et l'enfant sont construits avec
+MPFB/Blender et animés par Mixamo dans le jeu (ADR 0041). Suivre
+[CHARACTER-PIPELINE-FINDINGS](CHARACTER-PIPELINE-FINDINGS.md) et `$holt-character` pour
+une nouvelle production ; [MIXAMO-WORKFLOW](MIXAMO-WORKFLOW.md) pour un clip.
+Quaternius demeure le repli et la base des acteurs sans look MPFB. Les sections datées
+ci-dessous décrivent les étapes antérieures ; elles ne remplacent pas le pipeline courant.
+Le manifeste est la source de l'état actuel des illustrations, dont P06b produit « à valider ».
+
 ## Le principe : tout passe par `CharacterRig`
 
 Le jeu ne connaît que cette interface
@@ -24,7 +32,7 @@ interface CharacterRig {
 ```
 
 **Six animations, pas une de plus.** C'est le contrat minimal pour jouer le chapitre 1.
-Aujourd'hui l'implémentation est `CadetRig` : les GLB Quaternius fournissent le squelette et les
+L'implémentation de repli est `CadetRig` : les GLB Quaternius fournissent le squelette et les
 clips, puis le code adapte tenue, cheveux, matériel, anneau et étiquette. La vue tactique ajoute
 une silhouette visible à travers les décors. Un rig ultérieur pourra remplacer cette base sans
 changer `src/tactical/` ni `src/app.ts`. Voir l'[ADR 0004](../process/adr/0004-abstraction-rig.md).
@@ -35,7 +43,7 @@ géométriques attachés aux os. Ce travail reste isolé du chapitre et du rig p
 cadets. Il n'introduit ni fichier GLB, ni auto-rigging, ni licence supplémentaire ; ses limites
 visuelles sont évaluées dans le rapport du pilote.
 
-## Exploration picturale : base commune et clips explicites
+## Base Quaternius et contrat des clips (précédent de septembre)
 
 Le pipeline d'exploration emploie une base humanoïde riggée à squelette commun, des variantes
 de silhouette et des clips explicites. Elle peut venir d'une création locale ou d'un asset
@@ -48,7 +56,8 @@ Les six animations de `CharacterRig` restent obligatoires : _idle_, _walk_, _run
 _down_, _revive_. L'exploration peut proposer séparément les poses visuelles _sit_, _lean_,
 _talk_ et _inspect_ via `ExplorationCharacterRig` ; le combat continue de ne connaître que
 `CharacterRig`. La position appartient au gameplay : les clips sont sur place, sans root
-motion, avec une cadence cohérente avec les 4 m/s du rendu actuel.
+motion. Depuis l'ADR 0041, la marche du meneur est à 2,2 cases/s ; régler sa cadence
+sur le clip et la vitesse réels, pas sur l'ancienne course de 4 m/s.
 
 La base commune est différenciée par coiffure, coupe d'uniforme, accessoires, matériau et
 attitude — pas seulement par une recoloration. Les PNJ de carte utilisent la même fabrique,
@@ -62,16 +71,16 @@ le texte de licence restent dans `art-masters/characters/`, hors dépôt. Les fi
 sont les copies nécessaires au jeu sous `public/assets/exploration/` ; les deux emplacements
 ont été comparés par SHA-256.
 
-| Fichier servi            | Base Quaternius / usage                                          |      Taille | Triangles du GLB | SHA-256                                                            |
-| ------------------------ | ---------------------------------------------------------------- | ----------: | ---------------: | ------------------------------------------------------------------ |
-| `cadet-male.glb`         | Ultimate Modular Men, tête casual masculine greffée à l'uniforme | 1 430 660 o |            5 776 | `fea7e71271203e7073f1a073fa1208de7402df276f87f80e149bf7589b5d46b4` |
-| `cadet-male-uniform.glb` | Ultimate Modular Men, tenue SWAT recolorée bleu-noir             | 1 560 900 o |            7 752 | `a835107bac833eb916c494e10997ae1709e85957ea6f6c59ace3c9a66f6d1fec` |
-| `cadet-female.glb`       | Ultimate Modular Women, tenue Suit                               | 1 537 776 o |            6 482 | `12aece21fecd08fb079d2fa390faa40c705e26ea8f779b5005b8bf6cbe501837` |
-| `concrete-diff-1k.jpg`   | Poly Haven, Concrete, texture de béton (académie ET centre d'examen, teintée par lieu) |   543 902 o |                — | `046c0e2aebe31e6043a6bc074e779f6a345f1d823d0ca1c69446c5cabadefa8a` |
-| `wood-laminate-cantine-1k.jpg` | ambientCG, Wood Floor 051, sol de la cantine            |    89 872 o |                — | `2c9b0edd014f1e5e6e6bf819da331ffca27fbad7188a5ab55d86ad9aef1edb6f` |
-| `tile-infirmerie-1k.jpg` | ambientCG, Tiles 133 A, sol de l'infirmerie                      |    58 969 o |                — | `d4784dede788c21f2142e196912be591659507caced0360948e50a09642bc783` |
-| `asphalt-parking-1k.jpg` | ambientCG, Asphalt 033, sol du parking (centre d'examen)         |    64 247 o |                — | `adcdb2e813805def5aae39540ae8431dd3483ce0e0b423f6f2b924b53288a846` |
-| `corrugated-steel-garage-1k.jpg` | ambientCG, Corrugated Steel 009, murs du garage (académie) |    73 384 o |                — | `d9944465f617c942545c1892187d23a876246a63f806b10c68a8c30dc2dbcdf6` |
+| Fichier servi                    | Base Quaternius / usage                                                                |      Taille | Triangles du GLB | SHA-256                                                            |
+| -------------------------------- | -------------------------------------------------------------------------------------- | ----------: | ---------------: | ------------------------------------------------------------------ |
+| `cadet-male.glb`                 | Ultimate Modular Men, tête casual masculine greffée à l'uniforme                       | 1 430 660 o |            5 776 | `fea7e71271203e7073f1a073fa1208de7402df276f87f80e149bf7589b5d46b4` |
+| `cadet-male-uniform.glb`         | Ultimate Modular Men, tenue SWAT recolorée bleu-noir                                   | 1 560 900 o |            7 752 | `a835107bac833eb916c494e10997ae1709e85957ea6f6c59ace3c9a66f6d1fec` |
+| `cadet-female.glb`               | Ultimate Modular Women, tenue Suit                                                     | 1 537 776 o |            6 482 | `12aece21fecd08fb079d2fa390faa40c705e26ea8f779b5005b8bf6cbe501837` |
+| `concrete-diff-1k.jpg`           | Poly Haven, Concrete, texture de béton (académie ET centre d'examen, teintée par lieu) |   543 902 o |                — | `046c0e2aebe31e6043a6bc074e779f6a345f1d823d0ca1c69446c5cabadefa8a` |
+| `wood-laminate-cantine-1k.jpg`   | ambientCG, Wood Floor 051, sol de la cantine                                           |    89 872 o |                — | `2c9b0edd014f1e5e6e6bf819da331ffca27fbad7188a5ab55d86ad9aef1edb6f` |
+| `tile-infirmerie-1k.jpg`         | ambientCG, Tiles 133 A, sol de l'infirmerie                                            |    58 969 o |                — | `d4784dede788c21f2142e196912be591659507caced0360948e50a09642bc783` |
+| `asphalt-parking-1k.jpg`         | ambientCG, Asphalt 033, sol du parking (centre d'examen)                               |    64 247 o |                — | `adcdb2e813805def5aae39540ae8431dd3483ce0e0b423f6f2b924b53288a846` |
+| `corrugated-steel-garage-1k.jpg` | ambientCG, Corrugated Steel 009, murs du garage (académie)                             |    73 384 o |                — | `d9944465f617c942545c1892187d23a876246a63f806b10c68a8c30dc2dbcdf6` |
 
 Les quatre fichiers ambientCG (passe D, 24 septembre 2026) ne gardent que la carte couleur du
 set PBR téléchargé (`_Color.jpg`), redimensionnée à 1024 px et recompressée en JPEG qualité 78
@@ -141,11 +150,12 @@ déjà riggé de la bibliothèque Mixamo et un clip de marche sont donc évalué
 pilote autonome, avec adaptation du mesh dans Blender. Ce n'est pas une adoption de
 l'auto-rigging Mixamo pour les personnages du chapitre. Le fichier source, la conversion,
 les contrôles de mouvement et les droits à vérifier sont décrits dans
-[MIXAMO-PILOT.md](MIXAMO-PILOT.md). Aucun personnage Mixamo n'est encore distribué.
+[MIXAMO-PILOT.md](MIXAMO-PILOT.md). À cette date aucun personnage Mixamo n'était distribué ;
+le pipeline MPFB/Mixamo adopté ensuite est décrit en tête de ce document.
 
 ## Portraits 2D
 
-Les visages vivent **uniquement** dans les dialogues, sous forme de portraits 2D. Le
+Les portraits 2D des dialogues complètent les visages des personnages 3D. Le
 registre et les placeholders SVG déterministes sont décrits dans
 [`UI-DESIGN-SYSTEM.md`](UI-DESIGN-SYSTEM.md) (section « Portraits »),
 implémentés dans [`src/ui/portraits.ts`](../../src/ui/portraits.ts).
@@ -165,7 +175,10 @@ Pour l'améliorer sans rien casser : remplacer les `BoxGeometry` par des GLB de 
 usés dans `YardView.buildObstacles()`. **La carte ASCII reste la source de vérité** du
 gameplay — le décor l'habille, il ne la définit pas.
 
-## Chapitre 2 : manifeste étendu, substituts en attente (lot 5.A)
+## Chapitre 2 : pose initiale des substituts (historique du lot 5.A)
+
+Les images du lot E ont depuis été générées. Les tables suivantes conservent le travail
+de raccord initial ; pour la production restante, lire l'état du manifeste courant.
 
 Comme au chapitre 1, le lot 5.A **n'a pas généré** d'illustrations : il a inscrit chaque décor et
 chaque portrait nouveaux du chapitre 2 au manifeste (`docs/art/image-generation/MANIFEST.md`, lot
@@ -175,11 +188,11 @@ généré avec le Chromium de Playwright déjà installé (`canvas.toDataURL('im
 dépendance ajoutée). Le propriétaire remplacera chaque fichier un par un ; ni la clé, ni le code
 qui la sert ne changent à ce moment-là.
 
-| Portrait/décor | Statut | Remplace |
-|---|---|---|
-| P14 enfant, P15 murano, P16 guide, P17 charcudoc, P18 ganger | substitut posé, en attente de génération | placeholder SVG déterministe (`src/ui/portraits.ts`) |
-| D18 photo-souvenir | substitut posé, en attente de génération | réemploi provisoire de `bal.webp` (lot 5.3) |
-| D19 slow-abigail-zachary, D20 slow-franklyn-letitia, D21 attaque, D22 égouts, D23 académie-en-feu, D24 décharges, D25 clinique-accueil, D26 clinique-rue, D27 campement, D28 labo-smith | substitut posé, en attente de génération | rien (clés nouvelles) |
+| Portrait/décor                                                                                                                                                                          | Statut                                   | Remplace                                             |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------- |
+| P14 enfant, P15 murano, P16 guide, P17 charcudoc, P18 ganger                                                                                                                            | substitut posé, en attente de génération | placeholder SVG déterministe (`src/ui/portraits.ts`) |
+| D18 photo-souvenir                                                                                                                                                                      | substitut posé, en attente de génération | réemploi provisoire de `bal.webp` (lot 5.3)          |
+| D19 slow-abigail-zachary, D20 slow-franklyn-letitia, D21 attaque, D22 égouts, D23 académie-en-feu, D24 décharges, D25 clinique-accueil, D26 clinique-rue, D27 campement, D28 labo-smith | substitut posé, en attente de génération | rien (clés nouvelles)                                |
 
 Smith (chapitre 2) n'a pas de nouveau brief : elle réutilise le portrait déjà livré et validé
 `P13` (`public/assets/portraits/smith.webp`), déjà branché dans `PORTRAIT_SOURCES`
@@ -200,12 +213,12 @@ Même procédé pour les huit images des ajouts du 2026-09-26 (manifeste, lot F 
 complet prêt à copier** : bloc de style, sujet, format et négatifs (sans sang, continuité de
 l'ADR 0003). Les substituts sont au chemin définitif.
 
-| Portrait/décor | Statut | Remplace |
-|---|---|---|
-| D33 rafale-gangers, D34 rafale-cadets, D35 rafale-zachary (`ch2.slow`, lot 5.15) | générées (lot F), branchées dans `ch2.slow` au lot 5.15, dans cet ordre après `attaque` (propriété de `ch2Content.test.ts`) | rien (clés nouvelles) |
-| D29 egouts-zachary, D30 egouts-arrachee (`ch2.egouts`, lot 5.13) | générées (lot F), branchées dans `ch2.egouts` au lot 5.13 : `egouts-zachary` de l'ouverture jusqu'au nœud de sa mort, `egouts-arrachee` jusqu'à la décision (propriété de `ch2Content.test.ts`) ; D22 `egouts` reste le décor de la suite | rien (clés nouvelles) |
-| D31 blue-purple, D32 blue-purple-rencontre (`ch2.bluepurple`, lot 5.14) | générées (lot F), branchées dans `ch2.bluepurple` au lot 5.14 : `blue-purple` pour l'entrée et l'attente, `blue-purple-rencontre` de l'arrivée de l'inconnue à la fin (propriété de `ch2Content.test.ts`) | rien (clés nouvelles) |
-| P19 inconnue | générée (lot F), **branchée** au lot 5.14 : locuteur `inconnue` (« L'inconnue ») dans `SpeakerId`, `PORTRAIT_SOURCES` renseigné ; elle ne parle qu'à partir de son arrivée, et c'est son portrait qui ferme le chapitre (vérifié sur le DOM par `chapter2.spec.ts`) | le repli initiale sur couleur |
+| Portrait/décor                                                                   | Statut                                                                                                                                                                                                                                                              | Remplace                      |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| D33 rafale-gangers, D34 rafale-cadets, D35 rafale-zachary (`ch2.slow`, lot 5.15) | générées (lot F), branchées dans `ch2.slow` au lot 5.15, dans cet ordre après `attaque` (propriété de `ch2Content.test.ts`)                                                                                                                                         | rien (clés nouvelles)         |
+| D29 egouts-zachary, D30 egouts-arrachee (`ch2.egouts`, lot 5.13)                 | générées (lot F), branchées dans `ch2.egouts` au lot 5.13 : `egouts-zachary` de l'ouverture jusqu'au nœud de sa mort, `egouts-arrachee` jusqu'à la décision (propriété de `ch2Content.test.ts`) ; D22 `egouts` reste le décor de la suite                           | rien (clés nouvelles)         |
+| D31 blue-purple, D32 blue-purple-rencontre (`ch2.bluepurple`, lot 5.14)          | générées (lot F), branchées dans `ch2.bluepurple` au lot 5.14 : `blue-purple` pour l'entrée et l'attente, `blue-purple-rencontre` de l'arrivée de l'inconnue à la fin (propriété de `ch2Content.test.ts`)                                                           | rien (clés nouvelles)         |
+| P19 inconnue                                                                     | générée (lot F), **branchée** au lot 5.14 : locuteur `inconnue` (« L'inconnue ») dans `SpeakerId`, `PORTRAIT_SOURCES` renseigné ; elle ne parle qu'à partir de son arrivée, et c'est son portrait qui ferme le chapitre (vérifié sur le DOM par `chapter2.spec.ts`) | le repli initiale sur couleur |
 
 Les sept clés de décor sont enregistrées dans `src/data/backdrops.ts` ; le test de `BACKDROPS`
 (`tests/unit/narrativeValidate.test.ts`) vérifie que chaque fichier existe.
@@ -217,8 +230,8 @@ Zachary. Une réplique peut désormais demander une **variante** du portrait de 
 (ADR 0028) ; les variantes sont déclarées dans `PORTRAIT_VARIANTS` (`src/ui/portraits.ts`), et le
 test de `narrativeValidate.test.ts` vérifie que chaque fichier de variante existe.
 
-| Portrait | Statut | Remplace |
-|---|---|---|
+| Portrait                                                           | Statut                                                                                                                                                                                                                      | Remplace                                     |
+| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
 | P06b zachary-blesse (variante `blesse` de `zachary`, `ch2.egouts`) | substitut posé (`public/assets/portraits/zachary-blesse.webp`, même procédé que 5.A), **branché** sur les sept répliques d'agonie ; fiche `briefs/P06b-zachary-blesse.md` avec son prompt complet, en attente de génération | le portrait par défaut P06 sur ces répliques |
 
 ### Les conduits et la cantine en feu (lot 5.17)
@@ -229,11 +242,11 @@ nœud. Trois lieux n'avaient pas d'image : ils entrent au manifeste (lot G), ave
 `briefs/D36-*` à `D38-*` et leur prompt complet. Leurs substituts sont posés au chemin définitif,
 selon le même procédé qu'au lot 5.A.
 
-| Décor | Statut | Remplace |
-|---|---|---|
-| D36 conduit (`ch2.conduits`) | substitut posé, en attente de génération | rien : le dialogue n'avait pas de décor |
+| Décor                             | Statut                                   | Remplace                                |
+| --------------------------------- | ---------------------------------------- | --------------------------------------- |
+| D36 conduit (`ch2.conduits`)      | substitut posé, en attente de génération | rien : le dialogue n'avait pas de décor |
 | D37 conduit-petits (`ch2.enfant`) | substitut posé, en attente de génération | rien : le dialogue n'avait pas de décor |
-| D38 cantine-feu (`ch2.cantine`) | substitut posé, en attente de génération | rien : le dialogue n'avait pas de décor |
+| D38 cantine-feu (`ch2.cantine`)   | substitut posé, en attente de génération | rien : le dialogue n'avait pas de décor |
 
 Réemplois assumés, qui ne sont pas des substituts :
 
@@ -249,10 +262,10 @@ grille). Deux décors propres entrent au manifeste (lot H), avec les fiches `bri
 `briefs/D40-*` et leur prompt complet ; substituts posés au chemin définitif, même procédé qu'au
 lot 5.A. La clé `bal-entree` est retirée (2026-09-27) : la fin de `ch2.photo` affiche `bal`.
 
-| Décor | Statut | Remplace |
-|---|---|---|
-| D39 couloir-nuit (`ch2.fuite`) | substitut posé, en attente de génération | le réemploi `bal-entree` (`hall.webp`) |
-| D40 grille-dortoir (`ch2.grille`) | substitut posé, en attente de génération | le réemploi `dortoirs` (D01) |
+| Décor                             | Statut                                   | Remplace                               |
+| --------------------------------- | ---------------------------------------- | -------------------------------------- |
+| D39 couloir-nuit (`ch2.fuite`)    | substitut posé, en attente de génération | le réemploi `bal-entree` (`hall.webp`) |
+| D40 grille-dortoir (`ch2.grille`) | substitut posé, en attente de génération | le réemploi `dortoirs` (D01)           |
 
 ## Ordre de travail conseillé
 

@@ -1,0 +1,2 @@
+# Git Bash needs LF even on Windows checkouts.
+*.sh text eol=lf

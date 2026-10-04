@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mixamo HOLT"
+  short_description: "Télécharger les clips via le MCP connecté"
+  default_prompt: "Utilise $holt-mixamo pour réaliser la tâche HOLT demandée et suivre ses sources."

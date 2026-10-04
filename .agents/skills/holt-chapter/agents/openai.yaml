@@ -1,0 +1,4 @@
+interface:
+  display_name: "Chapitre HOLT"
+  short_description: "Concevoir et livrer un chapitre par phases"
+  default_prompt: "Utilise $holt-chapter pour réaliser la tâche HOLT demandée et suivre ses sources."

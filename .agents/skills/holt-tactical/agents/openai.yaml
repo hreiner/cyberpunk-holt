@@ -1,0 +1,4 @@
+interface:
+  display_name: "Combat HOLT"
+  short_description: "Concevoir et vérifier les règles tactiques"
+  default_prompt: "Utilise $holt-tactical pour réaliser la tâche HOLT demandée et suivre ses sources."

@@ -5,7 +5,7 @@
 > plus** : la phase 2 lira ce document en entier, il doit rester bon marché.
 
 **Statut** : brouillon | en revue | validé
-**Scénario source** : [`SCENARIO.md`](SCENARIO.md)
+**Scénario source** : `SCENARIO.md` du chapitre (ajouter le lien après copie du gabarit)
 **Date** :
 
 ## 1. Le chapitre en cinq lignes
@@ -21,9 +21,9 @@
 
 ## 3. Déroulé
 
-| # | Scène | Mode | Lieu | Ce que le joueur décide | Ce que le dé tranche |
-|---|---|---|---|---|---|
-| 1 | | dialogue / explore / tactical | | | |
+| #   | Scène | Mode                          | Lieu | Ce que le joueur décide | Ce que le dé tranche |
+| --- | ----- | ----------------------------- | ---- | ----------------------- | -------------------- |
+| 1   |       | dialogue / explore / tactical |      |                         |                      |
 
 > Une scène sans décision ni jet est une cinématique : courte, ou justifiée.
 
@@ -39,7 +39,7 @@
 - **Décisions et jets** : chaque choix structurant, chaque jet (compétence, difficulté
   nommée), et **ce que change l'échec**.
 - **Réemploi** : identifiants du catalogue (`EXP-06`, `DLG-07`…).
-- **Lit l'héritage** : étiquettes, affinités, entrées du chapitre 1 qui modifient la scène.
+- **Lit l'héritage** : étiquettes, affinités, entrées des chapitres précédents qui modifient la scène.
 - **Écrit au dossier** : étiquettes, entrées, affinités.
 
 > Si cette scène est une cinématique à plans fixes (ART-05), préciser sa durée visée, les
@@ -65,18 +65,20 @@
 
 ### Ce que le chapitre lit
 
-| Donnée du chapitre 1 | Où elle est lue | Effet |
-|---|---|---|
-| `loyal-bande` | | |
-| `solitaire` | | |
+| Donnée héritée (chapitre et identifiant) | Où elle est lue | Effet |
+| ---------------------------------------- | --------------- | ----- |
+| `loyal-bande`                            |                 |       |
+| `solitaire`                              |                 |       |
 
-> Les deux étiquettes réservées au chapitre 2 (voir [`../CH1-LEGACY.md`](../CH1-LEGACY.md))
-> doivent apparaître ici.
+> Lire la fiche d'héritage du dernier chapitre livré (actuellement
+> [`../CH2-LEGACY.md`](../CH2-LEGACY.md)). Nommer les données réellement réemployées et
+> justifier leur effet ; les exemples du chapitre 1 ne sont pas des obligations pour tous
+> les chapitres suivants.
 
 ### Ce que le chapitre écrit
 
 | Étiquette nouvelle | Posée par | Lue par (scène de ce chapitre, ou « réservée au chapitre N+1 ») |
-|---|---|---|
+| ------------------ | --------- | --------------------------------------------------------------- |
 
 > Liste **fermée**. Une étiquette jamais lue est un coût sans recette.
 
@@ -89,9 +91,9 @@
 
 **La seule partie que la phase 2 lit ligne à ligne.** Un besoin = une ligne.
 
-| # | Besoin | Scène(s) | Réemploi (id catalogue) | Coût | Remarque |
-|---|---|---|---|---|---|
-| B1 | | | | 🟢 / 🟡 / 🔴 | |
+| #   | Besoin | Scène(s) | Réemploi (id catalogue) | Coût         | Remarque |
+| --- | ------ | -------- | ----------------------- | ------------ | -------- |
+| B1  |        |          |                         | 🟢 / 🟡 / 🔴 |          |
 
 > Inclure les besoins d'art (lieux, visages, décors plein cadre) et de son : ils ne coûtent
 > pas de code mais de la production.
@@ -110,4 +112,4 @@
 ## 11. Décisions du propriétaire
 
 | Date | Question | Décision |
-|---|---|---|
+| ---- | -------- | -------- |

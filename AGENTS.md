@@ -19,14 +19,20 @@ Projet personnel, non commercial, développé chapitre par chapitre avec une bou
 
 Lecture obligatoire avant de coder : [`docs/INDEX.md`](docs/INDEX.md).
 
+Pour choisir les seules lectures utiles et les commandes de chaque tâche :
+[`docs/WORKFLOWS.md`](docs/WORKFLOWS.md). Skills de projet dans `.agents/skills/`,
+profils Codex/Claude et contrat de mission dans
+[`docs/process/AGENT-WORKFLOW.md`](docs/process/AGENT-WORKFLOW.md).
+Les recettes communes vivent dans `docs/` ; `.claude/` conserve des adaptateurs compatibles.
+
 ## 2. Où l'on en est
 
-| | |
-|---|---|
-| **Epic en cours** | aucun : l'epic 5 (chapitre 2, « La nuit du bal », [`docs/chapters/ch2/`](docs/chapters/ch2/)) est clos |
-| **Epic suivant** | le chapitre 3 : il part de [`docs/chapters/CH2-LEGACY.md`](docs/chapters/CH2-LEGACY.md) |
-| **État** | **Epic 5 close : le chapitre 2 est livré** (douze scènes, de la photo au Blue Purple, bilan de nuit avec la photo), revu au clic avec les trois profils et depuis une archive réelle du chapitre 1. Le lot 5.12 (slow cinématique, piste locale du propriétaire et tirs CC0) est livré ; reste la génération du portrait P06b (Zachary blessé ; substitut en place). Epics 1 et 2 clos. Epic 3 : les lots 3.1 à 3.7 sont livrés — on traverse l'académie et le centre d'examen à pied, chaque salle se joue **beat par beat** (une entité, un moment, puis la main au joueur), le combat suit le portail. Le chapitre s'enchaîne de bout en bout, vérifié. Reste 3.8 (revue de bout en bout). Epic 4, la refonte visuelle : passes A à G livrées (habillage déclaratif ADR 0017, composition des pièces, matières et lumières locales ADR 0018, personnages en combat, performance et simplification) ; reste la passe H. Restent de l'epic 2 : les portraits et la musique (2.11), l'export du dossier au joueur (2.12) |
-| **Détail** | [`docs/process/ROADMAP.md`](docs/process/ROADMAP.md) |
+|                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Epic en cours** | aucun : l'epic 5 (chapitre 2, « La nuit du bal », [`docs/chapters/ch2/`](docs/chapters/ch2/)) est clos                                                                                                                                                                                                                                                                                                                                                                  |
+| **Epic suivant**  | le chapitre 3 : il part de [`docs/chapters/CH2-LEGACY.md`](docs/chapters/CH2-LEGACY.md)                                                                                                                                                                                                                                                                                                                                                                                 |
+| **État**          | Chapitres 1 et 2 livrés ; chapitre 2 revu au clic avec trois profils et une archive ch1. Décors AAA, murs fixes/découverte et performance d'entrée documentés (ADR 0037–0040). Cadets MPFB/Mixamo intégrés au jeu (ADR 0041). Portraits et fond sonore livrés (2.11, ADR 0042) ; P06b produit, encore « à valider » au manifeste. Restent les revues globales 3.8/H et l'export manuel du dossier 2.12 ; ne pas les déclarer finis sur la seule foi des revues ciblées. |
+| **Détail**        | [`docs/process/ROADMAP.md`](docs/process/ROADMAP.md)                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
 ## 3. Les huit règles à ne pas enfreindre
 
@@ -53,13 +59,15 @@ Lecture obligatoire avant de coder : [`docs/INDEX.md`](docs/INDEX.md).
 
 ```bash
 npm install
-npm run dev          # http://localhost:5173
+npm run doctor       # prérequis visibles, sans compte ni génération
+npm run dev          # http://localhost:5173/cyberpunk-holt/
+npm run workflow:check # docs, skills et profils cohérents
 npm run verify       # typecheck + lint + tests + build
 npm run test:e2e     # Playwright (lance le build et le serveur de preview)
 npx tsx scripts/simulate.ts 200 equilibrage   # 200 combats IA vs IA, statistiques
 ```
 
-Rejouer une partie précise : `http://localhost:5173/?seed=ma-graine`.
+Rejouer une partie précise : `http://localhost:5173/cyberpunk-holt/?seed=ma-graine`.
 Accélérer l'IA pour les tests : `&ai=0`.
 
 ## 5. Carte du code
@@ -69,11 +77,15 @@ src/
   core/        RNG seedé, sauvegarde, dossier du candidat        — zéro dépendance
   rules/       CPRED-lite : attributs, jets de dés, fiches, notation — zéro dépendance
   tactical/    grille, vue, chemin, moteur de combat, IA         — zéro dépendance
+  narrative/   dialogues, état de partie, routeur de chapitres  — sans DOM/three
+  explore/     cartes, déplacement, objectifs, découverte      — sans DOM/three
+  audio/       fond commun, bruitages et cycle de lecture
   render/      three.js : caméra iso, décor, rigs de personnages
   ui/          HUD en HTML/CSS posé au-dessus du canvas
   data/        contenu équilibrable (fiches, carte)
   debug/       API `window.__game` pilotée par les tests e2e
   app.ts       seul point où gameplay et rendu se rencontrent
+  chapter.ts   raccord entre récit, exploration, tactique et audio
   main.ts      point d'entrée
 ```
 
@@ -92,6 +104,13 @@ Détail et justification : [`docs/process/ARCHITECTURE.md`](docs/process/ARCHITE
   `docs/process/DEBUG_API.md` et dans `tests/e2e/debug-api.d.ts`.
 - **Ne jamais committer de clé, de token ou de secret.** Rien de ce genre n'est nécessaire
   pour ce projet.
+- **ElevenLabs** : utiliser d'abord [`AUDIO-WORKFLOW.md`](docs/art/AUDIO-WORKFLOW.md)
+  et vérifier la CLI OAuth existante avant de demander une clé. CLI, MCP et SDK ont des
+  accès distincts ; ne jamais transférer un jeton entre eux. Le skill générique `agents`
+  désigne des agents vocaux ElevenLabs, pas les agents de développement du dépôt.
+- **Documentation et profils** : modifier la procédure source dans `docs/`, puis
+  `npm run agents:sync` pour les adaptateurs ; `npm run workflow:check` vérifie les liens
+  et la dérive. Les anciens plans/revues sont des preuves datées, pas l'état courant.
 - **Assets** : ne pas committer de binaires lourds. `public/assets/` accueille les fichiers
   légers ; au-delà de quelques Mo, voir `docs/art/ART-PIPELINE.md`. **Une seule exception,
   décidée par le propriétaire du projet** : `docs/art/Reference_pictures/` (26 Mo) est
@@ -145,17 +164,17 @@ bon ordre de grandeur ; au-delà, c'est que des tests unitaires auraient fait le
 
 Utiliser ces termes, en français, partout — y compris dans les logs et les messages d'erreur.
 
-| Terme | Sens |
-|---|---|
-| cadet | un des six personnages jouables du chapitre 1 |
-| équipe bleue / rouge | les deux camps de l'exercice tactique final |
-| neutralisé | touché au taser, hors jeu jusqu'à un soin — il n'y a **pas** de morts |
-| PM | points de mouvement, un par case |
-| DV | difficulté à atteindre lors d'un jet |
-| couvert bas / haut | +3 / +5 à la DV du tireur |
-| à découvert | a couru à son dernier tour, donc plus facile à toucher |
-| dossier du candidat | mémoire persistante du joueur entre les chapitres |
-| graine | chaîne qui détermine intégralement l'aléatoire d'une partie |
+| Terme                | Sens                                                                  |
+| -------------------- | --------------------------------------------------------------------- |
+| cadet                | un des six personnages jouables du chapitre 1                         |
+| équipe bleue / rouge | les deux camps de l'exercice tactique final                           |
+| neutralisé           | touché au taser, hors jeu jusqu'à un soin — il n'y a **pas** de morts |
+| PM                   | points de mouvement, un par case                                      |
+| DV                   | difficulté à atteindre lors d'un jet                                  |
+| couvert bas / haut   | +3 / +5 à la DV du tireur                                             |
+| à découvert          | a couru à son dernier tour, donc plus facile à toucher                |
+| dossier du candidat  | mémoire persistante du joueur entre les chapitres                     |
+| graine               | chaîne qui détermine intégralement l'aléatoire d'une partie           |
 
 ## 8. Si vous êtes bloqué
 

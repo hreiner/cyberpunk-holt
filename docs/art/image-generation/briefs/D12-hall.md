@@ -1,23 +1,23 @@
 # D12 — Hall d'entrée du bâtiment (Briefing)
 
-| | |
-|---|---|
-| **Fichier livré** | `public/assets/backdrops/hall.webp` — 1920 × 825 WebP, q80 |
-| **Master** | 2560 × 1100 PNG, `art-masters/D12-hall.png` |
-| **Lot** | C — les décors de scène |
+|                         |                                                                                                                                                |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Fichier livré**       | `public/assets/backdrops/hall.webp` — 1920 × 825 WebP, q80                                                                                     |
+| **Master**              | 2560 × 1100 PNG, `art-masters/D12-hall.png`                                                                                                    |
+| **Lot**                 | C — les décors de scène                                                                                                                        |
 | **Utilisé dans le jeu** | bandeau de la scène de briefing dans le hall (entité `npc` instructeur, distribution du matériel), carte de titre « Hall d'entrée — Briefing » |
 
 ## Références
 
-| Image | Ce qu'on en prend | Ce qu'on n'en prend pas |
-|---|---|---|
+| Image                                               | Ce qu'on en prend                                                                                                                                                                                                                 | Ce qu'on n'en prend pas                                                    |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `../../Reference_pictures/zoneexercicetactique.png` | uniquement la **matière et la palette** du bâtiment (béton taché, tôle rouillée, acier industriel, blocs de sécurité jaune-noir) : il n'y a pas de photo d'intérieur, le hall est **inventé** dans la continuité de cette matière | le rendu photo, le texte, la vue extérieure elle-même (c'est un intérieur) |
 
 ## Le sujet
 
 Le hall d'entrée du bâtiment d'examen, où l'instructeur fait le briefing et répartit les trois
 objets partagés entre les cadets : le **pistolet taser**, le **kit de soin**, l'**outil de
-piratage** (d'après [`09-MAPS-CHAPTER-1.md`](../../design/09-MAPS-CHAPTER-1.md)).
+piratage** (d'après [`09-MAPS-CHAPTER-1.md`](../../../design/09-MAPS-CHAPTER-1.md)).
 
 ## Composition
 

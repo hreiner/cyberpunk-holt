@@ -1,6 +1,9 @@
 # Feuille de route
 
-Le chapitre 1 est découpé en **trois epics**, menés l'un après l'autre.
+Le chapitre 1 occupe les epics 1 à 4 ; le chapitre 2, l'epic 5, est livré.
+Le prochain chapitre part de [CH2-LEGACY](../chapters/CH2-LEGACY.md).
+Les [workflows](../WORKFLOWS.md) donnent les recettes actuelles ; les plans et lots
+ci-dessous gardent leurs livraisons et reports historiques.
 
 L'ordre est délibéré : l'epic 1 traite d'abord le système le plus risqué (le combat
 tactique) et pose les fondations dont tout le reste dépend. L'epic 2 remplit le chapitre de
@@ -48,20 +51,20 @@ Reportés, sans bloquer la clôture :
 `npm run verify` est vert. Spécifications complètes dans
 [`../design/03-CHAPTER-1.md`](../design/03-CHAPTER-1.md).
 
-| Lot  | Contenu                                                                                                                   | État    |
-| ---- | ------------------------------------------------------------------------------------------------------------------------- | ------- |
-| 2.1  | Routeur de scènes : enchaîner les scènes, passer l'état, sauvegarder entre elles                                          | fait    |
-| 2.2  | Moteur de dialogue selon [`07-DIALOGUE-FORMAT.md`](../design/07-DIALOGUE-FORMAT.md), plus l'interface associée            | fait    |
-| 2.3  | Scènes 1 et 2 : introduction et discours du directeur                                                                     | fait    |
-| 2.4  | Scène 3 : examen écrit, entrées au dossier                                                                                | fait    |
-| 2.5  | Scènes 4 et 5 : tirage des équipes et hub de dialogue, affinités                                                          | fait    |
-| 2.6  | Scène 6 : trajet en fourgon                                                                                               | fait    |
-| 2.7  | Scène 7 : les trois salles, objets, dilemmes, état d'équipe                                                               | fait    |
-| 2.8  | Résolution hors champ de l'équipe adverse, remarques radio, minuteur invisible                                            | fait    |
-| 2.9  | Branchement de l'état du parcours sur la phase tactique                                                                   | fait    |
-| 2.10 | Scène 9 : bal de promo, conséquences, note complète                                                                       | fait    |
-| 2.11 | Portraits 2D, ambiance sonore, musique | portraits et fond sonore intégrés (ADR 0042) |
-| 2.12 | Export du dossier au joueur (fichier) — plus bloquant : le chapitre 2 lit une archive locale depuis le lot 5.2 (ADR 0022) | à faire |
+| Lot  | Contenu                                                                                                                   | État                                         |
+| ---- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| 2.1  | Routeur de scènes : enchaîner les scènes, passer l'état, sauvegarder entre elles                                          | fait                                         |
+| 2.2  | Moteur de dialogue selon [`07-DIALOGUE-FORMAT.md`](../design/07-DIALOGUE-FORMAT.md), plus l'interface associée            | fait                                         |
+| 2.3  | Scènes 1 et 2 : introduction et discours du directeur                                                                     | fait                                         |
+| 2.4  | Scène 3 : examen écrit, entrées au dossier                                                                                | fait                                         |
+| 2.5  | Scènes 4 et 5 : tirage des équipes et hub de dialogue, affinités                                                          | fait                                         |
+| 2.6  | Scène 6 : trajet en fourgon                                                                                               | fait                                         |
+| 2.7  | Scène 7 : les trois salles, objets, dilemmes, état d'équipe                                                               | fait                                         |
+| 2.8  | Résolution hors champ de l'équipe adverse, remarques radio, minuteur invisible                                            | fait                                         |
+| 2.9  | Branchement de l'état du parcours sur la phase tactique                                                                   | fait                                         |
+| 2.10 | Scène 9 : bal de promo, conséquences, note complète                                                                       | fait                                         |
+| 2.11 | Portraits 2D, ambiance sonore, musique                                                                                    | portraits et fond sonore intégrés (ADR 0042) |
+| 2.12 | Export du dossier au joueur (fichier) — plus bloquant : le chapitre 2 lit une archive locale depuis le lot 5.2 (ADR 0022) | à faire                                      |
 
 ### Dépendances entre lots
 
@@ -222,7 +225,7 @@ Références : [`../chapters/ch2/GAME-DESIGN.md`](../chapters/ch2/GAME-DESIGN.md
 
 Ordre de passage (décision du propriétaire, un lot à la fois) : 5.1, 5.2, 5.3, 5.A, 5.7, 5.4,
 5.5, 5.6, 5.8, 5.8b, 5.10, 5.9, 5.11, puis les ajouts après QA : 5.B, 5.11b, 5.15, 5.13, 5.16,
-5.14, 5.12, 5.18, 5.20, 5.21. Le portrait P06b attend la passe de génération. Les pistes du slow et des
+5.14, 5.12, 5.18, 5.20, 5.21. Le portrait P06b est produit et « à valider » au manifeste. Les pistes du slow et des
 égouts sont fournies localement par le propriétaire et ne sont pas versionnées.
 
 ## Après le chapitre 2

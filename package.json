@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "HOLT Academy - jeu de role cyberpunk, chapitre 1. Three.js + TypeScript.",
+  "description": "HOLT Academy - jeu de role cyberpunk, chapitres 1 et 2. Three.js + TypeScript.",
   "engines": {
     "node": ">=20.19"
   },
@@ -19,6 +19,9 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "verify": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "doctor": "node scripts/workflow-tools.mjs doctor",
+    "workflow:check": "node scripts/workflow-tools.mjs check",
+    "agents:sync": "node scripts/workflow-tools.mjs sync",
     "simulate": "tsx scripts/simulate.ts"
   },
   "dependencies": {

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cinématiques HOLT"
+  short_description: "Monter images, choix et audio en continuité"
+  default_prompt: "Utilise $holt-cinematic pour réaliser la tâche HOLT demandée et suivre ses sources."

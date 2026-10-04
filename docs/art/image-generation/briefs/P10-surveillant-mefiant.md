@@ -1,23 +1,23 @@
 # P10 — Portrait de Keith, soupçonneux (vigilance 2)
 
-| | |
-|---|---|
-| **Fichier livré** | `public/assets/portraits/surveillant-mefiant.webp` — 600 × 800 WebP, q85 |
-| **Master** | 1200 × 1600 PNG, `art-masters/P10-surveillant-mefiant.png` |
-| **Lot** | B — les portraits |
+|                         |                                                                                                                    |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Fichier livré**       | `public/assets/portraits/surveillant-mefiant.webp` — 600 × 800 WebP, q85                                           |
+| **Master**              | 1200 × 1600 PNG, `art-masters/P10-surveillant-mefiant.png`                                                         |
+| **Lot**                 | B — les portraits                                                                                                  |
 | **Utilisé dans le jeu** | grand portrait du dialogue (examen écrit, `ch1.exam`, niveau de vigilance 2 après une tentative de triche repérée) |
 
 ## Références
 
-| Image | Ce qu'on en prend | Ce qu'on n'en prend pas |
-|---|---|---|
-| `P09-surveillant.md` (portrait validé) | **l'identité complète** : même visage, même cadrage, même lumière, mêmes lunettes, même uniforme — c'est une variante d'expression, pas un nouveau personnage | tout changement de coiffure, d'uniforme ou de fond |
-| `../../Reference_pictures/instructeurs.png` (case « Keith ») | rappel du visage de base si besoin | le rendu photo |
+| Image                                                        | Ce qu'on en prend                                                                                                                                             | Ce qu'on n'en prend pas                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `P09-surveillant.md` (portrait validé)                       | **l'identité complète** : même visage, même cadrage, même lumière, mêmes lunettes, même uniforme — c'est une variante d'expression, pas un nouveau personnage | tout changement de coiffure, d'uniforme ou de fond |
+| `../../Reference_pictures/instructeurs.png` (case « Keith ») | rappel du visage de base si besoin                                                                                                                            | le rendu photo                                     |
 
 ## Le sujet
 
 Keith, le même surveillant que P09, un cran plus loin sur l'échelle de vigilance
-([ADR 0015](../../process/adr/0015-concentration-chance-et-triche.md)) : une tentative de triche
+([ADR 0015](../../../process/adr/0015-concentration-chance-et-triche.md)) : une tentative de triche
 a attiré son attention. Il n'a encore rien vu de sûr, mais il **doute**.
 
 ## Composition

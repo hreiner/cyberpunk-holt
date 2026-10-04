@@ -58,11 +58,11 @@ seul fichier hors de `src/narrative` autorisé à assembler le routeur de scène
 
 ### `src/core` — les fondations
 
-| Fichier | Rôle |
-|---|---|
-| `rng.ts` | générateur déterministe, sous-générateurs nommés |
-| `dossier.ts` | dossier du candidat, mémoire inter-chapitres |
-| `save.ts` | persistance `localStorage`, tolérante aux pannes |
+| Fichier      | Rôle                                             |
+| ------------ | ------------------------------------------------ |
+| `rng.ts`     | générateur déterministe, sous-générateurs nommés |
+| `dossier.ts` | dossier du candidat, mémoire inter-chapitres     |
+| `save.ts`    | persistance `localStorage`, tolérante aux pannes |
 
 `save.ts` est le seul fichier de `core` à toucher au navigateur, et il le fait derrière un
 garde : hors navigateur, il retombe silencieusement sur un dossier vide.
@@ -75,15 +75,15 @@ par les scènes narratives de l'epic 2.
 
 ### `src/tactical` — le combat
 
-| Fichier | Rôle |
-|---|---|
-| `types.ts` | contrats de données du combat |
-| `grid.ts` | carte, cases, voisinage, distances |
-| `los.ts` | ligne de vue, couvert |
-| `pathfinding.ts` | BFS déterministe |
-| `combat.ts` | machine à états, actions, résolution |
-| `queries.ts` | lectures pures : estimations, cases atteignables |
-| `ai.ts` | décisions de l'équipe adverse |
+| Fichier          | Rôle                                             |
+| ---------------- | ------------------------------------------------ |
+| `types.ts`       | contrats de données du combat                    |
+| `grid.ts`        | carte, cases, voisinage, distances               |
+| `los.ts`         | ligne de vue, couvert                            |
+| `pathfinding.ts` | BFS déterministe                                 |
+| `combat.ts`      | machine à états, actions, résolution             |
+| `queries.ts`     | lectures pures : estimations, cases atteignables |
+| `ai.ts`          | décisions de l'équipe adverse                    |
 
 `queries.ts` ne modifie jamais l'état et ne consomme jamais d'aléatoire : c'est ce qui permet
 à l'UI d'afficher « 62 % » sans influencer la partie.
@@ -93,18 +93,18 @@ par les scènes narratives de l'epic 2.
 Voir l'[ADR 0011](adr/0011-moteur-narratif-etat-de-partie-et-radio.md) et
 [`07-DIALOGUE-FORMAT.md`](../design/07-DIALOGUE-FORMAT.md).
 
-| Fichier | Rôle |
-|---|---|
-| `types.ts` | contrat exact du format de dialogue (`DialogueFile`, `Effect`, `Condition`, `TeamAlias`, ...) |
-| `runState.ts` | `RunState` : mémoire mécanique de la traversée (drapeaux, tempo, `TeamState` matériel, `roster` composition d'équipe ADR 0014 §7, `luck` Chance ADR 0015 §2, scène courante) |
-| `draft.ts` | moteur pur du tirage (ADR 0014 §3-4, lot 3.2) : machine à états (pool, picks, tour), choix déterministe d'Abigail, `rosterFromDraft`, `draftConsequences`/`applyDraftResult` (affinités, entrée de dossier, étiquette `equipe-bande`/`equipe-tactique`) |
-| `aliases.ts` | résolution des alias `equipier1`/`equipier2`/`rivale` (ADR 0014 §7, lot 3.1) et des gabarits `{equipier1}`... dans les textes |
-| `conditions.ts` / `effects.ts` | évaluation des `Condition`, application des `Effect` (purs) |
-| `odds.ts` | chance de réussite d'un jet, calculée analytiquement (aucun tirage) |
-| `dialogueRunner.ts` | parcours d'un graphe de dialogue : fonction quasi pure de `(graphe, RunState, Dossier, Rng)` ; porte aussi l'état `awaitingLuck` (ADR 0015 §2, lot 3.1) |
-| `radio.ts` | répliques de l'instructeur, couche parallèle aux graphes, déclenchées par seuil de tempo |
-| `sceneRouter.ts` | enchaînement linéaire et reprenable des neuf scènes du chapitre 1 |
-| `validate.ts` | attrape à la compilation ce que le typage ne voit pas (`to` pendant, DV numérique, ...) |
+| Fichier                        | Rôle                                                                                                                                                                                                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `types.ts`                     | contrat exact du format de dialogue (`DialogueFile`, `Effect`, `Condition`, `TeamAlias`, ...)                                                                                                                                                           |
+| `runState.ts`                  | `RunState` : mémoire mécanique de la traversée (drapeaux, tempo, `TeamState` matériel, `roster` composition d'équipe ADR 0014 §7, `luck` Chance ADR 0015 §2, scène courante)                                                                            |
+| `draft.ts`                     | moteur pur du tirage (ADR 0014 §3-4, lot 3.2) : machine à états (pool, picks, tour), choix déterministe d'Abigail, `rosterFromDraft`, `draftConsequences`/`applyDraftResult` (affinités, entrée de dossier, étiquette `equipe-bande`/`equipe-tactique`) |
+| `aliases.ts`                   | résolution des alias `equipier1`/`equipier2`/`rivale` (ADR 0014 §7, lot 3.1) et des gabarits `{equipier1}`... dans les textes                                                                                                                           |
+| `conditions.ts` / `effects.ts` | évaluation des `Condition`, application des `Effect` (purs)                                                                                                                                                                                             |
+| `odds.ts`                      | chance de réussite d'un jet, calculée analytiquement (aucun tirage)                                                                                                                                                                                     |
+| `dialogueRunner.ts`            | parcours d'un graphe de dialogue : fonction quasi pure de `(graphe, RunState, Dossier, Rng)` ; porte aussi l'état `awaitingLuck` (ADR 0015 §2, lot 3.1)                                                                                                 |
+| `radio.ts`                     | répliques de l'instructeur, couche parallèle aux graphes, déclenchées par seuil de tempo                                                                                                                                                                |
+| `sceneRouter.ts`               | enchaînement linéaire et reprenable des neuf scènes du chapitre 1                                                                                                                                                                                       |
+| `validate.ts`                  | attrape à la compilation ce que le typage ne voit pas (`to` pendant, DV numérique, ...)                                                                                                                                                                 |
 
 Comme `tactical`, ce module **n'importe ni `three` ni le DOM** : un dialogue se rejoue à
 l'identique dans Node, à la graine près. `src/data/dialogues/*.json` porte le contenu (texte
@@ -116,12 +116,12 @@ Un chapitre est une **donnée**, pas du code différent par chapitre : `ChapterD
 scenes, etapeFlag, initialLuck, radio, end }` (`src/narrative/chapter.ts`, pur, mêmes garanties
 que le reste de `src/narrative`). `src/data/chapters/` range le contenu :
 
-| Fichier | Rôle |
-|---|---|
-| `ch1.ts` | enveloppe `CHAPTER_1_SCENES` (inchangé) dans une `ChapterDef` |
-| `ch2.ts` | les 14 `SceneDef` du chapitre 2 (squelette, lot 5.1 — voir `docs/chapters/ch2/TECH-DESIGN.md` §4.4) |
-| `ch2Profiles.ts` | profils de départ pour qui commence directement au chapitre 2 (ADR 0022) — seul `neutre` est implémenté au lot 5.1 |
-| `index.ts` | registre `CHAPTERS: Record<ChapterId, ChapterDef>` et `chapterOfScene(sceneId)` |
+| Fichier          | Rôle                                                                                                       |
+| ---------------- | ---------------------------------------------------------------------------------------------------------- |
+| `ch1.ts`         | enveloppe `CHAPTER_1_SCENES` (inchangé) dans une `ChapterDef`                                              |
+| `ch2.ts`         | chapitre 2 livré : douze scènes narratives, avec étapes d'exploration et scènes jumelles (TECH-DESIGN ch2) |
+| `ch2Profiles.ts` | trois profils de départ livrés : Loyal, Solitaire et Neutre (ADR 0022)                                     |
+| `index.ts`       | registre `CHAPTERS: Record<ChapterId, ChapterDef>` et `chapterOfScene(sceneId)`                            |
 
 `ChapterApp` (`src/chapter.ts`) ne connaît que ce registre : son constructeur choisit une
 `ChapterDef` (`options.chapter`, ou le chapitre déduit de `options.startSceneId` via
@@ -146,12 +146,12 @@ Comme `tactical` et `narrative`, **n'importe ni `three` ni le DOM** (garde-fou d
 `tests/unit/exploreArchitecture.test.ts`, séparé de `tests/unit/architecture.test.ts` pour ne
 pas toucher un fichier partagé avec le reste de l'epic 3).
 
-| Fichier | Rôle |
-|---|---|
-| `types.ts` | contrat exact de `MapDef`/`EntityDef`/`Cell` (recopié de [`09-MAPS-CHAPTER-1.md`](../design/09-MAPS-CHAPTER-1.md)), `ObjectiveDef` |
-| `exploreMap.ts` | légende ASCII exploration (murs, portes, mobilier...), franchissabilité, voisinage 8 directions |
-| `pathing.ts` | BFS déterministe sans limite de budget (à la différence de `tactical/pathfinding.ts`, plafonné aux PM d'un tour) ; réutilise en lecture seule `DIRECTIONS`/`posKey` de `tactical/grid.ts` |
-| `validateMap.ts` | règles de `09-MAPS-CHAPTER-1.md` "Format des cartes" |
+| Fichier           | Rôle                                                                                                                                                                                                                                                             |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `types.ts`        | contrat exact de `MapDef`/`EntityDef`/`Cell` (recopié de [`09-MAPS-CHAPTER-1.md`](../design/09-MAPS-CHAPTER-1.md)), `ObjectiveDef`                                                                                                                               |
+| `exploreMap.ts`   | légende ASCII exploration (murs, portes, mobilier...), franchissabilité, voisinage 8 directions                                                                                                                                                                  |
+| `pathing.ts`      | BFS déterministe sans limite de budget (à la différence de `tactical/pathfinding.ts`, plafonné aux PM d'un tour) ; réutilise en lecture seule `DIRECTIONS`/`posKey` de `tactical/grid.ts`                                                                        |
+| `validateMap.ts`  | règles de `09-MAPS-CHAPTER-1.md` "Format des cartes"                                                                                                                                                                                                             |
 | `exploreState.ts` | `ExploreState` : position continue du meneur et des coéquipiers (filature par historique de trajet), portes, déclencheurs de zone, objectif courant, et l'API de debug `explore()`/`walkTo()`/`interact()`/`completeStep()` (08-EXPLORATION.md "L'API de debug") |
 
 Les conditions d'entité réutilisent telles quelles `Condition`/`evaluateCondition` de
@@ -159,7 +159,7 @@ Les conditions d'entité réutilisent telles quelles `Condition`/`evaluateCondit
 vivent dans `src/narrative/objective.ts` et sont réexportés tels quels par
 `src/explore/types.ts` (évite un cycle `narrative` -> `explore` -> `narrative`, `SceneDef`
 porte aussi un `objective`, voir plus bas). Le rendu vit dans `src/render/exploreView.ts`
-(murs en coupe recalculés à chaque quart de tour, portes, mobilier, rigs), l'encart d'objectif
+(murs entiers à hauteur fixe ADR 0039, contenus masqués par découverte, portes, mobilier, rigs), l'encart d'objectif
 dans `src/ui/objectiveHud.ts` + `src/ui/explore.css`. Banc d'essai (dev only, hors build) :
 `explore-lab.html` + `src/dev/exploreLab.ts`. Branché sur `chapter.ts` depuis le lot 3.6b (voir
 plus bas).
@@ -220,15 +220,15 @@ pilote `ChapterApp` (narratif compris), pas seulement le combat.
 
 ## Les invariants
 
-| Invariant | Pourquoi | Comment il est protégé |
-|---|---|---|
-| Pas de `Math.random()` dans `src/` | parties rejouables, tests stables | test d'architecture |
-| `core`/`rules`/`tactical`/`narrative` sans `three` ni DOM | logique testable dans Node | test d'architecture |
-| `tactical` et `narrative` ne touchent pas au DOM | simulation en lot possible, dialogues rejouables dans Node | test d'architecture |
-| Une action illégale renvoie `{ ok: false, reason }` | UI et IA partagent la même API | tests unitaires |
-| Tout trait « tactique » est réellement câblé | pas de trait décoratif qui ment | test d'architecture |
-| La carte reste rectangulaire et connexe | pas de terrain injouable | test unitaire |
-| Tous les fichiers de `src/data/dialogues/*.json` passent `validateDialogue` sans anomalie | pas de `to` pendant, de DV numérique ou de nœud inatteignable | test unitaire |
+| Invariant                                                                                 | Pourquoi                                                      | Comment il est protégé |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------- |
+| Pas de `Math.random()` dans `src/`                                                        | parties rejouables, tests stables                             | test d'architecture    |
+| `core`/`rules`/`tactical`/`narrative` sans `three` ni DOM                                 | logique testable dans Node                                    | test d'architecture    |
+| `tactical` et `narrative` ne touchent pas au DOM                                          | simulation en lot possible, dialogues rejouables dans Node    | test d'architecture    |
+| Une action illégale renvoie `{ ok: false, reason }`                                       | UI et IA partagent la même API                                | tests unitaires        |
+| Tout trait « tactique » est réellement câblé                                              | pas de trait décoratif qui ment                               | test d'architecture    |
+| La carte reste rectangulaire et connexe                                                   | pas de terrain injouable                                      | test unitaire          |
+| Tous les fichiers de `src/data/dialogues/*.json` passent `validateDialogue` sans anomalie | pas de `to` pendant, de DV numérique ou de nœud inatteignable | test unitaire          |
 
 Note sur `chapter.ts` : il **a le droit** de toucher au DOM (c'est le chef d'orchestre, pas le
 moteur), contrairement à `src/narrative`. Le test d'architecture ne liste que les répertoires
@@ -331,15 +331,22 @@ du DOM (`dismiss()`) au clic sur « Nouvelle partie » (`chapter.startNewGame()`
 `?seed=`, `?scene=` ou `?chapter=` — indispensable pour que les tests e2e démarrent directement
 dans la partie (voir `docs/process/DEBUG_API.md`).
 
-## Ce qui n'existe pas encore, et où ça ira
+## Points d'extension actuels
 
-| Besoin | Emplacement prévu |
-|---|---|
-| Le centre d'examen explorable (salles 1-3, cour de containers) | `src/data/maps/centre-examen.ts` + branchement sur `chapter.ts`, lot 3.7 -- même mécanisme que l'académie (lot 3.6b), avec en plus le passage au mode tactique (`tacticalArea`) |
-| Un vrai moteur physique (objets lancés, portes battantes...) | nouvel ADR si le besoin se confirme (ADR 0013 §"Conséquences") -- l'exploration actuelle reste sur la grille, sans Rapier |
-| Une nouvelle couleur musicale ou ambiance | `src/data/backgroundAudio.ts` et médias dans `public/assets/audio/background/` (ADR 0042) |
-| Portraits des cadets dans `NarrativeView` | lot de polish ultérieur, volontairement absent de la première passe d'UX (voir la tâche « branchement narratif ») |
-| Mini-jeu de piratage (salle 2) | délibérément écarté par l'ADR 0011 : c'est un jet ordinaire |
+| Besoin                                                       | Emplacement prévu                                                                                                                                                      |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Une carte d'exploration supplémentaire                       | gameplay dans `src/data/maps/`, habillage dans `src/data/exploreVisuals/` et inscription `art.visuals` ; le centre d'examen est livré, voir EXPLORATION-GRAPHICS-GUIDE |
+| Un vrai moteur physique (objets lancés, portes battantes...) | nouvel ADR si le besoin se confirme (ADR 0013 §"Conséquences") -- l'exploration actuelle reste sur la grille, sans Rapier                                              |
+| Une nouvelle couleur musicale ou ambiance                    | `src/data/backgroundAudio.ts` et médias dans `public/assets/audio/background/` (ADR 0042)                                                                              |
+| Un personnage parlant/portrait supplémentaire                | locuteurs dans le format narratif, registres de portraits et brief/manifeste ; les portraits des chapitres 1 et 2 sont intégrés                                        |
+| Mini-jeu de piratage (salle 2)                               | délibérément écarté par l'ADR 0011 : c'est un jet ordinaire                                                                                                            |
+
+`ChapterId` reste l'union `1 | 2`. Un chapitre 3 nécessite son extension et celle des
+points de sélection/profils/archives correspondants ; vérifier ENGINE-COUPLING en phase
+technique. Les cinématiques restent des vues propres à chaque montage, raccordées dans
+`chapter.ts`. Le pipeline MPFB/Mixamo des sept personnages est livré (ADR 0041) ;
+`MpfbCadetRig` et les rigs de repli implémentent le même contrat. Les guides maintenus
+sont accessibles depuis [WORKFLOWS](../WORKFLOWS.md).
 
 ### Fond sonore continu (ADR 0042)
 

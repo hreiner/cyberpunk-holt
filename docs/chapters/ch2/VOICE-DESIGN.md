@@ -19,8 +19,8 @@ français. L'anglais est une VO, pas une traduction littérale mot à mot.
 | Franklyn   | Harry — Fierce Warrior                   | 17 ans, sincère, parfois maladroit ; pas héroïque en permanence  |
 | Letitia    | Laura                                    | retenue, ironie tendre ; chuchote pendant le slow                |
 | John       | Rick — Calm & Basic                      | posé, informatif, une inquiétude discrète                        |
-| Zachary    | Lukas — Excited youthful young man       | vif au bal ; très affaibli et tendre aux égouts                   |
-| Abigail    | Ember — Energetic, Confident Protagonist | directe au bal ; incrédule, puis brisée aux égouts                |
+| Zachary    | Lukas — Excited youthful young man       | vif au bal ; très affaibli et tendre aux égouts                  |
+| Abigail    | Ember — Energetic, Confident Protagonist | directe au bal ; incrédule, puis brisée aux égouts               |
 | Narrateur  | George                                   | calme, peu présent ; se tait quand l'image et les sons suffisent |
 
 Les identifiants et paramètres du casting sont dans
@@ -81,9 +81,11 @@ plus lentes (`speed = 0,94`) et moins stylisées (`style = 0,24`) que celles du 
    [guide officiel des Audio Tags](https://elevenlabs.io/blog/v3-audiotags#how-do-audio-tags-work)
    détaille leur comportement. Si une prise prononce un tag ou sonne artificielle, réécrire
    le prompt ou changer la prise ; le tag ne garantit pas seul l'émotion.
-3. Pour les prises actuelles, installer la CLI (`npm i -g @elevenlabs/cli`), puis se connecter
-   avec `elevenlabs auth login` sur son propre poste. Ne jamais placer une clé ou un jeton dans
-   le dépôt. Depuis sa racine, les deux scripts créent seulement les MP3 absents. Pour refaire
+3. Pour les prises actuelles, vérifier d'abord la CLI existante et `elevenlabs auth status`.
+   Installer la CLI seulement si elle manque ; `elevenlabs auth login` sert uniquement à
+   une session absente ou expirée. Suivre [AUDIO-WORKFLOW](../../art/AUDIO-WORKFLOW.md).
+   Ne jamais placer une clé ou un jeton dans le dépôt. Depuis sa racine, les deux scripts
+   créent seulement les MP3 absents ou vides. Pour refaire
    **une** prise après un changement de texte :
 
    ```bash
@@ -91,7 +93,8 @@ plus lentes (`speed = 0,94`) et moins stylisées (`style = 0,24`) que celles du 
    npx tsx scripts/generate-ch2-zachary-voices.ts --file=egouts-zachary-abi --force
    ```
 
-   `--force` sans `--file` refait **toutes** les prises du script et consomme le quota. Pour une
+   `--force` exige désormais une cible `--file` et refuse une reprise globale accidentelle.
+   Ajouter `--dry-run` pour une prévisualisation sans service ni écriture. Pour une
    nouvelle scène, reprendre un manifeste et un script de génération, puis raccorder les fichiers
    au `ChapterVoiceover` commun ; toute décision d'architecture nouvelle demande un ADR. Les fichiers légers
    vont dans `public/assets/audio/voices/`, la provenance dans
