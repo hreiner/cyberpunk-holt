@@ -42,7 +42,7 @@ jets, le dé 3D, la radio, le combat restent ce qu'ils sont.
 | Interagir              | clic gauche sur un objet ou un personnage | **appui** dessus         | `Espace` sur l'objet survolé le plus proche   |
 | Déplacer la caméra     | glisser                                   | **glisser**              | les quatre **flèches**                        |
 | Recentrer sur Franklyn | —                                         | —                        | `C`                                           |
-| Tourner la caméra      | —                                         | —                        | `A` / `E` (quarts de tour, comme en tactique) |
+| Tourner la caméra      | bouton « ↻ Tourner la caméra »              | appui sur ce bouton       | `A` / `E` (quarts de tour, comme en tactique) |
 | Zoom                   | **molette**, en continu                   | **pincer** à deux doigts | `+` / `−`                                     |
 | Montrer l'objectif     | —                                         | —                        | `Tab` maintenu                                |
 | Journal                | —                                         | —                        | `J`                                           |
@@ -63,7 +63,7 @@ pendant que le terrain, lui, se jouait dans la fente qui restait. Le repliement 
 place pour de bon — la caméra se recadre sur la zone libre à chaque bascule, elle ne se
 contente pas de décaler l'image.
 
-Ce qui reste au clavier seul (recentrage, rotation en exploration, objectif, journal) est du
+Ce qui reste au clavier seul (recentrage, objectif, journal) est du
 CONFORT : on joue sans. Ce qui ne l'est pas — se déplacer, interagir, cadrer — a toujours un
 geste.
 
@@ -109,6 +109,13 @@ geste.
 - **On ne marche jamais sur une entité.** Une destination qui tombe sur la case d'un
   personnage ou d'un objet est ramenée à sa case d'interaction. Seul un `seat` s'occupe :
   on s'assoit dessus, c'est le geste.
+
+La barre de commandes en bas à droite regroupe « ↻ Tourner la caméra » (un quart de tour
+horaire) et le son commun. La Chance et la jauge restent en haut à droite, l'objectif en
+haut à gauche. Sur petit écran, le repère et les répliques brèves remontent au-dessus des
+commandes tactiles de 44 px. La Chance garde sa ligne en haut et l'objectif descend en
+dessous ; une jauge d'état visible réserve une seconde ligne. La barre de rotation
+disparaît pendant les conversations.
 
 ## La caméra et les murs
 

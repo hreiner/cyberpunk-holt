@@ -44,6 +44,7 @@ interface Callbacks {
 }
 
 export class HallCinematic {
+  private onFadeComplete: (() => void) | undefined;
   private readonly root: HTMLElement;
   private readonly images: [HTMLImageElement, HTMLImageElement];
   private readonly caption: HTMLElement;
@@ -233,8 +234,9 @@ export class HallCinematic {
     if (this.underlyingView) this.underlyingView.inert = false;
   }
 
-  fadeOut(): void {
+  fadeOut(onComplete?: () => void): void {
     if (this.disposed || this.fading) return;
+    this.onFadeComplete = onComplete;
     this.dismissVisual();
     this.fading = true;
     this.voiceMixFade.cancel();
@@ -257,5 +259,14 @@ export class HallCinematic {
     this.music.pause();
     this.music.removeAttribute('src');
     this.music.load();
+    this.onFadeComplete?.();
+    this.onFadeComplete = undefined;
+  }
+  setSoundMuted(muted: boolean): void {
+    this.music.muted = muted;
+    this.updateMuteButton();
+    if (!muted && this.started && !document.hidden && !this.disposed) {
+      void this.music.play().catch(() => undefined);
+    }
   }
 }

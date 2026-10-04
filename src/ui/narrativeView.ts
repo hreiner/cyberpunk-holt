@@ -1058,7 +1058,7 @@ export class NarrativeView {
     window.clearTimeout(this.sceneCardTimer);
     this.radioTimers.forEach((t) => window.clearTimeout(t));
     this.gaugeView.dispose();
-    this.sfx.stopSamples();
+    this.sfx.dispose();
     this.root.remove();
   }
 

@@ -2036,3 +2036,67 @@ canvas {
     opacity: 1;
   }
 }
+
+/* Commandes communes : la caméra d'exploration reste accessible au doigt. */
+.chapter-toolbar {
+  position: fixed;
+  top: max(20px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  gap: 8px;
+  max-width: calc(100vw - 24px);
+}
+.chapter-toolbar .btn {
+  min-height: 44px;
+  padding: 8px 12px;
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+  background: var(--ink);
+}
+.chapter-toolbar[data-mode='explore'] {
+  top: auto;
+  left: auto;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  transform: none;
+}
+.chapter-toolbar[hidden],
+.chapter-toolbar .btn[hidden],
+#app:has(.slow-cinematic):not(:has(.title-screen)) .chapter-toolbar {
+  display: none;
+}
+/* Le titre et la radio gardent chacun leur côté de cette bande supérieure. */
+#app:has(.chapter-toolbar[data-mode='dialogue']) .narrative-scene-tag {
+  max-width: calc(50vw - 100px);
+}
+@media (max-width: 640px) {
+  .chapter-toolbar {
+    left: auto;
+    right: max(12px, env(safe-area-inset-right));
+    top: max(12px, env(safe-area-inset-top));
+    transform: none;
+  }
+  .chapter-toolbar[data-mode='explore'] {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    gap: 6px;
+  }
+  .chapter-toolbar .btn {
+    padding-inline: 10px;
+  }
+  #app:has(.chapter-toolbar[data-mode='dialogue']) .narrative-scene-tag {
+    max-width: calc(100vw - 160px);
+  }
+  #app:has(.chapter-toolbar[data-mode='dialogue']) .narrative-radio-stack {
+    top: 108px;
+  }
+  /* Les répliques et le repère restent au-dessus de la barre tactile. */
+  .explore-selected-label {
+    bottom: 72px;
+  }
+  .brief-line-narration {
+    bottom: 112px;
+  }
+}

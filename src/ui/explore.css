@@ -233,3 +233,14 @@
     animation: none;
   }
 }
+
+/* Sur mobile, la réserve de Chance a sa propre ligne au-dessus de l'objectif. */
+@media (max-width: 640px) {
+  .objective-hud {
+    top: 64px;
+  }
+  /* Une jauge visible occupe une ligne de plus dans le même emplacement. */
+  .explore-gauge-slot:has(> .gauge-hud:not(.status-chip):not([style*='display: none'])) ~ .objective-hud {
+    top: 108px;
+  }
+}

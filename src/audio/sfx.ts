@@ -14,6 +14,7 @@ import { createRng } from '@/core/rng';
 
 export type SfxName =
   | 'click'
+  | 'dice-roll'
   | 'shot'
   | 'miss'
   | 'hit'
@@ -53,7 +54,14 @@ interface Tone {
 
 /** Recette de chaque son : des sons de synthese, faciles a ajuster. */
 const TONES: Record<SfxName, Tone[]> = {
-  click: [{ type: 'square', from: 900, to: 700, seconds: 0.04, gain: 0.25 }],
+  click: [{ type: 'sine', from: 800, to: 650, seconds: 0.04, gain: 0.1 }],
+  'dice-roll': [
+    { type: 'triangle', from: 520, to: 160, seconds: 0.045, gain: 0.13 },
+    { type: 'triangle', from: 430, to: 120, seconds: 0.045, gain: 0.11, delay: 0.09 },
+    { type: 'triangle', from: 360, to: 100, seconds: 0.05, gain: 0.09, delay: 0.21 },
+    { type: 'triangle', from: 280, to: 80, seconds: 0.06, gain: 0.065, delay: 0.36 },
+    { type: 'triangle', from: 220, to: 70, seconds: 0.065, gain: 0.04, delay: 0.53 },
+  ],
   shot: [
     { type: 'sawtooth', from: 1500, to: 160, seconds: 0.2, gain: 0.5 },
     { type: 'square', from: 90, to: 60, seconds: 0.12, gain: 0.3 },
@@ -82,6 +90,7 @@ const TONES: Record<SfxName, Tone[]> = {
 
 /** Salves de bruit blanc (en secondes) ajoutees a certains sons. */
 const NOISE: Partial<Record<SfxName, { seconds: number; gain: number; delay?: number }>> = {
+  'dice-roll': { seconds: 0.58, gain: 0.015 },
   shot: { seconds: 0.12, gain: 0.35 },
   hit: { seconds: 0.2, gain: 0.4, delay: 0.1 },
   melee: { seconds: 0.1, gain: 0.5 },
@@ -98,6 +107,7 @@ export class Sfx {
   private noise: AudioBuffer | null = null;
   private muted: boolean;
   private ducked = false;
+  private disposed = false;
   private readonly activeSamples = new Map<HTMLAudioElement, number>();
 
   constructor(
@@ -114,6 +124,8 @@ export class Sfx {
   setMuted(muted: boolean): void {
     this.muted = muted;
     if (muted) this.stopSamples();
+    if (this.master)
+      this.master.gain.value = muted ? 0 : MASTER_VOLUME * (this.ducked ? VOICE_DUCKING_SCALE : 1);
   }
 
   /** Laisse les tirs en fond, sans masquer une réplique déjà en cours. */
@@ -121,7 +133,7 @@ export class Sfx {
     this.ducked = ducked;
     const scale = ducked ? VOICE_DUCKING_SCALE : 1;
     for (const [sample, volume] of this.activeSamples) sample.volume = volume * scale;
-    if (this.master) this.master.gain.value = MASTER_VOLUME * scale;
+    if (this.master) this.master.gain.value = this.muted ? 0 : MASTER_VOLUME * scale;
   }
 
   stopSamples(): void {
@@ -133,6 +145,16 @@ export class Sfx {
     this.activeSamples.clear();
   }
 
+  dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.stopSamples();
+    if (this.context) void this.context.close().catch(() => undefined);
+    this.context = null;
+    this.master = null;
+    this.noise = null;
+  }
+
   /** A appeler depuis un geste utilisateur : leve le blocage de lecture automatique. */
   unlock(): void {
     const context = this.ensureContext();
@@ -140,7 +162,7 @@ export class Sfx {
   }
 
   play(name: SfxName): void {
-    if (this.muted) return;
+    if (this.muted || this.disposed) return;
     const sample = SAMPLE_FILES[name];
     if (sample && this.enabled) {
       const media = new Audio(`${import.meta.env.BASE_URL}assets/audio/${sample.file}`);
@@ -169,7 +191,7 @@ export class Sfx {
   }
 
   private ensureContext(): AudioContext | null {
-    if (!this.enabled) return null;
+    if (!this.enabled || this.disposed) return null;
     if (this.context) return this.context;
     try {
       const Ctor =
@@ -178,7 +200,7 @@ export class Sfx {
       if (!Ctor) return null;
       this.context = new Ctor();
       this.master = this.context.createGain();
-      this.master.gain.value = MASTER_VOLUME * (this.ducked ? VOICE_DUCKING_SCALE : 1);
+      this.master.gain.value = this.muted ? 0 : MASTER_VOLUME * (this.ducked ? VOICE_DUCKING_SCALE : 1);
       this.master.connect(this.context.destination);
       return this.context;
     } catch {

@@ -25,7 +25,10 @@ export interface DicePlayer {
 export class LiveDicePlayer implements DicePlayer {
   private roller: DiceRoller | null = null;
 
-  constructor(private readonly host: HTMLElement) {}
+  constructor(
+    private readonly host: HTMLElement,
+    private readonly onThrowStart?: () => void,
+  ) {}
 
   /**
    * `DiceRoller` construit son canevas des le constructeur (voir
@@ -35,7 +38,8 @@ export class LiveDicePlayer implements DicePlayer {
    * tactique (`window.__game.newGame()`) ne doit jamais en voir la trace.
    */
   private ensureRoller(): DiceRoller {
-    if (!this.roller) this.roller = new DiceRoller(this.host, { manual: true });
+    if (!this.roller)
+      this.roller = new DiceRoller(this.host, { manual: true, onThrowStart: this.onThrowStart });
     return this.roller;
   }
 
@@ -67,6 +71,6 @@ export class NullDicePlayer implements DicePlayer {
   }
 }
 
-export function createDicePlayer(host: HTMLElement, enabled: boolean): DicePlayer {
-  return enabled ? new LiveDicePlayer(host) : new NullDicePlayer();
+export function createDicePlayer(host: HTMLElement, enabled: boolean, onThrowStart?: () => void): DicePlayer {
+  return enabled ? new LiveDicePlayer(host, onThrowStart) : new NullDicePlayer();
 }

@@ -196,7 +196,7 @@ jamais au milieu d'un dialogue.
 les CONVERSATIONS narratives (scènes `dialogue` et conversations annexes d'exploration),
 `ObjectiveHud`/`BriefLineView` pour l'exploration (08-EXPLORATION.md), `ReportView` pour le
 bilan de l'exercice et l'ecran de cloture, `DraftView` pour l'ecran de tirage (ADR 0014, lot
-3.2), `TitleView` pour l'ecran titre) ; `audio/` du Web Audio pur (bruitages synthétisés). Les
+3.2), `TitleView` pour l'ecran titre) ; `audio/` du Web Audio pour les bruitages et des lecteurs HTML Audio pour le fond continu (ADR 0042). Les
 trois (`render`, `ui`, `audio`) sont remplaçables sans toucher au gameplay. L'interface est en
 HTML parce que c'est plus rapide à itérer, accessible, et directement testable par Playwright
 via des `data-testid`.
@@ -337,6 +337,24 @@ dans la partie (voir `docs/process/DEBUG_API.md`).
 |---|---|
 | Le centre d'examen explorable (salles 1-3, cour de containers) | `src/data/maps/centre-examen.ts` + branchement sur `chapter.ts`, lot 3.7 -- même mécanisme que l'académie (lot 3.6b), avec en plus le passage au mode tactique (`tacticalArea`) |
 | Un vrai moteur physique (objets lancés, portes battantes...) | nouvel ADR si le besoin se confirme (ADR 0013 §"Conséquences") -- l'exploration actuelle reste sur la grille, sans Rapier |
-| Audio narratif et musique | `src/audio/` avec Howler.js ; les bruitages de combat y existent déjà, synthétisés (ADR 0010) |
+| Une nouvelle couleur musicale ou ambiance | `src/data/backgroundAudio.ts` et médias dans `public/assets/audio/background/` (ADR 0042) |
 | Portraits des cadets dans `NarrativeView` | lot de polish ultérieur, volontairement absent de la première passe d'UX (voir la tâche « branchement narratif ») |
 | Mini-jeu de piratage (salle 2) | délibérément écarté par l'ADR 0011 : c'est un jet ordinaire |
+
+### Fond sonore continu (ADR 0042)
+
+`ChapterApp` possède `BackgroundAudio` (`src/audio/background.ts`) et la préférence sonore
+commune. `src/data/backgroundAudio.ts` choisit musique et ambiance par scène et ajuste
+l'ambiance par pièce ; `ExploreSession.onLocationChange` signale aussi les retours dans
+une pièce déjà découverte. Une conversation garde son fond. `main.ts` signale le titre,
+qui est un calque sur une partie déjà construite. Les voix signalent leur prise de parole
+au même contrôleur. Les trois montages prennent l'exclusivité jusqu'à la fin effective
+de leur chanson ; les lecteurs sortants restent possédés pendant leur fondu et sont
+nettoyés lors d'un saut forcé, d'un nouveau montage ou de la destruction. Le HUD tactique
+émet `onSoundMutedChange` et reçoit `setSoundMuted` pour partager la même préférence.
+
+Le même propriétaire pilote `interfaceSfx` : clic unique des boutons après leur action,
+muet et baisse sous les voix partagés. Le son du dé est signalé au début réel du premier
+lancer par `DiceRoller.onThrowStart`, transmis par `LiveDicePlayer` ; le lecteur sans
+animation n'appelle jamais ce callback. Le fond du titre est une composition indépendante
+du fond Academy des scènes du chapitre 1.

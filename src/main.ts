@@ -102,11 +102,15 @@ if (characterAssetsReady) {
   installDebugApi(chapter);
 
   // Utile en developpement comme pour les rapports de bug.
-  console.info(`[HOLT] chapitre ${chapter.run.chapter} - graine "${chapter.run.seed}" - scene "${chapter.run.sceneId}"`);
+  console.info(
+    `[HOLT] chapitre ${chapter.run.chapter} - graine "${chapter.run.seed}" - scene "${chapter.run.sceneId}"`,
+  );
 
   if (showTitle) {
+    chapter.setMenuVisible(true);
     const resumeSceneTitle = hadResumableRun
-      ? (CHAPTERS[chapter.run.chapter].scenes.find((s) => s.id === chapter.run.sceneId)?.title ?? chapter.run.sceneId)
+      ? (CHAPTERS[chapter.run.chapter].scenes.find((s) => s.id === chapter.run.sceneId)?.title ??
+        chapter.run.sceneId)
       : null;
     // ADR 0022 §3 : decide si « Chapitre 2 » reprend l'archive du chapitre 1 directement, ou
     // ouvre le choix de profil -- lu AVANT tout demarrage de chapitre 2, jamais influence par
@@ -117,15 +121,21 @@ if (characterAssetsReady) {
         // Graine fraiche et TOUJOURS le chapitre 1 (retour de QA) : jamais la graine ni le
         // chapitre de la session eventuellement reprise en arriere-plan par `chapter`.
         chapter.startChapter(1);
+        chapter.setMenuVisible(false);
         title.dismiss();
       },
-      onResume: () => title.dismiss(),
+      onResume: () => {
+        chapter.setMenuVisible(false);
+        title.dismiss();
+      },
       onContinueChapter2: () => {
         chapter.startChapter(2, { useArchive: true });
+        chapter.setMenuVisible(false);
         title.dismiss();
       },
       onChooseProfile: (profile) => {
         chapter.startChapter(2, { profile });
+        chapter.setMenuVisible(false);
         title.dismiss();
       },
       // QA (src/dev/scenePresets.ts) : ecrit la partie de la branche choisie comme une

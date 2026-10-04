@@ -41,7 +41,7 @@ import { loadSession } from '@/core/save';
 import { getCharacter } from '@/rules/character';
 import { discoveredRoomIdsForMap } from '@/narrative';
 import type { FollowerId, GaugeDef, NarrativeContext, SceneDef } from '@/narrative';
-import { ExploreState } from '@/explore';
+import { ExploreState, roomAt } from '@/explore';
 import type { Cell, EntityDef, ExploreEvent, InteractableInfo, MapDef } from '@/explore';
 import { ExploreView, KEY_ZOOM_SPEED } from '@/render/exploreView';
 import type { HoverTarget } from '@/render/exploreView';
@@ -118,6 +118,8 @@ export interface ExploreSessionCallbacks {
    * persister une piece decouverte (voir `ChapterApp.handleExploreEvent`).
    */
   onEvent(ev: ExploreEvent): void;
+  /** Lieu courant, y compris une pièce déjà découverte visitée de nouveau. */
+  onLocationChange?(mapId: string, roomId: string | undefined): void;
 }
 
 /** Compteurs WebGL de la dernière image d'exploration, ombres incluses. */
@@ -168,6 +170,7 @@ export class ExploreSession {
   private followerRigIds: string[] = [];
   /** Bruitages d'exploration (ADR 0024 §2, ex. les repliques de pression). */
   private readonly sfx = new Sfx(true, loadSession().soundMuted);
+  private audioLocationKey = '';
   private readonly heldKeys: ExploreHeldKeys = {
     up: false,
     down: false,
@@ -212,8 +215,8 @@ export class ExploreSession {
       this.heldKeys.zoomOut = true;
       return;
     }
-    if (e.key === 'a' || e.key === 'A') this.view?.rotate(-1);
-    else if (e.key === 'e' || e.key === 'E') this.view?.rotate(1);
+    if (e.key === 'a' || e.key === 'A') this.rotateCamera(-1);
+    else if (e.key === 'e' || e.key === 'E') this.rotateCamera(1);
     else if (e.key === 'c' || e.key === 'C') this.centerCameraOnLeader();
     else if ((e.key === ' ' || e.code === 'Space') && !this.hud?.hasSelection() && this.hoveredEntityId) {
       e.preventDefault();
@@ -301,6 +304,17 @@ export class ExploreSession {
     this.syncVisibility();
     this.hud?.setGauge(this.gaugeStatusFor(ctx));
     this.hud?.setLuck(ctx.run.luck);
+    this.updateAudioLocation();
+  }
+
+  private updateAudioLocation(): void {
+    if (!this.state) return;
+    const map = this.state.map.def;
+    const roomId = roomAt(map, this.state.leaderCell())?.id;
+    const key = `${map.id}:${roomId ?? ''}`;
+    if (key === this.audioLocationKey) return;
+    this.audioLocationKey = key;
+    this.callbacks.onLocationChange?.(map.id, roomId);
   }
 
   /**
@@ -481,6 +495,11 @@ export class ExploreSession {
    * périmée d'une étape entière -- défaut réel constaté en vérification visuelle du lot
    * 3.6b (la caméra ne bougeait pas d'une étape à l'autre).
    */
+  /** Même quart de tour depuis les touches A/E et le bouton d'exploration. */
+  rotateCamera(step: number): void {
+    this.view?.rotate(step);
+  }
+
   centerCameraOnLeader(): void {
     if (!this.state || !this.view) return;
     this.view.centerOn(this.state.leaderCell());
@@ -543,7 +562,7 @@ export class ExploreSession {
   dispose(): void {
     this.pause();
     this.host.removeEventListener('pointerdown', this.onPointerUnlock);
-    this.sfx.stopSamples();
+    this.sfx.dispose();
     this.stableLights?.dispose();
     this.stableLights = null;
     this.view?.dispose();
@@ -752,6 +771,7 @@ export class ExploreSession {
         this.callbacks.onEvent(ev);
         if (loopId !== this.loopId) return;
       }
+      this.updateAudioLocation();
 
       view.panScreenRelative(this.heldKeys, dt);
       if (this.heldKeys.zoomIn) view.zoomBy(-KEY_ZOOM_SPEED * dt, this.aspect());

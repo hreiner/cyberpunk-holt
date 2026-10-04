@@ -35,11 +35,14 @@ export interface DiceRollRequest {
 export interface DiceRollerOptions {
   /** Le joueur doit cliquer/Espace pour lancer chaque de. Par defaut `true`. */
   manual?: boolean;
+  /** Un seul cue au premier lancer réel du jet, jamais à ses relances critiques. */
+  onThrowStart?(): void;
 }
 
 export class DiceRoller {
   private readonly host: HTMLElement;
   private readonly manual: boolean;
+  private readonly onThrowStart?: () => void;
 
   private readonly overlay: HTMLDivElement;
   private readonly labelEl: HTMLDivElement;
@@ -92,6 +95,7 @@ export class DiceRoller {
   constructor(host: HTMLElement, options: DiceRollerOptions = {}) {
     this.host = host;
     this.manual = options.manual ?? true;
+    this.onThrowStart = options.onThrowStart;
 
     this.overlay = document.createElement('div');
     this.overlay.className = 'dice3d-overlay';
@@ -244,7 +248,11 @@ export class DiceRoller {
 
       const critical = !isLast && (value === 10 || value === 1);
       if (critical) {
-        this.showStamp(value === 10 ? 'Réussite critique' : 'Échec critique', value === 10 ? 'ok' : 'ko', reduced);
+        this.showStamp(
+          value === 10 ? 'Réussite critique' : 'Échec critique',
+          value === 10 ? 'ok' : 'ko',
+          reduced,
+        );
       }
 
       if (isLast) {
@@ -404,6 +412,7 @@ export class DiceRoller {
     const group = this.dieGroup;
     if (!group) throw new Error('DiceRoller: scene non initialisee');
 
+    if (index === 0) this.onThrowStart?.();
     const targetQuat = faceTargetQuaternion(face);
 
     if (reduced) {
@@ -725,7 +734,12 @@ function buildShadowMaterial(): THREE.MeshBasicMaterial {
   // depthTest a false + renderOrder negatif (pose avant le de) : le flou se
   // voit dans la marge autour du solide et disparait naturellement sous lui,
   // sans dependre d'un cadrage de camera qui laisserait la place en dessous.
-  return new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false, depthTest: false });
+  return new THREE.MeshBasicMaterial({
+    map: texture,
+    transparent: true,
+    depthWrite: false,
+    depthTest: false,
+  });
 }
 
 /* ------------------------------------------------------------------------ */
@@ -795,7 +809,12 @@ function faceCellLayout(face: DieFace): FaceCellLayout {
   });
   const scale = (CELL_PX * 0.46) / (maxExtent || 1);
   const corners: [number, number][] = local.map(([du, dv]) => [cx + du * scale, cy - dv * scale]);
-  const [p0, p1, mid, p3] = corners as [[number, number], [number, number], [number, number], [number, number]];
+  const [p0, p1, mid, p3] = corners as [
+    [number, number],
+    [number, number],
+    [number, number],
+    [number, number],
+  ];
 
   // Ancre du chiffre : le pole (p0) forme la pointe etroite du cerf-volant,
   // les trois autres coins forment sa base large -- on centre le texte sur
@@ -850,7 +869,10 @@ function faceCornerUv(face: DieFace, corner: THREE.Vector3): [number, number] {
   return [px / atlasW, py / atlasH];
 }
 
-function buildFaceAtlas(faces: DieFace[], colors: DiceColors): { texture: THREE.CanvasTexture; canvas: HTMLCanvasElement } {
+function buildFaceAtlas(
+  faces: DieFace[],
+  colors: DiceColors,
+): { texture: THREE.CanvasTexture; canvas: HTMLCanvasElement } {
   const canvas = document.createElement('canvas');
   canvas.width = ATLAS_COLS * CELL_PX;
   canvas.height = ATLAS_ROWS * CELL_PX;
@@ -873,7 +895,12 @@ function drawFaceAtlas(canvas: HTMLCanvasElement, faces: DieFace[], colors: Dice
   }
 }
 
-function drawFaceCell(ctx: CanvasRenderingContext2D, layout: FaceCellLayout, value: number, colors: DiceColors): void {
+function drawFaceCell(
+  ctx: CanvasRenderingContext2D,
+  layout: FaceCellLayout,
+  value: number,
+  colors: DiceColors,
+): void {
   ctx.save();
 
   // Corps du de (le carre entier ; seule la portion mappee sur le cerf-volant

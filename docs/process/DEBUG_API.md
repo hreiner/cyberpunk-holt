@@ -364,3 +364,25 @@ while (!scene.finished) {
 
 La graine suffit. Elle est affichée en bas de l'écran et dans `state().seed`. Avec elle, la
 partie se rejoue à l'identique, ce qui rend le journal de dés directement comparable.
+
+## Fond sonore
+
+`window.__game.audio()` renvoie un instantané en lecture seule, sans déclencher la lecture :
+
+- `muted`, `unlocked` (un geste réel a été reçu), `speaking`, `exclusive` (une chanson cinématique possède le mix) et `hidden` (onglet caché) ;
+- `cue: { music, ambience }` : sources demandées, chemins relatifs à `public/assets/`, ou `null` ;
+- `music` et `ambience` : lecteurs actifs, au plus deux par couche durant un raccord,
+  avec `source`, `volume`, `paused` et `currentTime` en secondes.
+
+Le fond est vide pendant l'exclusivité cinématique : cet instantané ne décrit pas les
+lecteurs privés des montages. Une source absente peut rester demandée dans `cue` tout en
+étant absente des lecteurs. Utiliser un clic réel pour déverrouiller le son ; un événement
+synthétique ou un appel de cette API ne contourne pas les restrictions du navigateur.
+Le bouton commun est `[data-testid="sound-toggle"]` ; le HUD tactique garde sa commande.
+
+La barre commune est repérable par `[data-testid="game-toolbar"]`. Le bouton
+`[data-testid="camera-rotate"]` apparaît uniquement en exploration et tourne la caméra
+d'un quart de tour horaire ; il ne modifie ni la position du groupe ni la scène. La
+barre se masque pendant les images d'un montage et revient à leur fermeture. La commande
+sonore du montage reste alors la commande visible. Sur le titre, le son commun demeure
+accessible même lorsqu'un montage repris existe derrière le calque.

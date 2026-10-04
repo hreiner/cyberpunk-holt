@@ -67,6 +67,9 @@ export interface GameOptions {
   setup?: TacticalSetup;
   /** Appele une fois, des que le combat se termine (voir `refresh()`). */
   onFinished?(outcome: TacticalOutcome): void;
+  onSoundMutedChange?(muted: boolean): void;
+  /** Le chapitre possède déjà le clic commun ; le lecteur autonome garde le sien. */
+  buttonClickSound?: boolean;
 }
 
 /** Attente entre deux verifications de fin de deplacement, avant un tour IA. */
@@ -121,6 +124,8 @@ export class GameApp {
   private automaticResolving = false;
   private disposed = false;
   private readonly onFinished?: (outcome: TacticalOutcome) => void;
+  private readonly onSoundMutedChange?: (muted: boolean) => void;
+  private readonly buttonClickSound: boolean;
   /** Garantit un seul appel a `onFinished` par combat (voir `buildScene`, qui le reinitialise). */
   private finishedNotified = false;
 
@@ -129,6 +134,8 @@ export class GameApp {
     this.playerTeam = options.playerTeam ?? 'blue';
     this.aiDelayMs = options.aiDelayMs ?? 450;
     this.onFinished = options.onFinished;
+    this.onSoundMutedChange = options.onSoundMutedChange;
+    this.buttonClickSound = options.buttonClickSound ?? true;
 
     const session = loadSession();
     const seed = options.seed ?? session.lastSeed ?? '';
@@ -203,6 +210,7 @@ export class GameApp {
 
   dispose(): void {
     this.disposed = true;
+    this.sfx.dispose();
     if (this.aiTimer) clearTimeout(this.aiTimer);
     for (const rig of this.rigs.values()) rig.dispose();
     this.view?.dispose();
@@ -228,7 +236,9 @@ export class GameApp {
     this.effects = new EffectsLayer();
     this.view.root.add(this.effects.group);
     for (const unit of Object.values(this.combat.state.units)) {
-      const rig = createCadetExplorationRig(getCharacter(unit.id), TEAM_COLORS[unit.team], { tactical: true });
+      const rig = createCadetExplorationRig(getCharacter(unit.id), TEAM_COLORS[unit.team], {
+        tactical: true,
+      });
       this.view.root.add(rig.object);
       this.rigs.set(unit.id, rig);
       const animator = new RigAnimator(rig);
@@ -276,9 +286,14 @@ export class GameApp {
   }
 
   private toggleSound(): void {
-    this.sfx.setMuted(!this.sfx.isMuted);
-    this.hud.setSoundMuted(this.sfx.isMuted);
+    this.setSoundMuted(!this.sfx.isMuted);
     saveSession({ ...loadSession(), soundMuted: this.sfx.isMuted });
+    this.onSoundMutedChange?.(this.sfx.isMuted);
+  }
+
+  setSoundMuted(muted: boolean): void {
+    this.sfx.setMuted(muted);
+    this.hud.setSoundMuted(muted);
   }
 
   /** Position monde du centre d'un cadet, a la hauteur `height`. */
@@ -384,9 +399,11 @@ export class GameApp {
     // Le navigateur interdit le son avant un geste : on leve le blocage au premier appui.
     const container = this.container;
     container.addEventListener('pointerdown', () => this.sfx.unlock());
-    container.addEventListener('click', (e: MouseEvent) => {
-      if ((e.target as Element).closest('button:not(:disabled)')) this.sfx.play('click');
-    });
+    if (this.buttonClickSound) {
+      container.addEventListener('click', (e: MouseEvent) => {
+        if (e.isTrusted && (e.target as Element).closest('button:not(:disabled)')) this.sfx.play('click');
+      });
+    }
     window.addEventListener('keydown', (e: KeyboardEvent) => {
       this.sfx.unlock();
       if (e.key === 'a' || e.key === 'A') this.iso.rotate(-1);
@@ -527,7 +544,10 @@ export class GameApp {
   /** Point du sol (monde) sous un pixel écran, ou `null` hors terrain. Base de `pickCell` et du glissé. */
   private groundPointAt(clientX: number, clientY: number): { x: number; z: number } | null {
     const rect = this.renderer.domElement.getBoundingClientRect();
-    this.pointer.set(((clientX - rect.left) / rect.width) * 2 - 1, -((clientY - rect.top) / rect.height) * 2 + 1);
+    this.pointer.set(
+      ((clientX - rect.left) / rect.width) * 2 - 1,
+      -((clientY - rect.top) / rect.height) * 2 + 1,
+    );
     this.raycaster.setFromCamera(this.pointer, this.iso.camera);
     const hit = this.raycaster.intersectObject(this.view.groundPlane, false)[0];
     return hit ? { x: hit.point.x, z: hit.point.z } : null;
@@ -546,7 +566,11 @@ export class GameApp {
     const min = cellToWorld(this.combat.map, { x: 0, y: 0 });
     const max = cellToWorld(this.combat.map, { x: this.combat.map.width - 1, y: this.combat.map.height - 1 });
     const clamp = (value: number, a: number, b: number) =>
-      THREE.MathUtils.clamp(value, Math.min(a, b) - TACTICAL_PAN_MARGIN_M, Math.max(a, b) + TACTICAL_PAN_MARGIN_M);
+      THREE.MathUtils.clamp(
+        value,
+        Math.min(a, b) - TACTICAL_PAN_MARGIN_M,
+        Math.max(a, b) + TACTICAL_PAN_MARGIN_M,
+      );
     this.iso.setTarget(
       clamp(target.x + (from.x - to.x), min.x, max.x),
       clamp(target.z + (from.z - to.z), min.z, max.z),
@@ -784,7 +808,12 @@ export class GameApp {
    */
   renderStats(): { drawCalls: number; triangles: number; geometries: number; textures: number } {
     const { render, memory } = this.renderer.info;
-    return { drawCalls: render.calls, triangles: render.triangles, geometries: memory.geometries, textures: memory.textures };
+    return {
+      drawCalls: render.calls,
+      triangles: render.triangles,
+      geometries: memory.geometries,
+      textures: memory.textures,
+    };
   }
 
   /* -------------------------------- rendu ---------------------------------- */

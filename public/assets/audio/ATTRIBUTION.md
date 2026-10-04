@@ -1,4 +1,35 @@
-# Provenance des sons du chapitre 2
+# Provenance des sons
+
+## Fond musical et ambiances — 4 octobre 2026
+
+Les cinq MP3 `background/music-title.mp3`, `music-academy.mp3`, `music-pressure.mp3`,
+`music-afterglow.mp3` et `music-neon.mp3` sont des compositions instrumentales originales
+générées pour HOLT avec ElevenLabs `music_v2_5`, via la CLI OAuth. Les trois chansons
+locales du propriétaire ont guidé les intentions, sans téléversement ni échantillonnage.
+Prompts, modèles et recette reproductible :
+[`audio-generation/`](../../../docs/art/audio-generation/README.md).
+
+| Fichier | Source | Licence |
+|---|---|---|
+| `background/ambience-academy.mp3` | [Sauron974 — Air Conditioner A/C Vent Hum - Room Tone](https://freesound.org/people/Sauron974/sounds/273627/) | CC0 |
+| `background/ambience-industrial.mp3` | [iccleste — Industrial Machine Cycle](https://freesound.org/people/iccleste/sounds/260815/) | CC0 |
+| `background/ambience-badlands.mp3` | [dhallcomposer — Looping Gentle Wind Ambience on an Open Desert Plain](https://freesound.org/people/dhallcomposer/sounds/697217/) | CC0 |
+| `background/ambience-vents.mp3` | [NickTayloe — Air Return Vent (loop)](https://freesound.org/people/NickTayloe/sounds/843295/) | CC0 |
+| `background/ambience-fire.mp3` | [Danwardvs — Fire Ambience](https://freesound.org/people/Danwardvs/sounds/241318/) | CC0 |
+| `background/ambience-night-city.mp3` | [qubodup — Seamless City Loop](https://freesound.org/people/qubodup/sounds/223093/) | CC0 |
+
+Préécoutes HQ officielles téléchargées, extrait de 24 s maximum à partir de 0 s,
+raccord circulaire de 2 s, passe-haut 35 Hz, microfondus de 10 ms et normalisation
+autour de −24 LUFS / plafond −2 dBTP. Le feu est filtré à 4 500 Hz et limité pour
+rester lointain. Sorties mono MP3 44,1 kHz / 64 kbit/s ; musiques stéréo 96 kbit/s
+autour de −20 LUFS. Masters hors dépôt ; sources, URLs de téléchargement et hashes
+dans [`ambience-sources.json`](../../../docs/art/audio-generation/ambience-sources.json).
+
+Les clics de boutons et le roulement des dés sont synthétisés localement par Web Audio
+dans `src/audio/sfx.ts`, sans échantillon externe. La musique d'accueil est plus rythmée
+(120 BPM) ; les quatre compositions de jeu restent discrètes sous la lecture.
+
+## Effets narratifs et cinématiques du chapitre 2
 
 | Fichier | Source | Licence | Traitement |
 |---|---|---|---|

@@ -346,6 +346,23 @@ bilan** (label/valeur déjà résolues) s'alignent comme les notes d'instructeur
 primaire reste « Nouvelle partie » (ou « Chapitre suivant », si la donnée en déclare un) — même
 idiome que `renderChapterEnd`, dont le rendu reste inchangé pour le chapitre 1.
 
+### Commandes du son et de la caméra
+
+Une barre sobre regroupe le son commun et, en exploration seulement, « ↻ Tourner la
+caméra » (un quart de tour horaire ; les touches A/E restent disponibles). En exploration,
+elle se pose en bas à droite pour laisser la Chance et la jauge en haut à droite, et
+l'objectif en haut à gauche. Sur mobile, les boutons gardent une cible de 44 px et les
+répliques brèves ainsi que le repère passent au-dessus de la barre. La Chance garde une
+ligne supérieure distincte ; l'objectif commence en dessous (64 px, ou 108 px lorsqu'une
+jauge d'état visible occupe une seconde ligne).
+
+Sur les autres écrans, le son occupe une bande supérieure réservée entre le titre et la
+radio ; sur mobile, le titre garde une largeur dédiée et la radio vient en dessous.
+Pendant les images d'une cinématique, ses propres commandes de son remplacent la barre
+commune. À la fermeture des images, le bouton commun revient même si la chanson joue
+encore sous le dialogue. Le titre conserve sa commande, y compris si une scène reprise
+possède un montage masqué derrière lui. Le tactique garde ses commandes existantes.
+
 ### HUD tactique
 
 **Pas de refonte de la mise en page** : on remplace les couleurs, polices, formes et

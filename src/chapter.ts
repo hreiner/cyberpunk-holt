@@ -8,15 +8,38 @@
  * DOM : voir docs/process/ARCHITECTURE.md.
  */
 
+import { BackgroundAudio, type BackgroundAudioSnapshot } from '@/audio/background';
+import { Sfx } from '@/audio/sfx';
+import { MENU_BACKGROUND, REPORT_BACKGROUND, backgroundFor } from '@/data/backgroundAudio';
+import { roomAt } from '@/explore';
 import { createRng, randomSeedLabel } from '@/core/rng';
-import { archiveDossier, loadArchivedDossier, loadDossier, loadSession, saveDossier, saveSession } from '@/core/save';
+import {
+  archiveDossier,
+  loadArchivedDossier,
+  loadDossier,
+  loadSession,
+  saveDossier,
+  saveSession,
+} from '@/core/save';
 import type { SessionSave } from '@/core/save';
 import type { Dossier } from '@/core/dossier';
 import { createDossier, setPracticalScore } from '@/core/dossier';
 import type { CharacterId } from '@/rules/character';
-import { FLAG_VIDEO_WATCHED, courseResultFromFlags, courseResultToScoreInput, scoreExercise } from '@/rules/scoring';
+import {
+  FLAG_VIDEO_WATCHED,
+  courseResultFromFlags,
+  courseResultToScoreInput,
+  scoreExercise,
+} from '@/rules/scoring';
 import type { ExerciseScore } from '@/rules/scoring';
-import { CH1_TASER_BEARER_FLAG, DEFAULT_BLUE, DEFAULT_RED, DEFAULT_ROUND_LIMIT, defaultTeamState, resolveBriefingTaserBearer } from '@/tactical/combat';
+import {
+  CH1_TASER_BEARER_FLAG,
+  DEFAULT_BLUE,
+  DEFAULT_RED,
+  DEFAULT_ROUND_LIMIT,
+  defaultTeamState,
+  resolveBriefingTaserBearer,
+} from '@/tactical/combat';
 import type { TacticalSetup } from '@/tactical/types';
 import {
   DialogueRunner,
@@ -196,7 +219,10 @@ const EXPLORE_REPEAT_LINE_FALLBACK = "Il n'y a plus rien à ajouter.";
  *    ou si l'archive est illisible, repli sur le profil Neutre -- jamais un dossier vierge, qui
  *    ferait manquer au chapitre 2 les etiquettes qu'il lit inconditionnellement (GAME-DESIGN §7).
  */
-function startingDossier(chapterId: ChapterId, options: { profile?: ProfileId; useArchive?: boolean } = {}): Dossier {
+function startingDossier(
+  chapterId: ChapterId,
+  options: { profile?: ProfileId; useArchive?: boolean } = {},
+): Dossier {
   if (chapterId !== 2) return createDossier();
   if (options.profile) return CH2_PROFILES[options.profile].build();
   if (options.useArchive) {
@@ -259,17 +285,26 @@ export class ChapterApp {
   /** Tampon "CONTACT" (lot 3.7b, "Passer au combat") : voir `playContactTransition`. */
   private readonly contactHost: HTMLElement;
   private readonly view: NarrativeView;
+  private readonly background = new BackgroundAudio(loadSession().soundMuted);
+  private readonly interfaceSfx = new Sfx(true, loadSession().soundMuted);
+  private readonly container: HTMLElement;
+  private readonly soundButton: HTMLButtonElement;
+  private readonly controlsToolbar: HTMLElement;
+  private readonly cameraButton: HTMLButtonElement;
+  private menuVisible = false;
+  private activeHost = 'dialogue';
+  private cancellingCinematics = false;
+  private readonly outgoingCinematics = new Set<SlowCinematic | HallCinematic | ZacharyCinematic>();
   private slowCinematic: SlowCinematic | null = null;
   private hallCinematic: HallCinematic | null = null;
-  private readonly voiceover = new ChapterVoiceover(
-    (speaking) => {
-      this.slowCinematic?.setVoiceSpeaking(speaking);
-      this.zacharyCinematic?.setVoiceSpeaking(speaking);
-      this.hallCinematic?.setVoiceSpeaking(speaking);
-      this.view.setSoundEffectsDucked(speaking);
-    },
-    loadSession().soundMuted,
-  );
+  private readonly voiceover = new ChapterVoiceover((speaking) => {
+    this.slowCinematic?.setVoiceSpeaking(speaking);
+    this.zacharyCinematic?.setVoiceSpeaking(speaking);
+    this.hallCinematic?.setVoiceSpeaking(speaking);
+    this.view.setSoundEffectsDucked(speaking);
+    this.background.setSpeaking(speaking);
+    this.interfaceSfx.setDucked(speaking);
+  }, loadSession().soundMuted);
   private zacharyCinematic: ZacharyCinematic | null = null;
   private readonly reportView: ReportView;
   private readonly draftView: DraftView;
@@ -296,6 +331,28 @@ export class ChapterApp {
 
   constructor(container: HTMLElement, options: ChapterOptions = {}) {
     this.aiDelayMs = options.aiDelayMs ?? 450;
+    this.container = container;
+    container.addEventListener('click', this.onButtonClick);
+    this.soundButton = document.createElement('button');
+    this.soundButton.type = 'button';
+    this.soundButton.className = 'chapter-sound-button btn';
+    this.soundButton.dataset.testid = 'sound-toggle';
+    this.soundButton.addEventListener('click', this.toggleSound);
+    this.cameraButton = document.createElement('button');
+    this.cameraButton.type = 'button';
+    this.cameraButton.className = 'chapter-camera-button btn';
+    this.cameraButton.dataset.testid = 'camera-rotate';
+    this.cameraButton.textContent = '↻ Tourner la caméra';
+    this.cameraButton.title = 'Tourner la caméra d’un quart de tour (E)';
+    this.cameraButton.addEventListener('click', this.rotateExploreCamera);
+    this.controlsToolbar = document.createElement('div');
+    this.controlsToolbar.className = 'chapter-toolbar';
+    this.controlsToolbar.dataset.testid = 'game-toolbar';
+    this.controlsToolbar.setAttribute('role', 'group');
+    this.controlsToolbar.setAttribute('aria-label', 'Commandes de la vue');
+    this.controlsToolbar.addEventListener('keydown', this.onToolbarKeyDown);
+    this.controlsToolbar.append(this.cameraButton, this.soundButton);
+    container.appendChild(this.controlsToolbar);
 
     const session = loadSession();
     const seed = options.seed ?? session.run?.seed ?? session.lastSeed ?? randomSeedLabel();
@@ -360,10 +417,13 @@ export class ChapterApp {
       this.contactHost,
     );
 
-    this.dice = createDicePlayer(this.diceHost, options.diceEnabled ?? true);
+    this.dice = createDicePlayer(this.diceHost, options.diceEnabled ?? true, () =>
+      this.playInterfaceSound('dice-roll'),
+    );
     this.exploreSession = new ExploreSession(this.exploreHost, {
       getContext: () => this.ctx,
       onEvent: (ev) => this.handleExploreEvent(ev),
+      onLocationChange: () => this.updateBackground(),
     });
 
     this.view = new NarrativeView(this.narrativeHost, {
@@ -394,7 +454,106 @@ export class ChapterApp {
       console.warn(`ChapterApp : scene "${startSceneId}" inconnue, on repart du debut.`);
     this.ctx = this.router.context;
 
+    this.setSoundMuted(session.soundMuted);
     this.enterScene(this.router.finished ? null : this.router.current());
+  }
+
+  audioSnapshot(): BackgroundAudioSnapshot {
+    return this.background.snapshot();
+  }
+
+  setMenuVisible(visible: boolean): void {
+    this.menuVisible = visible;
+    this.background.setExclusive(
+      !visible &&
+        Boolean(
+          this.slowCinematic || this.zacharyCinematic || this.hallCinematic || this.outgoingCinematics.size,
+        ),
+    );
+    this.updateBackground();
+    this.updateSoundButton();
+  }
+
+  /** Le son est une préférence de toute l'application, y compris du HUD tactique. */
+  setSoundMuted(muted: boolean): void {
+    this.background.setMuted(muted);
+    this.interfaceSfx.setMuted(muted);
+    this.voiceover.setMuted(muted);
+    this.view.setSoundMuted(muted);
+    this.exploreSession.setSoundMuted(muted);
+    this.tacticalApp?.setSoundMuted(muted);
+    for (const cinematic of [
+      this.slowCinematic,
+      this.zacharyCinematic,
+      this.hallCinematic,
+      ...this.outgoingCinematics,
+    ]) {
+      cinematic?.setSoundMuted(muted);
+    }
+    saveSession({ ...loadSession(), soundMuted: muted });
+    this.soundButton.textContent = muted ? 'Activer le son' : 'Couper le son';
+    this.soundButton.setAttribute('aria-pressed', String(muted));
+  }
+
+  private readonly onButtonClick = (event: MouseEvent): void => {
+    if (!event.isTrusted || !(event.target instanceof Element)) return;
+    const button = event.target.closest('button');
+    if (!button || button.disabled) return;
+    this.playInterfaceSound('click');
+  };
+
+  private playInterfaceSound(name: 'click' | 'dice-roll'): void {
+    if (this.disposed || this.interfaceSfx.isMuted) return;
+    this.interfaceSfx.unlock();
+    this.interfaceSfx.play(name);
+  }
+
+  private readonly toggleSound = (): void => this.setSoundMuted(!this.background.snapshot().muted);
+
+  private readonly onToolbarKeyDown = (event: KeyboardEvent): void => {
+    // Une activation de bouton ne doit pas aussi interagir avec l'objet survolé.
+    if (event.key === ' ' || event.key === 'Enter' || event.key === 'Tab') event.stopPropagation();
+  };
+
+  private readonly rotateExploreCamera = (): void => {
+    if (!this.menuVisible && this.activeHost === 'explore') this.exploreSession.rotateCamera(1);
+  };
+
+  private updateSoundButton(): void {
+    this.controlsToolbar.hidden = !this.menuVisible && this.activeHost === 'tactical';
+    this.controlsToolbar.dataset.mode = this.menuVisible ? 'menu' : this.activeHost;
+    this.cameraButton.hidden = this.menuVisible || this.activeHost !== 'explore';
+  }
+
+  private updateBackground(): void {
+    if (this.menuVisible) this.background.setCue(MENU_BACKGROUND);
+    else if (!this.currentSceneDef) this.background.setCue(REPORT_BACKGROUND);
+    else {
+      const map = this.currentSceneDef.kind === 'explore' ? this.exploreSession.mapDef : null;
+      const leader = this.exploreSession.state?.leaderCell();
+      const room = map && leader ? roomAt(map, leader)?.id : undefined;
+      this.background.setCue(backgroundFor(this.currentSceneDef.id, map?.id, room));
+    }
+  }
+
+  private finishCinematic(cinematic: SlowCinematic | HallCinematic | ZacharyCinematic): void {
+    this.outgoingCinematics.add(cinematic);
+    cinematic.fadeOut(() => {
+      this.outgoingCinematics.delete(cinematic);
+      if (this.cancellingCinematics || this.menuVisible) return;
+      this.background.setExclusive(
+        Boolean(
+          this.slowCinematic || this.zacharyCinematic || this.hallCinematic || this.outgoingCinematics.size,
+        ),
+      );
+    });
+  }
+
+  private cancelOutgoingCinematics(): void {
+    this.cancellingCinematics = true;
+    for (const cinematic of this.outgoingCinematics) cinematic.dispose();
+    this.outgoingCinematics.clear();
+    this.cancellingCinematics = false;
   }
 
   /* --------------------------------- lecture -------------------------------- */
@@ -633,6 +792,7 @@ export class ChapterApp {
       this.chapterDef = CHAPTERS[targetChapter];
       this.ctx = { ...this.ctx, run: { ...this.ctx.run, chapter: targetChapter } };
     }
+    this.cancelOutgoingCinematics();
     this.jumpRouter(id);
     this.persistAfterScene();
     this.enterScene(this.router.finished ? null : this.router.current());
@@ -659,6 +819,12 @@ export class ChapterApp {
     // sauter, meme si `ChapterApp` jouait le chapitre 2 au moment de l'appel.
     this.chapterDef = CHAPTERS[1];
     this.ctx = { ...this.ctx, run: { ...this.ctx.run, chapter: 1 } };
+    this.voiceover.reset();
+    this.cancelSlowCinematic();
+    this.cancelZacharyCinematic();
+    this.cancelHallCinematic();
+    this.cancelOutgoingCinematics();
+    this.background.setExclusive(false);
     this.jumpRouter('ch1.affrontement');
     this.persistAfterScene();
     this.activeDialogue = null;
@@ -670,6 +836,14 @@ export class ChapterApp {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.background.dispose();
+    this.interfaceSfx.dispose();
+    this.container.removeEventListener('click', this.onButtonClick);
+    this.soundButton.removeEventListener('click', this.toggleSound);
+    this.cameraButton.removeEventListener('click', this.rotateExploreCamera);
+    this.controlsToolbar.removeEventListener('keydown', this.onToolbarKeyDown);
+    this.controlsToolbar.remove();
+    this.cancelOutgoingCinematics();
     this.cancelSlowCinematic();
     this.voiceover.dispose();
     this.cancelZacharyCinematic();
@@ -709,6 +883,8 @@ export class ChapterApp {
    * les bulles de replique, sans piege de specificite CSS a traquer un par un.
    */
   private setActiveHost(kind: 'dialogue' | 'explore' | 'tactical' | 'report' | 'draft'): void {
+    this.activeHost = kind;
+    this.updateSoundButton();
     this.tacticalHost.style.display = kind === 'tactical' ? '' : 'none';
     this.exploreHost.style.display = kind === 'explore' ? '' : 'none';
     this.reportHost.style.display = kind === 'report' ? '' : 'none';
@@ -761,6 +937,8 @@ export class ChapterApp {
   }
 
   private startSlowCinematic(): void {
+    this.background.setExclusive(true);
+    this.cancelOutgoingCinematics();
     const dancer = this.activeDialogue?.context.dossier.tags.includes('cavalier-letitia') ?? false;
     const muted = loadSession().soundMuted;
     this.view.setSoundMuted(muted);
@@ -810,12 +988,7 @@ export class ChapterApp {
           this.voiceover.stop();
           this.renderDialogue();
         },
-        onMuteChange: (soundMuted) => {
-          this.view.setSoundMuted(soundMuted);
-          this.voiceover.setMuted(soundMuted);
-          this.exploreSession.setSoundMuted(soundMuted);
-          saveSession({ ...loadSession(), soundMuted });
-        },
+        onMuteChange: (muted) => this.setSoundMuted(muted),
         onVoiceCue: (id) => this.voiceover.play(id),
       },
       muted,
@@ -828,6 +1001,8 @@ export class ChapterApp {
   }
 
   private startZacharyCinematic(): void {
+    this.background.setExclusive(true);
+    this.cancelOutgoingCinematics();
     const muted = loadSession().soundMuted;
     this.view.setSoundMuted(muted);
     this.voiceover.setMuted(muted);
@@ -848,12 +1023,7 @@ export class ChapterApp {
           this.renderDialogue();
           return runner.current();
         },
-        onMuteChange: (soundMuted) => {
-          this.view.setSoundMuted(soundMuted);
-          this.voiceover.setMuted(soundMuted);
-          this.exploreSession.setSoundMuted(soundMuted);
-          saveSession({ ...loadSession(), soundMuted });
-        },
+        onMuteChange: (muted) => this.setSoundMuted(muted),
         onStartVoice: () => this.voiceover.play('zachary.open'),
         onSkip: () => {
           this.voiceover.stop();
@@ -870,6 +1040,8 @@ export class ChapterApp {
   }
 
   private startHallCinematic(): void {
+    this.background.setExclusive(true);
+    this.cancelOutgoingCinematics();
     const muted = loadSession().soundMuted;
     this.view.setSoundMuted(muted);
     this.voiceover.setMuted(muted);
@@ -904,12 +1076,7 @@ export class ChapterApp {
           this.voiceover.reset();
           this.renderExploreConversation();
         },
-        onMuteChange: (soundMuted) => {
-          this.view.setSoundMuted(soundMuted);
-          this.voiceover.setMuted(soundMuted);
-          this.exploreSession.setSoundMuted(soundMuted);
-          saveSession({ ...loadSession(), soundMuted });
-        },
+        onMuteChange: (muted) => this.setSoundMuted(muted),
       },
       muted,
     );
@@ -1016,11 +1183,11 @@ export class ChapterApp {
 
   private completeDialogueScene(finalCtx: NarrativeContext): void {
     if (this.currentSceneDef?.id === 'ch2.slow') {
-      this.slowCinematic?.fadeOut();
+      if (this.slowCinematic) this.finishCinematic(this.slowCinematic);
       this.slowCinematic = null;
     }
     if (this.currentSceneDef?.id === 'ch2.egouts') {
-      this.zacharyCinematic?.fadeOut();
+      if (this.zacharyCinematic) this.finishCinematic(this.zacharyCinematic);
       this.zacharyCinematic = null;
     }
     this.activeDialogue = null;
@@ -1086,6 +1253,7 @@ export class ChapterApp {
       }
     }
 
+    this.updateBackground();
     this.setActiveHost('explore'); // -> exploreSession.resume()
     this.exploreSession.centerCameraOnLeader();
   }
@@ -1124,7 +1292,10 @@ export class ChapterApp {
         // 08-EXPLORATION.md "La découverte des lieux" -- "recharger une partie ne re-cache pas
         // des pièces déjà visitées", y compris un rechargement en plein milieu d'une étape.
         if (this.exploreSession.mapDef) {
-          this.ctx = { ...this.ctx, run: discoverRoom(this.ctx.run, this.exploreSession.mapDef.id, ev.roomId) };
+          this.ctx = {
+            ...this.ctx,
+            run: discoverRoom(this.ctx.run, this.exploreSession.mapDef.id, ev.roomId),
+          };
           this.persistAfterScene();
         }
         break;
@@ -1134,7 +1305,10 @@ export class ChapterApp {
   }
 
   private isObjectiveTrigger(entityId: string): boolean {
-    return this.currentSceneDef?.kind === 'explore' && this.currentSceneDef.objective?.completionTrigger === entityId;
+    return (
+      this.currentSceneDef?.kind === 'explore' &&
+      this.currentSceneDef.objective?.completionTrigger === entityId
+    );
   }
 
   /**
@@ -1329,7 +1503,8 @@ export class ChapterApp {
     const doneKey = this.conversationDoneFlagKey(dialogueId, startNode);
     if (this.ctx.run.flags[doneKey]) {
       const entity = this.exploreSession.entity(entityId);
-      const repeatLine = entity && 'line' in entity && entity.line ? entity.line : EXPLORE_REPEAT_LINE_FALLBACK;
+      const repeatLine =
+        entity && 'line' in entity && entity.line ? entity.line : EXPLORE_REPEAT_LINE_FALLBACK;
       this.exploreSession.playBriefLine(entityId, repeatLine);
       if (advancesRouter) {
         this.unlockDoorIfNeeded(entityId);
@@ -1382,7 +1557,7 @@ export class ChapterApp {
     const entry = this.activeExploreConversation;
     if (!entry) return;
     if (entry.dialogueId === 'ch1.centre-hall') {
-      this.hallCinematic?.fadeOut();
+      if (this.hallCinematic) this.finishCinematic(this.hallCinematic);
       this.hallCinematic = null;
     }
     this.voiceover.reset();
@@ -1391,12 +1566,18 @@ export class ChapterApp {
     // le joueur y revient et le rejoue en entier.
     const completesWhen = this.currentSceneDef?.objective?.completesWhen;
     const deferred =
-      entry.advancesRouter && completesWhen !== undefined && !evaluateCondition(completesWhen, entry.runner.context);
+      entry.advancesRouter &&
+      completesWhen !== undefined &&
+      !evaluateCondition(completesWhen, entry.runner.context);
     const ctx: NarrativeContext = deferred
       ? entry.runner.context
       : {
           ...entry.runner.context,
-          run: setFlag(entry.runner.context.run, this.conversationDoneFlagKey(entry.dialogueId, entry.startNode), true),
+          run: setFlag(
+            entry.runner.context.run,
+            this.conversationDoneFlagKey(entry.dialogueId, entry.startNode),
+            true,
+          ),
         };
     this.mergeContext(ctx);
     this.activeExploreConversation = null;
@@ -1470,6 +1651,7 @@ export class ChapterApp {
 
   private enterTacticalScene(scene: SceneDef, setupOverride?: TacticalSetup): void {
     this.currentSceneDef = scene;
+    this.updateBackground();
     this.hideAllViews();
     this.setActiveHost('tactical');
     const setup = setupOverride ?? this.buildTacticalSetup();
@@ -1482,6 +1664,8 @@ export class ChapterApp {
         aiDelayMs: this.aiDelayMs,
         playerTeam: 'blue',
         onFinished: (outcome) => this.completeTacticalScene(outcome),
+        onSoundMutedChange: (muted) => this.setSoundMuted(muted),
+        buttonClickSound: false,
       });
     }
   }
@@ -1589,6 +1773,7 @@ export class ChapterApp {
    * l'ecran, jamais un type de scene invente pour l'occasion.
    */
   private showReport(score: ExerciseScore): void {
+    this.background.setCue(REPORT_BACKGROUND);
     this.hideAllViews();
     this.setActiveHost('report');
     this.reportView.show();
@@ -1614,6 +1799,8 @@ export class ChapterApp {
     this.activeDialogue = null;
     this.activeExploreConversation = null;
     this.currentSceneDef = scene;
+    this.updateBackground();
+    this.background.setExclusive(this.outgoingCinematics.size > 0);
 
     if (!scene) {
       this.showChapterEnd();
@@ -1681,7 +1868,9 @@ export class ChapterApp {
     }
 
     const resolved = resolveChapterEnd(this.chapterDef.end, this.ctx);
-    const next = resolved.next ? { title: `Chapitre ${resolved.next} — ${CHAPTERS[resolved.next].title}` } : null;
+    const next = resolved.next
+      ? { title: `Chapitre ${resolved.next} — ${CHAPTERS[resolved.next].title}` }
+      : null;
     this.reportView.renderChapterBilan(resolved, next);
   }
 
@@ -1692,6 +1881,7 @@ export class ChapterApp {
    * du chapitre.
    */
   private beginChapter(def: ChapterDef, dossier: Dossier, seed: string): void {
+    this.cancelOutgoingCinematics();
     this.activeDialogue = null;
     this.activeExploreConversation = null;
     this.hideAllViews();
@@ -1702,7 +1892,11 @@ export class ChapterApp {
     this.chapterDef = def;
     this.ctx = {
       dossier,
-      run: createRunState(seed, { chapter: def.id, sceneId: def.scenes[0]?.id ?? '', luck: startingLuck(def, dossier) }),
+      run: createRunState(seed, {
+        chapter: def.id,
+        sceneId: def.scenes[0]?.id ?? '',
+        luck: startingLuck(def, dossier),
+      }),
     };
     this.router = new SceneRouter(def.scenes, this.ctx, def.etapeFlag);
     this.ctx = this.router.context;
@@ -1732,7 +1926,10 @@ export class ChapterApp {
    * "Chapitre 2" de l'ecran titre) ; sans l'un ni l'autre, repli sur le profil Neutre -- voir
    * `startingDossier`. Sans effet sur le chapitre 1 (toujours un dossier vierge).
    */
-  startChapter(id: ChapterId, options: { seed?: string; profile?: ProfileId; useArchive?: boolean } = {}): void {
+  startChapter(
+    id: ChapterId,
+    options: { seed?: string; profile?: ProfileId; useArchive?: boolean } = {},
+  ): void {
     const dossier = startingDossier(id, { profile: options.profile, useArchive: options.useArchive });
     this.beginChapter(CHAPTERS[id], dossier, options.seed ?? randomSeedLabel());
   }

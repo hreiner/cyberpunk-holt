@@ -40,6 +40,7 @@ Les images et le livre assemblé restent localement dans `art-masters/comics/hol
 | [`design/06-SCORING-DOSSIER.md`](design/06-SCORING-DOSSIER.md)   | barème de l'examen et dossier du candidat                                      |
 | [`design/07-DIALOGUE-FORMAT.md`](design/07-DIALOGUE-FORMAT.md)   | format des dialogues : graphe, conditions, effets, radio, validation           |
 | [`design/08-EXPLORATION.md`](design/08-EXPLORATION.md)           | le mode exploration : contrôles, caméra, entités, objectifs, passage au combat |
+| [`design/11-SOUND-DESIGN.md`](design/11-SOUND-DESIGN.md) | conduite du fond musical, ambiances, niveaux et priorités cinématiques ; [production](art/audio-generation/README.md) et [revue](art/SOUND-PASS-REVIEW.md) |
 | [`design/09-MAPS-CHAPTER-1.md`](design/09-MAPS-CHAPTER-1.md)     | format des cartes, l'académie HOLT (plan du MJ), le centre d'examen            |
 
 ## Chapitres — concevoir la suite
@@ -155,3 +156,4 @@ Feuillage réemployé : [asset, prompt et provenance](art/HOLT-AAA-ASSETS.md).
 | [0039](process/adr/0039-murs-exploration-entiers.md)                             | Murs entiers à hauteur fixe ; la découverte ne révèle que les contenus                           |
 | [0040](process/adr/0040-stabiliser-cout-entree-salle.md)                         | Stabiliser le coût du premier accès aux salles                                                    |
 | [0041](process/adr/0041-personnages-mpfb-dans-le-jeu.md)                         | Les cadets MPFB remplacent les humanoïdes Quaternius dans le jeu                                  |
+| [0042](process/adr/0042-fond-musical-et-ambiances.md) | Fond musical et ambiances continus, préférence sonore commune et priorité cinématique |

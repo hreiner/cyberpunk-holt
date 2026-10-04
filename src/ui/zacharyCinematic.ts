@@ -40,6 +40,7 @@ const SOBBING_DUCKED_VOLUME = 0.03;
 const FADE_MS = 3000;
 
 export class ZacharyCinematic {
+  private onFadeComplete: (() => void) | undefined;
   private readonly root: HTMLElement;
   private readonly images: [HTMLImageElement, HTMLImageElement];
   private readonly caption: HTMLElement;
@@ -62,7 +63,11 @@ export class ZacharyCinematic {
   private fading = false;
   private disposed = false;
 
-  constructor(host: HTMLElement, private readonly callbacks: Callbacks, muted: boolean) {
+  constructor(
+    host: HTMLElement,
+    private readonly callbacks: Callbacks,
+    muted: boolean,
+  ) {
     this.music.preload = 'metadata';
     this.music.loop = true;
     this.music.volume = MUSIC_VOLUME;
@@ -94,7 +99,8 @@ export class ZacharyCinematic {
       </div>
     `;
     this.images = Array.from(this.root.querySelectorAll<HTMLImageElement>('.slow-cinematic__image')) as [
-      HTMLImageElement, HTMLImageElement,
+      HTMLImageElement,
+      HTMLImageElement,
     ];
     this.caption = this.query('.slow-cinematic__caption');
     this.choices = this.query('.slow-cinematic__choices');
@@ -201,7 +207,10 @@ export class ZacharyCinematic {
 
   private showNode(node: PresentedNode | null): void {
     if (!node) return;
-    const parts = [node.text, ...node.lines.map(line => `${line.who === 'zachary' ? 'Zachary' : 'Abigail'} : ${line.text}`)];
+    const parts = [
+      node.text,
+      ...node.lines.map((line) => `${line.who === 'zachary' ? 'Zachary' : 'Abigail'} : ${line.text}`),
+    ];
     this.caption.textContent = parts.filter(Boolean).join('\n');
   }
 
@@ -275,8 +284,9 @@ export class ZacharyCinematic {
   }
 
   /** Fondu seulement quand le routeur quitte effectivement les égouts. */
-  fadeOut(): void {
+  fadeOut(onComplete?: () => void): void {
     if (this.disposed || this.fading) return;
+    this.onFadeComplete = onComplete;
     this.dismissVisual();
     this.fading = true;
     this.voiceMixFade.cancel();
@@ -304,6 +314,16 @@ export class ZacharyCinematic {
       audio.pause();
       audio.removeAttribute('src');
       audio.load();
+    }
+    this.onFadeComplete?.();
+    this.onFadeComplete = undefined;
+  }
+  setSoundMuted(muted: boolean): void {
+    for (const audio of [this.music, this.sewer, this.sobbing]) audio.muted = muted;
+    this.updateMuteButton();
+    if (!muted && this.started && !document.hidden && !this.disposed) {
+      void this.music.play().catch(() => undefined);
+      void this.sewer.play().catch(() => undefined);
     }
   }
 }

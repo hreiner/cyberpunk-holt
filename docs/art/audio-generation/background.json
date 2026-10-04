@@ -1,0 +1,83 @@
+{
+  "musicModel": "music_v2_5",
+  "ambienceModel": "eleven_text_to_sound_v2",
+  "assets": [
+    {
+      "id": "music-title",
+      "kind": "music",
+      "seconds": 64,
+      "crossfadeSeconds": 4,
+      "prompt": "Original energetic instrumental title-screen theme for a cyberpunk narrative role-playing game about young cadets and friendship before a dangerous night in a neon city. 120 BPM, punchy electronic groove with a firm dry kick, snappy restrained snare, syncopated gritty synth bass, bright electric arpeggios, warm bittersweet synth chords and a short original memorable lead motif. Futuristic anime drama energy: youthful defiance, forward momentum, hope with a darker edge. It should sound like an actual confident electronic song rather than an ambient drone, engaging immediately with the beat already present. Balanced compact sound, controlled treble and bass, no trailer impacts. Cyclic 32-bar groove with matching beginning and ending harmony, no fade-out, no final cadence, no long intro. No vocals, speech, choir, sound effects or recognizable existing melodies. Full-length 64-second instrumental track."
+    },
+    {
+      "id": "music-academy",
+      "kind": "music",
+      "seconds": 96,
+      "crossfadeSeconds": 6,
+      "prompt": "Original instrumental background score for a narrative cyberpunk role-playing game. Young police cadets raised in a concrete academy in the desert, their last innocent morning before graduation. Restrained analog synth pads, soft glassy electric-piano chords, a distant rounded bass pulse, delicate filtered arpeggios. 80 BPM, bittersweet hope, institutional calm with a tiny unease. Futuristic anime drama atmosphere, warm friendship beneath cold architecture. Sparse repeating harmony and understated electronic percussion, no dominant lead melody. Steady low-intensity texture for reading dialogue for many minutes. Seamless cyclic arrangement with matching beginning and ending harmony, no introduction, no dramatic build, no ending cadence, no fade-out. No vocals, speech, choir, guitars, sound effects or recognizable existing melodies. Full-length 96-second instrumental bed."
+    },
+    {
+      "id": "music-pressure",
+      "kind": "music",
+      "seconds": 96,
+      "crossfadeSeconds": 4.8,
+      "prompt": "Original instrumental cyberpunk game underscore for tactical training and a tense escape through an attacked academy. 100 BPM, restrained dark industrial electronica, muted sequenced bass, granular analog drones, dry minimal electronic kick and rim pulses, tiny metallic textures far in the background. Cold infrastructure and quiet urgency, controlled focus rather than action spectacle. Sparse harmony, subtle evolving filters, no piercing treble, no aggressive lead synth or large impacts. Consistent moderate-low intensity suitable beneath text and conversation. Seamless cyclic arrangement with matching first and last harmony and rhythm, no introduction, no climax, no ending cadence, no fade-out. No vocals, speech, choir, sirens, gunfire or recognizable existing melodies. Full-length 96-second instrumental background bed."
+    },
+    {
+      "id": "music-afterglow",
+      "kind": "music",
+      "seconds": 96,
+      "crossfadeSeconds": 6,
+      "prompt": "Original instrumental background music for a tragic cyberpunk coming-of-age role-playing game, teenage friends resting in the Badlands after losing one of their own. 80 BPM but almost beatless. Fragile analog synth chords, distant soft electric-piano notes, warm low drone, very subtle rounded bass, spacious dusk reverb. Melancholy, loyalty, exhaustion and a small remaining hope, intimate futuristic anime-drama emotion. No solo melody that draws attention, no orchestral swell, no dramatic climax. Sustained consistent low-intensity ambient electronic texture for long dialogue reading. Seamless cyclic structure with matching beginning and ending harmony, no intro, no final cadence, no fade-out. No vocals, speech, choir, sound effects or recognizable existing melodies. Full-length 96-second instrumental bed."
+    },
+    {
+      "id": "music-neon",
+      "kind": "music",
+      "seconds": 96,
+      "crossfadeSeconds": 4.8,
+      "prompt": "Original instrumental cyberpunk city-night background score for an intimate graduation party and a small neon basement bar. 100 BPM, understated dreamy electronic synth-pop and downtempo pulse. Warm detuned analog chords, soft sidechained pads, subdued rounded bass, delicate plucked arpeggios, quiet dry drum-machine rhythm. Youthful connection, urban loneliness, a bittersweet sense of possibility. No catchy foreground hook, no loud snare, no aggressive lead, no big chorus. Stable low-intensity music suitable beneath conversation and reading. Seamless cyclic arrangement with matching first and last harmony and rhythm, no intro, no build, no ending cadence, no fade-out. No vocals, speech, choir, crowd sounds or recognizable existing melodies. Full-length 96-second instrumental bed."
+    },
+    {
+      "id": "ambience-academy",
+      "kind": "ambience",
+      "seconds": 24,
+      "crossfadeSeconds": 2,
+      "prompt": "Seamless looping quiet room tone inside a modern concrete police academy in a desert. Soft distant HVAC airflow and gentle electrical ventilation hum, subtle roomy reflections. Peaceful occupied building, very faint indistinct movement far away, no intelligible voices, no individual footsteps, no music, no beeps, no sudden events. Natural low-level steady ambience with restrained high frequencies."
+    },
+    {
+      "id": "ambience-industrial",
+      "kind": "ambience",
+      "seconds": 24,
+      "crossfadeSeconds": 2,
+      "prompt": "Seamless looping ambience inside an old concrete industrial training facility. Steady soft transformer buzz, low mechanical ventilation and distant rotating machinery, subtle metallic room resonance. Subdued infrastructure texture, believable and stable, not ominous cinematic sound design. No sirens, no impacts, no alarms, no voices, no music, no rhythm, no sudden events, no piercing highs."
+    },
+    {
+      "id": "ambience-badlands",
+      "kind": "ambience",
+      "seconds": 24,
+      "crossfadeSeconds": 2,
+      "prompt": "Seamless looping natural ambience of a dry desert courtyard in the Badlands. Gentle broad wind moving over sand and concrete, faint gritty air and extremely distant mechanical city rumble. Quiet open space at dusk or morning, soft steady wind without strong gusts. No wildlife calls, no footsteps, no voices, no engines passing nearby, no music, no sudden events."
+    },
+    {
+      "id": "ambience-vents",
+      "kind": "ambience",
+      "seconds": 24,
+      "crossfadeSeconds": 2,
+      "prompt": "Seamless looping subdued ambience from inside large metal ventilation conduits beneath a concrete academy. Soft hollow airflow, distant slow fan rumble and faint metal duct resonance. Close enclosed space but gentle and quiet, subtle steady texture without rattles or individual impacts. No voices, no footsteps, no music, no alarms, no gunfire, no sharp whistles, no sudden events."
+    },
+    {
+      "id": "ambience-fire",
+      "kind": "ambience",
+      "seconds": 24,
+      "crossfadeSeconds": 2,
+      "prompt": "Seamless looping background ambience of a burning room heard at a safe distance through smoke-filled concrete hallways. Low continuous fire roar, small soft irregular crackles far away, muffled ventilation. Restrained environmental texture under dialogue, no dramatic foreground explosions or loud pops. No people, no screams, no sirens, no gunfire, no music, no sudden events."
+    },
+    {
+      "id": "ambience-night-city",
+      "kind": "ambience",
+      "seconds": 24,
+      "crossfadeSeconds": 2,
+      "prompt": "Seamless looping subdued futuristic city night ambience heard from a sheltered side street or basement bar. Low distant traffic wash, faint electric infrastructure hum, soft diffuse faraway human murmur without identifiable words. Layered spacious urban room tone, steady and unintrusive beneath dialogue. No close vehicles, no sirens, no horn, no intelligible speech, no music, no dramatic events."
+    }
+  ]
+}

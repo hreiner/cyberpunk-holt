@@ -60,7 +60,7 @@ Reportés, sans bloquer la clôture :
 | 2.8  | Résolution hors champ de l'équipe adverse, remarques radio, minuteur invisible                                            | fait    |
 | 2.9  | Branchement de l'état du parcours sur la phase tactique                                                                   | fait    |
 | 2.10 | Scène 9 : bal de promo, conséquences, note complète                                                                       | fait    |
-| 2.11 | Portraits 2D, ambiance sonore, musique                                                                                    | à faire |
+| 2.11 | Portraits 2D, ambiance sonore, musique | portraits et fond sonore intégrés (ADR 0042) |
 | 2.12 | Export du dossier au joueur (fichier) — plus bloquant : le chapitre 2 lit une archive locale depuis le lot 5.2 (ADR 0022) | à faire |
 
 ### Dépendances entre lots
@@ -85,9 +85,9 @@ chapitre 1 se joue d'un bout à l'autre. C'est chose faite.
 
 Reportés, sans bloquer la clôture :
 
-- [ ] **2.11 — Portraits 2D, ambiance sonore, musique.** Rien de commencé ; la vue
-      narrative (`NarrativeView`) reste volontairement du texte pur pour l'instant
-      (voir son commentaire d'en-tête, « première passe d'UX »).
+- [x] **2.11 — Portraits 2D, ambiance sonore, musique.** Portraits intégrés ; fond continu
+      déclaré par scène et pièce, cinq compositions originales, six ambiances, mix sous
+      les voix et priorité cinématique ([ADR 0042](adr/0042-fond-musical-et-ambiances.md)).
 - [ ] **2.12 — Export du dossier pour le chapitre 2.** `exportDossier()` existe déjà
       dans [`src/core/save.ts`](../../src/core/save.ts) (JSON lisible, prêt à être relu
       par le chapitre 2) mais n'est appelée nulle part : aucun bouton, aucune commande
@@ -174,8 +174,8 @@ l'académie — trop marquée pour être étirée sur une pièce, trop direction
 La remplacer suppose de télécharger un asset externe, ce que certains agents refusent sans une
 autorisation donnée directement par le propriétaire du projet.
 
-Ce qui reste hors de cette epic et attend toujours : les portraits et la musique (lot 2.11),
-l'export du dossier au joueur (lot 2.12).
+Ce qui reste hors de cette epic et attend toujours : l'export du dossier au joueur (lot 2.12).
+Le fond musical et les ambiances du lot 2.11 sont intégrés depuis le 4 octobre 2026 (ADR 0042).
 
 ## Epic 5 — le chapitre 2, la nuit du bal — **clos le 2026-09-27**
 

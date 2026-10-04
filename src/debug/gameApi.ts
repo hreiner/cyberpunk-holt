@@ -14,6 +14,7 @@
  * `GameApp` courante, creee des qu'on atteint ou force la scene tactique.
  */
 
+import type { BackgroundAudioSnapshot } from '@/audio/background';
 import type { ChapterApp, NarrativeSceneSnapshot } from '@/chapter';
 import type { GameApp } from '@/app';
 import { combatOutcome } from '@/app';
@@ -63,6 +64,8 @@ export interface GameStateSnapshot {
 
 export interface GameDebugApi {
   readonly version: number;
+  /** État des deux couches du fond, sans déclencher leur lecture. */
+  audio(): BackgroundAudioSnapshot;
 
   /* --- tactique (historique, voir docs/process/DEBUG_API.md) --- */
   newGame(options?: {
@@ -81,7 +84,12 @@ export interface GameDebugApi {
   score(): ExerciseScore;
   setAiDelay(ms: number): void;
   /** Compteurs WebGL de la dernière image tactique (voir `GameApp.renderStats`) ; `null` hors de la scène tactique. */
-  tacticalRenderStats(): { drawCalls: number; triangles: number; geometries: number; textures: number } | null;
+  tacticalRenderStats(): {
+    drawCalls: number;
+    triangles: number;
+    geometries: number;
+    textures: number;
+  } | null;
 
   /* --- narratif (ADR 0011) --- */
   scene(): NarrativeSceneSnapshot;
@@ -271,6 +279,8 @@ export function installDebugApi(chapter: ChapterApp): GameDebugApi {
     setAiDelay: (ms: number) => requireTactical(chapter).setAiDelay(ms),
 
     tacticalRenderStats: () => chapter.tactical?.renderStats() ?? null,
+
+    audio: () => chapter.audioSnapshot(),
 
     scene: () => chapter.sceneSnapshot(),
 

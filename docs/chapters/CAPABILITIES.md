@@ -151,11 +151,12 @@ d'elles est 🔴 et demande un ADR.
 | ART-01 | **Habillage 3D déclaratif** des pièces : catalogue de modèles, matières, luminaires qui éclairent | un nouveau lieu se compose avec l'existant | 🟢 si le catalogue suffit · art à produire sinon | ADR 0017, 0018, [ROOM-COMPOSITION](../art/ROOM-COMPOSITION.md) |
 | ART-02 | **Personnages humanoïdes animés** en exploration et en combat, figurants gris | — | 🟢 cadets · art pour tout nouveau visage | [ART-PIPELINE](../art/ART-PIPELINE.md) |
 | ART-03 | **Illustrations** : les décors plein cadre et portraits des chapitres 1 et 2 (suite d'images du slow, égouts, Badlands, décharges, clinique, le Blue Purple ; Smith, l'enfant, Murano, le guide, le charcudoc, un ganger, l'inconnue), pipeline de génération documenté | chaque nouveau lieu ou visage = une fiche de brief | coût de production | [ORCHESTRATOR](../art/image-generation/ORCHESTRATOR.md) |
-| ART-04 | **Bruitages** du combat et des scènes : synthèse Web Audio ; `distant-shot` et `burst` lisent des échantillons CC0 avec synthèse de secours | coups de feu dans le dialogue et les répliques de pression en exploration | 🟢 si l'identifiant existe · production audio sinon | ADR 0010, 0029 |
+| ART-04 | **Bruitages** du combat et des scènes : synthèse Web Audio ; `distant-shot` et `burst` lisent des échantillons CC0 avec synthèse de secours | coups de feu dans le dialogue et les répliques de pression en exploration ; clic discret des boutons et son du premier lancer de dé | 🟢 si l'identifiant existe · production audio sinon | ADR 0010, 0029 |
 | ART-05 | **Cinématique à plans fixes** : images en fondu, musique et bruitages sur une chronologie, une pause de choix, puis retour au dialogue ; la musique peut continuer sous les choix, baisser/remonter sous les voix en 0,5 s et finir en fondu | réserver un moment de spectacle sans perdre les effets du dialogue ; slow, mort de Zachary et briefing du centre (déclenché par une entité d'exploration) sont livrés | 🟡 par scène (vue et raccord propres) + production des médias | [CINEMATIC-SCENES](../process/CINEMATIC-SCENES.md), ADR 0029, 0031, 0032 |
 
-**Absents** : système général de musique et d'ambiance sonore (lot 2.11), format déclaratif de
-cinématiques. ART-05 est aujourd'hui un montage propre à une scène, pas une capacité en données.
+| ART-06 | **Fond musical et ambiances continus** : cinq compositions et six ambiances, scène et pièce déclarées en données, raccords sans redémarrage, baisse sous les voix et priorité des chansons cinématiques | donner une couleur sonore à tout le parcours, y compris titre et bilans | 🟢 registre existant · production audio pour une nouvelle couleur | [11-SOUND-DESIGN](../design/11-SOUND-DESIGN.md), ADR 0042 |
+
+**Absent** : format déclaratif de cinématiques. ART-05 est aujourd'hui un montage propre à une scène, pas une capacité en données.
 
 ---
 

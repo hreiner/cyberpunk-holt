@@ -38,6 +38,7 @@ const MUSIC_DUCKED_VOLUME = 0.28;
 const MUSIC_FADE_MS = 1800;
 
 export class SlowCinematic {
+  private onFadeComplete: (() => void) | undefined;
   private readonly root: HTMLElement;
   private readonly images: [HTMLImageElement, HTMLImageElement];
   private readonly caption: HTMLElement;
@@ -291,8 +292,9 @@ export class SlowCinematic {
   }
 
   /** La chanson finit avec la scene, par un fondu apres sa derniere replique. */
-  fadeOut(): void {
+  fadeOut(onComplete?: () => void): void {
     if (this.disposed || this.fading) return;
+    this.onFadeComplete = onComplete;
     this.dismissVisual();
     this.fading = true;
     this.voiceMixFade.cancel();
@@ -309,11 +311,22 @@ export class SlowCinematic {
     if (this.disposed) return;
     this.disposed = true;
     this.dismissVisual();
+    this.sfx.dispose();
     this.voiceMixFade.cancel();
     window.clearInterval(this.fadeTimer);
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
     this.music.pause();
     this.music.removeAttribute('src');
     this.music.load();
+    this.onFadeComplete?.();
+    this.onFadeComplete = undefined;
+  }
+  setSoundMuted(muted: boolean): void {
+    this.music.muted = muted;
+    this.sfx.setMuted(muted);
+    this.updateMuteButton();
+    if (!muted && this.started && !document.hidden && !this.disposed) {
+      void this.music.play().catch(() => undefined);
+    }
   }
 }

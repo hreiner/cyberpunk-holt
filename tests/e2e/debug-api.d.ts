@@ -262,7 +262,19 @@ export interface E2ERadioCue {
   text: string;
 }
 
+export interface E2EAudioSnapshot {
+  muted: boolean;
+  unlocked: boolean;
+  speaking: boolean;
+  exclusive: boolean;
+  hidden: boolean;
+  cue: { music: string | null; ambience: string | null };
+  music: Array<{ source: string; volume: number; paused: boolean; currentTime: number }>;
+  ambience: Array<{ source: string; volume: number; paused: boolean; currentTime: number }>;
+}
+
 export interface E2EGameApi {
+  audio(): E2EAudioSnapshot;
   version: number;
 
   /* --- tactique (historique) --- */
@@ -276,13 +288,21 @@ export interface E2EGameApi {
   log(): string[];
   score(): E2EScore;
   setAiDelay(ms: number): void;
-  tacticalRenderStats(): { drawCalls: number; triangles: number; geometries: number; textures: number } | null;
+  tacticalRenderStats(): {
+    drawCalls: number;
+    triangles: number;
+    geometries: number;
+    textures: number;
+  } | null;
 
   /* --- narratif (ADR 0011) --- */
   scene(): E2ESceneSnapshot;
   goToScene(id: string): E2ESceneSnapshot;
   /** Voir `GameDebugApi.startChapter` dans src/debug/gameApi.ts (ADR 0021/0022). */
-  startChapter(id: 1 | 2, options?: { seed?: string; profile?: string; useArchive?: boolean }): E2ESceneSnapshot;
+  startChapter(
+    id: 1 | 2,
+    options?: { seed?: string; profile?: string; useArchive?: boolean },
+  ): E2ESceneSnapshot;
   runState(): E2ERunState;
   /** Voir `GameDebugApi.setCounter` dans src/debug/gameApi.ts (ADR 0025 §1, lot 5.4). */
   setCounter(key: string, value: number): void;
