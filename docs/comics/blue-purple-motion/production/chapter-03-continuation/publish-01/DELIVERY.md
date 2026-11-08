@@ -1,8 +1,8 @@
-# Blue Purple v10 — préparation de la publication
+# Blue Purple v10 — publication Internet vérifiée
 
-8novembre2026. Contenu accepté et paquet web contrôlé localement. Le push, la
-release publique et le résultat Pages restent à consigner après leur exécution.
-URL cible : https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/.
+8novembre2026. Contenu accepté, sources poussées et paquet déployé sur GitHub Pages.
+[Ouvrir le lecteur](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/).
+Le lecteur HTTPS et les médias correspondent aux empreintes de la sélection préparée.
 
 ## Sélection et médias
 
@@ -58,7 +58,25 @@ Configuration : `anime/motion-comics/web-release.json`.
 PUBLICATION.json : d842e7b6a4543cdcac93b30b775766a74401704fb422564809a062226bf01d0a.
 Archive USTAR gzip :154233721octets,
 SHA256 2c4d907aa84afedad25b3a5ea533ada03b6f6aad486bac6f479683806b2913ec.
-Tag prévu : blue-purple-v10-web-20261108.
+[Release publiée](https://github.com/hreiner/cyberpunk-holt/releases/tag/blue-purple-v10-web-20261108) :
+blue-purple-v10-web-20261108. L'asset distant a la taille et le digest SHA attendus.
+
+Sources publiées : [commit7166441](https://github.com/hreiner/cyberpunk-holt/commit/7166441c17120659ecd53397389033413d168012).
+[CI réussie](https://github.com/hreiner/cyberpunk-holt/actions/runs/42486944369),
+[Pages réussi](https://github.com/hreiner/cyberpunk-holt/actions/runs/42486944305), sur ce même commit.
+[Preuve HTTP publique](PUBLIC-HTTP.json) : HTML200, inventaire et chapitre exacts,
+Range206 audio/mp4 dont les octets correspondent aux médias figés.
+La [revue navigateur HTTPS](qa/ONLINE.md) passe les cinq parcours du lecteur, une
+entrée canonique dans un autre navigateur neuf et quatre requêtes Range exactes,
+avec dix captures Internet réellement ouvertes. Elle reste distincte de la CI et
+des contrôles locaux ; aucun visionnage continu de584,3s ni écoute humaine déclaré.
+
+Les8skills et les recettes ont été actualisés, les49adaptateurs synchronisés et les
+quatre scénarios de reprise contre-revus. Pour la prochaine session :
+[suivi courant](../../../../../anime/motion-comics/PROGRESS.md), puis cette sélection
+et le périmètre du nouveau lot. L'acceptationv10 est acquise. Le packager conserve
+les paramètres du lotv10 ; un nouveau chapitre reçoit sa configuration et sa version,
+sans réutiliser silencieusement ses compteurs ou écrire dans ses sorties gelées.
 
 ```powershell
 npm run comics:prepare

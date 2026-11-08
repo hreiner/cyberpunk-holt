@@ -29,8 +29,10 @@ L'ancien manifeste d'ensemble v2 et les prises v4 de départ restent conservés.
 Code et gabarits versionnables ici ; masters, prises et exports dans `art-masters/`.
 
 Sélection courante du8novembre : [couverture et21pages v10](projects/blue-purple-pages01-21-v10.json),
-584,3s,46sous-cases produites et rythme9–21 ralenti, moteur1.3.0.
-[Livraison et relance](../../docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/DELIVERY.md).
+584,3s,46sous-cases produites et rythme9–21 ralenti ; moteur web1.4.0 avec chargement progressif.
+[Lire en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/) ·
+[publication et relance](../../docs/comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md).
+La production native au moteur1.3.0 reste dans son archive historique.
 Les exemples et sélections1–4 cités ci-dessus restent historiques.
 Node et les dépendances Playwright du dépôt suffisent ; Edge et FFmpeg sont requis pour
 exporter. Aucun second `npm install` dans ce dossier.

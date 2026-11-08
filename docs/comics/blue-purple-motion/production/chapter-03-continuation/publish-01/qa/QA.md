@@ -1,8 +1,8 @@
-# QA publication v10 — GO local
+# QA publication v10 — GO local et HTTPS
 
-8 novembre 2026. **GO pour la publication du paquet local figé**, avec la limite
-numérique documentée ci-dessous. La vérification Internet attend le déploiement et
-son URL ; aucune publication distante n'est déduite du succès local.
+8 novembre 2026. **GO local et Internet**, avec la limite numérique documentée
+ci-dessous. La [contre-revue HTTPS](ONLINE.md) vérifie le lien canonique, la version
+publiée et ses médias indépendamment du succès local.
 
 Lecteur testé : <http://127.0.0.1:50612/cyberpunk-holt/comics/blue-purple/v10/>.
 Il s'agit du vrai `vite preview` de `dist/`, confirmé par le propriétaire du serveur.
@@ -89,7 +89,7 @@ node docs/comics/blue-purple-motion/production/chapter-03-continuation/publish-0
 node docs/comics/blue-purple-motion/production/chapter-03-continuation/publish-01/qa/compare-native-web.cjs http://127.0.0.1:50612/cyberpunk-holt/comics/blue-purple/v10/ 'http://127.0.0.1:50589/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v10.json' art-masters/motion-comics/blue-purple/chapter-03-continuation/publish-01/qa/native-web-v2
 ```
 
-Syntaxe et lint ciblé conformes sur les cinq scripts CJS. Après le déploiement,
-relancer le parcours HTTP/Playwright sur l'URL HTTPS réelle et confirmer les SHA
-publication/chapitre, le seek audio distant et les images réellement servies. La
-prochaine étape appartient à la publication distante, pas à une réexportation du film.
+Syntaxe et lint ciblé conformes sur les cinq scripts CJS. Le parcours HTTPS a ensuite
+été exécuté avec ces scripts gelés : [résultats, URL et preuves Internet](ONLINE.md).
+Les SHA publication/chapitre, le seek audio distant et les captures réellement servies
+sont vérifiés ; aucune réexportation du film n'a été nécessaire.

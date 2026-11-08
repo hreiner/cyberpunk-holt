@@ -1,7 +1,7 @@
 # Avis graphique indépendant — publication v10
 
 8 novembre 2026. **Favorable pour la publication**, avec la limite numérique de
-[QA.md](QA.md). Les 18 captures du parcours web et quatre vues de comparaison native/web
+[QA.md](QA.md). Les 18 captures du parcours local et quatre vues de comparaison native/web
 ont été réellement ouvertes. Le pilote a aussi examiné trois paires natives/web et
 les vues UI avant d'accepter cette limite. Aucun média n'est retouché pendant la revue.
 
@@ -36,5 +36,6 @@ Les images se trouvent dans
 et les paires dans `native-web-v1/`. Les rapports JSON relient chacune aux horaires,
 à l'état de lecture et aux empreintes des fichiers effectivement examinés.
 
-La lecture du mix n'a pas fait l'objet d'une écoute humaine. La vérification Internet
-reste à réaliser après déploiement, indépendamment de cet avis sur le build local.
+La lecture du mix n'a pas fait l'objet d'une écoute humaine. La passe Internet a
+ensuite vérifié dix captures réellement servies et ouvertes : [avis HTTPS](ONLINE.md).
+Elle conserve la limite numérique et l'avis local sans réécrire leurs preuves.

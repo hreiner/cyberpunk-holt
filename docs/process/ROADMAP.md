@@ -5,7 +5,8 @@ Le prochain chapitre part de [CH2-LEGACY](../chapters/CH2-LEGACY.md).
 Les [workflows](../WORKFLOWS.md) donnent les recettes actuelles ; les plans et lots
 ci-dessous gardent leurs livraisons et reports historiques.
 
-**Adaptation motion comics —8novembre2026 :** Blue Purple chapitre3 v10 accepté,
+**Adaptation motion comics —8novembre2026 :** Blue Purple chapitre3 v10 accepté et
+[publié sur Internet](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/),
 couverture et21pages,99voix,584,3s. Son suivi indépendant conserve la
 [sélection et l'état de publication](../anime/motion-comics/PROGRESS.md).
 Cette adaptation ne ferme aucun lot d'implémentation du chapitre3 dans le jeu.

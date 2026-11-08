@@ -32,6 +32,14 @@ technique garde son attente explicite des médias.
 
 ## Stockage et construction
 
+Le packager de cette livraison et le helper GitHub de `publish-01/` sont des outils
+du jalonv10 : sélection, version et compteurs attendus y sont explicites. Pour un
+nouveau lot, préparer sa propre configuration ou un nouveau script de production
+depuis la nouvelle sélection, puis vérifier ses contrats. Changer seulement `--source`
+en gardant le verrouv10 ne produit pas une nouvelle publication. Les commandes de
+restauration ci-dessous reprennent volontairement la version courante ; elles ne
+lancent pas la fabrication d'un prochain chapitre.
+
 Les binaires web volumineux restent dans une GitHub Release versionnée. Le dépôt
 contient les sources, la configuration et l'empreinte du paquet, et non les masters.
 L'archive `tar.gz` est vérifiée par SHA avant restauration. Le build depuis un

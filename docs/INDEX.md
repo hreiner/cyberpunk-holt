@@ -13,13 +13,14 @@ la table donne le skill, la première lecture, les commandes et la preuve attend
 
 **Reprendre une session motion comics : [suivi courant, livré et prochaine étape](anime/motion-comics/PROGRESS.md).**
 
-**v10 acceptée le8novembre ; push et publication Internet autorisés.**
-[Acceptation](comics/blue-purple-motion/production/chapter-03-continuation/publish-01/ACCEPTANCE.md),
+**v10 acceptée et publiée le8novembre : [lire le comics en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/).**
+[Livraison publique et preuves](comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md),
+[acceptation](comics/blue-purple-motion/production/chapter-03-continuation/publish-01/ACCEPTANCE.md),
 [procédure réutilisable de publication](anime/motion-comics/PUBLISH.md),
 [leçons de motion03 intégrées aux recettes](process/reviews/2026-11-08-motion03-workflow-lessons.md).
 
 **Blue Purple chapitre3 : couverture musicale et21pages,9min44 dans le lecteur.**
-[Livraison v10, contrôles et sauvegarde](comics/blue-purple-motion/production/chapter-03-continuation/motion-03/DELIVERY.md).
+[Livraison native v10, contrôles et sauvegarde historique](comics/blue-purple-motion/production/chapter-03-continuation/motion-03/DELIVERY.md).
 Sélection à reprendre : `blue-purple-pages01-21-v10.json`, rythme9–21 ralenti,
 carte Night City fidèle avec deux POI jaunes et un vert, sans HOLT.
 [Les46sous-cases produites](comics/blue-purple-motion/production/chapter-03-continuation/motion-03/ANIMATION-REVIEW.html)

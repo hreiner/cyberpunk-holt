@@ -1,8 +1,10 @@
 # Chapitre3 — livraison animée et sonore
 
-8novembre2026 — v10 acceptée, publication Internet autorisée :
-[acceptation et autorisation](publish-01/ACCEPTANCE.md). Nouveau jalon publish01 ;
-le lecteur local et son archive restent une preuve de production distincte de Pages.
+8novembre2026 — v10 acceptée, poussée et déployée :
+[lire en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/),
+[livraison et preuves](publish-01/DELIVERY.md),
+[acceptation et autorisation](publish-01/ACCEPTANCE.md). Moteur web1.4.0, mêmes99voix
+et584,3s. Le lecteur local et son archive restent une preuve distincte de Pages.
 
 8 novembre2026 — [livraison courante v10](motion-03/DELIVERY.md) : couverture et21pages,
 584,3s,99voix conservées. Les46sous-cases de la revue sont produites, avec des

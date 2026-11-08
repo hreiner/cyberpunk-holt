@@ -1,6 +1,6 @@
 {
   "date": "2026-11-08",
-  "stage": "verified-ready-for-source-push",
+  "stage": "deployed-and-publicly-verified",
   "content": {
     "version": 10,
     "manifest": "anime/motion-comics/projects/blue-purple-pages01-21-v10.json",
@@ -14,7 +14,7 @@
   "webEngine": "1.4.0",
   "targetUrl": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/",
   "releaseTag": "blue-purple-v10-web-20261108",
-  "publicationResult": "Not yet verified; update after exact commit workflow and public reader checks.",
+  "publicationResult": "GitHub Pages and CI succeeded; canonical public reader, exact hashes, audio Range and fresh-browser desktop/mobile journey verified.",
   "skills": {
     "updated": 8,
     "validated": 8,
@@ -32,5 +32,10 @@
     "bytes": 154233721
   },
   "publicationSha256": "d842e7b6a4543cdcac93b30b775766a74401704fb422564809a062226bf01d0a",
-  "preflight": "PREFLIGHT.json"
+  "preflight": "PREFLIGHT.json",
+  "sourceCommit": "7166441c17120659ecd53397389033413d168012",
+  "deploymentProof": "GITHUB-DEPLOYMENT.json",
+  "sourceBranch": "codex/publish-blue-purple",
+  "nextAction": "User feedback or next explicitly defined lot from the end of page21. No generation in progress, same v10 acceptance retained.",
+  "toolsScope": "Current publisher/checker contains v10 production parameters; a future lot needs its own selected version/configuration, not a source-only argument change."
 }

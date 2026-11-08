@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-08",
+  "commit": "7166441c17120659ecd53397389033413d168012",
+  "url": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/v10/",
+  "reader": {
+    "status": 200,
+    "type": "text/html; charset=utf-8"
+  },
+  "PUBLICATION.json": {
+    "status": 200,
+    "sha256": "d842e7b6a4543cdcac93b30b775766a74401704fb422564809a062226bf01d0a"
+  },
+  "chapter.json": {
+    "status": 200,
+    "sha256": "18c3fa01f9072d51aa3af368d407836943ba3649de33cd2f6e2e482faa6533e5"
+  },
+  "backingRange": {
+    "status": 206,
+    "range": "bytes 0-127/14236366",
+    "type": "audio/mp4",
+    "bytes": 128
+  },
+  "entries": 22,
+  "loadingMode": "progressive"
+}

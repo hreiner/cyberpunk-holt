@@ -1,10 +1,12 @@
 # Suivi courant — motion comics HOLT
 
-**8novembre2026 : le propriétaire accepte v10 et autorise push/publication Internet.**
+**8novembre2026 : v10 acceptée, poussée et déployée sur GitHub Pages.**
+[Lire le comics en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/).
 [Acceptation et sélection exactes](../../comics/blue-purple-motion/production/chapter-03-continuation/publish-01/ACCEPTANCE.md).
-Publication en préparation : paquet web autonome, chargement progressif et GitHub
-Pages existant selon [PUBLISH](PUBLISH.md). Le nouveau jalon conserve séparément
-les preuves de production1.3 et celles du moteur web1.4 ; le contenuv10 reste approuvé.
+[Livraison publique et preuves](../../comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md) :
+paquet autonome, chargement progressif, moteur1.4.0 et release vérifiée au build.
+CI et Pages réussis sur7166441 ; lecteur HTTPS et médias vérifiés. Les preuves de
+production1.3 restent historiques ; contenu, temps et99prises de v10 sont conservés.
 
 **8 novembre2026 : lecteur v10, couverture musicale12s et21pages,9min44s.**
 Les46sous-cases de la revue sont produites ; rythme9–21 ralenti, carte Night City
@@ -23,18 +25,22 @@ bulles françaises et dessins approuvés conservés. Pages5–8 : matières sono
 
 ## Sélection et livraison à reprendre
 
-- [Lecteur HTML complet](http://127.0.0.1:50589/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v10.json).
+- [Lecteur public complet](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/),
+  [lecture native locale](http://127.0.0.1:50589/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v10.json).
 - [Sélection v10](../../../anime/motion-comics/projects/blue-purple-pages01-21-v10.json) ;
   couverture `blue-purple-cover-v1.json`, treize pages9–21 `motion06`,
   lot9–21 : `anime/motion-comics/projects/blue-purple-pages09-21-motion06.json`.
-- [Livraison courante, relance et sauvegarde](../../comics/blue-purple-motion/production/chapter-03-continuation/motion-03/DELIVERY.md),
+- [Publication courante et relance](../../comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md),
+  [production native et sauvegarde](../../comics/blue-purple-motion/production/chapter-03-continuation/motion-03/DELIVERY.md),
   [revue globale](../../comics/blue-purple-motion/production/chapter-03-continuation/motion-03/qa-global/REVIEW.md),
   [suivi détaillé](../../comics/blue-purple-motion/production/chapter-03-continuation/motion-03/PROGRESS.md).
 - Les [deux films etPDF](../../comics/blue-purple-motion/production/chapter-03-continuation/motion-01/DELIVERY.md)
   restent la livraison historiquev7 ; aucun nouveau film complet dans cette passe.
 
-Le serveur de lecture est laissé sur50589 ; sa commande figure dans la livraison v10.
-Le gel courant est `motion-03/SELECTION.json` (317 dépendances/14fichiers moteur1.3.0).
+Le serveur natif utile reste sur50589 ; le lecteur public ne dépend pas de ce poste.
+Le verrou courant de publication est `anime/motion-comics/web-release.json`, moteur1.4.0,
+PUBLICATION d842e7b6…01d0a,345fichiers. Release154233721octets, SHA2c4d907a…2913ec.
+Le gel local de production est `motion-03/SELECTION.json` (317dépendances/moteur1.3.0).
 Le gel historiquev9 reste `motion-02/SELECTION.json` (195 dépendances).
 Le gel v8 reste `format-01/SELECTION.json` (182 dépendances) ; le gel historique v7 reste
 `motion-01/SOURCE-LOCK-v2.json` (169 dépendances/14 fichiers moteur).
@@ -86,8 +92,9 @@ existants ne sont pas réécrits pour cette consigne de carte. Letitia reste abs
 Sur le quai au niveau de l'eau, John a jeté le sans-abri ; ne pas inventer son sort.
 Source : [scénario ch3](../../chapters/ch3/SCENARIO.md).
 
-Prochaine action autorisée : terminer la publication Internet et vérifier l'URL publique,
-puis traiter les éventuels retours ciblés. La feuille finale décrit les effets réalisés.
+Publication terminée. Prochaine action : retours ciblés du propriétaire ou définition
+du prochain lot à partir de la fin21, sans nouvelle production implicite. La feuille
+finale décrit les effets réalisés.
 Le propriétaire a accepté v10 ; ne pas redemander sa revue sur le même hash, ni relancer
 une production ou demander cette même validation sans nouvelle demande. Aucun rendu
 en cours à reprendre ; seuls les services d'aperçu utiles sont laissés actifs.
@@ -98,6 +105,16 @@ L'[audit de session](../../process/reviews/2026-11-07-comics-session-lessons.md)
 [leçons](LESSONS.md) conservent les retours. L'ancien storyboard initial est historique.
 
 ## Vérifications et compteurs
+
+Publication :788tests du jeu et58du socle réussis,8skills validés,49adaptateurs
+synchronisés. Paquet345fichiers contrôlé et restauré dans une copie neuve sansmasters
+niFFmpeg ; les cinq corruptions semées sont rejetées. Audio :106contrôles conformes,
+100médias décodés, huit fenêtres sans saturation et six accents sans décalage.
+Les parcours publics couvrent chargement progressif, pages froides, retry, pause,
+seek, fin, mobile et miniatures. Comparaison PNG/WebP du composé : max1niveau RGB,
+alpha identique, rapport strict conservé en échec et avis visuel séparé accepté par
+root ; ne pas annoncer zéro pixel entre codecs. Les107assets gardent un hash RGBA
+exact.0nouvel appel fournisseur. [Preuves](../../comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md).
 
 Reprisev10 :43tests du socle,68contrôles d'intégration,27frontières d'action et trois
 pauses réelles. Les317dépendances sélectionnées sont conformes,195sourcesv9 inchangées ;
@@ -152,7 +169,9 @@ Aucun commit/push ; préserver les autres travaux présents.
 ```text
 Lis AGENTS.md, docs/INDEX.md et ce suivi.
 Reprends la sélection Blue Purple1–21 v10 et le jalon publish01 après ACCEPTANCE.
-Vérifie le suivi de publication courant, pas seulement le lecteur localhost.
+Lecteur public : https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/.
+Publication vérifiée, contenu10/moteur1.4.0 ; release verrouillée dans web-release.json.
+Sur checkout neuf, npm run comics:prepare restaure le paquet sans masters ni FFmpeg.
 Traite les retours du propriétaire sur le lecteur courant, sans repartir
 des essais v1/v6. Conserve les masters statiques révision05 déjà validés, le gel v2
 historique, le format1024×1536 corrigé et les46sous-cases produites de motion03.

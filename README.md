@@ -9,6 +9,12 @@ puis nuit du bal, attaque, fuite et arrivée à Night City. Personnages MPFB ani
 Mixamo, décors 3D, portraits et cinématiques à plans fixes, VO anglaises et textes français,
 musique et ambiances continues. Le chapitre 3 reste à concevoir.
 
+Le motion comics **Blue Purple — chapitre3** est
+[lisible en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/) :
+couverture musicale et21pages, voix anglaises et bulles françaises,9min44.
+[Sélection et publication](docs/comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md).
+Cette adaptation a son propre suivi, distinct de l'implémentation du jeu.
+
 Pour travailler : [AGENTS.md](AGENTS.md), puis [guide par tâche](docs/WORKFLOWS.md).
 Le [catalogue](docs/INDEX.md) référence les sources ; la [roadmap](docs/process/ROADMAP.md)
 conserve les livraisons et travaux restants. Les skills et profils Codex/Claude sont
@@ -55,5 +61,7 @@ rejoue dans Node avec un RNG seedé ; les couches sont décrites dans
 GTX 1070** ; les revues datées explicitent leurs mesures et limites.
 
 Les assets légers livrés sont versionnés. Masters, chansons locales du propriétaire et
-livres comics restent dans `art-masters/` ou aux emplacements ignorés indiqués par leurs
-pipelines. L'univers Cyberpunk et Night City appartient à ses ayants droit.
+livres de revue restent dans les emplacements ignorés de leurs pipelines. Les médias
+du lecteur comics sont restaurés depuis une release vérifiée au build ;
+`npm run comics:prepare` les prépare aussi pour un checkout de développement neuf.
+L'univers Cyberpunk et Night City appartient à ses ayants droit.

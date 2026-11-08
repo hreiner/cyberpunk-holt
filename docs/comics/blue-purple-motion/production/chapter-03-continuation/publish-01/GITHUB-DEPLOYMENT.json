@@ -1,0 +1,38 @@
+{
+  "status": "deployed-and-publicly-verified",
+  "date": "2026-11-08",
+  "sourceCommit": "7166441c17120659ecd53397389033413d168012",
+  "canonicalUrl": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/",
+  "versionUrl": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/v10/",
+  "ci": {
+    "id": 42486944369,
+    "conclusion": "success",
+    "url": "https://github.com/hreiner/cyberpunk-holt/actions/runs/42486944369"
+  },
+  "pages": {
+    "id": 42486944305,
+    "conclusion": "success",
+    "url": "https://github.com/hreiner/cyberpunk-holt/actions/runs/42486944305"
+  },
+  "releaseProof": "GITHUB-RELEASE.json",
+  "httpProof": "PUBLIC-HTTP.json",
+  "browserProof": "qa/ONLINE.md",
+  "browser": {
+    "scenariosPassed": 5,
+    "onlineCapturesOpened": 10,
+    "canonicalFreshBrowser": true,
+    "exactRangeChecks": 4,
+    "outsideBundleRequests": 0,
+    "unexpected404OrJs": 0
+  },
+  "publishedContentUnchanged": {
+    "entries": 22,
+    "voices": 99,
+    "duration": 584.3,
+    "mapMarkers": {
+      "yellow": 2,
+      "green": 1,
+      "holt": false
+    }
+  }
+}
