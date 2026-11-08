@@ -28,3 +28,8 @@ avoir accès aux sessions web absentes.
 Vérifier les commandes/recettes modifiées sans génération payante, puis les checks adaptés.
 Corriger les références cassées et les états contradictoires, conserver les preuves
 historiques avec leur date. Un ajout de wording ne demande pas des e2e complets.
+
+Pour une reprise motion comics, relier sélection, acceptation du propriétaire et
+jalon de publication au suivi courant. Garder distincts contenu, moteur archivé et
+moteur web ; une URL locale ou un push seul ne prouve pas une publication Internet.
+La recette de publication reste dans docs/anime/motion-comics/PUBLISH.md.

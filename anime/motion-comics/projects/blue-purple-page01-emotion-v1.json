@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "version": 6,
+  "title": "HOLT — Blue Purple · voix expressives · essai 1",
+  "image": "../../../art-masters/motion-comics/blue-purple/page-01/page-v2.png",
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.6,
+  "outroSeconds": 2,
+  "panels": [
+    {
+      "id": "p01-c01",
+      "label": "Case 1 — Wendy",
+      "rect": [
+        0.004,
+        0.004,
+        0.992,
+        0.347
+      ],
+      "cues": [
+        {
+          "audio": "../../../art-masters/motion-comics/blue-purple/page-01/voices-emotion-v1/01-wendy-0b9b6aafb2c7.mp3",
+          "duration": 9.52,
+          "speaker": "wendy",
+          "textEn": "I'm Wendy. I was sent in case something went wrong. Tell me what happened after HOLT.",
+          "textFr": "Je m'appelle Wendy. On m'a envoyée si quelque chose tournait mal. Que s'est-il passé après HOLT ?",
+          "ttsText": "[exhales] [calm, reassuring] I'm Wendy. [short pause] I was sent in case something went wrong. [sighs] [curious, gently] Tell me... what happened after HOLT?",
+          "performance": "Établir le contact sans désarmer sa vigilance : expiration, présentation posée, puis une question réellement adressée aux cadets.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/page-01/voices-emotion-v1/01-wendy-0b9b6aafb2c7.json"
+        }
+      ]
+    },
+    {
+      "id": "p01-c02",
+      "label": "Case 2 — John",
+      "rect": [
+        0.004,
+        0.357,
+        0.448,
+        0.304
+      ],
+      "cues": [
+        {
+          "audio": "../../../art-masters/motion-comics/blue-purple/page-01/voices-emotion-v1/02-john-626a8851a152.mp3",
+          "duration": 4.4,
+          "speaker": "john",
+          "textEn": "We ran. They kept coming.",
+          "textFr": "On a fui. Ils ne nous ont pas lâchés.",
+          "ttsText": "[exhales sharply] [shaken, breathless] We ran... [short pause] [angry, under his breath] They kept coming.",
+          "performance": "Le souvenir revient physiquement : souffle court, première phrase épuisée, seconde plus dure et contenue.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/page-01/voices-emotion-v1/02-john-626a8851a152.json"
+        }
+      ]
+    },
+    {
+      "id": "p01-c03",
+      "label": "Case 3 — Wendy",
+      "rect": [
+        0.464,
+        0.357,
+        0.532,
+        0.304
+      ],
+      "cues": [
+        {
+          "audio": "../../../art-masters/motion-comics/blue-purple/page-01/voices-emotion-v1/03-wendy-2e85754e8e36.mp3",
+          "duration": 11.2,
+          "speaker": "wendy",
+          "textEn": "The Academy sent me as a last resort. You're being hunted. If they followed you here, we don't have much time.",
+          "textFr": "L'Académie m'a envoyée en dernier recours. On vous traque. S'ils vous ont suivis, on n'a plus beaucoup de temps.",
+          "ttsText": "[serious, controlled urgency] The Academy sent me as a last resort. [short pause] [low, firm voice] You're being HUNTED. [inhales deeply] [whispers] If they followed you here... [urgent] we don't have much time.",
+          "performance": "Basculer de l'explication à l'avertissement : insister sur hunted, baisser la voix pour la menace immédiate, accélérer la dernière proposition.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/page-01/voices-emotion-v1/03-wendy-2e85754e8e36.json"
+        }
+      ]
+    },
+    {
+      "id": "p01-c04",
+      "label": "Case 4 — Abigail",
+      "rect": [
+        0.004,
+        0.67,
+        0.992,
+        0.326
+      ],
+      "cues": [
+        {
+          "audio": "../../../art-masters/motion-comics/blue-purple/page-01/voices-emotion-v1/04-abigail-58cf903ba51e.mp3",
+          "duration": 7.28,
+          "speaker": "abigail",
+          "textEn": "Letitia's at a ripperdoc. He's keeping her there.",
+          "textFr": "Letitia est chez un charcudoc. Il la retient là-bas.",
+          "ttsText": "[inhales deeply] [sad, voice trembling] Letitia's at a ripperdoc. [swallows] [angry, holding back tears] He's keeping her there.",
+          "performance": "Réussir à prononcer le nom de Letitia malgré l'angoisse, ravaler l'émotion puis laisser percer la colère contre le charcudoc.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/page-01/voices-emotion-v1/04-abigail-58cf903ba51e.json"
+        }
+      ]
+    }
+  ],
+  "source": "docs/anime/SCREENPLAY.md S01-P01 à P02",
+  "provenance": {
+    "image": "ImageGen, prompt versionné docs/comics/blue-purple-motion/PAGE-01-PROMPT.txt",
+    "audio": "4 nouvelles prises ElevenLabs OAuth eleven_v3 ; 602 caractères tags compris ; coût réellement débité et IDs de requête non fournis par la CLI ; écoute à valider.",
+    "revision": "Enfant civil ; document absent avant révélation.",
+    "performance": "anime/motion-comics/projects/blue-purple-page01-performance-v1.json",
+    "previous_manifest": "anime/motion-comics/projects/blue-purple-page01.json"
+  },
+  "review": {
+    "sampleTime": 20.67,
+    "deltaSeconds": 0.5,
+    "minimumChangedPixels": 1,
+    "minimumLiveChangedPixels": 500
+  },
+  "protectedRegions": [
+    {
+      "id": "wendy-dialogue",
+      "rect": [
+        0.8,
+        0.37,
+        0.18,
+        0.28
+      ]
+    },
+    {
+      "id": "wendy-eyes",
+      "rect": [
+        0.55,
+        0.49,
+        0.18,
+        0.04
+      ]
+    },
+    {
+      "id": "wendy-mouth",
+      "rect": [
+        0.64,
+        0.55,
+        0.07,
+        0.055
+      ]
+    },
+    {
+      "id": "wendy-eyes-wide",
+      "rect": [
+        0.44,
+        0.16,
+        0.16,
+        0.045
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "neon",
+      "rect": [
+        0.83,
+        0.075,
+        0.16,
+        0.07
+      ],
+      "color": "#31eaff",
+      "strength": 0.6,
+      "frequency": 0.45
+    },
+    {
+      "type": "neon",
+      "rect": [
+        0.012,
+        0.018,
+        0.13,
+        0.085
+      ],
+      "color": "#d72eff",
+      "strength": 0.6,
+      "frequency": 0.45,
+      "phase": 1.2
+    },
+    {
+      "type": "neon",
+      "rect": [
+        0.025,
+        0.68,
+        0.17,
+        0.07
+      ],
+      "color": "#ffd831",
+      "strength": 0.6,
+      "frequency": 0.45,
+      "phase": 2.0
+    },
+    {
+      "type": "reflection",
+      "rect": [
+        0.27,
+        0.318,
+        0.48,
+        0.022
+      ],
+      "color": "#e833ff",
+      "strength": 0.32,
+      "frequency": 0.25
+    },
+    {
+      "type": "hair",
+      "rect": [
+        0.615,
+        0.397,
+        0.165,
+        0.172
+      ],
+      "amplitude": 9,
+      "frequency": 0.52,
+      "protect": [
+        [
+          0.54,
+          0.482,
+          0.2,
+          0.069
+        ],
+        [
+          0.64,
+          0.55,
+          0.07,
+          0.055
+        ]
+      ]
+    },
+    {
+      "type": "hair",
+      "rect": [
+        0.475,
+        0.091,
+        0.12,
+        0.142
+      ],
+      "amplitude": 6,
+      "frequency": 0.44,
+      "protect": [
+        [
+          0.44,
+          0.16,
+          0.16,
+          0.045
+        ]
+      ]
+    },
+    {
+      "type": "rain",
+      "rect": [
+        0.012,
+        0.018,
+        0.13,
+        0.093
+      ]
+    }
+  ]
+}

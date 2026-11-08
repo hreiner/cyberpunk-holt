@@ -1,0 +1,5 @@
+Restyle this exact map as a detailed cyberpunk comic atlas: hand-inked angular outlines, cel-shaded urban blocks, selective halftone, cyan and violet night-city lights, deep navy ocean, ochre desert with drawn ridgelines. It should look drawn for our anime comic, not like a satellite photograph or a generic wireframe diagram.
+
+Preserve the supplied geography and orientation very closely: large bay on the left, western offshore island with its horizontal runway and three triangular installations, bridges, the same coast, dense mainland city, main roads and district boundaries, desert east. Do not add a river, reshape the coast, move districts, crop or stretch the map. Keep the original wide aspect ratio and entire geographic extent.
+
+Retain these readable names: WATSON, CITY CENTER, HEYWOOD, WESTBROOK, SANTO DOMINGO. Add only BADLANDS on the eastern desert. Remove the little yellow/green document icons and decorative black game-frame edges. No characters, speech bubbles, giant title, coordinates, route arrows, watermark or new locations. This exact map must remain immediately recognizable, in a polished cyberpunk comics rendering.

@@ -1,0 +1,25 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "HOLT — Blue Purple · page-07",
+  "pages": [
+    {
+      "id": "page-07",
+      "manifest": "blue-purple-page07-v1.json"
+    }
+  ],
+  "music": {
+    "audio": "../../../public/assets/audio/background/music-pressure.mp3",
+    "gain": 0.08,
+    "fadeSeconds": 0.5
+  },
+  "source": "docs/chapters/ch3/SCENARIO.md — Le piège au bar ; Le parking et la fuite",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/pages-05-08/",
+    "retainedSelection": "blue-purple-pages01-04-v4.json",
+    "retainedMediaUnchanged": true,
+    "newVoices": "Huit prises Eleven v4 ; cumul 2856/3200 caractères, sources et journaux conservés.",
+    "review": "REVIEW.md décrit les contrôles réellement exécutés et leurs limites."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 5,
+  "title": "HOLT — Blue Purple · page 5 · révision 3",
+  "pages": [
+    {
+      "id": "page-05",
+      "manifest": "blue-purple-page05-v5.json"
+    }
+  ],
+  "music": {
+    "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-02/soundtrack-v1/backing-page-05.wav",
+    "gain": 1,
+    "preMixed": true
+  },
+  "provenance": {
+    "revision": 3,
+    "previousManifest": "anime/motion-comics/projects/blue-purple-page05-v3.json",
+    "previousManifestSha256": "ee944052e99c7a7666d9ee3f712bdb83d6dae1b345412cd9b32a307ade944285",
+    "contract": "docs/comics/blue-purple-motion/production/pages-05-08/revision-02/CONTRACTS.json",
+    "contractSha256": "da290bacb031c7133d66abda9792b506dbb6ce8dadafa2e69fb710ac17c34822",
+    "timing": "art-masters/motion-comics/blue-purple/pages-05-08/revision-02/timing-r2-v1.json",
+    "imageSha256": "d0e5c6ac1377ac399578fcaa08abc99fa939515e8f8ca55196a3d78e097875b9",
+    "soundtrack": "art-masters/motion-comics/blue-purple/pages-05-08/revision-02/soundtrack-v1/report.json",
+    "humanListeningApproval": false,
+    "production": "docs/comics/blue-purple-motion/production/pages-05-08/revision-03/",
+    "correction": "Only the John recoil drawing changes; previous voices, music, SFX, panels and timings retained."
+  }
+}

@@ -9,6 +9,11 @@ Lire AGENTS.md, docs/INDEX.md et [AUDIO-WORKFLOW](../../../docs/art/AUDIO-WORKFL
 Choisir fond, ambiance, effet ou VO ; ouvrir seulement sa conduite et ses données.
 Préférer réemploi et prise ciblée à une génération globale.
 
+Pour les motion comics, utiliser les étapes ciblées
+[voix](../holt-motion-voice/SKILL.md) ou [musique/bruitages](../holt-motion-sound/SKILL.md).
+Mesurer le segment réellement joué et son onset, pas seulement la crête globale du
+fichier ; vérifier aussi la chaîne mono/stéréo et le mix effectivement exporté.
+
 Vérifier la CLI OAuth avant de demander une clé. MCP, CLI et API SDK ont des
 authentifications distinctes ; ne pas transférer le token CLI à un MCP. Le défaut
 401 des bruitages est un constat daté, pas une impossibilité générale. Un repli CC0
@@ -18,6 +23,14 @@ Fixer intention, silences, branches, prompt, modèle et casting avant générati
 Textes français, VO cinématiques anglaises. Conserver les IDs ; les deux George
 ne sont pas la même voix. Employer `--dry-run` puis une cible `--file`/`--asset`
 avec `--force` pour une reprise. Aucun appel payant pour une tâche de documentation.
+
+Pour les prises de motion comics, reprendre la
+[direction expressive retenue](../../../docs/anime/MOTION-COMICS-VOICE-DIRECTION.md) :
+le propriétaire préfère les émotions et changements de jeu, avec soupirs et respirations
+seulement lorsqu'ils servent le récit, sans automatisme à chaque ligne. Recaler le montage
+sur les durées mesurées sans raccourcir le temps nécessaire à la lecture française.
+Modèle retenu pour les nouvelles prises du studio : Eleven v4 standard (`eleven_v4`),
+stabilité 0,5 et similarité 0,8 comme point de départ ; v3 reste un choix explicite.
 
 Le fond appartient au contrôleur commun ; inscrire scène/pièce dans ses données.
 Prévoir exclusivité du montage jusqu'à la fin du dialogue, baisse sous voix,

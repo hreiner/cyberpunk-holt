@@ -1,0 +1,71 @@
+{
+  "version": 2,
+  "fps": 24,
+  "title": "Études de mouvement HOLT",
+  "scenes": [
+    {
+      "id": "punch",
+      "label": "Le coup",
+      "page": 5,
+      "panelId": "p05-c03",
+      "duration": 5.5,
+      "intent": "Préparation lisible, contact bref, récupération puis résultat tenu.",
+      "anchors": {
+        "contact": 1.5,
+        "recoil": 1.625,
+        "down": 1.95
+      },
+      "proofTimes": [
+        0,
+        1.4583333333333333,
+        1.5,
+        1.625,
+        1.95,
+        5.25
+      ]
+    },
+    {
+      "id": "glass",
+      "label": "La vitre",
+      "page": 5,
+      "panelId": "p05-c04",
+      "duration": 5,
+      "intent": "Vitre intacte, rupture unique, débris puis tenue. Acteurs et bulles fixes.",
+      "anchors": {
+        "shatter": 1.25,
+        "debrisEnd": 3.15
+      },
+      "proofTimes": [
+        0,
+        1.2083333333333333,
+        1.25,
+        1.5,
+        2.4,
+        4.75
+      ]
+    },
+    {
+      "id": "wind",
+      "label": "La fuite",
+      "page": 8,
+      "panelId": "p08-c04",
+      "duration": 6,
+      "intent": "Le flux gagne en vitesse puis s'efface ; voiture, roues et ombre restent fixes.",
+      "anchors": {
+        "flowStart": 0.4,
+        "cruise": 2.6,
+        "fadeStart": 4.6,
+        "flowEnd": 6
+      },
+      "proofTimes": [
+        0,
+        0.8,
+        1.5,
+        2.6,
+        4.6,
+        5.75
+      ]
+    }
+  ],
+  "correction": "John recoil arm corrected from selected comic v5; study motion and anchors unchanged."
+}

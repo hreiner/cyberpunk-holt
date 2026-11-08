@@ -1,0 +1,13 @@
+{
+  "prompt": "page-08-band-03-v2.txt",
+  "contract": "CONTRACTS.json v1 p08-c04",
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-01-08/references/cast-six-v1.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-04/page-v2.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-01-08/references/deck-slide-12.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-07/band-03-v1.png"
+  ],
+  "inspectedSourceReferences": true,
+  "predecessorReferencesRequireInspection": true,
+  "status": "ready-for-independent-review-before-generation"
+}

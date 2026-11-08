@@ -1,0 +1,793 @@
+{
+  "scope": "lot-a-pages09-13",
+  "timing": {
+    "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/timing/TIMING.json",
+    "sha256": "6abefd967dee6b9b1a0b3c85d54c85fbf1d5ffbe8bc12294f5fc774fbea2a091",
+    "helperSha256": "3be9fc416a225e9ef42fc398a735218fcc2ead1bf4c3bf5cb6ea82203ec70624"
+  },
+  "width": 1024,
+  "height": 1536,
+  "margin": 12,
+  "gutter": 12,
+  "paidMediaCalls": 0,
+  "pages": [
+    {
+      "page": 9,
+      "candidate": "anime/motion-comics/projects/blue-purple-page09-motion06.json",
+      "source": "anime/motion-comics/projects/blue-purple-page09-motion04.json",
+      "sourceSha256": "a2494a5b77c7bb71d85b934a7fc22a30058b2c84d838c8e35443be7769398dba",
+      "master": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-09/page.png",
+      "lettering": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-09/lettering.svg",
+      "duration": 24.09166666666667,
+      "panels": [
+        {
+          "id": "p09-c01",
+          "key": "09-1",
+          "wordCount": 15,
+          "readingSeconds": 5.6,
+          "minimum": 5.5,
+          "voiceBudget": 6.21,
+          "tail": 0.8,
+          "holdSeconds": 7.041666666666667,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 0.65,
+          "oldReady": 0.93,
+          "oldEnd": 6.4300000000000015,
+          "start": 2,
+          "ready": 2.85,
+          "end": 9.891666666666667,
+          "voiceStarts": [
+            3.2,
+            6.370000000000001
+          ],
+          "voiceEnds": [
+            5.92,
+            8.610000000000001
+          ]
+        },
+        {
+          "id": "p09-c02",
+          "key": "09-2",
+          "wordCount": 3,
+          "readingSeconds": 1.6,
+          "minimum": 5.5,
+          "voiceBudget": 4.54,
+          "tail": 0.8,
+          "holdSeconds": 5.5,
+          "reason": "Carte stabilisée avant la réplique de Franklyn ; exception approuvée root",
+          "oldStart": 6.4300000000000015,
+          "oldReady": 6.710000000000002,
+          "oldEnd": 9.71,
+          "start": 9.891666666666667,
+          "ready": 10.741666666666667,
+          "end": 16.241666666666667,
+          "voiceStarts": [
+            12.191666666666666
+          ],
+          "voiceEnds": [
+            14.831666666666667
+          ]
+        },
+        {
+          "id": "p09-c03",
+          "key": "09-3",
+          "wordCount": 8,
+          "readingSeconds": 3.2666666666666666,
+          "minimum": 5.5,
+          "voiceBudget": 4,
+          "tail": 0.8,
+          "holdSeconds": 5.5,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 9.71,
+          "oldReady": 9.99,
+          "oldEnd": 13.55,
+          "start": 16.241666666666667,
+          "ready": 17.09166666666667,
+          "end": 22.59166666666667,
+          "voiceStarts": [
+            17.44166666666667
+          ],
+          "voiceEnds": [
+            20.64166666666667
+          ]
+        }
+      ],
+      "layerCount": 2,
+      "effectCount": 4,
+      "panelReveals": []
+    },
+    {
+      "page": 10,
+      "candidate": "anime/motion-comics/projects/blue-purple-page10-motion06.json",
+      "source": "anime/motion-comics/projects/blue-purple-page10-motion04.json",
+      "sourceSha256": "7d756cf5586a06123afcfa3637ba67a48077cbee9ab6231ba46f22d69fb59c0e",
+      "master": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/page-final.png",
+      "lettering": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/lettering-final.svg",
+      "duration": 28.258333333333333,
+      "panels": [
+        {
+          "id": "p10-c01",
+          "key": "10-1",
+          "wordCount": 6,
+          "readingSeconds": 2.6,
+          "minimum": 5.5,
+          "voiceBudget": 3.4400000000000004,
+          "tail": 0.8,
+          "holdSeconds": 5.5,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 0.65,
+          "oldReady": 0.93,
+          "oldEnd": 3.9300000000000006,
+          "start": 2,
+          "ready": 2.85,
+          "end": 8.35,
+          "voiceStarts": [
+            3.2
+          ],
+          "voiceEnds": [
+            5.84
+          ]
+        },
+        {
+          "id": "p10-c02",
+          "key": "10-2",
+          "wordCount": 13,
+          "readingSeconds": 4.933333333333333,
+          "minimum": 5.5,
+          "voiceBudget": 7.890000000000001,
+          "tail": 0.8,
+          "holdSeconds": 8.708333333333334,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 3.9300000000000006,
+          "oldReady": 4.210000000000001,
+          "oldEnd": 11.39,
+          "start": 8.35,
+          "ready": 9.2,
+          "end": 17.90833333333333,
+          "voiceStarts": [
+            9.549999999999999,
+            14.399999999999999
+          ],
+          "voiceEnds": [
+            13.95,
+            16.64
+          ]
+        },
+        {
+          "id": "p10-c03",
+          "key": "10-3",
+          "wordCount": 17,
+          "readingSeconds": 6.266666666666667,
+          "minimum": 5.5,
+          "voiceBudget": 7.17,
+          "tail": 0.8,
+          "holdSeconds": 8,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 11.39,
+          "oldReady": 11.67,
+          "oldEnd": 18.13,
+          "start": 17.90833333333333,
+          "ready": 18.758333333333333,
+          "end": 26.758333333333333,
+          "voiceStarts": [
+            19.108333333333334,
+            22.358333333333334
+          ],
+          "voiceEnds": [
+            21.908333333333335,
+            25.478333333333335
+          ]
+        }
+      ],
+      "layerCount": 2,
+      "effectCount": 7,
+      "panelReveals": []
+    },
+    {
+      "page": 11,
+      "candidate": "anime/motion-comics/projects/blue-purple-page11-motion06.json",
+      "source": "anime/motion-comics/projects/blue-purple-page11-motion04.json",
+      "sourceSha256": "e1f893e6b9b8bb20e15b2710dca455af6dc859ca1c2bac4415849bb212711e8f",
+      "master": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/page-fitted.png",
+      "lettering": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/lettering-fitted.svg",
+      "duration": 33.358333333333334,
+      "panels": [
+        {
+          "id": "p11-c01",
+          "key": "11-1",
+          "wordCount": 12,
+          "readingSeconds": 4.6,
+          "minimum": 5.5,
+          "voiceBudget": 5.17,
+          "tail": 0.8,
+          "holdSeconds": 6,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 0.65,
+          "oldReady": 0.93,
+          "oldEnd": 5.390000000000001,
+          "start": 2,
+          "ready": 2.85,
+          "end": 8.85,
+          "voiceStarts": [
+            3.2,
+            5.970000000000001
+          ],
+          "voiceEnds": [
+            5.52,
+            7.57
+          ]
+        },
+        {
+          "id": "p11-c02",
+          "key": "11-2",
+          "wordCount": 10,
+          "readingSeconds": 3.9333333333333336,
+          "minimum": 5.5,
+          "voiceBudget": 4.8,
+          "tail": 0.8,
+          "holdSeconds": 5.625,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 5.390000000000001,
+          "oldReady": 5.670000000000001,
+          "oldEnd": 10.030000000000001,
+          "start": 8.85,
+          "ready": 9.7,
+          "end": 15.325,
+          "voiceStarts": [
+            10.049999999999999
+          ],
+          "voiceEnds": [
+            14.049999999999999
+          ]
+        },
+        {
+          "id": "p11-c03a",
+          "key": "11-3a",
+          "wordCount": 9,
+          "readingSeconds": 3.6,
+          "minimum": 5.5,
+          "voiceBudget": 3.9200000000000004,
+          "tail": 0.8,
+          "holdSeconds": 5.5,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 10.030000000000001,
+          "oldReady": 10.31,
+          "oldEnd": 13.790000000000001,
+          "start": 15.325,
+          "ready": 16.175,
+          "end": 21.675,
+          "voiceStarts": [
+            16.525000000000002
+          ],
+          "voiceEnds": [
+            19.645000000000003
+          ]
+        },
+        {
+          "id": "p11-c03b",
+          "key": "11-3b",
+          "wordCount": 14,
+          "readingSeconds": 5.266666666666667,
+          "minimum": 5.5,
+          "voiceBudget": 8.53,
+          "tail": 0.8,
+          "holdSeconds": 9.333333333333334,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 13.790000000000001,
+          "oldReady": 14.07,
+          "oldEnd": 21.89,
+          "start": 21.675,
+          "ready": 22.525000000000002,
+          "end": 31.858333333333334,
+          "voiceStarts": [
+            22.875000000000004,
+            26.845000000000002
+          ],
+          "voiceEnds": [
+            26.395000000000003,
+            30.605000000000004
+          ]
+        }
+      ],
+      "layerCount": 1,
+      "effectCount": 4,
+      "panelReveals": [
+        {
+          "panelId": "p11-c03a",
+          "atSeconds": 16.255
+        },
+        {
+          "panelId": "p11-c03b",
+          "atSeconds": 22.605
+        }
+      ]
+    },
+    {
+      "page": 12,
+      "candidate": "anime/motion-comics/projects/blue-purple-page12-motion06.json",
+      "source": "anime/motion-comics/projects/blue-purple-page12-motion04.json",
+      "sourceSha256": "3148f4cdc13ff7feaff68ef3876b6fa2b419aa2f353380cc51147cb7e360815d",
+      "master": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-12/page-fitted.png",
+      "lettering": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-12/lettering-fitted.svg",
+      "duration": 26.883333333333333,
+      "panels": [
+        {
+          "id": "p12-c01",
+          "key": "12-1",
+          "wordCount": 13,
+          "readingSeconds": 4.933333333333333,
+          "minimum": 5.5,
+          "voiceBudget": 7.81,
+          "tail": 0.8,
+          "holdSeconds": 8.625,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 0.65,
+          "oldReady": 0.93,
+          "oldEnd": 8.03,
+          "start": 2,
+          "ready": 2.85,
+          "end": 11.475,
+          "voiceStarts": [
+            3.2,
+            7.41
+          ],
+          "voiceEnds": [
+            6.96,
+            10.21
+          ]
+        },
+        {
+          "id": "p12-c02",
+          "key": "12-2",
+          "wordCount": 11,
+          "readingSeconds": 4.266666666666667,
+          "minimum": 5.5,
+          "voiceBudget": 4.4799999999999995,
+          "tail": 0.8,
+          "holdSeconds": 5.5,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 8.03,
+          "oldReady": 8.309999999999999,
+          "oldEnd": 12.349999999999998,
+          "start": 11.475,
+          "ready": 12.325,
+          "end": 17.825,
+          "voiceStarts": [
+            12.674999999999999
+          ],
+          "voiceEnds": [
+            16.355
+          ]
+        },
+        {
+          "id": "p12-c03",
+          "key": "12-3",
+          "wordCount": 8,
+          "readingSeconds": 3.2666666666666666,
+          "minimum": 5.5,
+          "voiceBudget": 5.89,
+          "tail": 0.8,
+          "holdSeconds": 6.708333333333333,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 12.349999999999998,
+          "oldReady": 12.629999999999997,
+          "oldEnd": 17.809999999999995,
+          "start": 17.825,
+          "ready": 18.675,
+          "end": 25.383333333333333,
+          "voiceStarts": [
+            19.025000000000002,
+            21.475
+          ],
+          "voiceEnds": [
+            21.025000000000002,
+            24.115000000000002
+          ]
+        }
+      ],
+      "layerCount": 2,
+      "effectCount": 3,
+      "panelReveals": []
+    },
+    {
+      "page": 13,
+      "candidate": "anime/motion-comics/projects/blue-purple-page13-motion06.json",
+      "source": "anime/motion-comics/projects/blue-purple-page13-motion04.json",
+      "sourceSha256": "55d2bc35f8b2c91a607d248d39f4b0c165d5502d2dc04467b2ea97b2e4c7da16",
+      "master": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-13/page-fitted.png",
+      "lettering": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-13/lettering-fitted.svg",
+      "duration": 28.275000000000002,
+      "panels": [
+        {
+          "id": "p13-c01",
+          "key": "13-1",
+          "wordCount": 9,
+          "readingSeconds": 3.6,
+          "minimum": 5.5,
+          "voiceBudget": 5.25,
+          "tail": 0.8,
+          "holdSeconds": 6.083333333333333,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 0.65,
+          "oldReady": 0.93,
+          "oldEnd": 5.470000000000001,
+          "start": 2,
+          "ready": 2.85,
+          "end": 8.933333333333334,
+          "voiceStarts": [
+            3.2,
+            5.73
+          ],
+          "voiceEnds": [
+            5.28,
+            7.65
+          ]
+        },
+        {
+          "id": "p13-c02",
+          "key": "13-2",
+          "wordCount": 11,
+          "readingSeconds": 4.266666666666667,
+          "minimum": 5.5,
+          "voiceBudget": 4.4799999999999995,
+          "tail": 0.8,
+          "holdSeconds": 5.5,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 5.470000000000001,
+          "oldReady": 5.750000000000001,
+          "oldEnd": 9.790000000000001,
+          "start": 8.933333333333334,
+          "ready": 9.783333333333333,
+          "end": 15.283333333333333,
+          "voiceStarts": [
+            10.133333333333333
+          ],
+          "voiceEnds": [
+            13.813333333333333
+          ]
+        },
+        {
+          "id": "p13-c02-detail",
+          "key": "13-2-detail",
+          "wordCount": 0,
+          "readingSeconds": 0.6,
+          "minimum": 3,
+          "voiceBudget": 0.35,
+          "tail": 0.5,
+          "holdSeconds": 3,
+          "reason": "Insert muet de réflexion",
+          "oldStart": 9.790000000000001,
+          "oldReady": 10.07,
+          "oldEnd": 11.67,
+          "start": 15.283333333333333,
+          "ready": 16.133333333333333,
+          "end": 19.133333333333333,
+          "voiceStarts": [],
+          "voiceEnds": []
+        },
+        {
+          "id": "p13-c03",
+          "key": "13-3",
+          "wordCount": 12,
+          "readingSeconds": 4.6,
+          "minimum": 5.5,
+          "voiceBudget": 5.97,
+          "tail": 0.8,
+          "holdSeconds": 6.791666666666667,
+          "reason": "Lecture et réaction calmes",
+          "oldStart": 11.67,
+          "oldReady": 11.95,
+          "oldEnd": 17.21,
+          "start": 19.133333333333333,
+          "ready": 19.983333333333334,
+          "end": 26.775000000000002,
+          "voiceStarts": [
+            20.333333333333336,
+            23.023333333333337
+          ],
+          "voiceEnds": [
+            22.573333333333338,
+            25.503333333333337
+          ]
+        }
+      ],
+      "layerCount": 4,
+      "effectCount": 1,
+      "panelReveals": []
+    }
+  ],
+  "cases": [
+    {
+      "page": 9,
+      "key": "09-1",
+      "intention": "Pluie oblique et anneaux dans la flaque entre les acteurs, véhicule fixé.",
+      "mechanisms": [
+        "p09-street-rain-depth",
+        "p09-street-rain-floor",
+        "p09-puddle-rings"
+      ],
+      "proofTimes": [
+        3.85,
+        4.55
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Corps et voiture restaurés, flux limité à la profondeur et au sol libre."
+    },
+    {
+      "page": 9,
+      "key": "09-2",
+      "intention": "Acquisition du réseau dans les quatre coins exacts de la vitre, point rose stabilisé.",
+      "mechanisms": [
+        "p09-screen-acquire"
+      ],
+      "proofTimes": [
+        10.941666666666666,
+        11.491666666666667,
+        12.041666666666668
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Pas de carte ajoutée ; masque SVG limité à la vitre, doigts et cadre inchangés."
+    },
+    {
+      "page": 9,
+      "key": "09-3",
+      "intention": "Une goutte longe le montant gauche ; pluie en arrière-plan.",
+      "mechanisms": [
+        "p09-pole-drop",
+        "p09-decision-rain"
+      ],
+      "proofTimes": [
+        17.791666666666668,
+        19.19166666666667
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Geste de Grover conservé intégralement."
+    },
+    {
+      "page": 10,
+      "key": "10-1",
+      "intention": "Deux profondeurs de pluie et reflets humides sur chaussée.",
+      "mechanisms": [
+        "p10-scale-depth-rain",
+        "p10-scale-foreground-rain",
+        "p10-scale-wet-reflection"
+      ],
+      "proofTimes": [
+        3.85,
+        4.65
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Voiture/roues/ombre inchangées, aucun trajet factice."
+    },
+    {
+      "page": 10,
+      "key": "10-2 gauche",
+      "intention": "Profondeur de rue et eau libre entre les appuis.",
+      "mechanisms": [
+        "p10-entry-left-depth",
+        "p10-entry-left-water"
+      ],
+      "proofTimes": [
+        10.2,
+        10.899999999999999
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Aucun déplacement des personnages ou de la foule."
+    },
+    {
+      "page": 10,
+      "key": "10-2 droite",
+      "intention": "Témoin de caméra et reflet sous l’entrée.",
+      "mechanisms": [
+        "p10-camera-entry",
+        "p10-entry-right-water"
+      ],
+      "proofTimes": [
+        9.45,
+        9.85,
+        10.45
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Caméra fixe et foule rigide ; accent de lampe séparé de la moitié gauche."
+    },
+    {
+      "page": 10,
+      "key": "10-3 gauche",
+      "intention": "Pluie lente derrière la protection de Grover.",
+      "mechanisms": [
+        "p10-child-protected-rain"
+      ],
+      "proofTimes": [
+        19.758333333333333,
+        20.558333333333334
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Main sur l’épaule, enfant et toutes les silhouettes fixes."
+    },
+    {
+      "page": 10,
+      "key": "10-3 droite",
+      "intention": "Une impulsion rouge pendant l’avertissement de Wendy.",
+      "mechanisms": [
+        "p10-camera-warning"
+      ],
+      "proofTimes": [
+        19.258333333333333,
+        19.65833333333333,
+        20.208333333333332
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Aucune lumière sur le visage, bras croisés et appareil immobiles."
+    },
+    {
+      "page": 11,
+      "key": "11-1",
+      "intention": "Bouffée de vapeur depuis la grille droite et pluie proche de l’entrée.",
+      "mechanisms": [
+        "p11-service-puff",
+        "p11-service-rain"
+      ],
+      "proofTimes": [
+        3.4000000000000004,
+        4.3,
+        5.25
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Vapeur contenue hors geste de Grover et hors appuis des gardiens."
+    },
+    {
+      "page": 11,
+      "key": "11-2",
+      "intention": "Pluie et ronds d’eau dans l’espace libre devant la barrière.",
+      "mechanisms": [
+        "p11-barrier-wet-floor",
+        "p11-barrier-rain"
+      ],
+      "proofTimes": [
+        10.7,
+        11.5
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Bottes, barrière et main du gardien restent fixes."
+    },
+    {
+      "page": 11,
+      "key": "11-3a",
+      "intention": "Apparition franche de John avec sa proposition, pluie dans le haut du décor.",
+      "mechanisms": [
+        "panelReveals:p11-c03a",
+        "p11-john-rain-depth"
+      ],
+      "proofTimes": [
+        16.215,
+        16.305,
+        17.175
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Montage franc, aucune interpolation de corps."
+    },
+    {
+      "page": 11,
+      "key": "11-3b",
+      "intention": "Réponse d’Abigail après la proposition, puis silence visuel.",
+      "mechanisms": [
+        "panelReveals:p11-c03b"
+      ],
+      "proofTimes": [
+        22.565,
+        22.655,
+        23.525000000000002
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Tenue calme voulue pendant le désaccord, toutes les mains intactes."
+    },
+    {
+      "page": 12,
+      "key": "12-1",
+      "intention": "Voyant du portillon éveillé et reflet bref dans le hall.",
+      "mechanisms": [
+        "p12-gate-awake",
+        "p12-hall-floor-reflection"
+      ],
+      "proofTimes": [
+        3.1,
+        3.6,
+        4.65
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Aucune ouverture de porte ou confirmation anticipée."
+    },
+    {
+      "page": 12,
+      "key": "12-2",
+      "intention": "Deux pulsations cyan de l’implant puis apaisement.",
+      "mechanisms": [
+        "p12-implant-confirm"
+      ],
+      "proofTimes": [
+        12.725,
+        12.995,
+        13.454999999999998,
+        13.924999999999999
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Petit ovale de matière lumineuse ; peau, doigt et crâne non déplacés."
+    },
+    {
+      "page": 12,
+      "key": "12-3",
+      "intention": "Reflets latéraux des parois métalliques, puis arrêt.",
+      "mechanisms": [
+        "p12-elevator-left-glide",
+        "p12-elevator-right-glide"
+      ],
+      "proofTimes": [
+        19.775,
+        21.275,
+        24.783333333333335
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Deux balayages justifiés par le métal de la cabine ; groupe et plafond restent fixes."
+    },
+    {
+      "page": 13,
+      "key": "13-1",
+      "intention": "Perturbation cyan courte hors tête/peau, puis retour au couloir.",
+      "mechanisms": [
+        "p13-neural-disturbance"
+      ],
+      "proofTimes": [
+        3.25,
+        3.5300000000000002,
+        4.05
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Aucune déformation de tempe, de doigt ou de coiffure."
+    },
+    {
+      "page": 13,
+      "key": "13-2",
+      "intention": "Accent progressif sur une liaison cyan déjà tracée.",
+      "mechanisms": [
+        "p13-plan-link-left"
+      ],
+      "proofTimes": [
+        10.183333333333334,
+        10.633333333333333,
+        11.083333333333334
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Surlignage de la ligne existante, aucun déplacement du doigt ni étage ajouté."
+    },
+    {
+      "page": 13,
+      "key": "13-2-detail",
+      "intention": "La même liaison atteint la moitié droite du plan.",
+      "mechanisms": [
+        "p13-plan-link-right"
+      ],
+      "proofTimes": [
+        16.233333333333334,
+        16.633333333333333,
+        17.053333333333335
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "Poursuite géométrique de la gauche, sans nouveau bip ni balayage autonome."
+    },
+    {
+      "page": 13,
+      "key": "13-3",
+      "intention": "Gouttes sur une vitre de boutique et pluie atténuée.",
+      "mechanisms": [
+        "p13-window-drops",
+        "p13-shop-window-rain"
+      ],
+      "proofTimes": [
+        20.683333333333334,
+        22.083333333333336
+      ],
+      "status": "implemented-awaiting-rendered-review",
+      "notes": "La lumière chaude est tenue ; les acteurs dessinés marchant ne glissent pas."
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "version": "1.3.0",
+  "status": "copied-and-hash-verified-before-edits",
+  "files": [
+    {
+      "file": "anime/motion-comics/reader.html",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\reader.html",
+      "sha256": "10afcf2056d709f0e76f3f3dd6a5db5edcee3ed40a391d7d424c6f0972434bed"
+    },
+    {
+      "file": "anime/motion-comics/reader.css",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\reader.css",
+      "sha256": "dbd01d15426891a495912f288a34cbb1c7d9a44b501e670861f044f397d221d1"
+    },
+    {
+      "file": "anime/motion-comics/reader.js",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\reader.js",
+      "sha256": "a12fb03629efee3ad837bc9adee10d82c699e36878d0b459f0b80685448e49b5"
+    },
+    {
+      "file": "anime/motion-comics/core.js",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\core.js",
+      "sha256": "c5527e55a5c9d8149100ea9dfbc1a4079701103d514cf75915ff175afbd39ed7"
+    },
+    {
+      "file": "anime/motion-comics/effects.js",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\effects.js",
+      "sha256": "7f63d2082f0fbb56a8bf026155741c85e74484afb17e38d30a705b52eecb1f32"
+    },
+    {
+      "file": "anime/motion-comics/layers.js",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\layers.js",
+      "sha256": "7fa6386fb9387233f308ebe7383bfaa1f3435ed5eb15d7e6a3d7bd2dc120423a"
+    },
+    {
+      "file": "anime/motion-comics/sequence.js",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\sequence.js",
+      "sha256": "fc76b20ad7469544d677508bb0e32f20a78633bc85900fac3c892fc2c9f87840"
+    },
+    {
+      "file": "anime/motion-comics/assets/holt-display.woff2",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\assets\\holt-display.woff2",
+      "sha256": "d2d55115d0d7047ce956d4eb8f2fbfe7915552cf4fabb294a5979705ec9687ac"
+    },
+    {
+      "file": "anime/motion-comics/assets/holt-text.woff2",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\assets\\holt-text.woff2",
+      "sha256": "d03a7a5f6b74534c80699289d4f6495fdb09a7596774a4ede79129d2f8bb67b1"
+    },
+    {
+      "file": "anime/motion-comics/render.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\render.cjs",
+      "sha256": "3decd7d9a3bed4e83a10b14548cf7c5177c4433b466918ab1f31bebe76104ae8"
+    },
+    {
+      "file": "anime/motion-comics/project.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\project.cjs",
+      "sha256": "f6644092dd98a9868d334d7148a74e5a5a1dca5f9ba527a32d89108081216e0c"
+    },
+    {
+      "file": "anime/motion-comics/sequence.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\sequence.cjs",
+      "sha256": "b1837a363a0829df6536e184ffe024c33a3ca87ee39305a43ed6ef72d38ee04c"
+    },
+    {
+      "file": "anime/motion-comics/audio.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\audio.cjs",
+      "sha256": "830b4f1671a08f4f5fbc28dd1016fa48cce9abc0a9c4df7711f09243593ffff5"
+    },
+    {
+      "file": "anime/motion-comics/package.json",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\package.json",
+      "sha256": "d06ce640b733273627eb69d0b46b0eee07f0ea3fdf958504ec161dba8c0e1c37"
+    },
+    {
+      "file": "anime/motion-comics/tests/audio.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\audio.test.cjs",
+      "sha256": "2dfb92f28fd18587268fadfa965570995c045eac5e3edda0e4859ce3fb51014a"
+    },
+    {
+      "file": "anime/motion-comics/tests/composite.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\composite.test.cjs",
+      "sha256": "0a7f7d10fb3420374654229e2328c1147888f5acfbaca229ddeaeaf010c7452c"
+    },
+    {
+      "file": "anime/motion-comics/tests/effects.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\effects.test.cjs",
+      "sha256": "9c92a20e163b572af07b5ca434fb34570801348e1bcd3efc22c4a400f172257f"
+    },
+    {
+      "file": "anime/motion-comics/tests/layers.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\layers.test.cjs",
+      "sha256": "7c88bb5ea688fe4d5729c9913c11917adfd5640e810eaf6840eac63d51f4f20b"
+    },
+    {
+      "file": "anime/motion-comics/tests/materials.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\materials.test.cjs",
+      "sha256": "8ee638af3092207aa296028179cc591b5c2d717f0cbf55145f4ebff9f8fa9699"
+    },
+    {
+      "file": "anime/motion-comics/tests/motion-study.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\motion-study.test.cjs",
+      "sha256": "55fe2b56d2376796a38078dee25ba413742a3ba212b3d108efd4803499f03646"
+    },
+    {
+      "file": "anime/motion-comics/tests/project.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\project.test.cjs",
+      "sha256": "f457b897181a29e39c2b3bc82512ec241a29da3fc601e5f4dd8c6e087782a77c"
+    },
+    {
+      "file": "anime/motion-comics/tests/reveal.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\reveal.test.cjs",
+      "sha256": "801e4344b92ee83de6cf87274277fe1177b1927c693535e2f95cd9ca1d51a069"
+    },
+    {
+      "file": "anime/motion-comics/tests/sequence.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\sequence.test.cjs",
+      "sha256": "6c7c2b50b64464cadf973f5647fd39d828f4e3bbe8cd2cf0f38f74177ce2d974"
+    },
+    {
+      "file": "anime/motion-comics/tests/temporal-contract.test.cjs",
+      "copy": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\publish-01\\runtime\\source-1.3.0\\anime\\motion-comics\\tests\\temporal-contract.test.cjs",
+      "sha256": "762a3fd5f65eb027b291c29fc78132dc69310b707c29916188262c41d06b8e75"
+    }
+  ]
+}

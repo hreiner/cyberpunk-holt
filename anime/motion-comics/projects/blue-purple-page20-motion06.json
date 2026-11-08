@@ -1,0 +1,620 @@
+{
+  "schemaVersion": 1,
+  "version": 6,
+  "title": "HOLT — Blue Purple · page 20",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/page.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/art.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lettering-20.png",
+  "storyThumbnail": true,
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.45,
+  "outroSeconds": 1.5,
+  "panels": [
+    {
+      "id": "p20-c01",
+      "panelKey": "20-1",
+      "sourcePanelKey": "20-1",
+      "label": "Le quai",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 5.5,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l090",
+          "globalLine": 90,
+          "localLine": 53,
+          "panel_id": "20-1",
+          "dialogueIndex": 0,
+          "pageId": "page-20",
+          "speaker": "enfant",
+          "textFr": "Ça sent quoi ?",
+          "textEn": "What's that smell?",
+          "ttsText": "[uneasy, quietly] What's that smell?",
+          "performance": "L'enfant remarque l'odeur sur le quai.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "AFkIMdmeB0MMrr1tgGds",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/090-enfant-gain-+8.445db.wav",
+          "sha256": "4ca1dca00ad4296208423d4cdd9a580c759a95a06205c695c2784da41969e25c",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/53-enfant-32784f240e8a.mp3",
+          "sourceSha256": "9f639539c6fa17f134969c20b64ab0636f8828820a40fe0222abbf2e77700f10",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/53-enfant-32784f240e8a.json",
+          "journalSha256": "f7f5c15183eb91a8b0d5d6eb7beb50391df46d74d916df4f6f51a6c7d99f77f7",
+          "constantGainDb": 8.445,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.68,
+            "pcmSamples": 74088,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -12.793910826605053,
+            "meanDb": -30.444854986315327,
+            "firstAboveMinus40DbSeconds": 0.1738548752834467,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 165.68000000000006,
+          "duration": 1.68,
+          "pcmSamples": 74088,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -4.348976471043998,
+          "meanDb": -21.999852958878098,
+          "firstAboveMinus40DbSeconds": 0.14764172335600906,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l091",
+          "globalLine": 91,
+          "localLine": 54,
+          "panel_id": "20-1",
+          "dialogueIndex": 1,
+          "pageId": "page-20",
+          "speaker": "grover",
+          "textFr": "Reste près de moi.",
+          "textEn": "Stay close to me.",
+          "ttsText": "[low, protective, tense] Stay close to me.",
+          "performance": "Grover vigilant sur le quai ; tension plus dure que dans l'appartement.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/091-grover-gain-+4.691db.wav",
+          "sha256": "fdd73f406986890040783c1b86f396922a136da68a38a3a75cb46126b7738e69",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/54-grover-7995a564cabd.mp3",
+          "sourceSha256": "117c26bd7e0c57f9f0b516567b4837ebf519ffdd8905e0d35cb3afa2090d9112",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/54-grover-7995a564cabd.json",
+          "journalSha256": "36094ffbea11dc3a0b13ec2c14b4c0394fa3f815adcf269320d59d9a238e1a0a",
+          "constantGainDb": 4.691,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.6,
+            "pcmSamples": 70560,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -7.232160942017293,
+            "meanDb": -26.69140727117338,
+            "firstAboveMinus40DbSeconds": 0.1960997732426304,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 167.76000000000008,
+          "duration": 1.6,
+          "pcmSamples": 70560,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.54129018483371,
+          "meanDb": -22.000403565122788,
+          "firstAboveMinus40DbSeconds": 0.1727891156462585,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p20-c02",
+      "panelKey": "20-2",
+      "sourcePanelKey": "20-2",
+      "label": "Reculez",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 4.5,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l092",
+          "globalLine": 92,
+          "localLine": 55,
+          "panel_id": "20-2",
+          "dialogueIndex": 0,
+          "pageId": "page-20",
+          "speaker": "john",
+          "textFr": "Reculez.",
+          "textEn": "Step back.",
+          "ttsText": "[low, commanding] Step back.",
+          "performance": "John demande aux autres de reculer avant de dégager le passage.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "PoqlHoqJoAfdQ0g8bLK3",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/092-john-gain-+3.146db.wav",
+          "sha256": "8f7be313807e251865e8b5920b055e0dc08fcf6928f8c0d8862c766a4864f90b",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/55-john-d3931baf7551.mp3",
+          "sourceSha256": "ffb1d75e3e31f71312cacbbae5f062deff796869caef612a6ade938e68150fa3",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/55-john-d3931baf7551.json",
+          "journalSha256": "57de6cd13ad6a7a74c446d228faf14d1a51ca4793ce7f76f90b8036d95cd8251",
+          "constantGainDb": 3.146,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.44,
+            "pcmSamples": 63504,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -5.145591413971925,
+            "meanDb": -28.00334843431966,
+            "firstAboveMinus40DbSeconds": 0.12029478458049887,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 169.76000000000008,
+          "duration": 1.44,
+          "pcmSamples": 63504,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.999515337009644,
+          "meanDb": -24.857339517655312,
+          "firstAboveMinus40DbSeconds": 0.11158730158730158,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p20-c03",
+      "panelKey": "20-3",
+      "sourcePanelKey": "20-3",
+      "label": "Le geste de John",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 6.333333333333333,
+      "leadInSeconds": 0.85,
+      "cues": [
+        {
+          "id": "bp-l093",
+          "globalLine": 93,
+          "localLine": 56,
+          "panel_id": "20-3",
+          "dialogueIndex": 0,
+          "pageId": "page-20",
+          "speaker": "john",
+          "textFr": "On avance.",
+          "textEn": "We keep moving.",
+          "ttsText": "[gruff, clipped] We keep moving.",
+          "performance": "John après son geste brutal, phrase sèche sans triomphe.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "PoqlHoqJoAfdQ0g8bLK3",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/093-john-gain--0.121db.wav",
+          "sha256": "1c9d01aa4eecd5152c9b1a6a5f0578d7e4121d832dd7eb83ca1620a0eb03125a",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/56-john-315bb79df8cb.mp3",
+          "sourceSha256": "dc4dfafb2275ea8a5151b4243b94bf2348adbf6e608b066070f6a03200230220",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/56-john-315bb79df8cb.json",
+          "journalSha256": "0ac50877c21f88fea6d8f105e2c9dd08c62ad18dd644f23e056a1590c0577be6",
+          "constantGainDb": -0.121,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.36,
+            "pcmSamples": 59976,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -1.3788997462571535,
+            "meanDb": -21.298834499025652,
+            "firstAboveMinus40DbSeconds": 0.09040816326530612,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 171.60000000000008,
+          "duration": 1.36,
+          "pcmSamples": 59976,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.4999483342019322,
+          "meanDb": -21.41983643590669,
+          "firstAboveMinus40DbSeconds": 0.09040816326530612,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l094",
+          "globalLine": 94,
+          "localLine": 57,
+          "panel_id": "20-3",
+          "dialogueIndex": 1,
+          "pageId": "page-20",
+          "speaker": "grover",
+          "textFr": "Ne regarde pas. Viens.",
+          "textEn": "Don't look. Come on.",
+          "ttsText": "[hushed, protective] Don't look. [gentle, firm] Come on.",
+          "performance": "Grover détourne l'enfant du geste et l'entraîne à l'écart.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/094-grover-gain-+2.793db.wav",
+          "sha256": "271e91810049f41b1c35018aa48760b6b9b6b52b0a45e6f9a4e54ae35f76368f",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/57-grover-70f7be91301d.mp3",
+          "sourceSha256": "3c92647d7c789b893673beb22a142455a053a199b25879d81caeaf982ec09795",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/57-grover-70f7be91301d.json",
+          "journalSha256": "e111aee9c7eb873c49cb07d99f2cc499a111006240cc942a3626f90ce174d1cd",
+          "constantGainDb": 2.793,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.4,
+            "pcmSamples": 105840,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -4.792593397350836,
+            "meanDb": -27.276120711521735,
+            "firstAboveMinus40DbSeconds": 0.14870748299319728,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 173.36000000000007,
+          "duration": 2.4,
+          "pcmSamples": 105840,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.999515337009644,
+          "meanDb": -24.48312348474485,
+          "firstAboveMinus40DbSeconds": 0.14784580498866212,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "wave",
+      "panelId": "p20-c01",
+      "rect": [
+        0.3916015625,
+        0.2786458333333333,
+        0.595703125,
+        0.051432291666666664
+      ],
+      "clipPolygon": [
+        [
+          0.3916015625,
+          0.3287760416666667
+        ],
+        [
+          0.638671875,
+          0.2955729166666667
+        ],
+        [
+          0.9873046875,
+          0.2786458333333333
+        ],
+        [
+          0.9873046875,
+          0.330078125
+        ],
+        [
+          0.3916015625,
+          0.330078125
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 2.85,
+      "endSeconds": 8.27,
+      "envelope": {
+        "attackSeconds": 0.45,
+        "releaseSeconds": 0.65
+      },
+      "color": "#89cfdf",
+      "strength": 0.57,
+      "amplitude": 3.2,
+      "speed": 0.55,
+      "count": 5
+    },
+    {
+      "type": "wave",
+      "panelId": "p20-c02",
+      "rect": [
+        0.921875,
+        0.4733072916666667,
+        0.0654296875,
+        0.14322916666666666
+      ],
+      "clipPolygon": [
+        [
+          0.923828125,
+          0.4817708333333333
+        ],
+        [
+          0.9873046875,
+          0.4733072916666667
+        ],
+        [
+          0.9873046875,
+          0.6165364583333334
+        ],
+        [
+          0.9541015625,
+          0.6119791666666666
+        ],
+        [
+          0.9443359375,
+          0.5748697916666666
+        ],
+        [
+          0.921875,
+          0.5423177083333334
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 9.2,
+      "endSeconds": 13.62,
+      "envelope": {
+        "attackSeconds": 0.28,
+        "releaseSeconds": 0.5
+      },
+      "color": "#8cd0e3",
+      "strength": 0.64,
+      "amplitude": 3.8,
+      "speed": 0.75,
+      "count": 5
+    },
+    {
+      "type": "wave",
+      "panelId": "p20-c03",
+      "rect": [
+        0.6025390625,
+        0.9264322916666666,
+        0.384765625,
+        0.06510416666666667
+      ],
+      "clipPolygon": [
+        [
+          0.62890625,
+          0.9654947916666666
+        ],
+        [
+          0.7724609375,
+          0.9446614583333334
+        ],
+        [
+          0.9873046875,
+          0.9264322916666666
+        ],
+        [
+          0.9873046875,
+          0.9915364583333334
+        ],
+        [
+          0.6025390625,
+          0.9915364583333334
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 14.899999999999999,
+      "endSeconds": 20.763333333333332,
+      "envelope": {
+        "attackSeconds": 0.22,
+        "releaseSeconds": 0.55
+      },
+      "color": "#86cde0",
+      "strength": 0.52,
+      "amplitude": 2.8,
+      "speed": 0.62,
+      "count": 5
+    },
+    {
+      "type": "ripple",
+      "panelId": "p20-c03",
+      "rect": [
+        0.7041015625,
+        0.9446614583333334,
+        0.23046875,
+        0.037760416666666664
+      ],
+      "clipPolygon": [
+        [
+          0.7041015625,
+          0.9446614583333334
+        ],
+        [
+          0.9345703125,
+          0.9446614583333334
+        ],
+        [
+          0.9345703125,
+          0.982421875
+        ],
+        [
+          0.7041015625,
+          0.982421875
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 15.419999999999998,
+      "endSeconds": 16.72,
+      "envelope": {
+        "attackSeconds": 0.05,
+        "releaseSeconds": 0.35
+      },
+      "color": "#a0e0ef",
+      "strength": 0.42,
+      "count": 3,
+      "speed": 0.7
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "20-1-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.029296875000000017,
+        0.5564908819683527,
+        0.2571614583333334
+      ]
+    },
+    {
+      "id": "20-1-rigid-2",
+      "rect": [
+        0.7243914846646583,
+        0.10742187500000001,
+        0.2243914846646583,
+        0.15624999999999997
+      ]
+    },
+    {
+      "id": "20-2-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.3470052083333334,
+        0.4398073099427304,
+        0.31445312499999994
+      ]
+    },
+    {
+      "id": "20-3-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.7233072916666666,
+        0.47570994748907575,
+        0.22786458333333334
+      ]
+    },
+    {
+      "id": "20-2-john-sdf-rigid",
+      "rect": [
+        0.3564453125,
+        0.3958333333333333,
+        0.5615234375,
+        0.265625
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "918191f0dfc734060558f92edbf900734d4decbbe373cacfcf0b3c8f7f27eb08",
+    "lettering": "Original SVG alpha, opaque RGB from approved master; frozen PNG composed last, editable SVG retained. PanelReveals masks art and letters together.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false,
+    "formatCorrection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/format-01/PROGRESS.md",
+    "motion03Lot": "lot-d",
+    "sourceV9Sha256": "0b8684a4a97f82bf73fc0c0f2446c4f4868c4e4cec4b0fec6f515cc119269e93",
+    "previousPageSourceSha256": "d1ae102a777c7c880f1c369545659dcb3c042f8b84d32110121f9740c73aa70c",
+    "timingContract": "../../../docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/timing/TIMING.json",
+    "physicalAnchors": "../../../docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+    "assets": "../../../docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ASSETS-v5.json",
+    "editableLetteringSvg": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/lettering.svg"
+  },
+  "motionLayers": [
+    {
+      "id": "released-man-gravity-water-occlusion",
+      "panelId": "p20-c03",
+      "mode": "frames",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "startSeconds": 14.899999999999999,
+      "endSeconds": 20.883333333333333,
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-00.png"
+        },
+        {
+          "atSeconds": 0.1,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-01.png"
+        },
+        {
+          "atSeconds": 0.2,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-02.png"
+        },
+        {
+          "atSeconds": 0.3,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-03.png"
+        },
+        {
+          "atSeconds": 0.4,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-04.png"
+        },
+        {
+          "atSeconds": 0.5,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-05.png"
+        },
+        {
+          "atSeconds": 0.52,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-06.png"
+        },
+        {
+          "atSeconds": 0.64,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-07.png"
+        },
+        {
+          "atSeconds": 0.78,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-08.png"
+        },
+        {
+          "atSeconds": 0.96,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-09.png"
+        },
+        {
+          "atSeconds": 1.2,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-10.png"
+        },
+        {
+          "atSeconds": 1.7,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-11.png"
+        }
+      ]
+    }
+  ],
+  "panelReveals": [
+    {
+      "panelId": "p20-c03",
+      "atSeconds": 14.899999999999999
+    }
+  ]
+}

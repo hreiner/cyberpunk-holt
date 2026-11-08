@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "status": "candidates-integrated-and-verified-v9",
+  "source": "anime/motion-comics/projects/blue-purple-pages01-21-v8.json",
+  "sourceSha256": "79f50aefd78a24cfcf2fb93a7b2cc059ad8b02e0f5696f596fc4d6a74daa3aa7",
+  "scope": "Deux nouvelles candidates16/17 uniquement ; masters et sélections historiques préservés, root garde sélection finale.",
+  "page16": {
+    "source": "anime/motion-comics/projects/blue-purple-page16-motion04.json",
+    "sourceSha256": "e656275e8c189351596e3d693f522ce19470a2b40616f4ac502865d371a8c7f7",
+    "duration": 16.249999999999996,
+    "holdStart": 0.93,
+    "intention": "Désagréger le paysage elfique en fragments numériques comme la vision3, recomposer une vraie carte subjective de NightCity, puis la tenir lisible. Aucun LAT/LON nouveau.",
+    "runtime": "Calque digitalReveal continu, deux vraies images, tuiles déterministes ; lettres en dernier et hors déformation.",
+    "initial": "Paysage exact avant.45s de tenue, y compris miniatureON.",
+    "final": "Carte fournie par root avec repères canoniques et labels intégrés. MasterOFF nouvellepage finale.",
+    "voice": "Toutes les prises et leurs temps16 conservés.",
+    "body": "Aucun corps ni membre ne se déforme."
+  },
+  "page17": {
+    "source": "anime/motion-comics/projects/blue-purple-page17-motion04.json",
+    "sourceSha256": "34d36cfed17e9a293486eb589f9f2eea2b3e311e9a4bea15807e777dfb8e7055",
+    "duration": 10.902222222222223,
+    "holdStart": 4.050000000000001,
+    "intention": "Révéler une à une les trois bandes réelles par leurs contours diagonaux, avec un vrai départ de tir puis impact distinct80ms plus tard.",
+    "states": [
+      "Toutes bandes masquées dans aperçuON",
+      "Haut clean",
+      "Haut avec unique flash/trajectoire",
+      "Milieu révélé avec impact, haut revenu clean",
+      "Milieu clean tenu",
+      "Bas révélé et répliqueWendy"
+    ],
+    "runtime": "Vrais rasters frames ; aucune découpe rectangulaire ou déplacement de personnages. LettrageWendy absent avant bas, présent ensuite.",
+    "voice": "Seule entréeWendy retardée de.70s, prise/durée inchangées ; durée page totale identique.",
+    "final": "Toutes bandes visibles, acteurs exacts, pas de flash permanent en animationON ; OFF masterstatique approuvé."
+  },
+  "anchors": [
+    {
+      "id": "elfLandscapeHeld",
+      "pageLocalSeconds": 0.93,
+      "chapterWithoutCoverSeconds": 353.57,
+      "withTwelveSecondCoverSeconds": 365.57
+    },
+    {
+      "id": "digitalDisassembly",
+      "pageLocalSeconds": 1.3800000000000001,
+      "chapterWithoutCoverSeconds": 354.02,
+      "withTwelveSecondCoverSeconds": 366.02
+    },
+    {
+      "id": "nightCityMapSettled",
+      "pageLocalSeconds": 2.43,
+      "chapterWithoutCoverSeconds": 355.07,
+      "withTwelveSecondCoverSeconds": 367.07
+    },
+    {
+      "id": "topBand",
+      "pageLocalSeconds": 4.07,
+      "chapterWithoutCoverSeconds": 372.96,
+      "withTwelveSecondCoverSeconds": 384.96
+    },
+    {
+      "id": "oneShot",
+      "pageLocalSeconds": 4.670000000000001,
+      "chapterWithoutCoverSeconds": 373.56,
+      "withTwelveSecondCoverSeconds": 385.56
+    },
+    {
+      "id": "metalImpact",
+      "pageLocalSeconds": 4.750000000000001,
+      "chapterWithoutCoverSeconds": 373.64,
+      "withTwelveSecondCoverSeconds": 385.64
+    },
+    {
+      "id": "impactAfterglow",
+      "pageLocalSeconds": 4.950000000000001,
+      "chapterWithoutCoverSeconds": 373.84,
+      "withTwelveSecondCoverSeconds": 385.84
+    },
+    {
+      "id": "coverBand",
+      "pageLocalSeconds": 5.1000000000000005,
+      "chapterWithoutCoverSeconds": 373.99,
+      "withTwelveSecondCoverSeconds": 385.99
+    },
+    {
+      "id": "wendyVoice",
+      "pageLocalSeconds": 5.130000000000001,
+      "chapterWithoutCoverSeconds": 374.02,
+      "withTwelveSecondCoverSeconds": 386.02
+    }
+  ],
+  "testsRequired": [
+    "Durées et autres cues exacts",
+    "Absence de bandes futures avant leur ancre",
+    "Tir unique et impact80ms après",
+    "Pause/seek indépendants du temps ambiant",
+    "OFF exact au master final",
+    "Carte finale tenue sans saut",
+    "Lettres stables et protégées",
+    "Snapshot rebasé avec tous les médias"
+  ],
+  "rootReview": "Planche horodatée et court clip de chaque intervalle, réellement ouverts ; aucun longMP4 dans ce sous-lot.",
+  "finalSequence": "anime/motion-comics/projects/blue-purple-pages01-21-v9.json",
+  "finalSequenceSha256": "0b8684a4a97f82bf73fc0c0f2446c4f4868c4e4cec4b0fec6f515cc119269e93",
+  "review": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-02/animation/REVIEW.md"
+}

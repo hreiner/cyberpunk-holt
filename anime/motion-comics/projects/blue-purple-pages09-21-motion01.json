@@ -1,0 +1,69 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "HOLT — Blue Purple · pages 9 à 21",
+  "pages": [
+    {
+      "id": "page-09",
+      "manifest": "blue-purple-page09-motion01.json"
+    },
+    {
+      "id": "page-10",
+      "manifest": "blue-purple-page10-motion01.json"
+    },
+    {
+      "id": "page-11",
+      "manifest": "blue-purple-page11-motion01.json"
+    },
+    {
+      "id": "page-12",
+      "manifest": "blue-purple-page12-motion01.json"
+    },
+    {
+      "id": "page-13",
+      "manifest": "blue-purple-page13-motion01.json"
+    },
+    {
+      "id": "page-14",
+      "manifest": "blue-purple-page14-motion01.json"
+    },
+    {
+      "id": "page-15",
+      "manifest": "blue-purple-page15-motion01.json"
+    },
+    {
+      "id": "page-16",
+      "manifest": "blue-purple-page16-motion01.json"
+    },
+    {
+      "id": "page-17",
+      "manifest": "blue-purple-page17-motion01.json"
+    },
+    {
+      "id": "page-18",
+      "manifest": "blue-purple-page18-motion01.json"
+    },
+    {
+      "id": "page-19",
+      "manifest": "blue-purple-page19-motion01.json"
+    },
+    {
+      "id": "page-20",
+      "manifest": "blue-purple-page20-motion01.json"
+    },
+    {
+      "id": "page-21",
+      "manifest": "blue-purple-page21-motion01.json"
+    }
+  ],
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "humanListeningApproval": false
+  },
+  "music": {
+    "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/soundtrack-v2/backing-pages09-21.wav",
+    "gain": 1,
+    "preMixed": true
+  }
+}

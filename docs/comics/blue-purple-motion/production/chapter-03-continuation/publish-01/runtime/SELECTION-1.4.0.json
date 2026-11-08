@@ -1,0 +1,84 @@
+{
+  "status": "frozen-ready-for-public-package",
+  "engineVersion": "1.4.0",
+  "engine": [
+    {
+      "file": "anime/motion-comics/reader.html",
+      "sha256": "10afcf2056d709f0e76f3f3dd6a5db5edcee3ed40a391d7d424c6f0972434bed"
+    },
+    {
+      "file": "anime/motion-comics/reader.css",
+      "sha256": "dbd01d15426891a495912f288a34cbb1c7d9a44b501e670861f044f397d221d1"
+    },
+    {
+      "file": "anime/motion-comics/reader.js",
+      "sha256": "c9f0d9028a9f1b1879b533f6b51ecda0b6520adb189d2c4263b68774f17ab1ad"
+    },
+    {
+      "file": "anime/motion-comics/core.js",
+      "sha256": "c5527e55a5c9d8149100ea9dfbc1a4079701103d514cf75915ff175afbd39ed7"
+    },
+    {
+      "file": "anime/motion-comics/effects.js",
+      "sha256": "7f63d2082f0fbb56a8bf026155741c85e74484afb17e38d30a705b52eecb1f32"
+    },
+    {
+      "file": "anime/motion-comics/layers.js",
+      "sha256": "7fa6386fb9387233f308ebe7383bfaa1f3435ed5eb15d7e6a3d7bd2dc120423a"
+    },
+    {
+      "file": "anime/motion-comics/sequence.js",
+      "sha256": "7e8948428249ef5aac4f80bd957fc7cb7bd86e243f39cfaef505508fcc8d9593"
+    },
+    {
+      "file": "anime/motion-comics/assets/holt-display.woff2",
+      "sha256": "d2d55115d0d7047ce956d4eb8f2fbfe7915552cf4fabb294a5979705ec9687ac"
+    },
+    {
+      "file": "anime/motion-comics/assets/holt-text.woff2",
+      "sha256": "d03a7a5f6b74534c80699289d4f6495fdb09a7596774a4ede79129d2f8bb67b1"
+    },
+    {
+      "file": "anime/motion-comics/render.cjs",
+      "sha256": "a48cb8efb434531bf56aac9a1215be1fe596b49f9be9c54e988473228c1fbd9a"
+    },
+    {
+      "file": "anime/motion-comics/project.cjs",
+      "sha256": "f6644092dd98a9868d334d7148a74e5a5a1dca5f9ba527a32d89108081216e0c"
+    },
+    {
+      "file": "anime/motion-comics/sequence.cjs",
+      "sha256": "eb5c378881b56c16187944daef0e02f8cdc9587614b34d53b87032239ff22e3e"
+    },
+    {
+      "file": "anime/motion-comics/audio.cjs",
+      "sha256": "830b4f1671a08f4f5fbc28dd1016fa48cce9abc0a9c4df7711f09243593ffff5"
+    },
+    {
+      "file": "anime/motion-comics/package.json",
+      "sha256": "2055ab9ba772c990a7580cf1341bd6697c9a82c293f37c8f421c39ff135e1361"
+    }
+  ],
+  "sourceV9DependenciesUnchanged": 195,
+  "sourceV9EntryUnchanged": true,
+  "sourceV10Sha256": "d180993fd326d8d2640e1b11d4b4a09718a5fa96a8055efd62e4c717078301ce",
+  "qa": {
+    "report": "art-masters/motion-comics/blue-purple/chapter-03-continuation/publish-01/runtime/qa-v7/REPORT.json",
+    "sha256": "a6f82a6c6db1b04bc82f1675efacbbf1a3900c0018ba7d98edd4d3c8612fc34c",
+    "checks": 17,
+    "defaultManifest": "art-masters/motion-comics/blue-purple/chapter-03-continuation/publish-01/runtime/qa-v7-default-manifest.json",
+    "coldCapture": "art-masters/motion-comics/blue-purple/chapter-03-continuation/publish-01/runtime/qa-v7/cold-page21-export.png",
+    "coldCaptureSha256": "1b824d174519d01d96017bd28654bf88dcb727689532e7d1ed15d23a4c029053"
+  },
+  "tests": {
+    "ownedRuntimeTests": 46,
+    "legacyTests": 43,
+    "newLoaderTests": 3,
+    "latestSharedSuite": {
+      "total": 58,
+      "passed": 57,
+      "skipped": 1,
+      "reason": "Concurrent publication installer junction test skipped when this environment cannot create links."
+    }
+  }
+}

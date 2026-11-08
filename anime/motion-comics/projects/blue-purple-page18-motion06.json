@@ -1,0 +1,546 @@
+{
+  "schemaVersion": 1,
+  "version": 6,
+  "title": "HOLT — Blue Purple · page 18",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/page.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/art.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lettering-18.png",
+  "storyThumbnail": true,
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.45,
+  "outroSeconds": 1.5,
+  "panels": [
+    {
+      "id": "p18-c01",
+      "panelKey": "18-1",
+      "sourcePanelKey": "18-1",
+      "label": "Sur le seuil",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 7.208333333333333,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l079",
+          "globalLine": 79,
+          "localLine": 42,
+          "panel_id": "18-1",
+          "dialogueIndex": 0,
+          "pageId": "page-18",
+          "speaker": "habitante",
+          "textFr": "Qu’est-ce que vous faites ?",
+          "textEn": "What are you doing?",
+          "ttsText": "[startled, alarmed] What are you doing?",
+          "performance": "Habitante surprise par l'intrusion, elle s'adresse aux arrivants.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "EXAVITQu4vr4xnSDxMaL",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/079-habitante-gain--0.415db.wav",
+          "sha256": "0f3cf6505796a1aeb19b309870ada927c18f4d47665ef373ba8a8e5537119117",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/42-habitante-6e6bc224b31c.mp3",
+          "sourceSha256": "63ff7df758c1ca755205512df3208e0cc80748dc079fc24c355a3f24b39fa495",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/42-habitante-6e6bc224b31c.json",
+          "journalSha256": "cc96a43764658a65aeeec81a5599ca2138eeae7d8d4db62164234390d9ded9fa",
+          "constantGainDb": -0.415,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.52,
+            "pcmSamples": 67032,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -1.584526627803834,
+            "meanDb": -17.378883609445257,
+            "firstAboveMinus40DbSeconds": 0.0855328798185941,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 133.84000000000003,
+          "duration": 1.52,
+          "pcmSamples": 67032,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.999515337009644,
+          "meanDb": -17.793886860281656,
+          "firstAboveMinus40DbSeconds": 0.08560090702947845,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l080",
+          "globalLine": 80,
+          "localLine": 43,
+          "panel_id": "18-1",
+          "dialogueIndex": 1,
+          "pageId": "page-18",
+          "speaker": "john",
+          "textFr": "Pardon… On n’a pas le choix.",
+          "textEn": "Sorry... We don't have a choice.",
+          "ttsText": "[strained, apologetic] Sorry... [low, hard] We don't have a choice.",
+          "performance": "John agit sous pression ; excuse courte et décision regrettable.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "PoqlHoqJoAfdQ0g8bLK3",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/080-john-gain-+0.098db.wav",
+          "sha256": "c8954779e4da7d5205f813014b4b7b1647d10a0636ecd43f9513a099a7f4f3bc",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/43-john-537b461de80d.mp3",
+          "sourceSha256": "a72059cd352f78a380990c03104407075fcbb42afa6acd7103467c0907f6924b",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/43-john-537b461de80d.json",
+          "journalSha256": "9d8abfb8f6a5dc4b6362ab294ed9716537171ef123eebe2d0e36c06fc67e3b1f",
+          "constantGainDb": 0.098,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.6,
+            "pcmSamples": 158760,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -2.097695894904738,
+            "meanDb": -25.539694620024456,
+            "firstAboveMinus40DbSeconds": 0.12068027210884354,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 135.76000000000002,
+          "duration": 3.6,
+          "pcmSamples": 158760,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.9998490310736532,
+          "meanDb": -25.441695170999026,
+          "firstAboveMinus40DbSeconds": 0.11961451247165533,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p18-c0after",
+      "panelKey": "18-after",
+      "sourcePanelKey": "18-after",
+      "label": "Après le geste",
+      "rect": [
+        0.505859375,
+        0.0078125,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 2.2083333333333335,
+      "leadInSeconds": 0.35,
+      "cues": []
+    },
+    {
+      "id": "p18-c02",
+      "panelKey": "18-2",
+      "sourcePanelKey": "18-2",
+      "label": "La porte verrouillée",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 9,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l081",
+          "globalLine": 81,
+          "localLine": 44,
+          "panel_id": "18-2",
+          "dialogueIndex": 0,
+          "pageId": "page-18",
+          "speaker": "enfant",
+          "textFr": "Elle va se réveiller ?",
+          "textEn": "Will she wake up?",
+          "ttsText": "[frightened, quietly] Will she wake up?",
+          "performance": "L'enfant s'inquiète pour l'habitante inerte.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "AFkIMdmeB0MMrr1tgGds",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/081-enfant-gain-+7.369db.wav",
+          "sha256": "d4fa977ca49e5a433ad21dd1488e02c79a7cab314038c63e46a390412a7834f4",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/44-enfant-60eb2d592e5a.mp3",
+          "sourceSha256": "6227e34fef704e0359fc5b0cd3f0c6bb9393798372cea78be6e36fdbe55365c5",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/44-enfant-60eb2d592e5a.json",
+          "journalSha256": "04d7001c1d43fdf208a024628c09297ee24487c66d965b807870c20f091d3830",
+          "constantGainDb": 7.369,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.6,
+            "pcmSamples": 70560,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -9.369101483740597,
+            "meanDb": -29.999237191161157,
+            "firstAboveMinus40DbSeconds": 0.22179138321995465,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 139.76000000000002,
+          "duration": 1.6,
+          "pcmSamples": 70560,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.0001827379579966,
+          "meanDb": -22.630242533341438,
+          "firstAboveMinus40DbSeconds": 0.18997732426303854,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l082",
+          "globalLine": 82,
+          "localLine": 45,
+          "panel_id": "18-2",
+          "dialogueIndex": 1,
+          "pageId": "page-18",
+          "speaker": "john",
+          "textFr": "Oui. Il fallait qu’on disparaisse.",
+          "textEn": "Yes. We had to disappear.",
+          "ttsText": "[reassuring, strained] Yes. [defensive, low] We had to disappear.",
+          "performance": "John rassure puis se justifie sans satisfaction.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "PoqlHoqJoAfdQ0g8bLK3",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/082-john-gain-+2.870db.wav",
+          "sha256": "4d27be6d70cc8edc78281c206178c806ef0f5e0185c96062d2231276c6d3bf76",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/45-john-e51c2539c9b4.mp3",
+          "sourceSha256": "92afccb82a090b0bdb51c44b04f1f39e4bb3c5d3f73a0b9ff2e33476a888b98b",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/45-john-e51c2539c9b4.json",
+          "journalSha256": "5e8ab2b892e9ce368224e4094612d9ddd364d24a5f9e60336a5569e26e3533ea",
+          "constantGainDb": 2.87,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.44,
+            "pcmSamples": 151704,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -4.89963914207446,
+            "meanDb": -24.870141000908053,
+            "firstAboveMinus40DbSeconds": 0.04231292517006803,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 141.76000000000002,
+          "duration": 3.44,
+          "pcmSamples": 151704,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.0295992642331333,
+          "meanDb": -22.000137501307194,
+          "firstAboveMinus40DbSeconds": 0.040589569160997735,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l083",
+          "globalLine": 83,
+          "localLine": 46,
+          "panel_id": "18-2",
+          "dialogueIndex": 2,
+          "pageId": "page-18",
+          "speaker": "grover",
+          "textFr": "Reste près de moi.",
+          "textEn": "Stay close to me.",
+          "ttsText": "[gentle, hushed] Stay close to me.",
+          "performance": "Grover protège l'enfant dans l'appartement, voix basse tendue.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/083-grover-gain-+5.885db.wav",
+          "sha256": "5de57d1d3d18c25b9759a24b8cb3852fef6f96699ab777476dbf074da1ad08fb",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/46-grover-ee6e58d7af1b.mp3",
+          "sourceSha256": "3b47edb151df770d7f1b5399bd91509615303c5a29db2b8641e79aa51908c022",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/46-grover-ee6e58d7af1b.json",
+          "journalSha256": "0b1cbd4280b94b008cd351254d6f016f069ec29d0a16cfbbe22a8e7bae0705cf",
+          "constantGainDb": 5.885,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.44,
+            "pcmSamples": 63504,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -7.885412303295106,
+            "meanDb": -28.82749484328345,
+            "firstAboveMinus40DbSeconds": 0.18843537414965986,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 145.60000000000002,
+          "duration": 1.44,
+          "pcmSamples": 63504,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.0005164576636596,
+          "meanDb": -22.942490034586534,
+          "firstAboveMinus40DbSeconds": 0.18315192743764172,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p18-c03",
+      "panelKey": "18-3",
+      "sourcePanelKey": "18-3",
+      "label": "Attendre en silence",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 5.5,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l084",
+          "globalLine": 84,
+          "localLine": 47,
+          "panel_id": "18-3",
+          "dialogueIndex": 0,
+          "pageId": "page-18",
+          "speaker": "abigail",
+          "textFr": "Ils passent… Attendez encore.",
+          "textEn": "They're passing... Wait a little longer.",
+          "ttsText": "[whispering, tense] They're passing... [cautious] Wait a little longer.",
+          "performance": "Abigail écoute la patrouille, pas de départ anticipé.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "WtA85syCrJwasGeHGH2p",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/084-abigail-gain-+5.569db.wav",
+          "sha256": "d96700454313b16cf4d1c4283fe2d8f7b14c638b6b6cf3b21180692bfd2ea33a",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/47-abigail-4edf7d6446d5.mp3",
+          "sourceSha256": "7c4c9b8c09186fd3f42b46559474f22f54328922a93fb39f9a8cd1e1e22c69ef",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/47-abigail-4edf7d6446d5.json",
+          "journalSha256": "fe332944f4322400e9a1f64d8440015554cd453bc172edff25166d6e57d3d08d",
+          "constantGainDb": 5.569,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.12,
+            "pcmSamples": 137592,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -10.264336433551382,
+            "meanDb": -27.56920654521125,
+            "firstAboveMinus40DbSeconds": 0.12891156462585035,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 147.44000000000003,
+          "duration": 3.12,
+          "pcmSamples": 137592,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -4.695155413492007,
+          "meanDb": -22.00020481077565,
+          "firstAboveMinus40DbSeconds": 0.1272562358276644,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "lightSweep",
+      "panelId": "p18-c03",
+      "rect": [
+        0.736328125,
+        0.962890625,
+        0.0703125,
+        0.020182291666666668
+      ],
+      "clipPolygon": [
+        [
+          0.736328125,
+          0.962890625
+        ],
+        [
+          0.806640625,
+          0.962890625
+        ],
+        [
+          0.806640625,
+          0.9830729166666666
+        ],
+        [
+          0.736328125,
+          0.9830729166666666
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 24.01666666666667,
+      "endSeconds": 26.81666666666667,
+      "envelope": {
+        "attackSeconds": 0.45,
+        "releaseSeconds": 1.1
+      },
+      "color": "#557a9a",
+      "strength": 0.35,
+      "amplitude": 16,
+      "speed": 0.9,
+      "phase": -1.35
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "18-1-rigid-1",
+      "rect": [
+        0.051417257018008505,
+        0.0078125,
+        0.4427233679819915,
+        0.3229166666666667
+      ]
+    },
+    {
+      "id": "18-after-rigid-1",
+      "rect": [
+        0.5455578820180086,
+        0.0078125,
+        0.4427233679819914,
+        0.3229166666666667
+      ]
+    },
+    {
+      "id": "18-2-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.43815104166666674,
+        0.646247475834216,
+        0.2233072916666666
+      ]
+    },
+    {
+      "id": "18-2-rigid-2",
+      "rect": [
+        0.6884888471183129,
+        0.3665364583333334,
+        0.2602941222110037,
+        0.29296875000000006
+      ]
+    },
+    {
+      "id": "18-3-grover-child-rigid",
+      "rect": [
+        0.380859375,
+        0.7356770833333334,
+        0.341796875,
+        0.25390625
+      ]
+    },
+    {
+      "id": "18-3-abigail-rigid",
+      "rect": [
+        0.8154296875,
+        0.7291666666666666,
+        0.158203125,
+        0.2604166666666667
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "85781ff815e0a379d0b7b943e197a1afb8f19bcb35a0a9c2ccf583733035ea7b",
+    "lettering": "Original SVG alpha, opaque RGB from approved master; frozen PNG composed last, editable SVG retained. PanelReveals masks art and letters together.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false,
+    "formatCorrection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/format-01/PROGRESS.md",
+    "motion03Lot": "lot-d",
+    "sourceV9Sha256": "0b8684a4a97f82bf73fc0c0f2446c4f4868c4e4cec4b0fec6f515cc119269e93",
+    "previousPageSourceSha256": "01a00a8d43a78270c58e1b0fc76e37b3ba723421dfe664863ab890519c8a540c",
+    "timingContract": "../../../docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/timing/TIMING.json",
+    "physicalAnchors": "../../../docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+    "assets": "../../../docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ASSETS-v5.json",
+    "editableLetteringSvg": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/lettering.svg"
+  },
+  "motionLayers": [
+    {
+      "id": "bolt-slides-fingers-fixed",
+      "panelId": "p18-c02",
+      "mode": "frames",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "startSeconds": 13.966666666666667,
+      "endSeconds": 22.96666666666667,
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-00.png"
+        },
+        {
+          "atSeconds": 0.8,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-01.png"
+        },
+        {
+          "atSeconds": 0.9,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-02.png"
+        },
+        {
+          "atSeconds": 1,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-03.png"
+        },
+        {
+          "atSeconds": 1.1,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-04.png"
+        },
+        {
+          "atSeconds": 1.2,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-05.png"
+        },
+        {
+          "atSeconds": 1.35,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-06.png"
+        }
+      ]
+    }
+  ],
+  "panelReveals": [
+    {
+      "panelId": "p18-c0after",
+      "atSeconds": 10.058333333333334
+    },
+    {
+      "panelId": "p18-c02",
+      "atSeconds": 13.116666666666667
+    },
+    {
+      "panelId": "p18-c03",
+      "atSeconds": 22.96666666666667
+    }
+  ]
+}

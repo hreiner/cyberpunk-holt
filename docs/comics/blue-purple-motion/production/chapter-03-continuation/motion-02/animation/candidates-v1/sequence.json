@@ -1,0 +1,16 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "Blue Purple — revue des animations16–17",
+  "pages": [
+    {
+      "id": "page-16",
+      "manifest": "page-16.json"
+    },
+    {
+      "id": "page-17",
+      "manifest": "page-17.json"
+    }
+  ]
+}

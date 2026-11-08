@@ -1,0 +1,70 @@
+{
+  "status": "assembled-awaiting-review",
+  "tool": "built-in ImageGen",
+  "prompt": "PROMPT-v3.md",
+  "attempts": {
+    "prevalidationRefLimit": 1,
+    "networkFailures": 2,
+    "successfulImages": 1,
+    "providerCost": "unknown"
+  },
+  "generatedNativeSource": "C:\\Users\\hadri\\.codex\\generated_images\\01a1b584-3e59-70c3-a778-0f496c5ace35\\exec-c44b3206-3ace-4a8b-af8a-a7bfdf68896b.png",
+  "width": 1024,
+  "height": 1536,
+  "seconds": 12,
+  "references": [
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p17-c01.jpg",
+      "sha256": "fbcb68b202044b96ec41845573bb5359be7536b1fc30d87551a2f1987600cd34",
+      "submittedInSuccessfulCall": true
+    },
+    {
+      "file": "docs/art/Reference_pictures/grover.png",
+      "sha256": "6ec95cba7a63839a7589af8cc9aa4d12e77edc486b2e2346e5b6a3036ee507bb",
+      "submittedInSuccessfulCall": false
+    },
+    {
+      "file": "docs/art/Reference_pictures/abigail.png",
+      "sha256": "79854cfad4da944126d2ab848f3227754b109f4af37e2867119e280ba0992cf2",
+      "submittedInSuccessfulCall": false
+    },
+    {
+      "file": "docs/art/Reference_pictures/john.png",
+      "sha256": "9be11d8474743edbab2912d8c07343d3febd0f194b0eaefd597bc7fdeb833e6f",
+      "submittedInSuccessfulCall": false
+    },
+    {
+      "file": "docs/art/Reference_pictures/Frankly.png",
+      "sha256": "1a557d28347460b76346d90501ca39afb105f8932075c33769192a6b1bd07452",
+      "submittedInSuccessfulCall": false
+    },
+    {
+      "file": "docs/art/Reference_pictures/Chapter2/BluePurple.png",
+      "sha256": "52462a9c36d3bb2b39035fa719fc50ad49cd1d2520e30775f46ca9462534afaf",
+      "submittedInSuccessfulCall": false
+    }
+  ],
+  "files": [
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/art-native-01.png",
+      "sha256": "471ef7360b9f6c5e6146fdbbd3bd695b78482fe2795f551b73d74e7d0e5a34e6"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/cover-v1.png",
+      "sha256": "1596bbe28401369693f28131f5812aeda6ea810d9a3c3ea5a3f8618a31ca4c46"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/lettering.svg",
+      "sha256": "b294351d53c39de6d11bdbfb3dbd8888b80aac1f7c4de710f6c2ebb0167bc4b4"
+    },
+    {
+      "file": "anime/motion-comics/projects/blue-purple-cover-v1.json",
+      "sha256": "e656e8289b1439ace33ea9231d0054f3927b5699ebb81cc325a55857bb8d89ab"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/lettering.png",
+      "sha256": "838b613c490368ac4aa3b2c467167c5f815920f2c4cc387f588790961365fc84"
+    }
+  ],
+  "runtimeLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/lettering.png"
+}

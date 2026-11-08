@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-05",
+  "status": "integrator-approved",
+  "globalCharacterCap": 4800,
+  "historicalCharacters": 2856,
+  "proposedNewCharacters": 538,
+  "plannedCumulativeCharacters": 3394,
+  "correctionReserveCharacters": 444,
+  "submissionCharacterLimit": 3838,
+  "unallocatedCharacters": 962,
+  "reservePolicy": "Réserve444 maximum, corrections ciblées sur diagnostic seulement ; marge non allouée ne peut pas être dépensée automatiquement.",
+  "directionSha256": "ee7b2176302ed59572252fdd78496273f61ad97dec40f5e7b3c0ae8673d84576",
+  "inventorySha256": "ea0c83ffd90a216e61866b4996d8c0fa3ec93c3033e64b406e1eee9200e2abac",
+  "contractSha256": "4f94e18d93cdfd6fe7b89865f81076d0b0cb5eca773be5b4da19a740826d81ac",
+  "initialTtsContractSha256": "18908e59bae298318938d119887b43601b592e7020ce173e432d6be8782174da",
+  "reviewedTtsContractSha256": "666a537fad6f9896eb494f966e5115d06d7af6c4eeeef5e73514cd5a0bb9a545",
+  "finalTimelineChange": "Contrats v5 : raccourcissement des pauses à82s nouvelles ; les22 textes/voix sont inchangés, aucun nouvel appel. Version v4 intermédiaire b62984e0cb695fed3cfbe83db067dda577d7758bb9b249964a337c79390fdb4b conservée.",
+  "actualCost": null,
+  "providerRequestIds": null,
+  "budgetApproval": "Intégrateur /root, 2026-11-05 : quatorze nouvelles lignes autorisées après confirmation QA de conduite ee7b2176302ed59572252fdd78496273f61ad97dec40f5e7b3c0ae8673d84576 ; plafond opérationnel3838, absolu4800, réserve444 seulement sur diagnostic ciblé.",
+  "narrativeReview": "Agent /root/quality : quatorze textes annotés, FR/EN, speakers/settings exacts, 538 caractères ; 23 réemplois et journaux hash conformes, y compris WAV21/22. Ne vaut pas écoute."
+}

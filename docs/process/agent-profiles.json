@@ -40,5 +40,36 @@
     "description": "Review HOLT code, documentation and validation evidence independently.",
     "procedure": "docs/process/agents/repo-reviewer.md",
     "readOnly": true
+  },
+  {
+    "name": "holt-anime-director",
+    "description": "Plan the HOLT anime adaptation, scenes, shots and production continuity.",
+    "procedure": "docs/process/agents/anime-director.md"
+  },
+  {
+    "name": "holt-anime-art-director",
+    "description": "Develop the HOLT anime visual bible, character and environment continuity.",
+    "procedure": "docs/process/agents/anime-art-director.md"
+  },
+  {
+    "name": "holt-anime-animation-director",
+    "description": "Coordinate HOLT anime animation, rendering backends and shot revisions.",
+    "procedure": "docs/process/agents/anime-animation-director.md"
+  },
+  {
+    "name": "holt-anime-audio-director",
+    "description": "Plan HOLT anime dialogue, voice, ambience, music and synchronization.",
+    "procedure": "docs/process/agents/anime-audio-director.md"
+  },
+  {
+    "name": "holt-anime-editor",
+    "description": "Assemble HOLT anime shots, audio and deliverable exports.",
+    "procedure": "docs/process/agents/anime-editor.md"
+  },
+  {
+    "name": "holt-anime-quality-reviewer",
+    "description": "Independently review HOLT anime technical and artistic evidence.",
+    "procedure": "docs/process/agents/anime-quality-reviewer.md",
+    "readOnly": true
   }
 ]

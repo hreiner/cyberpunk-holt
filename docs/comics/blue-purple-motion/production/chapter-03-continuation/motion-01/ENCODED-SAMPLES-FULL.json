@@ -1,0 +1,230 @@
+[
+  {
+    "id": "retained-page-1",
+    "time": 7
+  },
+  {
+    "id": "retained-page-2",
+    "time": 41.400000000000006
+  },
+  {
+    "id": "retained-page-3",
+    "time": 84.80000000000001
+  },
+  {
+    "id": "retained-page-4",
+    "time": 116.20000000000002
+  },
+  {
+    "id": "retained-page-5",
+    "time": 151.60000000000002
+  },
+  {
+    "id": "retained-john-pose-0",
+    "time": 154.23000000000002
+  },
+  {
+    "id": "retained-john-pose-1",
+    "time": 155.71
+  },
+  {
+    "id": "retained-john-pose-2",
+    "time": 155.83
+  },
+  {
+    "id": "retained-john-pose-3",
+    "time": 156.15
+  },
+  {
+    "id": "retained-page-6",
+    "time": 172.50000000000003
+  },
+  {
+    "id": "retained-page-7",
+    "time": 191.10000000000002
+  },
+  {
+    "id": "retained-page-8",
+    "time": 211.20000000000002
+  },
+  {
+    "id": "page-09-reading",
+    "time": 228.28
+  },
+  {
+    "id": "terminalMap-before",
+    "time": 233.71833333333333
+  },
+  {
+    "id": "terminalMap-exact",
+    "time": 233.76
+  },
+  {
+    "id": "terminalMap-after",
+    "time": 233.885
+  },
+  {
+    "id": "09-2-reflection-a",
+    "time": 234.01
+  },
+  {
+    "id": "09-2-reflection-b",
+    "time": 235.01
+  },
+  {
+    "id": "page-10-reading",
+    "time": 242.28
+  },
+  {
+    "id": "page-11-reading",
+    "time": 260.86
+  },
+  {
+    "id": "page-12-reading",
+    "time": 283.2
+  },
+  {
+    "id": "implantConfirm-before",
+    "time": 290.7883333333333
+  },
+  {
+    "id": "implantConfirm-exact",
+    "time": 290.83
+  },
+  {
+    "id": "implantConfirm-after",
+    "time": 290.955
+  },
+  {
+    "id": "page-13-reading",
+    "time": 301.46
+  },
+  {
+    "id": "page-14-reading",
+    "time": 319.12
+  },
+  {
+    "id": "page-15-reading",
+    "time": 336.41999999999996
+  },
+  {
+    "id": "connector-before",
+    "time": 340.3083333333333
+  },
+  {
+    "id": "connector-exact",
+    "time": 340.34999999999997
+  },
+  {
+    "id": "connector-after",
+    "time": 340.47499999999997
+  },
+  {
+    "id": "capsuleClose-before",
+    "time": 349.24833333333333
+  },
+  {
+    "id": "capsuleClose-exact",
+    "time": 349.28999999999996
+  },
+  {
+    "id": "capsuleClose-after",
+    "time": 349.41499999999996
+  },
+  {
+    "id": "neuralUnlock-before",
+    "time": 354.0783333333333
+  },
+  {
+    "id": "neuralUnlock-exact",
+    "time": 354.12
+  },
+  {
+    "id": "neuralUnlock-after",
+    "time": 354.245
+  },
+  {
+    "id": "page-16-reading",
+    "time": 354.32
+  },
+  {
+    "id": "page-17-reading",
+    "time": 370.57
+  },
+  {
+    "id": "oneShot-before",
+    "time": 372.9483333333333
+  },
+  {
+    "id": "oneShot-exact",
+    "time": 372.99
+  },
+  {
+    "id": "oneShot-after",
+    "time": 373.115
+  },
+  {
+    "id": "page-18-reading",
+    "time": 381.47222222222223
+  },
+  {
+    "id": "residentImpact-before",
+    "time": 386.67055555555555
+  },
+  {
+    "id": "residentImpact-exact",
+    "time": 386.7122222222222
+  },
+  {
+    "id": "residentImpact-after",
+    "time": 386.8372222222222
+  },
+  {
+    "id": "page-19-reading",
+    "time": 401.2322222222222
+  },
+  {
+    "id": "19-2-reflection-a",
+    "time": 407.4422222222222
+  },
+  {
+    "id": "19-2-reflection-b",
+    "time": 408.4422222222222
+  },
+  {
+    "id": "page-20-reading",
+    "time": 417.63222222222225
+  },
+  {
+    "id": "bodySplash-before",
+    "time": 423.7705555555556
+  },
+  {
+    "id": "bodySplash-exact",
+    "time": 423.8122222222222
+  },
+  {
+    "id": "bodySplash-after",
+    "time": 423.9372222222222
+  },
+  {
+    "id": "page-21-reading",
+    "time": 430.8622222222222
+  },
+  {
+    "id": "refugeOpen-before",
+    "time": 434.62055555555554
+  },
+  {
+    "id": "refugeOpen-exact",
+    "time": 434.6622222222222
+  },
+  {
+    "id": "refugeOpen-after",
+    "time": 434.7872222222222
+  },
+  {
+    "id": "ending",
+    "time": 445.90222222222224
+  }
+]

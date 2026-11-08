@@ -1,0 +1,223 @@
+{
+  "page": 2,
+  "title": "Rester avec eux",
+  "source": "docs/chapters/ch3/SCENARIO.md — Le Blue Purple : Wendy et Letitia ; docs/anime/SCREENPLAY.md S01-P03 ; dette docs/chapters/CH2-LEGACY.md ; demande de révision du propriétaire transmise à la réalisation le 2026-11-05",
+  "panels": [
+    {
+      "id": "p02-c01",
+      "readingOrder": 1,
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "wendy"
+      ],
+      "instant": "Juste après qu'Abigail a dit que le charcudoc retient Letitia.",
+      "setting": "Salle attenante au Blue Purple, même table et néons que page 1.",
+      "intention": "Wendy coupe court au retour sans mépris pour Letitia.",
+      "expression": "Mâchoire tenue, inquiétude visible sous la fermeté.",
+      "gesture": "Se penche légèrement vers les cadets, paume ouverte basse sur la table.",
+      "gaze": "Regarde Franklyn, sans chercher la porte pendant cette phrase.",
+      "visibleAction": "Avertissement adressé à la table ; aucune arme ni document.",
+      "framing": "Plan rapproché large de Wendy, amorces des épaules des cadets ; elle reste dans sa place page 1.",
+      "lettering": "Deux bulles reliées dans le tiers supérieur droit, Wendy identifiable au centre/gauche ; ne pas masquer yeux ni main.",
+      "cues": [
+        {
+          "id": "bp-l005",
+          "globalLine": 5,
+          "speaker": "wendy",
+          "textFr": "Si vous y retournez maintenant, vous les mènerez tout droit à elle. Et à vous tous.",
+          "textEn": "Going back now would lead them straight to her. And to all of you.",
+          "intention": "Urgence contenue, vérité difficile puis accent sur tous."
+        }
+      ],
+      "minimumReadSeconds": 8
+    },
+    {
+      "id": "p02-c02",
+      "readingOrder": 2,
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "franklyn"
+      ],
+      "instant": "Franklyn explose en entendant qu’il faut partir sans Letitia.",
+      "setting": "Même table ; fond simplifié de néons en faible profondeur.",
+      "intention": "Une peur intolérable de perdre Letitia devient une colère contre le renoncement proposé ; ne pas jouer une protestation polie.",
+      "expression": "Sourcils violemment rapprochés, yeux brillants et humides, narines tendues, mâchoire et bouche ouvertes dans une réplique arrachée. Colère de peur et de douleur, visage clairement plus intense que le master v1.",
+      "gesture": "Le buste se soulève brusquement de la chaise ; une paume entière s’abat ou se bloque durement sur la table, l’autre main se crispe. Un seul geste lisible, anatomie correcte, pas d’agression contre un camarade.",
+      "gaze": "Regard brûlant dirigé vers Wendy hors champ ; il exige une réponse.",
+      "visibleAction": "Explosion verbale et geste brusque à la table. « Crever » est sa peur exprimée, jamais un pronostic de scénario sur Letitia.",
+      "framing": "Plan rapproché énergique poitrine/visage incluant le bas de la main à la table, angle et place cohérents avec le master. Garder espace haut pour bulles sans calmer le visage.",
+      "lettering": "Deux bulles nerveuses de Franklyn : échéance puis question ; dessin intégral sous les lettres, pointes sans couvrir yeux ni main.",
+      "cues": [
+        {
+          "id": "bp-l006",
+          "globalLine": 6,
+          "speaker": "franklyn",
+          "textFr": "Demain soir, il veut deux mille crédits ! On va la laisser crever là-bas ?",
+          "textEn": "He wants two thousand credits by tomorrow night! Are we just leaving her to die in there?",
+          "intention": "Colère viscérale qui déborde d’abord sur l’échéance, puis question accusatrice née de la panique. La seconde phrase se fissure de douleur. Pas de harangue, pas de souffle décoratif ; ne pas rendre Franklyn calme."
+        }
+      ],
+      "minimumReadSeconds": 9,
+      "revisionAction": "Éditer p02-bande02, case gauche ; préserver identité, tenue, décor et case Grover voisine."
+    },
+    {
+      "id": "p02-c03",
+      "readingOrder": 3,
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "grover"
+      ],
+      "instant": "Grover choisit ses mots avant de répondre.",
+      "setting": "Même table et éclairage ; aucun nouveau lieu.",
+      "intention": "Grover tient face à la colère de Franklyn sans le rabaisser et rappelle que se faire prendre n’aidera pas Letitia.",
+      "expression": "Regret visible, inquiétude pour Franklyn ; il soutient difficilement son regard au lieu de se fermer.",
+      "gesture": "Épaules rentrées, une main posée à plat ; aucun grand geste.",
+      "gaze": "Vers Franklyn à sa place réelle.",
+      "visibleAction": "Il argumente : se faire prendre n'aidera personne.",
+      "framing": "Plan rapproché de Grover, angle complémentaire de Franklyn.",
+      "lettering": "Deux bulles empilées dans la partie supérieure, sans couper la coiffure de Grover.",
+      "cues": [
+        {
+          "id": "bp-l007",
+          "globalLine": 7,
+          "speaker": "grover",
+          "textFr": "Elle nous dirait de nous mettre à l'abri d'abord. On ne l'aidera pas si on se fait prendre.",
+          "textEn": "She'd tell us to get clear first. We won't help her if we're caught.",
+          "intention": "Une fermeté triste adressée à un ami en colère. Ne pas répondre par une autre colère ni un raisonnement administratif. Texte lexical conservé."
+        }
+      ],
+      "minimumReadSeconds": 9
+    },
+    {
+      "id": "p02-c04",
+      "readingOrder": 4,
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "franklyn",
+        "john"
+      ],
+      "instant": "Après l’argument de Grover et un silence, Franklyn craque et consent à aider le groupe.",
+      "setting": "Même table, environnement estompé.",
+      "intention": "Ralliement contraint pour les autres : il reste blessé et encore en colère, mais ne les abandonnera pas. Il ne trouve pas de résolution confortable.",
+      "expression": "Franklyn a les yeux humides, sourcils encore contractés, lèvres tendues ; le visage retombe après l’explosion sans devenir serein. John inquiet et grave, sans sourire.",
+      "gesture": "La paume de Franklyn quitte la table, ses doigts restent crispés puis sa main tremble près de lui ; épaules brusquement affaissées, il se retourne légèrement vers John et les autres. John reste présent, mains visibles, sans geste héroïque ajouté.",
+      "gaze": "Franklyn coupe d’abord le regard, puis regarde John et le groupe quand il accepte de les aider ; John ne le lâche pas des yeux.",
+      "visibleAction": "Franklyn cède sous le poids du groupe et prononce son engagement avec difficulté ; John répond par une promesse sobre. La colère est encore dans ses mains et sa mâchoire.",
+      "framing": "Plan à deux Franklyn/John, plus d’espace pour lire le buste affaissé et les mains de Franklyn ; ordre des bulles raccord avec positions conservées.",
+      "lettering": "Deux bulles Franklyn (acceptation puis condition) et une brève réponse John, ordre gauche vers droite puis bas. Agrandir réserves si nécessaire sans cacher le visage brisé de Franklyn.",
+      "cues": [
+        {
+          "id": "bp-l008",
+          "globalLine": 8,
+          "speaker": "franklyn",
+          "textFr": "D’accord… Je vous aide. Mais on revient pour elle.",
+          "textEn": "All right… I’ll help you. But we’re coming back for her.",
+          "intention": "Après un silence, les mots coûtent : accord cassé, aide adressée aux camarades, puis condition encore rageuse. Il craque sans effondrement théâtral ni voix rassurée. Autoriser une seule respiration naturelle si nécessaire."
+        },
+        {
+          "id": "bp-l009",
+          "globalLine": 9,
+          "speaker": "john",
+          "textFr": "On reviendra.",
+          "textEn": "We will.",
+          "intention": "Promesse basse et grave à Franklyn, sans sourire, sans geste de victoire, sans respiration rapportée. Ce futur est un engagement du personnage, pas la certification d’un sauvetage canonique."
+        }
+      ],
+      "minimumReadSeconds": 10,
+      "revisionAction": "Éditer p02-bande03 entière, sans changer les places et identités."
+    }
+  ],
+  "schemaVersion": 1,
+  "version": 3,
+  "status": "integrator-approved-for-production",
+  "dialogueStatus": "adaptation",
+  "pageSize": [
+    1024,
+    1536
+  ],
+  "previousContract": "docs/comics/blue-purple-motion/production/pages-01-04/contracts/page-02.json",
+  "revision": {
+    "date": "2026-11-05",
+    "reason": "Colère viscérale puis ralliement douloureux de Franklyn ; vision électrique et numérique subjective ; choc persistant après vision.",
+    "previousVersionPreserved": true,
+    "humanApprovalOfNewAssets": false
+  },
+  "productionApproval": {
+    "reviewer": "integrator",
+    "date": "2026-11-05",
+    "scope": "Storyboard et quatre contrats v3 après contre-revue indépendante et demande intégrale du propriétaire ; production de la révision autorisée.",
+    "humanApprovalOfNewAssets": false
+  }
+}

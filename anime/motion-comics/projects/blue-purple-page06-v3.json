@@ -1,0 +1,423 @@
+{
+  "schemaVersion": 1,
+  "version": 3,
+  "title": "HOLT — Blue Purple · page 6 · révision 1",
+  "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/page-v1.png",
+  "overviewSeconds": 0.7,
+  "transitionSeconds": 0.3,
+  "gapSeconds": 0.1,
+  "outroSeconds": 0.5,
+  "panels": [
+    {
+      "id": "p06-c01",
+      "label": "Case 1 — Le poursuivant recule",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 3,
+      "cues": [
+        {
+          "id": "bp-l028",
+          "globalLine": 28,
+          "speaker": "john",
+          "textFr": "On le suit ?",
+          "textEn": "Do we go after him?",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/28-john-c900ce4b8a69.mp3",
+          "duration": 1.44,
+          "ttsText": "[tense, questioning] Do we go after him?",
+          "ttsModel": "eleven_v4",
+          "performance": "Encore dans l'action, John demande une décision ; il ne se lance pas en poursuite.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/28-john-c900ce4b8a69.json"
+        }
+      ]
+    },
+    {
+      "id": "p06-c02",
+      "label": "Case 2 — Éviter les caméras",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 8,
+      "cues": [
+        {
+          "id": "bp-l029",
+          "globalLine": 29,
+          "speaker": "wendy",
+          "textFr": "Non. On disparaît.",
+          "textEn": "No. We disappear.",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/29-wendy-dbb700141231.mp3",
+          "duration": 2.16,
+          "ttsText": "[firm, decisive] No. We disappear.",
+          "ttsModel": "eleven_v4",
+          "performance": "Wendy refuse une escalade et enchaîne immédiatement avec caméras/ruelle.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/29-wendy-dbb700141231.json"
+        },
+        {
+          "id": "bp-l018",
+          "globalLine": 18,
+          "speaker": "wendy",
+          "textFr": "Pas de foule. Les caméras nous retrouveraient. Par la ruelle.",
+          "textEn": "No crowds. The cameras will find us. Back alley.",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/18-wendy-39b9935a631d.mp3",
+          "duration": 4.16,
+          "ttsText": "[firm, controlled urgency] No crowds. [low, warning] The cameras will find us. [decisive] Back alley.",
+          "ttsModel": "eleven_v4",
+          "performance": "Elle interdit la facilité apparente puis donne une issue concrète, voix basse retrouvée.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/18-wendy-39b9935a631d.json"
+        }
+      ]
+    },
+    {
+      "id": "p06-c03",
+      "label": "Case 3 — Tous les six",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 5.5,
+      "cues": [
+        {
+          "id": "bp-l030",
+          "globalLine": 30,
+          "speaker": "abigail",
+          "textFr": "On est tous là ?",
+          "textEn": "Are we all here?",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/30-abigail-gain-+10.4db.wav",
+          "duration": 1.52,
+          "ttsText": "[worried, quietly] Are we all here?",
+          "ttsModel": "eleven_v4",
+          "performance": "Vérification anxieuse adressée au groupe pendant sortie ; ne pas prononcer un compte robotique.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/30-abigail-3891ff5d85ca.json"
+        },
+        {
+          "id": "bp-l031",
+          "globalLine": 31,
+          "speaker": "grover",
+          "textFr": "Tous les six. Avance.",
+          "textEn": "All six. Keep moving.",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/31-grover-4b193abfb1e8.mp3",
+          "duration": 1.76,
+          "ttsText": "[quick, reassuring] All six. [urgent] Keep moving.",
+          "ttsModel": "eleven_v4",
+          "performance": "Rassure brièvement Abigail puis relance la fuite ; aucune allégresse.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/31-grover-4b193abfb1e8.json"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "smoke",
+      "panelId": "p06-c01",
+      "rect": [
+        0.8125,
+        0.0078125,
+        0.166015625,
+        0.10807291666666667
+      ],
+      "count": 9,
+      "color": "#afabbc",
+      "strength": 0.64,
+      "speed": 0.75,
+      "direction": "up",
+      "phase": 1.1
+    },
+    {
+      "type": "hair",
+      "panelId": "p06-c02",
+      "rect": [
+        0.55078125,
+        0.4537760416666667,
+        0.173828125,
+        0.07096354166666667
+      ],
+      "amplitude": 8,
+      "frequency": 0.57,
+      "protect": [
+        [
+          0.6005859375,
+          0.50390625,
+          0.0947265625,
+          0.07356770833333333
+        ],
+        [
+          0.5908203125,
+          0.4166666666666667,
+          0.03515625,
+          0.044270833333333336
+        ]
+      ]
+    },
+    {
+      "type": "smoke",
+      "panelId": "p06-c03",
+      "rect": [
+        0.853515625,
+        0.671875,
+        0.130859375,
+        0.06901041666666667
+      ],
+      "count": 7,
+      "color": "#bfc1d0",
+      "strength": 0.65,
+      "speed": 1.1,
+      "direction": "right",
+      "phase": 0.8
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-pursuer",
+      "rect": [
+        0.5205078125,
+        0.0546875,
+        0.169921875,
+        0.197265625
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.130859375,
+        0.5501302083333334,
+        0.1103515625,
+        0.064453125
+      ]
+    },
+    {
+      "id": "c2-john-face",
+      "rect": [
+        0.2568359375,
+        0.5260416666666666,
+        0.0908203125,
+        0.072265625
+      ]
+    },
+    {
+      "id": "c2-john-hand",
+      "rect": [
+        0.296875,
+        0.5755208333333334,
+        0.0556640625,
+        0.04296875
+      ]
+    },
+    {
+      "id": "c2-wendy-face",
+      "rect": [
+        0.6005859375,
+        0.50390625,
+        0.0947265625,
+        0.07356770833333333
+      ]
+    },
+    {
+      "id": "c2-wendy-hand",
+      "rect": [
+        0.822265625,
+        0.5182291666666666,
+        0.08203125,
+        0.046875
+      ]
+    },
+    {
+      "id": "c2-franklyn-badge",
+      "rect": [
+        0.0322265625,
+        0.60546875,
+        0.05859375,
+        0.052083333333333336
+      ]
+    },
+    {
+      "id": "c2-john-badge",
+      "rect": [
+        0.2294921875,
+        0.6028645833333334,
+        0.041015625,
+        0.041666666666666664
+      ]
+    },
+    {
+      "id": "c3-all-six-swept-region",
+      "rect": [
+        0.09765625,
+        0.7291666666666666,
+        0.724609375,
+        0.2630208333333333
+      ]
+    },
+    {
+      "id": "balloon-1",
+      "rect": [
+        0.033203125,
+        0.018229166666666668,
+        0.23828125,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "tail-1-all-poses",
+      "rect": [
+        0.009765625,
+        0.036458333333333336,
+        0.037109375,
+        0.01953125
+      ]
+    },
+    {
+      "id": "balloon-2",
+      "rect": [
+        0.048828125,
+        0.3515625,
+        0.326171875,
+        0.06380208333333333
+      ]
+    },
+    {
+      "id": "tail-2-all-poses",
+      "rect": [
+        0.357421875,
+        0.3763020833333333,
+        0.0859375,
+        0.020182291666666668
+      ]
+    },
+    {
+      "id": "balloon-3",
+      "rect": [
+        0.41796875,
+        0.3515625,
+        0.521484375,
+        0.078125
+      ]
+    },
+    {
+      "id": "tail-3-all-poses",
+      "rect": [
+        0.591796875,
+        0.4192708333333333,
+        0.03125,
+        0.040364583333333336
+      ]
+    },
+    {
+      "id": "balloon-4",
+      "rect": [
+        0.291015625,
+        0.67578125,
+        0.39453125,
+        0.029947916666666668
+      ]
+    },
+    {
+      "id": "tail-4-all-poses",
+      "rect": [
+        0.2568359375,
+        0.6953125,
+        0.1025390625,
+        0.05078125
+      ]
+    },
+    {
+      "id": "balloon-5",
+      "rect": [
+        0.025390625,
+        0.7044270833333334,
+        0.240234375,
+        0.029947916666666668
+      ]
+    },
+    {
+      "id": "tail-5-all-poses",
+      "rect": [
+        0.1875,
+        0.7239583333333334,
+        0.0615234375,
+        0.015625
+      ]
+    }
+  ],
+  "motionLayers": [
+    {
+      "id": "rear-exit-two-poses",
+      "panelId": "p06-c03",
+      "mode": "frames",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "startSeconds": 12.6,
+      "endSeconds": 18.1,
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p06-c03-pose-01-seuil-v2.png",
+          "letteringImage": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/lettering-seuil-v1.svg"
+        },
+        {
+          "atSeconds": 1,
+          "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p06-c03-pose-02-franchissement-v2.png",
+          "letteringImage": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/lettering-franchissement-v1.svg"
+        }
+      ]
+    }
+  ],
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/page-raw-v1.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/lettering-v1.svg",
+  "review": {
+    "sampleTime": 2.2,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 200,
+    "minimumLiveChangedPixels": 200,
+    "perPanelReview": [
+      {
+        "panelId": "p06-c01",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "sampleTime": 2.2
+      },
+      {
+        "panelId": "p06-c02",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "sampleTime": 5.5
+      },
+      {
+        "panelId": "p06-c03",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "motionProofRequired": true,
+        "sampleTime": 13.8
+      }
+    ]
+  },
+  "source": "docs/chapters/ch3/SCENARIO.md — Le piège au bar ; Le parking et la fuite ; docs/anime/SCREENPLAY.md — S02-P01 à S02-P05, adaptation provisoire ; docs/anime/MOTION-COMICS-PAGES-05-08-ORCHESTRATOR.md ; docs/comics/blue-purple-motion/production/pages-01-04/revision-03/STORYBOARD.md ; Retour utilisateur transmis par intégrateur le 2026-11-05 : John assomme explicitement le barman ; davantage de voix, SFX/musique et mouvements d'action dessinés.",
+  "provenance": {
+    "revision": 1,
+    "previousDelivery": "docs/comics/blue-purple-motion/production/pages-05-08/DELIVERY.md",
+    "contract": "docs/comics/blue-purple-motion/production/pages-05-08/revision-01/CONTRACTS.json",
+    "contractSha256": "4f94e18d93cdfd6fe7b89865f81076d0b0cb5eca773be5b4da19a740826d81ac",
+    "timing": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/timing-r1-v5.json",
+    "imageSha256": "8e07196ae9408febc1764363b148be13d7805b3465d24ad4c71d30e4c02f0040",
+    "soundtrack": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/soundtrack-v3/final-provenance.json",
+    "humanApproval": false,
+    "selectedFrom": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/candidates-stage2-v1/page-06.json",
+    "review": "docs/comics/blue-purple-motion/production/pages-05-08/revision-01/REVIEW.md",
+    "previousManifest": "blue-purple-page06-v1.json",
+    "humanListeningApproval": false
+  }
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HOLT · Études de mouvement</title>
+<style>
+@font-face{font-family:Holt;src:url('../../assets/holt-display.woff2');font-weight:700}
+@font-face{font-family:Text;src:url('../../assets/holt-text.woff2')}
+*{box-sizing:border-box}body{margin:0;background:#05070d;color:#f3f0e9;font:18px Text,sans-serif}
+main{max-width:1280px;margin:auto;padding:24px}header{display:flex;align-items:baseline;justify-content:space-between;gap:18px;flex-wrap:wrap}
+h1{font:700 38px Holt,sans-serif;margin:0}header p{color:#9aa6b4;margin:0}canvas{width:100%;height:auto;display:block;margin:22px 0;background:#05070d}
+nav,.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}nav{margin-top:22px}button{min-height:44px;padding:10px 18px;color:inherit;background:#101723;border:1px solid #34404e;border-radius:3px;font:inherit;cursor:pointer}
+button[aria-current=true],#play{border-color:#e6b568;color:#e6b568}button:focus-visible,input:focus-visible{outline:2px solid #e6b568;outline-offset:3px}
+input[type=range]{width:100%;accent-color:#e6b568;margin:18px 0;min-height:28px}.controls span{margin-left:auto;color:#9aa6b4}#intent{min-height:48px;color:#c5cbd3}label{display:inline-flex;gap:9px;align-items:center;min-height:44px}
+@media(max-width:600px){main{padding:16px}h1{font-size:30px}header p{font-size:16px}canvas{margin:16px 0}.controls span{margin-left:0}}
+</style>
+<main>
+  <header><h1>HOLT. Études de mouvement</h1><p>Étude corrigée · sans audio</p></header>
+  <nav id="scenes" aria-label="Études"></nav>
+  <canvas id="study" width="1280" height="720" aria-label="Étude de mouvement en cours"></canvas>
+  <p id="intent" role="status">Chargement des dessins…</p>
+  <label for="progress">Position de l'étude</label><input id="progress" type="range" min="0" max="16.5" step="0.01" value="0">
+  <div class="controls"><button id="play" disabled>Lire</button><button id="restart" disabled>Recommencer</button><label><input id="effects" type="checkbox" checked>Animations</label><span id="clock">0:00</span></div>
+  <p id="error" role="alert"></p>
+</main>
+<script src="../../layers.js"></script><script src="../../effects.js"></script><script src="motion.js"></script><script src="study.js"></script>
+</html>

@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "thumbnails": [
+    {
+      "id": "cover",
+      "atSeconds": 0.001,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/9db11d158e3f5699dfa6b8a9e74af1c3e46f3731307457040cf3896145cf587c.webp",
+      "sha256": "9db11d158e3f5699dfa6b8a9e74af1c3e46f3731307457040cf3896145cf587c"
+    },
+    {
+      "id": "page-01",
+      "atSeconds": 12.001,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/2cee49ce12b04bd62f113358b6d93ebafa322e6c15e976f662b2362b857d385a.webp",
+      "sha256": "2cee49ce12b04bd62f113358b6d93ebafa322e6c15e976f662b2362b857d385a"
+    },
+    {
+      "id": "page-02",
+      "atSeconds": 46.401,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/ff6a277007e2857bb4f004a7b51ef85fd361987b87f1c90c8b3170444543af84.webp",
+      "sha256": "ff6a277007e2857bb4f004a7b51ef85fd361987b87f1c90c8b3170444543af84"
+    },
+    {
+      "id": "page-03",
+      "atSeconds": 89.80100000000002,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/fd59993f499e45b37387ed115d42f4364ce5736b34ecf505813c2f1d551188e5.webp",
+      "sha256": "fd59993f499e45b37387ed115d42f4364ce5736b34ecf505813c2f1d551188e5"
+    },
+    {
+      "id": "page-04",
+      "atSeconds": 121.20100000000002,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/29fc893b6ce17819b493dbb62047f04bdfaabe50ecaa508023ed85ef897648e1.webp",
+      "sha256": "29fc893b6ce17819b493dbb62047f04bdfaabe50ecaa508023ed85ef897648e1"
+    },
+    {
+      "id": "page-05",
+      "atSeconds": 156.60100000000003,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/11fa748801dd8c42eec27f82e2d112b30d90f326be3c744bb75d9717878596b0.webp",
+      "sha256": "11fa748801dd8c42eec27f82e2d112b30d90f326be3c744bb75d9717878596b0"
+    },
+    {
+      "id": "page-06",
+      "atSeconds": 177.50100000000003,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/eae199903f3a11c5199ddbb72c7c2118dbbecd69634c33a5bca48b686448f898.webp",
+      "sha256": "eae199903f3a11c5199ddbb72c7c2118dbbecd69634c33a5bca48b686448f898"
+    },
+    {
+      "id": "page-07",
+      "atSeconds": 196.10100000000003,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/506bbb8a033fed8d057dc5914b26c0012f1ab8a5d5532a4823531bdaa5e7f0b7.webp",
+      "sha256": "506bbb8a033fed8d057dc5914b26c0012f1ab8a5d5532a4823531bdaa5e7f0b7"
+    },
+    {
+      "id": "page-08",
+      "atSeconds": 216.20100000000002,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/0e62914d018161f061975b4b8574f807e4f02a0d97a3ab2f7eb89ddf16c5801f.webp",
+      "sha256": "0e62914d018161f061975b4b8574f807e4f02a0d97a3ab2f7eb89ddf16c5801f"
+    },
+    {
+      "id": "page-09",
+      "atSeconds": 238.60100000000003,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/3b18273709c2d4f40b924434c5ddef39052f2af28ac0694e56c0d5c326334509.webp",
+      "sha256": "3b18273709c2d4f40b924434c5ddef39052f2af28ac0694e56c0d5c326334509"
+    },
+    {
+      "id": "page-10",
+      "atSeconds": 262.6926666666667,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/930bc0e5e59ad19e4b2adeda50ad47ec74b93ae767c8bacc94788ca71c3c05f8.webp",
+      "sha256": "930bc0e5e59ad19e4b2adeda50ad47ec74b93ae767c8bacc94788ca71c3c05f8"
+    },
+    {
+      "id": "page-11",
+      "atSeconds": 290.951,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/9afb4d8c1ef31d7b6c69e58023729067e0d6103ec20b618da52fbbfe8e9d8ba7.webp",
+      "sha256": "9afb4d8c1ef31d7b6c69e58023729067e0d6103ec20b618da52fbbfe8e9d8ba7"
+    },
+    {
+      "id": "page-12",
+      "atSeconds": 324.30933333333337,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/f816f6425e2282ee92bb27d9b5ce903d9082863453c087ef6ca7018436fc3861.webp",
+      "sha256": "f816f6425e2282ee92bb27d9b5ce903d9082863453c087ef6ca7018436fc3861"
+    },
+    {
+      "id": "page-13",
+      "atSeconds": 351.1926666666667,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/adabcbe71679b0bf6fb49d4684664e241885f22ac556c16d22880ec803e0f210.webp",
+      "sha256": "adabcbe71679b0bf6fb49d4684664e241885f22ac556c16d22880ec803e0f210"
+    },
+    {
+      "id": "page-14",
+      "atSeconds": 379.4676666666667,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/560df0a94807834fe00d82979a8ef7a3fa763fee68829964fc26b6631a826c75.webp",
+      "sha256": "560df0a94807834fe00d82979a8ef7a3fa763fee68829964fc26b6631a826c75"
+    },
+    {
+      "id": "page-15",
+      "atSeconds": 405.1843333333333,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/a593e2e7729a2063227ccfa596a3fb4a03900a7bf0e1e13d1a538cbc628c3470.webp",
+      "sha256": "a593e2e7729a2063227ccfa596a3fb4a03900a7bf0e1e13d1a538cbc628c3470"
+    },
+    {
+      "id": "page-16",
+      "atSeconds": 432.02599999999995,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/df0303c41b886b859dc614845142e357bee10d25b83d4124406ef1c8f40647a2.webp",
+      "sha256": "df0303c41b886b859dc614845142e357bee10d25b83d4124406ef1c8f40647a2"
+    },
+    {
+      "id": "page-17",
+      "atSeconds": 459.70099999999996,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/dc75cff746a9a59156fe449aef3376df6dc47625a9245e88707c2eacd9e6f0d3.webp",
+      "sha256": "dc75cff746a9a59156fe449aef3376df6dc47625a9245e88707c2eacd9e6f0d3"
+    },
+    {
+      "id": "page-18",
+      "atSeconds": 478.0426666666666,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/9439b4cf89d4db6894d7218edb6d70dbfbbac2c14138f0818441eaaf2caefb8d.webp",
+      "sha256": "9439b4cf89d4db6894d7218edb6d70dbfbbac2c14138f0818441eaaf2caefb8d"
+    },
+    {
+      "id": "page-19",
+      "atSeconds": 508.85933333333327,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/501eac046e80b19354674a14d8f6798c6f412d1024d94d045433f8e3e98e5293.webp",
+      "sha256": "501eac046e80b19354674a14d8f6798c6f412d1024d94d045433f8e3e98e5293"
+    },
+    {
+      "id": "page-20",
+      "atSeconds": 535.4093333333333,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/c7e33756361e21aaa0d68c30d5d33e9c3e561b70a7ea31b1751841174e9e4d56.webp",
+      "sha256": "c7e33756361e21aaa0d68c30d5d33e9c3e561b70a7ea31b1751841174e9e4d56"
+    },
+    {
+      "id": "page-21",
+      "atSeconds": 557.7926666666666,
+      "ambientSeconds": 0,
+      "width": 240,
+      "height": 360,
+      "source": "reader.pageCanvas initial narrative state, effects enabled",
+      "path": "media/1777b17d1d0517b19732e6970e86cda972449173a4c2da59eb5410b75b4dde8f.webp",
+      "sha256": "1777b17d1d0517b19732e6970e86cda972449173a4c2da59eb5410b75b4dde8f"
+    }
+  ]
+}

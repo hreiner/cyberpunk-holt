@@ -1,0 +1,231 @@
+[
+  {
+    "id": "bp-l001",
+    "globalLine": 1,
+    "panel_id": "p01-c01",
+    "speaker": "wendy",
+    "plain_en": "I'm Wendy. I was sent in case something went wrong. Tell me what happened after HOLT.",
+    "en": "[exhales] [calm, reassuring] I'm Wendy. [short pause] I was sent in case something went wrong. [sighs] [curious, gently] Tell me... what happened after HOLT?",
+    "fr": "Je m'appelle Wendy. On m'a envoyée si quelque chose tournait mal. Que s'est-il passé après HOLT ?",
+    "performance": "Établir le contact sans désarmer sa vigilance : expiration, présentation posée, puis une question réellement adressée aux cadets.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "reuse",
+    "reuseManifest": "anime/motion-comics/projects/blue-purple-page01-v4-v1.json"
+  },
+  {
+    "id": "bp-l002",
+    "globalLine": 2,
+    "panel_id": "p01-c02",
+    "speaker": "john",
+    "plain_en": "We ran. They kept coming.",
+    "en": "[exhales sharply] [shaken, breathless] We ran... [short pause] [angry, under his breath] They kept coming.",
+    "fr": "On a fui. Ils ne nous ont pas lâchés.",
+    "performance": "Le souvenir revient physiquement : souffle court, première phrase épuisée, seconde plus dure et contenue.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "reuse",
+    "reuseManifest": "anime/motion-comics/projects/blue-purple-page01-v4-v1.json"
+  },
+  {
+    "id": "bp-l003",
+    "globalLine": 3,
+    "panel_id": "p01-c03",
+    "speaker": "wendy",
+    "plain_en": "The Academy sent me as a last resort. You're being hunted. If they followed you here, we don't have much time.",
+    "en": "[serious, controlled urgency] The Academy sent me as a last resort. [short pause] [low, firm voice] You're being HUNTED. [inhales deeply] [whispers] If they followed you here... [urgent] we don't have much time.",
+    "fr": "L'Académie m'a envoyée en dernier recours. On vous traque. S'ils vous ont suivis, on n'a plus beaucoup de temps.",
+    "performance": "Basculer de l'explication à l'avertissement : insister sur hunted, baisser la voix pour la menace immédiate, accélérer la dernière proposition.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "reuse",
+    "reuseManifest": "anime/motion-comics/projects/blue-purple-page01-v4-v1.json"
+  },
+  {
+    "id": "bp-l004",
+    "globalLine": 4,
+    "panel_id": "p01-c04",
+    "speaker": "abigail",
+    "plain_en": "Letitia's at a ripperdoc. He's keeping her there.",
+    "en": "[inhales deeply] [sad, voice trembling] Letitia's at a ripperdoc. [swallows] [angry, holding back tears] He's keeping her there.",
+    "fr": "Letitia est chez un charcudoc. Il la retient là-bas.",
+    "performance": "Réussir à prononcer le nom de Letitia malgré l'angoisse, ravaler l'émotion puis laisser percer la colère contre le charcudoc.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "reuse",
+    "reuseManifest": "anime/motion-comics/projects/blue-purple-page01-v4-v1.json"
+  },
+  {
+    "id": "bp-l005",
+    "globalLine": 5,
+    "panel_id": "p02-c01",
+    "speaker": "wendy",
+    "plain_en": "Going back now would lead them straight to her. And to all of you.",
+    "en": "[inhales] [firm, controlled urgency] Going back NOW would lead them straight to her. [short pause] [low, grave] And to all of you.",
+    "fr": "Si vous y retournez maintenant, vous les mènerez tout droit à elle. Et à vous tous.",
+    "performance": "Urgence contenue, vérité difficile puis accent sur tous.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l006",
+    "globalLine": 6,
+    "panel_id": "p02-c02",
+    "speaker": "franklyn",
+    "plain_en": "He wants two thousand by tomorrow night. We can't leave her with him.",
+    "en": "[exhales shakily] [tense, insistent] He wants two thousand by tomorrow night. [swallows] [angry, pleading] We can't LEAVE her with him.",
+    "fr": "Il veut deux mille crédits demain soir. On ne peut pas la laisser avec lui.",
+    "performance": "Souffle tendu, dureté sur l'échéance puis voix qui se brise légèrement sur laisser.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l007",
+    "globalLine": 7,
+    "panel_id": "p02-c03",
+    "speaker": "grover",
+    "plain_en": "She'd tell us to get clear first. We won't help her if we're caught.",
+    "en": "[sighs] [hesitant, gentle] She'd tell us to get clear first. [short pause] [soft but firm] We won't help her if we're caught.",
+    "fr": "Elle nous dirait de nous mettre à l'abri d'abord. On ne l'aidera pas si on se fait prendre.",
+    "performance": "Commence avec hésitation coupable, finit avec douceur ferme.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l008",
+    "globalLine": 8,
+    "panel_id": "p02-c04",
+    "speaker": "franklyn",
+    "plain_en": "We're not forgetting her.",
+    "en": "[inhales] [whispers, resolute] We're not forgetting her.",
+    "fr": "On ne l'oublie pas.",
+    "performance": "Murmure décidé après un souffle retenu.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l009",
+    "globalLine": 9,
+    "panel_id": "p02-c04",
+    "speaker": "john",
+    "plain_en": "No. We aren't.",
+    "en": "[low, warm, serious] No. [short pause] We aren't.",
+    "fr": "Non. On ne l'oublie pas.",
+    "performance": "Réponse simple, chaude et ferme, sans soulagement.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l010",
+    "globalLine": 10,
+    "panel_id": "p03-c01",
+    "speaker": "wendy",
+    "plain_en": "This is all I have. I think it's where we start.",
+    "en": "[exhales] [uncertain, quietly] This is all I have. [short pause] [cautiously hopeful] I think it's where we start.",
+    "fr": "C'est tout ce que j'ai. Je crois que c'est notre point de départ.",
+    "performance": "Prudente, puis petite impulsion vers l'action sans certitude.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l011",
+    "globalLine": 11,
+    "panel_id": "p03-c04",
+    "speaker": "enfant",
+    "plain_en": "Franklyn? What's wrong?",
+    "en": "[softly, hesitant] Franklyn? [short pause] [worried] What's wrong?",
+    "fr": "Franklyn ? Qu'est-ce qu'il y a ?",
+    "performance": "Petit appel d'abord prudent, puis inquiétude sincère sans crier.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l012",
+    "globalLine": 12,
+    "panel_id": "p04-c01",
+    "speaker": "franklyn",
+    "plain_en": "I know these. Latitude and longitude. I saw them in the simulation.",
+    "en": "[inhales sharply] [hesitant, low] I know these. [short pause] [recognizing, intent] Latitude and longitude. [swallows] [quiet, certain] I saw them in the simulation.",
+    "fr": "Je connais ces chiffres. Latitude et longitude. Je les ai vus dans la simulation.",
+    "performance": "Début bas et hésitant, reconnaissance progressive, termine en assumant le souvenir.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l013",
+    "globalLine": 13,
+    "panel_id": "p04-c02",
+    "speaker": "franklyn",
+    "plain_en": "They're old coordinates. We need a terminal to convert them.",
+    "en": "[focused, urgent] They're old coordinates. [inhales] [clear, determined] We need a terminal to convert them.",
+    "fr": "Ce sont d'anciennes coordonnées. Il faut une borne pour les convertir.",
+    "performance": "Clair, pressé mais intelligible ; une inspiration entre constat et solution.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l014",
+    "globalLine": 14,
+    "panel_id": "p04-c03",
+    "speaker": "wendy",
+    "plain_en": "Then let's move.",
+    "en": "[exhales] [firm, urgent] Then let's move.",
+    "fr": "Alors, on y va.",
+    "performance": "Brève impulsion autoritaire, urgence sans cri.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  },
+  {
+    "id": "bp-l015",
+    "globalLine": 15,
+    "panel_id": "p04-c04",
+    "speaker": "john",
+    "plain_en": "Where did everybody go?",
+    "en": "[low, puzzled] Where did everybody go? [exhales softly]",
+    "fr": "Ils sont tous passés où ?",
+    "performance": "D'abord question basse, puis il entend lui-même le silence ; laisser retomber sans réponse.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new"
+  }
+]

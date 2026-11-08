@@ -1,0 +1,16 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "Blue Purple — revue ciblée16–17",
+  "pages": [
+    {
+      "id": "page-16",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page16-motion05.json"
+    },
+    {
+      "id": "page-17",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page17-motion05.json"
+    }
+  ]
+}

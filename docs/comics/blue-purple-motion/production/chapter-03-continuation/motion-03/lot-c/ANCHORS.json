@@ -1,0 +1,84 @@
+{
+  "status": "frozen",
+  "clock": "full chapter including 12-second cover",
+  "timingRevision": 2,
+  "timingSha256": "6abefd967dee6b9b1a0b3c85d54c85fbf1d5ffbe8bc12294f5fc774fbea2a091",
+  "duration": 584.3,
+  "anchors": [
+    {
+      "id": "vision",
+      "page": 16,
+      "localSeconds": 2.85,
+      "globalSeconds": 434.875
+    },
+    {
+      "id": "disassembly",
+      "page": 16,
+      "localSeconds": 3.4000000000000004,
+      "globalSeconds": 435.42499999999995
+    },
+    {
+      "id": "mapStable",
+      "page": 16,
+      "localSeconds": 5.2,
+      "globalSeconds": 437.22499999999997
+    },
+    {
+      "id": "position",
+      "page": 16,
+      "localSeconds": 5.7,
+      "globalSeconds": 437.72499999999997
+    },
+    {
+      "id": "unknown",
+      "page": 16,
+      "localSeconds": 6.1,
+      "globalSeconds": 438.125
+    },
+    {
+      "id": "green",
+      "page": 16,
+      "localSeconds": 6.5,
+      "globalSeconds": 438.525
+    },
+    {
+      "id": "firstBand",
+      "page": 17,
+      "localSeconds": 7.553333333333333,
+      "globalSeconds": 467.25333333333333
+    },
+    {
+      "id": "oneShot",
+      "page": 17,
+      "localSeconds": 8.153333333333332,
+      "globalSeconds": 467.8533333333333
+    },
+    {
+      "id": "metalImpact",
+      "page": 17,
+      "localSeconds": 8.233333333333333,
+      "globalSeconds": 467.93333333333334
+    },
+    {
+      "id": "impactRecovery",
+      "page": 17,
+      "localSeconds": 8.433333333333334,
+      "globalSeconds": 468.1333333333333
+    },
+    {
+      "id": "coverBand",
+      "page": 17,
+      "localSeconds": 8.583333333333334,
+      "globalSeconds": 468.2833333333333
+    },
+    {
+      "id": "wendy",
+      "page": 17,
+      "localSeconds": 8.613333333333333,
+      "globalSeconds": 468.31333333333333
+    }
+  ],
+  "policy": "Root-approved p16 internal anchors supersede legacy timing proposals; p17 one composed shot, metal +80ms. No page or speech duration altered.",
+  "revision": 2,
+  "markerPolicy": "Latest user clarification: exactly two yellow file POIs and one green file POI; no HOLT marker. Three retained appearance anchors unchanged."
+}

@@ -1,0 +1,16 @@
+{
+  "source": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p17-c02.jpg",
+  "generation_calls": 2,
+  "cost": null,
+  "pixel_review": "p17-clean-pixel-review-v2.json",
+  "composite_sha256": "8B089AB1BC860C3002887959467C0DFDC507BBA9A208091283E0E4E00451F970",
+  "source_sha256": "0BE2B95EA9AAD4A73C4F5680A69928A9972194916FE48E03F9B3CFC1DB8A4F7D",
+  "image": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/art/p17-clean-v2.png",
+  "mask": "p17-clean-mask-v2.json",
+  "composite": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/art/p17-clean-composite-v2.svg",
+  "provider_id": null,
+  "width": 1774,
+  "status": "GO for motion integration",
+  "height": 887,
+  "sha256": "86B8C06D8557CFDF111F811266887D0A291A1CA345AB3313593638447D2088D6"
+}

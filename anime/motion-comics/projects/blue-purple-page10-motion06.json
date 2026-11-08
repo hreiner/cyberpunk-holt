@@ -1,0 +1,762 @@
+{
+  "schemaVersion": 1,
+  "version": 6,
+  "title": "HOLT — Blue Purple · page 10",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/page-final.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/art.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/lettering-final.svg",
+  "storyThumbnail": true,
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.45,
+  "outroSeconds": 1.5,
+  "panels": [
+    {
+      "id": "p10-c01",
+      "panelKey": "10-1",
+      "sourcePanelKey": "10-1",
+      "label": "Le mégabuilding",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 5.5,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l042",
+          "globalLine": 42,
+          "localLine": 5,
+          "panel_id": "10-1",
+          "dialogueIndex": 0,
+          "pageId": "page-10",
+          "speaker": "enfant",
+          "textFr": "Tout ça, c'est un seul bâtiment ?",
+          "textEn": "All of that is one building?",
+          "ttsText": "[awed, uneasy] All of that is ONE building?",
+          "performance": "L'enfant mesure l'échelle avec émerveillement inquiet.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "AFkIMdmeB0MMrr1tgGds",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/042-enfant-gain-+5.579db.wav",
+          "sha256": "79a009f20dbf8cb1c1b1b1e83ff9d128759b234f8d2a12ce3115b5174b6c6882",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/05-enfant-5389401a681d.mp3",
+          "sourceSha256": "855ecccab35b35e8876594ec8f53ae8161a21a339be5452b984a34ad14d54921",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/05-enfant-5389401a681d.json",
+          "journalSha256": "ab8e8c61e13fe75396ec1b55034c611078997d81eaaa511de6afa7f38d721932",
+          "constantGainDb": 5.579,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.64,
+            "pcmSamples": 116424,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -11.41676239005097,
+            "meanDb": -27.579139109036234,
+            "firstAboveMinus40DbSeconds": 0.11222222222222222,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 12.4,
+          "duration": 2.64,
+          "pcmSamples": 116424,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -5.837522478100609,
+          "meanDb": -22.0001373825865,
+          "firstAboveMinus40DbSeconds": 0.11201814058956916,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p10-c02",
+      "panelKey": "10-2",
+      "sourcePanelKey": "10-2",
+      "label": "Les accès surveillés",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 8.708333333333334,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l043",
+          "globalLine": 43,
+          "localLine": 6,
+          "panel_id": "10-2",
+          "dialogueIndex": 0,
+          "pageId": "page-10",
+          "speaker": "wendy",
+          "textFr": "Regardez ces ascenseurs : cinquante personnes par cabine.",
+          "textEn": "Look at those elevators. Fifty people in each car.",
+          "ttsText": "[observant, serious] Look at those elevators. [low] Fifty people in each car.",
+          "performance": "Wendy évalue un accès et son exposition.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/043-wendy-gain-+7.638db.wav",
+          "sha256": "8cc0d6e218ec5849ab70911a5d32a377082f25a7183b49870cca9504d48befd1",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/06-wendy-404f0e761a29.mp3",
+          "sourceSha256": "79f2e9ce46f435714f029978a25c35b3d8334278ce1044a13f960ebefd008cd3",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/06-wendy-404f0e761a29.json",
+          "journalSha256": "66402eea7cbcde0f3ce0dfc9d14a9095f87392fff2b90d9a141d3b9a2ed308e2",
+          "constantGainDb": 7.638,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 4.4,
+            "pcmSamples": 194040,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -9.913139334503215,
+            "meanDb": -29.63829487407493,
+            "firstAboveMinus40DbSeconds": 0.14868480725623584,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 15.440000000000001,
+          "duration": 4.4,
+          "pcmSamples": 194040,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.2751303303793042,
+          "meanDb": -22.000293460002517,
+          "firstAboveMinus40DbSeconds": 0.11598639455782313,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l044",
+          "globalLine": 44,
+          "localLine": 7,
+          "panel_id": "10-2",
+          "dialogueIndex": 1,
+          "pageId": "page-10",
+          "speaker": "grover",
+          "textFr": "Et des caméras à chaque porte.",
+          "textEn": "And cameras at every door.",
+          "ttsText": "[wary, quietly] And cameras at EVERY door.",
+          "performance": "Grover remarque le danger concret des caméras.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/044-grover-gain-+3.708db.wav",
+          "sha256": "a333a31476a7fc667f319cb9c3ba6eeeeb2f6994566a4534d3e1be69b5d22738",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/07-grover-c3cc6e66cd38.mp3",
+          "sourceSha256": "f9cd3fb6e859e0d867cfe965640798476ce05e826eb1ef064424404677aa7e37",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/07-grover-c3cc6e66cd38.json",
+          "journalSha256": "d16b50d7f5446f327ad5b6e14d9a09d6be50aa63cb82444de9a30f7ca75a7829",
+          "constantGainDb": 3.708,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.24,
+            "pcmSamples": 98784,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -7.920636841012656,
+            "meanDb": -25.708357818301142,
+            "firstAboveMinus40DbSeconds": 0.12247165532879818,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 20.240000000000002,
+          "duration": 2.24,
+          "pcmSamples": 98784,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -4.212727831312198,
+          "meanDb": -22.00036007115706,
+          "firstAboveMinus40DbSeconds": 0.12029478458049887,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p10-c03",
+      "panelKey": "10-3",
+      "sourcePanelKey": "10-3",
+      "label": "Chercher un autre passage",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 8,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l045",
+          "globalLine": 45,
+          "localLine": 8,
+          "panel_id": "10-3",
+          "dialogueIndex": 0,
+          "pageId": "page-10",
+          "speaker": "wendy",
+          "textFr": "S’ils nous voient là-dedans, ils nous retrouveront.",
+          "textEn": "If they see us in there, they'll find us.",
+          "ttsText": "[grave, controlled urgency] If they see us in there, they'll FIND us.",
+          "performance": "Wendy conclut sans panique la menace de repérage.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/045-wendy-gain-+2.126db.wav",
+          "sha256": "be9910ab6a6c064b2efa9b674389459ee64c24dc08f0e1b90316e6d44563f000",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/08-wendy-ceb3319b95f7.mp3",
+          "sourceSha256": "73f7fd52278abfb3c19175c8f5929868baf64c52c6be46c18c5aa31afb1dac0f",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/08-wendy-ceb3319b95f7.json",
+          "journalSha256": "effd1bca1da92856fefa47e2da5fb8cb18dd1e34766816701d48cdf15e6e8193",
+          "constantGainDb": 2.126,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.8,
+            "pcmSamples": 123480,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -7.55324312428165,
+            "meanDb": -24.125971925602663,
+            "firstAboveMinus40DbSeconds": 0.056621315192743764,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 22.880000000000003,
+          "duration": 2.8,
+          "pcmSamples": 123480,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -5.427416565746598,
+          "meanDb": -21.999968657545786,
+          "firstAboveMinus40DbSeconds": 0.05217687074829932,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l046",
+          "globalLine": 46,
+          "localLine": 9,
+          "panel_id": "10-3",
+          "dialogueIndex": 1,
+          "pageId": "page-10",
+          "speaker": "grover",
+          "textFr": "Reste avec moi. On va trouver un autre passage.",
+          "textEn": "Stay with me. We'll find another way in.",
+          "ttsText": "[gentle, protective] Stay with me. [quiet, determined] We'll find another way in.",
+          "performance": "Grover parle à l'enfant, rassure puis promet une solution réaliste.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/046-grover-gain-+2.156db.wav",
+          "sha256": "e1a0b6945f8a843e7832a8ebf8bd8294348c3cddb3cd47d9807fbfff29122044",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/09-grover-6bd1fc38f6ec.mp3",
+          "sourceSha256": "70b67e55c59139177ac7af69c7f8be6940c042d1207393de90dba2a1ae955729",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/09-grover-6bd1fc38f6ec.json",
+          "journalSha256": "f57c06b9623e6764194d95b963d52ee78851c1e8ba53fe089854f44558267230",
+          "constantGainDb": 2.156,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.12,
+            "pcmSamples": 137592,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -7.65738799428536,
+            "meanDb": -24.155501314772593,
+            "firstAboveMinus40DbSeconds": 0.11147392290249433,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 26.080000000000002,
+          "duration": 3.12,
+          "pcmSamples": 137592,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -5.501508760029693,
+          "meanDb": -21.99950149863893,
+          "firstAboveMinus40DbSeconds": 0.10537414965986394,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "id": "p10-scale-depth-rain",
+      "type": "rain",
+      "rect": [
+        0.017578125,
+        0.009114583333333334,
+        0.9658203125,
+        0.22526041666666666
+      ],
+      "clock": "ambient",
+      "panelId": "p10-c01",
+      "rainFlow": true,
+      "clipPolygon": [
+        [
+          0.017578125,
+          0.009114583333333334
+        ],
+        [
+          0.9833984375,
+          0.009114583333333334
+        ],
+        [
+          0.9833984375,
+          0.19466145833333334
+        ],
+        [
+          0.6123046875,
+          0.19466145833333334
+        ],
+        [
+          0.6123046875,
+          0.21940104166666666
+        ],
+        [
+          0.373046875,
+          0.21940104166666666
+        ],
+        [
+          0.373046875,
+          0.234375
+        ],
+        [
+          0.017578125,
+          0.234375
+        ]
+      ],
+      "count": 36,
+      "speed": 0.62,
+      "strength": 0.46
+    },
+    {
+      "id": "p10-scale-foreground-rain",
+      "type": "rain",
+      "rect": [
+        0.017578125,
+        0.3033854166666667,
+        0.96484375,
+        0.026041666666666668
+      ],
+      "clock": "ambient",
+      "panelId": "p10-c01",
+      "rainFlow": true,
+      "count": 36,
+      "speed": 1.2,
+      "strength": 0.64
+    },
+    {
+      "id": "p10-scale-wet-reflection",
+      "type": "reflection",
+      "rect": [
+        0.033203125,
+        0.275390625,
+        0.34765625,
+        0.054036458333333336
+      ],
+      "clock": "ambient",
+      "panelId": "p10-c01",
+      "clipPolygon": [
+        [
+          0.0419921875,
+          0.275390625
+        ],
+        [
+          0.3291015625,
+          0.275390625
+        ],
+        [
+          0.380859375,
+          0.3294270833333333
+        ],
+        [
+          0.033203125,
+          0.3294270833333333
+        ]
+      ],
+      "color": "#65ccef",
+      "frequency": 0.35,
+      "strength": 0.32,
+      "softEdge": true
+    },
+    {
+      "id": "p10-entry-left-depth",
+      "type": "rain",
+      "rect": [
+        0.017578125,
+        0.3834635416666667,
+        0.2109375,
+        0.035807291666666664
+      ],
+      "clock": "ambient",
+      "panelId": "p10-c02",
+      "rainFlow": true,
+      "clipPolygon": [
+        [
+          0.017578125,
+          0.3834635416666667
+        ],
+        [
+          0.228515625,
+          0.3919270833333333
+        ],
+        [
+          0.2265625,
+          0.4192708333333333
+        ],
+        [
+          0.017578125,
+          0.4192708333333333
+        ]
+      ],
+      "count": 20,
+      "speed": 0.6,
+      "strength": 0.48
+    },
+    {
+      "id": "p10-entry-left-water",
+      "type": "ripple",
+      "rect": [
+        0.17578125,
+        0.6321614583333334,
+        0.1494140625,
+        0.02734375
+      ],
+      "clock": "ambient",
+      "panelId": "p10-c02",
+      "clipPolygon": [
+        [
+          0.17578125,
+          0.6321614583333334
+        ],
+        [
+          0.32421875,
+          0.6328125
+        ],
+        [
+          0.3251953125,
+          0.6595052083333334
+        ],
+        [
+          0.17578125,
+          0.6595052083333334
+        ]
+      ],
+      "count": 3,
+      "strength": 0.53,
+      "speed": 0.75,
+      "color": "#7cdaef"
+    },
+    {
+      "id": "p10-entry-right-water",
+      "type": "reflection",
+      "rect": [
+        0.5439453125,
+        0.564453125,
+        0.205078125,
+        0.09244791666666667
+      ],
+      "clock": "ambient",
+      "panelId": "p10-c02",
+      "clipPolygon": [
+        [
+          0.552734375,
+          0.564453125
+        ],
+        [
+          0.7490234375,
+          0.564453125
+        ],
+        [
+          0.7490234375,
+          0.6569010416666666
+        ],
+        [
+          0.5439453125,
+          0.6569010416666666
+        ]
+      ],
+      "color": "#58d9f2",
+      "frequency": 0.32,
+      "strength": 0.31,
+      "softEdge": true
+    },
+    {
+      "id": "p10-child-protected-rain",
+      "type": "rain",
+      "rect": [
+        0.017578125,
+        0.6731770833333334,
+        0.162109375,
+        0.08984375
+      ],
+      "clock": "ambient",
+      "panelId": "p10-c03",
+      "rainFlow": true,
+      "clipPolygon": [
+        [
+          0.017578125,
+          0.6731770833333334
+        ],
+        [
+          0.1728515625,
+          0.6731770833333334
+        ],
+        [
+          0.1796875,
+          0.7473958333333334
+        ],
+        [
+          0.1474609375,
+          0.7630208333333334
+        ],
+        [
+          0.017578125,
+          0.7571614583333334
+        ]
+      ],
+      "count": 23,
+      "speed": 0.48,
+      "strength": 0.43
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "10-1-rigid-1",
+      "rect": [
+        0.607707912639036,
+        0.185546875,
+        0.31414807853052173,
+        0.1171875
+      ]
+    },
+    {
+      "id": "10-2-rigid-1",
+      "rect": [
+        0.041015624999999986,
+        0.41804652318373514,
+        0.458984375,
+        0.21958575249840329
+      ]
+    },
+    {
+      "id": "10-2-rigid-2",
+      "rect": [
+        0.7636718750000001,
+        0.34367070378911463,
+        0.2246093749999999,
+        0.31167010032031434
+      ]
+    },
+    {
+      "id": "10-3-actor-0",
+      "rect": [
+        0.1806640625,
+        0.7037760416666666,
+        0.16796875,
+        0.16666666666666666
+      ]
+    },
+    {
+      "id": "10-3-actor-1",
+      "rect": [
+        0.0810546875,
+        0.8203125,
+        0.3173828125,
+        0.171875
+      ]
+    },
+    {
+      "id": "10-3-actor-2",
+      "rect": [
+        0.4248046875,
+        0.8151041666666666,
+        0.13671875,
+        0.083984375
+      ]
+    },
+    {
+      "id": "10-3-actor-3",
+      "rect": [
+        0.3955078125,
+        0.8854166666666666,
+        0.189453125,
+        0.10677083333333333
+      ]
+    },
+    {
+      "id": "10-3-actor-4",
+      "rect": [
+        0.39453125,
+        0.78125,
+        0.0849609375,
+        0.12565104166666666
+      ]
+    },
+    {
+      "id": "10-3-actor-5",
+      "rect": [
+        0.53515625,
+        0.8053385416666666,
+        0.1044921875,
+        0.12890625
+      ]
+    },
+    {
+      "id": "10-3-actor-6",
+      "rect": [
+        0.6357421875,
+        0.7356770833333334,
+        0.1630859375,
+        0.14192708333333334
+      ]
+    },
+    {
+      "id": "10-3-actor-7",
+      "rect": [
+        0.6220703125,
+        0.8600260416666666,
+        0.2578125,
+        0.13216145833333334
+      ]
+    },
+    {
+      "id": "10-3-actor-8",
+      "rect": [
+        0.876953125,
+        0.8040364583333334,
+        0.10546875,
+        0.15885416666666666
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "c062d62fee2736740fe5b2c11b71a13321809e555aea174c0187d18e5277c16e",
+    "lettering": "Exact approved raster plates after effects; original SVG retained.",
+    "animation": "Native SVG acquisition/lamps/drops/traces, local material effects, staged comic replies; rigid bodies and final lettering.",
+    "humanListeningApproval": false,
+    "formatCorrection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/format-01/PROGRESS.md",
+    "letteringFit": "Whole approved balloon groups translated to stay 3px inside frames; text/tails retained.",
+    "revision": "motion-03",
+    "lot": "A-pages09-13",
+    "timingContract": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/timing/TIMING.json"
+  },
+  "motionLayers": [
+    {
+      "id": "p10-camera-entry",
+      "panelId": "p10-c02",
+      "mode": "frames",
+      "rect": [
+        0.74677734375,
+        0.3572265625,
+        0.02109375,
+        0.0140625
+      ],
+      "startSeconds": 9.399999999999999,
+      "endSeconds": 10.399999999999999,
+      "frames": [
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-00.svg",
+          "atSeconds": 0
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-01.svg",
+          "atSeconds": 0.16666666666666666
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-02.svg",
+          "atSeconds": 0.3333333333333333
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-03.svg",
+          "atSeconds": 0.5
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-04.svg",
+          "atSeconds": 0.6666666666666666
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-05.svg",
+          "atSeconds": 0.8333333333333334
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-06.svg",
+          "atSeconds": 1
+        }
+      ]
+    },
+    {
+      "id": "p10-camera-warning",
+      "panelId": "p10-c03",
+      "mode": "frames",
+      "rect": [
+        0.931640625,
+        0.6920572916666666,
+        0.02734375,
+        0.018229166666666668
+      ],
+      "startSeconds": 19.208333333333332,
+      "endSeconds": 20.15833333333333,
+      "frames": [
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-00.svg",
+          "atSeconds": 0
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-01.svg",
+          "atSeconds": 0.15833333333333321
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-02.svg",
+          "atSeconds": 0.31666666666666643
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-03.svg",
+          "atSeconds": 0.47499999999999964
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-04.svg",
+          "atSeconds": 0.6333333333333329
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-05.svg",
+          "atSeconds": 0.7916666666666661
+        },
+        {
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-06.svg",
+          "atSeconds": 0.9499999999999993
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 6,
+  "title": "HOLT — Blue Purple · candidats animation lot A",
+  "pages": [
+    {
+      "id": "page-09",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page09-motion06.json"
+    },
+    {
+      "id": "page-10",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page10-motion06.json"
+    },
+    {
+      "id": "page-11",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page11-motion06.json"
+    },
+    {
+      "id": "page-12",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page12-motion06.json"
+    },
+    {
+      "id": "page-13",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page13-motion06.json"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Animation motion comics"
+  short_description: "Mèches, états narratifs et effets protégés"
+  default_prompt: "Utilise $holt-motion-animation pour réaliser l’étape demandée dans le périmètre HOLT."

@@ -1,0 +1,263 @@
+{
+  "status": "completed",
+  "checkedAt": "2026-11-07T18:28:29.092Z",
+  "listSha256": "720713659145ab468f717c27ee8c8098e8d641a833e9ada9e455b4af43183ce5",
+  "priorFiles": 690,
+  "totalFiles": 732,
+  "newUniqueFiles": 42,
+  "entries": [
+    {
+      "file": ".agents/skills/holt-motion-comics/agents/openai.yaml",
+      "sha256": "830f43c97d6d051fe6a5e712b7529a1e182d9b60848e7b6930574ec5ff9ce654",
+      "bytes": 265,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-comics/SKILL.md",
+      "sha256": "4a36ca0b8e25159faf3de98b76f64f925612980221e7debeb9fb8a779cd7671c",
+      "bytes": 3758,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-storyboard/agents/openai.yaml",
+      "sha256": "b76542d0659a33d0bc230d39be6bb705df4c4cec6c2399fd47e9ea22757993ca",
+      "bytes": 239,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-storyboard/SKILL.md",
+      "sha256": "584461516f0a19886f379ce176934c48b56e68efb1629486353a9ebca8aaafa7",
+      "bytes": 1334,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-art/agents/openai.yaml",
+      "sha256": "2def294cb26fc41e7619e7be3d638cf216dd56ad4c3ea78886ab7d94bf784054",
+      "bytes": 230,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-art/SKILL.md",
+      "sha256": "4402e18cbbccd292501fa3f810e96e6b6e32c432e1b602f347ff029545068c2a",
+      "bytes": 2523,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-voice/agents/openai.yaml",
+      "sha256": "888c06c45b49896c3c63faa925f3d6f94c235cb684fb16fff435c8e19f3ae6c4",
+      "bytes": 230,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-voice/SKILL.md",
+      "sha256": "0301bdd662f09fb21bef791273e644c6271ce72d7f2e72647ada161dc60bf100",
+      "bytes": 875,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-sound/agents/openai.yaml",
+      "sha256": "11b96b27a8c5157483614b7014dc1d0b1f5fa00f219cf266cffc4a83e273eef6",
+      "bytes": 227,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-sound/SKILL.md",
+      "sha256": "41507ed460db290a754857070134dbb5c7977ab7b2c62572fe0287a7a142466f",
+      "bytes": 949,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-animation/agents/openai.yaml",
+      "sha256": "16292accaecb9ee0017a2d45dff133aa9bbab9ba35802d989d87c7c2268a7a25",
+      "bytes": 240,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-animation/SKILL.md",
+      "sha256": "6be3f74a7dea8b99be8689fd866c450298e589b5c401686d608842f19c511382",
+      "bytes": 1557,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-delivery/agents/openai.yaml",
+      "sha256": "728cd66ab7d24195ba2b6e2714759703352aee02aca49c9845915b4b10a62ae9",
+      "bytes": 233,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-motion-delivery/SKILL.md",
+      "sha256": "297d8cf4fbbb4a5e70039069e81b33e112d94d73ccbd2ef5d164c01e89c652fa",
+      "bytes": 1824,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-frontend-design/agents/openai.yaml",
+      "sha256": "56e5c7fc297d22b73c24afee1e3ce86bb776457ae9f5e1e2a96866ae155e8f9e",
+      "bytes": 242,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-frontend-design/SKILL.md",
+      "sha256": "bcc98b17130d98e5c299341956a32a3024f2407b9442b81e72f47e83478a34b3",
+      "bytes": 1393,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-audio/agents/openai.yaml",
+      "sha256": "4263cf16574144abedb8d74cc49d4423b64e2f0ab9b52a76d52dcbb1bb0b98b3",
+      "bytes": 209,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-audio/SKILL.md",
+      "sha256": "56e4c617c4c3c44d6b6e57259c40d4db285464fc61c3cb97271162bac654bd9e",
+      "bytes": 2724,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-comics/agents/openai.yaml",
+      "sha256": "61ece8184c32b0f6fffd9ec7a1ca506819c13a73d35b8fddad6ae711b382e41e",
+      "bytes": 216,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": ".agents/skills/holt-comics/SKILL.md",
+      "sha256": "1c2274b2ba07b47156b20f3566e1985a941c3a8cf9932a927996490572daa29a",
+      "bytes": 1420,
+      "category": "maintained-canonical-skill-and-metadata"
+    },
+    {
+      "file": "docs/process/agents/anime-animation-director.md",
+      "sha256": "6cdaaea11595e6185214f5f5ac8c1c972fd3d8aa0004b82a18fc7588ee966809",
+      "bytes": 1030,
+      "category": "canonical-anime-agent-profile"
+    },
+    {
+      "file": "docs/process/agents/anime-art-director.md",
+      "sha256": "eafcce0fc00312d53a4acae37f0f28b5d6ffa2bcd87bea36792647e16a050728",
+      "bytes": 1694,
+      "category": "canonical-anime-agent-profile"
+    },
+    {
+      "file": "docs/process/agents/anime-audio-director.md",
+      "sha256": "3874f97e2996f8a588950c8bad1d90eab69d911107b630414f380bb50146c8d9",
+      "bytes": 1059,
+      "category": "canonical-anime-agent-profile"
+    },
+    {
+      "file": "docs/process/agents/anime-director.md",
+      "sha256": "1a74332dedf24f248905c172373ee41e9c99415ffab39b189241f7109af78f1e",
+      "bytes": 1324,
+      "category": "canonical-anime-agent-profile"
+    },
+    {
+      "file": "docs/process/agents/anime-editor.md",
+      "sha256": "5bb9b9aa27cc271f1f79db00209a6f332cbfa56eb6fa42f873f627150e202a5c",
+      "bytes": 1073,
+      "category": "canonical-anime-agent-profile"
+    },
+    {
+      "file": "docs/process/agents/anime-quality-reviewer.md",
+      "sha256": "ce305ff06e4b685d3709613ab5c98673ef134b093427499490d5a9f1ccfc7503",
+      "bytes": 1145,
+      "category": "canonical-anime-agent-profile"
+    },
+    {
+      "file": "docs/process/AGENT-WORKFLOW.md",
+      "sha256": "00d51f33353714413fcd2850397f90cad0ec0203c56b97fdfb5ad8d576c79ed9",
+      "bytes": 6987,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "docs/process/agent-profiles.json",
+      "sha256": "28cd0a84ca2cf3fe5c73f33e12f774ccd032052a629d016a9a78cf35ccceb1da",
+      "bytes": 2822,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "docs/anime/STUDIO-PROMPT.md",
+      "sha256": "5538a8f5f38ac2df19877f6eb71929db38d78bc37771166b4653c8562f2f7d82",
+      "bytes": 4934,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "docs/anime/README.md",
+      "sha256": "2caf4cf62d54c6c80fd9006495b34990fecb92288d5027f89950e647b9195824",
+      "bytes": 10784,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "docs/anime/SCREENPLAY.md",
+      "sha256": "61b70b5567f68f8505c66802c72b890ccf0dd9f52ad10737d2e634f0f667d6a6",
+      "bytes": 16166,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "docs/chapters/ch3/SCENARIO.md",
+      "sha256": "e4e64162d457d81a5be840bfc1d39b2e313b2679ad79062634209b808565affd",
+      "bytes": 12912,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "docs/chapters/CH2-LEGACY.md",
+      "sha256": "409893f5527e752008f6d3d7d58e295f717141b6e2606b4c47b9fde7ab97cf6f",
+      "bytes": 9422,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "docs/art/COMICS-WORKFLOW.md",
+      "sha256": "a52c62dc7c573037be1601322cd29fd34a1cfa3107aeb991136d6baa8dab4d38",
+      "bytes": 3456,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "docs/art/UI-DESIGN-SYSTEM.md",
+      "sha256": "cd6384ad286a7a788818f391415ce6aac1d741aa2b5216be6e03dfa94f34a522",
+      "bytes": 23430,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "docs/process/reviews/2026-11-07-comics-session-lessons.md",
+      "sha256": "f23dfd842f037d8143efb2c1c22679c3a2243629009c3226449f0cb9264ff2ca",
+      "bytes": 8369,
+      "category": "linked-production-source-or-maintenance-evidence"
+    },
+    {
+      "file": "anime/holt_anime/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "category": "exact-voice-generation-helper"
+    },
+    {
+      "file": "anime/holt_anime/voice_take.py",
+      "sha256": "be2e38b95db24cadfae34cc0373ee96241ac26c9bc8a36cbcfae97d14ebf6f97",
+      "bytes": 5038,
+      "category": "exact-voice-generation-helper"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/global-budget.json",
+      "sha256": "310fc3eb07caef960cff36ad571dfe8ff50447e88f5ec10aba86d90ae85c4658",
+      "bytes": 4529,
+      "category": "historical-cumulative-voice-accounting"
+    },
+    {
+      "file": "art-masters/tools/audio-python/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe",
+      "sha256": "2ce797a0f88d7f067180338fb227f7b1928ea727bd9a4d7a1d022f7c52af71a3",
+      "bytes": 87638016,
+      "category": "exact-local-ffmpeg-used-for-render-and-audit"
+    },
+    {
+      "file": "art-masters/tools/audio-python/imageio_ffmpeg/binaries/README.md",
+      "sha256": "b0d36dfb1ba1ea5ca873a6f6dbcc2295b7a7944aea875071d91a6aad1870e77d",
+      "bytes": 45,
+      "category": "bundled-media-tool-provenance"
+    },
+    {
+      "file": "art-masters/tools/audio-python/imageio_ffmpeg-0.6.0.dist-info/LICENSE",
+      "sha256": "eca73421d0c905a92e952a553d4d58919c5a507c2c2c76e3c0cf9ba408c299e4",
+      "bytes": 1317,
+      "category": "bundled-media-tool-provenance"
+    }
+  ],
+  "policy": "Dot directories are read only. Only the extra-source list is edited; source skills/profiles/helpers remain untouched."
+}

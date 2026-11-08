@@ -1,0 +1,306 @@
+{
+  "page": 7,
+  "version": 2,
+  "status": "reviewed-effects-qa-passed",
+  "sourceImage": "art-masters/motion-comics/blue-purple/page-07/page-v1.png",
+  "sourceSha256": "73ec847857c2eea01be22abb3649f8eeee24d42d23bcf0accd72d4df00d25ac9",
+  "size": [
+    1024,
+    1536
+  ],
+  "effects": [
+    {
+      "type": "ripple",
+      "panelId": "p07-c01",
+      "rect": [
+        0.728515625,
+        0.2747395833333333,
+        0.216796875,
+        0.037760416666666664
+      ],
+      "count": 4,
+      "color": "#82d5f5",
+      "strength": 0.7,
+      "speed": 1.25,
+      "phase": 0.5
+    },
+    {
+      "type": "neon",
+      "panelId": "p07-c02",
+      "rect": [
+        0.87109375,
+        0.4401041666666667,
+        0.1083984375,
+        0.0234375
+      ],
+      "color": "#6cdbff",
+      "strength": 0.7,
+      "frequency": 0.85,
+      "phase": 1,
+      "softEdge": true
+    },
+    {
+      "type": "rain",
+      "panelId": "p07-c03",
+      "rect": [
+        0.5859375,
+        0.6712239583333334,
+        0.390625,
+        0.059244791666666664
+      ]
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-wendy-head",
+      "rect": [
+        0.0625,
+        0.10807291666666667,
+        0.0986328125,
+        0.06901041666666667
+      ]
+    },
+    {
+      "id": "c1-franklyn-head",
+      "rect": [
+        0.205078125,
+        0.11393229166666667,
+        0.0908203125,
+        0.06705729166666667
+      ]
+    },
+    {
+      "id": "c1-wendy-hand",
+      "rect": [
+        0.0927734375,
+        0.2942708333333333,
+        0.0283203125,
+        0.03125
+      ]
+    },
+    {
+      "id": "c1-franklyn-hand",
+      "rect": [
+        0.255859375,
+        0.298828125,
+        0.0322265625,
+        0.029296875
+      ]
+    },
+    {
+      "id": "c1-left-guard",
+      "rect": [
+        0.3134765625,
+        0.12955729166666666,
+        0.04296875,
+        0.09309895833333333
+      ]
+    },
+    {
+      "id": "c1-right-guard",
+      "rect": [
+        0.884765625,
+        0.13020833333333334,
+        0.0439453125,
+        0.09700520833333333
+      ]
+    },
+    {
+      "id": "c2-wendy-face",
+      "rect": [
+        0.16015625,
+        0.478515625,
+        0.0732421875,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "c2-wendy-raised-hand",
+      "rect": [
+        0.2802734375,
+        0.5201822916666666,
+        0.0654296875,
+        0.03515625
+      ]
+    },
+    {
+      "id": "c2-wendy-hip-hand",
+      "rect": [
+        0.13671875,
+        0.6119791666666666,
+        0.048828125,
+        0.025390625
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.40625,
+        0.4739583333333333,
+        0.0615234375,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "c2-franklyn-badge",
+      "rect": [
+        0.353515625,
+        0.5358072916666666,
+        0.02734375,
+        0.029296875
+      ]
+    },
+    {
+      "id": "c2-franklyn-left-hand",
+      "rect": [
+        0.3642578125,
+        0.63671875,
+        0.0322265625,
+        0.024739583333333332
+      ]
+    },
+    {
+      "id": "c2-franklyn-right-hand",
+      "rect": [
+        0.4853515625,
+        0.6328125,
+        0.0244140625,
+        0.027994791666666668
+      ]
+    },
+    {
+      "id": "c2-guard-head",
+      "rect": [
+        0.79296875,
+        0.4674479166666667,
+        0.0673828125,
+        0.054036458333333336
+      ]
+    },
+    {
+      "id": "c2-guard-hands",
+      "rect": [
+        0.8623046875,
+        0.60546875,
+        0.041015625,
+        0.036458333333333336
+      ]
+    },
+    {
+      "id": "c3-wendy-face",
+      "rect": [
+        0.1064453125,
+        0.7604166666666666,
+        0.0498046875,
+        0.034505208333333336
+      ]
+    },
+    {
+      "id": "c3-franklyn-face",
+      "rect": [
+        0.2431640625,
+        0.759765625,
+        0.0458984375,
+        0.034505208333333336
+      ]
+    },
+    {
+      "id": "c3-wendy-hands",
+      "rect": [
+        0.0390625,
+        0.8515625,
+        0.025390625,
+        0.022786458333333332
+      ]
+    },
+    {
+      "id": "c3-wendy-hand2",
+      "rect": [
+        0.14453125,
+        0.849609375,
+        0.0224609375,
+        0.0234375
+      ]
+    },
+    {
+      "id": "c3-franklyn-hands",
+      "rect": [
+        0.1923828125,
+        0.8450520833333334,
+        0.1171875,
+        0.035807291666666664
+      ]
+    },
+    {
+      "id": "balloon-wendy",
+      "rect": [
+        0.03515625,
+        0.3502604166666667,
+        0.4873046875,
+        0.09635416666666667
+      ]
+    },
+    {
+      "id": "tail-wendy",
+      "rect": [
+        0.185546875,
+        0.4348958333333333,
+        0.033203125,
+        0.0234375
+      ]
+    },
+    {
+      "id": "balloon-franklyn",
+      "rect": [
+        0.548828125,
+        0.3580729166666667,
+        0.4140625,
+        0.08072916666666667
+      ]
+    },
+    {
+      "id": "tail-franklyn",
+      "rect": [
+        0.4541015625,
+        0.4251302083333333,
+        0.1396484375,
+        0.038411458333333336
+      ]
+    }
+  ],
+  "review": {
+    "sampleTime": 4.05,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 200,
+    "minimumLiveChangedPixels": 180,
+    "perPanelReview": [
+      {
+        "panelId": "p07-c01",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180
+      },
+      {
+        "panelId": "p07-c02",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180
+      },
+      {
+        "panelId": "p07-c03",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180
+      }
+    ]
+  },
+  "reviewNotes": "Lettered selected page inspected. Puddle rings confined to existing right foreground puddle. Fixed gate lamp pulse above guard, well outside both balloons. Rain in upper background behind car, excluding heads/bodywork. No lightSweep and no invented characters/gesture. Faces, hands, cadet badge and all text/tails protected. Revision2: optional elliptical softEdge makes halo zero at region boundaries; p05 tube region narrowed to actual tube and clear of protected barman head. Previous plan preserved in master effects-plan-v1.json.",
+  "validation": {
+    "date": "2026-11-05",
+    "independentVisualReview": "favorable",
+    "physicalEventClocks": "not-applicable-no-finite-events",
+    "protectedRegions": "unchanged-from-source",
+    "livePauseStopResume": "passed",
+    "reportIndex": "docs/comics/blue-purple-motion/production/pages-05-08/ANIMATION.md"
+  }
+}

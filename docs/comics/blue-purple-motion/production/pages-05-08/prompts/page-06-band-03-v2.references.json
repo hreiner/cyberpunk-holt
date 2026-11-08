@@ -1,0 +1,30 @@
+{
+  "prompt": "page-06-band-03-v2.txt",
+  "contract": "CONTRACTS.json v1 p06-c03",
+  "diagnostic": "Wrong HOLT academy shield on civilian Wendy's purple jacket upper sleeve. Independent QA inspected full resolution and five hand crops: no hand repair needed. Remove only erroneous patch, preserve hands and all other artwork.",
+  "editTarget": {
+    "path": "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-06/band-03-attempt-01/band-v1.png",
+    "width": 1774,
+    "height": 887,
+    "regionPx": [
+      1095,
+      332,
+      43,
+      59
+    ]
+  },
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-06/band-03-attempt-01/band-v1.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-01/page-v2.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-01-08/references/cast-six-v1.png"
+  ],
+  "roles": [
+    "edit target — remove only Wendy sleeve badge",
+    "selected page1 costume continuity reference — no added lettering or composition",
+    "six-character identity reference only"
+  ],
+  "inspectedSourceReferences": true,
+  "handsReview": "Independent quality reviewer: Abigail/Franklyn fists plausible, John four fingers plus thumb, Wendy relaxed hands with plausible occlusion; no extra or fused digit. Preserve hands exactly.",
+  "status": "ready-for-independent-review-before-generation",
+  "revision": 2
+}

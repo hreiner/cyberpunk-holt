@@ -1,0 +1,111 @@
+{
+  "page": 16,
+  "source": "D:\\AgenticCoding\\cyberpunk-holt\\anime\\motion-comics\\projects\\blue-purple-page16-motion04.json",
+  "sourceSha256": "e656275e8c189351596e3d693f522ce19470a2b40616f4ac502865d371a8c7f7",
+  "duration": 16.249999999999996,
+  "holdStart": 0.93,
+  "mapSource": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\map\\map-final.png",
+  "mapSha256": "b63654151ea806b4df3fd9570c6982178f407397877512b56261eb2776ce627f",
+  "revealStart": 1.3800000000000001,
+  "mapSettled": 2.43,
+  "offMaster": "new final map page; original elf master preserved",
+  "candidate": "D:\\AgenticCoding\\cyberpunk-holt\\docs\\comics\\blue-purple-motion\\production\\chapter-03-continuation\\motion-02\\animation\\candidates-v1\\page-16.json",
+  "candidateSha256": "47996a903aae8046825b17ce9e049e5df9681e78a55ca73322b51670ddfac64d",
+  "files": [
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-16\\elf.png",
+      "sha256": "8db83a565c495c17330bbd2e51ee7dc745c24dcac762e48911ad0699d15fdee5"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-16\\night-city.png",
+      "sha256": "707d7bd2fd08b3e6fd7bcd5db55dadc4472bca2052497052d87bd84981f76b9c"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-16\\page-final.png",
+      "sha256": "1f8128870cd2bb3420f25ee26b44cc8b134c4f36b29cee00137142112bf9cb1e"
+    }
+  ],
+  "timeline": {
+    "segments": [
+      {
+        "start": 0,
+        "end": 0.65,
+        "rect": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "panel": -1
+      },
+      {
+        "start": 0.65,
+        "end": 3.6400000000000006,
+        "rect": [
+          0.01171875,
+          0.0078125,
+          0.9765625,
+          0.3229166666666667
+        ],
+        "panel": 0
+      },
+      {
+        "start": 3.6400000000000006,
+        "end": 8.2,
+        "rect": [
+          0.01171875,
+          0.3385416666666667,
+          0.9765625,
+          0.3229166666666667
+        ],
+        "panel": 1
+      },
+      {
+        "start": 8.2,
+        "end": 15.799999999999997,
+        "rect": [
+          0.01171875,
+          0.6692708333333334,
+          0.9765625,
+          0.3229166666666667
+        ],
+        "panel": 2
+      },
+      {
+        "start": 15.799999999999997,
+        "end": 16.249999999999996,
+        "rect": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "panel": -1
+      }
+    ],
+    "tracks": [
+      {
+        "start": 1.3800000000000001,
+        "end": 3.46,
+        "audio": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/073-franklyn-gain-+0.635db.wav",
+        "speaker": "franklyn",
+        "panel": 0
+      },
+      {
+        "start": 4.1000000000000005,
+        "end": 8.02,
+        "audio": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/074-franklyn-gain-+0.657db.wav",
+        "speaker": "franklyn",
+        "panel": 1
+      },
+      {
+        "start": 8.659999999999998,
+        "end": 15.619999999999997,
+        "audio": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/38-franklyn-8032f643c143.mp3",
+        "speaker": "franklyn",
+        "panel": 2
+      }
+    ],
+    "duration": 16.249999999999996
+  }
+}

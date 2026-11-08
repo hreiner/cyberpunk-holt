@@ -1,0 +1,103 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 7,
+  "title": "HOLT — Blue Purple · chapitre 3 complet · 21 pages",
+  "pages": [
+    {
+      "id": "page-01",
+      "manifest": "blue-purple-page01-v4-r3.json"
+    },
+    {
+      "id": "page-02",
+      "manifest": "blue-purple-page02-v3.json"
+    },
+    {
+      "id": "page-03",
+      "manifest": "blue-purple-page03-v3.json"
+    },
+    {
+      "id": "page-04",
+      "manifest": "blue-purple-page04-v4.json"
+    },
+    {
+      "id": "page-05",
+      "manifest": "blue-purple-page05-v5.json"
+    },
+    {
+      "id": "page-06",
+      "manifest": "blue-purple-page06-v4.json"
+    },
+    {
+      "id": "page-07",
+      "manifest": "blue-purple-page07-v4.json"
+    },
+    {
+      "id": "page-08",
+      "manifest": "blue-purple-page08-v4.json"
+    },
+    {
+      "id": "page-09",
+      "manifest": "blue-purple-page09-motion02.json"
+    },
+    {
+      "id": "page-10",
+      "manifest": "blue-purple-page10-motion02.json"
+    },
+    {
+      "id": "page-11",
+      "manifest": "blue-purple-page11-motion02.json"
+    },
+    {
+      "id": "page-12",
+      "manifest": "blue-purple-page12-motion02.json"
+    },
+    {
+      "id": "page-13",
+      "manifest": "blue-purple-page13-motion02.json"
+    },
+    {
+      "id": "page-14",
+      "manifest": "blue-purple-page14-motion02.json"
+    },
+    {
+      "id": "page-15",
+      "manifest": "blue-purple-page15-motion02.json"
+    },
+    {
+      "id": "page-16",
+      "manifest": "blue-purple-page16-motion02.json"
+    },
+    {
+      "id": "page-17",
+      "manifest": "blue-purple-page17-motion02.json"
+    },
+    {
+      "id": "page-18",
+      "manifest": "blue-purple-page18-motion02.json"
+    },
+    {
+      "id": "page-19",
+      "manifest": "blue-purple-page19-motion02.json"
+    },
+    {
+      "id": "page-20",
+      "manifest": "blue-purple-page20-motion02.json"
+    },
+    {
+      "id": "page-21",
+      "manifest": "blue-purple-page21-motion02.json"
+    }
+  ],
+  "music": {
+    "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/soundtrack-v2/backing-full.wav",
+    "gain": 1,
+    "preMixed": true
+  },
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "sourcePages01To08": "blue-purple-pages01-08-v5.json",
+    "staticRevision09To21": "revision-05",
+    "humanListeningApproval": false
+  }
+}

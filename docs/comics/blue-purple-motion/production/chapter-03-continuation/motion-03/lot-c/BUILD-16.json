@@ -1,0 +1,163 @@
+{
+  "page": 16,
+  "source": "D:\\AgenticCoding\\cyberpunk-holt\\anime\\motion-comics\\projects\\blue-purple-page16-motion05.json",
+  "sourceSha256": "3f2dda56242a9ae0501fee76a17c579273a9b1eb9df55fb868ae6995a84c4ea9",
+  "timingSha256": "6abefd967dee6b9b1a0b3c85d54c85fbf1d5ffbe8bc12294f5fc774fbea2a091",
+  "duration": 27.675000000000004,
+  "anchors": {
+    "vision": 2.85,
+    "disassembly": 3.4000000000000004,
+    "mapStable": 5.2,
+    "position": 5.7,
+    "unknown": 6.1,
+    "green": 6.5,
+    "glassActivation": 11.35,
+    "glassStable": 14.299999999999999,
+    "screenResidual": 18.09166666666667,
+    "screenOff": 19.37166666666667
+  },
+  "notes": [
+    "Vue subjective: paysage .55 s, désagrégation continue 1.8 s puis trois dossiers fixes successifs: deux jaunes, un vert. Aucun repère HOLT (précision utilisateur).",
+    "Vitre: deux polygones hors visage et paroi; retour au dessin stable.",
+    "Extinction réelle du petit indicateur chaud dans le renfoncement de la capsule, neuf états localisés; aucun pixel du boîtier déplacé.",
+    "OFF: nouvelle carte finale avec trois dossiers et indicateur éteint; master elfique historique conservé."
+  ],
+  "mapSources": [
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-03\\map\\map-base.png",
+      "sha256": "89c703c5534e41146efeab3795df31dd5df2fc4a8188afd45e3cb8e2d7ad4de5"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-03\\map\\map-final.png",
+      "sha256": "fd9dff85064aff3fcf32edff21e20f21a59a90465beecb4ac923d3ea8f9b0559"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-03\\map\\marker-position.png",
+      "sha256": "190148d414516958a164cdd05f7f486b03f0da4c2de8eb6c73fe358b360f9707"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-03\\map\\marker-unknown.png",
+      "sha256": "cd3369beda05306cc9591faba5bb2fa12b248383b7f06a1963769407cebb4d75"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-03\\map\\marker-green.png",
+      "sha256": "b0ab4dfc1b58319d324c1002895afe04643d9fb67486ea653abef23c3120d987"
+    }
+  ],
+  "candidate": {
+    "file": "D:\\AgenticCoding\\cyberpunk-holt\\anime\\motion-comics\\projects\\blue-purple-page16-motion06.json",
+    "sha256": "dd8ce3a4aa4be05fe4a8ec95f84ed1e8378cea051f5f09f85503d206a2ce27e8"
+  },
+  "layers": [
+    {
+      "id": "elf-world-to-night-city",
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-16/elf.png",
+          "sha256": "8db83a565c495c17330bbd2e51ee7dc745c24dcac762e48911ad0699d15fdee5"
+        },
+        {
+          "atSeconds": 2.35,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/night-city-base.png",
+          "sha256": "1ebc9fa7a57693ab741ac4b46d2867544c2745578de0088a60a483bfbd9a3e20"
+        }
+      ]
+    },
+    {
+      "id": "map-marker-position",
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/transparent.png",
+          "sha256": "95a06143fc2fdec959a98f8e2a869f04e5e550e6d6a43d8893e7de074074f7ce"
+        },
+        {
+          "atSeconds": 2.85,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/marker-position.png",
+          "sha256": "8284eedc7e8d40294a3980f2ef606f67eed3920d6d884acf67318a838c3dac29"
+        }
+      ]
+    },
+    {
+      "id": "map-marker-unknown",
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/transparent.png",
+          "sha256": "95a06143fc2fdec959a98f8e2a869f04e5e550e6d6a43d8893e7de074074f7ce"
+        },
+        {
+          "atSeconds": 3.25,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/marker-unknown.png",
+          "sha256": "95f213e4d1fc675a7fc56bf809aee0065f7e2a2c32e0af169793c443c27a027d"
+        }
+      ]
+    },
+    {
+      "id": "map-marker-green",
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/transparent.png",
+          "sha256": "95a06143fc2fdec959a98f8e2a869f04e5e550e6d6a43d8893e7de074074f7ce"
+        },
+        {
+          "atSeconds": 3.65,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/marker-green.png",
+          "sha256": "887b8a146538d014022a7534d0d0517d4f2d1b42b065eb5608d981100ad48580"
+        }
+      ]
+    },
+    {
+      "id": "capsule-screen-extinction",
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/screen-0.png",
+          "sha256": "9e6408b1eb3b3ba60bfa83411af6b4217696d90fe6eae4c02f83aa8f513d3a3f"
+        },
+        {
+          "atSeconds": 0.66,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/screen-1.png",
+          "sha256": "e38dd94fe2da8ed1cf8a08e342de4cb870df87b331108adfd389acc852a1971d"
+        },
+        {
+          "atSeconds": 0.8200000000000001,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/screen-2.png",
+          "sha256": "197c55fd3b7f63fd93487ef308cd9ce5fa55a75e9db8b76a16634fafbc2572d3"
+        },
+        {
+          "atSeconds": 0.98,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/screen-3.png",
+          "sha256": "77b6a7c2ec66372a0e3463055ab8a065765f2bf05ab5d9440f0491f86b21ac65"
+        },
+        {
+          "atSeconds": 1.1400000000000001,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/screen-4.png",
+          "sha256": "cf10db6d5395c8ac9bc1f171e317f98fb5223a9619a1ec1018b0200e456f6586"
+        },
+        {
+          "atSeconds": 1.3,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/screen-5.png",
+          "sha256": "7fd4e90e87cef35cbe0944c1dcf5dbc3ca15c8accaf695c8444ce8d91331370e"
+        },
+        {
+          "atSeconds": 1.46,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/screen-6.png",
+          "sha256": "54acd4564867e2fe45e1d792a92c8c61ffa70065d4876c22ad1182ad75acf3ec"
+        },
+        {
+          "atSeconds": 1.62,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/screen-7.png",
+          "sha256": "710e7c268c802c114c925228ab0c3b8487ea3a501a30be1e4e2fa25d81eb466a"
+        },
+        {
+          "atSeconds": 1.78,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/screen-8.png",
+          "sha256": "8ed3de9dc534fdd9ed35c94194ebad6e460a2d33675fc88ae17f50c8a6bca999"
+        }
+      ]
+    }
+  ]
+}

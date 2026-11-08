@@ -1,0 +1,612 @@
+{
+  "status": "completed",
+  "candidate": {
+    "file": "D:\\AgenticCoding\\cyberpunk-holt\\anime\\motion-comics\\projects\\blue-purple-page16-motion06.json",
+    "sha256": "dd8ce3a4aa4be05fe4a8ec95f84ed1e8378cea051f5f09f85503d206a2ce27e8"
+  },
+  "source": "blue-purple-page16-motion05.json",
+  "sourceSha256": "3f2dda56242a9ae0501fee76a17c579273a9b1eb9df55fb868ae6995a84c4ea9",
+  "duration": 27.675000000000004,
+  "samples": 17,
+  "boundaries": [
+    {
+      "id": "position",
+      "global": 5.699999,
+      "local": 5.699999,
+      "delta": -0.000001,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "id": "position",
+      "global": 5.7,
+      "local": 5.7,
+      "delta": 0,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "id": "position",
+      "global": 5.700001,
+      "local": 5.700001,
+      "delta": 0.000001,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "id": "unknown",
+      "global": 6.099999,
+      "local": 6.099999,
+      "delta": -0.000001,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "id": "unknown",
+      "global": 6.1000000000000005,
+      "local": 6.1000000000000005,
+      "delta": 0,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "id": "unknown",
+      "global": 6.100001000000001,
+      "local": 6.100001000000001,
+      "delta": 0.000001,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "id": "green",
+      "global": 6.499999,
+      "local": 6.499999,
+      "delta": -0.000001,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "id": "green",
+      "global": 6.5,
+      "local": 6.5,
+      "delta": 0,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "id": "green",
+      "global": 6.500001,
+      "local": 6.500001,
+      "delta": 0.000001,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "id": "map-stable",
+      "global": 5.199999,
+      "local": 5.199999,
+      "delta": -0.000001,
+      "progress": 0.9999994444444443
+    },
+    {
+      "id": "map-stable",
+      "global": 5.2,
+      "local": 5.2,
+      "delta": 0,
+      "progress": 1
+    },
+    {
+      "id": "map-stable",
+      "global": 5.200001,
+      "local": 5.200001,
+      "delta": 0.000001,
+      "progress": 1
+    }
+  ],
+  "narrativePauseExact": true,
+  "seekIndependent": true,
+  "off": {
+    "changedPixels": 0
+  },
+  "engine": {
+    "core.js": "c5527e55a5c9d8149100ea9dfbc1a4079701103d514cf75915ff175afbd39ed7",
+    "effects.js": "7f63d2082f0fbb56a8bf026155741c85e74484afb17e38d30a705b52eecb1f32",
+    "layers.js": "7fa6386fb9387233f308ebe7383bfaa1f3435ed5eb15d7e6a3d7bd2dc120423a",
+    "reader.js": "a12fb03629efee3ad837bc9adee10d82c699e36878d0b459f0b80685448e49b5",
+    "package.json": "d06ce640b733273627eb69d0b46b0eee07f0ea3fdf958504ec161dba8c0e1c37"
+  },
+  "engineUnchanged": true,
+  "metrics": [
+    {
+      "time": 2.85,
+      "panel": 1,
+      "ambient": 1.37,
+      "paintHash": 4198320756,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 3.4000000000000004,
+      "panel": 1,
+      "ambient": 1.37,
+      "paintHash": 4198320756,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 3.95,
+      "panel": 1,
+      "ambient": 1.37,
+      "paintHash": 2073398765,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 4.65,
+      "panel": 1,
+      "ambient": 1.37,
+      "paintHash": 1813686767,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 5.2,
+      "panel": 1,
+      "ambient": 1.37,
+      "paintHash": 3515278883,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 5.7,
+      "panel": 1,
+      "ambient": 1.37,
+      "paintHash": 1171297792,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 6.1,
+      "panel": 1,
+      "ambient": 1.37,
+      "paintHash": 2208851351,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 6.5,
+      "panel": 1,
+      "ambient": 1.37,
+      "paintHash": 3142760400,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 8.85,
+      "panel": 1,
+      "ambient": 1.37,
+      "paintHash": 3142760400,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 11.36,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 2454026994,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 12,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 3705983435,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 13.399999999999999,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 869261707,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 14.399999999999999,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 3142760400,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 17.791666666666668,
+      "panel": 3,
+      "ambient": 1.37,
+      "paintHash": 3142760400,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 167.7989864864864,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 18.73166666666667,
+      "panel": 3,
+      "ambient": 1.37,
+      "paintHash": 4272014615,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 91.16891891891893,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 19.37166666666667,
+      "panel": 3,
+      "ambient": 1.37,
+      "paintHash": 1438118877,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 14.667229729729746,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 22.59166666666667,
+      "panel": 3,
+      "ambient": 1.37,
+      "paintHash": 1438118877,
+      "outsideMaterials": 0,
+      "opaqueLetters": 64177,
+      "alteredLetters": 0,
+      "screenMean": 14.667229729729746,
+      "protectedRegions": [
+        {
+          "id": "16-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "16-2-rigid-3",
+          "changed": 0
+        },
+        {
+          "id": "16-3-rigid-1",
+          "changed": 0
+        }
+      ]
+    }
+  ],
+  "clip": {
+    "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-03\\lot-c\\review16-v1\\interval.mp4",
+    "fps": 24,
+    "frames": 123,
+    "sha256": "dd08511c25d762891d73b52bff61f11af41e05bcd8a31e3989d417c822ea5252",
+    "silent": true,
+    "decoded": true
+  },
+  "clipScope": "Unchanged c01 vision/map interval; v2 only completes extinction of the c03 white indicator core.",
+  "evidenceDirectory": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/review16-v2",
+  "opened": [
+    "CONTACT.png",
+    "proof-15.png"
+  ],
+  "previousReview": "review16-v1 retained; white emitter core missed by chromatic selection was corrected locally."
+}

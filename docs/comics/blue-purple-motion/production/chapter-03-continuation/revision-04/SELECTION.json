@@ -1,0 +1,73 @@
+{
+  "dialogue_sha256": "BA9A97DF60B75DCEA5FD69A40DFDDA747A4412A03B79CA66010F9B8D6F1194B5",
+  "cbz_sha256": "E66716BC804D92E87C49C07BB513260B4220205DCDFE73289DB1C599E037F6D5",
+  "pages": [
+    {
+      "page": 9,
+      "sha256": "185E10302985280031B3C862D1CFF592E38E6D664B4EFE14C1828FB9AED50DCC",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-9.png"
+    },
+    {
+      "page": 10,
+      "sha256": "63EC6D8149BD4BF769913FA2543AC3899416DA9821C0DBC061BC41BDBEA371C9",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-10.png"
+    },
+    {
+      "page": 11,
+      "sha256": "94F00DF08DE64DBD7F86DC740E53B6FEBEE3CE73D09984EE0666761A8474D088",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-11.png"
+    },
+    {
+      "page": 12,
+      "sha256": "838E910951834E6838FE8FD8C8486EED30FF70793D3EEC010AD4F42F0970B7B5",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-12.png"
+    },
+    {
+      "page": 13,
+      "sha256": "0E4A171559E231E5AAC19C26D0A066750D5CBA939C77660098BFD1CA0912E44F",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-13.png"
+    },
+    {
+      "page": 14,
+      "sha256": "E5F159DCBADB86D0356167C32F901D12C6C38E7D146F77DB97EE8B4F2C6921F1",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-14.png"
+    },
+    {
+      "page": 15,
+      "sha256": "6A548E6CB849149FB7E937E264A957415B258D0D9E60D666E4DB0B455207E348",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-15.png"
+    },
+    {
+      "page": 16,
+      "sha256": "5D49451779187CAE1122F97F973A3558904EFA0EACEFC1BD12E3A929EB1AEE01",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-16.png"
+    },
+    {
+      "page": 17,
+      "sha256": "ABD8606BEB62FECB381CE5DD044E3F11888E769D3ADA51FCD3ACCE62BCD974E2",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-17.png"
+    },
+    {
+      "page": 18,
+      "sha256": "1AB725F0255846AD19B3F0CE596761F512A9C075FF3065B5787DB144B31DE1D9",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-18.png"
+    },
+    {
+      "page": 19,
+      "sha256": "9AADCA9D8F4C0FEC2202557EEE1BCBB67FA5A61926C233BCDA84276A888A2D02",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-19.png"
+    },
+    {
+      "page": 20,
+      "sha256": "5A7DA57F581F362AFDD84F5154318975A09DCBB304038D5562D5CC8BFC52DC16",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-20.png"
+    },
+    {
+      "page": 21,
+      "sha256": "4EDA617D2C6A9B168598D63F078CF5E2BBCB1E925514014279EB9DB6FD95F27D",
+      "path": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v4\\page-21.png"
+    }
+  ],
+  "balloons_sha256": "D7C919C2EC9E152C989E8004335F9484760DA04348DB9161990203BD55065F6C",
+  "pdf_sha256": "6E8F43F9061C339880B1F42563ECE73A10A42E98AAC1B8242EFE37313C242E00"
+}

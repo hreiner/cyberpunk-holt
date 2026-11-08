@@ -1,0 +1,257 @@
+[
+  {
+    "id": "bp-l001",
+    "globalLine": 1,
+    "panel_id": "p01-c01",
+    "speaker": "wendy",
+    "plain_en": "I'm Wendy. I was sent in case something went wrong. Tell me what happened after HOLT.",
+    "fr": "Je m'appelle Wendy. On m'a envoyée si quelque chose tournait mal. Que s'est-il passé après HOLT ?",
+    "performance": "Calme adressé puis question vigilante ; aucune expiration ou soupir imposé.",
+    "en": "[calm, reassuring] I'm Wendy. I was sent in case something went wrong. [curious, gently] Tell me what happened after HOLT?",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l002",
+    "globalLine": 2,
+    "panel_id": "p01-c02",
+    "speaker": "john",
+    "plain_en": "We ran. They kept coming.",
+    "fr": "On a fui. Ils ne nous ont pas lâchés.",
+    "performance": "Épuisement et souvenir de fuite, rudesse amère ; aucune expiration imposée.",
+    "en": "[shaken, exhausted] We ran. [bitter, barely contained] They kept coming.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l003",
+    "globalLine": 3,
+    "panel_id": "p01-c03",
+    "speaker": "wendy",
+    "plain_en": "The Academy sent me as a last resort. You're being hunted. If they followed you here, we don't have much time.",
+    "fr": "L'Académie m'a envoyée en dernier recours. On vous traque. S'ils vous ont suivis, on n'a plus beaucoup de temps.",
+    "performance": "Urgence contrôlée et menace concrète ; aucune inspiration ajoutée entre les phrases.",
+    "en": "[serious, controlled urgency] The Academy sent me as a last resort. [low, firm] You're being HUNTED. [urgent, quietly] If they followed you here, we don't have much time.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l004",
+    "globalLine": 4,
+    "panel_id": "p01-c04",
+    "speaker": "abigail",
+    "plain_en": "Letitia's at a ripperdoc. He's keeping her there.",
+    "fr": "Letitia est chez un charcudoc. Il la retient là-bas.",
+    "performance": "Chagrin contenu devenu colère envers le charcudoc, sans déglutition ni inspiration imposées.",
+    "en": "[sad, voice trembling] Letitia's at a ripperdoc. [angry, restrained] He's keeping her there.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l005",
+    "globalLine": 5,
+    "panel_id": "p02-c01",
+    "speaker": "wendy",
+    "plain_en": "Going back now would lead them straight to her. And to all of you.",
+    "fr": "Si vous y retournez maintenant, vous les mènerez tout droit à elle. Et à vous tous.",
+    "performance": "Urgence contenue, vérité difficile puis accent sur tous.",
+    "en": "[firm, controlled urgency] Going back now would lead them straight to her. [grave] And to ALL of you.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l006",
+    "globalLine": 6,
+    "panel_id": "p02-c02",
+    "speaker": "franklyn",
+    "plain_en": "He wants two thousand credits by tomorrow night! Are we just leaving her to die in there?",
+    "fr": "Demain soir, il veut deux mille crédits ! On va la laisser crever là-bas ?",
+    "performance": "Colère viscérale qui déborde d’abord sur l’échéance, puis question accusatrice née de la panique. La seconde phrase se fissure de douleur. Pas de harangue, pas de souffle décoratif ; ne pas rendre Franklyn calme.",
+    "en": "[furious, hurt] He wants two thousand credits by tomorrow night! [voice breaking, angry] Are we just leaving her to DIE in there?",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l007",
+    "globalLine": 7,
+    "panel_id": "p02-c03",
+    "speaker": "grover",
+    "plain_en": "She'd tell us to get clear first. We won't help her if we're caught.",
+    "fr": "Elle nous dirait de nous mettre à l'abri d'abord. On ne l'aidera pas si on se fait prendre.",
+    "performance": "Une fermeté triste adressée à un ami en colère. Ne pas répondre par une autre colère ni un raisonnement administratif. Texte lexical conservé.",
+    "en": "[gentle, sorrowful] She'd tell us to get clear first. [soft but firm] We won't help her if we're caught.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l008",
+    "globalLine": 8,
+    "panel_id": "p02-c04",
+    "speaker": "franklyn",
+    "plain_en": "All right… I’ll help you. But we’re coming back for her.",
+    "fr": "D’accord… Je vous aide. Mais on revient pour elle.",
+    "performance": "Après un silence, les mots coûtent : accord cassé, aide adressée aux camarades, puis condition encore rageuse. Il craque sans effondrement théâtral ni voix rassurée. Autoriser une seule respiration naturelle si nécessaire.",
+    "en": "[shaken, defeated] All right… [voice trembling, painful] I’ll help you. [quiet, determined] But we’re coming BACK for her.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l009",
+    "globalLine": 9,
+    "panel_id": "p02-c04",
+    "speaker": "john",
+    "plain_en": "We will.",
+    "fr": "On reviendra.",
+    "performance": "Promesse basse et grave à Franklyn, sans sourire, sans geste de victoire, sans respiration rapportée. Ce futur est un engagement du personnage, pas la certification d’un sauvetage canonique.",
+    "en": "[grave, sincere] We will.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l010",
+    "globalLine": 10,
+    "panel_id": "p03-c01",
+    "speaker": "wendy",
+    "plain_en": "This is all I have. I think it's where we start.",
+    "fr": "C'est tout ce que j'ai. Je crois que c'est notre point de départ.",
+    "performance": "Prudente, puis petite impulsion vers l'action sans certitude.",
+    "en": "[uncertain, quietly] This is all I have. [cautiously hopeful] I think it's where we start.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l011",
+    "globalLine": 11,
+    "panel_id": "p03-c04",
+    "speaker": "enfant",
+    "plain_en": "Franklyn? What's wrong?",
+    "fr": "Franklyn ? Qu'est-ce qu'il y a ?",
+    "performance": "Petit appel d'abord prudent, puis inquiétude sincère sans crier.",
+    "en": "[softly, hesitant] Franklyn? [worried] What's wrong?",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l012",
+    "globalLine": 12,
+    "panel_id": "p04-c01",
+    "speaker": "franklyn",
+    "plain_en": "I know these. Latitude and longitude. I saw them in the simulation.",
+    "fr": "Je connais ces chiffres. Latitude et longitude. Je les ai vus dans la simulation.",
+    "performance": "Voix encore secouée, première phrase laborieuse, puis mots latitude/longitude reconnus avec effort ; dernière phrase basse, sans assurance d’expert. Conserver le texte lexical sans ajout d’explication. Tags d’émotion plutôt que respirations automatiques.",
+    "en": "[shaken, hesitant] I know these. [recognizing, low] Latitude and longitude. [struggling, quiet] I saw them in the simulation.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l013",
+    "globalLine": 13,
+    "panel_id": "p04-c02",
+    "speaker": "franklyn",
+    "plain_en": "They're old coordinates. We need a terminal to convert them.",
+    "fr": "Ce sont d'anciennes coordonnées. Il faut une borne pour les convertir.",
+    "performance": "La voix retrouve une ligne claire après le choc, avec tension résiduelle ; donner la solution au groupe, pas faire une démonstration d’expert.",
+    "en": "[tense, focused] They're old coordinates. [trying to be steady] We need a terminal to convert them.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l014",
+    "globalLine": 14,
+    "panel_id": "p04-c03",
+    "speaker": "wendy",
+    "plain_en": "Then let's move.",
+    "fr": "Alors, on y va.",
+    "performance": "Brève impulsion autoritaire, urgence sans cri.",
+    "en": "[firm, urgent] Then let's move.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l015",
+    "globalLine": 15,
+    "panel_id": "p04-c04",
+    "speaker": "john",
+    "plain_en": "Where did everybody go?",
+    "fr": "Ils sont tous passés où ?",
+    "performance": "D'abord question basse, puis il entend lui-même le silence ; laisser retomber sans réponse.",
+    "en": "[low, puzzled] Where did everybody go?",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "revision": 3,
+    "explicitBreathingTags": 0
+  }
+]

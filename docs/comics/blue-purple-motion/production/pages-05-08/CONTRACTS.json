@@ -1,0 +1,998 @@
+{
+  "schemaVersion": 1,
+  "version": 1,
+  "status": "ready-for-independent-review",
+  "date": "2026-11-05",
+  "title": "Blue Purple — pages 05 à 08 : le piège et la fuite",
+  "source": [
+    "docs/chapters/ch3/SCENARIO.md — Le piège au bar ; Le parking et la fuite",
+    "docs/anime/SCREENPLAY.md — S02-P01 à S02-P05, adaptation provisoire",
+    "docs/anime/MOTION-COMICS-PAGES-05-08-ORCHESTRATOR.md",
+    "docs/comics/blue-purple-motion/production/pages-01-04/revision-03/STORYBOARD.md"
+  ],
+  "preservedSelection": "anime/motion-comics/projects/blue-purple-pages01-04-v4.json",
+  "pageGeometry": {
+    "width": 1024,
+    "height": 1536,
+    "marginPx": 12,
+    "gutterPx": 12,
+    "bandRectsPx": [
+      [
+        12,
+        12,
+        1000,
+        496
+      ],
+      [
+        12,
+        520,
+        1000,
+        496
+      ],
+      [
+        12,
+        1028,
+        1000,
+        496
+      ]
+    ],
+    "note": "Trois bandes de hauteur égale ; p5 bande2 et p8 bande1 comportent deux cases. Les réserves bulles sont absolues sur page ; ajustement de queue possible sur dessin retenu sans changer attribution ni texte."
+  },
+  "continuity": {
+    "group": [
+      "wendy",
+      "franklyn",
+      "john",
+      "abigail",
+      "grover",
+      "enfant"
+    ],
+    "absent": [
+      "letitia",
+      "zachary"
+    ],
+    "child": "Anonyme en civil sombre, cheveux en bol, plus petit, aucun écusson.",
+    "franklyn": "17 ans, cheveux noirs courts hérissés, taches de rousseur, col marine/cyan ; fatigue et mâchoire tendue persistantes après vision/Letitia. Il agit pour groupe, sans guérison émotionnelle soudaine.",
+    "vehicle": "Même voiture générique sombre à six places réelles sur trois rangées, volant gauche ; Franklyn avant gauche au volant, Wendy avant droite, quatre autres derrière. Choix de mise en scène et non attribution dictée du conducteur.",
+    "barman": "Muet. Signe de tête, batte basse, puis désarmé collectivement avant tir. Ne pas désigner un auteur non établi de la maîtrise.",
+    "document": "Wendy plie et range le document chiffré dans la poche intérieure de sa veste au début de p05-c01, raccord avec papier p04-c03. Le document reste rangé durant l'action et la fuite ; pas de feuille flottante ni disparition inexpliquée.",
+    "pursuer": "Un homme armé dehors ; un tir brise vitre ; il fuit rapidement, sans blessure nouvelle, sans identité de gang et sans tir attribué à Wendy.",
+    "forbidden": [
+      "Répéter « Ils sont tous passés où ? »",
+      "Révéler une carte actuelle ou GPS",
+      "Convertir les coordonnées ou montrer borne",
+      "Ajouter poursuite automobile, décès ou blessure",
+      "Letitia ou Zachary dans groupe",
+      "Lumière mobile systématique",
+      "Batte ou arme traversant main, doigts en trop, corps fusionnés"
+    ]
+  },
+  "audio": {
+    "model": "eleven_v4",
+    "cast": "anime/projects/blue-purple/cast.json",
+    "firstNewLine": 16,
+    "lastNewLine": 23,
+    "historicalSubmittedCharacters": 2416,
+    "newAnnotatedCharacters": 440,
+    "budget": "L'audio calcule et inscrit plafond cumulé et réserve avant toute soumission ; ne pas remettre historique à zéro.",
+    "note": "Aucun speaker barman/gardien nouveau, aucun tag de respiration. Les cases muettes servent le rythme, les bruits locaux et la lisibilité."
+  },
+  "pages": [
+    {
+      "page": 5,
+      "title": "Le piège",
+      "panels": [
+        {
+          "id": "p05-c01",
+          "readingOrder": 1,
+          "rectPx": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.0078125,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "barman",
+            "wendy",
+            "franklyn"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Premier geste après la dernière case page4 ; le barman fait non de la tête.",
+          "setting": "Salle principale vide du Blue Purple, comptoir raccord, fenêtres encore intactes.",
+          "expression": "Barman fermé et nerveux ; Wendy suspend son pas ; Franklyn pâle, mâchoire serrée, encore marqué par la vision.",
+          "gesture": "Barman garde la batte basse derrière le comptoir, bras et prise simples ; pas de batte brandie vers une tête. Wendy termine de glisser le document plié dans la poche intérieure de sa veste ; un seul papier, une prise simple et anatomique.",
+          "gaze": "Barman vers groupe, Wendy suit son signe vers vitre.",
+          "visibleAction": "Le signe négatif muet révèle que le passage n'est pas libre. Batte identifiable, pas de coup porté.",
+          "framing": "Plan large resserré comptoir ; barman au centre droit, Wendy/Franklyn en amorce gauche, autres hors cadre mais présents.",
+          "bubbles": [],
+          "cues": [],
+          "minimumReadSeconds": 4,
+          "animationIntention": "Tube fixe au-dessus du comptoir : fluctuation locale d'intensité ponctuelle, sans bande mobile ; garder visage et mains intacts.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p05-c02",
+          "readingOrder": 2,
+          "rectPx": [
+            12,
+            520,
+            494,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.3385416666666667,
+            0.482421875,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "poursuivant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Le groupe découvre l'homme armé dehors avant le tir.",
+          "setting": "Fenêtre intacte sur rue nocturne humide, même salle.",
+          "expression": "Wendy alerte, homme dehors menaçant et mal assuré.",
+          "gesture": "Wendy détourne le groupe d'un geste court ; poursuivant tient une seule arme à feu, prise lisible et anatomique ; aucune arme Wendy.",
+          "gaze": "Wendy vers vitre puis groupe ; homme vers intérieur.",
+          "visibleAction": "Un seul poursuivant armé visible dehors ; Wendy ordonne de s'écarter.",
+          "framing": "Cadrage depuis bar : Wendy de profil au bord, homme lisible au-delà de la vitre. Ne pas superposer bras et canon.",
+          "bubbles": [
+            {
+              "speaker": "wendy",
+              "cue": "bp-l016",
+              "rectPx": [
+                30,
+                538,
+                450,
+                148
+              ],
+              "tailTargetPx": [
+                112,
+                740
+              ],
+              "fontPx": 26
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l016",
+              "globalLine": 16,
+              "speaker": "wendy",
+              "textFr": "Éloignez-vous des fenêtres. Tout de suite.",
+              "textEn": "Away from the windows. Now.",
+              "annotatedEn": "[urgent, low and firm] Away from the windows. [sharp] Now.",
+              "intention": "Ordre net et protecteur ; la seconde phrase coupe la sidération, sans hurler.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0
+            }
+          ],
+          "minimumReadSeconds": 6,
+          "animationIntention": "Pluie glissant dans une région de vitre hors silhouette et bulle. Pas de balayage lumineux.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p05-c03",
+          "readingOrder": 3,
+          "rectPx": [
+            518,
+            520,
+            494,
+            496
+          ],
+          "rect": [
+            0.505859375,
+            0.3385416666666667,
+            0.482421875,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "barman",
+            "john",
+            "grover"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "La tentative d'interposition est déjà maîtrisée, avant le tir.",
+          "setting": "Entre comptoir et passage ; batte sur sol au premier plan, intacte.",
+          "expression": "Barman déséquilibré puis en retrait, mains vides ; groupe ferme, sans triomphe.",
+          "gesture": "Batte au sol ; paumes vides du barman visibles et simples ; épaules des cadets en amorce, aucun bras assigné à une prise.",
+          "gaze": "Barman vers groupe ; John/Grover vers issue et barman.",
+          "visibleAction": "Le groupe a dégagé le passage collectivement. Aucun auteur de maîtrise n'est désigné ; personne blessé.",
+          "framing": "Plan bas moyen : batte au premier plan, barman repoussé derrière, silhouettes partielles latérales. Éviter mêlée de mains.",
+          "bubbles": [],
+          "cues": [],
+          "minimumReadSeconds": 4,
+          "animationIntention": "Petite poussière résiduelle autour de la batte, trajectoire courte qui retombe et s'arrête ; ne pas faire flotter la batte.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p05-c04",
+          "readingOrder": 4,
+          "rectPx": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "abigail",
+            "enfant",
+            "franklyn"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Un coup de feu du poursuivant dehors brise la vitre, après la maîtrise du barman.",
+          "setting": "Salle principale, vitrage brisé vers rue ; impacts uniquement dans le verre.",
+          "expression": "Abigail effrayée/protectrice, enfant se baisse, Franklyn revient à l'action malgré sa tension.",
+          "gesture": "Abigail baisse son buste près de l'enfant ; mains distinctes, une main de soutien sur épaule sans doigts fusionnés. Aucune chute blessante.",
+          "gaze": "Abigail vers enfant et sol ; Franklyn vers danger de biais.",
+          "visibleAction": "Éclats non sanglants, groupe à couvert. Un seul tir ; aucune arme tirant à l'intérieur.",
+          "framing": "Large diagonal bas, groupe dans moitié gauche, éclats dans région droite dégagée. Mains et yeux hors zone débris.",
+          "bubbles": [
+            {
+              "speaker": "abigail",
+              "cue": "bp-l017",
+              "rectPx": [
+                46,
+                1050,
+                250,
+                96
+              ],
+              "tailTargetPx": [
+                230,
+                1244
+              ],
+              "fontPx": 36
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l017",
+              "globalLine": 17,
+              "speaker": "abigail",
+              "textFr": "À terre !",
+              "textEn": "Down!",
+              "annotatedEn": "[shouts, frightened] Down!",
+              "intention": "Cri réflexe pour protéger l'enfant ; bref, sans souffle ajouté.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0
+            }
+          ],
+          "minimumReadSeconds": 5,
+          "animationIntention": "Éclats de verre courts en gerbe descendante, déclenchés au temps narratif de la case, sans répétition en boucle. Prévoir vitre de fond et région dégagée ; protéger enfant/mains/bulle.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "title": "Par l'arrière",
+      "panels": [
+        {
+          "id": "p06-c01",
+          "readingOrder": 1,
+          "rectPx": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.0078125,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "poursuivant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Le poursuivant recule puis s'enfuit rapidement.",
+          "setting": "Rue devant fenêtre brisée, raccord du poursuivant et de sa tenue.",
+          "expression": "Peur et perte d'assurance, aucune blessure visible.",
+          "gesture": "Corps déjà en fuite, arme abaissée vers sol, bras anatomiques simples ; pas de tir supplémentaire.",
+          "gaze": "Il regarde une fois en arrière vers bar.",
+          "visibleAction": "Le danger immédiat s'éloigne. Aucun projectile ou tireur du groupe n'est montré ni attribué.",
+          "framing": "Vue oblique depuis fenêtre vers rue, silhouette fuyante entière ou mi-cuisse ; débris au bas du cadre.",
+          "bubbles": [],
+          "cues": [],
+          "minimumReadSeconds": 4,
+          "animationIntention": "Vapeur de rue ascendante d'un évent visible, laissant la silhouette lisible ; aucune déformation du personnage.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p06-c02",
+          "readingOrder": 2,
+          "rectPx": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.3385416666666667,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "john"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Wendy empêche une sortie par la foule.",
+          "setting": "À l'intérieur près de l'accès principal, silhouettes lointaines de passants dehors seulement si nécessaires.",
+          "expression": "Wendy urgente mais contenue ; Franklyn écoute en se reconcentrant, cernes et mâchoire tendue persistants.",
+          "gesture": "Wendy indique l'arrière paume simple ; Franklyn se tourne pour suivre, pas de doigt surnuméraire.",
+          "gaze": "Wendy regarde le groupe ; Franklyn suit sa direction, pas les passants.",
+          "visibleAction": "L'avertissement sur les caméras transforme leur choix de sortie ; aucune interface GPS ni repérage effectif nouveau.",
+          "framing": "Plan moyen, Wendy premier plan droit, Franklyn/John gauche bas ; réserve de dialogue haute large.",
+          "bubbles": [
+            {
+              "speaker": "wendy",
+              "cue": "bp-l018",
+              "rectPx": [
+                52,
+                542,
+                850,
+                164
+              ],
+              "tailTargetPx": [
+                751,
+                802
+              ],
+              "fontPx": 30
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l018",
+              "globalLine": 18,
+              "speaker": "wendy",
+              "textFr": "Pas de foule. Les caméras nous retrouveraient. Par la ruelle.",
+              "textEn": "No crowds. The cameras will find us. Back alley.",
+              "annotatedEn": "[firm, controlled urgency] No crowds. [low, warning] The cameras will find us. [decisive] Back alley.",
+              "intention": "Elle interdit la facilité apparente puis donne une issue concrète, voix basse retrouvée.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0
+            }
+          ],
+          "minimumReadSeconds": 8,
+          "animationIntention": "Cheveux Wendy : micro-oscillation locale uniquement dans mèche libre, hors visage/bulle ; garder éventuel écusson fixe.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p06-c03",
+          "readingOrder": 3,
+          "rectPx": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Les six franchissent la sortie arrière vers la ruelle.",
+          "setting": "Porte arrière industrielle du Blue Purple, ruelle humide, évent mural séparé.",
+          "expression": "Alerte et cohésion ; enfant entouré des cadets, Franklyn aide sans retrouver l'insouciance.",
+          "gesture": "Six silhouettes distinctes en marche ; porte déjà ouverte, aucune main complexe tenant poignée nécessaire.",
+          "gaze": "Wendy inspecte ruelle, Franklyn vérifie les autres.",
+          "visibleAction": "Six exactement : Wendy, Franklyn, John, Abigail, Grover, enfant civil. Bar abandonné par arrière.",
+          "framing": "Grand plan extérieur trois-quarts ; identités lisibles, silhouettes non fusionnées. Aucun septième membre ni poursuivant.",
+          "bubbles": [],
+          "cues": [],
+          "minimumReadSeconds": 5,
+          "animationIntention": "Vapeur de l'évent arrière sur fond latéral hors groupe, rythme lent distinct de la gerbe de verre. Peut accompagner gouttes au bord du seuil.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "title": "Notre voiture",
+      "panels": [
+        {
+          "id": "p07-c01",
+          "readingOrder": 1,
+          "rectPx": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.0078125,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "gardiens"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Wendy et Franklyn évaluent l'entrée du parking ; les quatre autres attendent hors vue directe des gardiens.",
+          "setting": "Parking semi-sécurisé derrière le bar : clôture, poste simple, deux gardiens armés au repos, rangée de véhicules.",
+          "expression": "Wendy calcule vite ; Franklyn épuisé mais présent ; gardiens peu concernés.",
+          "gesture": "Deux personnages de dos/profil au premier plan ; gardiens bras simples près du corps, aucune nouvelle confrontation.",
+          "gaze": "Wendy et Franklyn vers entrée.",
+          "visibleAction": "Établir parking et séparation momentanée du groupe ; aucune identité de gang nommée.",
+          "framing": "Large de situation. Une vieille voiture six places sombre, trois rangées, visible parmi véhicules sans marque ni plaque lisible ; fixer son design pour page8.",
+          "bubbles": [],
+          "cues": [],
+          "minimumReadSeconds": 5,
+          "animationIntention": "Ondulations concentriques dans flaque basse au premier plan, source gouttes lisible, hors silhouettes et futur trajet.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p07-c02",
+          "readingOrder": 2,
+          "rectPx": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.3385416666666667,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "gardien"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Le bluff de la partie sur table : ils se présentent comme propriétaires d'une voiture.",
+          "setting": "Poste de garde au portail, parking visible derrière.",
+          "expression": "Wendy assurance jouée, impatience contrôlée ; Franklyn voix tenue, yeux fatigués ; gardien sceptique mais sans nouvelle exigence.",
+          "gesture": "Wendy geste de paume sobre vers intérieur ; Franklyn mains visibles mais détendues près du corps. Gardien ne tend aucun ticket/objet nouveau.",
+          "gaze": "Wendy vers gardien, Franklyn complète en le regardant.",
+          "visibleAction": "Deux répliques adressées ; gardien non vocal. Aucun document faux, paiement ou techno ajoutés.",
+          "framing": "Plan américain de Wendy gauche et Franklyn milieu, gardien droite de profil ; bulles au-dessus des deux locuteurs.",
+          "bubbles": [
+            {
+              "speaker": "wendy",
+              "cue": "bp-l019",
+              "rectPx": [
+                38,
+                540,
+                495,
+                144
+              ],
+              "tailTargetPx": [
+                220,
+                784
+              ],
+              "fontPx": 28
+            },
+            {
+              "speaker": "franklyn",
+              "cue": "bp-l020",
+              "rectPx": [
+                564,
+                552,
+                420,
+                120
+              ],
+              "tailTargetPx": [
+                607,
+                784
+              ],
+              "fontPx": 27
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l019",
+              "globalLine": 19,
+              "speaker": "wendy",
+              "textFr": "Notre voiture est à l'intérieur. On s'en va.",
+              "textEn": "Our car's inside. We're leaving.",
+              "annotatedEn": "[confident, matter-of-fact] Our car's inside. [impatient, controlled] We're leaving.",
+              "intention": "Bluff sans panique : assurance empruntée puis petite impatience crédible.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0
+            },
+            {
+              "id": "bp-l020",
+              "globalLine": 20,
+              "speaker": "franklyn",
+              "textFr": "On n'en a pas pour longtemps.",
+              "textEn": "We won't be long.",
+              "annotatedEn": "[restrained, trying to sound casual] We won't be long.",
+              "intention": "Il aide le bluff malgré la fatigue ; mâchoire tendue et voix tenue, aucune désinvolture triomphante.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0
+            }
+          ],
+          "minimumReadSeconds": 9,
+          "animationIntention": "Petit néon fixe du poste, clignotement irrégulier déterministe, sans bande mobile ; personnages et mains protégés. Seul halo de cette page.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p07-c03",
+          "readingOrder": 3,
+          "rectPx": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "gardien"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Les gardiens les laissent passer ; ils gagnent discrètement la voiture.",
+          "setting": "À l'intérieur de clôture, même vieille voiture six places sombre, trois rangées ; volant à gauche. Les quatre autres toujours en attente hors parking.",
+          "expression": "Soulagement retenu et vigilance, pas de sourire de victoire ; Franklyn garde tension de Letitia.",
+          "gesture": "Wendy et Franklyn marchent vers portière avant gauche ; aucun outil encore visible dans la main.",
+          "gaze": "Wendy vérifie gardien derrière ; Franklyn vers voiture.",
+          "visibleAction": "L'entrée est obtenue et la voiture choisie ; aucune ouverture télécommandée ni véhicule personnel réel.",
+          "framing": "Plan dans l'axe d'une rangée ; voiture premier plan droit, deux personnages gauche/milieu, gardien loin en arrière.",
+          "bubbles": [],
+          "cues": [],
+          "minimumReadSeconds": 4,
+          "animationIntention": "Pluie oblique localisée contre clôture/fond, mouvement distinct des ronds de flaque ; aucun effet sur visages.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        }
+      ]
+    },
+    {
+      "page": 8,
+      "title": "Tous ensemble",
+      "panels": [
+        {
+          "id": "p08-c01",
+          "readingOrder": 1,
+          "rectPx": [
+            12,
+            12,
+            494,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.0078125,
+            0.482421875,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "La voiture est discrètement forcée, hors regard direct des gardiens.",
+          "setting": "Portière avant gauche de la même voiture six places sombre ; serrure matérielle, volant gauche en arrière-plan.",
+          "expression": "Concentration tendue ; pas de démonstration technique ni outil futuriste inventé.",
+          "gesture": "Une seule main clairement raccordée tient un petit outil générique contre serrure, seconde main éloignée et bien séparée ; cadrage ne nomme pas qui manipule.",
+          "gaze": "Attention vers serrure.",
+          "visibleAction": "Ouverture forcée suggérée par serrure et porte à peine décollée. Pas d'étincelles, pas de tutoriel ni détails opérationnels.",
+          "framing": "Insert épaule/main/serrure, visage hors champ ; contrôle très strict des pouces, doigts et contact outil-métal.",
+          "bubbles": [],
+          "cues": [],
+          "minimumReadSeconds": 4,
+          "animationIntention": "Reflet bref et étroit sur bord métallique de serrure avec source lampe parking visible en reflet ; usage ponctuel justifié, pas bande traversant la case.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p08-c02",
+          "readingOrder": 2,
+          "rectPx": [
+            518,
+            12,
+            494,
+            496
+          ],
+          "rect": [
+            0.505859375,
+            0.0078125,
+            0.482421875,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "franklyn",
+            "wendy"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Démarrage et première manœuvre hésitants.",
+          "setting": "Intérieur même voiture ; Franklyn au volant gauche, Wendy siège avant droit. Véhicule trois rangées, arrière momentanément vide.",
+          "expression": "Franklyn crispé et hésitant ; Wendy guidage calme qui contraste avec l'urgence ; aucun rire.",
+          "gesture": "Deux mains de Franklyn séparées sur volant, cinq doigts plausibles selon occultation, pas de volant traversant paume ; Wendy ne saisit pas volant.",
+          "gaze": "Franklyn vers sortie, Wendy contrôle son mouvement.",
+          "visibleAction": "La voiture démarre tant bien que mal, sans collision ni nouveau danger.",
+          "framing": "Plan intérieur frontal légèrement oblique, volant et deux profils lisibles ; réserver bulle haute côté Wendy.",
+          "bubbles": [
+            {
+              "speaker": "wendy",
+              "cue": "bp-l021",
+              "rectPx": [
+                564,
+                32,
+                420,
+                110
+              ],
+              "tailTargetPx": [
+                838,
+                250
+              ],
+              "fontPx": 28
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l021",
+              "globalLine": 21,
+              "speaker": "wendy",
+              "textFr": "Doucement… Voilà.",
+              "textEn": "Easy... there.",
+              "annotatedEn": "[quiet, guiding] Easy... [reassuring] there.",
+              "intention": "Wendy guide le démarrage hésitant ; contraste plus doux avec ses ordres. Pas de soupir.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0
+            }
+          ],
+          "minimumReadSeconds": 5,
+          "animationIntention": "Voyant simple du tableau de bord s'allume puis se stabilise au démarrage, sans nouveaux symboles narratifs ; pas de vibration du raster ou des mains.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p08-c03",
+          "readingOrder": 3,
+          "rectPx": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.3385416666666667,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "La voiture rejoint les quatre autres à la sortie de ruelle ; ils montent.",
+          "setting": "Même voiture, portière latérale passager ouverte, avant Wendy et Franklyn ; deux rangées arrière permettent les quatre passagers.",
+          "expression": "Enfant inquiet ; Franklyn protecteur/tendu ; autres soulagés mais pressés.",
+          "gesture": "John/Grover/Abigail enfant entrent chacun par accès dégagé, pas de corps fusionnés. Mains peu nombreuses, chaque appui relié au bon bras.",
+          "gaze": "Enfant vers Franklyn ; Franklyn tourne brièvement la tête vers lui ; Wendy surveille rue.",
+          "visibleAction": "Récupération explicite des quatre autres. Exactement six membres ; enfant civil sans écusson.",
+          "framing": "Large côté passager avec vue dans habitacle. Tous les six identifiables, pas six occupants tassés dans une berline cinq places.",
+          "bubbles": [
+            {
+              "speaker": "enfant",
+              "cue": "bp-l022",
+              "rectPx": [
+                46,
+                542,
+                450,
+                120
+              ],
+              "tailTargetPx": [
+                325,
+                805
+              ],
+              "fontPx": 28
+            },
+            {
+              "speaker": "franklyn",
+              "cue": "bp-l023",
+              "rectPx": [
+                730,
+                552,
+                240,
+                100
+              ],
+              "tailTargetPx": [
+                750,
+                760
+              ],
+              "fontPx": 32
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l022",
+              "globalLine": 22,
+              "speaker": "enfant",
+              "textFr": "C'est vraiment votre voiture ?",
+              "textEn": "Is this really your car?",
+              "annotatedEn": "[uncertain, quietly] Is this really your car?",
+              "intention": "Question sincère adressée aux deux à l'avant, sans effet comique appuyé.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0
+            },
+            {
+              "id": "bp-l023",
+              "globalLine": 23,
+              "speaker": "franklyn",
+              "textFr": "Monte.",
+              "textEn": "Get in.",
+              "annotatedEn": "[urgent, protective] Get in.",
+              "intention": "Réponse courte et protectrice, encore tendue ; pas de sourire ni d'agression contre l'enfant.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0
+            }
+          ],
+          "minimumReadSeconds": 7,
+          "animationIntention": "Vapeur d'échappement basse et arrière, source pot visible hors corps ; dérive horizontale lente distincte de la vapeur verticale p6. Bulles et mains protégées.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        },
+        {
+          "id": "p08-c04",
+          "readingOrder": 4,
+          "rectPx": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Le groupe réuni quitte les lieux par les petites rues, avant toute borne.",
+          "setting": "Rue étroite nocturne humide, même voiture six places portes fermées ; aucun autre véhicule poursuivant.",
+          "expression": "Tension résiduelle, répit précaire. Franklyn conserve sa fatigue et sa promesse de revenir pour Letitia ; aucune nouvelle promesse dite.",
+          "gesture": "Tous installés : Franklyn avant gauche, Wendy avant droite, quatre autres sur deux rangées arrière ; ne pas inventer occupants visibles si cadrage externe.",
+          "gaze": "Franklyn vers route ; autres en vigilance.",
+          "visibleAction": "La voiture s'éloigne. Fin nette avant borne/conversion/arcologie ; pas de poursuite automobile.",
+          "framing": "Plan large arrière trois-quarts laissant place à rue qui s'ouvre. Si silhouettes visibles, six maximum et placements raccord ; les six ont été comptés dans case précédente.",
+          "bubbles": [],
+          "cues": [],
+          "minimumReadSeconds": 6,
+          "animationIntention": "Petite traînée de pluie et onde de flaque sous passage des roues, mouvement court décroissant. Feux arrière fixes ou très légère modulation, aucune bande lumineuse qui traverse toute case.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "beforeSpending": "Contre-revue exacte de ce document, fidélité, découpage, bulles et mouvement avant images/voix.",
+    "images": "Revoir brut à pleine taille ET mains recadrées ; vérifier chaque main, regard, accessoire, nombre de corps et raccord véhicule. Revoir lettrage ensuite ; ne pas masquer défaut sous bulle.",
+    "animation": "Les intentions ne sont pas des types de manifeste. Animation valide les capacités ou implémente/teste les nouveaux types avant intégration. Pas de geste inventé par déformation du raster.",
+    "durations": "Minima indicatifs, pas mesures audio. Montage utilise durées réellement décodées et temps de lecture, mêmes calculs lecteur/export."
+  }
+}

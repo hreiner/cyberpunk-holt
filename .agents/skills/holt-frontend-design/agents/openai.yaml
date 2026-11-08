@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design frontend HOLT"
+  short_description: "Interfaces soignées, lisibles et adaptatives"
+  default_prompt: "Utilise $holt-frontend-design pour améliorer l’interface demandée selon son sujet et le brief."

@@ -1,0 +1,37 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 5,
+  "title": "HOLT — Blue Purple · pages 5 à 8 · révision 3",
+  "pages": [
+    {
+      "id": "page-05",
+      "manifest": "blue-purple-page05-v5.json"
+    },
+    {
+      "id": "page-06",
+      "manifest": "blue-purple-page06-v4.json"
+    },
+    {
+      "id": "page-07",
+      "manifest": "blue-purple-page07-v4.json"
+    },
+    {
+      "id": "page-08",
+      "manifest": "blue-purple-page08-v4.json"
+    }
+  ],
+  "music": {
+    "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-02/soundtrack-v1/backing-pages05-08.wav",
+    "gain": 1,
+    "preMixed": true
+  },
+  "provenance": {
+    "revision": 3,
+    "timing": "art-masters/motion-comics/blue-purple/pages-05-08/revision-02/timing-r2-v1.json",
+    "contractSha256": "da290bacb031c7133d66abda9792b506dbb6ce8dadafa2e69fb710ac17c34822",
+    "humanListeningApproval": false,
+    "production": "docs/comics/blue-purple-motion/production/pages-05-08/revision-03/",
+    "correction": "Only the John recoil drawing changes; previous voices, music, SFX, panels and timings retained."
+  }
+}

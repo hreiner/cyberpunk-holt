@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "version": 1,
+  "revision": 2,
+  "contractKind": "targeted-production-deltas",
+  "date": "2026-11-06",
+  "status": "ready-for-independent-review-before-production",
+  "title": "Blue Purple — reprise ciblée vitre, mèches et vitesse",
+  "sources": [
+    "docs/comics/blue-purple-motion/production/pages-05-08/revision-02/PROGRESS.md",
+    "docs/comics/blue-purple-motion/production/pages-05-08/revision-01/CONTRACTS.json",
+    "docs/chapters/ch3/SCENARIO.md",
+    "Retour propriétaire06novembre2026 : pointes seules, vitre intacte puis bris, voiture fixe et vent/particules."
+  ],
+  "baseSelection": {
+    "manifest": "anime/motion-comics/projects/blue-purple-pages01-08-v3.json",
+    "sha256": "daa407eef187a9aec910b4e54719244c5d751b358ac812231e90a9869b5da2fc",
+    "pages": [
+      {
+        "id": "page-01",
+        "manifest": "anime/motion-comics/projects/blue-purple-page01-v4-r3.json",
+        "sha256": "8ee384860cea5d631b781f0e84a5bb81741792c4dfebee257a7f7c3a3c06c8d9"
+      },
+      {
+        "id": "page-02",
+        "manifest": "anime/motion-comics/projects/blue-purple-page02-v3.json",
+        "sha256": "726ac9cd668c46130711577cd7f5b5f1129e521ed3bf044592cae5d521b6ef12"
+      },
+      {
+        "id": "page-03",
+        "manifest": "anime/motion-comics/projects/blue-purple-page03-v3.json",
+        "sha256": "fce6f0dfe48b57649e59ea2253010626a9d5bc1b19e0aa345404a1ef11f4fe1c"
+      },
+      {
+        "id": "page-04",
+        "manifest": "anime/motion-comics/projects/blue-purple-page04-v4.json",
+        "sha256": "5b72bbb02ba261f64e6fdd03e177028a772191b90601e4d7331021b436ef0671"
+      },
+      {
+        "id": "page-05",
+        "manifest": "anime/motion-comics/projects/blue-purple-page05-v3.json",
+        "sha256": "ee944052e99c7a7666d9ee3f712bdb83d6dae1b345412cd9b32a307ade944285"
+      },
+      {
+        "id": "page-06",
+        "manifest": "anime/motion-comics/projects/blue-purple-page06-v3.json",
+        "sha256": "34e33218634065b66c8965e9ada03f6e6d6f2b45627b81239df6eb77e2b474a5"
+      },
+      {
+        "id": "page-07",
+        "manifest": "anime/motion-comics/projects/blue-purple-page07-v3.json",
+        "sha256": "eaae3a8f0e57f3f492242946fb4a992ae1f43623ed8a262a3a5ad8c3307032c9"
+      },
+      {
+        "id": "page-08",
+        "manifest": "anime/motion-comics/projects/blue-purple-page08-v3.json",
+        "sha256": "c087021478cde89042f45b1712c8dbdebf7af5c4e54826b6685c23a0cb451de2"
+      }
+    ]
+  },
+  "scope": "Contrat compact de deltas, pas manifeste de rendu. Tout texte, casting, attribution canonique, pose et comportement non expressément changé ici reste celui de la sélectionv3. Archives révision01 intactes.",
+  "preservation": {
+    "pages01to04": "Médias/manifestes/chronologie144,60s inchangés.",
+    "voices": "37sources réemployées dont22 sur pages5–8 ; aucune nouvelle TTS, aucun texte ni tag changé, aucune copie de voix préfixée de faux silence.",
+    "canon": "John assomme barman avant tir, barmanKOvivant ; six membres, Letitia/Zachary absents, pasGPS/borne/poursuite/blessure nouvelle.",
+    "punchAndRearExit": "Quatre poses John et deux poses sortie réemployées telles quelles."
+  },
+  "timing": {
+    "reference": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/timing-r1-v5.json",
+    "newTimingExpected": "art-masters/motion-comics/blue-purple/pages-05-08/revision-02/timing-r2-v1.json",
+    "units": "Secondes locales page5 ; ajouter144,60s pour complet1–8.",
+    "newBatchSeconds": 82,
+    "fullSequenceSeconds": 226.6,
+    "page05Seconds": 20.9,
+    "otherPanelHolds": "Tous inchangés. p05-c04 hold4,50 reste dans budget actuel.",
+    "p05c04": {
+      "transitionStart": 15.6,
+      "holdStart": 15.9,
+      "transitionEnd": 15.9,
+      "intactHoldSeconds": 0.5,
+      "shot": 16.4,
+      "glassStateSwitch": 16.4,
+      "firstCueLeadInSeconds": 0.7,
+      "cue27Start": 16.6,
+      "cue27End": 18.28,
+      "gapBetweenCues": 0.1,
+      "cue17Start": 18.38,
+      "cue17End": 19.34,
+      "finalGapEnd": 19.44,
+      "panelEnd": 20.4,
+      "pageEnd": 20.9,
+      "tailAfterLastVoiceSeconds": 1.06,
+      "remainingAfterFinalGapSeconds": 0.96
+    },
+    "derivation": "holdStart15,90 +leadIn0,70 =27start16,60 ; +1,68=18,28 ; +gap0,10=17start18,38 ; +0,96=19,34 ; +gap0,10=19,44 <panelEnd20,40. Le lead-in est dans tenue existante4,50s, aucun allongement lot82s.",
+    "engineRequirement": "panel.leadInSeconds=0.70 additif avant premier cue, validé/testé en core.js et partagé lecteur/export. Ne pas détourner gapSeconds qui suit une réplique et ne pas créer de cue muet."
+  },
+  "pages": [
+    {
+      "page": 5,
+      "panels": [
+        {
+          "id": "p05-c04",
+          "change": "Visible vitre intacte puis tir/bris avant réactionFranklyn.",
+          "rect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "holdSeconds": 4.5,
+          "leadInSeconds": 0.7,
+          "cues": [
+            {
+              "id": "bp-l027",
+              "speaker": "franklyn",
+              "textFr": "Abigail ! Le petit !",
+              "textEn": "Abigail! The kid!",
+              "ttsText": "[shouts, alarmed] Abigail! The kid!",
+              "audio": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/27-franklyn-65014b904364.mp3",
+              "sha256": "0e84b6615db39298c011ed24f280a516938ddb7458f3963ee4f6ec94d700d22b",
+              "decodedSeconds": 1.68,
+              "decodeProof": "FFmpeg complet -v error -f null, exécuté06novembre2026 : exit0, out_time_us=durée déclarée, stderr vide.",
+              "production": "reuse"
+            },
+            {
+              "id": "bp-l017",
+              "speaker": "abigail",
+              "textFr": "À terre !",
+              "textEn": "Down!",
+              "ttsText": "[shouts, frightened] Down!",
+              "audio": "art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/17-abigail-3d61c3f2b3fd.mp3",
+              "sha256": "dca4f22bfc949ca4ecd6425c7d9fc1c7a4d1b9ab4619307bf3edc000a919e80a",
+              "decodedSeconds": 0.96,
+              "decodeProof": "FFmpeg complet -v error -f null, exécuté06novembre2026 : exit0, out_time_us=durée déclarée, stderr vide.",
+              "production": "reuse"
+            }
+          ],
+          "states": [
+            {
+              "id": "intact",
+              "from": "overview et avant entrée case",
+              "throughSeconds": 16.4,
+              "source": "Nouveau dessin intact ciblé, même cadre/personnages/mains/décor ; aucune pose nouvelle.",
+              "thumbnailPolicy": "Avant16,40, vue page et miniature ne révèlent pas vitre déjà brisée : master initial intact ou vignette prenant état narratif. Une miniature statique intacte est acceptable."
+            },
+            {
+              "id": "broken",
+              "fromSeconds": 16.4,
+              "through": "finpage",
+              "source": "Dessin brisé existant sélectionné, non régénéré.",
+              "transition": "Commutation nette au coup de feu, sans fondu ramenant artificiellement éclats dans verre."
+            }
+          ],
+          "onsetGuard": "Wendy16 enp05c02 finit avant tir, et John a frappé enp05c03. À entréep05c04 vitre intacte, pas de tir pendantoverview/transition ; tirseulement16,40,Franklyn27réagit16,60.",
+          "protections": "Tous visages, yeux, mains, doigts, vêtements, écussons, posture enfant/Abigail et lettres inchangés. Ne pas masquer défaut d'édition avec effet. Fenêtre seule change, éclats narratifs démarrent au bris.",
+          "sound": [
+            {
+              "event": "shot",
+              "oldStartSeconds": 15.75,
+              "selectedStartSeconds": 16.4,
+              "policy": "SourceElevenLabs existante, accent franc sans saturation ; jamais avant bris."
+            },
+            {
+              "event": "glass-break",
+              "selectedStartSeconds": 16.4,
+              "policy": "Source existante resynchronisée à la commutation, queue sonore sous réactions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "panels": [
+        {
+          "id": "p06-c02",
+          "change": "Limiter mouvement aux seules pointes de mèches, pas crâne/racines/sommet.",
+          "timing": "Inchangé ; mêmes voix et calques sortie.",
+          "motionPolicy": "Réduire/replacer masque hair sur extrémités réellement libres, bord fixe à leur racine ; pas déplacement de boîte crânienne ni déformation du haut de coiffure.",
+          "protectedPixels": [
+            "crâne",
+            "sommet des cheveux",
+            "racines et base coiffure",
+            "visage, yeux, sourcils, bouche",
+            "oreille et bijoux",
+            "bulles et tenues"
+          ],
+          "verification": "Comparer deux phases : pointes changent perceptiblement, zones protégées strictement identiques. Vérifier silhouette complète à taille de lecture, pas seulement compteur de pixels."
+        }
+      ]
+    },
+    {
+      "page": 8,
+      "panels": [
+        {
+          "id": "p08-c04",
+          "change": "Voiture fixe ; vitesse évoquée par vent et particules.",
+          "timing": "Inchangé ; cue37 enfant2,40s au même onset, bulle intérieure sans queue.",
+          "vehiclePolicy": "Même position, échelle, rotation, opacité, roues et ombre de contact à tous instants. Retirer trajectoire/zoom du sprite ; utiliser état initial sélectionné fixe, pas car scale0,55 en fin.",
+          "speedPolicy": "Vent/particules directionnelles autour véhicule et sur rue, avec masque hors carrosserie/vitres/roues/bulle ; ni bande lumineuse ni translation du décor entier. Pas de nouvelle poursuite ajoutée.",
+          "verification": "ComparerphasesA/B : véhicule et ombre identiques, particules perceptibles hors protections ; vérifier bordure/roues/ancrage, aucune queue de bulle orpheline."
+        }
+      ]
+    }
+  ],
+  "audioDirection": {
+    "reuse": "Six sources SFXElevenLabs et trois compléments locaux, musiques existantes. Aucune génération nouvelle.",
+    "accents": [
+      "CoupJohn mat et franc, aligné contact existant.",
+      "Tir/verre francs à16,40page5, sous voix réactives qui commencent16,60.",
+      "Démarreur identifiable au démarragepage8, sans masquer voix."
+    ],
+    "mix": "Resserrer enveloppes/gains plutôt que voix ; contrôler pics, saturation, duck et resynchronisation reader/MP4. Une mesure ne vaut pas écoute humaine, ne pas en revendiquer.",
+    "noNewTTS": true
+  },
+  "budget": {
+    "imagegenInitial": 1,
+    "imagegenTargetedCorrections": 2,
+    "imagegenCap": 3,
+    "historicalImagegenCalls": 27,
+    "cumulativeImagegenCap": 30,
+    "newTTSRequests": 0,
+    "cumulativeTTSCharacters": 3394,
+    "newSFXGeneration": 0,
+    "newMusicGeneration": 0,
+    "maxConcurrentExports": 2,
+    "operator": "Art seul pourImageGen, après prompt/références contre-revus ; aucune dépense par réalisation."
+  },
+  "acceptance": [
+    "Vitre réellement intacte visible0,50s en cadrestable, puis état brisé au tir16,40.",
+    "37voix et textes inchangés ;27décalée16,60 et17décalée18,38 sans chevauchement.",
+    "QuatreposesJohn et sortie arrière conservées, effets déclenchés au temps narratif.",
+    "Pointes seules page6 ; crâne/sommet fixes.",
+    "Voiture et ombre fixes page8, particules/vent visibles.",
+    "Même chronologie82s lecteur/MP4 ; pause/seek/arrêt/réductionmouvement vérifiés.",
+    "Décodage complet nouvelles images/MP4 et ancien média voix réutilisé ; contre-revue mains et protections après édition."
+  ],
+  "productionState": "Contrat prêt pourQA ; varianteintacte, manifestsretimés, mix et exports non encore produits par ce périmètre."
+}

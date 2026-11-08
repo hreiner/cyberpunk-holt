@@ -1,0 +1,28 @@
+{
+  "art": "ART-SELECTION.json",
+  "anchors": "ANCHORS.json",
+  "physicalStates": [
+    "open",
+    "35",
+    "closed"
+  ],
+  "proof": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-b/proof-final-v2/report.json",
+  "review": "REVIEW.md",
+  "rejected": [
+    "closure-75-native.png",
+    "closure-75-native-v2.png"
+  ],
+  "candidates": [
+    {
+      "sha256": "A5F495E6917A064E81CE3D7DB99F3D77743EA449245744BCF29C0DB6B3202D25",
+      "page": 14,
+      "candidate": "anime/motion-comics/projects/blue-purple-page14-motion06.json"
+    },
+    {
+      "sha256": "1A47B367F0B77CD70EB94520CE77FF6BFD2CF9074575D7A21ABE584D516037FC",
+      "page": 15,
+      "candidate": "anime/motion-comics/projects/blue-purple-page15-motion06.json"
+    }
+  ],
+  "status": "ready for root final integration"
+}

@@ -1,0 +1,28 @@
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+let root=__dirname;while(!fs.existsSync(path.join(root,'AGENTS.md')))root=path.dirname(root);
+const helper=path.join(__dirname,'../timing/retime.cjs'),contract=path.join(__dirname,'../timing/TIMING.json');
+const {getTiming}=require(helper),sha=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+const source=path.join(root,'anime/motion-comics/projects/blue-purple-pages01-21-v9.json'),sequence=JSON.parse(fs.readFileSync(source,'utf8')),pages=new Map();let cursor=0;
+for(const entry of sequence.pages){const n=entry.id==='cover'?0:Number(entry.id.split('-')[1]),data=JSON.parse(fs.readFileSync(path.resolve(path.dirname(source),entry.manifest),'utf8')),timing=getTiming(data,n);pages.set(n,{start:cursor,timing});cursor+=timing.newTimeline.duration;}
+assert(Math.abs(cursor-584.3)<1e-8);const timing=JSON.parse(fs.readFileSync(contract,'utf8'));assert.equal(timing.revision,2);
+const panel=(page,key)=>pages.get(page).timing.panels.find(p=>p.key===key),a=[];
+const add=(id,page,panelKey,time,intention)=>a.push({id,page,panelKey,localSeconds:time,globalSeconds:pages.get(page).start+time,intention});
+add('residentContact',18,'18-1',panel(18,'18-1').end-.18,'Contact dessiné tenu après les deux répliques, puis coupe vers conséquence.');
+add('residentConsequence',18,'18-after',panel(18,'18-after').start,'Révélation franche du dessin existant, sans chute corporelle inventée.');
+add('boltStart',18,'18-2',panel(18,'18-2').ready+.8,'Le seul pêne libre glisse ; les doigts restent exacts.');
+add('boltClosed',18,'18-2',panel(18,'18-2').ready+1.35,'Pêne dans son logement, clic unique.');
+add('quietFloorSweep',18,'18-3',panel(18,'18-3').ready+.2,'Reflet unique au sol puis silence visuel.');
+add('doorSlitLight',19,'19-1',panel(19,'19-1').ready+.2,'Lumière de fente seulement, aucune ouverture supplémentaire.');
+add('elevatorReturn',19,'19-2',panel(19,'19-2').ready,'Reflets lents puis arrêt.');
+add('greenPointPulse',19,'19-3',panel(19,'19-3').ready+.25,'Unique pulsation du point existant.');
+add('waterThrowRelease',20,'20-3',panel(20,'20-3').ready+.35,'Révélation du plan puis chute gravitaire immédiate, sans tenue flottante.');
+add('waterSplash',20,'20-3',panel(20,'20-3').ready+.35+.52,'Franchissement du plan d’eau, plouf unique, écume.');
+add('waterSubmerged',20,'20-3',panel(20,'20-3').ready+.35+.96,'Toute la silhouette est passée sous le plan d’eau.');
+add('waterRecovery',20,'20-3',panel(20,'20-3').ready+.35+1.70,'Écume retombée, eau seule tenue.');
+add('refugeLatchStart',21,'21-1',panel(21,'21-1').ready+.15,'Déclic avant la question d’Abigail, aucun dispositif nouveau.');
+add('refugeDoorOpeningStart',21,'21-1',panel(21,'21-1').ready+1.10,'Deux battants commencent leur rotation vers la pièce vide.');
+add('refugeDoorOpen',21,'21-1',panel(21,'21-1').ready+2.65,'Deux battants ouverts et tenus.');
+add('emptyRoom',21,'21-2',panel(21,'21-2').ready,'Volume vide, poussières et goutte discrètes.');
+add('finalIndicatorOff',21,'21-3',panel(21,'21-3').voiceStarts.at(-1)+.20,'Extinction pendant la dernière réplique de Grover.');
+const result={status:'frozen',clock:'full chapter including 12-second cover',timingRevision:2,timingSha256:sha(contract),helperSha256:sha(helper),sourceSha256:sha(source),duration:cursor,anchors:a};
+fs.writeFileSync(path.join(__dirname,'ANCHORS.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.info(JSON.stringify(result,null,2));

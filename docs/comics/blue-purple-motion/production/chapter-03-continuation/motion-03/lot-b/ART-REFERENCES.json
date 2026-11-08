@@ -1,0 +1,21 @@
+{
+  "correctionReserve": 2,
+  "bottom": {
+    "path": "comic-review-v5/assets/p16-c02.jpg",
+    "sha256": "E0CAE9DC4191981ACBA6B7C42293FECE942D7A1D4168B59F2CDEA7C0EA515031"
+  },
+  "contactSheet": {
+    "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-b/capsule-open-closed-reference.jpg",
+    "sha256": "C2DB6B836BD6CA4061227663A87BE427312EDA4DF13D7B532C706420860D460B"
+  },
+  "running": [],
+  "submitted": 3,
+  "initialCap": 2,
+  "cost": null,
+  "provider_id": null,
+  "top": {
+    "path": "comic-review-v5/assets/p15-c03.jpg",
+    "sha256": "FAAE96FE20A0DFFE2FF7AF88F2C735DE84FD244F03FB6B3992F24FFFD7A3D81F"
+  },
+  "reallocatedReserveToMap": 1
+}

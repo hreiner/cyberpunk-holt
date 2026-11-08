@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voix motion comics"
+  short_description: "Voix anglaises expressives, mesures et budget"
+  default_prompt: "Utilise $holt-motion-voice pour réaliser l’étape demandée dans le périmètre HOLT."

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "status": "semantic-plan-awaiting-measured-timeline",
+  "backingContainsVoices": false,
+  "outputContract": {"gain": 1, "preMixed": true},
+  "oldPages": {
+    "durationSeconds": 144.6,
+    "manifest": "anime/motion-comics/projects/blue-purple-pages01-04-v4.json",
+    "policy": "Reproduire pressure depuis0 avec gain0.08, enveloppe0.5s et duck historique, sans changer les quinze voix ni les quatre images."
+  },
+  "musicSections": [
+    {"startPage": "page-05", "endBeforePage": "page-07", "asset": "public/assets/audio/background/music-pressure.mp3", "gain": 0.30, "intention": "Confrontation puis sortie urgente ; pause très brève au contact du coup, retour au premier plan dans les silences."},
+    {"startPage": "page-07", "endBeforePage": "page-08", "asset": "public/assets/audio/background/music-neon.mp3", "gain": 0.26, "intention": "Bluff et infiltration du parking, tension plus discrète et pulsation urbaine réellement distincte."},
+    {"startPage": "page-08", "endBeforePage": null, "asset": "public/assets/audio/background/music-afterglow.mp3", "gain": 0.32, "intention": "Démarrage hésitant puis groupe réuni, répit encore précaire sans euphorie ; ouverture musicale dans le départ."}
+  ],
+  "musicCrossfadeSeconds": 0.65,
+  "speechDuck": {"rampSeconds": 0.15, "musicMultiplier": 0.28, "sfxMultiplier": 0.42},
+  "impactSilence": {"anchor": "punchContact", "leadSeconds": 0.04, "holdSeconds": 0.12, "returnSeconds": 0.22},
+  "sfx": [
+    {"assetId": "punch-wood", "panel": "p05-c03", "anchor": "after-bp-l025", "offsetSeconds": 0.12, "targetPeakDb": -10, "note": "Un coup, avant répliqueGrover26 ; contactanimation doit partager ce temps."},
+    {"assetId": "gun-glass", "panel": "p05-c04", "anchor": "shot", "offsetSeconds": 0, "targetPeakDb": -8, "note": "Unseultir, même instant que variantevitre/éclats."},
+    {"assetId": "rear-door", "panel": "p06-c03", "anchor": "content-start", "offsetSeconds": 0.05, "targetPeakDb": -18},
+    {"assetId": "footsteps", "panel": "p06-c03", "anchor": "content-start", "offsetSeconds": 0.4, "targetPeakDb": -22},
+    {"assetId": "engine-start", "panel": "p08-c02", "anchor": "content-start", "offsetSeconds": 0.05, "targetPeakDb": -18},
+    {"assetId": "tire-departure", "panel": "p08-c04", "anchor": "content-start", "offsetSeconds": 0.05, "targetPeakDb": -18}
+  ],
+  "supplementalFoleyPolicy": "Loquet/serrure/portières et tissus ponctuels peuvent être réalisés localement sans nouvelappelréseau ; conserver provenance procédurale exacte. Aucun bruitdevoix/respiration automatique.",
+  "humanListening": "not-performed"
+}

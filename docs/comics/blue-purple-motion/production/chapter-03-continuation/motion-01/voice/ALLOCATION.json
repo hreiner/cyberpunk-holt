@@ -1,0 +1,14 @@
+{
+  "status": "integrator-approved",
+  "date": "2026-11-07",
+  "initialCharacters": 3668,
+  "reserveCharacters": 917,
+  "newCharacterLimit": 4585,
+  "historicalCharacters": 3394,
+  "cumulativeCharacterLimit": 7979,
+  "authorization": "User requests complete post-approval voice/audio/animation delivery; root reviewed all62 English lines and approved allocation/casting.",
+  "directionSha256": "b0d5fed4598195650adf979e607431ca2df1c082dc7ac850206465772ce6b45f",
+  "castSha256": "92e9719590fd3d9c9d44d9744c42a72aec32e65d08805014d15b1a82ec42b4a5",
+  "actualCost": null,
+  "providerRequestIds": null
+}

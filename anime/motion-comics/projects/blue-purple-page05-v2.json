@@ -1,0 +1,533 @@
+{
+  "schemaVersion": 1,
+  "version": 2,
+  "title": "HOLT — Blue Purple · page 5 · révision 1",
+  "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-05/page-v2.png",
+  "overviewSeconds": 0.7,
+  "transitionSeconds": 0.3,
+  "gapSeconds": 0.1,
+  "outroSeconds": 0.5,
+  "panels": [
+    {
+      "id": "p05-c01",
+      "label": "Case 1 — Le signe",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 4,
+      "cues": [
+        {
+          "id": "bp-l024",
+          "globalLine": 24,
+          "speaker": "john",
+          "textFr": "Ça ne me plaît pas.",
+          "textEn": "I don't like this.",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/24-john-gain-+3.2db.wav",
+          "duration": 1.68,
+          "ttsText": "[low, wary] I don't like this.",
+          "ttsModel": "eleven_v4",
+          "performance": "Pressentiment adressé au groupe ; dur et méfiant, sans soupir.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/24-john-88d66c35f225.json"
+        }
+      ]
+    },
+    {
+      "id": "p05-c02",
+      "label": "Case 2 — Les fenêtres",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 4,
+      "cues": [
+        {
+          "id": "bp-l016",
+          "globalLine": 16,
+          "speaker": "wendy",
+          "textFr": "Éloignez-vous des fenêtres. Tout de suite.",
+          "textEn": "Away from the windows. Now.",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/16-wendy-cdc9a2eb5cf4.mp3",
+          "duration": 2.24,
+          "ttsText": "[urgent, low and firm] Away from the windows. [sharp] Now.",
+          "ttsModel": "eleven_v4",
+          "performance": "Ordre net et protecteur ; la seconde phrase coupe la sidération, sans hurler.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/16-wendy-cdc9a2eb5cf4.json"
+        }
+      ]
+    },
+    {
+      "id": "p05-c03",
+      "label": "Case 3 — John frappe",
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 6,
+      "cues": [
+        {
+          "id": "bp-l025",
+          "globalLine": 25,
+          "speaker": "john",
+          "textFr": "Pose ça.",
+          "textEn": "Put it down.",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/25-john-gain--0.4db.wav",
+          "duration": 1.36,
+          "gapSeconds": 0.75,
+          "ttsText": "[stern, warning] Put it down.",
+          "ttsModel": "eleven_v4",
+          "performance": "Sommation courte adressée au barman AVANT le coup ; ce n'est pas une réplique après KO.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/25-john-6a27bdb3fbef.json"
+        },
+        {
+          "id": "bp-l026",
+          "globalLine": 26,
+          "speaker": "grover",
+          "textFr": "John ! Ça suffit !",
+          "textEn": "John! That's enough!",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/26-grover-26cbc3af691c.mp3",
+          "duration": 1.68,
+          "ttsText": "[urgent, sharp] John! That's enough!",
+          "ttsModel": "eleven_v4",
+          "performance": "Grover coupe l'élan APRÈS un seul coup, pour repartir ; ne pas suggérer une série de coups.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/26-grover-26cbc3af691c.json"
+        }
+      ]
+    },
+    {
+      "id": "p05-c04",
+      "label": "Case 4 — Le tir",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 4.5,
+      "cues": [
+        {
+          "id": "bp-l027",
+          "globalLine": 27,
+          "speaker": "franklyn",
+          "textFr": "Abigail ! Le petit !",
+          "textEn": "Abigail! The kid!",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/27-franklyn-65014b904364.mp3",
+          "duration": 1.68,
+          "ttsText": "[shouts, alarmed] Abigail! The kid!",
+          "ttsModel": "eleven_v4",
+          "performance": "Franklyn se remet au service du groupe malgré son choc ; appelle Abigail à protéger l'enfant.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/27-franklyn-65014b904364.json"
+        },
+        {
+          "id": "bp-l017",
+          "globalLine": 17,
+          "speaker": "abigail",
+          "textFr": "À terre !",
+          "textEn": "Down!",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/17-abigail-3d61c3f2b3fd.mp3",
+          "duration": 0.96,
+          "ttsText": "[shouts, frightened] Down!",
+          "ttsModel": "eleven_v4",
+          "performance": "Cri réflexe pour protéger l'enfant ; bref, sans souffle ajouté.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/17-abigail-3d61c3f2b3fd.json"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "neon",
+      "panelId": "p05-c01",
+      "rect": [
+        0.76953125,
+        0.048177083333333336,
+        0.0927734375,
+        0.014973958333333334
+      ],
+      "color": "#d755ff",
+      "strength": 0.7,
+      "frequency": 0.85,
+      "phase": 2.38,
+      "softEdge": true
+    },
+    {
+      "type": "rain",
+      "panelId": "p05-c02",
+      "rect": [
+        0.25390625,
+        0.4134114583333333,
+        0.0751953125,
+        0.18098958333333334
+      ]
+    },
+    {
+      "type": "debris",
+      "panelId": "p05-c04",
+      "rect": [
+        0.7705078125,
+        0.74609375,
+        0.205078125,
+        0.2265625
+      ],
+      "count": 22,
+      "color": "#b7e7f7",
+      "strength": 0.7,
+      "clock": "story",
+      "startSeconds": 15.980000000000002,
+      "endSeconds": 18.1
+    },
+    {
+      "type": "rain",
+      "panelId": "p05-c04",
+      "rect": [
+        0.8056640625,
+        0.7317708333333334,
+        0.16796875,
+        0.103515625
+      ]
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-franklyn-face",
+      "rect": [
+        0.1142578125,
+        0.09440104166666667,
+        0.1416015625,
+        0.09309895833333333
+      ]
+    },
+    {
+      "id": "c1-franklyn-badge",
+      "rect": [
+        0.0263671875,
+        0.232421875,
+        0.083984375,
+        0.06901041666666667
+      ]
+    },
+    {
+      "id": "c1-wendy-face",
+      "rect": [
+        0.3212890625,
+        0.11197916666666667,
+        0.12109375,
+        0.08658854166666667
+      ]
+    },
+    {
+      "id": "c1-wendy-hand-paper",
+      "rect": [
+        0.3408203125,
+        0.224609375,
+        0.087890625,
+        0.059895833333333336
+      ]
+    },
+    {
+      "id": "c1-barman-head",
+      "rect": [
+        0.7109375,
+        0.06575520833333333,
+        0.0693359375,
+        0.057291666666666664
+      ]
+    },
+    {
+      "id": "c1-barman-hand-bat",
+      "rect": [
+        0.7880859375,
+        0.17057291666666666,
+        0.140625,
+        0.024739583333333332
+      ]
+    },
+    {
+      "id": "c2-wendy-face",
+      "rect": [
+        0.0986328125,
+        0.4680989583333333,
+        0.138671875,
+        0.09440104166666667
+      ]
+    },
+    {
+      "id": "c2-pursuer-head",
+      "rect": [
+        0.36328125,
+        0.4264322916666667,
+        0.068359375,
+        0.054036458333333336
+      ]
+    },
+    {
+      "id": "c2-pursuer-hand-weapon",
+      "rect": [
+        0.384765625,
+        0.5377604166666666,
+        0.0771484375,
+        0.039713541666666664
+      ]
+    },
+    {
+      "id": "c4-franklyn-face",
+      "rect": [
+        0.0732421875,
+        0.7486979166666666,
+        0.115234375,
+        0.07682291666666667
+      ]
+    },
+    {
+      "id": "c4-franklyn-hand",
+      "rect": [
+        0.0673828125,
+        0.8053385416666666,
+        0.0673828125,
+        0.044921875
+      ]
+    },
+    {
+      "id": "c4-child-face",
+      "rect": [
+        0.1357421875,
+        0.8470052083333334,
+        0.142578125,
+        0.07552083333333333
+      ]
+    },
+    {
+      "id": "c4-abigail-face",
+      "rect": [
+        0.3359375,
+        0.7838541666666666,
+        0.1318359375,
+        0.09765625
+      ]
+    },
+    {
+      "id": "c4-abigail-hand-child-shoulder",
+      "rect": [
+        0.2763671875,
+        0.892578125,
+        0.1083984375,
+        0.07096354166666667
+      ]
+    },
+    {
+      "id": "c4-abigail-badge",
+      "rect": [
+        0.4951171875,
+        0.8802083333333334,
+        0.0419921875,
+        0.051432291666666664
+      ]
+    },
+    {
+      "id": "balloon-1",
+      "rect": [
+        0.4716796875,
+        0.014322916666666666,
+        0.296875,
+        0.057291666666666664
+      ]
+    },
+    {
+      "id": "tail-1",
+      "rect": [
+        0.458984375,
+        0.006510416666666667,
+        0.056640625,
+        0.020182291666666668
+      ]
+    },
+    {
+      "id": "balloon-2",
+      "rect": [
+        0.02734375,
+        0.3463541666666667,
+        0.4453125,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "tail-2",
+      "rect": [
+        0.10546875,
+        0.3893229166666667,
+        0.0439453125,
+        0.024739583333333332
+      ]
+    },
+    {
+      "id": "balloon-3",
+      "rect": [
+        0.517578125,
+        0.34765625,
+        0.18359375,
+        0.044270833333333336
+      ]
+    },
+    {
+      "id": "tail-3",
+      "rect": [
+        0.66015625,
+        0.3821614583333333,
+        0.029296875,
+        0.050130208333333336
+      ]
+    },
+    {
+      "id": "balloon-4",
+      "rect": [
+        0.716796875,
+        0.34765625,
+        0.25390625,
+        0.044270833333333336
+      ]
+    },
+    {
+      "id": "tail-4",
+      "rect": [
+        0.953125,
+        0.3567708333333333,
+        0.03515625,
+        0.021484375
+      ]
+    },
+    {
+      "id": "balloon-5",
+      "rect": [
+        0.02734375,
+        0.6790364583333334,
+        0.296875,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "tail-5",
+      "rect": [
+        0.1220703125,
+        0.7213541666666666,
+        0.0302734375,
+        0.018880208333333332
+      ]
+    },
+    {
+      "id": "balloon-6",
+      "rect": [
+        0.349609375,
+        0.6809895833333334,
+        0.228515625,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "tail-6",
+      "rect": [
+        0.3984375,
+        0.7239583333333334,
+        0.03125,
+        0.037760416666666664
+      ]
+    }
+  ],
+  "motionLayers": [
+    {
+      "id": "john-punch-four-poses",
+      "panelId": "p05-c03",
+      "mode": "frames",
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "startSeconds": 9.6,
+      "endSeconds": 15.6,
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-01-preparation-v2.png"
+        },
+        {
+          "atSeconds": 1.48,
+          "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-02-contact.png"
+        },
+        {
+          "atSeconds": 1.6,
+          "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-03-recoil.png"
+        },
+        {
+          "atSeconds": 1.92,
+          "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-04-down.png"
+        }
+      ],
+      "impact": {
+        "atSeconds": 1.48,
+        "durationSeconds": 0.12,
+        "amplitudePx": 4
+      }
+    }
+  ],
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-05/page-raw-v2.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-05/lettering-v2.svg",
+  "review": {
+    "sampleTime": 2.2,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 250,
+    "minimumLiveChangedPixels": 200,
+    "perPanelReview": [
+      {
+        "panelId": "p05-c01",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "sampleTime": 2.2
+      },
+      {
+        "panelId": "p05-c02",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "sampleTime": 6.5
+      },
+      {
+        "panelId": "p05-c03",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "motionProofRequired": true,
+        "sampleTime": 10.8
+      },
+      {
+        "panelId": "p05-c04",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "sampleTime": 17.1
+      }
+    ]
+  },
+  "source": "docs/chapters/ch3/SCENARIO.md — Le piège au bar ; Le parking et la fuite ; docs/anime/SCREENPLAY.md — S02-P01 à S02-P05, adaptation provisoire ; docs/anime/MOTION-COMICS-PAGES-05-08-ORCHESTRATOR.md ; docs/comics/blue-purple-motion/production/pages-01-04/revision-03/STORYBOARD.md ; Retour utilisateur transmis par intégrateur le 2026-11-05 : John assomme explicitement le barman ; davantage de voix, SFX/musique et mouvements d'action dessinés.",
+  "provenance": {
+    "revision": 1,
+    "previousDelivery": "docs/comics/blue-purple-motion/production/pages-05-08/DELIVERY.md",
+    "contract": "docs/comics/blue-purple-motion/production/pages-05-08/revision-01/CONTRACTS.json",
+    "contractSha256": "4f94e18d93cdfd6fe7b89865f81076d0b0cb5eca773be5b4da19a740826d81ac",
+    "timing": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/timing-r1-v5.json",
+    "imageSha256": "d0e5c6ac1377ac399578fcaa08abc99fa939515e8f8ca55196a3d78e097875b9",
+    "soundtrack": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/soundtrack-v3/final-provenance.json",
+    "humanApproval": false,
+    "selectedFrom": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/candidates-stage1-v1/page-05.json",
+    "review": "docs/comics/blue-purple-motion/production/pages-05-08/revision-01/REVIEW.md",
+    "previousManifest": "blue-purple-page05-v1.json",
+    "humanListeningApproval": false
+  }
+}

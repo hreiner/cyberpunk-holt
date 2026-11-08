@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "date": "2026-11-05",
+  "scope": "Blue Purple pages 05–08 only",
+  "provider": "ImageGen built-in",
+  "initialBandCalls": 12,
+  "correctionReserveCalls": 4,
+  "maximumCallsIncludingFailures": 16,
+  "allocation": {
+    "integratorPages05And06": { "initial": 6, "reserve": 2 },
+    "artPages07And08": { "initial": 6, "reserve": 2 }
+  },
+  "preconditions": [
+    "Exact contracts and prompts independently reviewed before first submission",
+    "Input references actually inspected and attached",
+    "Unique attempt directory, exact prompt and inputs journaled before every call",
+    "Correction requires observed defect and targeted diagnostic",
+    "Inspect interrupted attempt and output before retry"
+  ],
+  "selection": "Pending detailed raw-image and lettering review, including hands and accessories",
+  "cost": "unknown",
+  "providerRequestIds": "unknown unless actually exposed"
+}

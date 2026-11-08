@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "convention": "Ancre unique partagée image/SFX ; root résout depuis TIMING.json mesuré.",
+  "anchors": [
+    {
+      "panelKey": "09-2",
+      "id": "terminalMap",
+      "at": "holdStart",
+      "offsetSeconds": 0.45
+    },
+    {
+      "panelKey": "12-2",
+      "id": "implantConfirm",
+      "at": "holdStart",
+      "offsetSeconds": 1
+    },
+    {
+      "panelKey": "15-2",
+      "id": "connector",
+      "at": "holdStart",
+      "offsetSeconds": 1
+    },
+    {
+      "panelKey": "15-3",
+      "id": "capsuleClose",
+      "at": "cueEnd",
+      "speaker": "franklyn",
+      "offsetSeconds": 0.15,
+      "fallbackHoldOffsetSeconds": 3
+    },
+    {
+      "panelKey": "16-1",
+      "id": "neuralUnlock",
+      "at": "holdStart",
+      "offsetSeconds": 0.55
+    },
+    {
+      "panelKey": "17-2",
+      "id": "oneShot",
+      "at": "holdStart",
+      "offsetSeconds": 0.05
+    },
+    {
+      "panelKey": "18-after",
+      "id": "residentImpact",
+      "at": "holdStart",
+      "offsetSeconds": 0.05
+    },
+    {
+      "panelKey": "20-3",
+      "id": "bodySplash",
+      "at": "holdStart",
+      "offsetSeconds": 0.05
+    },
+    {
+      "panelKey": "21-1",
+      "id": "refugeOpen",
+      "at": "nextPanelHoldStart",
+      "nextPanel": "21-2",
+      "offsetSeconds": 0.05
+    }
+  ]
+}

@@ -1,2 +1,7 @@
 # Git Bash needs LF even on Windows checkouts.
 *.sh text eol=lf
+
+# These production trees contain byte-level source locks and replayable manifests.
+# Preserve their SHA-256 across Windows/Linux checkouts.
+anime/motion-comics/** -text
+docs/comics/blue-purple-motion/** -text

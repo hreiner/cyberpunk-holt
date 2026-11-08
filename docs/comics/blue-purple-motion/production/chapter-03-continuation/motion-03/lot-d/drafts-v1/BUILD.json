@@ -1,0 +1,790 @@
+{
+  "status": "candidates-awaiting-visual-review",
+  "timingSha256": "6abefd967dee6b9b1a0b3c85d54c85fbf1d5ffbe8bc12294f5fc774fbea2a091",
+  "anchorsSha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+  "engineVersion": "1.3.0",
+  "pages": [
+    {
+      "page": 18,
+      "source": "anime/motion-comics/projects/blue-purple-page18-motion04.json",
+      "sourceSha256": "01a00a8d43a78270c58e1b0fc76e37b3ba723421dfe664863ab890519c8a540c",
+      "candidate": "anime/motion-comics/projects/blue-purple-page18-motion06.json",
+      "candidateSha256": "bc2f208424c3b0349ecebef161a3e6f4240c656adc62f015027ba300b31bea31",
+      "duration": 30.81666666666667,
+      "effects": 1,
+      "layers": 1,
+      "panelReveals": [
+        {
+          "panelId": "p18-c0after",
+          "atSeconds": 10.058333333333334
+        },
+        {
+          "panelId": "p18-c02",
+          "atSeconds": 13.116666666666667
+        },
+        {
+          "panelId": "p18-c03",
+          "atSeconds": 22.96666666666667
+        }
+      ]
+    },
+    {
+      "page": 19,
+      "source": "anime/motion-comics/projects/blue-purple-page19-motion04.json",
+      "sourceSha256": "c9cd60e638586cf41627db9a3ef996062828c152acc0e65738eb97d34036369f",
+      "candidate": "anime/motion-comics/projects/blue-purple-page19-motion06.json",
+      "candidateSha256": "b664b88a92a9c1e947cca17725d9d57fdd242bbef5b9a6a55ad10edb337dbb49",
+      "duration": 26.55,
+      "effects": 5,
+      "layers": 0,
+      "panelReveals": []
+    },
+    {
+      "page": 20,
+      "source": "anime/motion-comics/projects/blue-purple-page20-motion04.json",
+      "sourceSha256": "d1ae102a777c7c880f1c369545659dcb3c042f8b84d32110121f9740c73aa70c",
+      "candidate": "anime/motion-comics/projects/blue-purple-page20-motion06.json",
+      "candidateSha256": "cb7b941ffb4e1ecffae55ea6be270a2129e490890dbc221119752d7c14c96b13",
+      "duration": 22.383333333333333,
+      "effects": 4,
+      "layers": 1,
+      "panelReveals": [
+        {
+          "panelId": "p20-c03",
+          "atSeconds": 14.899999999999999
+        }
+      ]
+    },
+    {
+      "page": 21,
+      "source": "anime/motion-comics/projects/blue-purple-page21-motion04.json",
+      "sourceSha256": "190b063688be9553e49a7b49872fa91166efbfc7db9c9d117c24219c276c8b9e",
+      "candidate": "anime/motion-comics/projects/blue-purple-page21-motion06.json",
+      "candidateSha256": "f1a1f16ed2b2afab8a419d7efeffcd5b4622face55c9edeb54ca9932b4a253c4",
+      "duration": 26.508333333333333,
+      "effects": 4,
+      "layers": 2,
+      "panelReveals": []
+    }
+  ],
+  "cells": [
+    {
+      "page": 18,
+      "panelKey": "18-1",
+      "start": 2,
+      "ready": 2.85,
+      "end": 10.058333333333334,
+      "effects": [],
+      "layers": [],
+      "reveal": null
+    },
+    {
+      "page": 18,
+      "panelKey": "18-after",
+      "start": 10.058333333333334,
+      "ready": 10.908333333333333,
+      "end": 13.116666666666667,
+      "effects": [],
+      "layers": [],
+      "reveal": 10.058333333333334
+    },
+    {
+      "page": 18,
+      "panelKey": "18-2",
+      "start": 13.116666666666667,
+      "ready": 13.966666666666667,
+      "end": 22.96666666666667,
+      "effects": [],
+      "layers": [
+        "bolt-slides-fingers-fixed"
+      ],
+      "reveal": 13.116666666666667
+    },
+    {
+      "page": 18,
+      "panelKey": "18-3",
+      "start": 22.96666666666667,
+      "ready": 23.81666666666667,
+      "end": 29.31666666666667,
+      "effects": [
+        {
+          "type": "lightSweep",
+          "panelId": "p18-c03",
+          "rect": [
+            0.736328125,
+            0.962890625,
+            0.0703125,
+            0.020182291666666668
+          ],
+          "clipPolygon": [
+            [
+              0.736328125,
+              0.962890625
+            ],
+            [
+              0.806640625,
+              0.962890625
+            ],
+            [
+              0.806640625,
+              0.9830729166666666
+            ],
+            [
+              0.736328125,
+              0.9830729166666666
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 24.01666666666667,
+          "endSeconds": 26.81666666666667,
+          "envelope": {
+            "attackSeconds": 0.45,
+            "releaseSeconds": 1.1
+          },
+          "color": "#557a9a",
+          "strength": 0.35,
+          "amplitude": 16,
+          "speed": 0.9,
+          "phase": -1.35
+        }
+      ],
+      "layers": [],
+      "reveal": 22.96666666666667
+    },
+    {
+      "page": 19,
+      "panelKey": "19-1",
+      "start": 2,
+      "ready": 2.85,
+      "end": 10.35,
+      "effects": [
+        {
+          "type": "neon",
+          "panelId": "p19-c01",
+          "rect": [
+            0.9169921875,
+            0.08528645833333333,
+            0.0107421875,
+            0.23958333333333334
+          ],
+          "clipPolygon": [
+            [
+              0.91796875,
+              0.08854166666666667
+            ],
+            [
+              0.927734375,
+              0.08528645833333333
+            ],
+            [
+              0.927734375,
+              0.3248697916666667
+            ],
+            [
+              0.9169921875,
+              0.322265625
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 3.0500000000000003,
+          "endSeconds": 4.9,
+          "envelope": {
+            "attackSeconds": 0.35,
+            "releaseSeconds": 0.65
+          },
+          "color": "#69d5f1",
+          "strength": 0.26,
+          "frequency": 0.28,
+          "phase": -1.1,
+          "softEdge": true
+        }
+      ],
+      "layers": [],
+      "reveal": null
+    },
+    {
+      "page": 19,
+      "panelKey": "19-2",
+      "start": 10.35,
+      "ready": 11.2,
+      "end": 18.7,
+      "effects": [
+        {
+          "type": "reflection",
+          "panelId": "p19-c02",
+          "rect": [
+            0.052734375,
+            0.3938802083333333,
+            0.1318359375,
+            0.23111979166666666
+          ],
+          "clipPolygon": [
+            [
+              0.052734375,
+              0.3938802083333333
+            ],
+            [
+              0.1845703125,
+              0.3938802083333333
+            ],
+            [
+              0.1845703125,
+              0.625
+            ],
+            [
+              0.052734375,
+              0.625
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 11.2,
+          "endSeconds": 18.349999999999998,
+          "envelope": {
+            "attackSeconds": 0.9,
+            "releaseSeconds": 1.5
+          },
+          "color": "#69aabb",
+          "strength": 0.24,
+          "frequency": 0.18,
+          "phase": -0.45,
+          "softEdge": true
+        }
+      ],
+      "layers": [],
+      "reveal": null
+    },
+    {
+      "page": 19,
+      "panelKey": "19-3",
+      "start": 18.7,
+      "ready": 19.55,
+      "end": 25.05,
+      "effects": [
+        {
+          "type": "rain",
+          "panelId": "p19-c03",
+          "rect": [
+            0.2587890625,
+            0.6744791666666666,
+            0.119140625,
+            0.0859375
+          ],
+          "clipPolygon": [
+            [
+              0.2587890625,
+              0.6744791666666666
+            ],
+            [
+              0.37109375,
+              0.6744791666666666
+            ],
+            [
+              0.3779296875,
+              0.7604166666666666
+            ],
+            [
+              0.3369140625,
+              0.7591145833333334
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 19.55,
+          "endSeconds": 24.970000000000002,
+          "envelope": {
+            "attackSeconds": 0.25,
+            "releaseSeconds": 0.65
+          },
+          "rainFlow": true,
+          "count": 19,
+          "speed": 0.55,
+          "strength": 0.45
+        },
+        {
+          "type": "neon",
+          "panelId": "p19-c03",
+          "rect": [
+            0.4248046875,
+            0.775390625,
+            0.0361328125,
+            0.020182291666666668
+          ],
+          "clipPolygon": [
+            [
+              0.4248046875,
+              0.775390625
+            ],
+            [
+              0.4609375,
+              0.775390625
+            ],
+            [
+              0.4609375,
+              0.7955729166666666
+            ],
+            [
+              0.4248046875,
+              0.7955729166666666
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 19.8,
+          "endSeconds": 21.55,
+          "envelope": {
+            "attackSeconds": 0.42,
+            "releaseSeconds": 0.65
+          },
+          "color": "#54ef93",
+          "strength": 0.38,
+          "frequency": 0.45,
+          "phase": -1.57,
+          "softEdge": true
+        },
+        {
+          "type": "wave",
+          "panelId": "p19-c03",
+          "rect": [
+            0.7373046875,
+            0.978515625,
+            0.2431640625,
+            0.012369791666666666
+          ],
+          "clipPolygon": [
+            [
+              0.7529296875,
+              0.978515625
+            ],
+            [
+              0.904296875,
+              0.978515625
+            ],
+            [
+              0.98046875,
+              0.9908854166666666
+            ],
+            [
+              0.7373046875,
+              0.9908854166666666
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 19.55,
+          "endSeconds": 24.970000000000002,
+          "envelope": {
+            "attackSeconds": 0.22,
+            "releaseSeconds": 0.55
+          },
+          "color": "#72bfd0",
+          "strength": 0.35,
+          "amplitude": 1.1,
+          "speed": 0.45,
+          "count": 3
+        }
+      ],
+      "layers": [],
+      "reveal": null
+    },
+    {
+      "page": 20,
+      "panelKey": "20-1",
+      "start": 2,
+      "ready": 2.85,
+      "end": 8.35,
+      "effects": [
+        {
+          "type": "wave",
+          "panelId": "p20-c01",
+          "rect": [
+            0.3916015625,
+            0.2786458333333333,
+            0.595703125,
+            0.051432291666666664
+          ],
+          "clipPolygon": [
+            [
+              0.3916015625,
+              0.3287760416666667
+            ],
+            [
+              0.638671875,
+              0.2955729166666667
+            ],
+            [
+              0.9873046875,
+              0.2786458333333333
+            ],
+            [
+              0.9873046875,
+              0.330078125
+            ],
+            [
+              0.3916015625,
+              0.330078125
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 2.85,
+          "endSeconds": 8.27,
+          "envelope": {
+            "attackSeconds": 0.45,
+            "releaseSeconds": 0.65
+          },
+          "color": "#89cfdf",
+          "strength": 0.57,
+          "amplitude": 3.2,
+          "speed": 0.55,
+          "count": 5
+        }
+      ],
+      "layers": [],
+      "reveal": null
+    },
+    {
+      "page": 20,
+      "panelKey": "20-2",
+      "start": 8.35,
+      "ready": 9.2,
+      "end": 13.7,
+      "effects": [
+        {
+          "type": "wave",
+          "panelId": "p20-c02",
+          "rect": [
+            0.921875,
+            0.4733072916666667,
+            0.0654296875,
+            0.14322916666666666
+          ],
+          "clipPolygon": [
+            [
+              0.923828125,
+              0.4817708333333333
+            ],
+            [
+              0.9873046875,
+              0.4733072916666667
+            ],
+            [
+              0.9873046875,
+              0.6165364583333334
+            ],
+            [
+              0.9541015625,
+              0.6119791666666666
+            ],
+            [
+              0.9443359375,
+              0.5748697916666666
+            ],
+            [
+              0.921875,
+              0.5423177083333334
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 9.2,
+          "endSeconds": 13.62,
+          "envelope": {
+            "attackSeconds": 0.28,
+            "releaseSeconds": 0.5
+          },
+          "color": "#8cd0e3",
+          "strength": 0.64,
+          "amplitude": 3.8,
+          "speed": 0.75,
+          "count": 5
+        }
+      ],
+      "layers": [],
+      "reveal": null
+    },
+    {
+      "page": 20,
+      "panelKey": "20-3",
+      "start": 13.7,
+      "ready": 14.549999999999999,
+      "end": 20.883333333333333,
+      "effects": [
+        {
+          "type": "wave",
+          "panelId": "p20-c03",
+          "rect": [
+            0.6025390625,
+            0.9264322916666666,
+            0.384765625,
+            0.06510416666666667
+          ],
+          "clipPolygon": [
+            [
+              0.62890625,
+              0.9654947916666666
+            ],
+            [
+              0.7724609375,
+              0.9446614583333334
+            ],
+            [
+              0.9873046875,
+              0.9264322916666666
+            ],
+            [
+              0.9873046875,
+              0.9915364583333334
+            ],
+            [
+              0.6025390625,
+              0.9915364583333334
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 14.899999999999999,
+          "endSeconds": 20.763333333333332,
+          "envelope": {
+            "attackSeconds": 0.22,
+            "releaseSeconds": 0.55
+          },
+          "color": "#86cde0",
+          "strength": 0.52,
+          "amplitude": 2.8,
+          "speed": 0.62,
+          "count": 5
+        },
+        {
+          "type": "ripple",
+          "panelId": "p20-c03",
+          "rect": [
+            0.7041015625,
+            0.9446614583333334,
+            0.23046875,
+            0.037760416666666664
+          ],
+          "clipPolygon": [
+            [
+              0.7041015625,
+              0.9446614583333334
+            ],
+            [
+              0.9345703125,
+              0.9446614583333334
+            ],
+            [
+              0.9345703125,
+              0.982421875
+            ],
+            [
+              0.7041015625,
+              0.982421875
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 15.419999999999998,
+          "endSeconds": 16.72,
+          "envelope": {
+            "attackSeconds": 0.05,
+            "releaseSeconds": 0.35
+          },
+          "color": "#a0e0ef",
+          "strength": 0.42,
+          "count": 3,
+          "speed": 0.7
+        }
+      ],
+      "layers": [
+        "released-man-gravity-water-occlusion"
+      ],
+      "reveal": 14.899999999999999
+    },
+    {
+      "page": 21,
+      "panelKey": "21-1",
+      "start": 2,
+      "ready": 2.85,
+      "end": 9.85,
+      "effects": [
+        {
+          "type": "lightSweep",
+          "panelId": "p21-c01",
+          "rect": [
+            0.7216796875,
+            0.054036458333333336,
+            0.0078125,
+            0.203125
+          ],
+          "clipPolygon": [
+            [
+              0.72265625,
+              0.0546875
+            ],
+            [
+              0.7294921875,
+              0.054036458333333336
+            ],
+            [
+              0.7294921875,
+              0.2571614583333333
+            ],
+            [
+              0.7216796875,
+              0.255859375
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 3,
+          "endSeconds": 3.6,
+          "envelope": {
+            "attackSeconds": 0.08,
+            "releaseSeconds": 0.22
+          },
+          "color": "#9baab2",
+          "strength": 0.18,
+          "amplitude": 8,
+          "speed": 0.6
+        }
+      ],
+      "layers": [
+        "double-leaf-door-original-foreground"
+      ],
+      "reveal": null
+    },
+    {
+      "page": 21,
+      "panelKey": "21-2",
+      "start": 9.85,
+      "ready": 10.7,
+      "end": 16.325,
+      "effects": [
+        {
+          "type": "particles",
+          "panelId": "p21-c02",
+          "rect": [
+            0.7177734375,
+            0.4173177083333333,
+            0.2490234375,
+            0.19596354166666666
+          ],
+          "clipPolygon": [
+            [
+              0.7255859375,
+              0.4303385416666667
+            ],
+            [
+              0.9423828125,
+              0.4173177083333333
+            ],
+            [
+              0.966796875,
+              0.6126302083333334
+            ],
+            [
+              0.7177734375,
+              0.61328125
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 10.7,
+          "endSeconds": 16.125,
+          "envelope": {
+            "attackSeconds": 0.8,
+            "releaseSeconds": 1.2
+          },
+          "color": "#c6ccd1",
+          "strength": 0.21,
+          "count": 9,
+          "speed": 0.22
+        },
+        {
+          "type": "ripple",
+          "panelId": "p21-c02",
+          "rect": [
+            0.7744140625,
+            0.6295572916666666,
+            0.0859375,
+            0.015625
+          ],
+          "clipPolygon": [
+            [
+              0.7744140625,
+              0.6295572916666666
+            ],
+            [
+              0.8603515625,
+              0.6295572916666666
+            ],
+            [
+              0.8603515625,
+              0.6451822916666666
+            ],
+            [
+              0.7744140625,
+              0.6451822916666666
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 12.7,
+          "endSeconds": 14,
+          "envelope": {
+            "attackSeconds": 0.1,
+            "releaseSeconds": 0.45
+          },
+          "color": "#9aaebd",
+          "strength": 0.23,
+          "count": 1
+        }
+      ],
+      "layers": [],
+      "reveal": null
+    },
+    {
+      "page": 21,
+      "panelKey": "21-3",
+      "start": 16.325,
+      "ready": 17.175,
+      "end": 25.008333333333333,
+      "effects": [
+        {
+          "type": "neon",
+          "panelId": "p21-c03",
+          "rect": [
+            0.3125,
+            0.7578125,
+            0.017578125,
+            0.014322916666666666
+          ],
+          "clipPolygon": [
+            [
+              0.3125,
+              0.7578125
+            ],
+            [
+              0.330078125,
+              0.7578125
+            ],
+            [
+              0.330078125,
+              0.7721354166666666
+            ],
+            [
+              0.3125,
+              0.7721354166666666
+            ]
+          ],
+          "clock": "story",
+          "startSeconds": 17.175,
+          "endSeconds": 22.175,
+          "envelope": {
+            "attackSeconds": 0.6,
+            "releaseSeconds": 0.85
+          },
+          "color": "#e95545",
+          "strength": 0.3,
+          "frequency": 0.26,
+          "phase": -1.4,
+          "softEdge": true
+        }
+      ],
+      "layers": [
+        "last-red-indicator-extinguished"
+      ],
+      "reveal": null
+    }
+  ]
+}

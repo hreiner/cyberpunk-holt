@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-07",
+  "status": "mixed-awaiting-integrator-review",
+  "backingPages09To21": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/soundtrack-v2/backing-pages09-21.wav",
+  "backingFull": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/soundtrack-v2/backing-full.wav",
+  "mixReport": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/soundtrack-v2/report.json",
+  "previewAac": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/soundtrack-v2/preview-renderer-stereo-aac.m4a",
+  "durationSeconds": 219.4022222222222,
+  "fullDurationSeconds": 446.0022222222222,
+  "prefixPages01To04ExactPcm": true,
+  "legacyPages05To08DurationSeconds": 82,
+  "legacySelection": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/legacy-v2/report.json",
+  "newSoundSelection": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/sfx-prepared-v1/report.json",
+  "localSoundSelection": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/local-v1/report.json",
+  "newSfxRequests": 4,
+  "newRequestedSeconds": 16,
+  "cumulativeSfxRequests": 10,
+  "cumulativeRequestedSeconds": 36,
+  "reserveRequests": 2,
+  "reserveRequestedSeconds": 8,
+  "actualCost": null,
+  "providerRequestIds": null,
+  "selections": [
+    {
+      "id": "capsule-close",
+      "anchor": "capsuleClose",
+      "trimStart": 0.195,
+      "duration": 1.95,
+      "gainDb": 0,
+      "speechMultiplier": 0.85,
+      "rationale": "Retirer l'amorce et la fin presque silencieuses ; garder les deux matières de la fermeture et du joint. Un seul cycle, pas rejoué."
+    },
+    {
+      "id": "elevator-travel",
+      "anchor": "panel12-3",
+      "trimStart": 0,
+      "duration": 4,
+      "gainDb": 3,
+      "speechMultiplier": 0.72,
+      "rationale": "Matière cabine devant la ventilation mais sous Grover/enfant ; source réemployée au retour19.2 à un gain distinct."
+    },
+    {
+      "id": "single-shot-metal",
+      "anchor": "oneShot",
+      "trimStart": 0,
+      "duration": 1.7,
+      "gainDb": 0,
+      "speechMultiplier": 0.7,
+      "rationale": "Une attaque unique à0, décroissance vers quasi-silence ; retrait de la fin du MP3 non utile, aucun second tir."
+    },
+    {
+      "id": "body-water-splash",
+      "anchor": "bodySplash",
+      "trimStart": 0,
+      "duration": 3.2,
+      "gainDb": 0,
+      "speechMultiplier": 0.72,
+      "rationale": "Attaque d'eau à0, large matière et retombées conservées ; fin quasi-silencieuse retirée, sans cri ajouté."
+    }
+  ],
+  "sourcePolicy": "Sources et anciennes livraisons conservées ; trims et gains dans le mix uniquement.",
+  "channelPolicy": "Mono voix => duplication L/R unity pan explicite, stéréo source préservée ; AAC2canaux192k, même chemin lecteur/export.",
+  "humanListening": "not-performed"
+}

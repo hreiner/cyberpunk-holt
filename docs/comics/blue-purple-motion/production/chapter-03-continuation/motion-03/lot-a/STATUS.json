@@ -1,0 +1,395 @@
+{
+  "status": "implemented-and-reviewed-by-production-agent",
+  "date": "2026-11-08",
+  "scope": "pages09-13",
+  "proof": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/qa-v4-final/report.json",
+  "proofSha256": "c696400a5e7ba6f6fd48c2ccc980d7e1091c2ea2c7f759fe875c5eb84a6a5b04",
+  "sourcePreservation": true,
+  "engineStable": true,
+  "candidateHashes": [
+    {
+      "page": 9,
+      "file": "anime/motion-comics/projects/blue-purple-page09-motion06.json",
+      "sha256": "a6c5fde2662d534b9a4b1f33cdf996ab2e7d5224f9a6f365fa3219fc83a2ce0b"
+    },
+    {
+      "page": 10,
+      "file": "anime/motion-comics/projects/blue-purple-page10-motion06.json",
+      "sha256": "3c1135e827046fef2ee30883ba476647ff566fcf5c5a6390069c7cfcb9ad02cf"
+    },
+    {
+      "page": 11,
+      "file": "anime/motion-comics/projects/blue-purple-page11-motion06.json",
+      "sha256": "9d61e799913df055cac86920b206a2cd926bfd3b3bf7715b5aae279a10cedc0d"
+    },
+    {
+      "page": 12,
+      "file": "anime/motion-comics/projects/blue-purple-page12-motion06.json",
+      "sha256": "995e1166fc6532b7cc677092514f533cd07d842fb0bb7d414c7e904a799d0072"
+    },
+    {
+      "page": 13,
+      "file": "anime/motion-comics/projects/blue-purple-page13-motion06.json",
+      "sha256": "84365c6a85051e10ece7ba31193bb531f017a3f13e5017ad034ebeb0be1e400f"
+    }
+  ],
+  "cases": [
+    {
+      "key": "09-1",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p9-09-1-phase-0.png",
+          "localTime": 3.85
+        },
+        {
+          "file": "p9-09-1-phase-1.png",
+          "localTime": 4.55
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Corps et voiture restaurés, flux limité à la profondeur et au sol libre."
+    },
+    {
+      "key": "09-2",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p9-09-2-phase-0.png",
+          "localTime": 10.941666666666666
+        },
+        {
+          "file": "p9-09-2-phase-1.png",
+          "localTime": 11.491666666666667
+        },
+        {
+          "file": "p9-09-2-phase-2.png",
+          "localTime": 12.041666666666668
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Pas de carte ajoutée ; masque SVG limité à la vitre, doigts et cadre inchangés."
+    },
+    {
+      "key": "09-3",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p9-09-3-phase-0.png",
+          "localTime": 17.791666666666668
+        },
+        {
+          "file": "p9-09-3-phase-1.png",
+          "localTime": 19.19166666666667
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Geste de Grover conservé intégralement."
+    },
+    {
+      "key": "10-1",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p10-10-1-phase-0.png",
+          "localTime": 3.85
+        },
+        {
+          "file": "p10-10-1-phase-1.png",
+          "localTime": 4.65
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Voiture/roues/ombre inchangées, aucun trajet factice."
+    },
+    {
+      "key": "10-2 gauche",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p10-10-2_gauche-phase-0.png",
+          "localTime": 10.2
+        },
+        {
+          "file": "p10-10-2_gauche-phase-1.png",
+          "localTime": 10.899999999999999
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Aucun déplacement des personnages ou de la foule."
+    },
+    {
+      "key": "10-2 droite",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p10-10-2_droite-phase-0.png",
+          "localTime": 9.45
+        },
+        {
+          "file": "p10-10-2_droite-phase-1.png",
+          "localTime": 9.85
+        },
+        {
+          "file": "p10-10-2_droite-phase-2.png",
+          "localTime": 10.45
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Caméra fixe et foule rigide ; accent de lampe séparé de la moitié gauche."
+    },
+    {
+      "key": "10-3 gauche",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p10-10-3_gauche-phase-0.png",
+          "localTime": 19.758333333333333
+        },
+        {
+          "file": "p10-10-3_gauche-phase-1.png",
+          "localTime": 20.558333333333334
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Main sur l’épaule, enfant et toutes les silhouettes fixes."
+    },
+    {
+      "key": "10-3 droite",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p10-10-3_droite-phase-0.png",
+          "localTime": 19.258333333333333
+        },
+        {
+          "file": "p10-10-3_droite-phase-1.png",
+          "localTime": 19.65833333333333
+        },
+        {
+          "file": "p10-10-3_droite-phase-2.png",
+          "localTime": 20.208333333333332
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Aucune lumière sur le visage, bras croisés et appareil immobiles."
+    },
+    {
+      "key": "11-1",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p11-11-1-phase-0.png",
+          "localTime": 3.4000000000000004
+        },
+        {
+          "file": "p11-11-1-phase-1.png",
+          "localTime": 4.3
+        },
+        {
+          "file": "p11-11-1-phase-2.png",
+          "localTime": 5.25
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Vapeur contenue hors geste de Grover et hors appuis des gardiens."
+    },
+    {
+      "key": "11-2",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p11-11-2-phase-0.png",
+          "localTime": 10.7
+        },
+        {
+          "file": "p11-11-2-phase-1.png",
+          "localTime": 11.5
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Bottes, barrière et main du gardien restent fixes."
+    },
+    {
+      "key": "11-3a",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p11-11-3a-phase-0.png",
+          "localTime": 16.215
+        },
+        {
+          "file": "p11-11-3a-phase-1.png",
+          "localTime": 16.305
+        },
+        {
+          "file": "p11-11-3a-phase-2.png",
+          "localTime": 17.175
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Montage franc, aucune interpolation de corps."
+    },
+    {
+      "key": "11-3b",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p11-11-3b-phase-0.png",
+          "localTime": 22.565
+        },
+        {
+          "file": "p11-11-3b-phase-1.png",
+          "localTime": 22.655
+        },
+        {
+          "file": "p11-11-3b-phase-2.png",
+          "localTime": 23.525000000000002
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Tenue calme voulue pendant le désaccord, toutes les mains intactes."
+    },
+    {
+      "key": "12-1",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p12-12-1-phase-0.png",
+          "localTime": 3.1
+        },
+        {
+          "file": "p12-12-1-phase-1.png",
+          "localTime": 3.6
+        },
+        {
+          "file": "p12-12-1-phase-2.png",
+          "localTime": 4.65
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Aucune ouverture de porte ou confirmation anticipée."
+    },
+    {
+      "key": "12-2",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p12-12-2-phase-0.png",
+          "localTime": 12.725
+        },
+        {
+          "file": "p12-12-2-phase-1.png",
+          "localTime": 12.995
+        },
+        {
+          "file": "p12-12-2-phase-2.png",
+          "localTime": 13.454999999999998
+        },
+        {
+          "file": "p12-12-2-phase-3.png",
+          "localTime": 13.924999999999999
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Petit ovale de matière lumineuse ; peau, doigt et crâne non déplacés."
+    },
+    {
+      "key": "12-3",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p12-12-3-phase-0.png",
+          "localTime": 19.775
+        },
+        {
+          "file": "p12-12-3-phase-1.png",
+          "localTime": 21.275
+        },
+        {
+          "file": "p12-12-3-phase-2.png",
+          "localTime": 24.783333333333335
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Deux balayages justifiés par le métal de la cabine ; groupe et plafond restent fixes."
+    },
+    {
+      "key": "13-1",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p13-13-1-phase-0.png",
+          "localTime": 3.25
+        },
+        {
+          "file": "p13-13-1-phase-1.png",
+          "localTime": 3.5300000000000002
+        },
+        {
+          "file": "p13-13-1-phase-2.png",
+          "localTime": 4.05
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Aucune déformation de tempe, de doigt ou de coiffure."
+    },
+    {
+      "key": "13-2",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p13-13-2-phase-0.png",
+          "localTime": 10.183333333333334
+        },
+        {
+          "file": "p13-13-2-phase-1.png",
+          "localTime": 10.633333333333333
+        },
+        {
+          "file": "p13-13-2-phase-2.png",
+          "localTime": 11.083333333333334
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Surlignage de la ligne existante, aucun déplacement du doigt ni étage ajouté."
+    },
+    {
+      "key": "13-2-detail",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p13-13-2-detail-phase-0.png",
+          "localTime": 16.233333333333334
+        },
+        {
+          "file": "p13-13-2-detail-phase-1.png",
+          "localTime": 16.633333333333333
+        },
+        {
+          "file": "p13-13-2-detail-phase-2.png",
+          "localTime": 17.053333333333335
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "Poursuite géométrique de la gauche, sans nouveau bip ni balayage autonome."
+    },
+    {
+      "key": "13-3",
+      "status": "implemented-verified",
+      "proofs": [
+        {
+          "file": "p13-13-3-phase-0.png",
+          "localTime": 20.683333333333334
+        },
+        {
+          "file": "p13-13-3-phase-1.png",
+          "localTime": 22.083333333333336
+        }
+      ],
+      "rigidChangedPixels": 0,
+      "limitation": "La lumière chaude est tenue ; les acteurs dessinés marchant ne glissent pas."
+    }
+  ],
+  "paidCalls": 0
+}

@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "status": "candidate-lot-reviewed-ready-for-root-integration",
+  "globalSelectionOwner": "root",
+  "pages": [
+    {
+      "page": 18,
+      "source": "anime/motion-comics/projects/blue-purple-page18-motion04.json",
+      "sourceSha256": "01a00a8d43a78270c58e1b0fc76e37b3ba723421dfe664863ab890519c8a540c",
+      "candidate": "anime/motion-comics/projects/blue-purple-page18-motion06.json",
+      "candidateSha256": "4b0d80381e60a04bb41be54cd25b8288e9090f26dfdfeb24c760b667035cb1c1",
+      "duration": 30.81666666666667,
+      "effects": 1,
+      "layers": 1,
+      "panelReveals": [
+        {
+          "panelId": "p18-c0after",
+          "atSeconds": 10.058333333333334
+        },
+        {
+          "panelId": "p18-c02",
+          "atSeconds": 13.116666666666667
+        },
+        {
+          "panelId": "p18-c03",
+          "atSeconds": 22.96666666666667
+        }
+      ]
+    },
+    {
+      "page": 19,
+      "source": "anime/motion-comics/projects/blue-purple-page19-motion04.json",
+      "sourceSha256": "c9cd60e638586cf41627db9a3ef996062828c152acc0e65738eb97d34036369f",
+      "candidate": "anime/motion-comics/projects/blue-purple-page19-motion06.json",
+      "candidateSha256": "bb7994d3df780561f0339afe78f1248c6fa00f3b4846ab375c1733156f381024",
+      "duration": 26.55,
+      "effects": 5,
+      "layers": 0,
+      "panelReveals": []
+    },
+    {
+      "page": 20,
+      "source": "anime/motion-comics/projects/blue-purple-page20-motion04.json",
+      "sourceSha256": "d1ae102a777c7c880f1c369545659dcb3c042f8b84d32110121f9740c73aa70c",
+      "candidate": "anime/motion-comics/projects/blue-purple-page20-motion06.json",
+      "candidateSha256": "5858ec9b44881ab9346eef783b04d1b6ac8c23a22d81329af2ceb2621c9e6396",
+      "duration": 22.383333333333333,
+      "effects": 4,
+      "layers": 1,
+      "panelReveals": [
+        {
+          "panelId": "p20-c03",
+          "atSeconds": 14.899999999999999
+        }
+      ]
+    },
+    {
+      "page": 21,
+      "source": "anime/motion-comics/projects/blue-purple-page21-motion04.json",
+      "sourceSha256": "190b063688be9553e49a7b49872fa91166efbfc7db9c9d117c24219c276c8b9e",
+      "candidate": "anime/motion-comics/projects/blue-purple-page21-motion06.json",
+      "candidateSha256": "10aa245264f3f6b8612440f302e9fc89d69ea7172c665b5de8398478c17d9002",
+      "duration": 26.508333333333333,
+      "effects": 4,
+      "layers": 2,
+      "panelReveals": []
+    }
+  ],
+  "cells": 13,
+  "timingSha256": "6abefd967dee6b9b1a0b3c85d54c85fbf1d5ffbe8bc12294f5fc774fbea2a091",
+  "anchorsFile": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+  "anchorsSha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+  "finalAssetDirectory": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5",
+  "runtimeFiles": [
+    {
+      "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/candidates-v1.json",
+      "sha256": "1bed536d1ad023cba466bf2463d50019efba33e740e35fd8816f6ae854fd2624"
+    },
+    {
+      "file": "anime/motion-comics/projects/blue-purple-page18-motion06.json",
+      "sha256": "4b0d80381e60a04bb41be54cd25b8288e9090f26dfdfeb24c760b667035cb1c1"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/page.png",
+      "sha256": "e27facc490b880b078cfa4466b89a59bc709ba01b36128ad407924512401be4e"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/art.png",
+      "sha256": "481c92cefb8f57b10f63f7529ecda9ac12d29c8e2a52eb661964ec9805a63345"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lettering-18.png",
+      "sha256": "f3fd8dcc2a8b25e62ecda7f49e63b9fcbcf863e4cf3fa3e38fd09583f1872bb0"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/079-habitante-gain--0.415db.wav",
+      "sha256": "0f3cf6505796a1aeb19b309870ada927c18f4d47665ef373ba8a8e5537119117"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/080-john-gain-+0.098db.wav",
+      "sha256": "c8954779e4da7d5205f813014b4b7b1647d10a0636ecd43f9513a099a7f4f3bc"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/081-enfant-gain-+7.369db.wav",
+      "sha256": "d4fa977ca49e5a433ad21dd1488e02c79a7cab314038c63e46a390412a7834f4"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/082-john-gain-+2.870db.wav",
+      "sha256": "4d27be6d70cc8edc78281c206178c806ef0f5e0185c96062d2231276c6d3bf76"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/083-grover-gain-+5.885db.wav",
+      "sha256": "5de57d1d3d18c25b9759a24b8cb3852fef6f96699ab777476dbf074da1ad08fb"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/084-abigail-gain-+5.569db.wav",
+      "sha256": "d96700454313b16cf4d1c4283fe2d8f7b14c638b6b6cf3b21180692bfd2ea33a"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-00.png",
+      "sha256": "52cfc0f567867d74b35e0d14d3cc7aed234c49412745f973d17a0403b86a43a6"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-01.png",
+      "sha256": "52cfc0f567867d74b35e0d14d3cc7aed234c49412745f973d17a0403b86a43a6"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-02.png",
+      "sha256": "61f5706d3cc83534d16074b9aaf6ed8fc7f72ecfe06e8816404efdc67d7dd46a"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-03.png",
+      "sha256": "130db3790b1fdcfff43d487308e711f383cbf4b5111dc02ed1e408cda9962791"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-04.png",
+      "sha256": "0089d4ef999db9933e22e087705acea506267794b6feab6da87d92d0673bee7d"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-05.png",
+      "sha256": "296f71611805cd3c4eed8bfe56aa9a1bd57b944e46e6750219539e5b3c285f8c"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lock-06.png",
+      "sha256": "cff4d22642cf760beb0711143def363bd2352b39067c643a3aad9d5e919c1e37"
+    },
+    {
+      "file": "anime/motion-comics/projects/blue-purple-page19-motion06.json",
+      "sha256": "bb7994d3df780561f0339afe78f1248c6fa00f3b4846ab375c1733156f381024"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-19/page.png",
+      "sha256": "b9edb5a7fecf376167f80dee1f4c63542b25b9798690a8fc8a36e10293fb3f54"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-19/art.png",
+      "sha256": "6e7a6997c0973fe1f1196ddcdfab22aa9046952f8ea48b92622de58ac3d9d4f3"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lettering-19.png",
+      "sha256": "a7647717215ae08a0d63f26c6196a3494c76def1f93774d5547211b59c763378"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/085-grover-gain-+5.674db.wav",
+      "sha256": "7327e4c28f9814c4b65b1dcf783fd4038a5e96f5847150f89b9b72b74fb043d9"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/086-wendy-gain-+3.337db.wav",
+      "sha256": "91cbfea4a78f08178301f71d7cae1e5dcd14cd9a89ad1f187d4e6f307e8350d5"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/087-john-gain-+3.204db.wav",
+      "sha256": "9d1367fa52229e2a86fbc55640af17019402d5eb58f7590ebee92829edecb934"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/088-wendy-gain-+6.289db.wav",
+      "sha256": "73f48e94266af21a4214dc43f2eaa3566627a4c5f1db7be35c61fb3212751468"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/089-franklyn-gain-+1.123db.wav",
+      "sha256": "24dd2ad115188351fd69cb3ad9686c3a933927aa3db970d18c5c01e40c892d32"
+    },
+    {
+      "file": "anime/motion-comics/projects/blue-purple-page20-motion06.json",
+      "sha256": "5858ec9b44881ab9346eef783b04d1b6ac8c23a22d81329af2ceb2621c9e6396"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/page.png",
+      "sha256": "5772970bb033d72d08dda6b8412ba08f0c7e23802808da27cd32eed3e221855a"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/art.png",
+      "sha256": "8e87b8dca3d6f444f9b7ac74c8d740754eac0e5075eb506755b120d559e928e8"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lettering-20.png",
+      "sha256": "c1ac36b4c1f1c4b0ad858ad6099a53cba4d9efd864e4d46fa514f87b6c1b59b6"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/090-enfant-gain-+8.445db.wav",
+      "sha256": "4ca1dca00ad4296208423d4cdd9a580c759a95a06205c695c2784da41969e25c"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/091-grover-gain-+4.691db.wav",
+      "sha256": "fdd73f406986890040783c1b86f396922a136da68a38a3a75cb46126b7738e69"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/092-john-gain-+3.146db.wav",
+      "sha256": "8f7be313807e251865e8b5920b055e0dc08fcf6928f8c0d8862c766a4864f90b"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/093-john-gain--0.121db.wav",
+      "sha256": "1c9d01aa4eecd5152c9b1a6a5f0578d7e4121d832dd7eb83ca1620a0eb03125a"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/094-grover-gain-+2.793db.wav",
+      "sha256": "271e91810049f41b1c35018aa48760b6b9b6b52b0a45e6f9a4e54ae35f76368f"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-00.png",
+      "sha256": "6aab7fec4f2f6eaf8170a15d5e6c234d8f751d027878b2d2fde28cdc1c80373c"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-01.png",
+      "sha256": "bf395c38ed5aa1578d132d1d58d26504da606c236deae52082f2ea1b1da6aaa5"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-02.png",
+      "sha256": "76d5a4465355daecd5b6cb606a3d72fe5e33563058e9b5bdc0743309f74b303e"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-03.png",
+      "sha256": "7b72ae88fe0c29d101fd5576570875f4843904497458e945ed0bed7f829b8a47"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-04.png",
+      "sha256": "675d7b2dab4494e313a4ddedb2d62d291581fb96f4d61d55e90a47889a681f79"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-05.png",
+      "sha256": "450eeceb244c737944203ff06dc43c7ed845892155fbe5b9d22f81dd76b064f1"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-06.png",
+      "sha256": "bdf9e3758e200cdb82e49fa84953661322e8f43d1c004a16c2d753f51994c03f"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-07.png",
+      "sha256": "ed00fe18f5c74812318d42e289abe4f0ab2363f325d5b5a31a9c1c630fca7005"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-08.png",
+      "sha256": "3a913b8af773632675ad94c7720172ea9078772a70e88cd467525c9b7912b244"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-09.png",
+      "sha256": "389b0fb217965dff478aaacba0fa63ef7baaa9867a7a21a15b9b6055d9f40043"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-10.png",
+      "sha256": "771ae27f4125b6d11dd2bcafc45667c34e6c0659e287968fbd77e79d69d0c188"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/fall-11.png",
+      "sha256": "a27185a5794be239202860dc446afcab9187fc1e0dabcad75dca7b409646ecb7"
+    },
+    {
+      "file": "anime/motion-comics/projects/blue-purple-page21-motion06.json",
+      "sha256": "10aa245264f3f6b8612440f302e9fc89d69ea7172c665b5de8398478c17d9002"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-21/page.png",
+      "sha256": "dc623289fee0f120ab842044860fe426e25ea08fca21a788fcc8eb7d40fe14cf"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-21/art.png",
+      "sha256": "fa614636b905b9908b2673f65dff5005d92b2266d934bc843028ab041bfedd04"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lettering-21.png",
+      "sha256": "3affe96947503ac574893140d64edb650a861d5befa06572fb4c19a3c5f654a1"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/095-abigail-gain-+7.037db.wav",
+      "sha256": "11dd9522b3675d2643ac3fb5ef4bae412ba1f00f3e6c255162fb925928d32bb8"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/096-wendy-gain-+6.781db.wav",
+      "sha256": "72d2a2ba9e2d32cb06268691eb536ca8e90cc0d8838c38665f67440dc33dca89"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/097-grover-gain-+1.440db.wav",
+      "sha256": "92fbb13cc626a086ab3094061531b4b8f401f703fdeb465eadfad11e60337567"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/098-wendy-gain-+4.795db.wav",
+      "sha256": "4eb1440793c24142a77939492e839a0b28d2b0d87551517f7489507fd71780e3"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/099-grover-gain-+2.886db.wav",
+      "sha256": "63c59e7733d6b07c77e8039a1a419bc5fee885902f589941e1581cb58a44e249"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-00.png",
+      "sha256": "854c741829e13c9ab6e4e842d263b3249314ee017cbded8609bc1762ff479cba"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-01.png",
+      "sha256": "2b65f6fa84a862f6197fbd0aa476f090e49fa7bc7edf3feb3039e6eb35176f3f"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-02.png",
+      "sha256": "3f15416f7fc031e614e03d7d2feefb10ff5fa1eaa4eacf59aeab1a9bda40b7bb"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-03.png",
+      "sha256": "a3927b388feda094bb35b2f43bfd2e96ebbd11154f3231d03cd3e34cf8e7a22f"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-04.png",
+      "sha256": "2698d2be174311a2c2020541ea1c4429f298af86079f4c040cc86710f8fe02ba"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-05.png",
+      "sha256": "c768ad278bdd84da3a0665a59e2d983522d36b27e36c6ba402fc3efcb2055a63"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-06.png",
+      "sha256": "bab0b0c9167357e210e1b963a86d4176b2ee174b9e37f1a0104d48c469ce9ebe"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-07.png",
+      "sha256": "59c77cef9c9729e204b99eab90767017907281bf7e1de518be9c3d2e11536e8f"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-08.png",
+      "sha256": "6a74cd1d80cdd139c4cb3f463e9f3209b1d2e8aa4e598dfe881305da148f8ff8"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-09.png",
+      "sha256": "9494d7445a74d049d147ca9189f106168ade4257f2fc316e1600c56c0b5df031"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-10.png",
+      "sha256": "4fb2013416b14bfe5ab0eaa0ba4e0a42cb273e6dbc82307a87aba8fb9f2bee03"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-11.png",
+      "sha256": "9816ed122f833d2b0a3b5e8b0ca8e526a1969be2c155fd0b74cbbe0b2f86cbe5"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lamp-on.png",
+      "sha256": "e9865c46f4a95685ebae2f99d8b6d75245983898cdaeea94d5071cbe7d773428"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/lamp-off.png",
+      "sha256": "7b5f2fe7334ad630711619e7c0ab2e1424ef67b3424801f7071f1ba22cc8eb46"
+    }
+  ],
+  "extraSources": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/EXTRA-SOURCES.json",
+  "counterReview": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/qa-cross/LOT-D.md",
+  "proofs": {
+    "main": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/proofs/run-v3/report.json",
+    "playback": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/proofs/run-v3/PAIR-PLAYBACK.json",
+    "encoded": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/proofs/run-v3/ENCODED-SENSITIVITY.json",
+    "reader": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/proofs/reader-v1/report.json"
+  },
+  "imageGeneration": {
+    "initialCalls": 4,
+    "targetedCorrections": 2,
+    "remainingTargetedCorrections": 1,
+    "providerCost": "unknown",
+    "builtIn": true
+  },
+  "newVoiceCalls": 0,
+  "newAudioCalls": 0,
+  "longVideoExports": 0,
+  "humanListening": false,
+  "review": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/REVIEW.md",
+  "contract": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/CONTRACT.md"
+}

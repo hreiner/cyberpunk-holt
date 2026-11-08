@@ -1,0 +1,12 @@
+{
+  "prompt": "page-08-band-02-v3.txt",
+  "contract": "CONTRACTS.json v1 p08-c03",
+  "diagnostic": "Remove raster blank balloons; correct front seating identities so Franklyn drives and Wendy is passenger; remove isolated pillar hand without visible forearm. Other four identities/hands preserved.",
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-08/band-02-attempt-01/band-v1.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-08/band-01-v1.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-01-08/references/cast-six-v1.png"
+  ],
+  "inspected": true,
+  "status": "ready-for-independent-review-before-final-reserve-correction"
+}

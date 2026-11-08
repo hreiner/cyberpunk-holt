@@ -1,0 +1,61 @@
+{
+  "page": 17,
+  "source": "D:\\AgenticCoding\\cyberpunk-holt\\anime\\motion-comics\\projects\\blue-purple-page17-motion05.json",
+  "sourceSha256": "0a8809de705a155bdecf67ae8d13719ab60295a62631d4293dec3a34d548b296",
+  "timingSha256": "6abefd967dee6b9b1a0b3c85d54c85fbf1d5ffbe8bc12294f5fc774fbea2a091",
+  "duration": 18.341666666666665,
+  "anchors": {
+    "firstBand": 7.553333333333333,
+    "oneShot": 8.153333333333332,
+    "metalImpact": 8.233333333333333,
+    "impactRecovery": 8.433333333333334,
+    "coverBand": 8.583333333333334,
+    "wendy": 8.613333333333333
+  },
+  "notes": [
+    "Six états de triptyque v9 réemployés exactement: tir unique puis impact 80 ms après, troisième bande et bulle Wendy ensuite.",
+    "17.1: pluie en deux profondeurs dans le couloir libre; vapeur au pied du pilier et anneaux sur la flaque.",
+    "17.3: pluie derrière les têtes, air humide et deux contacts dans les seuls trous d’eau entre les appuis; corps et chaussures fixes. Aucun faux cycle de course."
+  ],
+  "candidate": {
+    "file": "D:\\AgenticCoding\\cyberpunk-holt\\anime\\motion-comics\\projects\\blue-purple-page17-motion06.json",
+    "sha256": "fe2f1dcf9ac545a0fc6aca362c330f4910d1e13aa7752b1b3945e291c8cba52d"
+  },
+  "layers": [
+    {
+      "id": "three-bands-one-shot",
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-0.png",
+          "sha256": "fd324cebaed2f74007bd42910f930db6f4c3dc51e7e67df75cc76f119bba9663"
+        },
+        {
+          "atSeconds": 0.02,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-1.png",
+          "sha256": "90600d4e177348c3fa9ae2bdd23b42fa74414d8e9c583f4ef8a8aee8cc7eec0b"
+        },
+        {
+          "atSeconds": 0.62,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-2.png",
+          "sha256": "4a7a9c23f11807fadae09158d54f96a89096a9296d10e5a58488aaa25e6e3711"
+        },
+        {
+          "atSeconds": 0.7,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-3.png",
+          "sha256": "b2be8db72fb16ca274c4f1825ac713d54e210b9677ae2f7ebc415d33f14e5a63"
+        },
+        {
+          "atSeconds": 0.9,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-4.png",
+          "sha256": "6352523c4d63fb9e20e437e9d0b58036875f15200b74f9c997e0e9ffde349f11"
+        },
+        {
+          "atSeconds": 1.05,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-5.png",
+          "sha256": "d827fe6a81fbc8deb5a1fb980346593098d4d657cd29b8d23a4d70b02b0e34a6"
+        }
+      ]
+    }
+  ]
+}

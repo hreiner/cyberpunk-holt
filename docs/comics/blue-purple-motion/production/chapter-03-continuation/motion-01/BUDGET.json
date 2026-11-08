@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-07",
+  "authorization": "Owner requests animation, audio and complete HTML reader delivery after explicit static revision05 approval, including improved SFX pages05–08.",
+  "historical": {
+    "voiceSubmittedCharacters": 3394,
+    "soundEffectRequests": 6,
+    "soundEffectRequestedSeconds": 20,
+    "source": "../../pages-05-08/revision-01/BUDGET.json and motion-comics/PROGRESS.md",
+    "knownImagegenCallsPages05To21": 120,
+    "cost": null,
+    "providerRequestIds": null
+  },
+  "imagegen": { "initialAllocation": 0, "policy": "Reuse approved drawings and available states; any necessary additional drawing must have a bounded documented allocation before submission." },
+  "voice": { "model": "eleven_v4", "state": "allocated after integrator FR/EN review", "allocation": { "initialTakes": 62, "initialAnnotatedCharacters": 3668, "correctionReserveCharacters": 917, "operationalNewCharactersCap": 4585, "operationalCumulativeCharactersCap": 7979 }, "direction": "voice/DIRECTION.json", "reservePolicy": "At most 25% of initial annotated characters for observed defects, including failed submissions; selected takes are reused." },
+  "soundEffects": { "initialAllocation": { "requests": 4, "requestedSeconds": 16, "ids": ["capsule-close", "elevator-travel", "single-shot-metal", "body-water-splash"] }, "state": "allocated after integrator prompt/intent review", "plan": "sound/SFX-PLAN.json", "correctionReserveRequests": 2, "correctionReserveSeconds": 8, "maxRequestsIncludingFailures": 6, "maxRequestedSecondsIncludingFailures": 24 },
+  "music": { "newPaidGenerations": 0, "policy": "Reuse existing HOLT music with authored transitions." },
+  "actual": { "voiceRequests": 62, "voiceAnnotatedCharacters": 3668, "cumulativeVoiceAnnotatedCharacters": 7062, "voiceFailuresOrRetries": 0, "voiceReserveCharactersUnused": 917, "soundEffectRequests": 4, "soundEffectRequestedSeconds": 16, "cumulativeSoundEffectRequests": 10, "cumulativeSoundEffectRequestedSeconds": 36, "soundEffectFailuresOrRetries": 0, "soundEffectReserveRequestsUnused": 2, "imagegenCalls": 0, "newPaidMusicGenerations": 0, "localFoleyAssets": 7 },
+  "cost": null,
+  "providerRequestIds": null
+}

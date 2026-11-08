@@ -1,0 +1,10 @@
+{
+  "source": "C:/Users/hadri/.codex/generated_images/01a1b584-3e59-70c3-a778-0f496c5ace35/exec-a5907b5b-9afc-4c54-8c28-323551d45919.png",
+  "id": "p11-c03a",
+  "sha256": "40DDFB0920AA37439F4A6483F930E1B77CA28D72969DC7D375ACDCCBDC21D98C",
+  "status": "reviewed",
+  "provider_cost": null,
+  "references": "p11-c03a-fix-references.json",
+  "prompt": "p11-c03a-fix-prompt.txt",
+  "master": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\revision-03\\p11-c03a\\fix01.png"
+}

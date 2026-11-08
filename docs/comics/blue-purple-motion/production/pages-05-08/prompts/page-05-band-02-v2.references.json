@@ -1,0 +1,29 @@
+{
+  "prompt": "page-05-band-02-v2.txt",
+  "contract": "CONTRACTS.json v1 p05-c02, p05-c03",
+  "diagnostic": "QA observed six digits on bartender's viewer-left raised hand (anatomical right hand), approximately x1230–1315,y345–430, original 1774x887. Local five-digit repair only.",
+  "editTarget": {
+    "path": "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-05/band-02-attempt-01/band-v1.png",
+    "width": 1774,
+    "height": 887,
+    "regionPx": [
+      1230,
+      345,
+      85,
+      85
+    ]
+  },
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-05/band-02-attempt-01/band-v1.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-01-08/references/cast-six-v1.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-05/band-01-v1.png"
+  ],
+  "roles": [
+    "edit target — full raster, change only specified hand",
+    "identity reference only — no added people or letters",
+    "bartender identity and style reference only — preserve edit target composition"
+  ],
+  "inspectedSourceReferences": true,
+  "status": "ready-for-independent-review-before-generation",
+  "revision": 2
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "p11-c03a",
+    "master": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\revision-05\\p11-c03a\\native.png",
+    "cost": null,
+    "sha256": "B833E8617FFA8D7266F4E80848A3E252A127C88FB1E41667974965C9A9DE727B"
+  },
+  {
+    "id": "p11-c03b",
+    "master": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\revision-05\\p11-c03b\\native.png",
+    "cost": null,
+    "sha256": "EDB7E048397687E3084C2543620BDB38B98C9EBB45410ABD8DA62A10E1419AC2"
+  },
+  {
+    "id": "p19-c02",
+    "master": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\revision-05\\p19-c02\\native.png",
+    "cost": null,
+    "sha256": "686B5536F95ABE036DE8215E8FB066C7726F97DE183D8E302AC8BE5346183135"
+  },
+  {
+    "cost": null,
+    "master": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-05/p12-c03/native.png",
+    "reference_sha256": "4FFCAFB29E8AE7477B4D5628695C0CD0FEDA8DAFC43C4454EE486D8E4E671F06",
+    "id": "p12-c03",
+    "sha256": "F42E69FC02988B57DDE1A4141296E117F8B5A88238387FDF09F59D1BD8AF7B43",
+    "reference": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v4/assets/p12-c03.jpg"
+  }
+]

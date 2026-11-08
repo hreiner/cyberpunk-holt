@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "version": 4,
+  "title": "HOLT — Blue Purple · page 16",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-16/page.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-16/art.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-16/lettering.svg",
+  "storyThumbnail": true,
+  "overviewSeconds": 0.65,
+  "transitionSeconds": 0.28,
+  "gapSeconds": 0.18,
+  "outroSeconds": 0.45,
+  "panels": [
+    {
+      "id": "p16-c01",
+      "panelKey": "16-1",
+      "sourcePanelKey": "16-1",
+      "label": "La connaissance retrouvée",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 2.5,
+      "leadInSeconds": 0.45,
+      "cues": [
+        {
+          "id": "bp-l073",
+          "globalLine": 73,
+          "localLine": 36,
+          "panel_id": "16-1",
+          "dialogueIndex": 0,
+          "pageId": "page-16",
+          "speaker": "franklyn",
+          "textFr": "Je reconnais cet endroit…",
+          "textEn": "I recognize this place...",
+          "ttsText": "[shaken, recognizing] I recognize this place...",
+          "performance": "Franklyn retrouve une connaissance ; trouble et reconnaissance.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/073-franklyn-gain-+0.635db.wav",
+          "sha256": "38441551395492de03f1df4211d9a3cb3b913fdd5529a2beacd752822ce72268",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/36-franklyn-88c16647bb23.mp3",
+          "sourceSha256": "400e86705f9de47a0ece4d54fe7cd32d4649dabcfd474c2b72ef99af381d7f64",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/36-franklyn-88c16647bb23.json",
+          "journalSha256": "dcb07528b3fe4371ff282a7b4e5871084df785f8a9a90dd19c0828aa5733648f",
+          "constantGainDb": 0.635,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.08,
+            "pcmSamples": 91728,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -4.645821468439461,
+            "meanDb": -22.63548915379969,
+            "firstAboveMinus40DbSeconds": 0.09233560090702948,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 112.80000000000001,
+          "duration": 2.08,
+          "pcmSamples": 91728,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -4.011018213726444,
+          "meanDb": -22.000493713244627,
+          "firstAboveMinus40DbSeconds": 0.09231292517006803,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p16-c02",
+      "panelKey": "16-2",
+      "sourcePanelKey": "16-2",
+      "label": "La simulation",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 2.5,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l074",
+          "globalLine": 74,
+          "localLine": 37,
+          "panel_id": "16-2",
+          "dialogueIndex": 0,
+          "pageId": "page-16",
+          "speaker": "franklyn",
+          "textFr": "Ça revient… Je comprends maintenant.",
+          "textEn": "It's coming back... I understand now.",
+          "ttsText": "[strained, searching] It's coming back... [awed, low] I understand now.",
+          "performance": "Déverrouillage intérieur progressif, pas simple lecture d'un écran.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/074-franklyn-gain-+0.657db.wav",
+          "sha256": "01803db487bea0185bfcc223bff115c36f0433010f3db339b0989d2e0813d1a8",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/37-franklyn-ea9a480b35ba.mp3",
+          "sourceSha256": "17af56a90d36fd99f33b527a009f8e09e3917038ab392a5a10609d6a15a10d26",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/37-franklyn-ea9a480b35ba.json",
+          "journalSha256": "0c3daee18ca5701a48e20c580581a1dd088ae4d71280eb8357e5df867f3c21b9",
+          "constantGainDb": 0.657,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.92,
+            "pcmSamples": 172872,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -4.330113877973358,
+            "meanDb": -22.656772097237546,
+            "firstAboveMinus40DbSeconds": 0.08242630385487529,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 115.28000000000002,
+          "duration": 3.92,
+          "pcmSamples": 172872,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -3.673166966894402,
+          "meanDb": -21.99976888738497,
+          "firstAboveMinus40DbSeconds": 0.08240362811791384,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p16-c03",
+      "panelKey": "16-3",
+      "sourcePanelKey": "16-3",
+      "label": "Une carte en mémoire",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 5.777777777777778,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l075",
+          "globalLine": 75,
+          "localLine": 38,
+          "panel_id": "16-3",
+          "dialogueIndex": 0,
+          "pageId": "page-16",
+          "speaker": "franklyn",
+          "textFr": "J’ai accès à une carte. Je vois HOLT, notre position et d’autres points. Il y en a un vert.",
+          "textEn": "I can access a map. I can see HOLT, our position, and other points. One of them is green.",
+          "ttsText": "[astonished, low] I can access a map. [finding words] I can see HOLT, our position, and other points. [intent, quietly] One of them is GREEN.",
+          "performance": "Franklyn raconte ensuite l'accès mental à la carte, en découvrant ses détails.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/38-franklyn-8032f643c143.mp3",
+          "sha256": "e166c41403d9a6e371441c522dcaf0e09d0a5df224751fa610e30070e053b596",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/38-franklyn-8032f643c143.mp3",
+          "sourceSha256": "e166c41403d9a6e371441c522dcaf0e09d0a5df224751fa610e30070e053b596",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/38-franklyn-8032f643c143.json",
+          "journalSha256": "027bd032aaa73125c7ef76686ac16763c42dcf9e4b6d87f972e4b2718319735a",
+          "constantGainDb": 0,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 6.96,
+            "pcmSamples": 306936,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -4.083500601349672,
+            "meanDb": -21.6208485681207,
+            "firstAboveMinus40DbSeconds": 0.09873015873015872,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 119.60000000000002,
+          "duration": 6.96,
+          "pcmSamples": 306936,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -4.083500601349672,
+          "meanDb": -21.6208485681207,
+          "firstAboveMinus40DbSeconds": 0.09873015873015872,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "reflection",
+      "rect": [
+        0.365365109201205,
+        0.16276041666666669,
+        0.29619675975734905,
+        0.09440104166666664
+      ],
+      "color": "#4ceaff",
+      "strength": 0.58,
+      "frequency": 0.64,
+      "phase": 0.35,
+      "softEdge": true,
+      "clock": "ambient",
+      "panelId": "p16-c01"
+    },
+    {
+      "type": "particles",
+      "rect": [
+        0.07365617913714916,
+        0.2799479166666667,
+        0.8437119823391154,
+        0.0390625
+      ],
+      "count": 14,
+      "color": "#56dfff",
+      "strength": 0.48,
+      "speed": 0.55,
+      "clock": "story",
+      "panelId": "p16-c01",
+      "startSeconds": 1.48,
+      "endSeconds": 3.68
+    },
+    {
+      "type": "reflection",
+      "rect": [
+        0.385111559851695,
+        0.4544270833333333,
+        0.1166835720256223,
+        0.042317708333333336
+      ],
+      "color": "#b65be9",
+      "strength": 0.4,
+      "frequency": 0.4,
+      "phase": 0.35,
+      "softEdge": true,
+      "clock": "ambient",
+      "panelId": "p16-c02"
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "16-2-rigid-1",
+      "rect": [
+        0.5134634890798795,
+        0.45768229166666674,
+        0.10770791263903601,
+        0.0390625
+      ]
+    },
+    {
+      "id": "16-2-rigid-2",
+      "rect": [
+        0.05121703067068332,
+        0.3385416666666667,
+        0.28722110037076276,
+        0.3229166666666667
+      ]
+    },
+    {
+      "id": "16-2-rigid-3",
+      "rect": [
+        0.6974645065048993,
+        0.3470052083333334,
+        0.2513184628244174,
+        0.31445312499999994
+      ]
+    },
+    {
+      "id": "16-3-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.6692708333333334,
+        0.8975659386586334,
+        0.3229166666666667
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "cb57cdfc5278ab7f7512b01600e274bc89bd527792a080220a5ac653e123344d",
+    "lettering": "Exact approved raster plates after effects; original SVG retained.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false,
+    "formatCorrection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/format-01/PROGRESS.md"
+  }
+}

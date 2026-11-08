@@ -1,0 +1,7 @@
+EDIT TARGET: the attached full square anime drawing p05-c03-pose-03-recoil.png. It is an existing finished shot: preserve its composition, framing, style, lighting and every unaffected detail.
+
+REPAIR ONLY JOHN'S ANATOMY. John is the short silver-haired cadet at image left. His near-side arm is correctly bent across his chest, with a clenched fist near the zipper. There is also an erroneous dangling sleeve, forearm and fist below/behind that same bent elbow at the far image-left side of his hip. These overlapping limbs emerge implausibly from the same shoulder.
+
+Remove that stray dangling forearm, cuff and fist entirely. Reconstruct the small exposed background and natural jacket silhouette where that extra limb was. KEEP the existing near-side shoulder, upper arm, bent elbow, forearm and clenched fist across the chest intact and anatomically connected. His other arm is on the far side, largely occluded behind the torso: do not invent another visible hand or alter his pose. Exactly two plausible shoulders/arms, no duplicated sleeve, hand, elbow, wrist or ghost outline.
+
+Keep John's head, face, silver hair, HOLT badge, legs, boots, clothing colors and bent-arm fist unchanged. Keep the barman at right, his two hands and spread fingers, towel, tattoos, falling bat, background bottles, neon, lamps, floor reflections and foreground cadet unchanged. No new objects or text; do not add speech balloons. Opaque square image, same size/aspect and crop. Match the precise existing cel-shaded cyberpunk anime style. This is a local corrective edit, not a redesign.

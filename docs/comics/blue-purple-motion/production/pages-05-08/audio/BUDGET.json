@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "status": "integrator-approved",
+  "date": "2026-11-05",
+  "globalCharacterCap": 3200,
+  "historicalCharacters": 2416,
+  "proposedNewCharacters": 440,
+  "plannedCumulativeCharacters": 2856,
+  "correctionReserveCharacters": 344,
+  "reservePolicy": "Corrections ciblées après diagnostic seulement ; aucune nouvelle passe automatique.",
+  "directionSha256": "ba7a5de270def3a2968fa6c5c0755186f79aae1f2adb75a0fa2e1f5a88cf3bf6",
+  "inventorySha256": "4ba3ad36093315133d67159ecaa5417e1d770b9336081894adb07c6eecaec5a5",
+  "contractSha256": "f51a768e90745bedf5b169cc39bdec00b3fd7070b6eba9dd7602ae0b36eb2180",
+  "actualCost": null,
+  "providerRequestIds": null,
+  "budgetApproval": "Intégrateur /root, 2026-11-05 : feu vert définitif pour huit prises de la conduite ba7a5de270def3a2968fa6c5c0755186f79aae1f2adb75a0fa2e1f5a88cf3bf6, plafond3200, réserve344 seulement sur diagnostic ciblé.",
+  "narrativeReview": "Agent /root/quality, 2026-11-05 : huit textes annotés/plainEN/FR, speakers, indices et IDs exacts des contrats ; 440 caractères, 15 réemplois et hashes confirmés ; aucun souffle automatique. Ne vaut pas écoute."
+}

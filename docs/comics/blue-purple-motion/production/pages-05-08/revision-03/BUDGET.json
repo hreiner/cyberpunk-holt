@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-07",
+  "authorization": "Owner requests correcting John's malformed arm in the separate prototype and full comic; retain improved animation as future reference.",
+  "imagegen": {
+    "knownPreviousPages05To08Calls": 28,
+    "revisionCallCapIncludingFailures": 2,
+    "initialCalls": 1,
+    "observedDefectCorrectionReserve": 1,
+    "cumulativeKnownMaximum": 30,
+    "operator": "root"
+  },
+  "voice": {
+    "newRequests": 0,
+    "cumulativeSubmittedCharacters": 3394
+  },
+  "soundEffects": {
+    "newRequests": 0,
+    "historicalRequests": 6,
+    "historicalRequestedSeconds": 20
+  },
+  "music": {
+    "newPaidGenerations": 0
+  },
+  "exports": {
+    "maximumConcurrentJobs": 2
+  },
+  "actual": {
+    "imagegenRevisionCalls": 1,
+    "knownCumulativeImagegenCalls": 29,
+    "newVoiceRequests": 0,
+    "cumulativeVoiceCharacters": 3394,
+    "newSoundEffectsRequests": 0,
+    "newPaidMusicGenerations": 0
+  },
+  "monetaryCost": null,
+  "providerRequestIds": null
+}

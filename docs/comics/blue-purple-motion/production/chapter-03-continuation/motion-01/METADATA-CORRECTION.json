@@ -1,0 +1,262 @@
+{
+  "status": "completed",
+  "reason": "Replace technical case/after/detail labels with French scene labels. The approved drawings, balloons, motion, timings and all audio remain exactly selected.",
+  "pageDataEqualExceptVersionAndLabels": true,
+  "identicalTimeline": true,
+  "identicalAudio": true,
+  "pageCanvasAnimationProofReused": "animation/integrated-v3",
+  "changes": [
+    {
+      "page": 9,
+      "panel": "p09-c01",
+      "before": "Page 9 · case 1",
+      "after": "La borne de rue"
+    },
+    {
+      "page": 9,
+      "panel": "p09-c02",
+      "before": "Page 9 · case 2",
+      "after": "Une destination"
+    },
+    {
+      "page": 9,
+      "panel": "p09-c03",
+      "before": "Page 9 · case 3",
+      "after": "Reprendre la route"
+    },
+    {
+      "page": 10,
+      "panel": "p10-c01",
+      "before": "Page 10 · case 1",
+      "after": "Le mégabuilding"
+    },
+    {
+      "page": 10,
+      "panel": "p10-c02",
+      "before": "Page 10 · case 2",
+      "after": "Les accès surveillés"
+    },
+    {
+      "page": 10,
+      "panel": "p10-c03",
+      "before": "Page 10 · case 3",
+      "after": "Chercher un autre passage"
+    },
+    {
+      "page": 11,
+      "panel": "p11-c01",
+      "before": "Page 11 · case 1",
+      "after": "L’entrée de service"
+    },
+    {
+      "page": 11,
+      "panel": "p11-c02",
+      "before": "Page 11 · case 2",
+      "after": "Le prix du passage"
+    },
+    {
+      "page": 11,
+      "panel": "p11-c03a",
+      "before": "Page 11 · case 3a",
+      "after": "John propose la force"
+    },
+    {
+      "page": 11,
+      "panel": "p11-c03b",
+      "before": "Page 11 · case 3b",
+      "after": "Abigail le raisonne"
+    },
+    {
+      "page": 12,
+      "panel": "p12-c01",
+      "before": "Page 12 · case 1",
+      "after": "L’idée de Grover"
+    },
+    {
+      "page": 12,
+      "panel": "p12-c02",
+      "before": "Page 12 · case 2",
+      "after": "Une réservation discrète"
+    },
+    {
+      "page": 12,
+      "panel": "p12-c03",
+      "before": "Page 12 · case 3",
+      "after": "Rester ensemble"
+    },
+    {
+      "page": 13,
+      "panel": "p13-c01",
+      "before": "Page 13 · case 1",
+      "after": "Une direction changeante"
+    },
+    {
+      "page": 13,
+      "panel": "p13-c02",
+      "before": "Page 13 · case 2",
+      "after": "Un étage à la fois"
+    },
+    {
+      "page": 13,
+      "panel": "p13-c02-detail",
+      "before": "Page 13 · case 2-detail",
+      "after": "Abigail observe"
+    },
+    {
+      "page": 13,
+      "panel": "p13-c03",
+      "before": "Page 13 · case 3",
+      "after": "La boutique lumineuse"
+    },
+    {
+      "page": 14,
+      "panel": "p14-c01",
+      "before": "Page 14 · case 1",
+      "after": "Les danses sensorielles"
+    },
+    {
+      "page": 14,
+      "panel": "p14-c02",
+      "before": "Page 14 · case 2",
+      "after": "Une machine différente"
+    },
+    {
+      "page": 14,
+      "panel": "p14-c03",
+      "before": "Page 14 · case 3",
+      "after": "L’accord du vendeur"
+    },
+    {
+      "page": 15,
+      "panel": "p15-c01",
+      "before": "Page 15 · case 1",
+      "after": "Réparer le contact"
+    },
+    {
+      "page": 15,
+      "panel": "p15-c02",
+      "before": "Page 15 · case 2",
+      "after": "Abigail rebranche"
+    },
+    {
+      "page": 15,
+      "panel": "p15-c03",
+      "before": "Page 15 · case 3",
+      "after": "Franklyn entre dans la capsule"
+    },
+    {
+      "page": 16,
+      "panel": "p16-c01",
+      "before": "Page 16 · case 1",
+      "after": "La connaissance retrouvée"
+    },
+    {
+      "page": 16,
+      "panel": "p16-c02",
+      "before": "Page 16 · case 2",
+      "after": "La simulation"
+    },
+    {
+      "page": 16,
+      "panel": "p16-c03",
+      "before": "Page 16 · case 3",
+      "after": "Une carte en mémoire"
+    },
+    {
+      "page": 17,
+      "panel": "p17-c01",
+      "before": "Page 17 · case 1",
+      "after": "À l’autre bout"
+    },
+    {
+      "page": 17,
+      "panel": "p17-c02",
+      "before": "Page 17 · case 2",
+      "after": "Le tir et la mise à couvert"
+    },
+    {
+      "page": 17,
+      "panel": "p17-c03",
+      "before": "Page 17 · case 3",
+      "after": "Fuir ensemble"
+    },
+    {
+      "page": 18,
+      "panel": "p18-c01",
+      "before": "Page 18 · case 1",
+      "after": "Sur le seuil"
+    },
+    {
+      "page": 18,
+      "panel": "p18-c0after",
+      "before": "Page 18 · case after",
+      "after": "Après le geste"
+    },
+    {
+      "page": 18,
+      "panel": "p18-c02",
+      "before": "Page 18 · case 2",
+      "after": "La porte verrouillée"
+    },
+    {
+      "page": 18,
+      "panel": "p18-c03",
+      "before": "Page 18 · case 3",
+      "after": "Attendre en silence"
+    },
+    {
+      "page": 19,
+      "panel": "p19-c01",
+      "before": "Page 19 · case 1",
+      "after": "Le couloir est libre"
+    },
+    {
+      "page": 19,
+      "panel": "p19-c02",
+      "before": "Page 19 · case 2",
+      "after": "Un répit provisoire"
+    },
+    {
+      "page": 19,
+      "panel": "p19-c03",
+      "before": "Page 19 · case 3",
+      "after": "Vers le point vert"
+    },
+    {
+      "page": 20,
+      "panel": "p20-c01",
+      "before": "Page 20 · case 1",
+      "after": "Le quai"
+    },
+    {
+      "page": 20,
+      "panel": "p20-c02",
+      "before": "Page 20 · case 2",
+      "after": "Reculez"
+    },
+    {
+      "page": 20,
+      "panel": "p20-c03",
+      "before": "Page 20 · case 3",
+      "after": "Le geste de John"
+    },
+    {
+      "page": 21,
+      "panel": "p21-c01",
+      "before": "Page 21 · case 1",
+      "after": "La porte du refuge"
+    },
+    {
+      "page": 21,
+      "panel": "p21-c02",
+      "before": "Page 21 · case 2",
+      "after": "Un abri vide"
+    },
+    {
+      "page": 21,
+      "panel": "p21-c03",
+      "before": "Page 21 · case 3",
+      "after": "Souffler un instant"
+    }
+  ]
+}

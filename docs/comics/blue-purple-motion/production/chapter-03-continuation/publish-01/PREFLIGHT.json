@@ -1,0 +1,58 @@
+{
+  "status": "passed-before-source-push",
+  "date": "2026-11-08",
+  "gameVerify": {
+    "exitCode": 0,
+    "unitTests": 788,
+    "files": 58
+  },
+  "runtimeTests": {
+    "pass": 58,
+    "skip": 0
+  },
+  "skills": {
+    "updated": 8,
+    "valid": 8,
+    "adapters": 49
+  },
+  "sourceGraph": "Native v10 /317 and v9 /195 preserved; reader1.4 is a separate frozen runtime.",
+  "publication": {
+    "schemaVersion": 1,
+    "version": 10,
+    "directory": "public/comics/blue-purple/v10",
+    "sourceManifest": "anime/motion-comics/projects/blue-purple-pages01-21-v10.json",
+    "sourceSha256": "d180993fd326d8d2640e1b11d4b4a09718a5fa96a8055efd62e4c717078301ce",
+    "publicationSha256": "d842e7b6a4543cdcac93b30b775766a74401704fb422564809a062226bf01d0a",
+    "release": {
+      "tag": "blue-purple-v10-web-20261108",
+      "url": "https://github.com/hreiner/cyberpunk-holt/releases/download/blue-purple-v10-web-20261108/blue-purple-v10-web.tar.gz",
+      "sha256": "2c4d907aa84afedad25b3a5ea533ada03b6f6aad486bac6f479683806b2913ec",
+      "bytes": 154233721
+    }
+  },
+  "audioChecks": 106,
+  "restoreScenarios": 5,
+  "knownComparisonLimit": "Native PNG and web WebP composed Canvas have at most one RGB level difference in four samples; source RGBA hashes exact; strict failed report retained, visual review accepted separately.",
+  "logs": [
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/publish-01/checks/verify-first-lint.log",
+      "sha256": "a05f6503c0427079bb4b2750c4db4cc16d3d160dcdca22e4c4c23f7dc17410a9"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/publish-01/checks/verify-passed.log",
+      "sha256": "cbc87b9512c27da1635f73340740405804120a0e2ec5fc935f5dd7aabae841e4"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/publish-01/checks/runtime-tests-passed.log",
+      "sha256": "b763559bcd3daf7605737be8eb5f6199ffba3894112bd5003315e55e8ef5b283"
+    }
+  ],
+  "lintNotes": "Browser/Node globals and side-effect ternaries declared in targeted ESLint configuration; frozen reader/package bytes preserved.",
+  "finalSourceVerification": {
+    "command": "npm run verify",
+    "exitCode": 0,
+    "afterFinalQaToolChanges": true,
+    "log": "art-masters/motion-comics/blue-purple/chapter-03-continuation/publish-01/checks/verify-staged-passed.log",
+    "sha256": "f04b6708a3ff81a68c5f9e4c47da682e907a5d5adc6b36839922f21f41920c8a"
+  }
+}

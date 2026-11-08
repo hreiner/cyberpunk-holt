@@ -1,0 +1,11 @@
+{
+  "id": "lock-retracted-v1",
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Production alternate state of the supplied existing wide 1774x887 cyberpunk comic frame. Preserve the composition, perspective, exact six characters, every face, shoulder, elbow, hand, thumb, finger, leg and contact exactly. Make ONE tiny physical change: the UPPER horizontal metal security bolt on the brown door at far right is now UNLOCKED and RETRACTED LEFT, leaving its receiving catch at the door jamb visibly empty. The white-haired man's upper hand stays precisely in its original drawn location, hovering over or holding the fixed bolt housing. Keep his lower hand on the ordinary door handle unchanged. Do not open the door, rotate the handle, redraw either arm, move any character or remove the fixed lock housing. Reconstruct only the narrow dark wooden/metal door surface where the bolt used to bridge the gap into the catch. Keep the same crisp angular Edgerunners-like ink and cel shadows, cyan/magenta window light and warm apartment lamps. No letters, new equipment, symbols, borders or collage. Return the exact same single 2:1 wide frame. This image supplies only the few pixels around the free metal bolt; the original hands and all other pixels will be restored by a precise compositing mask.",
+  "reference": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p18-c02.jpg",
+  "referenceSha256": "1f514ffbbccce41888bb734914958e4d1728c71129005b5c44ff353df2a04e01",
+  "maxReferences": 1,
+  "status": "recorded-before-submission",
+  "allocation": "fourth-initial-call",
+  "destination": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/native/lock-retracted-v1.png"
+}

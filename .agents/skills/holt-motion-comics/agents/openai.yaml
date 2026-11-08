@@ -1,0 +1,4 @@
+interface:
+  display_name: "Motion comics HOLT"
+  short_description: "Orchestrer les étapes du récit au MP4 vérifié"
+  default_prompt: "Utilise $holt-motion-comics pour reprendre le périmètre demandé et enchaîner les étapes jusqu'aux fichiers vérifiés."

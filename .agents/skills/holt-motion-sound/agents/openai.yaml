@@ -1,0 +1,4 @@
+interface:
+  display_name: "Son motion comics"
+  short_description: "Musique, bruitages et accents synchronisés"
+  default_prompt: "Utilise $holt-motion-sound pour réaliser l’étape demandée dans le périmètre HOLT."

@@ -1,0 +1,58 @@
+{
+  "franklyn": {
+    "id": "SOYHLrjzK2X1ezoPC6cr",
+    "source": "src/data/ch2BallVoices.ts",
+    "settings": {
+      "stability": 0.42,
+      "style": 0.23,
+      "speed": 1
+    }
+  },
+  "john": {
+    "id": "PoqlHoqJoAfdQ0g8bLK3",
+    "source": "src/data/ch2BallVoices.ts",
+    "settings": {
+      "stability": 0.64,
+      "style": 0.1,
+      "speed": 0.98
+    }
+  },
+  "grover": {
+    "id": "6IwYbsNENZgAB1dtBZDp",
+    "source": "src/data/ch1HallVoices.ts",
+    "settings": {
+      "stability": 0.48,
+      "style": 0.22,
+      "speed": 1
+    }
+  },
+  "abigail": {
+    "id": "WtA85syCrJwasGeHGH2p",
+    "source": "src/data/ch2BallVoices.ts",
+    "settings": {
+      "stability": 0.45,
+      "style": 0.24,
+      "speed": 1
+    }
+  },
+  "wendy": {
+    "id": "W3C2vBPukr5b5jvoXhPK",
+    "source": "choix du propriétaire, 2026-11-04",
+    "settings": null
+  },
+  "enfant": {
+    "id": "AFkIMdmeB0MMrr1tgGds",
+    "source": "choix du propriétaire, 2026-11-04",
+    "settings": null
+  },
+  "vendeur": {
+    "id": "GLSWsaquVBsIPLPPRi2s",
+    "source": "src/data/ch1HallVoices.ts instructor ; voix existante disponible, rôle secondaire adulte différent",
+    "settings": null
+  },
+  "habitante": {
+    "id": "EXAVITQu4vr4xnSDxMaL",
+    "source": "CLI OAuth voices search --voice-type default --gender female, 2026-11-07 ; Sarah - Mature, Reassuring, Confident",
+    "settings": null
+  }
+}

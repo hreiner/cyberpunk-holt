@@ -1,0 +1,642 @@
+{
+  "schemaVersion": 1,
+  "version": 2,
+  "title": "HOLT — Blue Purple · page 8 · révision 1",
+  "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-08/page-v2.png",
+  "overviewSeconds": 0.7,
+  "transitionSeconds": 0.3,
+  "gapSeconds": 0.1,
+  "outroSeconds": 0.5,
+  "panels": [
+    {
+      "id": "p08-c01",
+      "label": "Case 1 — La serrure",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 2.5,
+      "cues": []
+    },
+    {
+      "id": "p08-c02",
+      "label": "Case 2 — Démarrage hésitant",
+      "rect": [
+        0.505859375,
+        0.0078125,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 6.5,
+      "cues": [
+        {
+          "id": "bp-l036",
+          "globalLine": 36,
+          "speaker": "franklyn",
+          "textFr": "Pas maintenant… Allez !",
+          "textEn": "Not now... Come on!",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/36-franklyn-e4c20110b384.mp3",
+          "duration": 2.08,
+          "ttsText": "[frustrated, urgent] Not now... Come on!",
+          "ttsModel": "eleven_v4",
+          "performance": "Adressé au moteur qui hésite ; crescendo bref, aucune respiration ajoutée.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/36-franklyn-e4c20110b384.json"
+        },
+        {
+          "id": "bp-l021",
+          "globalLine": 21,
+          "speaker": "wendy",
+          "textFr": "Doucement… Voilà.",
+          "textEn": "Easy... there.",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/prepared/21-wendy-gain-plus-10db.wav",
+          "duration": 2.48,
+          "ttsText": "[quiet, guiding] Easy... [reassuring] there.",
+          "ttsModel": "eleven_v4",
+          "performance": "Wendy guide le démarrage hésitant ; contraste plus doux avec ses ordres. Pas de soupir.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/21-wendy-8792b5d0a618.json"
+        }
+      ]
+    },
+    {
+      "id": "p08-c03",
+      "label": "Case 3 — Monte",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 6,
+      "cues": [
+        {
+          "id": "bp-l022",
+          "globalLine": 22,
+          "speaker": "enfant",
+          "textFr": "C'est vraiment votre voiture ?",
+          "textEn": "Is this really your car?",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/prepared/22-enfant-gain-plus-10db.wav",
+          "duration": 2,
+          "ttsText": "[uncertain, quietly] Is this really your car?",
+          "ttsModel": "eleven_v4",
+          "performance": "Question sincère adressée aux deux à l'avant, sans effet comique appuyé.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/22-enfant-e7d980a49e0c.json"
+        },
+        {
+          "id": "bp-l023",
+          "globalLine": 23,
+          "speaker": "franklyn",
+          "textFr": "Monte.",
+          "textEn": "Get in.",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/23-franklyn-e058958d3bb4.mp3",
+          "duration": 1.76,
+          "ttsText": "[urgent, protective] Get in.",
+          "ttsModel": "eleven_v4",
+          "performance": "Réponse courte et protectrice, encore tendue ; pas de sourire ni d'agression contre l'enfant.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/23-franklyn-e058958d3bb4.json"
+        }
+      ]
+    },
+    {
+      "id": "p08-c04",
+      "label": "Case 4 — Les petites rues",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 5,
+      "cues": [
+        {
+          "id": "bp-l037",
+          "globalLine": 37,
+          "speaker": "enfant",
+          "textFr": "On peut ralentir un peu ?",
+          "textEn": "Could we slow down a little?",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/37-enfant-gain-+4.6db.wav",
+          "duration": 2.4,
+          "ttsText": "[nervous, tentative] Could we slow down a little?",
+          "ttsModel": "eleven_v4",
+          "performance": "Humour de situation ténu dû à la conduite maladroite, question sincère ; pas de rire ni de chute comique.",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/37-enfant-fec0c890dfbc.json"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "reflection",
+      "panelId": "p08-c01",
+      "rect": [
+        0.3369140625,
+        0.197265625,
+        0.021484375,
+        0.009765625
+      ],
+      "color": "#ffe5ae",
+      "strength": 0.7,
+      "frequency": 0.7,
+      "phase": 0.1,
+      "softEdge": true,
+      "clock": "story",
+      "startSeconds": 1.15,
+      "endSeconds": 2.65
+    },
+    {
+      "type": "rain",
+      "panelId": "p08-c01",
+      "rect": [
+        0.248046875,
+        0.012369791666666666,
+        0.1396484375,
+        0.09830729166666667
+      ]
+    },
+    {
+      "type": "neon",
+      "panelId": "p08-c02",
+      "rect": [
+        0.724609375,
+        0.2610677083333333,
+        0.0478515625,
+        0.020833333333333332
+      ],
+      "color": "#ffc13f",
+      "strength": 0.7,
+      "frequency": 0.35,
+      "phase": -1.5,
+      "softEdge": true,
+      "clock": "story",
+      "startSeconds": 3.92,
+      "endSeconds": 6.05
+    },
+    {
+      "type": "rain",
+      "panelId": "p08-c02",
+      "rect": [
+        0.6953125,
+        0.111328125,
+        0.0888671875,
+        0.041015625
+      ]
+    },
+    {
+      "type": "smoke",
+      "panelId": "p08-c03",
+      "rect": [
+        0.919921875,
+        0.5748697916666666,
+        0.0673828125,
+        0.061848958333333336
+      ],
+      "count": 9,
+      "color": "#c5c1cf",
+      "strength": 0.7,
+      "speed": 1.1,
+      "direction": "right",
+      "phase": 0.6,
+      "protect": [
+        [
+          0.91015625,
+          0.5611979166666666,
+          0.0576171875,
+          0.035807291666666664
+        ],
+        [
+          0.8857421875,
+          0.5989583333333334,
+          0.037109375,
+          0.012369791666666666
+        ]
+      ]
+    },
+    {
+      "type": "rain",
+      "panelId": "p08-c04",
+      "rect": [
+        0.93359375,
+        0.7421875,
+        0.0439453125,
+        0.20182291666666666
+      ]
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-hand",
+      "rect": [
+        0.169921875,
+        0.181640625,
+        0.140625,
+        0.07682291666666667
+      ]
+    },
+    {
+      "id": "c1-tool",
+      "rect": [
+        0.2919921875,
+        0.205078125,
+        0.056640625,
+        0.013020833333333334
+      ]
+    },
+    {
+      "id": "c2-wendy-face",
+      "rect": [
+        0.568359375,
+        0.13671875,
+        0.091796875,
+        0.06575520833333333
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.8212890625,
+        0.13346354166666666,
+        0.0888671875,
+        0.06901041666666667
+      ]
+    },
+    {
+      "id": "c2-franklyn-left-hand",
+      "rect": [
+        0.7705078125,
+        0.212890625,
+        0.0615234375,
+        0.039713541666666664
+      ]
+    },
+    {
+      "id": "c2-franklyn-right-hand",
+      "rect": [
+        0.923828125,
+        0.21354166666666666,
+        0.0634765625,
+        0.041666666666666664
+      ]
+    },
+    {
+      "id": "c2-franklyn-badge",
+      "rect": [
+        0.7421875,
+        0.189453125,
+        0.0322265625,
+        0.034505208333333336
+      ]
+    },
+    {
+      "id": "c3-franklyn-head",
+      "rect": [
+        0.318359375,
+        0.4264322916666667,
+        0.0625,
+        0.046223958333333336
+      ]
+    },
+    {
+      "id": "c3-franklyn-hand",
+      "rect": [
+        0.2744140625,
+        0.4654947916666667,
+        0.037109375,
+        0.026041666666666668
+      ]
+    },
+    {
+      "id": "c3-wendy-face",
+      "rect": [
+        0.3984375,
+        0.4420572916666667,
+        0.046875,
+        0.035807291666666664
+      ]
+    },
+    {
+      "id": "c3-john-face",
+      "rect": [
+        0.54296875,
+        0.4375,
+        0.056640625,
+        0.03515625
+      ]
+    },
+    {
+      "id": "c3-john-hand",
+      "rect": [
+        0.541015625,
+        0.484375,
+        0.033203125,
+        0.02734375
+      ]
+    },
+    {
+      "id": "c3-abigail-face",
+      "rect": [
+        0.6630859375,
+        0.435546875,
+        0.0517578125,
+        0.043619791666666664
+      ]
+    },
+    {
+      "id": "c3-abigail-hand-top-seat",
+      "rect": [
+        0.62109375,
+        0.4576822916666667,
+        0.037109375,
+        0.016276041666666668
+      ]
+    },
+    {
+      "id": "c3-abigail-right-hand",
+      "rect": [
+        0.728515625,
+        0.5514322916666666,
+        0.017578125,
+        0.027994791666666668
+      ]
+    },
+    {
+      "id": "c3-abigail-badge",
+      "rect": [
+        0.703125,
+        0.4739583333333333,
+        0.033203125,
+        0.024088541666666668
+      ]
+    },
+    {
+      "id": "c3-grover-face",
+      "rect": [
+        0.837890625,
+        0.4283854166666667,
+        0.048828125,
+        0.040364583333333336
+      ]
+    },
+    {
+      "id": "c3-grover-badge",
+      "rect": [
+        0.86328125,
+        0.470703125,
+        0.0361328125,
+        0.01953125
+      ]
+    },
+    {
+      "id": "c3-child-head",
+      "rect": [
+        0.4140625,
+        0.49609375,
+        0.0712890625,
+        0.049479166666666664
+      ]
+    },
+    {
+      "id": "c3-child-hand-door",
+      "rect": [
+        0.484375,
+        0.5266927083333334,
+        0.0244140625,
+        0.0234375
+      ]
+    },
+    {
+      "id": "c3-child-body",
+      "rect": [
+        0.3955078125,
+        0.5416666666666666,
+        0.111328125,
+        0.119140625
+      ]
+    },
+    {
+      "id": "c3-rear-bumper-upper",
+      "rect": [
+        0.91015625,
+        0.5611979166666666,
+        0.0576171875,
+        0.035807291666666664
+      ]
+    },
+    {
+      "id": "c3-tailpipe",
+      "rect": [
+        0.8857421875,
+        0.5989583333333334,
+        0.037109375,
+        0.012369791666666666
+      ]
+    },
+    {
+      "id": "balloon-1",
+      "rect": [
+        0.7109375,
+        0.010416666666666666,
+        0.267578125,
+        0.046875
+      ]
+    },
+    {
+      "id": "tail-1",
+      "rect": [
+        0.828125,
+        0.04296875,
+        0.03125,
+        0.049479166666666664
+      ]
+    },
+    {
+      "id": "balloon-2",
+      "rect": [
+        0.525390625,
+        0.057291666666666664,
+        0.296875,
+        0.033854166666666664
+      ]
+    },
+    {
+      "id": "tail-2",
+      "rect": [
+        0.578125,
+        0.08072916666666667,
+        0.0302734375,
+        0.015625
+      ]
+    },
+    {
+      "id": "balloon-3",
+      "rect": [
+        0.525390625,
+        0.3502604166666667,
+        0.423828125,
+        0.06770833333333333
+      ]
+    },
+    {
+      "id": "tail-3",
+      "rect": [
+        0.474609375,
+        0.4075520833333333,
+        0.083984375,
+        0.09765625
+      ]
+    },
+    {
+      "id": "balloon-4",
+      "rect": [
+        0.095703125,
+        0.421875,
+        0.1943359375,
+        0.0546875
+      ]
+    },
+    {
+      "id": "tail-4",
+      "rect": [
+        0.2763671875,
+        0.4388020833333333,
+        0.046875,
+        0.018229166666666668
+      ]
+    },
+    {
+      "id": "balloon-5",
+      "rect": [
+        0.033203125,
+        0.6796875,
+        0.423828125,
+        0.059895833333333336
+      ]
+    }
+  ],
+  "motionLayers": [
+    {
+      "id": "car-departure-rgba",
+      "panelId": "p08-c04",
+      "mode": "sprite",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "startSeconds": 17.1,
+      "endSeconds": 21.6,
+      "pivot": [
+        0.65,
+        0.55
+      ],
+      "background": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p08-c04-cleanplate.png",
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p08-c04-car-rgba.png"
+        }
+      ],
+      "keyframes": [
+        {
+          "atSeconds": 0,
+          "translate": [
+            0,
+            0
+          ],
+          "scale": 1,
+          "rotationDegrees": 0,
+          "opacity": 1,
+          "easing": "smoothstep"
+        },
+        {
+          "atSeconds": 0.4,
+          "translate": [
+            -0.012,
+            -0.004
+          ],
+          "scale": 0.98,
+          "rotationDegrees": 0,
+          "opacity": 1,
+          "easing": "smoothstep"
+        },
+        {
+          "atSeconds": 2.3,
+          "translate": [
+            -0.13,
+            -0.065
+          ],
+          "scale": 0.78,
+          "rotationDegrees": 0,
+          "opacity": 1,
+          "easing": "linear"
+        },
+        {
+          "atSeconds": 4.5,
+          "translate": [
+            -0.27,
+            -0.14
+          ],
+          "scale": 0.55,
+          "rotationDegrees": 0,
+          "opacity": 1,
+          "easing": "linear"
+        }
+      ]
+    }
+  ],
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-08/page-raw-v2.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-08/lettering-v2.svg",
+  "review": {
+    "sampleTime": 2.2,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 180,
+    "minimumLiveChangedPixels": 180,
+    "perPanelReview": [
+      {
+        "panelId": "p08-c01",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180,
+        "sampleTime": 2.2
+      },
+      {
+        "panelId": "p08-c02",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180,
+        "sampleTime": 5
+      },
+      {
+        "panelId": "p08-c03",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180,
+        "sampleTime": 11.8
+      },
+      {
+        "panelId": "p08-c04",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180,
+        "motionProofRequired": true,
+        "sampleTime": 18.1
+      }
+    ]
+  },
+  "source": "docs/chapters/ch3/SCENARIO.md — Le piège au bar ; Le parking et la fuite ; docs/anime/SCREENPLAY.md — S02-P01 à S02-P05, adaptation provisoire ; docs/anime/MOTION-COMICS-PAGES-05-08-ORCHESTRATOR.md ; docs/comics/blue-purple-motion/production/pages-01-04/revision-03/STORYBOARD.md ; Retour utilisateur transmis par intégrateur le 2026-11-05 : John assomme explicitement le barman ; davantage de voix, SFX/musique et mouvements d'action dessinés.",
+  "provenance": {
+    "revision": 1,
+    "previousDelivery": "docs/comics/blue-purple-motion/production/pages-05-08/DELIVERY.md",
+    "contract": "docs/comics/blue-purple-motion/production/pages-05-08/revision-01/CONTRACTS.json",
+    "contractSha256": "4f94e18d93cdfd6fe7b89865f81076d0b0cb5eca773be5b4da19a740826d81ac",
+    "timing": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/timing-r1-v5.json",
+    "imageSha256": "01be0cf9c700380e5693ffb06c455eeedfbd94461e1b42ef17119807e4bc2f18",
+    "soundtrack": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/soundtrack-v3/final-provenance.json",
+    "humanApproval": false,
+    "selectedFrom": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/candidates-stage1-v1/page-08.json",
+    "review": "docs/comics/blue-purple-motion/production/pages-05-08/revision-01/REVIEW.md",
+    "previousManifest": "blue-purple-page08-v1.json",
+    "humanListeningApproval": false
+  }
+}

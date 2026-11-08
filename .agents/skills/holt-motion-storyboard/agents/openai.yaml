@@ -1,0 +1,4 @@
+interface:
+  display_name: "Découpage motion comics"
+  short_description: "Contrats, action et rythme avant production"
+  default_prompt: "Utilise $holt-motion-storyboard pour réaliser l’étape demandée dans le périmètre HOLT."

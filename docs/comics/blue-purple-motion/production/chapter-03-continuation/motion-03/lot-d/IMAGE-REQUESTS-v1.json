@@ -1,0 +1,58 @@
+{
+  "status": "briefs-recorded-before-submission",
+  "initialAllocation": 4,
+  "targetedCorrectionAllocation": 3,
+  "requests": [
+    {
+      "id": "water-clean-v1",
+      "reference": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p20-c03.jpg",
+      "destination": "native/water-clean-v1.png",
+      "prompt": "Use case: precise-object-edit. This is a production CLEAN BACKGROUND PLATE for an existing Edgerunners-inspired cyberpunk comic panel, not a new composition. Return one single wide landscape image matching the supplied 1774x887 frame, exactly the same framing, perspective, lights, inking and rainy night palette. Remove ONLY the airborne homeless man over the water on the right, plus his large white impact splash and isolated droplets. Reconstruct the ordinary dark choppy harbor water, magenta/cyan reflections, the concrete wall behind him, wire trash fence and rain in the region he occupied. The water should have small natural low waves, with no big impact crown yet. Keep all SIX people on the quay on the left, including the white-haired young man with outstretched hands, precisely in their existing position, size, pose, proportions and identity. Keep the quay edge, bollards, stairs, railing and city exactly aligned. Do not move or redraw any arm, hand, finger or leg. No replacement person, no body or silhouette left in the water, no ghost, no splash plume, no lettering or borders. The untouched original people will be composited over this plate, so camera registration and background continuity matter more than new detail.",
+      "referenceSha256": "e27cbe0f2c667c50c0a8a47a53e99ef815e66e76bd2feff6995257cc0a79b145",
+      "tool": "built-in image_gen",
+      "maxReferences": 1
+    },
+    {
+      "id": "door-closed-clean-v1",
+      "reference": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p21-c01.jpg",
+      "destination": "native/door-closed-clean-v1.png",
+      "prompt": "Use case: precise-object-edit. Create a precise production CLEAN PLATE of the supplied wide 1774x887 cyberpunk comic illustration, with the identical composition, perspective, two-to-one landscape framing and angular Edgerunners-like ink/cel shading. Remove ONLY the braided navy-uniformed woman standing in front of the large rusty double steel door on the RIGHT. Fill her former silhouette with the exact same CLOSED double door behind her and the small missing floor area. Reconstruct both leaf surfaces, diagonal braces, rusty rivets and central handles continuously, as if she had never stood there. The double door must remain closed, with exactly the same outer frame and center seam. Preserve the other FIVE characters at the left, their faces, clothes, proportions, hands and positions, all pipes, lamps and wall details. Do not add equipment or people. No lettering, logo, border or collage. The original woman will be placed in front afterwards; this clean texture is needed to swing the two rigid steel leaves separately without duplicating her body.",
+      "referenceSha256": "c4ceeb62dc43c85660192244f55e78bce698ea2336a23b54f438a1857732da95",
+      "tool": "built-in image_gen",
+      "maxReferences": 1
+    },
+    {
+      "id": "door-empty-interior-v1",
+      "reference": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p21-c01.jpg",
+      "destination": "native/door-empty-interior-v1.png",
+      "prompt": "Use case: precise-object-edit. Production interior BACKGROUND PLATE, same single wide 1774x887 two-to-one landscape frame, camera, vanishing points, foreground people and precise angular ink/cel rendering as the supplied comic. Change ONLY the right-hand large double-door aperture: REMOVE the two steel door leaves completely to reveal the EMPTY dark industrial shelter behind the exact same rectangular doorway. Also remove the single braided uniformed woman who is directly in front of the aperture, so the aperture and its floor are fully visible. Preserve the other five people on the LEFT and all original outer masonry, steel door jambs, pipes, warm cage lamps, wet floor and rain-light reflections in perfect registration. Inside is an EMPTY gray steel/concrete service chamber: bare worn metal walls and floor, exposed ceiling conduits, a few dim fluorescent ceiling bars and plain utility door outlines. Inspiration is the campaign's original bare industrial room: no furniture, no desks, no computers, no weapons racks, no beds, no modern HQ, no bright sci-fi control center, no extra people. Interior perspective must meet the existing threshold and preserve scale; do not turn it into a huge cathedral or a long train tunnel. No door leaves anywhere inside the aperture: separate original textured leaves will be animated over this clean empty-room plate. No letters, border, panel split or collage.",
+      "referenceSha256": "c4ceeb62dc43c85660192244f55e78bce698ea2336a23b54f438a1857732da95",
+      "tool": "built-in image_gen",
+      "maxReferences": 1
+    }
+  ],
+  "inspectedOriginalReferences": [
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/owner-review-references/slide-54.png",
+      "sha256": "9a4185d8c45079998573ae6885570b924ddc115d81330998c15e851069ff0a99",
+      "inspected": true,
+      "role": "Original ODP empty shelter geometry and lack of furnishings"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/owner-review-references/slide-59.png",
+      "sha256": "3111c967786ab04602c0919bb2963bf31996f3638c72444006771fe2f8114fff",
+      "inspected": true,
+      "role": "Original ODP industrial pipes/materials"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/owner-review-references/slide-63.png",
+      "sha256": "eb8c1cb70031d6cb4c96c914f9a52cbe4a5ca7aacadf1e0e6dabc7868e39eca6",
+      "inspected": true,
+      "role": "Original ODP water-level dock and trash gate"
+    }
+  ],
+  "originalDeck": {
+    "file": "docs/Cyber-S01-E02-Had.odp",
+    "sha256": "f3709848e9781eed51bf3e51a6c38910a6698e59fc372136cde9619d049ac4d2"
+  }
+}

@@ -24,6 +24,14 @@ jobs:
       - name: Verifier le projet
         run: npm run verify
 
+      - name: Vérifier le socle et le paquet web du comics
+        run: |
+          npm --prefix anime/motion-comics test
+          npm run comics:check
+
+      - name: Vérifier les workflows et skills
+        run: npm run workflow:check
+
       - name: Simulation d equilibrage (indicatif)
         run: npx tsx scripts/simulate.ts 200 ci
         continue-on-error: true

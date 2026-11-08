@@ -1,0 +1,22 @@
+[
+  {
+    "cost": null,
+    "prompt": "ART-JOBS.json",
+    "id": "35",
+    "output": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-b/closure-35-native.png",
+    "reference": "capsule-open-closed-reference.jpg",
+    "provider_id": null,
+    "sha256": "38A04EEC07672B79478F6BC35B4F775710A983BB55F3263BC8C027B769E6A0CF",
+    "status": "selected"
+  },
+  {
+    "cost": null,
+    "prompt": "ART-JOBS.json",
+    "id": "75",
+    "output": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-b/closure-75-native.png",
+    "reference": "capsule-open-closed-reference.jpg",
+    "provider_id": null,
+    "sha256": "56EF656C506A916C36ABD23A4192832F66C31035EE8359DF86C6AEF0EF47A8DB",
+    "status": "rejected: lower panel grows at final frame"
+  }
+]

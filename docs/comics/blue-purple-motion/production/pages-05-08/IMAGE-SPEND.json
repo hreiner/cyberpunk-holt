@@ -1,0 +1,111 @@
+{
+  "status": "completed",
+  "checkedAt": "2026-11-05T20:06:23.029Z",
+  "provider": "ImageGen built-in",
+  "maximumCalls": 16,
+  "actualCalls": 16,
+  "initialCalls": 12,
+  "correctionCalls": 4,
+  "failures": 0,
+  "remaining": 0,
+  "cost": null,
+  "providerRequestIds": null,
+  "records": [
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-05/band-01-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "965ba0e7db04710ab37e9dd84f8dacbfc2acf30fe1ba6e02c625d3306275f77d",
+      "imageSha256": "17d9e6806439c5b7ab497679b5bea6e2747c55a14b8e0a416e884edbc23b6bd2"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-05/band-02-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "c066bdb35f062c068d89a818631a9d4e26bfed8a747d6d50ef8fa6408bd22b95",
+      "imageSha256": "4e3e436519bb95b57325d60e7633b836cc10f7c8ba9af7f8ee6030573a9a6981"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-05/band-02-attempt-02/journal.json",
+      "status": "review",
+      "promptSha256": "1129d391056dc8d851452b0216ae7ad541fe677ca04f029308bd6a9a5ed54a8f",
+      "imageSha256": "bbf857034d5521fe1381ba98d1969aac0dc737aa778247fdb50f47dc772aa6ae"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-05/band-03-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "8f4ba1babaaad778def1e9216abc27b6e2f15dea0fb863c2b4808815fce24005",
+      "imageSha256": "a975af8b75c6319d6d8790d8dcfb566f0e5dc9734c5340db6e744aca9eaf4af6"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-06/band-01-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "6a9af19d5013746842dd0882a2678da49c4a77945373cb5a75922eb327c07ccb",
+      "imageSha256": "e9c578574ffffb29011ff278e6176f080861e070a03f5e374e41ab14d964d0fc"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-06/band-02-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "736036884bc6f8637b3d5067f35421ba9ce88384a199114a42ae8e3f1aafebef",
+      "imageSha256": "2f7db71b9e4565876b6ae2e65dfdb386a144d3216af3f198278be5ec8b0370d3"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-06/band-03-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "dd513a55f8e9546899471eb23265c0739b67303531f0180cd813d53c82659a41",
+      "imageSha256": "5a48f7bf4465e18614f4fcbfe8df00c8e0cf977997c4a217798a87a263e56c9a"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-06/band-03-attempt-02/journal.json",
+      "status": "review",
+      "promptSha256": "8dc10614bbab3f7efc9cb6038197fc16110969f7993b6d6be5ab6bf166d852e9",
+      "imageSha256": "ba379abb402ccafebad6e2748506cfd335560a686ef01511a98727805cb3bed4"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-07/band-02-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "515f5548c1c3339b843fd9bcf42ea6cf8bfccd38819aad23a8756839c44fd23d",
+      "imageSha256": "54cf1d6a12c8b357e1a29314fcf7131b8821528910ab220d21b0279fd01593a4"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-07/band-02-attempt-02/journal.json",
+      "status": "review",
+      "promptSha256": "77d268a78d7bb49b9bab64bbf43a040db8a11e0c530385c94a4b570e3e87158d",
+      "imageSha256": "3e2899b20c6a5a84819b42c9dcb43b60c00ca0d2111cbcddc0fc209b547d448a"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-07/band-03-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "58622e0691d6ce4964cfda920a0d5a8b90c2f2b99f10bbe6eb7f7aef8b307eb5",
+      "imageSha256": "aacf8acbbda7f5b89ae05bace0f1c77210439bf9df02150242e96d64ce7e82f4"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-08/band-01-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "dffd2843edf62a757f10e05d82b05169523f5bbff937fdb47f4cd182fe2c3769",
+      "imageSha256": "e504ddb6d22aa92cd44d878b8fd9e48a33f9a80a80e3755e2c5e1f46baae6611"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-08/band-02-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "e0fb6b1e0fde07f56a7e534c6947f3adc185bccc4a6d44e36edc8a97b8317a65",
+      "imageSha256": "87428c7a9d71be36b1716871dc7cebdf4fa124179c85afdf1226487c24aa4931"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-08/band-02-attempt-02/journal.json",
+      "status": "review",
+      "promptSha256": "2ae89b919fd816c980cd2f04c7007aef57a4cd7f680ce9c53db7b377b47cf45d",
+      "imageSha256": "c270804e588fee07b1af95c63b157b62a021f139bb502d68c1f5b3699466fe12"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-08/band-03-attempt-01/journal.json",
+      "status": "review",
+      "promptSha256": "e4a5d8e07bcfe3e5fbd45e6561d7cef581451d762bea10778027f7cff99d6a11",
+      "imageSha256": "b9789c1ba198e3b4b36fa9ad749c9f8cbd9fda2d3ce9ef6cf7023f649a5c4611"
+    },
+    {
+      "journal": "art-masters/motion-comics/blue-purple/page-07/attempts/band-01-v1/operation.json",
+      "status": "review",
+      "promptSha256": "84063a4bd64dd8e766aae8350950d93e1bcc1569f1c541867a5cbbf87e9987e6",
+      "imageSha256": "4f6715491a756224eaec8d63f3b88b852ade623b4290815a5a917b3cc160b085"
+    }
+  ]
+}

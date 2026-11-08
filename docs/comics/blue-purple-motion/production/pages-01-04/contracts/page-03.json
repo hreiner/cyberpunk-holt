@@ -1,0 +1,189 @@
+{
+  "page": 3,
+  "title": "Les chiffres",
+  "source": "docs/chapters/ch3/SCENARIO.md — Les chiffres et la vision ; docs/anime/SCREENPLAY.md S01-P04",
+  "panels": [
+    {
+      "id": "p03-c01",
+      "readingOrder": 1,
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "wendy",
+        "franklyn"
+      ],
+      "instant": "Wendy révèle le document pour la première fois.",
+      "setting": "Table de la salle attenante ; même lumière.",
+      "intention": "Faire passer l'attention de la dette à une piste incertaine.",
+      "expression": "Wendy doute mais propose ; Franklyn regarde le papier.",
+      "gesture": "Wendy dépose ou tient au ras de la table un document numéroté, une main entière et lisible.",
+      "gaze": "Wendy de papier vers Franklyn ; Franklyn vers document.",
+      "visibleAction": "Document révélé : groupes numériques partiels, sans carte ni coordonnée réelle complète.",
+      "framing": "Plan oblique rapproché mains-document, visage Wendy visible en bord de cadre pour attribution ; Franklyn en amorce.",
+      "lettering": "Bulle Wendy supérieure droite, papier central/bas entièrement dessiné sous le lettrage.",
+      "cues": [
+        {
+          "id": "bp-l010",
+          "globalLine": 10,
+          "speaker": "wendy",
+          "textFr": "C'est tout ce que j'ai. Je crois que c'est notre point de départ.",
+          "textEn": "This is all I have. I think it's where we start.",
+          "intention": "Prudente, puis petite impulsion vers l'action sans certitude."
+        }
+      ],
+      "minimumReadSeconds": 7
+    },
+    {
+      "id": "p03-c02",
+      "readingOrder": 2,
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "franklyn"
+      ],
+      "instant": "La vue des chiffres déclenche le premier flash subjectif.",
+      "setting": "Présent à la table traversé d'un reflet numérique abstrait.",
+      "intention": "Saisissement intérieur, pas de nouvel implant explicatif.",
+      "expression": "Yeux soudain fixes, inspiration suspendue ; bouche fermée.",
+      "gesture": "Immobile ; léger raidissement des épaules dessiné, sans animation anatomique exigée.",
+      "gaze": "Vers le document hors champ, regard qui semble traverser le présent.",
+      "visibleAction": "Éclats graphiques techniques et fragments numériques à la périphérie du visage, yeux non recouverts.",
+      "framing": "Très gros plan de Franklyn ; géométrie de circuits abstraits dans le fond, pas d'interface lisible.",
+      "lettering": "Aucune bulle ni cartouche ; case muette.",
+      "cues": [],
+      "minimumReadSeconds": 3
+    },
+    {
+      "id": "p03-c03",
+      "readingOrder": 3,
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "silhouette-elfique-anonyme"
+      ],
+      "instant": "Fragment très bref de souvenir de simulation avancée.",
+      "setting": "Paysage elfique seulement évoqué par silhouettes, reliefs et architecture anguleuse, fragmenté de motifs techniques.",
+      "intention": "Signaler une ancienne expérience subjective sans l'expliquer.",
+      "expression": "Silhouette distante sans portrait détaillé.",
+      "gesture": "Silhouette immobile dans le fragment de paysage.",
+      "gaze": "Point de vue subjectif de Franklyn, non omniscient.",
+      "visibleAction": "Souvenir incomplet d'un environnement de simulation, jamais une carte de Night City.",
+      "framing": "Fragment paysager large recadré dans case verticale ; pas de corps de Franklyn visible.",
+      "lettering": "Aucune bulle, légende ou nom ; case muette.",
+      "cues": [],
+      "minimumReadSeconds": 4
+    },
+    {
+      "id": "p03-c04",
+      "readingOrder": 4,
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "enfant",
+        "franklyn"
+      ],
+      "instant": "Retour au présent : l'enfant remarque le silence de Franklyn.",
+      "setting": "Table de la salle attenante clairement retrouvée ; document reste à plat.",
+      "intention": "Rendre le trouble perceptible au groupe sans donner sa clé.",
+      "expression": "Enfant inquiet, Franklyn absent puis revenant à lui.",
+      "gesture": "L'enfant se penche un peu, mains près de lui ; Franklyn reprend son souffle, pas de contact ajouté.",
+      "gaze": "Enfant vers Franklyn ; Franklyn d'abord papier puis enfant.",
+      "visibleAction": "L'enfant l'interpelle ; Franklyn hésite à parler.",
+      "framing": "Plan à deux avec enfant civil bien identifiable et Franklyn ; une amorce du document suffit.",
+      "lettering": "Bulle de l'enfant au-dessus de lui, queue courte claire ; Franklyn ne reçoit aucune bulle.",
+      "cues": [
+        {
+          "id": "bp-l011",
+          "globalLine": 11,
+          "speaker": "enfant",
+          "textFr": "Franklyn ? Qu'est-ce qu'il y a ?",
+          "textEn": "Franklyn? What's wrong?",
+          "intention": "Petit appel d'abord prudent, puis inquiétude sincère sans crier."
+        }
+      ],
+      "minimumReadSeconds": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "version": 1,
+  "status": "integrator-approved-for-production",
+  "dialogueStatus": "adaptation",
+  "pageSize": [
+    1024,
+    1536
+  ],
+  "productionApproval": {
+    "reviewer": "integrator",
+    "date": "2026-11-05",
+    "scope": "Storyboard et contrats v1 après lecture complète et contre-revue indépendante sans blocage",
+    "humanApproval": false
+  }
+}

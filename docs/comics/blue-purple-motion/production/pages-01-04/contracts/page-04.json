@@ -1,0 +1,213 @@
+{
+  "page": 4,
+  "title": "Le bar s'est vidé",
+  "source": "docs/chapters/ch3/SCENARIO.md — Les chiffres et la vision, puis début Le piège au bar ; docs/anime/SCREENPLAY.md S01-P05 et première réplique S02-P01",
+  "panels": [
+    {
+      "id": "p04-c01",
+      "readingOrder": 1,
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "franklyn"
+      ],
+      "instant": "Après l'hésitation, Franklyn partage enfin ce qu'il a reconnu.",
+      "setting": "Salle attenante, table ; flash dissipé.",
+      "intention": "Transformer son trouble en information utile au groupe.",
+      "expression": "Hésitation qui s'efface, concentration grave.",
+      "gesture": "Regarde le document puis relève légèrement le menton pour parler.",
+      "gaze": "Du papier vers les autres à leurs places réelles.",
+      "visibleAction": "Il identifie latitude et longitude comme un souvenir de simulation.",
+      "framing": "Plan rapproché large de Franklyn, document en amorce basse ; fond réel net.",
+      "lettering": "Deux bulles liées en haut hors visage, espace pour trois phrases courtes ; garder papier lisible comme objet.",
+      "cues": [
+        {
+          "id": "bp-l012",
+          "globalLine": 12,
+          "speaker": "franklyn",
+          "textFr": "Je connais ces chiffres. Latitude et longitude. Je les ai vus dans la simulation.",
+          "textEn": "I know these. Latitude and longitude. I saw them in the simulation.",
+          "intention": "Début bas et hésitant, reconnaissance progressive, termine en assumant le souvenir."
+        }
+      ],
+      "minimumReadSeconds": 8
+    },
+    {
+      "id": "p04-c02",
+      "readingOrder": 2,
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "franklyn",
+        "wendy"
+      ],
+      "instant": "Franklyn explique l'étape nécessaire sans encore la réaliser.",
+      "setting": "Même salle ; aucun écran de borne dessiné.",
+      "intention": "Proposer une action concrète pour interpréter la piste.",
+      "expression": "Franklyn plus assuré, Wendy écoute.",
+      "gesture": "Franklyn indique le document d'un doigt entier sans le brandir.",
+      "gaze": "Franklyn vers Wendy ; Wendy alterne papier et Franklyn.",
+      "visibleAction": "Besoin annoncé d'une borne pour convertir les anciennes coordonnées.",
+      "framing": "Plan moyen resserré Franklyn parlant, Wendy en amorce ou bord opposé.",
+      "lettering": "Deux bulles brèves de Franklyn dans zone supérieure libre ; aucune bulle ni réplique de Wendy.",
+      "cues": [
+        {
+          "id": "bp-l013",
+          "globalLine": 13,
+          "speaker": "franklyn",
+          "textFr": "Ce sont d'anciennes coordonnées. Il faut une borne pour les convertir.",
+          "textEn": "They're old coordinates. We need a terminal to convert them.",
+          "intention": "Clair, pressé mais intelligible ; une inspiration entre constat et solution."
+        }
+      ],
+      "minimumReadSeconds": 7
+    },
+    {
+      "id": "p04-c03",
+      "readingOrder": 3,
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "wendy"
+      ],
+      "instant": "Wendy décide de partir maintenant.",
+      "setting": "Même salle, porte vers le bar en bord ou fond ; aucun bar extérieur révélé ici.",
+      "intention": "Donner l'impulsion de sortie.",
+      "expression": "Alerte, décision nette.",
+      "gesture": "Se lève à côté de sa chaise, document récupéré dans sa main ou table selon dessin, sans duplication.",
+      "gaze": "Vers la sortie puis vers le groupe.",
+      "visibleAction": "Wendy se met debout ; la sortie est prête, pas encore franchie.",
+      "framing": "Plan américain de Wendy, chaise et bord de table pour lire le mouvement.",
+      "lettering": "Petite bulle haute sans cacher la tête ; place pour regard vers porte.",
+      "cues": [
+        {
+          "id": "bp-l014",
+          "globalLine": 14,
+          "speaker": "wendy",
+          "textFr": "Alors, on y va.",
+          "textEn": "Then let's move.",
+          "intention": "Brève impulsion autoritaire, urgence sans cri."
+        }
+      ],
+      "minimumReadSeconds": 4
+    },
+    {
+      "id": "p04-c04",
+      "readingOrder": 4,
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant",
+        "barman"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "john",
+        "wendy",
+        "franklyn",
+        "abigail",
+        "grover",
+        "enfant",
+        "barman"
+      ],
+      "instant": "Premier regard en sortant de la salle attenante.",
+      "setting": "Vue vers la salle principale du Blue Purple, désormais vidée de ses clients ; comptoir et tables inoccupés.",
+      "intention": "Faire sentir un piège par le silence et l'espace vidé.",
+      "expression": "John surpris, groupe soudain arrêté ; barman indistinct, aucun geste d'avertissement encore.",
+      "gesture": "Groupe au seuil en amorce de dos/profil ; John arrête le pas. Barman derrière comptoir partiellement caché, bras non lisibles.",
+      "gaze": "Tous vers le bar désert ; aucun poursuivant visible.",
+      "visibleAction": "Clients absents, tables vides ; John pose sa question. Fin sur le vide, aucune vitre brisée ni arme.",
+      "framing": "Grand plan large depuis le seuil, silhouettes du groupe en bas/latéral, profondeur dominante vers bar ; John de profil suffisamment identifiable pour la queue.",
+      "lettering": "Une petite bulle John au bord supérieur près de son côté ; préserver grande zone centrale de vide.",
+      "cues": [
+        {
+          "id": "bp-l015",
+          "globalLine": 15,
+          "speaker": "john",
+          "textFr": "Ils sont tous passés où ?",
+          "textEn": "Where did everybody go?",
+          "intention": "D'abord question basse, puis il entend lui-même le silence ; laisser retomber sans réponse."
+        }
+      ],
+      "minimumReadSeconds": 7
+    }
+  ],
+  "schemaVersion": 1,
+  "version": 1,
+  "status": "integrator-approved-for-production",
+  "dialogueStatus": "adaptation",
+  "pageSize": [
+    1024,
+    1536
+  ],
+  "productionApproval": {
+    "reviewer": "integrator",
+    "date": "2026-11-05",
+    "scope": "Storyboard et contrats v1 après lecture complète et contre-revue indépendante sans blocage",
+    "humanApproval": false
+  }
+}

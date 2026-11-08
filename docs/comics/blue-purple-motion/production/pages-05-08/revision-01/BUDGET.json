@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-05",
+  "authorization": "Owner requests revision: explicit John strike, richer dialogue, SFX/music and real movement; bounded envelope recorded in PROGRESS.md before production.",
+  "imagegen": {
+    "previousPages05To08Calls": 16,
+    "revisionCallCapIncludingFailures": 12,
+    "initialAssets": 8,
+    "targetedCorrectionReserve": 4,
+    "allocation": "Four punch poses, two exit poses, street cleanplate and true RGBA car; art agent is sole operator. Corrections require observed defect and independent prompt review."
+  },
+  "voice": {
+    "historicalSubmittedCharacters": 2856,
+    "newAnnotatedCharacters": 538,
+    "plannedCumulativeCharacters": 3394,
+    "correctionReserveCharacters": 444,
+    "operationalCumulativeCap": 3838,
+    "absoluteCumulativeCap": 4800,
+    "unallocatedCharacters": 962,
+    "model": "eleven_v4",
+    "policy": "Do not regenerate selected takes or spend the unallocated margin automatically; tags, failures and retries count."
+  },
+  "soundEffects": {
+    "requestCapIncludingFailures": 8,
+    "requestedSecondsCap": 24,
+    "initialRequests": 6,
+    "initialRequestedSeconds": 20,
+    "correctionReserveRequests": 2,
+    "correctionReserveSeconds": 4,
+    "model": "eleven_text_to_sound_v2",
+    "policy": "OAuth CLI only; stop on 401, no token transfer or blind retry. Local fallback must retain its actual provenance."
+  },
+  "music": { "newPaidGenerations": 0, "policy": "Reuse HOLT pressure, neon and afterglow with authored transitions and voice ducking." },
+  "actual": {
+    "imagegenRevisionCallsIncludingCorrections": 11,
+    "imagegenInitialCalls": 8,
+    "imagegenCorrectionCalls": 3,
+    "imagegenUnspentCalls": 1,
+    "knownPages05To08CallsIncludingPreviousDelivery": 27,
+    "newVoiceRequests": 14,
+    "newVoiceAnnotatedCharacters": 538,
+    "cumulativeVoiceSubmittedCharacters": 3394,
+    "voiceFailuresOrRegenerations": 0,
+    "reusedVoiceTakes": 8,
+    "sfxRequests": 6,
+    "sfxRequestedSeconds": 20,
+    "sfxFailuresOrRegenerations": 0,
+    "newPaidMusicGenerations": 0,
+    "localFoleyComplements": 3,
+    "contactShadowCorrectionPaidCalls": 0,
+    "evidence": ["ART.md", "QA-IMAGES.md", "AUDIO.md", "QA-AUDIO.md"]
+  },
+  "cost": null,
+  "providerRequestIds": null
+}

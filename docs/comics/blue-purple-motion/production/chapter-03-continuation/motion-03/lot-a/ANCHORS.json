@@ -1,0 +1,63 @@
+{
+  "origin": "local-page-seconds",
+  "timingContract": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/timing/TIMING.json",
+  "timingSha256": "6abefd967dee6b9b1a0b3c85d54c85fbf1d5ffbe8bc12294f5fc774fbea2a091",
+  "events": [
+    {
+      "id": "terminalAcquire",
+      "page": 9,
+      "panelKey": "09-2",
+      "localTime": 10.991666666666667,
+      "intention": "Début du calcul, quadrilatère de vitre existante"
+    },
+    {
+      "id": "terminalMapReady",
+      "page": 9,
+      "panelKey": "09-2",
+      "localTime": 11.991666666666667,
+      "intention": "Carte lisible, halo rose resserré ; avant parole de Franklyn"
+    },
+    {
+      "id": "johnProposalReveal",
+      "page": 11,
+      "panelKey": "11-3a",
+      "localTime": 16.255,
+      "intention": "Case et bulle John apparaissent ensemble"
+    },
+    {
+      "id": "abigailReplyReveal",
+      "page": 11,
+      "panelKey": "11-3b",
+      "localTime": 22.605,
+      "intention": "Réponse révélée après proposition de John"
+    },
+    {
+      "id": "implantPulseStart",
+      "page": 12,
+      "panelKey": "12-2",
+      "localTime": 12.674999999999999,
+      "intention": "Montée implant puis deux impulsions"
+    },
+    {
+      "id": "implantConfirm",
+      "page": 12,
+      "panelKey": "12-2",
+      "localTime": 13.475,
+      "intention": "Deuxième impulsion de confirmation de réservation"
+    },
+    {
+      "id": "elevatorSettles",
+      "page": 12,
+      "panelKey": "12-3",
+      "localTime": 24.683333333333334,
+      "intention": "Arrêt des reflets avant la dernière tenue, sans ouverture physique"
+    },
+    {
+      "id": "franklynNeuralHint",
+      "page": 13,
+      "panelKey": "13-1",
+      "localTime": 3.3000000000000003,
+      "intention": "Trouble subjectif bref dans le décor, aucune carte"
+    }
+  ]
+}

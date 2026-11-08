@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+ <defs><linearGradient id="paper" x2="0" y2="1"><stop stop-color="#f9f2dd"/><stop offset="1" stop-color="#bbbcaa"/></linearGradient></defs>
+ <g transform="translate(470 170) rotate(-5 490 370)">
+  <path d="M30 30H958V728H30Z" fill="#080d19" opacity=".55"/>
+  <path d="M0 0H928V698H0Z" fill="url(#paper)" stroke="#36494d" stroke-width="4"/>
+  <path d="M50 82H878M50 614H878" fill="none" stroke="#718383" stroke-width="4"/>
+  <g fill="#273b40" opacity=".9"><rect x="56" y="126" width="223" height="13"/><rect x="56" y="162" width="470" height="9"/><rect x="56" y="191" width="320" height="9"/><rect x="56" y="251" width="343" height="18"/><rect x="56" y="302" width="282" height="18"/><rect x="56" y="353" width="406" height="18"/><rect x="56" y="404" width="310" height="18"/><rect x="56" y="455" width="370" height="18"/><rect x="56" y="506" width="250" height="18"/></g>
+  <g stroke="#647d79" fill="none" stroke-width="3" opacity=".8"><circle cx="695" cy="353" r="133"/><circle cx="695" cy="353" r="102"/><path d="M520 353h350M695 180v346M600 258l190 190M790 258L600 448"/></g>
+ </g>
+</svg>

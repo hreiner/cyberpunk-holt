@@ -1,0 +1,14 @@
+{
+  "prompt": "p17-clean-prompt.txt",
+  "initial_cap": 1,
+  "provider_id": null,
+  "reference": {
+    "sha256": "0BE2B95EA9AAD4A73C4F5680A69928A9972194916FE48E03F9B3CFC1DB8A4F7D",
+    "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p17-c02.jpg"
+  },
+  "status": "generated; middle geometry superseded by targeted correction",
+  "correction_reserve": 1,
+  "cost": null,
+  "output": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/art/p17-clean-native-01.png",
+  "output_sha256": "F0D9589AC3B6A2586DC8F31C1C44167A9E5B36690B1EE8C5131C69A1C9436597"
+}

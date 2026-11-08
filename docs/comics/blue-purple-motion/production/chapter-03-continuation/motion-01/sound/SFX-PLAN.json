@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-07",
+  "status": "integrator-approved",
+  "provider": "ElevenLabs CLI OAuth",
+  "model": "eleven_text_to_sound_v2",
+  "historicalRequests": 6,
+  "historicalRequestedSeconds": 20,
+  "firstPassRequests": 4,
+  "firstPassRequestedSeconds": 16,
+  "correctionReserveRequests": 2,
+  "correctionReserveSeconds": 8,
+  "maxRequests": 6,
+  "maxRequestedSeconds": 24,
+  "approvedSoundIds": ["capsule-close", "elevator-travel", "single-shot-metal", "body-water-splash"],
+  "approval": "Intégrateur /root, 7 novembre2026 : quatre prompts relus et allocation4requêtes16s, réserve2requêtes8s, plafond6requêtes24s incluant échecs.",
+  "actualCost": null,
+  "providerRequestIds": null,
+  "policy": "Réemploi d'abord. Échecs et interruptions comptés. Arrêt sur HTTP401. Réserve sur diagnostic ciblé, jamais régénération automatique.",
+  "sounds": [
+    {
+      "id": "capsule-close",
+      "durationSeconds": 4,
+      "text": "One old human-sized seated sensory simulation capsule being manually closed: worn curved metal canopy sliding down slowly on stiff guides, a short servo whirr, then exactly one firm latch clunk and a brief pneumatic seal hiss. Small quiet electronics shop, close and tactile, resonant but not huge. No opening sequence, no doorbell, no alarm, no voices, no music, no cinematic boom.",
+      "intention": "Franklyn ferme la capsule usée ; fermeture matérielle unique, puis activation locale électronique séparée.",
+      "panelId": "p15-c03"
+    },
+    {
+      "id": "elevator-travel",
+      "durationSeconds": 4,
+      "text": "Inside a worn residential industrial elevator: brief soft electric motor engagement, a low rising cable and ventilation hum suggesting upward travel, then a restrained mechanical slowdown and one small landing clunk. Intimate enclosed steel cabin acoustics, not a horror sound. No door opening, no chime, no voices, no music, no alarm.",
+      "intention": "Cage résidents en mouvement ; portes séparées pour synchroniser image et débarquement, réutilisable au retour.",
+      "panelId": "p12-c03"
+    },
+    {
+      "id": "single-shot-metal",
+      "durationSeconds": 3,
+      "text": "Exactly one distant sharp rifle gunshot across a large wet enclosed urban atrium, immediately followed by one close sharp bullet impact into a steel pillar and a brief metallic ringing ricochet, with short spacious building echoes fading away. One shot only, realistic scale, no glass breaking, no explosion, no additional shots, no screaming, no voices, no music.",
+      "intention": "Un tir visible, impact dans le pilier de la bande17.2 ; aucune rafale ni vitre inventée.",
+      "panelId": "p17-c02"
+    },
+    {
+      "id": "body-water-splash",
+      "durationSeconds": 5,
+      "text": "Exactly one heavy clothed adult body falling a short distance from a low concrete quay into choppy dark water: a single broad close splash with a low hollow water slap, scattered droplets hitting the quay, then natural sloshing ripples settling. Realistic water level perspective, outdoor concrete seawall reflections. No scream, no voice, no struggle, no bubbles, no drowning sounds, no music, no cinematic boom.",
+      "intention": "John jette le sans-abri depuis le quai au niveau de l'eau ; un splash, sans cri ou issue inventée.",
+      "panelId": "p20-c03"
+    }
+  ],
+  "localDesign": [
+    "interface confirmée : trois clics courts puis confirmation, synthèse déterministe sans voix",
+    "réparation : petits contacts/outil et alimentation intermittente, aucune explosion",
+    "déverrouillage neural : motif bref de données et pulse, traité en espace interne distinct de la pièce",
+    "portes et loquets : réemploi Foley existants, traitement spectral selon lieu",
+    "pas et pluie : portions réelles des sources existantes, variété de gain/pan et rythme sans imitation de marche complète"
+  ],
+  "musicPolicy": "Aucune nouvelle composition : pressure/neon/afterglow existantes, transitions selon le récit ; ambiances ville/ventilation/égouts existantes et provenance conservée.",
+  "humanListening": "not-performed"
+}

@@ -32,6 +32,13 @@ personnages, ancre de distribution, lieux et continuité de tenue dans chaque g�
 5. Assembler les pages intégrales ; vérifier dimensions, ordre, couverture/quatrième,
    PDF, CBZ et lecteur. Rendre le PDF et revoir une planche de toutes ses pages.
 
+Ouvrir les mains/doigts/pouces/poignets et les appuis en détail, en plus de la page entière.
+Ne pas cacher un défaut anatomique sous une bulle. Dans une édition locale de décor,
+préserver les acteurs originaux hors de la zone concernée et vérifier les raccords.
+Pour des pages animées avec calques et lettrage éditable, appliquer plutôt
+l'[orchestration motion comics](../anime/motion-comics/ORCHESTRATION.md) ; le lettrage
+intégré de l'album v2 reste une convention propre à cette édition statique.
+
 Pour reconstruire **v2 seulement** :
 
 ```powershell

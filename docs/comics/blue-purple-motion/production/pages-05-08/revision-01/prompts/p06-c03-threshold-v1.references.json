@@ -1,0 +1,12 @@
+{
+  "prompt": "p06-c03-threshold-v1.txt",
+  "contract": "revision-01/CONTRACTS.json v3 p06-c03 threshold",
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/references/p06-c03-v1-reference.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-01-08/references/cast-six-v1.png"
+  ],
+  "output": "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p06-c03-pose-01-seuil.png",
+  "transparentBackground": false,
+  "status": "ready-for-independent-review-before-submission",
+  "inspection": "Existing reference sources inspected. Any generated predecessor must be opened and selected before dependent call."
+}

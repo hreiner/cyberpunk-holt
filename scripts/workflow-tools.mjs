@@ -112,8 +112,9 @@ function check() {
       if (!target) continue;
       const absolute = isAbsolute(target) ? target : resolve(ROOT, dirname(path), target);
       const rel = relative(ROOT, absolute).replaceAll('\\', '/');
-      // Masters and proofs are deliberately local, absent from fresh checkouts.
-      if (rel.startsWith('art-masters/') || rel.startsWith('tmp/') || rel.startsWith('..')) continue;
+      // Masters, review exports and the original source deck are intentionally
+      // local. Their selections/provenance remain documented in versioned sources.
+      if (rel.startsWith('art-masters/') || rel.startsWith('tmp/') || rel.startsWith('output/') || rel === 'docs/Cyber-S01-E02-Had.odp' || rel.startsWith('..')) continue;
       links++;
       if (!existsSync(absolute)) {
         say(`Lien absent : ${path} → ${target}`);

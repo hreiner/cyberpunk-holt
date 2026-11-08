@@ -1,0 +1,1 @@
+Outpaint this map to a 2:1 canvas (1874×937). Preserve the entire existing map unchanged at center. Add only 98 pixels navy ocean at left and 98 pixels ochre desert at right. Do not crop, move, redraw or relabel its coastline, island, roads or districts. No new locations.

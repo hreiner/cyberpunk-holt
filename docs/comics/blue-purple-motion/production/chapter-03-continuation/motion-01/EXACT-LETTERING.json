@@ -1,0 +1,481 @@
+{
+  "method": "Approved master pixels as base; opaque original-pixel lettering plates recomposed after effects. Editable SVG retained separately. No raster art redrawn.",
+  "pages": [
+    {
+      "page": 9,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-9.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-09-lettering-exact.png",
+      "masks": [
+        [
+          543,
+          74,
+          385,
+          129
+        ],
+        [
+          516,
+          222,
+          304,
+          134
+        ],
+        [
+          657,
+          686,
+          391,
+          62
+        ],
+        [
+          597,
+          1345,
+          228,
+          171
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 10,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-10.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-10-lettering-exact.png",
+      "masks": [
+        [
+          451,
+          458,
+          369,
+          87
+        ],
+        [
+          592,
+          669,
+          369,
+          177
+        ],
+        [
+          77,
+          674,
+          336,
+          165
+        ],
+        [
+          804,
+          1275,
+          331,
+          247
+        ],
+        [
+          408,
+          1280,
+          336,
+          212
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 11,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-11.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-11-lettering-exact.png",
+      "masks": [
+        [
+          554,
+          74,
+          466,
+          121
+        ],
+        [
+          55,
+          163,
+          233,
+          140
+        ],
+        [
+          397,
+          669,
+          483,
+          112
+        ],
+        [
+          72,
+          1422,
+          340,
+          153
+        ],
+        [
+          859,
+          1369,
+          281,
+          200
+        ],
+        [
+          616,
+          1428,
+          243,
+          153
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 12,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-12.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-12-lettering-exact.png",
+      "masks": [
+        [
+          359,
+          63,
+          428,
+          157
+        ],
+        [
+          825,
+          181,
+          309,
+          138
+        ],
+        [
+          381,
+          669,
+          466,
+          218
+        ],
+        [
+          587,
+          1452,
+          244,
+          153
+        ],
+        [
+          852,
+          1446,
+          277,
+          129
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 13,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-13.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-13-lettering-exact.png",
+      "masks": [
+        [
+          435,
+          63,
+          331,
+          123
+        ],
+        [
+          370,
+          216,
+          184,
+          106
+        ],
+        [
+          61,
+          810,
+          281,
+          140
+        ],
+        [
+          180,
+          1275,
+          342,
+          126
+        ],
+        [
+          511,
+          1275,
+          418,
+          159
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 14,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-14.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-14-lettering-exact.png",
+      "masks": [
+        [
+          630,
+          63,
+          450,
+          135
+        ],
+        [
+          673,
+          669,
+          342,
+          173
+        ],
+        [
+          776,
+          969,
+          358,
+          99
+        ],
+        [
+          489,
+          1275,
+          342,
+          165
+        ],
+        [
+          858,
+          1286,
+          277,
+          141
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 15,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-15.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-15-lettering-exact.png",
+      "masks": [
+        [
+          543,
+          68,
+          391,
+          273
+        ],
+        [
+          61,
+          680,
+          285,
+          139
+        ],
+        [
+          660,
+          787,
+          458,
+          182
+        ],
+        [
+          565,
+          1280,
+          309,
+          198
+        ],
+        [
+          387,
+          1334,
+          162,
+          233
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 16,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-16.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-16-lettering-exact.png",
+      "masks": [
+        [
+          93,
+          92,
+          363,
+          62
+        ],
+        [
+          505,
+          751,
+          374,
+          166
+        ],
+        [
+          61,
+          1280,
+          304,
+          147
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 17,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-17.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-17-lettering-exact.png",
+      "masks": [
+        [
+          762,
+          151,
+          361,
+          169
+        ],
+        [
+          836,
+          1087,
+          282,
+          64
+        ],
+        [
+          61,
+          1280,
+          331,
+          183
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 18,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-18.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-18-lettering-exact.png",
+      "masks": [
+        [
+          352,
+          68,
+          232,
+          154
+        ],
+        [
+          56,
+          163,
+          223,
+          106
+        ],
+        [
+          321,
+          804,
+          179,
+          159
+        ],
+        [
+          793,
+          674,
+          331,
+          136
+        ],
+        [
+          204,
+          692,
+          301,
+          250
+        ],
+        [
+          760,
+          1292,
+          270,
+          213
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 19,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-19.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-19-lettering-exact.png",
+      "masks": [
+        [
+          771,
+          133,
+          331,
+          106
+        ],
+        [
+          272,
+          133,
+          298,
+          106
+        ],
+        [
+          261,
+          828,
+          277,
+          140
+        ],
+        [
+          554,
+          840,
+          461,
+          162
+        ],
+        [
+          473,
+          1280,
+          331,
+          177
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 20,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-20.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-20-lettering-exact.png",
+      "masks": [
+        [
+          457,
+          68,
+          201,
+          218
+        ],
+        [
+          699,
+          68,
+          381,
+          119
+        ],
+        [
+          695,
+          674,
+          255,
+          94
+        ],
+        [
+          565,
+          1345,
+          201,
+          117
+        ],
+        [
+          66,
+          1310,
+          266,
+          149
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    },
+    {
+      "page": 21,
+      "base": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-21.png",
+      "lettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-21-lettering-exact.png",
+      "masks": [
+        [
+          771,
+          68,
+          353,
+          177
+        ],
+        [
+          218,
+          104,
+          396,
+          147
+        ],
+        [
+          641,
+          680,
+          461,
+          162
+        ],
+        [
+          435,
+          1280,
+          363,
+          207
+        ],
+        [
+          890,
+          1298,
+          244,
+          194
+        ]
+      ],
+      "reconstructionChangedBytes": 0
+    }
+  ]
+}

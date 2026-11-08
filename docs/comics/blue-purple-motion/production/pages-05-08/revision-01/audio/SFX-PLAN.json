@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-05",
+  "status": "integrator-approved",
+  "approvedSoundIds": ["punch-wood", "gun-glass", "rear-door", "footsteps", "engine-start", "tire-departure"],
+  "approval": "Intégrateur /root, 2026-11-05 : premier test punch-wood2s, texteSHA29d57fd26846c1e2876b5f46e431f0e5b2bb06efb16103e570db41c416fbac87, une requête comptée même si échec ; stopHTTP401.",
+  "provider": "ElevenLabs CLI OAuth",
+  "model": "eleven_text_to_sound_v2",
+  "maxRequests": 8,
+  "maxRequestedSeconds": 24,
+  "firstPassRequests": 6,
+  "firstPassRequestedSeconds": 20,
+  "correctionReserveRequests": 2,
+  "correctionReserveSeconds": 4,
+  "policy": "Compter échecs et interruptions ; après HTTP401, ne pas réessayer. Corriger seulement sur diagnostic. Aucun autre service payant.",
+  "actualCost": null,
+  "providerRequestIds": null,
+  "sounds": [
+    {
+      "id": "punch-wood",
+      "durationSeconds": 2,
+      "text": "One short realistic non-gory blunt punch impact into clothed upper body, a dry close thud, followed by a wooden baseball bat dropping and clattering briefly on a hard bar floor. Exactly one impact. Small indoor bar room acoustics. No voice, no grunt, no music, no cinematic boom.",
+      "intention": "John assomme le barman ; impact court puis batte au sol, sans blessure graphique ni cri ajouté.",
+      "panelId": "p05-c03"
+    },
+    {
+      "id": "gun-glass",
+      "durationSeconds": 3,
+      "text": "Exactly one sharp handgun shot from outside an empty small bar, immediately breaking one large glass window inward, followed by delicate falling glass fragments tinkling onto the indoor floor and dying away. Realistic close event with street and small room reflections. No extra shots, no voices, no music, no cinematic boom.",
+      "intention": "Le seul tir du poursuivant brise la vitre ; ne pas suggérer une rafale ou un second tireur.",
+      "panelId": "p05-c04"
+    },
+    {
+      "id": "rear-door",
+      "durationSeconds": 2,
+      "text": "One heavy worn metal back door being pushed open, a short latch click and hinge creak, then the sound dies away with the door left open. Realistic narrow service alley acoustics, close and dry. No closing thump, no alarm, no footsteps, no voices, no music.",
+      "intention": "Transition du bar vers la ruelle, sans alarme inventée.",
+      "panelId": "p06-c03"
+    },
+    {
+      "id": "footsteps",
+      "durationSeconds": 4,
+      "text": "A small group of people hurrying carefully on wet concrete in a narrow night alley, irregular overlapping shoe footsteps and light shallow puddle splashes, slowing and stopping at the end. Realistic close foley. No voices, no breathing, no sirens, no music.",
+      "intention": "Déplacement collectif précipité, pas course haletante automatique.",
+      "panelId": "p06-c03"
+    },
+    {
+      "id": "engine-start",
+      "durationSeconds": 5,
+      "text": "An old six-seat minivan engine starting hesitantly: starter motor cranks unevenly for a moment, engine catches on a second brief effort, then settles into a rough low idle. Realistic close vehicle foley, no crash, no alarm, no voice, no music.",
+      "intention": "Démarrage maladroit sans collision ni nouveau danger.",
+      "panelId": "p08-c02"
+    },
+    {
+      "id": "tire-departure",
+      "durationSeconds": 4,
+      "text": "One old minivan pulling away cautiously on a wet narrow street, a gentle engine rev with soft tire hiss and a small puddle splash, receding naturally. No tire squeal, no racing, no chase, no horn, no voices, no music.",
+      "intention": "Départ discret du groupe réuni, sans poursuite automobile.",
+      "panelId": "p08-c04"
+    }
+  ]
+}

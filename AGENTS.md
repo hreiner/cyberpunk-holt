@@ -34,6 +34,12 @@ Les recettes communes vivent dans `docs/` ; `.claude/` conserve des adaptateurs 
 | **État**          | Chapitres 1 et 2 livrés ; chapitre 2 revu au clic avec trois profils et une archive ch1. Décors AAA, murs fixes/découverte et performance d'entrée documentés (ADR 0037–0040). Cadets MPFB/Mixamo intégrés au jeu (ADR 0041). Portraits et fond sonore livrés (2.11, ADR 0042) ; P06b produit, encore « à valider » au manifeste. Restent les revues globales 3.8/H et l'export manuel du dossier 2.12 ; ne pas les déclarer finis sur la seule foi des revues ciblées. |
 | **Détail**        | [`docs/process/ROADMAP.md`](docs/process/ROADMAP.md)                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
+L'adaptation **motion comics** a son propre suivi :
+[sélection, acceptation et publication](docs/anime/motion-comics/PROGRESS.md).
+Elle ne signifie pas que le chapitre3 du jeu est implémenté. Pour une mise en ligne,
+suivre [PUBLISH](docs/anime/motion-comics/PUBLISH.md) ; les médias web versionnés sont
+restaurés depuis une release vérifiée au build, les masters restent hors Git.
+
 ## 3. Les huit règles à ne pas enfreindre
 
 1. **Aucun `Math.random()` dans `src/`.** Tout l'aléatoire passe par un `Rng` seedé

@@ -1,0 +1,12 @@
+{
+  "prompt": "p05-c04-intact-v1.txt",
+  "scope": "revision02 single intact-window variant p05-c04",
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-05/band-03-v1.png"
+  ],
+  "roles": ["Exact edit target, selected original broken-glass artwork without lettering. All actors/hands and architecture must remain unchanged."],
+  "inspected": true,
+  "transparentBackground": false,
+  "budget": {"previousImageCalls": 27, "revisionMaximumCalls": 3, "plannedInitialCalls": 1, "correctionReserve": 2},
+  "status": "ready-for-independent-review-before-submission"
+}

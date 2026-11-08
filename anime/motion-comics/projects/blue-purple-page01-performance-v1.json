@@ -1,0 +1,38 @@
+[
+  {
+    "panel_id": "p01-c01",
+    "speaker": "wendy",
+    "plain_en": "I'm Wendy. I was sent in case something went wrong. Tell me what happened after HOLT.",
+    "en": "[exhales] [calm, reassuring] I'm Wendy. [short pause] I was sent in case something went wrong. [sighs] [curious, gently] Tell me... what happened after HOLT?",
+    "fr": "Je m'appelle Wendy. On m'a envoyée si quelque chose tournait mal. Que s'est-il passé après HOLT ?",
+    "performance": "Établir le contact sans désarmer sa vigilance : expiration, présentation posée, puis une question réellement adressée aux cadets.",
+    "voice_settings": { "stability": 0.5, "similarity_boost": 0.8 }
+  },
+  {
+    "panel_id": "p01-c02",
+    "speaker": "john",
+    "plain_en": "We ran. They kept coming.",
+    "en": "[exhales sharply] [shaken, breathless] We ran... [short pause] [angry, under his breath] They kept coming.",
+    "fr": "On a fui. Ils ne nous ont pas lâchés.",
+    "performance": "Le souvenir revient physiquement : souffle court, première phrase épuisée, seconde plus dure et contenue.",
+    "voice_settings": { "stability": 0.5, "similarity_boost": 0.8 }
+  },
+  {
+    "panel_id": "p01-c03",
+    "speaker": "wendy",
+    "plain_en": "The Academy sent me as a last resort. You're being hunted. If they followed you here, we don't have much time.",
+    "en": "[serious, controlled urgency] The Academy sent me as a last resort. [short pause] [low, firm voice] You're being HUNTED. [inhales deeply] [whispers] If they followed you here... [urgent] we don't have much time.",
+    "fr": "L'Académie m'a envoyée en dernier recours. On vous traque. S'ils vous ont suivis, on n'a plus beaucoup de temps.",
+    "performance": "Basculer de l'explication à l'avertissement : insister sur hunted, baisser la voix pour la menace immédiate, accélérer la dernière proposition.",
+    "voice_settings": { "stability": 0.5, "similarity_boost": 0.8 }
+  },
+  {
+    "panel_id": "p01-c04",
+    "speaker": "abigail",
+    "plain_en": "Letitia's at a ripperdoc. He's keeping her there.",
+    "en": "[inhales deeply] [sad, voice trembling] Letitia's at a ripperdoc. [swallows] [angry, holding back tears] He's keeping her there.",
+    "fr": "Letitia est chez un charcudoc. Il la retient là-bas.",
+    "performance": "Réussir à prononcer le nom de Letitia malgré l'angoisse, ravaler l'émotion puis laisser percer la colère contre le charcudoc.",
+    "voice_settings": { "stability": 0.5, "similarity_boost": 0.8 }
+  }
+]

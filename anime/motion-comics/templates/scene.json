@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "Nouvelle scène",
+  "source": "À renseigner : scénario, passage et décisions de continuité.",
+  "provenance": {
+    "image": "À renseigner : source, références, prompt et version retenue.",
+    "audio": "Aucune prise pour le moment."
+  },
+  "image": "page.png",
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.6,
+  "outroSeconds": 2,
+  "panels": [
+    {
+      "id": "c01",
+      "label": "Case 1 — à découper",
+      "rect": [0, 0, 1, 1],
+      "holdSeconds": 3,
+      "cues": []
+    }
+  ],
+  "effects": [],
+  "protectedRegions": []
+}

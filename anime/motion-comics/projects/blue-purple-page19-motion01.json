@@ -1,0 +1,399 @@
+{
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "HOLT — Blue Purple · page 19",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-19.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-19.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-19-lettering-exact.png",
+  "storyThumbnail": true,
+  "overviewSeconds": 0.65,
+  "transitionSeconds": 0.28,
+  "gapSeconds": 0.18,
+  "outroSeconds": 0.45,
+  "panels": [
+    {
+      "id": "p19-c01",
+      "panelKey": "19-1",
+      "sourcePanelKey": "19-1",
+      "label": "Page 19 · case 1",
+      "rect": [
+        0.045598958333333335,
+        0.03229166666666667,
+        0.9087890625,
+        0.3104166666666667
+      ],
+      "holdSeconds": 3.833333333333333,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l085",
+          "globalLine": 85,
+          "localLine": 48,
+          "panel_id": "19-1",
+          "dialogueIndex": 0,
+          "pageId": "page-19",
+          "speaker": "grover",
+          "textFr": "Le couloir est vide. Pour le moment.",
+          "textEn": "The hallway's empty. For now.",
+          "ttsText": "[hushed, watchful] The hallway's empty. [warning, low] For now.",
+          "performance": "Grover regarde par l'entrebâillement depuis l'appartement.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/085-grover-gain-+5.674db.wav",
+          "sha256": "7327e4c28f9814c4b65b1dcf783fd4038a5e96f5847150f89b9b72b74fb043d9",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/48-grover-ada957aa42a7.mp3",
+          "sourceSha256": "2f33c9e332e402265b81efe7d0c55f872d7ead9a389a6e702780bebdb600c7a9",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/48-grover-ada957aa42a7.json",
+          "journalSha256": "2b2c25182eaa93df0efef0466ba9cb73cd0df6645da571f957cc4c11b7b84241",
+          "constantGainDb": 5.674,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.96,
+            "pcmSamples": 130536,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -7.673608888462182,
+            "meanDb": -27.818310837695165,
+            "firstAboveMinus40DbSeconds": 0.16238095238095238,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 150.96000000000004,
+          "duration": 2.96,
+          "pcmSamples": 130536,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.999515337009644,
+          "meanDb": -22.14431208025777,
+          "firstAboveMinus40DbSeconds": 0.15344671201814059,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        },
+        {
+          "id": "bp-l086",
+          "globalLine": 86,
+          "localLine": 49,
+          "panel_id": "19-1",
+          "dialogueIndex": 1,
+          "pageId": "page-19",
+          "speaker": "wendy",
+          "textFr": "On reprend l’ascenseur des résidents.",
+          "textEn": "We take the residents' elevator again.",
+          "ttsText": "[low, decisive] We take the residents' elevator again.",
+          "performance": "Wendy fixe le trajet après le passage de la patrouille.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/086-wendy-gain-+3.337db.wav",
+          "sha256": "91cbfea4a78f08178301f71d7cae1e5dcd14cd9a89ad1f187d4e6f307e8350d5",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/49-wendy-e175483ffca4.mp3",
+          "sourceSha256": "e091b5d3bd2fd30587be11d6b0bc5143fcd4a15e0f2b49d5707d521f447081d2",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/49-wendy-e175483ffca4.json",
+          "journalSha256": "427f84295de6a1331147815b1c6fdcdb6da233149c3966007df985a3ee196cec",
+          "constantGainDb": 3.337,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.48,
+            "pcmSamples": 109368,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -6.028648482368854,
+            "meanDb": -25.336809662451486,
+            "firstAboveMinus40DbSeconds": 0.24482993197278913,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 154.32000000000005,
+          "duration": 2.48,
+          "pcmSamples": 109368,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.6917547923703373,
+          "meanDb": -21.99980919725593,
+          "firstAboveMinus40DbSeconds": 0.23664399092970523,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p19-c02",
+      "panelKey": "19-2",
+      "sourcePanelKey": "19-2",
+      "label": "Page 19 · case 2",
+      "rect": [
+        0.045598958333333335,
+        0.34791666666666665,
+        0.9087890625,
+        0.3104166666666667
+      ],
+      "holdSeconds": 4.666666666666667,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l087",
+          "globalLine": 87,
+          "localLine": 50,
+          "panel_id": "19-2",
+          "dialogueIndex": 0,
+          "pageId": "page-19",
+          "speaker": "john",
+          "textFr": "Ils ont perdu notre trace ?",
+          "textEn": "Have they lost our trail?",
+          "ttsText": "[wary, quietly questioning] Have they lost our trail?",
+          "performance": "John demande si la fuite a fonctionné, tension résiduelle.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "PoqlHoqJoAfdQ0g8bLK3",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/087-john-gain-+3.204db.wav",
+          "sha256": "9d1367fa52229e2a86fbc55640af17019402d5eb58f7590ebee92829edecb934",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/50-john-aa4726771663.mp3",
+          "sourceSha256": "dd45328481bb5f02c308da6af87b7a2d6efabbea2956987214ea62bed0fa54ff",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/50-john-aa4726771663.json",
+          "journalSha256": "10b7bc7fb3fd47d4cf65722e24cb25d4e762547627295b84327f60522b042b99",
+          "constantGainDb": 3.204,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.76,
+            "pcmSamples": 77616,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -8.951238526064696,
+            "meanDb": -25.20423827671361,
+            "firstAboveMinus40DbSeconds": 0.14546485260770975,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 157.20000000000005,
+          "duration": 1.76,
+          "pcmSamples": 77616,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -5.747153916054733,
+          "meanDb": -22.000236425048275,
+          "firstAboveMinus40DbSeconds": 0.1303174603174603,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        },
+        {
+          "id": "bp-l088",
+          "globalLine": 88,
+          "localLine": 51,
+          "panel_id": "19-2",
+          "dialogueIndex": 1,
+          "pageId": "page-19",
+          "speaker": "wendy",
+          "textFr": "Pour l’instant. Ne leur donnons pas une seconde chance.",
+          "textEn": "For now. Let's not give them a second chance.",
+          "ttsText": "[serious, low] For now. [firm, urgent quietly] Let's not give them a second chance.",
+          "performance": "Wendy accepte un répit provisoire et relance.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/088-wendy-gain-+6.289db.wav",
+          "sha256": "73f48e94266af21a4214dc43f2eaa3566627a4c5f1db7be35c61fb3212751468",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/51-wendy-40f3b4cab6e3.mp3",
+          "sourceSha256": "34e703adb19d02016cb18a3ef4df1f7a3f099b9e53230cb4ab6d9770ef0f601f",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/51-wendy-40f3b4cab6e3.json",
+          "journalSha256": "08bd422e599bdcc2ee3b285836f8603283b0b6dcd9c622610a8a53d758670632",
+          "constantGainDb": 6.289,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.68,
+            "pcmSamples": 162288,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -10.999457056512966,
+            "meanDb": -28.289137099458387,
+            "firstAboveMinus40DbSeconds": 0.12210884353741497,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 159.36000000000004,
+          "duration": 3.68,
+          "pcmSamples": 162288,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -4.710643158716455,
+          "meanDb": -22.0001426813244,
+          "firstAboveMinus40DbSeconds": 0.08870748299319728,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p19-c03",
+      "panelKey": "19-3",
+      "sourcePanelKey": "19-3",
+      "label": "Page 19 · case 3",
+      "rect": [
+        0.045598958333333335,
+        0.6635416666666667,
+        0.9087890625,
+        0.3104166666666667
+      ],
+      "holdSeconds": 2.5,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l089",
+          "globalLine": 89,
+          "localLine": 52,
+          "panel_id": "19-3",
+          "dialogueIndex": 0,
+          "pageId": "page-19",
+          "speaker": "franklyn",
+          "textFr": "Le point vert est par là.",
+          "textEn": "The green point's that way.",
+          "ttsText": "[quiet, certain] The green point's that way.",
+          "performance": "Franklyn suit le point vert de sa perception interne.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/089-franklyn-gain-+1.123db.wav",
+          "sha256": "24dd2ad115188351fd69cb3ad9686c3a933927aa3db970d18c5c01e40c892d32",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/52-franklyn-c0be2eb0caab.mp3",
+          "sourceSha256": "216dda7df68e488a08280552e6ee2cb931a62d0cf0ff96a9fb78a2b5c047d036",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/52-franklyn-c0be2eb0caab.json",
+          "journalSha256": "6d0cde588b7161a8730ac2bf3cd7dccdb0028a24bc94f7bf0a2eb38c499ce95b",
+          "constantGainDb": 1.123,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.84,
+            "pcmSamples": 81144,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -4.764615377516483,
+            "meanDb": -23.12260286830622,
+            "firstAboveMinus40DbSeconds": 0.12877551020408162,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 163.44000000000005,
+          "duration": 1.84,
+          "pcmSamples": 81144,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -3.6416655890000236,
+          "meanDb": -21.999605690820477,
+          "firstAboveMinus40DbSeconds": 0.12877551020408162,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "rain",
+      "rect": [
+        0.05261790364583333,
+        0.08302083333333334,
+        0.14460625000000002,
+        0.03994791666666667
+      ],
+      "clock": "ambient",
+      "panelId": "p19-c01"
+    },
+    {
+      "type": "reflection",
+      "rect": [
+        0.060752005208333335,
+        0.44473958333333335,
+        0.05422734375,
+        0.17208333333333337
+      ],
+      "color": "#5dd3ed",
+      "strength": 0.32,
+      "frequency": 0.3,
+      "phase": 0.35,
+      "softEdge": true,
+      "clock": "ambient",
+      "panelId": "p19-c02"
+    },
+    {
+      "type": "rain",
+      "rect": [
+        0.22885677083333333,
+        0.6697135416666667,
+        0.16268203125,
+        0.0553125
+      ],
+      "clock": "ambient",
+      "panelId": "p19-c03"
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "19-1-rigid-1",
+      "rect": [
+        0.04809895833333333,
+        0.12296874999999999,
+        0.677841796875,
+        0.21817708333333333
+      ]
+    },
+    {
+      "id": "19-1-rigid-2",
+      "rect": [
+        0.7259407552083333,
+        0.09838541666666667,
+        0.225947265625,
+        0.2427604166666667
+      ]
+    },
+    {
+      "id": "19-2-rigid-1",
+      "rect": [
+        0.22885677083333333,
+        0.47854166666666664,
+        0.49708398437500007,
+        0.1690104166666667
+      ]
+    },
+    {
+      "id": "19-3-rigid-1",
+      "rect": [
+        0.04809895833333333,
+        0.7204166666666667,
+        0.56034921875,
+        0.24890625000000002
+      ]
+    },
+    {
+      "id": "19-3-rigid-2",
+      "rect": [
+        0.5994102864583333,
+        0.6835416666666667,
+        0.352477734375,
+        0.2888541666666667
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "dde0886287785a17abb6e9ffd0a0a8f806ff61c11cc292f373e9bc619721b3e1",
+    "lettering": "Exact approved raster plates after effects; original SVG retained.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false
+  }
+}

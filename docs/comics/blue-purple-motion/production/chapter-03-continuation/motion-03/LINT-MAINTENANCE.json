@@ -1,0 +1,43 @@
+{
+  "status": "completed",
+  "changes": [
+    {
+      "file": "lot-a/build.cjs",
+      "beforeSha256": "4e454b545244fe69da066b5e72ee325b517052103be50c32fa03f09f749052cb",
+      "afterSha256": "cf145ae4db521b3a0c48401567aab25fdc271d7c0f1e256186ed036a7ed64929",
+      "exactSourceUsedByPriorProof": "tool-snapshots-before-lint/lot-a--build.cjs.txt"
+    },
+    {
+      "file": "lot-b/build-candidates.cjs",
+      "beforeSha256": "742d35087dfd163cb17610d5b6db94784c8fd6a5f274abecac21a9858aeff087",
+      "afterSha256": "61c4818e63426192b33456ecf820ae9473dd102918d78276cd74fa2967fd8b76",
+      "exactSourceUsedByPriorProof": "tool-snapshots-before-lint/lot-b--build-candidates.cjs.txt"
+    },
+    {
+      "file": "lot-c/build-candidates.cjs",
+      "beforeSha256": "64a7a660e738c438d5f7092abb15f8224b28464a49e45c57b392b24f86ec1624",
+      "afterSha256": "982551a445c54c733c3e03178358c78701d0b34e7f424cb6ebd7f19d2adf9f7c",
+      "exactSourceUsedByPriorProof": "tool-snapshots-before-lint/lot-c--build-candidates.cjs.txt"
+    },
+    {
+      "file": "lot-c/review-candidate.cjs",
+      "beforeSha256": "bfe3580912db2f6987827cf2434166d1bd115b03a111d607da4bbcea9f493923",
+      "afterSha256": "8b35bd88714335956699c842a9d73c78864cb5e32190a779b09f002bcfe1b093",
+      "exactSourceUsedByPriorProof": "tool-snapshots-before-lint/lot-c--review-candidate.cjs.txt"
+    },
+    {
+      "file": "qa-cross/review-lot-b.cjs",
+      "beforeSha256": "d71aca5245d355a0a257e63fc6a90e1665a0dbd221d3a5b5617b268a493bc1b6",
+      "afterSha256": "686d63b748b0c831195dc33050e783ae18ba588d8a8c2f039139b113c0b51694",
+      "exactSourceUsedByPriorProof": "tool-snapshots-before-lint/qa-cross--review-lot-b.cjs.txt"
+    },
+    {
+      "file": "timing/build-contract.cjs",
+      "beforeSha256": "7bc3f355374ebde2a3ee4f24adb4c81915ccd41deddb309d27ad416ed72335ac",
+      "afterSha256": "ad7431f116db75b43318d5a0f36b67085fe03113aa32d2c480b6594d53c1c262",
+      "exactSourceUsedByPriorProof": "tool-snapshots-before-lint/timing--build-contract.cjs.txt"
+    }
+  ],
+  "reason": "Unused identifiers renamed; first duplicate frequency removed, retaining the identical effective last value. No selected media/manifest/runtime or frozen timing helper changed. Exact source snapshots retained for dated proof hashes.",
+  "timingHelpers": "retime.cjs and retime-v1.cjs remain byte-exact; scoped lint accepts only the unused callback index."
+}

@@ -1,0 +1,1180 @@
+[
+  {
+    "id": "bp-l038",
+    "globalLine": 38,
+    "panel_id": "09-1",
+    "dialogueIndex": 0,
+    "pageId": "page-09",
+    "speaker": "grover",
+    "fr": "Je garde un œil sur la rue. Fais vite.",
+    "plain_en": "I'll keep an eye on the street. Be quick.",
+    "en": "[watchful, low] I'll keep an eye on the street. [firm] Be quick.",
+    "performance": "Grover surveille et donne l'impulsion sans abandonner l'enfant.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l039",
+    "globalLine": 39,
+    "panel_id": "09-1",
+    "dialogueIndex": 1,
+    "pageId": "page-09",
+    "speaker": "wendy",
+    "fr": "Les autres restent dans la voiture.",
+    "plain_en": "Everyone else stays in the car.",
+    "en": "[quiet, decisive] Everyone else stays in the car.",
+    "performance": "Wendy fixe une règle de protection, sobre et précise.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l040",
+    "globalLine": 40,
+    "panel_id": "09-2",
+    "dialogueIndex": 0,
+    "pageId": "page-09",
+    "speaker": "franklyn",
+    "fr": "Voilà… un mégabuilding.",
+    "plain_en": "There... a megabuilding.",
+    "en": "[hesitant, recognizing] There... a megabuilding.",
+    "performance": "Franklyn reconnaît le résultat, encore secoué ; petite découverte, pas triomphe.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l041",
+    "globalLine": 41,
+    "panel_id": "09-3",
+    "dialogueIndex": 0,
+    "pageId": "page-09",
+    "speaker": "grover",
+    "fr": "On a une direction. Ça suffit pour avancer.",
+    "plain_en": "We've got a direction. That's enough to keep moving.",
+    "en": "[reassuring, determined] We've got a direction. [firm] That's enough to keep moving.",
+    "performance": "Grover soutient le groupe puis relance l'action.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l042",
+    "globalLine": 42,
+    "panel_id": "10-1",
+    "dialogueIndex": 0,
+    "pageId": "page-10",
+    "speaker": "enfant",
+    "fr": "Tout ça, c'est un seul bâtiment ?",
+    "plain_en": "All of that is one building?",
+    "en": "[awed, uneasy] All of that is ONE building?",
+    "performance": "L'enfant mesure l'échelle avec émerveillement inquiet.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l043",
+    "globalLine": 43,
+    "panel_id": "10-2",
+    "dialogueIndex": 0,
+    "pageId": "page-10",
+    "speaker": "wendy",
+    "fr": "Regardez ces ascenseurs : cinquante personnes par cabine.",
+    "plain_en": "Look at those elevators. Fifty people in each car.",
+    "en": "[observant, serious] Look at those elevators. [low] Fifty people in each car.",
+    "performance": "Wendy évalue un accès et son exposition.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l044",
+    "globalLine": 44,
+    "panel_id": "10-2",
+    "dialogueIndex": 1,
+    "pageId": "page-10",
+    "speaker": "grover",
+    "fr": "Et des caméras à chaque porte.",
+    "plain_en": "And cameras at every door.",
+    "en": "[wary, quietly] And cameras at EVERY door.",
+    "performance": "Grover remarque le danger concret des caméras.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l045",
+    "globalLine": 45,
+    "panel_id": "10-3",
+    "dialogueIndex": 0,
+    "pageId": "page-10",
+    "speaker": "wendy",
+    "fr": "S’ils nous voient là-dedans, ils nous retrouveront.",
+    "plain_en": "If they see us in there, they'll find us.",
+    "en": "[grave, controlled urgency] If they see us in there, they'll FIND us.",
+    "performance": "Wendy conclut sans panique la menace de repérage.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l046",
+    "globalLine": 46,
+    "panel_id": "10-3",
+    "dialogueIndex": 1,
+    "pageId": "page-10",
+    "speaker": "grover",
+    "fr": "Reste avec moi. On va trouver un autre passage.",
+    "plain_en": "Stay with me. We'll find another way in.",
+    "en": "[gentle, protective] Stay with me. [quiet, determined] We'll find another way in.",
+    "performance": "Grover parle à l'enfant, rassure puis promet une solution réaliste.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l047",
+    "globalLine": 47,
+    "panel_id": "11-1",
+    "dialogueIndex": 0,
+    "pageId": "page-11",
+    "speaker": "grover",
+    "fr": "Une entrée de service. Moins de monde.",
+    "plain_en": "A service entrance. Fewer people.",
+    "en": "[alert, cautiously hopeful] A service entrance. Fewer people.",
+    "performance": "Grover propose lui-même une piste.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l048",
+    "globalLine": 48,
+    "panel_id": "11-1",
+    "dialogueIndex": 1,
+    "pageId": "page-11",
+    "speaker": "wendy",
+    "fr": "Allons voir ce qu’ils demandent.",
+    "plain_en": "Let's see what they want.",
+    "en": "[practical, guarded] Let's see what they want.",
+    "performance": "Wendy décide d'approcher pour négocier.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l049",
+    "globalLine": 49,
+    "panel_id": "11-2",
+    "dialogueIndex": 0,
+    "pageId": "page-11",
+    "speaker": "wendy",
+    "fr": "Ce tarif, c’est pour six personnes ou pour nous dépouiller ?",
+    "plain_en": "Is that price for six people, or are you trying to rob us?",
+    "en": "[incredulous, dry] Is that price for six people, [sharper] or are you trying to ROB us?",
+    "performance": "Wendy négocie avec mordant mais se contrôle.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l050",
+    "globalLine": 50,
+    "panel_id": "11-3a",
+    "dialogueIndex": 0,
+    "pageId": "page-11",
+    "speaker": "john",
+    "fr": "On peut les écarter. On y va en force.",
+    "plain_en": "We can move them aside. We force our way in.",
+    "en": "[impatient, forceful] We can move them aside. [hard] We FORCE our way in.",
+    "performance": "John propose la force, impulsif et frontal, sans joie de violence.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l051",
+    "globalLine": 51,
+    "panel_id": "11-3b",
+    "dialogueIndex": 0,
+    "pageId": "page-11",
+    "speaker": "abigail",
+    "fr": "Ils sont plus nombreux, John. On se ferait repérer.",
+    "plain_en": "They outnumber us, John. We'd draw attention.",
+    "en": "[firm, restrained] They outnumber us, John. [warning, low] We'd draw attention.",
+    "performance": "Abigail raisonne John, ferme sans le ridiculiser.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l052",
+    "globalLine": 52,
+    "panel_id": "11-3b",
+    "dialogueIndex": 1,
+    "pageId": "page-11",
+    "speaker": "john",
+    "fr": "… D’accord. On cherche autre chose.",
+    "plain_en": "...All right. We'll find something else.",
+    "en": "[reluctant, subdued] ...All right. [gruff] We'll find something else.",
+    "performance": "John ravale son impatience et cède réellement.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l053",
+    "globalLine": 53,
+    "panel_id": "12-1",
+    "dialogueIndex": 0,
+    "pageId": "page-12",
+    "speaker": "grover",
+    "fr": "Et une chambre ? On entrerait avec les résidents.",
+    "plain_en": "What about a room? We could enter with the residents.",
+    "en": "[thoughtful, quietly] What about a room? [tentatively hopeful] We could enter with the residents.",
+    "performance": "Grover apporte une solution de contournement.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l054",
+    "globalLine": 54,
+    "panel_id": "12-1",
+    "dialogueIndex": 1,
+    "pageId": "page-12",
+    "speaker": "wendy",
+    "fr": "Une chambre… Ça peut marcher.",
+    "plain_en": "A room... That could work.",
+    "en": "[considering] A room... [quiet, decisive] That could work.",
+    "performance": "Wendy saisit l'idée et prend le relais.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l055",
+    "globalLine": 55,
+    "panel_id": "12-2",
+    "dialogueIndex": 0,
+    "pageId": "page-12",
+    "speaker": "wendy",
+    "fr": "Je réserve une chambre par mon implant. Ce sera plus discret.",
+    "plain_en": "I'll book a room through my implant. It'll be more discreet.",
+    "en": "[focused, low] I'll book a room through my implant. [reassuring] It'll be more discreet.",
+    "performance": "Réservation en ligne par implant, aucune action physique inventée.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l056",
+    "globalLine": 56,
+    "panel_id": "12-3",
+    "dialogueIndex": 0,
+    "pageId": "page-12",
+    "speaker": "enfant",
+    "fr": "On reste ensemble ?",
+    "plain_en": "Are we staying together?",
+    "en": "[small, worried] Are we staying together?",
+    "performance": "L'enfant cherche une garantie personnelle.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l057",
+    "globalLine": 57,
+    "panel_id": "12-3",
+    "dialogueIndex": 1,
+    "pageId": "page-12",
+    "speaker": "grover",
+    "fr": "Toujours. Reste près de moi.",
+    "plain_en": "Always. Stay close to me.",
+    "en": "[warm, certain] Always. [gentle, protective] Stay close to me.",
+    "performance": "Grover s'adresse à l'enfant, engagement net, chaleur discrète.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l058",
+    "globalLine": 58,
+    "panel_id": "13-1",
+    "dialogueIndex": 0,
+    "pageId": "page-13",
+    "speaker": "franklyn",
+    "fr": "Ça change quand on monte.",
+    "plain_en": "It changes as we go up.",
+    "en": "[uneasy, puzzled] It changes as we go up.",
+    "performance": "Franklyn décrit une perception, pas une maîtrise soudaine.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l059",
+    "globalLine": 59,
+    "panel_id": "13-1",
+    "dialogueIndex": 1,
+    "pageId": "page-13",
+    "speaker": "wendy",
+    "fr": "Tu sens la direction ?",
+    "plain_en": "Can you feel the direction?",
+    "en": "[attentive, gently questioning] Can you feel the direction?",
+    "performance": "Wendy aide Franklyn à préciser ce qu'il ressent.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l060",
+    "globalLine": 60,
+    "panel_id": "13-2",
+    "dialogueIndex": 0,
+    "pageId": "page-13",
+    "speaker": "grover",
+    "fr": "On essaie un étage à la fois. Personne ne part seul.",
+    "plain_en": "We try one floor at a time. Nobody goes alone.",
+    "en": "[steady, practical] We try one floor at a time. [firm, protective] Nobody goes alone.",
+    "performance": "Grover organise le groupe et protège sa cohésion.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l061",
+    "globalLine": 61,
+    "panel_id": "13-3",
+    "dialogueIndex": 0,
+    "pageId": "page-13",
+    "speaker": "franklyn",
+    "fr": "Là. La boutique avec les lumières.",
+    "plain_en": "There. The shop with the lights.",
+    "en": "[recognizing, urgent quietly] There. The shop with the lights.",
+    "performance": "C'est Franklyn qui identifie la boutique.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l062",
+    "globalLine": 62,
+    "panel_id": "13-3",
+    "dialogueIndex": 1,
+    "pageId": "page-13",
+    "speaker": "abigail",
+    "fr": "Alors c’est peut-être là-dedans.",
+    "plain_en": "Then maybe it's in there.",
+    "en": "[cautious, attentive] Then maybe it's in there.",
+    "performance": "Abigail prend acte sans transformer l'intuition en certitude.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l063",
+    "globalLine": 63,
+    "panel_id": "14-1",
+    "dialogueIndex": 0,
+    "pageId": "page-14",
+    "speaker": "wendy",
+    "fr": "Des danses sensorielles. On regarde, on ne touche à rien.",
+    "plain_en": "Braindances. We look. We don't touch anything.",
+    "en": "[wary, matter-of-fact] Braindances. [firm, low] We look. We don't touch anything.",
+    "performance": "Wendy fixe une limite de prudence dans la boutique.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l064",
+    "globalLine": 64,
+    "panel_id": "14-2",
+    "dialogueIndex": 0,
+    "pageId": "page-14",
+    "speaker": "abigail",
+    "fr": "Celle-là n’est pas comme les autres.",
+    "plain_en": "That one's different from the others.",
+    "en": "[curious, focused] That one's different from the others.",
+    "performance": "Abigail repère la singularité technique de la machine.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l065",
+    "globalLine": 65,
+    "panel_id": "14-2",
+    "dialogueIndex": 1,
+    "pageId": "page-14",
+    "speaker": "franklyn",
+    "fr": "Je crois que je peux m’en servir.",
+    "plain_en": "I think I can use it.",
+    "en": "[hesitant, drawn in] I think I can use it.",
+    "performance": "Franklyn attiré par une connaissance latente, pas vantard.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l066",
+    "globalLine": 66,
+    "panel_id": "14-3",
+    "dialogueIndex": 0,
+    "pageId": "page-14",
+    "speaker": "wendy",
+    "fr": "On peut regarder cette vieille machine ?",
+    "plain_en": "Can we take a look at that old machine?",
+    "en": "[polite, guarded] Can we take a look at that old machine?",
+    "performance": "Wendy négocie avec le vendeur sans révéler leur but.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l067",
+    "globalLine": 67,
+    "panel_id": "14-3",
+    "dialogueIndex": 1,
+    "pageId": "page-14",
+    "speaker": "vendeur",
+    "fr": "Si vous arrivez à la faire démarrer.",
+    "plain_en": "If you can get it started.",
+    "en": "[dry, skeptical] If you can get it started.",
+    "performance": "Vendeur adulte blasé, permission conditionnelle sans menace.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l068",
+    "globalLine": 68,
+    "panel_id": "15-1",
+    "dialogueIndex": 0,
+    "pageId": "page-15",
+    "speaker": "abigail",
+    "fr": "Le contact est desserré. Franklyn, tiens le panneau.",
+    "plain_en": "The contact's loose. Franklyn, hold the panel.",
+    "en": "[focused, precise] The contact's loose. [directing, brisk] Franklyn, hold the panel.",
+    "performance": "Abigail dirige la réparation, compétence concrète.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l069",
+    "globalLine": 69,
+    "panel_id": "15-2",
+    "dialogueIndex": 0,
+    "pageId": "page-15",
+    "speaker": "franklyn",
+    "fr": "Comme ça ?",
+    "plain_en": "Like this?",
+    "en": "[concentrating, questioning] Like this?",
+    "performance": "Franklyn coopère avec Abigail, vérifie son appui.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l070",
+    "globalLine": 70,
+    "panel_id": "15-2",
+    "dialogueIndex": 1,
+    "pageId": "page-15",
+    "speaker": "abigail",
+    "fr": "Oui. Je rebranche le contact.",
+    "plain_en": "Yes. I'm reconnecting the contact.",
+    "en": "[focused, reassuring] Yes. I'm reconnecting the contact.",
+    "performance": "Abigail effectue le raccord technique.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l071",
+    "globalLine": 71,
+    "panel_id": "15-3",
+    "dialogueIndex": 0,
+    "pageId": "page-15",
+    "speaker": "franklyn",
+    "fr": "Je ferme la capsule. Laissez-moi essayer.",
+    "plain_en": "I'm closing the capsule. Let me try.",
+    "en": "[quiet, resolved] I'm closing the capsule. [determined] Let me try.",
+    "performance": "Franklyn annonce sa propre fermeture puis l'essai.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l072",
+    "globalLine": 72,
+    "panel_id": "15-3",
+    "dialogueIndex": 1,
+    "pageId": "page-15",
+    "speaker": "grover",
+    "fr": "Je reste avec toi.",
+    "plain_en": "I'm staying with you.",
+    "en": "[low, sincere] I'm staying with you.",
+    "performance": "Grover assure à Franklyn sa présence, sans déplacer la garde de l'enfant.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l073",
+    "globalLine": 73,
+    "panel_id": "16-1",
+    "dialogueIndex": 0,
+    "pageId": "page-16",
+    "speaker": "franklyn",
+    "fr": "Je reconnais cet endroit…",
+    "plain_en": "I recognize this place...",
+    "en": "[shaken, recognizing] I recognize this place...",
+    "performance": "Franklyn retrouve une connaissance ; trouble et reconnaissance.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l074",
+    "globalLine": 74,
+    "panel_id": "16-2",
+    "dialogueIndex": 0,
+    "pageId": "page-16",
+    "speaker": "franklyn",
+    "fr": "Ça revient… Je comprends maintenant.",
+    "plain_en": "It's coming back... I understand now.",
+    "en": "[strained, searching] It's coming back... [awed, low] I understand now.",
+    "performance": "Déverrouillage intérieur progressif, pas simple lecture d'un écran.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l075",
+    "globalLine": 75,
+    "panel_id": "16-3",
+    "dialogueIndex": 0,
+    "pageId": "page-16",
+    "speaker": "franklyn",
+    "fr": "J’ai accès à une carte. Je vois HOLT, notre position et d’autres points. Il y en a un vert.",
+    "plain_en": "I can access a map. I can see HOLT, our position, and other points. One of them is green.",
+    "en": "[astonished, low] I can access a map. [finding words] I can see HOLT, our position, and other points. [intent, quietly] One of them is GREEN.",
+    "performance": "Franklyn raconte ensuite l'accès mental à la carte, en découvrant ses détails.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l076",
+    "globalLine": 76,
+    "panel_id": "17-1",
+    "dialogueIndex": 0,
+    "pageId": "page-17",
+    "speaker": "abigail",
+    "fr": "Wendy… à l'autre bout.",
+    "plain_en": "Wendy... at the far end.",
+    "en": "[tense, hushed] Wendy... at the far end.",
+    "performance": "Abigail repère la menace et avertit discrètement.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l077",
+    "globalLine": 77,
+    "panel_id": "17-2",
+    "dialogueIndex": 0,
+    "pageId": "page-17",
+    "speaker": "wendy",
+    "fr": "À couvert !",
+    "plain_en": "Take cover!",
+    "en": "[urgent, commanding] Take COVER!",
+    "performance": "Alerte franche de Wendy, brève et projetée.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l078",
+    "globalLine": 78,
+    "panel_id": "17-3",
+    "dialogueIndex": 0,
+    "pageId": "page-17",
+    "speaker": "grover",
+    "fr": "Par ici ! Ne vous séparez pas !",
+    "plain_en": "This way! Stay together!",
+    "en": "[urgent, protective] This way! [calling firmly] Stay TOGETHER!",
+    "performance": "Grover mène la fuite en gardant l'enfant près de lui.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l079",
+    "globalLine": 79,
+    "panel_id": "18-1",
+    "dialogueIndex": 0,
+    "pageId": "page-18",
+    "speaker": "habitante",
+    "fr": "Qu’est-ce que vous faites ?",
+    "plain_en": "What are you doing?",
+    "en": "[startled, alarmed] What are you doing?",
+    "performance": "Habitante surprise par l'intrusion, elle s'adresse aux arrivants.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l080",
+    "globalLine": 80,
+    "panel_id": "18-1",
+    "dialogueIndex": 1,
+    "pageId": "page-18",
+    "speaker": "john",
+    "fr": "Pardon… On n’a pas le choix.",
+    "plain_en": "Sorry... We don't have a choice.",
+    "en": "[strained, apologetic] Sorry... [low, hard] We don't have a choice.",
+    "performance": "John agit sous pression ; excuse courte et décision regrettable.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l081",
+    "globalLine": 81,
+    "panel_id": "18-2",
+    "dialogueIndex": 0,
+    "pageId": "page-18",
+    "speaker": "enfant",
+    "fr": "Elle va se réveiller ?",
+    "plain_en": "Will she wake up?",
+    "en": "[frightened, quietly] Will she wake up?",
+    "performance": "L'enfant s'inquiète pour l'habitante inerte.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l082",
+    "globalLine": 82,
+    "panel_id": "18-2",
+    "dialogueIndex": 1,
+    "pageId": "page-18",
+    "speaker": "john",
+    "fr": "Oui. Il fallait qu’on disparaisse.",
+    "plain_en": "Yes. We had to disappear.",
+    "en": "[reassuring, strained] Yes. [defensive, low] We had to disappear.",
+    "performance": "John rassure puis se justifie sans satisfaction.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l083",
+    "globalLine": 83,
+    "panel_id": "18-2",
+    "dialogueIndex": 2,
+    "pageId": "page-18",
+    "speaker": "grover",
+    "fr": "Reste près de moi.",
+    "plain_en": "Stay close to me.",
+    "en": "[gentle, hushed] Stay close to me.",
+    "performance": "Grover protège l'enfant dans l'appartement, voix basse tendue.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l084",
+    "globalLine": 84,
+    "panel_id": "18-3",
+    "dialogueIndex": 0,
+    "pageId": "page-18",
+    "speaker": "abigail",
+    "fr": "Ils passent… Attendez encore.",
+    "plain_en": "They're passing... Wait a little longer.",
+    "en": "[whispering, tense] They're passing... [cautious] Wait a little longer.",
+    "performance": "Abigail écoute la patrouille, pas de départ anticipé.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l085",
+    "globalLine": 85,
+    "panel_id": "19-1",
+    "dialogueIndex": 0,
+    "pageId": "page-19",
+    "speaker": "grover",
+    "fr": "Le couloir est vide. Pour le moment.",
+    "plain_en": "The hallway's empty. For now.",
+    "en": "[hushed, watchful] The hallway's empty. [warning, low] For now.",
+    "performance": "Grover regarde par l'entrebâillement depuis l'appartement.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l086",
+    "globalLine": 86,
+    "panel_id": "19-1",
+    "dialogueIndex": 1,
+    "pageId": "page-19",
+    "speaker": "wendy",
+    "fr": "On reprend l’ascenseur des résidents.",
+    "plain_en": "We take the residents' elevator again.",
+    "en": "[low, decisive] We take the residents' elevator again.",
+    "performance": "Wendy fixe le trajet après le passage de la patrouille.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l087",
+    "globalLine": 87,
+    "panel_id": "19-2",
+    "dialogueIndex": 0,
+    "pageId": "page-19",
+    "speaker": "john",
+    "fr": "Ils ont perdu notre trace ?",
+    "plain_en": "Have they lost our trail?",
+    "en": "[wary, quietly questioning] Have they lost our trail?",
+    "performance": "John demande si la fuite a fonctionné, tension résiduelle.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l088",
+    "globalLine": 88,
+    "panel_id": "19-2",
+    "dialogueIndex": 1,
+    "pageId": "page-19",
+    "speaker": "wendy",
+    "fr": "Pour l’instant. Ne leur donnons pas une seconde chance.",
+    "plain_en": "For now. Let's not give them a second chance.",
+    "en": "[serious, low] For now. [firm, urgent quietly] Let's not give them a second chance.",
+    "performance": "Wendy accepte un répit provisoire et relance.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l089",
+    "globalLine": 89,
+    "panel_id": "19-3",
+    "dialogueIndex": 0,
+    "pageId": "page-19",
+    "speaker": "franklyn",
+    "fr": "Le point vert est par là.",
+    "plain_en": "The green point's that way.",
+    "en": "[quiet, certain] The green point's that way.",
+    "performance": "Franklyn suit le point vert de sa perception interne.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l090",
+    "globalLine": 90,
+    "panel_id": "20-1",
+    "dialogueIndex": 0,
+    "pageId": "page-20",
+    "speaker": "enfant",
+    "fr": "Ça sent quoi ?",
+    "plain_en": "What's that smell?",
+    "en": "[uneasy, quietly] What's that smell?",
+    "performance": "L'enfant remarque l'odeur sur le quai.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l091",
+    "globalLine": 91,
+    "panel_id": "20-1",
+    "dialogueIndex": 1,
+    "pageId": "page-20",
+    "speaker": "grover",
+    "fr": "Reste près de moi.",
+    "plain_en": "Stay close to me.",
+    "en": "[low, protective, tense] Stay close to me.",
+    "performance": "Grover vigilant sur le quai ; tension plus dure que dans l'appartement.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l092",
+    "globalLine": 92,
+    "panel_id": "20-2",
+    "dialogueIndex": 0,
+    "pageId": "page-20",
+    "speaker": "john",
+    "fr": "Reculez.",
+    "plain_en": "Step back.",
+    "en": "[low, commanding] Step back.",
+    "performance": "John demande aux autres de reculer avant de dégager le passage.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l093",
+    "globalLine": 93,
+    "panel_id": "20-3",
+    "dialogueIndex": 0,
+    "pageId": "page-20",
+    "speaker": "john",
+    "fr": "On avance.",
+    "plain_en": "We keep moving.",
+    "en": "[gruff, clipped] We keep moving.",
+    "performance": "John après son geste brutal, phrase sèche sans triomphe.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l094",
+    "globalLine": 94,
+    "panel_id": "20-3",
+    "dialogueIndex": 1,
+    "pageId": "page-20",
+    "speaker": "grover",
+    "fr": "Ne regarde pas. Viens.",
+    "plain_en": "Don't look. Come on.",
+    "en": "[hushed, protective] Don't look. [gentle, firm] Come on.",
+    "performance": "Grover détourne l'enfant du geste et l'entraîne à l'écart.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l095",
+    "globalLine": 95,
+    "panel_id": "21-1",
+    "dialogueIndex": 0,
+    "pageId": "page-21",
+    "speaker": "abigail",
+    "fr": "Vous avez entendu ?",
+    "plain_en": "Did you hear that?",
+    "en": "[alert, low] Did you hear that?",
+    "performance": "Abigail entend le mécanisme de la porte.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l096",
+    "globalLine": 96,
+    "panel_id": "21-1",
+    "dialogueIndex": 1,
+    "pageId": "page-21",
+    "speaker": "wendy",
+    "fr": "Attendez. La porte s’ouvre.",
+    "plain_en": "Wait. The door's opening.",
+    "en": "[cautious, controlled] Wait. [quietly] The door's opening.",
+    "performance": "Wendy temporise pour laisser l'ouverture se faire.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l097",
+    "globalLine": 97,
+    "panel_id": "21-2",
+    "dialogueIndex": 0,
+    "pageId": "page-21",
+    "speaker": "grover",
+    "fr": "C’est vide… mais on peut se mettre à l’abri.",
+    "plain_en": "It's empty... but we can take shelter here.",
+    "en": "[weary, assessing] It's empty... [cautiously relieved] but we can take shelter here.",
+    "performance": "Grover constate une base vide, soulagement prudent sans glorification.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l098",
+    "globalLine": 98,
+    "panel_id": "21-3",
+    "dialogueIndex": 0,
+    "pageId": "page-21",
+    "speaker": "wendy",
+    "fr": "On se pose ici. Juste le temps de comprendre.",
+    "plain_en": "We stop here. Just long enough to figure things out.",
+    "en": "[tired, decisive] We stop here. [low, measured] Just long enough to figure things out.",
+    "performance": "Wendy offre une pause provisoire, pas une résolution finale.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  },
+  {
+    "id": "bp-l099",
+    "globalLine": 99,
+    "panel_id": "21-3",
+    "dialogueIndex": 1,
+    "pageId": "page-21",
+    "speaker": "grover",
+    "fr": "Je reste avec lui.",
+    "plain_en": "I'll stay with him.",
+    "en": "[soft, steadfast] I'll stay with him.",
+    "performance": "Grover confirme qu'il garde l'enfant, calme protecteur de fin de chapitre.",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "production": "new",
+    "model": "eleven_v4",
+    "explicitBreathingTags": 0
+  }
+]

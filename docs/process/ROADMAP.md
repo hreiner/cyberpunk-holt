@@ -5,6 +5,11 @@ Le prochain chapitre part de [CH2-LEGACY](../chapters/CH2-LEGACY.md).
 Les [workflows](../WORKFLOWS.md) donnent les recettes actuelles ; les plans et lots
 ci-dessous gardent leurs livraisons et reports historiques.
 
+**Adaptation motion comics —8novembre2026 :** Blue Purple chapitre3 v10 accepté,
+couverture et21pages,99voix,584,3s. Son suivi indépendant conserve la
+[sélection et l'état de publication](../anime/motion-comics/PROGRESS.md).
+Cette adaptation ne ferme aucun lot d'implémentation du chapitre3 dans le jeu.
+
 L'ordre est délibéré : l'epic 1 traite d'abord le système le plus risqué (le combat
 tactique) et pose les fondations dont tout le reste dépend. L'epic 2 remplit le chapitre de
 contenu narratif sur un moteur déjà stable.

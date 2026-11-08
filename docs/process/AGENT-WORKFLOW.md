@@ -4,6 +4,20 @@ Les skills décrivent une tâche ; les profils décrivent le rôle d'un agent au
 tâche est confiée. Les procédures sont communes à Codex, Claude et tout autre agent.
 [AGENTS.md](../../AGENTS.md) garde l'autorité sur le dépôt.
 
+Pour les motion comics, [l'orchestration](../anime/motion-comics/ORCHESTRATION.md)
+répartit six étapes sans créer six nouveaux rôles : réalisateur→découpage,
+artiste→images/lettres, audio→voix puis bande sonore, animation→mouvements,
+montage→lecteur/exports, reviewer→contre-revue des passages. Les skills sont invocables
+isolément pour une reprise ciblée. `/holt-motion-comics` dans Claude et
+`$holt-motion-comics` dans Codex pointent vers la même procédure. L'invocation seule
+n'étend ni les permissions de dépense ni l'autorisation de déléguer de la session.
+
+Une publication motion comics autorisée suit [PUBLISH](../anime/motion-comics/PUBLISH.md).
+Répartir préparation des médias web, chargement du lecteur, recettes et contre-revue
+sur des fichiers disjoints. L'intégrateur garde la sélection, les empreintes de
+release, le push et la vérification du déploiement public. Les anciens gels de
+production restent des preuves datées ; le nouveau jalon lie contenu et moteur web.
+
 ## Rôles disponibles
 
 | Profil Codex            | Profil Claude           | Mission                                                     | Procédure                                   |
@@ -16,6 +30,12 @@ tâche est confiée. Les procédures sont communes à Codex, Claude et tout autr
 | `holt-art-director`     | `holt-art-director`     | illustrations ou comics cohérents                           | [images](agents/art-director.md)            |
 | `holt-visual-reviewer`  | `holt-visual-reviewer`  | corriger un rendu ou mesurer ses performances               | [revue visuelle](agents/visual-reviewer.md) |
 | `holt-repo-reviewer`    | `holt-repo-reviewer`    | revue de code/docs et preuve indépendante, en lecture seule | [revue du dépôt](agents/repo-reviewer.md)   |
+| `holt-anime-director` | `holt-anime-director` | adaptation, découpage et continuité | [réalisation](agents/anime-director.md) |
+| `holt-anime-art-director` | `holt-anime-art-director` | bible visuelle et références | [direction artistique](agents/anime-art-director.md) |
+| `holt-anime-animation-director` | `holt-anime-animation-director` | techniques d'animation et rendus | [animation](agents/anime-animation-director.md) |
+| `holt-anime-audio-director` | `holt-anime-audio-director` | voix, musique, effets et synchronisation | [audio animé](agents/anime-audio-director.md) |
+| `holt-anime-editor` | `holt-anime-editor` | montage et export | [montage](agents/anime-editor.md) |
+| `holt-anime-quality-reviewer` | `holt-anime-quality-reviewer` | revue indépendante en lecture seule | [qualité](agents/anime-quality-reviewer.md) |
 
 Les adaptateurs sont générés depuis [agent-profiles.json](agent-profiles.json) :
 `.codex/agents/*.toml` et `.claude/agents/*.md`. Ils pointent vers ces procédures, sans

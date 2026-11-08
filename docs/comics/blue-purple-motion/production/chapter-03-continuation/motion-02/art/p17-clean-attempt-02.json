@@ -1,0 +1,13 @@
+{
+  "cost": null,
+  "reference": {
+    "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/art/p17-impact-edit-target.png",
+    "sha256": "D8FC465394BC596CC07D7F4BD6F781D75F309B511CEFD187B4E88745E2F0C340"
+  },
+  "reason": "native initiale déplace garde-corps; correction locale de géométrie",
+  "prompt": "p17-impact-correction-prompt.txt",
+  "provider_id": null,
+  "status": "generated; used for middle clean background",
+  "output": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/art/p17-impact-clean-native-02.png",
+  "output_sha256": "D43414368D095D5395CD5AAFF4AB3023E143D1E20118FC98E9BE18B9150A1C34"
+}

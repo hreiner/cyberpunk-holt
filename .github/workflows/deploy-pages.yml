@@ -33,8 +33,11 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
-      - name: Construire le jeu
+      - name: Construire le jeu et restaurer le comics publié
         run: npm run build
+
+      - name: Vérifier le paquet autonome du comics
+        run: npm run comics:check
 
       - name: Configurer GitHub Pages
         uses: actions/configure-pages@v5

@@ -1,0 +1,12 @@
+Use case: precise-object-edit. Perform ONE strictly local anatomical correction on Image 1, the complete 1774 × 887 pixel two-panel comic strip. This is an edit of the existing raster, not a new composition.
+
+Input roles:
+Image 1: edit target, page-05/band-02-attempt-01/band-v1.png, the full original two-panel strip.
+Image 2: cast-six-v1.png, identity reference only; do not import its text, layout or additional people.
+Image 3: page-05/band-01-v1.png, bartender identity, clothing and cel-shaded style reference only; do not import its composition, props or other people.
+
+Change ONLY the bartender's raised hand on the VIEWER'S LEFT side of the bartender in the RIGHT-HAND comic panel: anatomically his RIGHT hand, the empty open palm nearer silver-haired John. The target hand occupies approximately x=1230–1315, y=345–430 in the full 1774×887 Image 1. It currently has SIX digits: an extra little oblique digit at the viewer-left edge, four upright fingers, and the thumb to viewer-right. Redraw this same open raised palm with EXACTLY FIVE anatomically credible digits: four fingers and one thumb. Remove the supernumerary oblique digit, restore a natural outside edge of the palm, and retain the correct right-hand thumb orientation to viewer-right, connected wrist/forearm, existing gesture, scale, skin tone, black ink contours, cel shading and cyan/magenta light. Keep a simple readable silhouette with distinct fingers; no fused digits or duplicated fingertip.
+
+Preserve EVERYTHING ELSE in Image 1: exact full canvas size/aspect, two-panel geometry and central gutter; Wendy's profile and outfit in the left panel; the single male pursuer outside the intact rainy window and his one existing firearm and grip; both uniformed cadets at the edges of the right panel; bartender's face, hair, tattoo, towel, body, clothing, feet and OTHER raised hand; the single wooden bat lying on the floor; all bar bottles, stools, lamps, reflections, floor, colors and empty upper text reserves. No person, weapon or prop is added, removed, moved or redesigned. No car exists in this image: do not introduce one. Do not alter faces, eyes, badges, posture, lighting, camera or any background detail while fixing the hand.
+
+No speech balloons, lettering, captions, logos, watermark or new marks. Return the same complete strip with only that specific six-to-five-finger correction.

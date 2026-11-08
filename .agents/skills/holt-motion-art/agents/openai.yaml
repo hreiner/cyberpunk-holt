@@ -1,0 +1,4 @@
+interface:
+  display_name: "Images motion comics"
+  short_description: "Dessins, mains, calques et bulles françaises"
+  default_prompt: "Utilise $holt-motion-art pour réaliser l’étape demandée dans le périmètre HOLT."

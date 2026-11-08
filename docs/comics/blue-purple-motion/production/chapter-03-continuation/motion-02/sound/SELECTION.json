@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "status": "mixed-awaiting-integrator-review",
+  "coverDuration": 12,
+  "chapterDuration": 446.0022222222222,
+  "duration": 458.0022222222222,
+  "coverAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/sound/cover-v1/cover-backing.wav",
+  "backingFull": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/sound/soundtrack-v2/backing-cover-and-pages01-21.wav",
+  "backingChapter": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/sound/soundtrack-v2/backing-chapter-pages01-21.wav",
+  "backingPages09To21": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/sound/soundtrack-v2/backing-pages09-21.wav",
+  "backingPage17": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/sound/soundtrack-v2/backing-page-17.wav",
+  "report": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/sound/soundtrack-v2/report.json",
+  "previews": [
+    {
+      "id": "cover-to-chapter",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/sound/soundtrack-v2/cover-to-chapter-audition.m4a",
+      "sha256": "4741af517df318afe7259b2d94a27e4e675f3be1e7ef4526f21e1caf84e7b7a7",
+      "startFull": 0,
+      "duration": 22,
+      "channels": 2,
+      "bitRateTarget": 192000,
+      "peakDb": -6.054914742978142,
+      "rmsDb": -25.586769736599223,
+      "clippedSamples": 0,
+      "integratedLufs": -22.5,
+      "truePeakDb": -6.1,
+      "trackCount": 1,
+      "tracks": [
+        {
+          "audio": "art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/01-wendy-1f7aa77d1214.mp3",
+          "start": 14.85,
+          "end": 21.25,
+          "speaker": "wendy"
+        }
+      ],
+      "decoded": true
+    },
+    {
+      "id": "page-17",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/sound/soundtrack-v2/page-17-audition.m4a",
+      "sha256": "8aae0c1d45b36246366adcac47745433cce4af15c98b60afe2abca7402c0ffee",
+      "startFull": 380.89,
+      "duration": 10.902222222222235,
+      "channels": 2,
+      "bitRateTarget": 192000,
+      "peakDb": -1.8328303988148285,
+      "rmsDb": -21.560444698353276,
+      "clippedSamples": 0,
+      "integratedLufs": -16.6,
+      "truePeakDb": -1.8,
+      "trackCount": 3,
+      "tracks": [
+        {
+          "audio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/076-abigail-gain-+9.969db.wav",
+          "start": 1.1100000000000136,
+          "end": 3.589999999999975,
+          "speaker": "abigail"
+        },
+        {
+          "audio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/40-wendy-052c3dbfbe86.mp3",
+          "start": 5.1299999999999955,
+          "end": 6.170000000000016,
+          "speaker": "wendy"
+        },
+        {
+          "audio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/41-grover-a26b763c3798.mp3",
+          "start": 7.910000000000025,
+          "end": 10.069999999999993,
+          "speaker": "grover"
+        }
+      ],
+      "decoded": true
+    }
+  ],
+  "anchors": {
+    "page17ChapterStart": 368.89,
+    "page17WithCoverStart": 380.89,
+    "oneShot": {
+      "page": 4.670000000000016,
+      "chapter": 373.56,
+      "withCover": 385.56
+    },
+    "metalImpact": {
+      "page": 4.75,
+      "chapter": 373.64,
+      "withCover": 385.64
+    },
+    "wendy": {
+      "page": 5.130000000000024,
+      "chapter": 374.02,
+      "withCover": 386.02,
+      "duration": 1.0400000000000205
+    },
+    "oneShotEvents": 1,
+    "metalOffsetSeconds": 0.07999999999998408
+  },
+  "preservation": {
+    "prefixExact": true,
+    "suffixExact": true,
+    "firstGuardExact": true,
+    "lastGuardExact": true,
+    "patchChapterStart": 368.89,
+    "patchChapterEnd": 379.7922222222222,
+    "patchFirstByte": 65072196,
+    "patchEndByte": 66995348,
+    "changedFrames": 102287,
+    "sourcePcmSha256": "3b132e0ca28d93c9e8ecdd21f25ccf8b48bad53c291bdfc45e39072681ec8d10",
+    "chapterPrefixSha256": "b3143b0e777751e044e09a2db8ec22ed825fcf3264bb9a0ed1cad037da46fd27",
+    "chapterSuffixSha256": "c5be55d69274be8a5cdd1fd0df10cc22e978bdd155c42d28899b1c06f9c76f41",
+    "fullAfterCoverEqualsChapter": true
+  },
+  "newPaidCalls": 0,
+  "newVoices": 0,
+  "newMusicGenerations": 0,
+  "cumulativeSfxRequests": 10,
+  "cumulativeRequestedSeconds": 36,
+  "humanListening": "not-performed"
+}

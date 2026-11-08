@@ -1,0 +1,121 @@
+{
+  "status": "explicit-source-list",
+  "files": [
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/native/water-clean-v1.png",
+      "sha256": "8ca1372660397b4eac04a70e6403dfaa179cffb194a997b46d7e5081c8ffe768"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/native/door-closed-clean-v1.png",
+      "sha256": "29e91a796b07ffc8d27796e315df558fd2f23674cc372777b7a71020a904076e"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/native/door-empty-interior-v1.png",
+      "sha256": "3fce1a864884c8495d77c7e9db29c56d5d3ead163cd4abef862858b1b9eebfd9"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/native/lock-retracted-v1.png",
+      "sha256": "145c87498acb73e520e48415df38b24ae9d7fcdb4ddf2e1cde0873123f6b282a"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/native/water-impact-v2.png",
+      "sha256": "0ad4a930fb187e66583079e8a7c913ff70dfad2feb3502ca9b1f00e0172bb76b"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/native/sdf-alpha-v2.png",
+      "sha256": "2dece8a404a8305d328e83382f4c526fd61ea73ef979925093b7980c3b97f10e"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/references/water-clean-v1.jpg",
+      "sha256": "96638da5722fd3057db3d7e79ea95e911288418969160588dca9e6719457561a"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/water-background.png",
+      "sha256": "a27185a5794be239202860dc446afcab9187fc1e0dabcad75dca7b409646ecb7"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/sdf-rigid.png",
+      "sha256": "776dd274ef672511bfff03236fde071bcf9743404dbd00b402662b51a536cbdb"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-texture-clean.png",
+      "sha256": "1aa6699374a46d2085b9391cfe3465971ef511a00bf792c14b7cd9558df26c64"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/abigail-original.png",
+      "sha256": "9e5cce9da86f591a6ba37b9eada045a1793b6024f5c03094ba3ae2f09cb5f049"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/sdf-mask.svg",
+      "sha256": "9bafd44c73758fff5aa23c9f8beb94199d5c3bfb4043bc04b0a69f63f416042e"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/abigail-mask.svg",
+      "sha256": "a8cd52e279225313944b72e0b9874a96ce2892b5e6464e992542b6791a74c6b4"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/water-mask.svg",
+      "sha256": "077be6a340a87851f79f55fb81a6376e1caac7feb3318d58e6baf7ecdd5a2003"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v5/door-aperture-mask.svg",
+      "sha256": "2315405c16eaee60371dd998a18bfb2fef94c5d6a5223a888f7230fb933ee25c"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p18-c02.jpg",
+      "sha256": "1f514ffbbccce41888bb734914958e4d1728c71129005b5c44ff353df2a04e01"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p20-c03.jpg",
+      "sha256": "e27cbe0f2c667c50c0a8a47a53e99ef815e66e76bd2feff6995257cc0a79b145"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p21-c01.jpg",
+      "sha256": "c4ceeb62dc43c85660192244f55e78bce698ea2336a23b54f438a1857732da95"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/owner-review-references/slide-54.png",
+      "sha256": "9a4185d8c45079998573ae6885570b924ddc115d81330998c15e851069ff0a99"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/owner-review-references/slide-59.png",
+      "sha256": "3111c967786ab04602c0919bb2963bf31996f3638c72444006771fe2f8114fff"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/owner-review-references/slide-63.png",
+      "sha256": "eb8c1cb70031d6cb4c96c914f9a52cbe4a5ca7aacadf1e0e6dabc7868e39eca6"
+    },
+    {
+      "file": "docs/Cyber-S01-E02-Had.odp",
+      "sha256": "f3709848e9781eed51bf3e51a6c38910a6698e59fc372136cde9619d049ac4d2"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/lettering.svg",
+      "sha256": "7f843ef97cf58ef2b50da5684eb81e739fcd76cbf11dce74ec73cb80f0c5ae9c"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-19/lettering.svg",
+      "sha256": "2cdd7457137fb982a349b6cf471e9938589c579a364244f655b531e2fb19bd0a"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/lettering.svg",
+      "sha256": "783ee280215889848d4f6f922c16ae6f7b1a90b6f56f6f3db7473801f4d5e347"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-21/lettering.svg",
+      "sha256": "3cbcd60bb33b144f6b8c35c6102aefa596d23385e9d965cfc6d6ee9799c0e5c9"
+    }
+  ],
+  "exclude": [
+    "assets-v1",
+    "assets-v2",
+    "assets-v3",
+    "assets-v4",
+    "proofs/run-v1",
+    "proofs/run-v2",
+    "**/frames/**",
+    "assets-v5/sdf-mask-review.png",
+    "assets-v5/sdf-mask-detail.png"
+  ],
+  "notes": "The two yellow SDF diagnostics are inherited manual-mask rejects; final alpha/mask and RGB sprite are explicitly listed above. No archive is created here."
+}

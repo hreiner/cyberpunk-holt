@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-08",
+  "imageGen": {
+    "successfulImagesReceived": 3,
+    "cover": 1,
+    "p17Clean": 2,
+    "networkFailuresCover": 2,
+    "parameterRejectionBeforeGeneration": 1,
+    "submissionAttemptsAfterParameterValidation": 5,
+    "providerIds": null,
+    "cost": null
+  },
+  "audio": {
+    "newVoiceTakes": 0,
+    "newMusicGenerations": 0,
+    "newSfxRequests": 0,
+    "previousTtsCharacters": 7062,
+    "previousSfxRequests": 10,
+    "previousSfxRequestedSeconds": 36,
+    "music": "HOLT music-neon reused",
+    "humanListening": false
+  },
+  "longExports": 0,
+  "commitPush": false
+}

@@ -1,0 +1,214 @@
+{
+  "page": 2,
+  "title": "Ne pas l'oublier",
+  "source": "docs/chapters/ch3/SCENARIO.md — Le Blue Purple : Wendy et Letitia ; docs/anime/SCREENPLAY.md S01-P03 ; dette docs/chapters/CH2-LEGACY.md",
+  "panels": [
+    {
+      "id": "p02-c01",
+      "readingOrder": 1,
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "wendy"
+      ],
+      "instant": "Juste après qu'Abigail a dit que le charcudoc retient Letitia.",
+      "setting": "Salle attenante au Blue Purple, même table et néons que page 1.",
+      "intention": "Wendy coupe court au retour sans mépris pour Letitia.",
+      "expression": "Mâchoire tenue, inquiétude visible sous la fermeté.",
+      "gesture": "Se penche légèrement vers les cadets, paume ouverte basse sur la table.",
+      "gaze": "Regarde Franklyn, sans chercher la porte pendant cette phrase.",
+      "visibleAction": "Avertissement adressé à la table ; aucune arme ni document.",
+      "framing": "Plan rapproché large de Wendy, amorces des épaules des cadets ; elle reste dans sa place page 1.",
+      "lettering": "Deux bulles reliées dans le tiers supérieur droit, Wendy identifiable au centre/gauche ; ne pas masquer yeux ni main.",
+      "cues": [
+        {
+          "id": "bp-l005",
+          "globalLine": 5,
+          "speaker": "wendy",
+          "textFr": "Si vous y retournez maintenant, vous les mènerez tout droit à elle. Et à vous tous.",
+          "textEn": "Going back now would lead them straight to her. And to all of you.",
+          "intention": "Urgence contenue, vérité difficile puis accent sur tous."
+        }
+      ],
+      "minimumReadSeconds": 8
+    },
+    {
+      "id": "p02-c02",
+      "readingOrder": 2,
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "franklyn"
+      ],
+      "instant": "Franklyn résiste au renoncement proposé.",
+      "setting": "Même table ; fond simplifié de néons en faible profondeur.",
+      "intention": "Défendre Letitia en s'accrochant à la dette et à son échéance.",
+      "expression": "Colère inquiète, yeux brillants de fatigue.",
+      "gesture": "Main crispée près du bord de la table, buste en avant sans se lever.",
+      "gaze": "Fixe Wendy hors champ vers sa place réelle.",
+      "visibleAction": "Franklyn énonce l'ultimatum et refuse de la laisser.",
+      "framing": "Gros plan poitrine et visage, trois quarts ; laisser un vrai espace de texte supérieur.",
+      "lettering": "Une ou deux bulles hautes, queue courte vers Franklyn ; aucun nom de locuteur ajouté.",
+      "cues": [
+        {
+          "id": "bp-l006",
+          "globalLine": 6,
+          "speaker": "franklyn",
+          "textFr": "Il veut deux mille crédits demain soir. On ne peut pas la laisser avec lui.",
+          "textEn": "He wants two thousand by tomorrow night. We can't leave her with him.",
+          "intention": "Souffle tendu, dureté sur l'échéance puis voix qui se brise légèrement sur laisser."
+        }
+      ],
+      "minimumReadSeconds": 8
+    },
+    {
+      "id": "p02-c03",
+      "readingOrder": 3,
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "grover"
+      ],
+      "instant": "Grover choisit ses mots avant de répondre.",
+      "setting": "Même table et éclairage ; aucun nouveau lieu.",
+      "intention": "Raisonner Franklyn au nom de Letitia, sans prétendre lire sa pensée.",
+      "expression": "Regret, fatigue, regard brièvement abaissé avant de revenir.",
+      "gesture": "Épaules rentrées, une main posée à plat ; aucun grand geste.",
+      "gaze": "Vers Franklyn à sa place réelle.",
+      "visibleAction": "Il argumente : se faire prendre n'aidera personne.",
+      "framing": "Plan rapproché de Grover, angle complémentaire de Franklyn.",
+      "lettering": "Deux bulles empilées dans la partie supérieure, sans couper la coiffure de Grover.",
+      "cues": [
+        {
+          "id": "bp-l007",
+          "globalLine": 7,
+          "speaker": "grover",
+          "textFr": "Elle nous dirait de nous mettre à l'abri d'abord. On ne l'aidera pas si on se fait prendre.",
+          "textEn": "She'd tell us to get clear first. We won't help her if we're caught.",
+          "intention": "Commence avec hésitation coupable, finit avec douceur ferme."
+        }
+      ],
+      "minimumReadSeconds": 9
+    },
+    {
+      "id": "p02-c04",
+      "readingOrder": 4,
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "franklyn",
+        "john"
+      ],
+      "instant": "Un silence pèse ; Franklyn cesse de discuter mais refuse l'oubli.",
+      "setting": "Même table, environnement estompé.",
+      "intention": "Montrer une décision contrainte et une solidarité, sans réjouissance.",
+      "expression": "Franklyn éprouvé, John grave et attentif.",
+      "gesture": "Franklyn desserre sa main ; John se tourne vers lui, mains visibles sans tapotement inventé.",
+      "gaze": "Franklyn relève les yeux vers John ; John soutient son regard.",
+      "visibleAction": "Deux répliques successives, Franklyn puis John.",
+      "framing": "Plan à deux, Franklyn à gauche et John à droite si compatible avec places page1 ; sinon conserver l'axe existant et adapter ordre des bulles.",
+      "lettering": "Bulle Franklyn en haut à gauche puis John plus à droite/bas, queues distinctes ; le lettreur peut inverser cadrage pour garder ordre clair.",
+      "cues": [
+        {
+          "id": "bp-l008",
+          "globalLine": 8,
+          "speaker": "franklyn",
+          "textFr": "On ne l'oublie pas.",
+          "textEn": "We're not forgetting her.",
+          "intention": "Murmure décidé après un souffle retenu."
+        },
+        {
+          "id": "bp-l009",
+          "globalLine": 9,
+          "speaker": "john",
+          "textFr": "Non. On ne l'oublie pas.",
+          "textEn": "No. We aren't.",
+          "intention": "Réponse simple, chaude et ferme, sans soulagement."
+        }
+      ],
+      "minimumReadSeconds": 6
+    }
+  ],
+  "schemaVersion": 1,
+  "version": 1,
+  "status": "integrator-approved-for-production",
+  "dialogueStatus": "adaptation",
+  "pageSize": [
+    1024,
+    1536
+  ],
+  "productionApproval": {
+    "reviewer": "integrator",
+    "date": "2026-11-05",
+    "scope": "Storyboard et contrats v1 après lecture complète et contre-revue indépendante sans blocage",
+    "humanApproval": false
+  }
+}

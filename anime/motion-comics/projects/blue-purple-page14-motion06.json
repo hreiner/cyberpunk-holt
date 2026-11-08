@@ -1,0 +1,629 @@
+{
+  "schemaVersion": 1,
+  "version": 6,
+  "title": "HOLT — Blue Purple · page 14 · animation 3",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-14/page-fitted.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-14/art.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-14/lettering-fitted.svg",
+  "storyThumbnail": true,
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.45,
+  "outroSeconds": 1.5,
+  "panels": [
+    {
+      "id": "p14-c01",
+      "panelKey": "14-1",
+      "sourcePanelKey": "14-1",
+      "label": "Les danses sensorielles",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 6.25,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l063",
+          "globalLine": 63,
+          "localLine": 26,
+          "panel_id": "14-1",
+          "dialogueIndex": 0,
+          "pageId": "page-14",
+          "speaker": "wendy",
+          "textFr": "Des danses sensorielles. On regarde, on ne touche à rien.",
+          "textEn": "Braindances. We look. We don't touch anything.",
+          "ttsText": "[wary, matter-of-fact] Braindances. [firm, low] We look. We don't touch anything.",
+          "performance": "Wendy fixe une limite de prudence dans la boutique.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/063-wendy-gain-+3.055db.wav",
+          "sha256": "d968ecd7d8e4ec3505f0eeb43231584bd61a2684705d0475caac748aeee3138d",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/26-wendy-e88ef63ae291.mp3",
+          "sourceSha256": "b4e1fc0f736eac683fc821ce25cc2a898e4f198546c370a494058569392b19bc",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/26-wendy-e88ef63ae291.json",
+          "journalSha256": "bdbb5556dd2c4b0c311b524472320e239a25a6ae66e4f07f5874c5704fd78925",
+          "constantGainDb": 3.055,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 4.64,
+            "pcmSamples": 204624,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -5.363209764420224,
+            "meanDb": -25.054990525512824,
+            "firstAboveMinus40DbSeconds": 0.17303854875283448,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 81.60000000000001,
+          "duration": 4.64,
+          "pcmSamples": 204624,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.308260228912099,
+          "meanDb": -21.99998976101955,
+          "firstAboveMinus40DbSeconds": 0.16700680272108845,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p14-c02",
+      "panelKey": "14-2",
+      "sourcePanelKey": "14-2",
+      "label": "Une machine différente",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 6.708333333333333,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l064",
+          "globalLine": 64,
+          "localLine": 27,
+          "panel_id": "14-2",
+          "dialogueIndex": 0,
+          "pageId": "page-14",
+          "speaker": "abigail",
+          "textFr": "Celle-là n’est pas comme les autres.",
+          "textEn": "That one's different from the others.",
+          "ttsText": "[curious, focused] That one's different from the others.",
+          "performance": "Abigail repère la singularité technique de la machine.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "WtA85syCrJwasGeHGH2p",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/064-abigail-gain-+5.765db.wav",
+          "sha256": "6756f8ea1099254b1d7a55bb4303bb3f209dbf793109db3029a30cb981ea0a5d",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/27-abigail-fd5b1efb3dd8.mp3",
+          "sourceSha256": "913f8c4c83c41beab192eb494e22d7b5834d8ee66a102c4c9a0ffa068f673c54",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/27-abigail-fd5b1efb3dd8.json",
+          "journalSha256": "989d8606d1211c9ffe3cb5a3828f1242a03d3328facfd36b3129a1d6a80d985f",
+          "constantGainDb": 5.765,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.4,
+            "pcmSamples": 105840,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -9.771212939782906,
+            "meanDb": -27.76541735738766,
+            "firstAboveMinus40DbSeconds": 0.05324263038548753,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 86.64000000000001,
+          "duration": 2.4,
+          "pcmSamples": 105840,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -4.006392355522323,
+          "meanDb": -22.000411623988654,
+          "firstAboveMinus40DbSeconds": 0.018299319727891155,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l065",
+          "globalLine": 65,
+          "localLine": 28,
+          "panel_id": "14-2",
+          "dialogueIndex": 1,
+          "pageId": "page-14",
+          "speaker": "franklyn",
+          "textFr": "Je crois que je peux m’en servir.",
+          "textEn": "I think I can use it.",
+          "ttsText": "[hesitant, drawn in] I think I can use it.",
+          "performance": "Franklyn attiré par une connaissance latente, pas vantard.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/065-franklyn-gain-+0.704db.wav",
+          "sha256": "e3365e03f98d1a3d8386ea43b407a72f6194c2baace54661d195d4226a1d56aa",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/28-franklyn-d598d1fb066d.mp3",
+          "sourceSha256": "7bca0ab69f7871576df3a0a423cd945f93a8bb2b9b23edc3642a630a821b479b",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/28-franklyn-d598d1fb066d.json",
+          "journalSha256": "9b2639ad0b2924ca6e6b8924f1dff8ac8bfb7183cb4d410031ccde2094064b66",
+          "constantGainDb": 0.704,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.24,
+            "pcmSamples": 98784,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -8.69903375993407,
+            "meanDb": -22.70384336540596,
+            "firstAboveMinus40DbSeconds": 0.08337868480725624,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 89.44000000000001,
+          "duration": 2.24,
+          "pcmSamples": 98784,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -7.99479193894677,
+          "meanDb": -21.99983998979402,
+          "firstAboveMinus40DbSeconds": 0.08337868480725624,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p14-c03",
+      "panelKey": "14-3",
+      "sourcePanelKey": "14-3",
+      "label": "L’accord du vendeur",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 6.708333333333333,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l066",
+          "globalLine": 66,
+          "localLine": 29,
+          "panel_id": "14-3",
+          "dialogueIndex": 0,
+          "pageId": "page-14",
+          "speaker": "wendy",
+          "textFr": "On peut regarder cette vieille machine ?",
+          "textEn": "Can we take a look at that old machine?",
+          "ttsText": "[polite, guarded] Can we take a look at that old machine?",
+          "performance": "Wendy négocie avec le vendeur sans révéler leur but.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/29-wendy-f1a9ff8c1b10.mp3",
+          "sha256": "f177b2b3f87cdd65143a5edb1daf965146127143880b57e54fbdea1bd2c40a14",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/29-wendy-f1a9ff8c1b10.mp3",
+          "sourceSha256": "f177b2b3f87cdd65143a5edb1daf965146127143880b57e54fbdea1bd2c40a14",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/29-wendy-f1a9ff8c1b10.json",
+          "journalSha256": "568f070776fbd3554b5a5cf9b40e7e4238b60a573d374618b84c2bc7dcacc945",
+          "constantGainDb": 0,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.56,
+            "pcmSamples": 112896,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -8.124944484331664,
+            "meanDb": -21.743868053269196,
+            "firstAboveMinus40DbSeconds": 0.10814058956916099,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 92.08000000000001,
+          "duration": 2.56,
+          "pcmSamples": 112896,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -8.124944484331664,
+          "meanDb": -21.743868053269196,
+          "firstAboveMinus40DbSeconds": 0.10814058956916099,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l067",
+          "globalLine": 67,
+          "localLine": 30,
+          "panel_id": "14-3",
+          "dialogueIndex": 1,
+          "pageId": "page-14",
+          "speaker": "vendeur",
+          "textFr": "Si vous arrivez à la faire démarrer.",
+          "textEn": "If you can get it started.",
+          "ttsText": "[dry, skeptical] If you can get it started.",
+          "performance": "Vendeur adulte blasé, permission conditionnelle sans menace.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "GLSWsaquVBsIPLPPRi2s",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/067-vendeur-gain-+14.548db.wav",
+          "sha256": "6ff67ecb6870f4d662e5dddf5743c0f7cbae436112510ec3315ea84134e35007",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/30-vendeur-617b2b2d2dbe.mp3",
+          "sourceSha256": "4e57481ffb9acce1b8ad723154d5446902f886037db650dbfc8f6bdaaf8a6292",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/30-vendeur-617b2b2d2dbe.json",
+          "journalSha256": "ab32509feb1dd20799932f628ac6bb64d108b74b2ba6c243fdc2ffcc08fc5e47",
+          "constantGainDb": 14.548,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.08,
+            "pcmSamples": 91728,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -16.547644738804955,
+            "meanDb": -36.56024784794859,
+            "firstAboveMinus40DbSeconds": 0.19179138321995465,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 95.04,
+          "duration": 2.08,
+          "pcmSamples": 91728,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.999515337009644,
+          "meanDb": -22.012249870986228,
+          "firstAboveMinus40DbSeconds": 0.18868480725623582,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "id": "14-1-hologram-breath",
+      "panelId": "p14-c01",
+      "type": "neon",
+      "rect": [
+        0.8515625,
+        0.08203125,
+        0.10546875,
+        0.109375
+      ],
+      "clipPolygon": [
+        [
+          0.8525390625,
+          0.08333333333333333
+        ],
+        [
+          0.9560546875,
+          0.08203125
+        ],
+        [
+          0.95703125,
+          0.19140625
+        ],
+        [
+          0.8515625,
+          0.19140625
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 3.0500000000000003,
+      "endSeconds": 9,
+      "color": "#da72ff",
+      "strength": 0.68,
+      "frequency": 0.24,
+      "phase": 0,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0.55,
+        "releaseSeconds": 0.65
+      }
+    },
+    {
+      "id": "14-2-weak-screen",
+      "panelId": "p14-c02",
+      "type": "neon",
+      "rect": [
+        0.6435546875,
+        0.44921875,
+        0.048828125,
+        0.03515625
+      ],
+      "clipPolygon": [
+        [
+          0.6494140625,
+          0.4498697916666667
+        ],
+        [
+          0.6923828125,
+          0.44921875
+        ],
+        [
+          0.6884765625,
+          0.484375
+        ],
+        [
+          0.6435546875,
+          0.4830729166666667
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 9.95,
+      "endSeconds": 16.65833333333333,
+      "color": "#64d7ff",
+      "strength": 0.68,
+      "frequency": 0.000001,
+      "phase": -1.5707963267948966,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0.1,
+        "releaseSeconds": 0.12
+      }
+    },
+    {
+      "id": "14-2-screen-stumble-0",
+      "panelId": "p14-c02",
+      "type": "reflection",
+      "rect": [
+        0.6435546875,
+        0.44921875,
+        0.048828125,
+        0.03515625
+      ],
+      "clipPolygon": [
+        [
+          0.6494140625,
+          0.4498697916666667
+        ],
+        [
+          0.6923828125,
+          0.44921875
+        ],
+        [
+          0.6884765625,
+          0.484375
+        ],
+        [
+          0.6435546875,
+          0.4830729166666667
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 10.379999999999999,
+      "endSeconds": 10.58,
+      "color": "#64d7ff",
+      "strength": 0.68,
+      "frequency": 0.000001,
+      "phase": 1.5707963267948966,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0.025,
+        "releaseSeconds": 0.06
+      }
+    },
+    {
+      "id": "14-2-screen-stumble-1",
+      "panelId": "p14-c02",
+      "type": "reflection",
+      "rect": [
+        0.6435546875,
+        0.44921875,
+        0.048828125,
+        0.03515625
+      ],
+      "clipPolygon": [
+        [
+          0.6494140625,
+          0.4498697916666667
+        ],
+        [
+          0.6923828125,
+          0.44921875
+        ],
+        [
+          0.6884765625,
+          0.484375
+        ],
+        [
+          0.6435546875,
+          0.4830729166666667
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 11.139999999999999,
+      "endSeconds": 11.35,
+      "color": "#64d7ff",
+      "strength": 0.68,
+      "frequency": 0.000001,
+      "phase": 1.5707963267948966,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0.025,
+        "releaseSeconds": 0.06
+      }
+    },
+    {
+      "id": "14-2-console-witness",
+      "panelId": "p14-c02",
+      "type": "neon",
+      "rect": [
+        0.6181640625,
+        0.4720052083333333,
+        0.0126953125,
+        0.007161458333333333
+      ],
+      "clipPolygon": [
+        [
+          0.6181640625,
+          0.47265625
+        ],
+        [
+          0.630859375,
+          0.4720052083333333
+        ],
+        [
+          0.630859375,
+          0.478515625
+        ],
+        [
+          0.6181640625,
+          0.4791666666666667
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 10.1,
+      "endSeconds": 12.649999999999999,
+      "color": "#ffcc75",
+      "strength": 0.68,
+      "frequency": 1.3,
+      "phase": 0,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0.1,
+        "releaseSeconds": 0.5
+      }
+    },
+    {
+      "id": "14-3-negotiation-witness",
+      "panelId": "p14-c03",
+      "type": "neon",
+      "rect": [
+        0.7109375,
+        0.80078125,
+        0.009765625,
+        0.004557291666666667
+      ],
+      "clipPolygon": [
+        [
+          0.7109375,
+          0.80078125
+        ],
+        [
+          0.720703125,
+          0.80078125
+        ],
+        [
+          0.720703125,
+          0.8053385416666666
+        ],
+        [
+          0.7109375,
+          0.8053385416666666
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 17.90833333333333,
+      "endSeconds": 22.208333333333332,
+      "color": "#d47aff",
+      "strength": 0.68,
+      "frequency": 0.22,
+      "phase": 0,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0.45,
+        "releaseSeconds": 0.6
+      }
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "14-1-rigid-1",
+      "rect": [
+        0.07814400883044231,
+        0.03255208333333335,
+        0.35005071607686705,
+        0.2864583333333333
+      ]
+    },
+    {
+      "id": "14-1-rigid-2",
+      "rect": [
+        0.5897565938658633,
+        0.029296875000000017,
+        0.2513184628244174,
+        0.29296875000000006
+      ]
+    },
+    {
+      "id": "14-2-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.34375000000000006,
+        0.5475152225817664,
+        0.31770833333333326
+      ]
+    },
+    {
+      "id": "14-2-rigid-2",
+      "rect": [
+        0.526926978159759,
+        0.5227864583333334,
+        0.10770791263903601,
+        0.06510416666666667
+      ]
+    },
+    {
+      "id": "14-3-left-actors",
+      "rect": [
+        0,
+        0.6692708333333334,
+        0.69921875,
+        0.3229166666666667
+      ]
+    },
+    {
+      "id": "14-3-right-actors",
+      "rect": [
+        0.728515625,
+        0.6692708333333334,
+        0.271484375,
+        0.3229166666666667
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "7cd91ae7936e7990f9516f7db0f899b1a7946165065d3e45da4b219d53132786",
+    "lettering": "Exact approved raster plates after effects; original SVG retained.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false,
+    "formatCorrection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/format-01/PROGRESS.md",
+    "letteringFit": "Whole approved balloon groups translated to stay 3px inside frames; text/tails retained.",
+    "motion03": {
+      "lot": "B",
+      "timing": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/timing/TIMING.json",
+      "art": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-b/ART-SELECTION.json",
+      "method": "Local authored screen and hologram masks."
+    }
+  }
+}

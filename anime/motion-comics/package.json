@@ -1,0 +1,15 @@
+{
+  "name": "holt-motion-comics",
+  "version": "1.4.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Lecteur et export local de pages de comics sonores, isolés du jeu.",
+  "engines": { "node": ">=20.19" },
+  "scripts": {
+    "init": "node cli.cjs init",
+    "check": "node cli.cjs check",
+    "serve": "node render.cjs --serve",
+    "render": "node render.cjs",
+    "test": "node --test tests/*.test.cjs"
+  }
+}

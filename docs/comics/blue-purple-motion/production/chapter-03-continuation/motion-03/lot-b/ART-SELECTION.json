@@ -1,0 +1,128 @@
+{
+  "source": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v5\\assets\\p15-c03.jpg",
+  "sourceSha256": "faae96fe20a0dffe2ff7af88f2c735de84fd244f03fb6b3992f24fffd7a3d81f",
+  "closedReference": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v5\\assets\\p16-c02.jpg",
+  "closedReferenceSha256": "e0cae9dc4191981acba6b7c42293fece942d7a1d4168b59f2cdea7c0ea515031",
+  "dynamic": [
+    [
+      590,
+      0
+    ],
+    [
+      1774,
+      0
+    ],
+    [
+      1774,
+      520
+    ],
+    [
+      1280,
+      570
+    ],
+    [
+      1210,
+      785
+    ],
+    [
+      595,
+      785
+    ],
+    [
+      595,
+      290
+    ]
+  ],
+  "protectedActors": [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        600,
+        0
+      ],
+      [
+        600,
+        320
+      ],
+      [
+        625,
+        400
+      ],
+      [
+        665,
+        500
+      ],
+      [
+        665,
+        700
+      ],
+      [
+        645,
+        850
+      ],
+      [
+        0,
+        887
+      ]
+    ],
+    [
+      [
+        1280,
+        40
+      ],
+      [
+        1645,
+        40
+      ],
+      [
+        1670,
+        830
+      ],
+      [
+        1360,
+        850
+      ],
+      [
+        1260,
+        545
+      ],
+      [
+        1238,
+        460
+      ],
+      [
+        1320,
+        385
+      ],
+      [
+        1300,
+        200
+      ]
+    ]
+  ],
+  "states": [
+    {
+      "id": "35",
+      "native": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-03\\lot-b\\closure-35-native.png",
+      "nativeSha256": "38a04eec07672b79478f6bc35b4f775710a983bb55f3263bc8c027b769e6a0cf",
+      "compositeSha256": "187d09eb167e600fea00d53c1c7f62c0b4e11704288293c506a001848d084597",
+      "rawSha256": "8ae39267baad8f66e78450c10dc5e66e780c642c725dc4ee0aa28e32a157227f",
+      "artSha256": "6471d4914183c8bc79192616284db254a5808cf08652713f016361606470bfbc",
+      "protectedPixels": 836473,
+      "protectedChanged": 0
+    },
+    {
+      "id": "closed",
+      "native": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\comic-review-v5\\assets\\p16-c02.jpg",
+      "nativeSha256": "e0cae9dc4191981acba6b7c42293fece942d7a1d4168b59f2cdea7c0ea515031",
+      "compositeSha256": "6fb77c015da6fd47d8c2863d662e1504da946a16d2267af99bdfdc5d8fc7eda1",
+      "rawSha256": "e58f93874b56b6e1a0533a6c517f0d01b384665b4af78d11be2722f375f4a41f",
+      "artSha256": "d2ff822d28c8eddb8f2dab57de120f3192fd8b9b01b125af3c7a1d60cb8947b8",
+      "protectedPixels": 836473,
+      "protectedChanged": 0
+    }
+  ]
+}

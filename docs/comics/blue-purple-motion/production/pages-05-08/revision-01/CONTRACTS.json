@@ -1,0 +1,1915 @@
+{
+  "schemaVersion": 1,
+  "version": 5,
+  "status": "ready-for-independent-review",
+  "date": "2026-11-05",
+  "title": "Blue Purple — pages 05 à 08, révision 01 : action et dialogue",
+  "source": [
+    "docs/chapters/ch3/SCENARIO.md — Le piège au bar ; Le parking et la fuite",
+    "docs/anime/SCREENPLAY.md — S02-P01 à S02-P05, adaptation provisoire",
+    "docs/anime/MOTION-COMICS-PAGES-05-08-ORCHESTRATOR.md",
+    "docs/comics/blue-purple-motion/production/pages-01-04/revision-03/STORYBOARD.md",
+    "Retour utilisateur transmis par intégrateur le 2026-11-05 : John assomme explicitement le barman ; davantage de voix, SFX/musique et mouvements d'action dessinés."
+  ],
+  "preservedSelection": "anime/motion-comics/projects/blue-purple-pages01-04-v4.json",
+  "pageGeometry": {
+    "width": 1024,
+    "height": 1536,
+    "marginPx": 12,
+    "gutterPx": 12,
+    "bandRectsPx": [
+      [
+        12,
+        12,
+        1000,
+        496
+      ],
+      [
+        12,
+        520,
+        1000,
+        496
+      ],
+      [
+        12,
+        1028,
+        1000,
+        496
+      ]
+    ],
+    "note": "Trois bandes de hauteur égale ; p5 bande2 et p8 bande1 comportent deux cases. Les réserves bulles sont absolues sur page ; ajustement de queue possible sur dessin retenu sans changer attribution ni texte."
+  },
+  "continuity": {
+    "group": [
+      "wendy",
+      "franklyn",
+      "john",
+      "abigail",
+      "grover",
+      "enfant"
+    ],
+    "absent": [
+      "letitia",
+      "zachary"
+    ],
+    "child": "Anonyme en civil sombre, cheveux en bol, plus petit, aucun écusson.",
+    "franklyn": "17 ans, cheveux noirs courts hérissés, taches de rousseur, col marine/cyan ; fatigue et mâchoire tendue persistantes après vision/Letitia. Il agit pour groupe, sans guérison émotionnelle soudaine. Aucune blague adressée à Letitia ; la petite gêne au volant ne dissout pas son inquiétude.",
+    "vehicle": "Même voiture générique sombre à six places réelles sur trois rangées, volant gauche ; Franklyn avant gauche au volant, Wendy avant droite, quatre autres derrière. Choix de mise en scène et non attribution dictée du conducteur.",
+    "barman": "John lui intime Pose ça AVANT le coup puis l'assomme explicitement d'un seul coup. Montrer préparation, contact bref, recul/chute contrôlée, puis KO vivant avec respiration discrète ou thorax soulevé. Pas de sang, plaie, fracture, décès ou coups répétés ; batte tombe et reste au sol.",
+    "document": "Wendy plie et range le document chiffré dans la poche intérieure de sa veste au début de p05-c01, raccord avec papier p04-c03. Le document reste rangé durant l'action et la fuite ; pas de feuille flottante ni disparition inexpliquée.",
+    "pursuer": "Un homme armé dehors ; un tir brise vitre ; il fuit rapidement, sans blessure nouvelle, sans identité de gang et sans tir attribué à Wendy.",
+    "forbidden": [
+      "Répéter « Ils sont tous passés où ? »",
+      "Révéler une carte actuelle ou GPS",
+      "Convertir les coordonnées ou montrer borne",
+      "Letitia ou Zachary dans groupe",
+      "Lumière mobile systématique",
+      "Batte ou arme traversant main, doigts en trop, corps fusionnés",
+      "Ajouter poursuite automobile, décès, sang, blessure nouvelle ou coups répétés ; le KO du barman est le seul nouvel arbitrage."
+    ]
+  },
+  "audio": {
+    "model": "eleven_v4",
+    "cast": "anime/projects/blue-purple/cast.json",
+    "historicalSubmittedCharacters": 2856,
+    "cumulativeCharacterCap": 4800,
+    "reusedLineIds": [
+      "bp-l016",
+      "bp-l017",
+      "bp-l018",
+      "bp-l019",
+      "bp-l020",
+      "bp-l021",
+      "bp-l022",
+      "bp-l023"
+    ],
+    "firstNewLine": 24,
+    "lastNewLine": 37,
+    "newLineCount": 14,
+    "newAnnotatedCharacters": 538,
+    "maxNewAnnotatedCharacters": 1400,
+    "explicitBreathingTags": 0,
+    "targetSpeechSeconds": [
+      40,
+      60
+    ],
+    "reservePolicy": "Décompte cumulé tags/échecs/reprises inclus ; historique2856 + première passe538 =3394. Réserve corrections444 maximum attribuée au responsable audio ; plafond opérationnel3838 sous plafond absolu4800, marge962 non allouée. Aucun compteur remis à zéro. Le responsable audio contrôle avant soumission.",
+    "note": "8 prises v4 existantes conservées exactement. 14 nouvelles voix uniquement après contre-revue. Aucun casting barman/gardien nouveau."
+  },
+  "pages": [
+    {
+      "page": 5,
+      "title": "Le piège",
+      "panels": [
+        {
+          "id": "p05-c01",
+          "readingOrder": 1,
+          "rectPx": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.0078125,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "barman",
+            "wendy",
+            "franklyn"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Premier geste après la dernière case page4 ; le barman fait non de la tête.",
+          "setting": "Salle principale vide du Blue Purple, comptoir raccord, fenêtres encore intactes.",
+          "expression": "Barman fermé et nerveux ; Wendy suspend son pas ; Franklyn pâle, mâchoire serrée, encore marqué par la vision.",
+          "gesture": "Barman garde la batte basse derrière le comptoir, bras et prise simples ; pas de batte brandie vers une tête. Wendy termine de glisser le document plié dans la poche intérieure de sa veste ; un seul papier, une prise simple et anatomique.",
+          "gaze": "Barman vers groupe, Wendy suit son signe vers vitre.",
+          "visibleAction": "Le barman fait non, Wendy finit de ranger le papier. John fait sentir le piège ; pas de temps mort long après son avertissement.",
+          "framing": "Plan large resserré comptoir ; barman au centre droit, Wendy/Franklyn en amorce gauche, autres hors cadre mais présents.",
+          "bubbles": [
+            {
+              "speaker": "john",
+              "cue": "bp-l024",
+              "rectPx": [
+                36,
+                30,
+                240,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "John hors champ intérieur : queue courte vers bord gauche côté groupe, aucun autre personnage pointé."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l024",
+              "globalLine": 24,
+              "speaker": "john",
+              "textFr": "Ça ne me plaît pas.",
+              "textEn": "I don't like this.",
+              "annotatedEn": "[low, wary] I don't like this.",
+              "intention": "Pressentiment adressé au groupe ; dur et méfiant, sans soupir.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p05-c01",
+              "page": 5
+            }
+          ],
+          "minimumReadSeconds": 4,
+          "animationIntention": "Tube fixe au-dessus du comptoir : fluctuation locale d'intensité ponctuelle, sans bande mobile ; garder visage et mains intacts.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 4,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles. John est hors champ intérieur du bar, côté groupe : bulle de dialogue hors champ dont la queue atteint bord gauche du cadre, ne pas pointer vers Wendy, Franklyn ou barman. Aucun nouveau dessin John exigé.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "roomtone",
+              "descriptionFr": "air de bar presque vide, pluie derrière fenêtre",
+              "anchor": "ambient",
+              "suggestedGain": 0.1,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        },
+        {
+          "id": "p05-c02",
+          "readingOrder": 2,
+          "rectPx": [
+            12,
+            520,
+            494,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.3385416666666667,
+            0.482421875,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "poursuivant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Le groupe découvre l'homme armé dehors avant le tir.",
+          "setting": "Fenêtre intacte sur rue nocturne humide, même salle.",
+          "expression": "Wendy alerte, homme dehors menaçant et mal assuré.",
+          "gesture": "Wendy détourne le groupe d'un geste court ; poursuivant tient une seule arme à feu, prise lisible et anatomique ; aucune arme Wendy.",
+          "gaze": "Wendy vers vitre puis groupe ; homme vers intérieur.",
+          "visibleAction": "Un seul poursuivant armé visible dehors ; Wendy ordonne de s'écarter.",
+          "framing": "Cadrage depuis bar : Wendy de profil au bord, homme lisible au-delà de la vitre. Ne pas superposer bras et canon.",
+          "bubbles": [
+            {
+              "speaker": "wendy",
+              "cue": "bp-l016",
+              "rectPx": [
+                36,
+                538,
+                420,
+                112
+              ],
+              "fontPx": 26,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l016",
+              "globalLine": 16,
+              "speaker": "wendy",
+              "textFr": "Éloignez-vous des fenêtres. Tout de suite.",
+              "textEn": "Away from the windows. Now.",
+              "annotatedEn": "[urgent, low and firm] Away from the windows. [sharp] Now.",
+              "intention": "Ordre net et protecteur ; la seconde phrase coupe la sidération, sans hurler.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "reuse",
+              "reuseFrom": "docs/comics/blue-purple-motion/production/pages-05-08/audio/DIRECTION.json",
+              "reusePolicy": "Réemployer prise v4 et traitement sonore actuellement sélectionnés ; aucune régénération par défaut.",
+              "panel_id": "p05-c02",
+              "page": 5
+            }
+          ],
+          "minimumReadSeconds": 4,
+          "animationIntention": "Pluie glissant dans une région de vitre hors silhouette et bulle. Pas de balayage lumineux.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 4,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "rain-window",
+              "descriptionFr": "pluie derrière vitre",
+              "anchor": "ambient",
+              "suggestedGain": 0.1,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        },
+        {
+          "id": "p05-c03",
+          "readingOrder": 3,
+          "rectPx": [
+            518,
+            520,
+            494,
+            496
+          ],
+          "rect": [
+            0.505859375,
+            0.3385416666666667,
+            0.482421875,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "john",
+            "barman",
+            "grover"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "John somme le barman de poser sa batte, puis l'assomme d'un seul coup. Grover l'arrête verbalement après le premier coup.",
+          "setting": "Entre comptoir et passage ; batte sur sol au premier plan, intacte.",
+          "expression": "John décidé mais sans sadisme ; barman surpris puis KO, vivant ; Grover pressé de repartir.",
+          "gesture": "John en mouvement lisible : bras prépare, poing entier contacte brièvement visage/haut de tête en profil, puis revient ; barman recule et s'affaisse sans blessure graphique. Doigts anatomiques, bras reliés au bon corps, aucune main fusionnée.",
+          "gaze": "Barman vers groupe ; John/Grover vers issue et barman.",
+          "visibleAction": "Un seul coup explicitement porté par John ; batte lâchée, barman KO vivant au sol ou contre comptoir. Pas de tir intérieur.",
+          "framing": "Même demi-case droite p5b2 ; John argent de profil identifiable côté gauche, barman centre/droite, Grover amorce. Fond stable, ne pas confondre John avec Grover. Garder place pour deux petites bulles échelonnées.",
+          "bubbles": [
+            {
+              "speaker": "john",
+              "cue": "bp-l025",
+              "rectPx": [
+                542,
+                538,
+                446,
+                112
+              ],
+              "fontPx": 26,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            },
+            {
+              "speaker": "grover",
+              "cue": "bp-l026",
+              "rectPx": [
+                542,
+                662,
+                446,
+                112
+              ],
+              "fontPx": 26,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l025",
+              "globalLine": 25,
+              "speaker": "john",
+              "textFr": "Pose ça.",
+              "textEn": "Put it down.",
+              "annotatedEn": "[stern, warning] Put it down.",
+              "intention": "Sommation courte adressée au barman AVANT le coup ; ce n'est pas une réplique après KO.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p05-c03",
+              "page": 5,
+              "gapSeconds": 0.75
+            },
+            {
+              "id": "bp-l026",
+              "globalLine": 26,
+              "speaker": "grover",
+              "textFr": "John ! Ça suffit !",
+              "textEn": "John! That's enough!",
+              "annotatedEn": "[urgent, sharp] John! That's enough!",
+              "intention": "Grover coupe l'élan APRÈS un seul coup, pour repartir ; ne pas suggérer une série de coups.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p05-c03",
+              "page": 5
+            }
+          ],
+          "minimumReadSeconds": 6,
+          "animationIntention": "Vrais dessins successifs et recalés préparation/contact/recul/KO, pas déformation du raster. Le fond/lettres restent fixes. Le dernier état montre le KO vivant et batte au sol.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 6,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "revisionAction": "Remplacer cette scène collective statique par action John avec variantes dessinées. Préserver p5c2 gauche strictement par compositing si génération strip complet.",
+          "cuePhaseAnchors": [
+            {
+              "cue": "bp-l025",
+              "phase": "preparation",
+              "relativeTo": "before-impact",
+              "constraint": "Fin parole +0,12s AVANT contact ; gap de cue25=0,75s avant cue26."
+            },
+            {
+              "cue": "bp-l026",
+              "phase": "recoil",
+              "relativeTo": "after-impact",
+              "constraint": "Début au moins0,35s APRÈS contact, sans chevauchement ; gap25 de0,75s laisse le geste se terminer."
+            }
+          ],
+          "requiredVariants": [
+            {
+              "id": "ready",
+              "state": "Barman conscient batte levée, John prêt, aucun contact.",
+              "defaultStaticMaster": false,
+              "defaultAnimatedOverview": true
+            },
+            {
+              "id": "contact",
+              "state": "Un poing de John en contact bref ; bras/poignet cohérents, pas de sang.",
+              "durationSeconds": 0.12,
+              "defaultStaticMaster": true
+            },
+            {
+              "id": "recoil",
+              "state": "John retire bras, barman perd équilibre et batte se sépare de sa main.",
+              "durationSeconds": 0.32
+            },
+            {
+              "id": "down",
+              "state": "Barman KO vivant, batte au sol, visage entier sans plaie. Petite respiration dessinée si disponible, pas corps mort.",
+              "defaultAfterAction": true
+            }
+          ],
+          "actionTiming": {
+            "trigger": "end of bp-l025",
+            "contactAt": "trigger+0.12s",
+            "contactDurationSeconds": 0.12,
+            "recoilAt": "trigger+0.24s",
+            "downAt": "trigger+0.56s",
+            "reactionAt": "au moins contactAt+0.35s ; cue25.gapSeconds=0.75",
+            "replay": "Uniquement seek/relire ; jamais boucle ambiante.",
+            "pause": "Fige état au temps narratif.",
+            "reducedMotion": "États nets sans interpolation/vibration, masterstatiqueCONTACT si animations coupées."
+          },
+          "soundCues": [
+            {
+              "id": "cloth-swish",
+              "descriptionFr": "vêtement du mouvement John",
+              "anchor": "pre-impact",
+              "suggestedGain": 0.12,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            },
+            {
+              "id": "body-impact",
+              "descriptionFr": "impact sec mat unique, non graphique",
+              "anchor": "contact",
+              "suggestedGain": 0.25,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            },
+            {
+              "id": "bat-drop",
+              "descriptionFr": "batte bois tombe puis roule brièvement",
+              "anchor": "recoil",
+              "suggestedGain": 0.2,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            },
+            {
+              "id": "body-settle",
+              "descriptionFr": "affaissement doux au sol",
+              "anchor": "down",
+              "suggestedGain": 0.14,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ],
+          "staticMasterPolicy": "Masterpage statique choisiCONTACT pour coup lisible animations désactivées. Quand animations actives, l'overlay READY recouvre ce contact pendant overview et avant onset ; DOWN reste après action. Le mode réduit peut montrer états nets sans interpolation.",
+          "measuredTimingRevision": {
+            "date": "2026-11-05",
+            "authorizedBy": "Intégrateur, ajustement rythme sur voix réellement mesurées",
+            "previousHoldSeconds": 10,
+            "selectedHoldSeconds": 6,
+            "measuredPageSeconds": {
+              "cue25End": 11.96,
+              "contact": 12.08,
+              "recoil": 12.2,
+              "down": 12.52,
+              "cue26Start": 12.71,
+              "cue26End": 14.39,
+              "selectedPanelEnd": 16.6
+            },
+            "reason": "Le hold10 terminait à20,60s et laissait6,21s après la réaction. Hold6 termine à16,60s et conserve2,21s pour lire le KO vivant, sans voix refaite ni changement du geste.",
+            "scope": "Preuve de recalage v4 conservée, non chronologie finale v5. Recalculer toutes positions absolues depuis nouveaux holds ; les onsets relatifs fin25/contact/recul/KO/26 restent inchangés."
+          }
+        },
+        {
+          "id": "p05-c04",
+          "readingOrder": 4,
+          "rectPx": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "abigail",
+            "enfant",
+            "franklyn"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Un coup de feu du poursuivant dehors brise la vitre, après la maîtrise du barman.",
+          "setting": "Salle principale, vitrage brisé vers rue ; impacts uniquement dans le verre.",
+          "expression": "Abigail effrayée/protectrice, enfant se baisse, Franklyn revient à l'action malgré sa tension.",
+          "gesture": "Abigail baisse son buste près de l'enfant ; mains distinctes, une main de soutien sur épaule sans doigts fusionnés. Aucune chute blessante.",
+          "gaze": "Abigail vers enfant et sol ; Franklyn vers danger de biais.",
+          "visibleAction": "Un seul tir du poursuivant dehors ouvre la coupe vers la case de vitre déjà brisée, puis Franklyn appelle Abigail et elle crie À terre en protégeant enfant. Le dessin montre l'instant de bris/après-bruit, sans prétendre représenter la vitre intacte. Barman KO vivant conservé si visible.",
+          "framing": "Large diagonal bas, groupe dans moitié gauche, éclats dans région droite dégagée. Mains et yeux hors zone débris.",
+          "bubbles": [
+            {
+              "speaker": "franklyn",
+              "cue": "bp-l027",
+              "rectPx": [
+                36,
+                1046,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            },
+            {
+              "speaker": "abigail",
+              "cue": "bp-l017",
+              "rectPx": [
+                524,
+                1056,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l027",
+              "globalLine": 27,
+              "speaker": "franklyn",
+              "textFr": "Abigail ! Le petit !",
+              "textEn": "Abigail! The kid!",
+              "annotatedEn": "[shouts, alarmed] Abigail! The kid!",
+              "intention": "Franklyn réagit au tir et appelle Abigail pour enfant ; voix alarmée au service du groupe malgré choc. Texte et prise annotée inchangés.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p05-c04",
+              "page": 5
+            },
+            {
+              "id": "bp-l017",
+              "globalLine": 17,
+              "speaker": "abigail",
+              "textFr": "À terre !",
+              "textEn": "Down!",
+              "annotatedEn": "[shouts, frightened] Down!",
+              "intention": "Cri réflexe pour protéger l'enfant ; bref, sans souffle ajouté.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "reuse",
+              "reuseFrom": "docs/comics/blue-purple-motion/production/pages-05-08/audio/DIRECTION.json",
+              "reusePolicy": "Réemployer prise v4 et traitement sonore actuellement sélectionnés ; aucune régénération par défaut.",
+              "panel_id": "p05-c04",
+              "page": 5
+            }
+          ],
+          "minimumReadSeconds": 4.5,
+          "animationIntention": "Bris déjà dessiné, complété de quelques éclats ponctuels descendus et son au point de coupe. Pas de nouvel état vitre intacte ni de mouvement de corps prétendu ; pluie/éclats cadrés et récit vif.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 4.5,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Tir unique exactement à entrée de case/coupe franche, dessin montre déjà le bris au même instant. Aucune promesse de vitre intacte animée. Franklyn et Abigail réagissent ensuite au tir, pas avertissement prophétique avant image.",
+          "cuePhaseAnchors": [
+            {
+              "cue": "bp-l027",
+              "phase": "after-shot",
+              "constraint": "Franklyn réagit au tir déjà entendu ; début après coup de feu d'entrée de case, avant cue17."
+            },
+            {
+              "cue": "bp-l017",
+              "phase": "after-franklyn",
+              "constraint": "Cri protection après Franklyn sans chevauchement ; éclats ponctuels peuvent finir de tomber."
+            }
+          ],
+          "soundCues": [
+            {
+              "id": "pistol-shot",
+              "descriptionFr": "un seul tir extérieur étouffé par distance",
+              "anchor": "panel-enter-cut",
+              "suggestedGain": 0.3,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            },
+            {
+              "id": "glass-break",
+              "descriptionFr": "vitre et pluie petits éclats",
+              "anchor": "panel-enter-cut +0.03s",
+              "suggestedGain": 0.25,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ],
+          "sequenceOnsetGuard": "Ne jamais tirer avant l'avertissement Wendy bp-l016 de p05-c02 ni avant le coup John p05-c03. Tir unique seulement à entrée narrative p05-c04, jamais pendant overview/ambiance. Franklyn bp-l027 est une réaction après ce tir, pas l'avertissement antérieur de Wendy."
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "title": "Par l'arrière",
+      "panels": [
+        {
+          "id": "p06-c01",
+          "readingOrder": 1,
+          "rectPx": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.0078125,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "poursuivant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Le poursuivant recule puis s'enfuit rapidement.",
+          "setting": "Rue devant fenêtre brisée, raccord du poursuivant et de sa tenue.",
+          "expression": "Peur et perte d'assurance, aucune blessure visible.",
+          "gesture": "Poursuivant déjà pris dans une pose de fuite, arme abaissée, aucun autre tir. Le cadrage et le bruit de pas décroissant donnent la fuite ; aucun nouveau cycle de marche dessiné.",
+          "gaze": "Il regarde une fois en arrière vers bar.",
+          "visibleAction": "Le danger immédiat s'éloigne. Aucun projectile ou tireur du groupe n'est montré ni attribué.",
+          "framing": "Vue oblique depuis fenêtre vers rue, silhouette fuyante entière ou mi-cuisse ; débris au bas du cadre.",
+          "bubbles": [
+            {
+              "speaker": "john",
+              "cue": "bp-l028",
+              "rectPx": [
+                36,
+                30,
+                240,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l028",
+              "globalLine": 28,
+              "speaker": "john",
+              "textFr": "On le suit ?",
+              "textEn": "Do we go after him?",
+              "annotatedEn": "[tense, questioning] Do we go after him?",
+              "intention": "Encore dans l'action, John demande une décision ; il ne se lance pas en poursuite.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p06-c01",
+              "page": 6
+            }
+          ],
+          "minimumReadSeconds": 3,
+          "animationIntention": "Silhouette de fuite statique retenue ; caméra resserrée brièvement puis coupe, pas décroissants et vapeur/pluie localisée. Ne pas annoncer déplacement du corps ou cycle de pas ; cette case apporte rythme et atmosphère.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 3,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles. La réplique de John vient de hors champ intérieur : queue vers bord intérieur du bar, pas vers poursuivant.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "running-away",
+              "descriptionFr": "pas fuyant qui décroissent",
+              "anchor": "action",
+              "suggestedGain": 0.18,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        },
+        {
+          "id": "p06-c02",
+          "readingOrder": 2,
+          "rectPx": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.3385416666666667,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "john"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Wendy empêche une sortie par la foule.",
+          "setting": "À l'intérieur près de l'accès principal, silhouettes lointaines de passants dehors seulement si nécessaires.",
+          "expression": "Wendy urgente mais contenue ; Franklyn écoute en se reconcentrant, cernes et mâchoire tendue persistants.",
+          "gesture": "Wendy indique l'arrière paume simple ; Franklyn se tourne pour suivre, pas de doigt surnuméraire.",
+          "gaze": "Wendy regarde le groupe ; Franklyn suit sa direction, pas les passants.",
+          "visibleAction": "Wendy refuse de suivre le fuyard puis impose la ruelle pour éviter foule/caméras. Pas de poursuite effective.",
+          "framing": "Plan moyen, Wendy premier plan droit, Franklyn/John gauche bas ; réserve de dialogue haute large.",
+          "bubbles": [
+            {
+              "speaker": "wendy",
+              "cue": "bp-l029",
+              "rectPx": [
+                36,
+                538,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            },
+            {
+              "speaker": "wendy",
+              "cue": "bp-l018",
+              "rectPx": [
+                524,
+                548,
+                464,
+                142
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l029",
+              "globalLine": 29,
+              "speaker": "wendy",
+              "textFr": "Non. On disparaît.",
+              "textEn": "No. We disappear.",
+              "annotatedEn": "[firm, decisive] No. We disappear.",
+              "intention": "Wendy refuse une escalade et enchaîne immédiatement avec caméras/ruelle.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p06-c02",
+              "page": 6
+            },
+            {
+              "id": "bp-l018",
+              "globalLine": 18,
+              "speaker": "wendy",
+              "textFr": "Pas de foule. Les caméras nous retrouveraient. Par la ruelle.",
+              "textEn": "No crowds. The cameras will find us. Back alley.",
+              "annotatedEn": "[firm, controlled urgency] No crowds. [low, warning] The cameras will find us. [decisive] Back alley.",
+              "intention": "Elle interdit la facilité apparente puis donne une issue concrète, voix basse retrouvée.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "reuse",
+              "reuseFrom": "docs/comics/blue-purple-motion/production/pages-05-08/audio/DIRECTION.json",
+              "reusePolicy": "Réemployer prise v4 et traitement sonore actuellement sélectionnés ; aucune régénération par défaut.",
+              "panel_id": "p06-c02",
+              "page": 6
+            }
+          ],
+          "minimumReadSeconds": 8,
+          "animationIntention": "Cheveux Wendy : micro-oscillation locale uniquement dans mèche libre, hors visage/bulle ; garder éventuel écusson fixe.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 8,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "roomtone",
+              "descriptionFr": "pluie et pièce résonnante",
+              "anchor": "ambient",
+              "suggestedGain": 0.08,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        },
+        {
+          "id": "p06-c03",
+          "readingOrder": 3,
+          "rectPx": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Les six franchissent la sortie arrière vers la ruelle.",
+          "setting": "Porte arrière industrielle du Blue Purple, ruelle humide, évent mural séparé.",
+          "expression": "Alerte et cohésion ; enfant entouré des cadets, Franklyn aide sans retrouver l'insouciance.",
+          "gesture": "Six silhouettes distinctes en marche ; porte déjà ouverte, aucune main complexe tenant poignée nécessaire.",
+          "gaze": "Wendy inspecte ruelle, Franklyn vérifie les autres.",
+          "visibleAction": "Six exactement : Wendy, Franklyn, John, Abigail, Grover, enfant civil. Bar abandonné par arrière.",
+          "framing": "Grand plan extérieur trois-quarts ; identités lisibles, silhouettes non fusionnées. Aucun septième membre ni poursuivant.",
+          "bubbles": [
+            {
+              "speaker": "abigail",
+              "cue": "bp-l030",
+              "rectPx": [
+                36,
+                1046,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            },
+            {
+              "speaker": "grover",
+              "cue": "bp-l031",
+              "rectPx": [
+                524,
+                1056,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l030",
+              "globalLine": 30,
+              "speaker": "abigail",
+              "textFr": "On est tous là ?",
+              "textEn": "Are we all here?",
+              "annotatedEn": "[worried, quietly] Are we all here?",
+              "intention": "Vérification anxieuse adressée au groupe pendant sortie ; ne pas prononcer un compte robotique.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p06-c03",
+              "page": 6
+            },
+            {
+              "id": "bp-l031",
+              "globalLine": 31,
+              "speaker": "grover",
+              "textFr": "Tous les six. Avance.",
+              "textEn": "All six. Keep moving.",
+              "annotatedEn": "[quick, reassuring] All six. [urgent] Keep moving.",
+              "intention": "Rassure brièvement Abigail puis relance la fuite ; aucune allégresse.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p06-c03",
+              "page": 6
+            }
+          ],
+          "minimumReadSeconds": 5.5,
+          "animationIntention": "Vraies variantes de sortie avec deux nouvelles poses ancrées au même décor : porte ouverte/groupe au seuil puis groupe franchissant la sortie. Le fond existant peut porter le premier état ; aucune fermeture de porte demandée. Transition dessinée au temps narratif, puis vapeur/pluie secondaire. Ni translation du raster complet ni disparition des six.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 5.5,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "door-hinge",
+              "descriptionFr": "porte arrière métallique",
+              "anchor": "action",
+              "suggestedGain": 0.15,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            },
+            {
+              "id": "group-footsteps",
+              "descriptionFr": "six pas confus sobres",
+              "anchor": "action",
+              "suggestedGain": 0.16,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ],
+          "requiredVariants": [
+            {
+              "id": "threshold",
+              "state": "Porte ouverte, groupe au seuil avant franchissement, six membres distincts."
+            },
+            {
+              "id": "crossing",
+              "state": "Groupe franchit le seuil vers ruelle, mêmes six, porte reste ouverte."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "title": "Notre voiture",
+      "panels": [
+        {
+          "id": "p07-c01",
+          "readingOrder": 1,
+          "rectPx": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.0078125,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "gardiens"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Wendy laisse John, Abigail, Grover et enfant à couvert dans ruelle pendant qu'elle part bluffer avec Franklyn.",
+          "setting": "Parking semi-sécurisé derrière le bar : clôture, poste simple, deux gardiens armés au repos, rangée de véhicules.",
+          "expression": "Wendy calcule vite ; Franklyn épuisé mais présent ; gardiens peu concernés.",
+          "gesture": "Wendy et Franklyn de dos/profil au premier plan ; Wendy donne sa consigne aux quatre en retrait dans ruelle, hors cadre. John répond depuis ce retrait, invisible des gardiens. Aucun personnage ajouté au raster.",
+          "gaze": "Wendy et Franklyn vers entrée.",
+          "visibleAction": "Consigne à quatre ; objection de John sur les clés avant départ des deux. Gardiens trop loin pour entendre. Garder cadets hors vue directe du poste.",
+          "framing": "Large de situation du parking, Wendy et Franklyn deux silhouettes au premier plan, gardiens loin. John est hors champ côté ruelle derrière caméra ; son objection vient du bord gauche du cadre.",
+          "bubbles": [
+            {
+              "speaker": "wendy",
+              "cue": "bp-l032",
+              "rectPx": [
+                36,
+                30,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            },
+            {
+              "speaker": "john",
+              "cue": "bp-l033",
+              "rectPx": [
+                524,
+                40,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "John hors champ dans retrait de ruelle : queue vers bord gauche du cadre, ne pas pointer vers Wendy/Franklyn/gardien."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l032",
+              "globalLine": 32,
+              "speaker": "wendy",
+              "textFr": "Vous quatre, attendez ici.",
+              "textEn": "You four, wait here.",
+              "annotatedEn": "[quiet, commanding] You four, wait here.",
+              "intention": "Consigne précise à John, Abigail, Grover et enfant avant parking, Franklyn l'accompagne.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p07-c01",
+              "page": 7
+            },
+            {
+              "id": "bp-l033",
+              "globalLine": 33,
+              "speaker": "john",
+              "textFr": "Et s'ils demandent les clés ?",
+              "textEn": "What if they ask for the keys?",
+              "annotatedEn": "[skeptical, low] What if they ask for the keys?",
+              "intention": "Friction du bluff ; John doute du plan, pas une plaisanterie de héros.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p07-c01",
+              "page": 7
+            }
+          ],
+          "minimumReadSeconds": 6,
+          "animationIntention": "Ondulations concentriques dans flaque basse au premier plan, source gouttes lisible, hors silhouettes et futur trajet.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 6,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "parking-hum",
+              "descriptionFr": "ventilation parking, pluie",
+              "anchor": "ambient",
+              "suggestedGain": 0.09,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        },
+        {
+          "id": "p07-c02",
+          "readingOrder": 2,
+          "rectPx": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.3385416666666667,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "gardien"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Le bluff de la partie sur table : ils se présentent comme propriétaires d'une voiture.",
+          "setting": "Poste de garde au portail, parking visible derrière.",
+          "expression": "Wendy assurance jouée, impatience contrôlée ; Franklyn voix tenue, yeux fatigués ; gardien sceptique mais sans nouvelle exigence.",
+          "gesture": "Wendy geste de paume sobre vers intérieur ; Franklyn mains visibles mais détendues près du corps. Gardien ne tend aucun ticket/objet nouveau.",
+          "gaze": "Wendy vers gardien, Franklyn complète en le regardant.",
+          "visibleAction": "Deux répliques adressées ; gardien non vocal. Aucun document faux, paiement ou techno ajoutés.",
+          "framing": "Plan américain de Wendy gauche et Franklyn milieu, gardien droite de profil ; bulles au-dessus des deux locuteurs.",
+          "bubbles": [
+            {
+              "speaker": "wendy",
+              "cue": "bp-l019",
+              "rectPx": [
+                36,
+                538,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            },
+            {
+              "speaker": "franklyn",
+              "cue": "bp-l020",
+              "rectPx": [
+                524,
+                548,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l019",
+              "globalLine": 19,
+              "speaker": "wendy",
+              "textFr": "Notre voiture est à l'intérieur. On s'en va.",
+              "textEn": "Our car's inside. We're leaving.",
+              "annotatedEn": "[confident, matter-of-fact] Our car's inside. [impatient, controlled] We're leaving.",
+              "intention": "Bluff sans panique : assurance empruntée puis petite impatience crédible.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "reuse",
+              "reuseFrom": "docs/comics/blue-purple-motion/production/pages-05-08/audio/DIRECTION.json",
+              "reusePolicy": "Réemployer prise v4 et traitement sonore actuellement sélectionnés ; aucune régénération par défaut.",
+              "panel_id": "p07-c02",
+              "page": 7
+            },
+            {
+              "id": "bp-l020",
+              "globalLine": 20,
+              "speaker": "franklyn",
+              "textFr": "On n'en a pas pour longtemps.",
+              "textEn": "We won't be long.",
+              "annotatedEn": "[restrained, trying to sound casual] We won't be long.",
+              "intention": "Il aide le bluff malgré la fatigue ; mâchoire tendue et voix tenue, aucune désinvolture triomphante.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "reuse",
+              "reuseFrom": "docs/comics/blue-purple-motion/production/pages-05-08/audio/DIRECTION.json",
+              "reusePolicy": "Réemployer prise v4 et traitement sonore actuellement sélectionnés ; aucune régénération par défaut.",
+              "panel_id": "p07-c02",
+              "page": 7
+            }
+          ],
+          "minimumReadSeconds": 6.5,
+          "animationIntention": "Gardien et grille dans état statique autorisant déjà passage ; cue loquet après dialogue si compatible dessin puis coupe vers intérieur p7c3. Pas de geste gardien ni ouverture animée de grille revendiqués. Petit néon fixe fluctuant hors visages suffit ici.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 6.5,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "gate-latch",
+              "descriptionFr": "loquet grille puis ouverture",
+              "anchor": "after-cues",
+              "suggestedGain": 0.16,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        },
+        {
+          "id": "p07-c03",
+          "readingOrder": 3,
+          "rectPx": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "gardien"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Les gardiens les laissent passer ; ils gagnent discrètement la voiture.",
+          "setting": "À l'intérieur de clôture, même vieille voiture six places sombre, trois rangées ; volant à gauche. Les quatre autres toujours en attente hors parking.",
+          "expression": "Soulagement retenu et vigilance, pas de sourire de victoire ; Franklyn garde tension de Letitia.",
+          "gesture": "Wendy et Franklyn marchent vers portière avant gauche ; aucun outil encore visible dans la main.",
+          "gaze": "Wendy vérifie gardien derrière ; Franklyn vers voiture.",
+          "visibleAction": "Wendy et Franklyn ont dépassé les gardiens, ils désignent voiture et parlent à voix basse : Wendy lui confie conduite, Franklyn doute. Les gardiens ne les entendent pas.",
+          "framing": "Plan dans l'axe d'une rangée ; voiture premier plan droit, deux personnages gauche/milieu, gardien loin en arrière.",
+          "bubbles": [
+            {
+              "speaker": "wendy",
+              "cue": "bp-l034",
+              "rectPx": [
+                36,
+                1046,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            },
+            {
+              "speaker": "franklyn",
+              "cue": "bp-l035",
+              "rectPx": [
+                524,
+                1056,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l034",
+              "globalLine": 34,
+              "speaker": "wendy",
+              "textFr": "Tu prends le volant.",
+              "textEn": "You're driving.",
+              "annotatedEn": "[matter-of-fact, firm] You're driving.",
+              "intention": "À Franklyn seulement une fois les gardiens dépassés ; pas à portée du poste.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p07-c03",
+              "page": 7
+            },
+            {
+              "id": "bp-l035",
+              "globalLine": 35,
+              "speaker": "franklyn",
+              "textFr": "Tu me fais confiance ?",
+              "textEn": "You trust me?",
+              "annotatedEn": "[uneasy, questioning] You trust me?",
+              "intention": "Doute concret et tension résiduelle ; il accepte d'aider, pas un retour triomphant à l'expert.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p07-c03",
+              "page": 7
+            }
+          ],
+          "minimumReadSeconds": 5.5,
+          "animationIntention": "Pluie oblique localisée contre clôture/fond, mouvement distinct des ronds de flaque ; aucun effet sur visages.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 5.5,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "two-footsteps",
+              "descriptionFr": "deux personnes pas discrets",
+              "anchor": "action",
+              "suggestedGain": 0.11,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": 8,
+      "title": "Tous ensemble",
+      "panels": [
+        {
+          "id": "p08-c01",
+          "readingOrder": 1,
+          "rectPx": [
+            12,
+            12,
+            494,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.0078125,
+            0.482421875,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "La voiture est discrètement forcée, hors regard direct des gardiens.",
+          "setting": "Portière avant gauche de la même voiture six places sombre ; serrure matérielle, volant gauche en arrière-plan.",
+          "expression": "Concentration tendue ; pas de démonstration technique ni outil futuriste inventé.",
+          "gesture": "Une seule main clairement raccordée tient un petit outil générique contre serrure, seconde main éloignée et bien séparée ; cadrage ne nomme pas qui manipule.",
+          "gaze": "Attention vers serrure.",
+          "visibleAction": "Ouverture forcée suggérée par serrure et porte à peine décollée. Pas d'étincelles, pas de tutoriel ni détails opérationnels.",
+          "framing": "Insert épaule/main/serrure, visage hors champ ; contrôle très strict des pouces, doigts et contact outil-métal.",
+          "bubbles": [],
+          "cues": [],
+          "minimumReadSeconds": 2.5,
+          "animationIntention": "Insert serrure/porte déjà entrouverte du raster retenu, clic serrure bref et changement cadrage vers habitacle. Pas ouverture de portière animée ni geste manuel non dessiné revendiqués ; reflet métal ponctuel hors mains.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 2.5,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "lock-click",
+              "descriptionFr": "clic bref serrure, sans tutoriel",
+              "anchor": "unlock",
+              "suggestedGain": 0.16,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            },
+            {
+              "id": "car-door",
+              "descriptionFr": "portière entrouverte",
+              "anchor": "door",
+              "suggestedGain": 0.14,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        },
+        {
+          "id": "p08-c02",
+          "readingOrder": 2,
+          "rectPx": [
+            518,
+            12,
+            494,
+            496
+          ],
+          "rect": [
+            0.505859375,
+            0.0078125,
+            0.482421875,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "franklyn",
+            "wendy"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Démarrage et première manœuvre hésitants.",
+          "setting": "Intérieur même voiture ; Franklyn au volant gauche, Wendy siège avant droit. Véhicule trois rangées, arrière momentanément vide.",
+          "expression": "Franklyn crispé et hésitant ; Wendy guidage calme qui contraste avec l'urgence ; aucun rire.",
+          "gesture": "Deux mains de Franklyn séparées sur volant, cinq doigts plausibles selon occultation, pas de volant traversant paume ; Wendy ne saisit pas volant.",
+          "gaze": "Franklyn vers sortie, Wendy contrôle son mouvement.",
+          "visibleAction": "Moteur hésite au démarrage, Franklyn l'encourage, Wendy le guide ; premier braquage mal assuré sans choc. Deux voix séparées et aucune main étrangère sur volant.",
+          "framing": "Plan intérieur frontal légèrement oblique, volant et deux profils lisibles ; réserver bulle haute côté Wendy.",
+          "bubbles": [
+            {
+              "speaker": "franklyn",
+              "cue": "bp-l036",
+              "rectPx": [
+                542,
+                30,
+                446,
+                112
+              ],
+              "fontPx": 26,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            },
+            {
+              "speaker": "wendy",
+              "cue": "bp-l021",
+              "rectPx": [
+                542,
+                154,
+                446,
+                112
+              ],
+              "fontPx": 26,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l036",
+              "globalLine": 36,
+              "speaker": "franklyn",
+              "textFr": "Pas maintenant… Allez !",
+              "textEn": "Not now... Come on!",
+              "annotatedEn": "[frustrated, urgent] Not now... Come on!",
+              "intention": "Adressé au moteur qui hésite ; crescendo bref, aucune respiration ajoutée.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p08-c02",
+              "page": 8
+            },
+            {
+              "id": "bp-l021",
+              "globalLine": 21,
+              "speaker": "wendy",
+              "textFr": "Doucement… Voilà.",
+              "textEn": "Easy... there.",
+              "annotatedEn": "[quiet, guiding] Easy... [reassuring] there.",
+              "intention": "Wendy guide le démarrage hésitant ; contraste plus doux avec ses ordres. Pas de soupir.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "reuse",
+              "reuseFrom": "docs/comics/blue-purple-motion/production/pages-05-08/audio/DIRECTION.json",
+              "reusePolicy": "Réemployer prise v4 et traitement sonore actuellement sélectionnés ; aucune régénération par défaut.",
+              "panel_id": "p08-c02",
+              "page": 8
+            }
+          ],
+          "minimumReadSeconds": 6.5,
+          "animationIntention": "Mains et volant restent strictement statiques et protégés. Démarreur hésitant→moteur, voix et voyant local portent le départ ; petite évolution du cadre extérieur fenêtre seulement si masque sûr. Aucun braquage animé ni geste de main prétendu.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 6.5,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "starter",
+              "descriptionFr": "démarreur hésite puis moteur démarre",
+              "anchor": "start",
+              "suggestedGain": 0.22,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            },
+            {
+              "id": "engine-idle",
+              "descriptionFr": "moteur irrégulier puis plus stable",
+              "anchor": "ambient",
+              "suggestedGain": 0.12,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        },
+        {
+          "id": "p08-c03",
+          "readingOrder": 3,
+          "rectPx": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.3385416666666667,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "La voiture rejoint les quatre autres à la sortie de ruelle ; ils montent.",
+          "setting": "Même voiture, portière latérale passager ouverte, avant Wendy et Franklyn ; deux rangées arrière permettent les quatre passagers.",
+          "expression": "Enfant inquiet ; Franklyn protecteur/tendu ; autres soulagés mais pressés.",
+          "gesture": "John/Grover/Abigail enfant entrent chacun par accès dégagé, pas de corps fusionnés. Mains peu nombreuses, chaque appui relié au bon bras.",
+          "gaze": "Enfant vers Franklyn ; Franklyn tourne brièvement la tête vers lui ; Wendy surveille rue.",
+          "visibleAction": "Récupération explicite des quatre autres. Exactement six membres ; enfant civil sans écusson.",
+          "framing": "Large côté passager avec vue dans habitacle. Tous les six identifiables, pas six occupants tassés dans une berline cinq places.",
+          "bubbles": [
+            {
+              "speaker": "enfant",
+              "cue": "bp-l022",
+              "rectPx": [
+                36,
+                538,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            },
+            {
+              "speaker": "franklyn",
+              "cue": "bp-l023",
+              "rectPx": [
+                524,
+                548,
+                464,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "Queue courte orientée vers locuteur dans le dessin retenu, aucun croisement."
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l022",
+              "globalLine": 22,
+              "speaker": "enfant",
+              "textFr": "C'est vraiment votre voiture ?",
+              "textEn": "Is this really your car?",
+              "annotatedEn": "[uncertain, quietly] Is this really your car?",
+              "intention": "Question sincère adressée aux deux à l'avant, sans effet comique appuyé.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "reuse",
+              "reuseFrom": "docs/comics/blue-purple-motion/production/pages-05-08/audio/DIRECTION.json",
+              "reusePolicy": "Réemployer prise v4 et traitement sonore actuellement sélectionnés ; aucune régénération par défaut.",
+              "panel_id": "p08-c03",
+              "page": 8
+            },
+            {
+              "id": "bp-l023",
+              "globalLine": 23,
+              "speaker": "franklyn",
+              "textFr": "Monte.",
+              "textEn": "Get in.",
+              "annotatedEn": "[urgent, protective] Get in.",
+              "intention": "Réponse courte et protectrice, encore tendue ; pas de sourire ni d'agression contre l'enfant.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "reuse",
+              "reuseFrom": "docs/comics/blue-purple-motion/production/pages-05-08/audio/DIRECTION.json",
+              "reusePolicy": "Réemployer prise v4 et traitement sonore actuellement sélectionnés ; aucune régénération par défaut.",
+              "panel_id": "p08-c03",
+              "page": 8
+            }
+          ],
+          "minimumReadSeconds": 6,
+          "animationIntention": "État d'embarquement déjà dessiné conservé ; dialogue enfant/Franklyn puis son de portière ferme en coupe vers plan voiture fermée p8c4. Pas animation quatre personnes montant ni portière animée revendiquée, pas nouveau calque de mains/corps.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 6,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Refaire calque lettres éditable à partir des cues révisées. Deux bulles au maximum par case. Cadres proposés ci-dessous sont ajustables au dessin, garder mains/yeux/accessoires visibles.",
+          "onsetPolicy": "Présentation raster embarquement, deux voix, fermeture sonore sur raccord vers case4 où voiture est fermée. Ce raccord elliptique raconte la fin de montée, pas une portière qui bougerait dans raster.",
+          "soundCues": [
+            {
+              "id": "car-door-close",
+              "descriptionFr": "portière ferme après montée quatre",
+              "anchor": "after-cues",
+              "suggestedGain": 0.18,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ]
+        },
+        {
+          "id": "p08-c04",
+          "readingOrder": 4,
+          "rectPx": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "rect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ],
+          "locationCharacters": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "framed": [
+            "wendy",
+            "franklyn",
+            "john",
+            "abigail",
+            "grover",
+            "enfant"
+          ],
+          "absent": [
+            "letitia",
+            "zachary"
+          ],
+          "instant": "Le groupe réuni quitte les lieux par les petites rues, avant toute borne.",
+          "setting": "Rue étroite nocturne humide, même voiture six places portes fermées ; aucun autre véhicule poursuivant.",
+          "expression": "Tension résiduelle, répit précaire. Franklyn conserve sa fatigue et sa promesse de revenir pour Letitia ; aucune nouvelle promesse dite.",
+          "gesture": "Tous installés : Franklyn avant gauche, Wendy avant droite, quatre autres sur deux rangées arrière ; ne pas inventer occupants visibles si cadrage externe.",
+          "gaze": "Franklyn vers route ; autres en vigilance.",
+          "visibleAction": "Six membres dedans, voiture quitte petites rues sans poursuite ; enfant demande timidement de ralentir. Répit fragile et aucune conversion de coordonnées.",
+          "framing": "Plan large arrière trois-quarts laissant place à rue qui s'ouvre. Si silhouettes visibles, six maximum et placements raccord ; les six ont été comptés dans case précédente.",
+          "bubbles": [
+            {
+              "speaker": "enfant",
+              "cue": "bp-l037",
+              "rectPx": [
+                36,
+                1046,
+                250,
+                112
+              ],
+              "fontPx": 28,
+              "tailPolicy": "AUCUNE QUEUE. Bulle de voix intérieure de l'enfant depuis habitacle, reste fixe pendant déplacement de voiture ; pas de trait vers position initiale du véhicule.",
+              "tailRequired": false,
+              "voiceMode": "interior"
+            }
+          ],
+          "cues": [
+            {
+              "id": "bp-l037",
+              "globalLine": 37,
+              "speaker": "enfant",
+              "textFr": "On peut ralentir un peu ?",
+              "textEn": "Could we slow down a little?",
+              "annotatedEn": "[nervous, tentative] Could we slow down a little?",
+              "intention": "Humour de situation ténu dû à la conduite maladroite, question sincère ; pas de rire ni de chute comique.",
+              "model": "eleven_v4",
+              "voiceSettings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+              },
+              "explicitBreathingTags": 0,
+              "production": "new",
+              "panel_id": "p08-c04",
+              "page": 8
+            }
+          ],
+          "minimumReadSeconds": 5,
+          "animationIntention": "Vrai calque voiture RGBA sur cleanplate complet : déplacement/réduction selon perspective rue, roues/ombres cohérentes, six occupants restent dedans. Pluie/ondes secondaires. Aucun déplacement du rectangle complet ni roue animée non produite.",
+          "handsReview": "Inspecter à pleine taille chaque main visible : nombre de doigts plausible selon occultation, pouce du bon côté, doigts non fusionnés, poignet raccordé au bon bras, contact avec objet physiquement cohérent. Ne pas cacher une anomalie sous une bulle ou un effet.",
+          "targetHoldSeconds": 5,
+          "timingPolicy": "Voix réellement mesurées et lisibilité FR priment sur cible ; gap 0,08–0,12 s, transition 0,25–0,35 s, pas de ralenti artificiel ni de voix accélérée.",
+          "letteringRevision": "Bulle française éditable de voix intérieure enfant sans queue ni trait, fixe et lisible pendant déplacement de voiture. Ne pas accrocher un ancrage immobile au véhicule mobile.",
+          "onsetPolicy": "Cadre retenu présenté à entrée de case ; seules actions préparées ont états progressifs : p05c3ready avant coup, p06c3seuil avant franchissement, p08c4voiture avant départ. Pas de geste supplémentaire suggéré par déformation. La vue page expose volontairement composition complète, mais variantes d'action restent sur état initial jusqu'à leur déclenchement.",
+          "soundCues": [
+            {
+              "id": "engine-depart",
+              "descriptionFr": "moteur accélère modérément, pneus eau sans crissement de poursuite",
+              "anchor": "depart",
+              "suggestedGain": 0.2,
+              "sourcePolicy": "Réemploi HOLT en priorité ; à défaut synthèse locale déterministe, pas de nouveau service payant.",
+              "mustDuckUnderSpeech": true
+            }
+          ],
+          "requiredLayers": [
+            {
+              "id": "street-cleanplate",
+              "role": "Rue entière reconstituée sans voiture ni reste de son ombre."
+            },
+            {
+              "id": "car-rgba",
+              "role": "Voiture complète détourée alpha avec ombre contrôlée, même véhicule, portes fermées."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "beforeSpending": "Contre-revue exacte contrats,8réemplois,14nouveauxtextes et chronologie punch/voix AVANT dépense.",
+    "images": "Main à main, doigt par doigt sur chaque variante ; poing John connecté au bon bras, contact sans fusion, barman KO vivant et même identité. Conserver corrections déjà retenues : Wendy pas écusson, conducteur gauche, six places/6membres.",
+    "animation": "Trois moments forts à vérifier visuellement : préparation/contact/recul/KO John, seuil→franchissement des six, déplacement voiture sur fond clean. Les autres cases gardent dessins statiques et ambiances ; ne pas prétendre y avoir créé pas, grille, volant ou portière mobiles. Ordre des voix/impacts et raccord elliptique restent contrôlés.",
+    "durations": "Lot82s, complet226,60s,42,64svoix mesurées ; vérifier lectureFR22lignes et raccords sur cette chronologie exacte. Anciennes pages1–4 et leurs144,60s intégralement conservées."
+  },
+  "revision": 1,
+  "previousContract": "../CONTRACTS.json",
+  "preservedDelivery": "anime/motion-comics/projects/blue-purple-pages01-08-v1.json",
+  "ownerDecision": {
+    "date": "2026-11-05",
+    "decision": "John assomme explicitement le barman d'un seul coup avant le tir extérieur. Le barman est KO vivant, pas mort. Le propriétaire tranche l'attribution auparavant laissée collective.",
+    "source": "Retour utilisateur transmis dans mission intégrateur, révision-01 ; mise à jour du scénario canonique par intégrateur hors présent périmètre."
+  },
+  "pacing": {
+    "targetBatchSeconds": [
+      82,
+      82
+    ],
+    "preferredBatchSeconds": 82,
+    "overviewSeconds": 0.7,
+    "transitionSeconds": 0.3,
+    "gapSeconds": 0.1,
+    "outroSeconds": 0.5,
+    "targetPanelHoldsSum": 73,
+    "timeDerivation": "Holds p5[4,4,6,4.5], p6[3,8,5.5], p7[6,6.5,5.5], p8[2.5,6.5,6,5] =73s ;14transitions×0,3s +4vuesinitiales×0,7s +4sorties×0,5s =9s ; nouveau lot82s, complet avec pages1–4 conservées144,60s =226,60s.",
+    "maximumSilentHoldSeconds": 4,
+    "readingPolicy": "Bulles courtes, appuis et SFX font avancer. Garder assez de temps pour FR ; si diction dépasse, rallonger seule case concernée, pas tout le lot.",
+    "reusedPages01to04": "Médias et chronologie intégralement conservés.",
+    "measuredRevisionNote": "2026-11-05, arbitrage final intégrateur v5 : tenir73s et raccords9s, lot82s. Voix mesurées42,64s soit52% du lot ; anciens essais100/96s laissaient3–6s de vide dans plusieurs cases. Les22bulles brèves restent lisibles. Textes, voix et poses inchangés. CONTRACTS-v4.json archive exacte avant modification. Plus de recalage hors défaut concret.",
+    "measuredSpeechSeconds": 42.64,
+    "speechShare": 0.52,
+    "fullSequenceSeconds": 226.6,
+    "previousTimingEvidence": [
+      {
+        "batchSeconds": 100,
+        "status": "essai antérieur conservé dans historique de fabrication"
+      },
+      {
+        "batchSeconds": 96,
+        "status": "contrat v4 archivé exactement dans CONTRACTS-v4.json"
+      }
+    ]
+  },
+  "soundDirection": {
+    "music": [
+      {
+        "pages": [
+          5,
+          6
+        ],
+        "intention": "Pression, pulsation courte et contenue au piège ; chute de dynamique sur punch/bris, relance sous sortie.",
+        "sourcePolicy": "Médias HOLT existants ; fond baissé sous voix, préserver leur intelligibilité."
+      },
+      {
+        "pages": [
+          7,
+          8
+        ],
+        "intention": "Suspense bluff puis impulsion fuite, raccord musical court au démarrage ; pas retour héroïque heureux.",
+        "sourcePolicy": "Réemploi musique HOLT pertinente ; raccord crossfade 0,4–0,8s."
+      }
+    ],
+    "mix": "Dialogues prioritaires. Pas de saturation tir/verre. Couper SFX ponctuels en pause, clock narrative identique lecteur/export. L'ambiance de pluie peut continuer si option animations/ambiances active ; musique et voix se figent en pause."
+  },
+  "visualBudget": {
+    "imagegenCallCap": 12,
+    "initialCalls": 8,
+    "targetedCorrectionReserve": 4,
+    "initialAllocation": [
+      {
+        "calls": 4,
+        "panel": "p05-c03",
+        "output": "Quatre vrais états punch : ready/contact/recoil/down, même cadre/fond."
+      },
+      {
+        "calls": 2,
+        "panel": "p06-c03",
+        "output": "Deux variantes groupe au seuil/franchissant sortie, porte reste ouverte."
+      },
+      {
+        "calls": 1,
+        "panel": "p08-c04",
+        "output": "Cleanplate rue sans voiture."
+      },
+      {
+        "calls": 1,
+        "panel": "p08-c04",
+        "output": "Calque voiture RGBA entier, même modèle/angle."
+      }
+    ],
+    "physicalActionMoments": [
+      "p05-c03 — coup John et KO vivant",
+      "p06-c03 — groupe franchit sortie arrière",
+      "p08-c04 — voiture quitte rue"
+    ],
+    "note": "Exactement trois moments de déplacement physique sont reconstruits. Les onze autres cases reposent honnêtement sur dessins retenus, cadence, voix, bruitages et ambiances localisées. Aucun geste supplémentaire n'est promis hors des huit appels initiaux."
+  }
+}

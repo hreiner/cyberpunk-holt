@@ -1,0 +1,209 @@
+{
+  "status": "owner-review",
+  "pdf": "output/pdf/blue-purple-chapitre-3-revue-v2.pdf",
+  "pdf_sha256": "27C4C32E9163082DD593CD317F7E324A3B84CC793AB036B78D4FBA8D7D6DFADE",
+  "dialogue": "docs/comics/blue-purple-motion/production/chapter-03-continuation/revision-02/DIALOGUE-FR.json",
+  "dialogue_sha256": "C44CB69A0F7A7338754918754FE7EC3BBBD8812CF3AEA4A8DA7F33B5A4744AD2",
+  "images": [
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p09-c01-v2/native.png",
+      "sha256": "AE98857E6631D3E2319C69C36879796B0410AC8AE668A21B729FC0E6858D2894",
+      "id": "p09-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p09-c02/native.png",
+      "sha256": "D0A9176D045A7B5778A94B487973C761547000BC41C4721BB9FCDE1C1BCF0922",
+      "id": "p09-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p09-c03/attempt-01/native.png",
+      "sha256": "66758A20C447EAEBCF12419DB9D02EC21C11F65D97923C79D9DC980FB5838BF7",
+      "id": "p09-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p10-c01/attempt-01/native.png",
+      "sha256": "8EE8ECFECB04AB5D22E1E8E5F217A7E6565F151716F301A61DFCFDB8D1C00DB4",
+      "id": "p10-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p10-c02/attempt-01/native.png",
+      "sha256": "441FCA87F3CB51AE557D97306E6600ECE404EEA65E346E0EC7BB46A3EE466DCB",
+      "id": "p10-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p10-c03/native.png",
+      "sha256": "CAF786CCA7000B625AA437ADD38001C40D599BEC6AB0173302E366FE2E39AC42",
+      "id": "p10-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p11-c01/attempt-01/native.png",
+      "sha256": "9B81C10297BB52238E11560CE67A1B23579651F8190F929B69A46AB7250EC746",
+      "id": "p11-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p11-c02/attempt-01/native.png",
+      "sha256": "F0A7CC1765362413A527DA32D8C6AECC9AAFE4F0D7F20531515BC53D4E52B449",
+      "id": "p11-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p11-c03/attempt-01/native.png",
+      "sha256": "60054D8464155557B5956470526887CFBE79CA6DA86564E86DE654B8FEDF52F4",
+      "id": "p11-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p12-c01/attempt-01/native.png",
+      "sha256": "15D57ED36781C6B874CF1E6F54D480A93325974614697632FDEF6E4E6BA7EDF4",
+      "id": "p12-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p12-c02/native.png",
+      "sha256": "2141666FE8C937081E53B48F30BE3CDA30B62912185EE1F829F10CE6B8005D03",
+      "id": "p12-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p12-c03/native.png",
+      "sha256": "37BCFF3D6C30C38F07ABE3FEC69065D7E469D4406A65A03DE93B189C1B8B915B",
+      "id": "p12-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p13-c01/attempt-01/native.png",
+      "sha256": "82048F81A1477AAAF3CC8D288D3D57E311B8511513BBDCFB79C23741679C643F",
+      "id": "p13-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p13-c02/attempt-01/native.png",
+      "sha256": "7CDD54B470A3BC78A9149C3154E7A5590D93F97EAEBC7C71582092103808F2C1",
+      "id": "p13-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p13-c03/attempt-01/native.png",
+      "sha256": "18D27E2C26015D6AFEE763E18EEB52F1BB64177BD145D8776F661D0189105518",
+      "id": "p13-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p14-c01/attempt-01/native.png",
+      "sha256": "5BEC7B58A24158FC528046C824B92F6185D182F5B7BA559918FA772F012844E9",
+      "id": "p14-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p14-c02/native.png",
+      "sha256": "BEEFA97DDA1BF9C8EAC7D3C3AF6FB6A6BF60249E08FFE87BE7B927D17398C0F5",
+      "id": "p14-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p14-c03/native.png",
+      "sha256": "BE99A71EF41BEAF6022D8C688AA8DCFF29D72E3D5942C1A40347696F8638FF45",
+      "id": "p14-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p15-c01/native.png",
+      "sha256": "9DAED852097C14109E2AA56A8906E1D196F66639EBFBEFDAFEF233A9E806B571",
+      "id": "p15-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p15-c02/native.png",
+      "sha256": "8729E9350EBB7CA6242BFCF467B8D63E53260A3F38DC30243DA46152D50D4E2E",
+      "id": "p15-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p15-c03/native.png",
+      "sha256": "6CE6642E88A544AFC64E306904C4F85B12B94771B946A05FF8041E8B499DF8CF",
+      "id": "p15-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p16-c01/fix01.png",
+      "sha256": "13D65EEDDB3D7A19BD0BD54ABC3AA90D8C389E9916330EF95F1657A095BC321B",
+      "id": "p16-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p16-c02/native.png",
+      "sha256": "CDB2F2FC5EAD0BC30A7875ADD45BDA39AB483701B74F4C9FEDF1C8FC5A45BF45",
+      "id": "p16-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p16-c03/fix01.png",
+      "sha256": "CFA07C1D71DE6522CD7DF9444A7A78F041FE4D10D277057C53FEB1B7F2BE756E",
+      "id": "p16-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p17-c01/attempt-01/native.png",
+      "sha256": "46A8313A5A9BEEE4A6BA97F225157678EC3DDF289639B4769A6AF7C5F191B6AC",
+      "id": "p17-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p17-c02/attempt-01/native.png",
+      "sha256": "A409D6191A6E0B16BF7A291E04D5980FEF31ECB044A5165E0AD220316113F51C",
+      "id": "p17-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p17-c03/native.png",
+      "sha256": "C72432AF2AED11A8DB69A9496AE0B0289CF28F716201D922A2A23EC5AFA33E2B",
+      "id": "p17-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p18-c01/attempt-01/native.png",
+      "sha256": "6E263A6C679E56500F00DF65017AAEFCAE80EB78F74EF5135108861060332756",
+      "id": "p18-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p18-c02/attempt-01/native.png",
+      "sha256": "7FE0629137D897A553E7957FC2EC0AF8BABF6432328BBF8A7798E7C1EF8D7D03",
+      "id": "p18-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p18-c03/native.png",
+      "sha256": "0F513CB38D4213D0DF7326115C833C30F9C74FC7F24BD5F67F2F32BC2F3E9D58",
+      "id": "p18-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p19-c01/fix01/native.png",
+      "sha256": "7A9C2419C7CECAF67D7E8C1A11435BCD750E2E0422B6B77C624CA1AD39AE2B7D",
+      "id": "p19-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p19-c02/native.png",
+      "sha256": "32207D5589BB9730D236671EABF318AC60CD226275597F53043B4AEFAD38832F",
+      "id": "p19-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p19-c03/attempt-01/native.png",
+      "sha256": "32AF22066CD5AF1D908A9C3DFBAD0BC49C7577C06B223CD07F113D24000AFB0C",
+      "id": "p19-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p20-c01/native.png",
+      "sha256": "1DA68A346FA89EA87F332D46BD4F8EDA05EC6B43E1A3F0DC884852A31EF843F4",
+      "id": "p20-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p20-c02/native.png",
+      "sha256": "2DFA51E4BFD61BE9B59E717C9CD40A66133D5E7DF14ED9678FBDDA079EAB19CB",
+      "id": "p20-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p20-c03/native.png",
+      "sha256": "1DABE96CE25C8A26CAB8EA57FBF174B6FBF2EBD035AF0928853E798B6D52E39E",
+      "id": "p20-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p21-c01/native.png",
+      "sha256": "FA1E01C7BEAEB36CA2FD42DA13B822D543E96C9D74353ADA64A0B7F224D0DA6A",
+      "id": "p21-c01"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p21-c02/native.png",
+      "sha256": "C69D999CBA79291BA146F648853FB7567959B67CA797BC25578640F6C96EEF9E",
+      "id": "p21-c02"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/revision-02/p21-c03/native.png",
+      "sha256": "C730B37ADE6FE09AE4D7AFFA015A9CAB915000C84A30ED129A7BFBE443AF0C98",
+      "id": "p21-c03"
+    },
+    {
+      "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/p18-c01/after01/native.png",
+      "sha256": "C583796AB0D7C5F6EE710FA2754328D692928552EC530CF372F590F2B6577C3F",
+      "id": "p18-c01-after"
+    }
+  ]
+}

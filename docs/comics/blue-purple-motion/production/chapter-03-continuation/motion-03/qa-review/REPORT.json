@@ -1,0 +1,296 @@
+{
+  "source": "D:\\AgenticCoding\\cyberpunk-holt\\docs\\comics\\blue-purple-motion\\production\\chapter-03-continuation\\motion-03\\ANIMATION-REVIEW.html",
+  "sourceSha256": "db3488839042dd8cb6de9c1cdf0be77bd004afa392af81d7ec67d1fe324ccb1b",
+  "date": "2026-11-08T12:21:47.907Z",
+  "views": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "title": "Blue Purple — revue des animations",
+      "rows": 46,
+      "sections": 13,
+      "images": [
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/cover-v1.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-09/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/page-final.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/page-fitted.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-12/page-fitted.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-13/page-fitted.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-14/page-fitted.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-15/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/page-final.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-17/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-19/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-21/page.png",
+          "loaded": true
+        }
+      ],
+      "overflow": false,
+      "scrollWidth": 1440,
+      "viewport": 1440,
+      "oldProposalText": [],
+      "readerHref": "http://127.0.0.1:50589/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v10.json",
+      "navigation": [
+        {
+          "href": "#page-9",
+          "targetExists": true
+        },
+        {
+          "href": "#page-10",
+          "targetExists": true
+        },
+        {
+          "href": "#page-11",
+          "targetExists": true
+        },
+        {
+          "href": "#page-12",
+          "targetExists": true
+        },
+        {
+          "href": "#page-13",
+          "targetExists": true
+        },
+        {
+          "href": "#page-14",
+          "targetExists": true
+        },
+        {
+          "href": "#page-15",
+          "targetExists": true
+        },
+        {
+          "href": "#page-16",
+          "targetExists": true
+        },
+        {
+          "href": "#page-17",
+          "targetExists": true
+        },
+        {
+          "href": "#page-18",
+          "targetExists": true
+        },
+        {
+          "href": "#page-19",
+          "targetExists": true
+        },
+        {
+          "href": "#page-20",
+          "targetExists": true
+        },
+        {
+          "href": "#page-21",
+          "targetExists": true
+        }
+      ],
+      "soundHeader": "Son éventuel",
+      "cellClip": 0,
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "title": "Blue Purple — revue des animations",
+      "rows": 46,
+      "sections": 13,
+      "images": [
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/cover-v1.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-09/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/page-final.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/page-fitted.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-12/page-fitted.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-13/page-fitted.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-14/page-fitted.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-15/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/page-16/page-final.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-17/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-19/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/page.png",
+          "loaded": true
+        },
+        {
+          "src": "../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-21/page.png",
+          "loaded": true
+        }
+      ],
+      "overflow": false,
+      "scrollWidth": 390,
+      "viewport": 390,
+      "oldProposalText": [],
+      "readerHref": "http://127.0.0.1:50589/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v10.json",
+      "navigation": [
+        {
+          "href": "#page-9",
+          "targetExists": true
+        },
+        {
+          "href": "#page-10",
+          "targetExists": true
+        },
+        {
+          "href": "#page-11",
+          "targetExists": true
+        },
+        {
+          "href": "#page-12",
+          "targetExists": true
+        },
+        {
+          "href": "#page-13",
+          "targetExists": true
+        },
+        {
+          "href": "#page-14",
+          "targetExists": true
+        },
+        {
+          "href": "#page-15",
+          "targetExists": true
+        },
+        {
+          "href": "#page-16",
+          "targetExists": true
+        },
+        {
+          "href": "#page-17",
+          "targetExists": true
+        },
+        {
+          "href": "#page-18",
+          "targetExists": true
+        },
+        {
+          "href": "#page-19",
+          "targetExists": true
+        },
+        {
+          "href": "#page-20",
+          "targetExists": true
+        },
+        {
+          "href": "#page-21",
+          "targetExists": true
+        }
+      ],
+      "soundHeader": "Son éventuel",
+      "cellClip": 0,
+      "errors": []
+    }
+  ],
+  "issues": [],
+  "reader": {
+    "href": "http://127.0.0.1:50589/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v10.json",
+    "expectedV10": true,
+    "loaded": {
+      "duration": 584.3,
+      "version": 10,
+      "pages": 22,
+      "playing": false
+    }
+  },
+  "status": "passed-visual-and-technical",
+  "visualReviewed": true,
+  "visualScope": "4 actual PNGs opened: desktop/mobile top and page14 section; representative shared layout, all46 row overflow checked in DOM.",
+  "nonBlockingObservation": "P3: last column heading remains Son éventuel; Son would match realized production wording.",
+  "captures": [
+    {
+      "sha256": "7A306163149653C393CC9B0FB1808B79849056815AE71145A2836A18B047D5DC",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-review/desktop-top.png"
+    },
+    {
+      "sha256": "9F30E1064D16E8550ABAB57424089656CB1A73FF6045FEF1CDA52B82E00A842D",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-review/desktop-page14.png"
+    },
+    {
+      "sha256": "3CDE9AD522846921F82646FDD92571B5CC9619C3C20A176DBE97557E86D7C874",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-review/mobile-top.png"
+    },
+    {
+      "sha256": "AE0F3DCE504EC971520D54338B67470CA1A9AB0964A5ACDD538200716174BD0A",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-review/mobile-page14.png"
+    }
+  ]
+}

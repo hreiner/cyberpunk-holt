@@ -82,3 +82,11 @@ preuves historiques pour les faire paraître actuelles. `npm run workflow:check`
 les liens locaux cassés, skills mal formés et adaptateurs périmés. `npm run doctor`
 diagnostique les prérequis sans accès compte ni génération. Ajouter les apprentissages
 au document source après le lot ; relancer un audit de sessions seulement sur demande.
+
+## Mise à jour du 7 novembre 2026 — motion comics
+
+Les corrections des livraisons du 5–6 novembre sont intégrées dans six skills ciblés
+et leur [orchestration commune](../anime/motion-comics/ORCHESTRATION.md).
+Le [rapport de maintenance](reviews/2026-11-07-motion-comics-skills.md) distingue
+validation des skills/adaptateurs, exercices de reprise, correction documentaire du
+timing et conservation des médias. Cette passe n'a lancé aucune production externe.

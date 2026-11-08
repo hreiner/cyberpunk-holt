@@ -1,0 +1,195 @@
+{
+  "status": "completed",
+  "masks": "docs\\comics\\blue-purple-motion\\production\\chapter-03-continuation\\motion-03\\lot-d\\ASSET-MASKS-v1.json",
+  "masksSha256": "1e2fa25de79502bcbb818030845ac2935b0b4f13e968d470e7ed4ab4ca2e3c93",
+  "output": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-03\\lot-d\\assets-v1",
+  "files": [
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/water-background.png",
+      "sha256": "a27185a5794be239202860dc446afcab9187fc1e0dabcad75dca7b409646ecb7"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/sdf-rigid.png",
+      "sha256": "3fcef1427875cbeee7058b1f56ba6e1986c9cfda69bfc49eff6f12e8eddd7c4f"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/sdf-mask-review.png",
+      "sha256": "25d9cdd1c831dab9bfce6ae41f1eb201561b4265935b92551554edb16dbe6ed8"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/sdf-mask-detail.png",
+      "sha256": "2ed751958c8433e8a15b5187fba3fa4d1b6cee4669e904f4e18860c824b136cd"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-00.png",
+      "sha256": "2a96a29668a1fd90cd2e35fbb2d2b257c7bae2a2e5ae4749838c121a996b9081"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-01.png",
+      "sha256": "2a96a29668a1fd90cd2e35fbb2d2b257c7bae2a2e5ae4749838c121a996b9081"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-02.png",
+      "sha256": "cec0830412298dc198aa469e30ea0a9e6437d3ea298e4c47b83ca2f0b12b0893"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-03.png",
+      "sha256": "8581ecd72387b2299b2fe1f5195a886bc87031d5f01933742be72a82cb30e6f1"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-04.png",
+      "sha256": "e2b2aab9518275c59c6e8bf76f5ae9c471e7002269f12bab15e30ecc8988cf70"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-05.png",
+      "sha256": "d9e37ad1a16d44cd252792f63352ecf0443a2281e8e5026abc338cc4882c94e5"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-06.png",
+      "sha256": "95626c89fa4f2efc4ce649e9a4c1d2c6eb9b31dd5342cf2a62928c96e3ee2664"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-07.png",
+      "sha256": "5883c65047e75916a912315de993d10d3cf3db870ee79267e2f376a58524d7b8"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-08.png",
+      "sha256": "e57867e3942657caf787f50af0fb8c08a20886a09c9ab8161742fb88cc380975"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-09.png",
+      "sha256": "80374d70ae0c1e47673aeff9c92d6fdb115341534da13404a3b47c401a8b6813"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-10.png",
+      "sha256": "fb25979130fe51932b4279e10e4970fbaa86cce81b10f349c095cde10ba8d691"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/fall-11.png",
+      "sha256": "a27185a5794be239202860dc446afcab9187fc1e0dabcad75dca7b409646ecb7"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-texture-clean.png",
+      "sha256": "1aa6699374a46d2085b9391cfe3465971ef511a00bf792c14b7cd9558df26c64"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/abigail-original.png",
+      "sha256": "9e5cce9da86f591a6ba37b9eada045a1793b6024f5c03094ba3ae2f09cb5f049"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/abigail-mask-review.png",
+      "sha256": "608b8970d7c0021b756318867c6c8437895324f1d10f27796fed48a7225f3824"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-00.png",
+      "sha256": "854c741829e13c9ab6e4e842d263b3249314ee017cbded8609bc1762ff479cba"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-01.png",
+      "sha256": "2b65f6fa84a862f6197fbd0aa476f090e49fa7bc7edf3feb3039e6eb35176f3f"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-02.png",
+      "sha256": "3f15416f7fc031e614e03d7d2feefb10ff5fa1eaa4eacf59aeab1a9bda40b7bb"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-03.png",
+      "sha256": "a3927b388feda094bb35b2f43bfd2e96ebbd11154f3231d03cd3e34cf8e7a22f"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-04.png",
+      "sha256": "2698d2be174311a2c2020541ea1c4429f298af86079f4c040cc86710f8fe02ba"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-05.png",
+      "sha256": "c768ad278bdd84da3a0665a59e2d983522d36b27e36c6ba402fc3efcb2055a63"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-06.png",
+      "sha256": "bab0b0c9167357e210e1b963a86d4176b2ee174b9e37f1a0104d48c469ce9ebe"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-07.png",
+      "sha256": "59c77cef9c9729e204b99eab90767017907281bf7e1de518be9c3d2e11536e8f"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-08.png",
+      "sha256": "6a74cd1d80cdd139c4cb3f463e9f3209b1d2e8aa4e598dfe881305da148f8ff8"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-09.png",
+      "sha256": "9494d7445a74d049d147ca9189f106168ade4257f2fc316e1600c56c0b5df031"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-10.png",
+      "sha256": "4fb2013416b14bfe5ab0eaa0ba4e0a42cb273e6dbc82307a87aba8fb9f2bee03"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-11.png",
+      "sha256": "9816ed122f833d2b0a3b5e8b0ca8e526a1969be2c155fd0b74cbbe0b2f86cbe5"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/lock-00.png",
+      "sha256": "577b955bf857fdfab73c08b026c893942c3c28031374205257a46bdb13e40739"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/lock-01.png",
+      "sha256": "577b955bf857fdfab73c08b026c893942c3c28031374205257a46bdb13e40739"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/lock-02.png",
+      "sha256": "96d09db08803c6cef9b20cd3fdc1eacb4772608faf0011142998b82db89a05aa"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/lock-03.png",
+      "sha256": "e142572bb701a3a439081fbb84d544a53096857a7756110a2e7f9fb138244b02"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/lock-04.png",
+      "sha256": "1531558f5b385ba6ccededdf5894c23fd493adf27adc83dab871f712ec16b7c2"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/lock-05.png",
+      "sha256": "0c8dfdc282e5282e9c557ffc64405c5279bdbd7fb10ee91433140057e715954b"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/lock-06.png",
+      "sha256": "cff4d22642cf760beb0711143def363bd2352b39067c643a3aad9d5e919c1e37"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/sdf-mask.svg",
+      "sha256": "94e6bf946a923fc9ec2f578ec39b7ef1ebe6ddb771855d39679ab200557840fb"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/abigail-mask.svg",
+      "sha256": "a8cd52e279225313944b72e0b9874a96ce2892b5e6464e992542b6791a74c6b4"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/water-mask.svg",
+      "sha256": "077be6a340a87851f79f55fb81a6376e1caac7feb3318d58e6baf7ecdd5a2003"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/assets-v1/door-aperture-mask.svg",
+      "sha256": "2315405c16eaee60371dd998a18bfb2fef94c5d6a5223a888f7230fb933ee25c"
+    }
+  ],
+  "physics": {
+    "releaseAfterReady": 0.55,
+    "waterImpactAfterReady": 1.02,
+    "submergedAfterReady": 1.42,
+    "gravityPixelsPerSecondSquared": 1400,
+    "initialVerticalVelocity": -40,
+    "initialVerticalOffset": -150,
+    "horizontalVelocity": 420,
+    "waterPlaneY": 760
+  },
+  "door": {
+    "startsAfterReady": 1.1,
+    "fullyOpenAfterReady": 2.65,
+    "degrees": 78
+  },
+  "lock": {
+    "startsAfterReady": 0.8,
+    "closedAfterReady": 1.35
+  }
+}

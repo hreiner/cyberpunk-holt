@@ -1,0 +1,4 @@
+interface:
+  display_name: "Livraison motion comics"
+  short_description: "Lecteur, MP4, contre-revue et sauvegarde"
+  default_prompt: "Utilise $holt-motion-delivery pour réaliser l’étape demandée dans le périmètre HOLT."

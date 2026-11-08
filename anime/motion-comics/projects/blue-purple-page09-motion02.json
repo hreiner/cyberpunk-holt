@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 1,
+  "version": 2,
+  "title": "HOLT — Blue Purple · page 9",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-9.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-9.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-09-lettering-exact.png",
+  "storyThumbnail": true,
+  "overviewSeconds": 0.65,
+  "transitionSeconds": 0.28,
+  "gapSeconds": 0.18,
+  "outroSeconds": 0.45,
+  "panels": [
+    {
+      "id": "p09-c01",
+      "panelKey": "09-1",
+      "sourcePanelKey": "09-1",
+      "label": "La borne de rue",
+      "rect": [
+        0.045598958333333335,
+        0.03229166666666667,
+        0.9087890625,
+        0.3104166666666667
+      ],
+      "holdSeconds": 4.666666666666667,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l038",
+          "globalLine": 38,
+          "localLine": 1,
+          "panel_id": "09-1",
+          "dialogueIndex": 0,
+          "pageId": "page-09",
+          "speaker": "grover",
+          "textFr": "Je garde un œil sur la rue. Fais vite.",
+          "textEn": "I'll keep an eye on the street. Be quick.",
+          "ttsText": "[watchful, low] I'll keep an eye on the street. [firm] Be quick.",
+          "performance": "Grover surveille et donne l'impulsion sans abandonner l'enfant.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/038-grover-gain-+0.725db.wav",
+          "sha256": "825d75c145f53f6fe680d8e92bdc03b61a841afc9c3df472c16953e3232497f4",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/01-grover-3aba287f6644.mp3",
+          "sourceSha256": "4a90d07f34eb041aed42d1305ed593c4bc39468ad4d6984f51e9a6a1d5eb093e",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/01-grover-3aba287f6644.json",
+          "journalSha256": "274002146ce4d33b8e843cd4ee60f160262348338f899fc095974fbdf1326071",
+          "constantGainDb": 0.725,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.72,
+            "pcmSamples": 119952,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -3.631151932431948,
+            "meanDb": -22.724757303204804,
+            "firstAboveMinus40DbSeconds": 0.2370748299319728,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 0,
+          "duration": 2.72,
+          "pcmSamples": 119952,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.906141758172317,
+          "meanDb": -21.999756743387586,
+          "firstAboveMinus40DbSeconds": 0.2370748299319728,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        },
+        {
+          "id": "bp-l039",
+          "globalLine": 39,
+          "localLine": 2,
+          "panel_id": "09-1",
+          "dialogueIndex": 1,
+          "pageId": "page-09",
+          "speaker": "wendy",
+          "textFr": "Les autres restent dans la voiture.",
+          "textEn": "Everyone else stays in the car.",
+          "ttsText": "[quiet, decisive] Everyone else stays in the car.",
+          "performance": "Wendy fixe une règle de protection, sobre et précise.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/039-wendy-gain-+3.005db.wav",
+          "sha256": "e7c7c64b495c234bf31500167ba417c4640092114d8a5621ee7762687783ae46",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/02-wendy-2813b03b93cb.mp3",
+          "sourceSha256": "0abcf56a1c1c50fc5511d78b3f9b311bf9b533de92e52de0bc7790ee60909e45",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/02-wendy-2813b03b93cb.json",
+          "journalSha256": "4243733a2d895632b29eb264534aa02a1ed1d907af510cfd9f27717c0d596a25",
+          "constantGainDb": 3.005,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.24,
+            "pcmSamples": 98784,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -8.374297928819507,
+            "meanDb": -25.004745244570188,
+            "firstAboveMinus40DbSeconds": 0.11573696145124716,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 3.12,
+          "duration": 2.24,
+          "pcmSamples": 98784,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -5.369184714363363,
+          "meanDb": -21.99974626144438,
+          "firstAboveMinus40DbSeconds": 0.11571428571428571,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p09-c02",
+      "panelKey": "09-2",
+      "sourcePanelKey": "09-2",
+      "label": "Une destination",
+      "rect": [
+        0.045598958333333335,
+        0.34791666666666665,
+        0.9087890625,
+        0.3104166666666667
+      ],
+      "holdSeconds": 2.5,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l040",
+          "globalLine": 40,
+          "localLine": 3,
+          "panel_id": "09-2",
+          "dialogueIndex": 0,
+          "pageId": "page-09",
+          "speaker": "franklyn",
+          "textFr": "Voilà… un mégabuilding.",
+          "textEn": "There... a megabuilding.",
+          "ttsText": "[hesitant, recognizing] There... a megabuilding.",
+          "performance": "Franklyn reconnaît le résultat, encore secoué ; petite découverte, pas triomphe.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/03-franklyn-f62814afc8e0.mp3",
+          "sha256": "2e1cf1aa8ca9478ec2b908cafa4deda0a8caa2b6d6c72c9427b6de2b4131be47",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/03-franklyn-f62814afc8e0.mp3",
+          "sourceSha256": "2e1cf1aa8ca9478ec2b908cafa4deda0a8caa2b6d6c72c9427b6de2b4131be47",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/03-franklyn-f62814afc8e0.json",
+          "journalSha256": "563dc7499a9c48520dd5fda15da3841ba217eb5600aed1eac0c46c6fdf46f10f",
+          "constantGainDb": 0,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.64,
+            "pcmSamples": 116424,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -3.8750951890284844,
+            "meanDb": -20.994118604085994,
+            "firstAboveMinus40DbSeconds": 0.04553287981859411,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 5.76,
+          "duration": 2.64,
+          "pcmSamples": 116424,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -3.8750951890284844,
+          "meanDb": -20.994118604085994,
+          "firstAboveMinus40DbSeconds": 0.04553287981859411,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p09-c03",
+      "panelKey": "09-3",
+      "sourcePanelKey": "09-3",
+      "label": "Reprendre la route",
+      "rect": [
+        0.045598958333333335,
+        0.6635416666666667,
+        0.9087890625,
+        0.3104166666666667
+      ],
+      "holdSeconds": 2.7222222222222223,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l041",
+          "globalLine": 41,
+          "localLine": 4,
+          "panel_id": "09-3",
+          "dialogueIndex": 0,
+          "pageId": "page-09",
+          "speaker": "grover",
+          "textFr": "On a une direction. Ça suffit pour avancer.",
+          "textEn": "We've got a direction. That's enough to keep moving.",
+          "ttsText": "[reassuring, determined] We've got a direction. [firm] That's enough to keep moving.",
+          "performance": "Grover soutient le groupe puis relance l'action.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/04-grover-e3253bac9496.mp3",
+          "sha256": "fdd20f105d6d150109acd57426aede35b9fbbceb6705085c4cf8c175be5d4d00",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/04-grover-e3253bac9496.mp3",
+          "sourceSha256": "fdd20f105d6d150109acd57426aede35b9fbbceb6705085c4cf8c175be5d4d00",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/04-grover-e3253bac9496.json",
+          "journalSha256": "b12c76b805fa5b5df73e290460c80b1b3a16f99250411c53c64cc13a736ec16e",
+          "constantGainDb": 0,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.2,
+            "pcmSamples": 141120,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -2.598824029457851,
+            "meanDb": -20.09539058709523,
+            "firstAboveMinus40DbSeconds": 0.10741496598639456,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 8.8,
+          "duration": 3.2,
+          "pcmSamples": 141120,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.598824029457851,
+          "meanDb": -20.09539058709523,
+          "firstAboveMinus40DbSeconds": 0.10741496598639456,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "rain",
+      "rect": [
+        0.4638419270833334,
+        0.19671875,
+        0.225947265625,
+        0.1290625
+      ],
+      "clock": "ambient",
+      "panelId": "p09-c01"
+    },
+    {
+      "type": "reflection",
+      "rect": [
+        0.40961458333333334,
+        0.42015625,
+        0.135568359375,
+        0.06145833333333334
+      ],
+      "color": "#5cf4ff",
+      "strength": 0.53,
+      "frequency": 0.7,
+      "phase": 0.35,
+      "softEdge": true,
+      "clock": "ambient",
+      "panelId": "p09-c02"
+    },
+    {
+      "type": "rain",
+      "rect": [
+        0.5722966145833333,
+        0.8126041666666667,
+        0.099416796875,
+        0.03994791666666667
+      ],
+      "clock": "ambient",
+      "panelId": "p09-c03"
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "09-1-rigid-1",
+      "rect": [
+        0.12040208333333334,
+        0.07072916666666666,
+        0.17171992187500001,
+        0.258125
+      ]
+    },
+    {
+      "id": "09-1-rigid-2",
+      "rect": [
+        0.30115989583333336,
+        0.07072916666666666,
+        0.16268203125,
+        0.25505208333333335
+      ]
+    },
+    {
+      "id": "09-1-rigid-3",
+      "rect": [
+        0.6988270833333333,
+        0.04,
+        0.2530609375,
+        0.30114583333333333
+      ]
+    },
+    {
+      "id": "09-2-rigid-1",
+      "rect": [
+        0.4367282552083333,
+        0.5430729166666667,
+        0.515159765625,
+        0.11369791666666668
+      ]
+    },
+    {
+      "id": "09-3-rigid-1",
+      "rect": [
+        0.12040208333333334,
+        0.7081250000000001,
+        0.20787148437500003,
+        0.26427083333333334
+      ]
+    },
+    {
+      "id": "09-3-rigid-2",
+      "rect": [
+        0.3282735677083333,
+        0.6958333333333334,
+        0.27113671875,
+        0.27656250000000004
+      ]
+    },
+    {
+      "id": "09-3-rigid-3",
+      "rect": [
+        0.6807513020833333,
+        0.6681770833333334,
+        0.27113671875,
+        0.30421875000000004
+      ]
+    },
+    {
+      "id": "09-3-rigid-4",
+      "rect": [
+        0.44576614583333335,
+        0.8586979166666667,
+        0.334401953125,
+        0.09833333333333334
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "14548bbe3fc92a7054164d19dd4a5bbbc0e0b136b278af508dcd15e7e956265a",
+    "lettering": "Exact approved raster plates after effects; original SVG retained.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false
+  }
+}

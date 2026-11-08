@@ -1,0 +1,1279 @@
+{
+  "sourceSequence": "anime/motion-comics/projects/blue-purple-pages01-21-v7.json",
+  "sourceSha256": "f57d0745f7ec1e63a1ad109fe42bee09cedb382a5fbc72a9a6df89ff9acaa077",
+  "reference": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-08/page-v3.png",
+  "referenceSha256": "57b864b24c709ef11981835371417c82066824f6f5e96e112feabf902551199a",
+  "width": 1024,
+  "height": 1536,
+  "margin": 12,
+  "gutter": 12,
+  "background": "#050509",
+  "pages": [
+    {
+      "page": 9,
+      "manifest": "anime/motion-comics/projects/blue-purple-page09-motion04.json",
+      "frames": [
+        {
+          "key": "09-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "bf314f3b245dd562d942961f8a132c5b4e5675310b99e236ff0070daf8d1ebc0",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "09-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "c35c6042f6ea7b481b4cd26109cfcb9690de352b38c2e1d155a4b361792ccf6c",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "09-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "400d8ddd5fbe27b7b96e638ab8b036cc3a476849f3c1fa66782936ff2dc62873",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "e3760447ae5ab630c0968cf8450b3403538cc4f4f40287f5c973ee239e3e5357",
+      "effects": 3,
+      "protectedRegions": 8,
+      "previousProtectedRegions": 8,
+      "voiceAndTimingExact": true,
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-09/page.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-09/lettering.svg"
+    },
+    {
+      "page": 10,
+      "manifest": "anime/motion-comics/projects/blue-purple-page10-motion04.json",
+      "frames": [
+        {
+          "key": "10-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "1d599c470ee2a9a763b82791ea811494b8c1a2ee37997058f78eebab2c528408",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "10-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1672,
+            941
+          ],
+          "sourceSha256": "c74597611c24ccd482eb46a1fdee4a8ee721f0ded408b89393a81d3592d8bb12",
+          "uniformScale": 0.5980861244019139,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.9220440564175708,
+            "x": -41.219230381351665,
+            "y": -156.09408003047395
+          }
+        },
+        {
+          "key": "10-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "29961d32988e02df306fa2334c899e2fe5a1ef92ed8cf41b0e5e141a366fe0c4",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "084cb24228f53e662e031c437abfaeb9312a5aab45d40b0501614e1c1769b93e",
+      "effects": 2,
+      "protectedRegions": 4,
+      "previousProtectedRegions": 4,
+      "voiceAndTimingExact": true,
+      "originalCompositeSha256": "3c03173e25a15f27488f20f2f44e70a148b432823cba0527e9fb6ec5cf8d96cb",
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/page-final.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/lettering-final.svg"
+    },
+    {
+      "page": 11,
+      "manifest": "anime/motion-comics/projects/blue-purple-page11-motion04.json",
+      "frames": [
+        {
+          "key": "11-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "25a971384db950f0ec48ea1748072d1be70d32466ed68ebd513d3d8b87b01a17",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "11-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "87ddd51b8deb1a089f288e31b13eeb924da234075a17c5b2bdefed6745504784",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "11-3a",
+          "target": [
+            12,
+            1028,
+            494,
+            496
+          ],
+          "naturalSize": [
+            1254,
+            1254
+          ],
+          "sourceSha256": "2288f0a2d1c1fbcd839dd784d77f7784bfd11469b22fa3811f445a3d0574d45a",
+          "uniformScale": 0.39553429027113235,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              494,
+              496
+            ],
+            "scale": 0.8406779661016949,
+            "x": -12.0069915254237,
+            "y": -45.54576271186443
+          }
+        },
+        {
+          "key": "11-3b",
+          "target": [
+            518,
+            1028,
+            494,
+            496
+          ],
+          "naturalSize": [
+            1254,
+            1254
+          ],
+          "sourceSha256": "fbf13ed90c1315d28da87ca9701742710634b5e16c14772f1d315b81eb87b73c",
+          "uniformScale": 0.39553429027113235,
+          "matrix": {
+            "target": [
+              518,
+              1028,
+              494,
+              496
+            ],
+            "scale": 0.8406779661016949,
+            "x": 27.193432203389875,
+            "y": -45.54576271186443
+          }
+        }
+      ],
+      "masterSha256": "6369ecedfdd8f2b25d10f318b0894aa70b727466de92ca1accc871bae97d5308",
+      "effects": 3,
+      "protectedRegions": 7,
+      "previousProtectedRegions": 7,
+      "voiceAndTimingExact": true,
+      "originalCompositeSha256": "5987a5c1a83e7125488c3bc9ca7c354c50a692426916ac068891b0e3c864a3fc",
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/page-fitted.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/lettering-fitted.svg"
+    },
+    {
+      "page": 12,
+      "manifest": "anime/motion-comics/projects/blue-purple-page12-motion04.json",
+      "frames": [
+        {
+          "key": "12-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "cf0ee85aba68e50bd0ec25590ba66f1d43701a0fa28287e855821c27a9debc05",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "12-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "3eb67b8ded4b58641e067a4dbdc3a03fadd6702127e6c0aa92030501799d2acf",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "12-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "f579aeb38e858c5983da4f32fc603f50c06ebbdf8b22697dcb5aaec8b16ca992",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "9d42738dc3e12de687e01a46aaa68c59e1feb9c28d00a45770a66c4d22607968",
+      "effects": 3,
+      "protectedRegions": 5,
+      "previousProtectedRegions": 5,
+      "voiceAndTimingExact": true,
+      "originalCompositeSha256": "2bafa70c4d5ef34858daed0de1b57a416623dfc9951beb4aba400f378713d7f3",
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-12/page-fitted.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-12/lettering-fitted.svg"
+    },
+    {
+      "page": 13,
+      "manifest": "anime/motion-comics/projects/blue-purple-page13-motion04.json",
+      "frames": [
+        {
+          "key": "13-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "721ac590ece2d90b6a29446e9addd649787372025969077cca3207fda12ee0b6",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "13-2",
+          "target": [
+            12,
+            520,
+            494,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "b368cc5c3b526d3b49ed89164436e329cac35bb1bba1932fc327d0d55fff05ee",
+          "uniformScale": 0.5591882750845547,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              494,
+              496
+            ],
+            "scale": 0.840677966101695,
+            "x": -32.33262711864407,
+            "y": -44.09491525423732
+          }
+        },
+        {
+          "key": "13-2-detail",
+          "target": [
+            518,
+            520,
+            494,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "b368cc5c3b526d3b49ed89164436e329cac35bb1bba1932fc327d0d55fff05ee",
+          "uniformScale": 0.5591882750845547,
+          "matrix": {
+            "target": [
+              518,
+              520,
+              494,
+              496
+            ],
+            "scale": 0.840677966101695,
+            "x": 47.51906779661017,
+            "y": -44.09491525423732
+          }
+        },
+        {
+          "key": "13-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "698af4a4f1c70b8c90d6f10cd3968f2ea58f1c631eba439dacf881bcf43c1d3b",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "a73223c938eaf386921c3c9e8ef9b9ba0f53fac6b3162e9f43fbfeb50e522bc9",
+      "effects": 3,
+      "protectedRegions": 4,
+      "previousProtectedRegions": 4,
+      "voiceAndTimingExact": true,
+      "originalCompositeSha256": "3a9624b431c12cba4bccca70a0f61ad7c0f4fd2bd9d2db2899bf91e3bfec68f3",
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-13/page-fitted.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-13/lettering-fitted.svg"
+    },
+    {
+      "page": 14,
+      "manifest": "anime/motion-comics/projects/blue-purple-page14-motion04.json",
+      "frames": [
+        {
+          "key": "14-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "4e08af3b6db652b7ebeeb437e5b5a1fe42576145fa2751a964aa359426e10d3e",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "14-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "faf63bb24e39c5d9c9948f1e823e6ad4db2e7bd9d2cfb5dcd8bb84f355c863ed",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "14-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "a2f19e2790e5d165cf455bf591f740bd1f47c4f51d6206f9f16089d82517ba76",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "bbaf636a18fdac37f642a3b13766b998b4299522a1de152b4c361a4e4e2aec6f",
+      "effects": 2,
+      "protectedRegions": 5,
+      "previousProtectedRegions": 5,
+      "voiceAndTimingExact": true,
+      "originalCompositeSha256": "929bd704873db3d696d66aff2232faa283aa9b5086e1b221a4facc8a154d2484",
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-14/page-fitted.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-14/lettering-fitted.svg"
+    },
+    {
+      "page": 15,
+      "manifest": "anime/motion-comics/projects/blue-purple-page15-motion04.json",
+      "frames": [
+        {
+          "key": "15-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "a7e5478225b51ad344dd257515cb73ad07513cd87e829f8a634f98c5f127ed50",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "15-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "227d93a41d623f57e6b58870ffaa48e8aea1ef985df0dc451463cd43a606e929",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "15-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "faae96fe20a0dffe2ff7af88f2c735de84fd244f03fb6b3992f24fffd7a3d81f",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "f66244b5f076d883ec5fccdfdefb9f119a05ea7f80cd94a5095edd4ca9d1db4c",
+      "effects": 3,
+      "protectedRegions": 7,
+      "previousProtectedRegions": 7,
+      "voiceAndTimingExact": true,
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-15/page.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-15/lettering.svg"
+    },
+    {
+      "page": 16,
+      "manifest": "anime/motion-comics/projects/blue-purple-page16-motion04.json",
+      "frames": [
+        {
+          "key": "16-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "dfdacf715df2e66e1a9d924aa0a2f911e931c5db5a2c4c6ffac3a6d525601e8d",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "16-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "e0cae9dc4191981acba6b7c42293fece942d7a1d4168b59f2cdea7c0ea515031",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "16-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "2f22e4df9c4e1eba3302b24f451e283130a6d63297d14c04720fa2c93e88def3",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "25fbd0dfdccb85d4ea0aa2af930589c05457a01024e5ea21eb6a8bb3f3fdf094",
+      "effects": 3,
+      "protectedRegions": 4,
+      "previousProtectedRegions": 4,
+      "voiceAndTimingExact": true,
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-16/page.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-16/lettering.svg"
+    },
+    {
+      "page": 17,
+      "manifest": "anime/motion-comics/projects/blue-purple-page17-motion04.json",
+      "frames": [
+        {
+          "key": "17-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "fbcb68b202044b96ec41845573bb5359be7536b1fc30d87551a2f1987600cd34",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "17-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "0be2b95ea9aad4a73c4f5680a69928a9972194916fe48e03f9b3cfc1db8a4f7d",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "17-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "e31bbb2abde54785ee4731340d757798ab88a31a7d12f815a220ca591661a84f",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "4e085c31b89ed00f807467cd9081fa221c4cd98163d28b00e355abc6e2307c45",
+      "effects": 4,
+      "protectedRegions": 5,
+      "previousProtectedRegions": 5,
+      "voiceAndTimingExact": true,
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-17/page.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-17/lettering.svg"
+    },
+    {
+      "page": 18,
+      "manifest": "anime/motion-comics/projects/blue-purple-page18-motion04.json",
+      "frames": [
+        {
+          "key": "18-1",
+          "target": [
+            12,
+            12,
+            494,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "0fce4c2f303e8e537657710cda788e7158ec67c2f79cc41fd4deb52dfbd3f6e8",
+          "uniformScale": 0.5591882750845547,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              494,
+              496
+            ],
+            "scale": 0.840677966101695,
+            "x": 8.31864406779664,
+            "y": -42.64406779661017
+          }
+        },
+        {
+          "key": "18-after",
+          "target": [
+            518,
+            12,
+            494,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "6702cb2ce42399abee5b014f987c2eac8826d7c16347436d1d905a6fe23955a6",
+          "uniformScale": 0.5591882750845547,
+          "matrix": {
+            "target": [
+              518,
+              12,
+              494,
+              496
+            ],
+            "scale": 0.840677966101695,
+            "x": 47.51906779661017,
+            "y": -42.64406779661017
+          }
+        },
+        {
+          "key": "18-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "1f514ffbbccce41888bb734914958e4d1728c71129005b5c44ff353df2a04e01",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "18-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "6ca41db0bf5276c004a3a91bb879117c98a5e057aa7b31f23705f6080a678012",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "e27facc490b880b078cfa4466b89a59bc709ba01b36128ad407924512401be4e",
+      "effects": 2,
+      "protectedRegions": 5,
+      "previousProtectedRegions": 5,
+      "voiceAndTimingExact": true,
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/page.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-18/lettering.svg"
+    },
+    {
+      "page": 19,
+      "manifest": "anime/motion-comics/projects/blue-purple-page19-motion04.json",
+      "frames": [
+        {
+          "key": "19-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "ff1913de24acdb59a745cca7ae53dbbc7f52ff5ac2f899db4007dd7db4df6c62",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "19-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "ddc78bc564d58965ec02cb7670b2cf7da9b84abb739105b5e5832c69fd49533c",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "19-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "d5de9943cd2158d0d4f4a70b05d59f55610f910ff6e07b69aac98bccfcc1bfa0",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "b9edb5a7fecf376167f80dee1f4c63542b25b9798690a8fc8a36e10293fb3f54",
+      "effects": 3,
+      "protectedRegions": 5,
+      "previousProtectedRegions": 5,
+      "voiceAndTimingExact": true,
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-19/page.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-19/lettering.svg"
+    },
+    {
+      "page": 20,
+      "manifest": "anime/motion-comics/projects/blue-purple-page20-motion04.json",
+      "frames": [
+        {
+          "key": "20-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "f3f70618e1f0825a1dafdf6ba0bc3de5d29244f95d2ff34a3518dff90e03bb03",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "20-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "c2021a5b099637c33e1b90d3792012b4f79cc90e15231da4fefcc8c99ef8cf8e",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "20-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "e27cbe0f2c667c50c0a8a47a53e99ef815e66e76bd2feff6995257cc0a79b145",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "5772970bb033d72d08dda6b8412ba08f0c7e23802808da27cd32eed3e221855a",
+      "effects": 3,
+      "protectedRegions": 6,
+      "previousProtectedRegions": 6,
+      "voiceAndTimingExact": true,
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/page.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-20/lettering.svg"
+    },
+    {
+      "page": 21,
+      "manifest": "anime/motion-comics/projects/blue-purple-page21-motion04.json",
+      "frames": [
+        {
+          "key": "21-1",
+          "target": [
+            12,
+            12,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "c4ceeb62dc43c85660192244f55e78bce698ea2336a23b54f438a1857732da95",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              12,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -45.08474576271183
+          }
+        },
+        {
+          "key": "21-2",
+          "target": [
+            12,
+            520,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "c958514fc9881bf80c12dcec5f9a8b0422547bdbd75b92fef72a52e137f6b067",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              520,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -50.6440677966101
+          }
+        },
+        {
+          "key": "21-3",
+          "target": [
+            12,
+            1028,
+            1000,
+            496
+          ],
+          "naturalSize": [
+            1774,
+            887
+          ],
+          "sourceSha256": "49e38a57cf5e4c9c5ff7361fb4d824f9cc44a4820ac8ac3a1605ad9c4ca82532",
+          "uniformScale": 0.5636978579481398,
+          "matrix": {
+            "target": [
+              12,
+              1028,
+              1000,
+              496
+            ],
+            "scale": 0.847457627118644,
+            "x": 3.5320444915254807,
+            "y": -56.20338983050851
+          }
+        }
+      ],
+      "masterSha256": "dc623289fee0f120ab842044860fe426e25ea08fca21a788fcc8eb7d40fe14cf",
+      "effects": 2,
+      "protectedRegions": 3,
+      "previousProtectedRegions": 3,
+      "voiceAndTimingExact": true,
+      "selectedMaster": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-21/page.png",
+      "selectedLettering": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-21/lettering.svg"
+    }
+  ]
+}

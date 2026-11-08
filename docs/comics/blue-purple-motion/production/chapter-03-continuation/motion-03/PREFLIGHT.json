@@ -1,0 +1,22 @@
+{
+  "status": "passed-before-documentary-freeze",
+  "date": "2026-11-08",
+  "target": "anime/motion-comics/projects/blue-purple-pages01-21-v10.json",
+  "sha256": "d180993fd326d8d2640e1b11d4b4a09718a5fa96a8055efd62e4c717078301ce",
+  "targetedEslint": {
+    "exitCode": 0,
+    "scope": "eslint.config.js; core/effects/layers/reader; runtime tests; motion03 scripts"
+  },
+  "workflowCheck": {
+    "exitCode": 0,
+    "adaptersCurrent": 49,
+    "documents": 543,
+    "localLinks": 1639
+  },
+  "qaGlobal": "qa-global/QA-SUMMARY.json",
+  "qaGlobalChecks": 68,
+  "runtimeTests": 43,
+  "reviewSheet": "qa-review/REVIEW.md",
+  "sourcesBeforeLint": "LINT-MAINTENANCE.json",
+  "backup": "Archive and CRC/SHA report are produced after this freeze; use the adjacent archive report for the actual verification result."
+}

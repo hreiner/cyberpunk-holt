@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "node anime/motion-comics/site.cjs prepare && tsc --noEmit && vite build",
     "preview": "vite preview --port 4173",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
@@ -22,7 +22,9 @@
     "doctor": "node scripts/workflow-tools.mjs doctor",
     "workflow:check": "node scripts/workflow-tools.mjs check",
     "agents:sync": "node scripts/workflow-tools.mjs sync",
-    "simulate": "tsx scripts/simulate.ts"
+    "simulate": "tsx scripts/simulate.ts",
+    "comics:prepare": "node anime/motion-comics/site.cjs prepare",
+    "comics:check": "node anime/motion-comics/site.cjs check"
   },
   "dependencies": {
     "@fontsource/barlow-semi-condensed": "^5.3.0",

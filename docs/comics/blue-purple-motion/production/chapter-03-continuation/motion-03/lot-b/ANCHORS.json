@@ -1,0 +1,198 @@
+{
+  "status": "root-approved-action-anchors",
+  "timingRevision": 2,
+  "events": [
+    {
+      "id": "capsuleContact",
+      "pageNumber": 15,
+      "localSeconds": 15.99,
+      "globalSeconds": 421.17333333333335,
+      "source": "after Abigail15.2 speech +.15"
+    },
+    {
+      "id": "capsuleClosingStart",
+      "pageNumber": 15,
+      "localSeconds": 21.39666666666667,
+      "globalSeconds": 426.58
+    },
+    {
+      "id": "capsuleClosure35",
+      "pageNumber": 15,
+      "localSeconds": 21.616666666666667,
+      "globalSeconds": 426.8
+    },
+    {
+      "id": "capsuleHeld35Proof",
+      "pageNumber": 15,
+      "localSeconds": 22.046666666666667,
+      "globalSeconds": 427.23,
+      "source": "Rejected75 drawing removed; hold35 until final snap."
+    },
+    {
+      "id": "capsuleClosed",
+      "pageNumber": 15,
+      "localSeconds": 22.49666666666667,
+      "globalSeconds": 427.68
+    },
+    {
+      "id": "capsuleLock",
+      "pageNumber": 15,
+      "localSeconds": 22.576666666666668,
+      "globalSeconds": 427.76
+    }
+  ],
+  "panelBounds": [
+    {
+      "pageNumber": 14,
+      "id": "p14-c01",
+      "key": "14-1",
+      "wordCount": 10,
+      "readingSeconds": 3.9333333333333336,
+      "minimum": 5.5,
+      "voiceBudget": 5.4399999999999995,
+      "tail": 0.8,
+      "holdSeconds": 6.25,
+      "reason": "Lecture et réaction calmes",
+      "oldStart": 0.65,
+      "oldReady": 0.93,
+      "oldEnd": 5.93,
+      "start": 2,
+      "ready": 2.85,
+      "end": 9.1,
+      "voiceStarts": [
+        3.2
+      ],
+      "voiceEnds": [
+        7.84
+      ]
+    },
+    {
+      "pageNumber": 14,
+      "id": "p14-c02",
+      "key": "14-2",
+      "wordCount": 14,
+      "readingSeconds": 5.266666666666667,
+      "minimum": 5.5,
+      "voiceBudget": 5.89,
+      "tail": 0.8,
+      "holdSeconds": 6.708333333333333,
+      "reason": "Lecture et réaction calmes",
+      "oldStart": 5.93,
+      "oldReady": 6.21,
+      "oldEnd": 11.389999999999999,
+      "start": 9.1,
+      "ready": 9.95,
+      "end": 16.65833333333333,
+      "voiceStarts": [
+        10.299999999999999,
+        13.149999999999999
+      ],
+      "voiceEnds": [
+        12.7,
+        15.389999999999999
+      ]
+    },
+    {
+      "pageNumber": 14,
+      "id": "p14-c03",
+      "key": "14-3",
+      "wordCount": 13,
+      "readingSeconds": 4.933333333333333,
+      "minimum": 5.5,
+      "voiceBudget": 5.89,
+      "tail": 0.8,
+      "holdSeconds": 6.708333333333333,
+      "reason": "Lecture et réaction calmes",
+      "oldStart": 11.389999999999999,
+      "oldReady": 11.669999999999998,
+      "oldEnd": 16.849999999999998,
+      "start": 16.65833333333333,
+      "ready": 17.508333333333333,
+      "end": 24.216666666666665,
+      "voiceStarts": [
+        17.858333333333334,
+        20.868333333333336
+      ],
+      "voiceEnds": [
+        20.418333333333333,
+        22.948333333333338
+      ]
+    },
+    {
+      "pageNumber": 15,
+      "id": "p15-c01",
+      "key": "15-1",
+      "wordCount": 8,
+      "readingSeconds": 3.2666666666666666,
+      "minimum": 5.5,
+      "voiceBudget": 3.8400000000000003,
+      "tail": 0.8,
+      "holdSeconds": 5.5,
+      "reason": "Lecture et réaction calmes",
+      "oldStart": 0.65,
+      "oldReady": 0.93,
+      "oldEnd": 4.33,
+      "start": 2,
+      "ready": 2.85,
+      "end": 8.35,
+      "voiceStarts": [
+        3.2
+      ],
+      "voiceEnds": [
+        6.24
+      ]
+    },
+    {
+      "pageNumber": 15,
+      "id": "p15-c02",
+      "key": "15-2",
+      "wordCount": 7,
+      "readingSeconds": 2.9333333333333336,
+      "minimum": 5.5,
+      "voiceBudget": 7.09,
+      "tail": 0.8,
+      "holdSeconds": 7.916666666666667,
+      "reason": "Lecture et réaction calmes",
+      "oldStart": 4.33,
+      "oldReady": 4.61,
+      "oldEnd": 11.06,
+      "start": 8.35,
+      "ready": 9.2,
+      "end": 17.116666666666667,
+      "voiceStarts": [
+        9.549999999999999,
+        13.28
+      ],
+      "voiceEnds": [
+        12.829999999999998,
+        15.84
+      ]
+    },
+    {
+      "pageNumber": 15,
+      "id": "p15-c03",
+      "key": "15-3",
+      "wordCount": 11,
+      "readingSeconds": 4.266666666666667,
+      "minimum": 7,
+      "voiceBudget": 6.55,
+      "tail": 0.8,
+      "holdSeconds": 7.375,
+      "reason": "Fermeture de capsule lisible",
+      "oldStart": 11.06,
+      "oldReady": 11.34,
+      "oldEnd": 17.45,
+      "start": 17.116666666666667,
+      "ready": 17.96666666666667,
+      "end": 25.34166666666667,
+      "voiceStarts": [
+        18.31666666666667,
+        22.54666666666667
+      ],
+      "voiceEnds": [
+        21.19666666666667,
+        24.06666666666667
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 4,
+  "title": "HOLT — Blue Purple · page 8 · révision 2",
+  "pages": [
+    {
+      "id": "page-08",
+      "manifest": "blue-purple-page08-v4.json"
+    }
+  ],
+  "music": {
+    "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-02/soundtrack-v1/backing-page-08.wav",
+    "gain": 1,
+    "preMixed": true
+  },
+  "provenance": {
+    "revision": 2,
+    "previousManifest": "anime/motion-comics/projects/blue-purple-page08-v3.json",
+    "previousManifestSha256": "c087021478cde89042f45b1712c8dbdebf7af5c4e54826b6685c23a0cb451de2",
+    "contract": "docs/comics/blue-purple-motion/production/pages-05-08/revision-02/CONTRACTS.json",
+    "contractSha256": "da290bacb031c7133d66abda9792b506dbb6ce8dadafa2e69fb710ac17c34822",
+    "timing": "art-masters/motion-comics/blue-purple/pages-05-08/revision-02/timing-r2-v1.json",
+    "imageSha256": "57b864b24c709ef11981835371417c82066824f6f5e96e112feabf902551199a",
+    "soundtrack": "art-masters/motion-comics/blue-purple/pages-05-08/revision-02/soundtrack-v1/report.json",
+    "humanListeningApproval": false,
+    "production": "docs/comics/blue-purple-motion/production/pages-05-08/revision-02/"
+  }
+}

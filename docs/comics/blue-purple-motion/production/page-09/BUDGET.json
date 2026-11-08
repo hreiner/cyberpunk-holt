@@ -1,0 +1,13 @@
+{
+  "imagegen": {
+    "initial": 1,
+    "reserve": 0,
+    "max": 1,
+    "calls_submitted": 1
+  },
+  "voice_new": 0,
+  "sfx_new": 0,
+  "past_pages_05_08_known_imagegen": 29,
+  "past_tts_characters": 3394,
+  "cost": null
+}

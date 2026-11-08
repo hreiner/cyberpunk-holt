@@ -1,0 +1,406 @@
+{
+  "schemaVersion": 1,
+  "version": 2,
+  "title": "HOLT — Blue Purple · page 12",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-12.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-12.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/art/page-12-lettering-exact.png",
+  "storyThumbnail": true,
+  "overviewSeconds": 0.65,
+  "transitionSeconds": 0.28,
+  "gapSeconds": 0.18,
+  "outroSeconds": 0.45,
+  "panels": [
+    {
+      "id": "p12-c01",
+      "panelKey": "12-1",
+      "sourcePanelKey": "12-1",
+      "label": "L’idée de Grover",
+      "rect": [
+        0.045598958333333335,
+        0.03229166666666667,
+        0.9087890625,
+        0.3104166666666667
+      ],
+      "holdSeconds": 4.388888888888889,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l053",
+          "globalLine": 53,
+          "localLine": 16,
+          "panel_id": "12-1",
+          "dialogueIndex": 0,
+          "pageId": "page-12",
+          "speaker": "grover",
+          "textFr": "Et une chambre ? On entrerait avec les résidents.",
+          "textEn": "What about a room? We could enter with the residents.",
+          "ttsText": "[thoughtful, quietly] What about a room? [tentatively hopeful] We could enter with the residents.",
+          "performance": "Grover apporte une solution de contournement.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/053-grover-gain-+1.598db.wav",
+          "sha256": "085013119c5f4f7279950ad78d8c67b5de8bc9b7bed81d1cb7bcb494c66ad23a",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/16-grover-462f4a9dc62f.mp3",
+          "sourceSha256": "338fcd618357a98d7871268bb27ecc8bbf8ab5f214561c887f741ae0b9d784c2",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/16-grover-462f4a9dc62f.json",
+          "journalSha256": "7989fc79ae7a4a43512a6e6b424245d48d79a21658b9063dcc54f8f935a349e6",
+          "constantGainDb": 1.598,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.76,
+            "pcmSamples": 165816,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -7.256103619952071,
+            "meanDb": -23.597755376908918,
+            "firstAboveMinus40DbSeconds": 0.09873015873015872,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 50.32000000000001,
+          "duration": 3.76,
+          "pcmSamples": 165816,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -5.658224348582383,
+          "meanDb": -21.999753506346007,
+          "firstAboveMinus40DbSeconds": 0.09870748299319727,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        },
+        {
+          "id": "bp-l054",
+          "globalLine": 54,
+          "localLine": 17,
+          "panel_id": "12-1",
+          "dialogueIndex": 1,
+          "pageId": "page-12",
+          "speaker": "wendy",
+          "textFr": "Une chambre… Ça peut marcher.",
+          "textEn": "A room... That could work.",
+          "ttsText": "[considering] A room... [quiet, decisive] That could work.",
+          "performance": "Wendy saisit l'idée et prend le relais.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/054-wendy-gain-+5.571db.wav",
+          "sha256": "8d14e3199d5f483e8f39e51dbf6f719f3b14c25c30dfe3c0c5abb207c2e0eef9",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/17-wendy-6647c4c71ca1.mp3",
+          "sourceSha256": "41abf63a8cef76ebe4871989d64334562fed130eaafeabd0e2d58f8ce6200fb2",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/17-wendy-6647c4c71ca1.json",
+          "journalSha256": "767b94c6658ca0ebac31c3e31cf0280def279c887307e7389ea4fa6f297778d9",
+          "constantGainDb": 5.571,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.8,
+            "pcmSamples": 123480,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -13.802301057162992,
+            "meanDb": -27.570747599294346,
+            "firstAboveMinus40DbSeconds": 0.12120181405895691,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 54.480000000000004,
+          "duration": 2.8,
+          "pcmSamples": 123480,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -8.231556531133247,
+          "meanDb": -21.999744111024413,
+          "firstAboveMinus40DbSeconds": 0.11727891156462585,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p12-c02",
+      "panelKey": "12-2",
+      "sourcePanelKey": "12-2",
+      "label": "Une réservation discrète",
+      "rect": [
+        0.045598958333333335,
+        0.34791666666666665,
+        0.9087890625,
+        0.3104166666666667
+      ],
+      "holdSeconds": 3.5555555555555554,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l055",
+          "globalLine": 55,
+          "localLine": 18,
+          "panel_id": "12-2",
+          "dialogueIndex": 0,
+          "pageId": "page-12",
+          "speaker": "wendy",
+          "textFr": "Je réserve une chambre par mon implant. Ce sera plus discret.",
+          "textEn": "I'll book a room through my implant. It'll be more discreet.",
+          "ttsText": "[focused, low] I'll book a room through my implant. [reassuring] It'll be more discreet.",
+          "performance": "Réservation en ligne par implant, aucune action physique inventée.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/055-wendy-gain-+3.305db.wav",
+          "sha256": "c3569569f6ffb7a67c62b9f1f7ae740d946ee07b856a85626043a2ca489de1ea",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/18-wendy-52ec5a74e0d8.mp3",
+          "sourceSha256": "65347452acea4454355895cd229daa3a5b86846e2c290e4c70bfdce6f9eda5d5",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/18-wendy-52ec5a74e0d8.json",
+          "journalSha256": "4aa61517a018339f0c9dbfc812f6e22ec7c53d9d5ebbe545b09063260ff852f1",
+          "constantGainDb": 3.305,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.68,
+            "pcmSamples": 162288,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -6.609284353531258,
+            "meanDb": -25.304965035154375,
+            "firstAboveMinus40DbSeconds": 0.11140589569160998,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 57.68000000000001,
+          "duration": 3.68,
+          "pcmSamples": 162288,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -3.3044261040970535,
+          "meanDb": -21.999962586379276,
+          "firstAboveMinus40DbSeconds": 0.10709750566893424,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p12-c03",
+      "panelKey": "12-3",
+      "sourcePanelKey": "12-3",
+      "label": "Rester ensemble",
+      "rect": [
+        0.045598958333333335,
+        0.6635416666666667,
+        0.9087890625,
+        0.3104166666666667
+      ],
+      "holdSeconds": 3,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l056",
+          "globalLine": 56,
+          "localLine": 19,
+          "panel_id": "12-3",
+          "dialogueIndex": 0,
+          "pageId": "page-12",
+          "speaker": "enfant",
+          "textFr": "On reste ensemble ?",
+          "textEn": "Are we staying together?",
+          "ttsText": "[small, worried] Are we staying together?",
+          "performance": "L'enfant cherche une garantie personnelle.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "AFkIMdmeB0MMrr1tgGds",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/056-enfant-gain-+8.805db.wav",
+          "sha256": "2a3372f7f6e1585931f1a727d6e45073111c43c2f259bef8dbe9704d1cbc2d6d",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/19-enfant-a9e75f4069e6.mp3",
+          "sourceSha256": "7579fe77912b11f175fd7e472c27df9edb26dd63acd49660301d8bd159ce3868",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/19-enfant-a9e75f4069e6.json",
+          "journalSha256": "d0f6129bfe4932ef17e84398421dec906bec75e3e2ede3b4fa9a75b4ba84fcc6",
+          "constantGainDb": 8.805,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2,
+            "pcmSamples": 88200,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -13.52513602834432,
+            "meanDb": -30.80460458394905,
+            "firstAboveMinus40DbSeconds": 0.1513378684807256,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 61.760000000000005,
+          "duration": 2,
+          "pcmSamples": 88200,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -4.720222933453949,
+          "meanDb": -21.99960929773517,
+          "firstAboveMinus40DbSeconds": 0.1509297052154195,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        },
+        {
+          "id": "bp-l057",
+          "globalLine": 57,
+          "localLine": 20,
+          "panel_id": "12-3",
+          "dialogueIndex": 1,
+          "pageId": "page-12",
+          "speaker": "grover",
+          "textFr": "Toujours. Reste près de moi.",
+          "textEn": "Always. Stay close to me.",
+          "ttsText": "[warm, certain] Always. [gentle, protective] Stay close to me.",
+          "performance": "Grover s'adresse à l'enfant, engagement net, chaleur discrète.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/057-grover-gain-+2.329db.wav",
+          "sha256": "ab308e0c1c22096057f7522fff111c22ed4ce5be48686c081ca7ffe171235c84",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/20-grover-29f3f81868bd.mp3",
+          "sourceSha256": "6050b1da5933fe8c3f62878290c8d09d40d162b991cbb76ca0b197f13378b20d",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/20-grover-29f3f81868bd.json",
+          "journalSha256": "dee3d7eaf82fb22bb98c72b19f178d505624f02a9b3f8d34d2f0b35b90642317",
+          "constantGainDb": 2.329,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.64,
+            "pcmSamples": 116424,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -4.32855513380669,
+            "meanDb": -25.993074703874747,
+            "firstAboveMinus40DbSeconds": 0.18419501133786848,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 64.16000000000001,
+          "duration": 2.64,
+          "pcmSamples": 116424,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.999515337009644,
+          "meanDb": -23.664074304106066,
+          "firstAboveMinus40DbSeconds": 0.18417233560090704,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "rain",
+      "rect": [
+        0.06165579427083333,
+        0.12911458333333334,
+        0.0497083984375,
+        0.08296875000000001
+      ],
+      "clock": "ambient",
+      "panelId": "p12-c01"
+    },
+    {
+      "type": "reflection",
+      "rect": [
+        0.5722966145833333,
+        0.45395833333333335,
+        0.0406705078125,
+        0.02765625
+      ],
+      "color": "#50fff3",
+      "strength": 0.5,
+      "frequency": 0.65,
+      "phase": 0.35,
+      "softEdge": true,
+      "clock": "story",
+      "panelId": "p12-c02",
+      "startSeconds": 9.309999999999999,
+      "endSeconds": 10.709999999999999
+    },
+    {
+      "type": "reflection",
+      "rect": [
+        0.06165579427083333,
+        0.7634375000000001,
+        0.11749257812500001,
+        0.08604166666666668
+      ],
+      "color": "#64d8ff",
+      "strength": 0.38,
+      "frequency": 0.32,
+      "phase": 0.35,
+      "softEdge": true,
+      "clock": "ambient",
+      "panelId": "p12-c03"
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "12-1-rigid-1",
+      "rect": [
+        0.12040208333333334,
+        0.033854166666666664,
+        0.5965007812500001,
+        0.3072916666666667
+      ]
+    },
+    {
+      "id": "12-2-rigid-1",
+      "rect": [
+        0.6129671223958333,
+        0.44166666666666665,
+        0.1084546875,
+        0.07682291666666667
+      ]
+    },
+    {
+      "id": "12-2-rigid-2",
+      "rect": [
+        0.5451829427083335,
+        0.4693229166666667,
+        0.043381875,
+        0.06145833333333334
+      ]
+    },
+    {
+      "id": "12-2-rigid-3",
+      "rect": [
+        0.05713684895833333,
+        0.355625,
+        0.43381875,
+        0.30114583333333333
+      ]
+    },
+    {
+      "id": "12-3-rigid-1",
+      "rect": [
+        0.21981888020833334,
+        0.7972395833333334,
+        0.5422734375,
+        0.17208333333333337
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "0da73364828de8a355686138839cca856872eac15f9c6236a8111e8de94636ee",
+    "lettering": "Exact approved raster plates after effects; original SVG retained.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false
+  }
+}

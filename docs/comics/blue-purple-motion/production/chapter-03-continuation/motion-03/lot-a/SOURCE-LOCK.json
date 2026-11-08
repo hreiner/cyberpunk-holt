@@ -1,0 +1,95 @@
+{
+  "scope": "read-only-v9-pages09-13",
+  "sources": [
+    {
+      "source": "anime/motion-comics/projects/blue-purple-page09-motion04.json",
+      "sha256": "a2494a5b77c7bb71d85b934a7fc22a30058b2c84d838c8e35443be7769398dba",
+      "media": [
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-09/page.png",
+          "sha256": "e3760447ae5ab630c0968cf8450b3403538cc4f4f40287f5c973ee239e3e5357"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-09/art.png",
+          "sha256": "f66ff7d12bc8a957e215efd4caa50556bade21db2fc356ff64153511499c60bd"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-09/lettering.svg",
+          "sha256": "13614d8f43f9e8b5732655830fc5984b5c650469ca2dfcc50bef8c022aac3114"
+        }
+      ]
+    },
+    {
+      "source": "anime/motion-comics/projects/blue-purple-page10-motion04.json",
+      "sha256": "7d756cf5586a06123afcfa3637ba67a48077cbee9ab6231ba46f22d69fb59c0e",
+      "media": [
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/page-final.png",
+          "sha256": "084cb24228f53e662e031c437abfaeb9312a5aab45d40b0501614e1c1769b93e"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/art.png",
+          "sha256": "4f608c3d44ae20a2291763f368bda0220ac7738e814164875275469cd9f27a7d"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-10/lettering-final.svg",
+          "sha256": "86c267d4974176e9e30d802c6557e58317bc6a8815243a7e320ee1c67c54fc73"
+        }
+      ]
+    },
+    {
+      "source": "anime/motion-comics/projects/blue-purple-page11-motion04.json",
+      "sha256": "e1f893e6b9b8bb20e15b2710dca455af6dc859ca1c2bac4415849bb212711e8f",
+      "media": [
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/page-fitted.png",
+          "sha256": "6369ecedfdd8f2b25d10f318b0894aa70b727466de92ca1accc871bae97d5308"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/art.png",
+          "sha256": "ff7ec317de65f0b998bd6cf0b52bf318937acc310514c6ddb0cbc06d7ed6f137"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/lettering-fitted.svg",
+          "sha256": "f0c2b8c056c2083221dca8a08d484a5734d36b6de611c1b58c53e150f3fb832e"
+        }
+      ]
+    },
+    {
+      "source": "anime/motion-comics/projects/blue-purple-page12-motion04.json",
+      "sha256": "3148f4cdc13ff7feaff68ef3876b6fa2b419aa2f353380cc51147cb7e360815d",
+      "media": [
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-12/page-fitted.png",
+          "sha256": "9d42738dc3e12de687e01a46aaa68c59e1feb9c28d00a45770a66c4d22607968"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-12/art.png",
+          "sha256": "018b20b22ed86055936554b1f211876c54224ceea06478785bcb0c247912c5e2"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-12/lettering-fitted.svg",
+          "sha256": "58ab382040cab8cf1b28806474da453109eb1c93a2ddf30a28d3f021c83c5fd3"
+        }
+      ]
+    },
+    {
+      "source": "anime/motion-comics/projects/blue-purple-page13-motion04.json",
+      "sha256": "55d2bc35f8b2c91a607d248d39f4b0c165d5502d2dc04467b2ea97b2e4c7da16",
+      "media": [
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-13/page-fitted.png",
+          "sha256": "a73223c938eaf386921c3c9e8ef9b9ba0f53fac6b3162e9f43fbfeb50e522bc9"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-13/art.png",
+          "sha256": "b796071806607c690675f727be7860bd04e2f1d907e2ca1b64e9221b0438b045"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-13/lettering-fitted.svg",
+          "sha256": "b75ab83ffe0ae4db6f808d7ecca55b9a6415f75ecf320d8f58b29bcf3fad667f"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "prompt": "p05-c03-ready-v2-neon-only.txt",
+  "contract": "revision-01/CONTRACTS.json v3 p05-c03 ready background continuity only",
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-ready/attempt-01/band-v1.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-02-contact.png"
+  ],
+  "transparentBackground": false,
+  "diagnostic": "Observed circular wall neon moved READY centerx480 to CONTACT/RECOIL/DOWN centerx390. Correct READY background only and preserve all previously approved anatomy.",
+  "authorization": "Root explicitly authorized reserve correction1 after observing all four pose backgrounds.",
+  "status": "ready-for-exact-independent-review-before-reserve-call"
+}

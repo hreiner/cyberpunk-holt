@@ -1,0 +1,17 @@
+{
+  "status": "received-and-opened",
+  "id": "sdf-alpha-v2",
+  "correction": 2,
+  "observedDefect": "The first manual silhouette mask carries source foam below the ragged coat and has water gaps between fingers.",
+  "prompt": "Use case: background-extraction, exact foreground cutout. Isolate ONLY the single airborne homeless man at the lower RIGHT of the supplied existing 1774x887 comic panel. Return an RGBA PNG with GENUINE TRANSPARENT BACKGROUND, keeping the same full 1774x887 canvas and the man in his EXACT original pixel position, scale, orientation, pose and framing. Preserve his original head, hair, beard, coat, trousers, boots, both arms, all fingers and all ragged coat edges. Remove ALL background, all other people, all water, rain streaks, foam, splashes and white droplets around/below him. Transparency must pass through spaces between fingers, between legs, under arms and between the ragged coat tails: no blue water wedge and no white impact plume may be attached to the silhouette. Do not add shadow, outline, white matte, checkerboard, water or ground. Do not move him to the center, crop his extremities, repaint his anatomy, change his pose or beautify him. This is a production mask extraction: the returned alpha will be applied to the original RGB pixels so the six people on the quay and the man's original drawing remain unchanged. One figure only, everything else fully transparent.",
+  "reference": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/assets/p20-c03.jpg",
+  "referenceSha256": "e27cbe0f2c667c50c0a8a47a53e99ef815e66e76bd2feff6995257cc0a79b145",
+  "tool": "built-in image_gen",
+  "transparentBackground": true,
+  "destination": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/native/sdf-alpha-v2.png",
+  "nativeSha256": "2dece8a404a8305d328e83382f4c526fd61ea73ef979925093b7980c3b97f10e",
+  "nativeOriginal": "C:/Users/hadri/.codex/generated_images/01a1b712-6e49-7af2-aa93-c0a87beba885/exec-900146df-5180-4128-a426-1cbb0a099438.png",
+  "width": 1774,
+  "height": 887,
+  "providerCost": "unknown"
+}

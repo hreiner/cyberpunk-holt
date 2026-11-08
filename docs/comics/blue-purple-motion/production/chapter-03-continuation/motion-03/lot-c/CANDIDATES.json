@@ -1,0 +1,28 @@
+{
+  "status": "ready-for-root-integration",
+  "lot": "C",
+  "runtime": "1.3.0 frozen",
+  "timingRevision": 2,
+  "anchors": "ANCHORS.json",
+  "candidates": [
+    {
+      "page": 16,
+      "file": "anime/motion-comics/projects/blue-purple-page16-motion06.json",
+      "sha256": "dd8ce3a4aa4be05fe4a8ec95f84ed1e8378cea051f5f09f85503d206a2ce27e8",
+      "duration": 27.675000000000004,
+      "qa": "QA-16.json"
+    },
+    {
+      "page": 17,
+      "file": "anime/motion-comics/projects/blue-purple-page17-motion06.json",
+      "sha256": "fe2f1dcf9ac545a0fc6aca362c330f4910d1e13aa7752b1b3945e291c8cba52d",
+      "duration": 18.341666666666665,
+      "qa": "QA-17.json"
+    }
+  ],
+  "limitations": [
+    "17.3: authored running pose remains rigid; rain/water/air carry motion, no fabricated leg cycle.",
+    "Capsule screen extinction changes only emissive pixels in the equipment recess.",
+    "Short clips are silent native rendering evidence; audio sync requires full root integration."
+  ]
+}

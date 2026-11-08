@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "status": "integrator-approved",
+  "globalCharacterCap": 3000,
+  "historicalCharacters": 1044,
+  "proposedNewCharacters": 1372,
+  "plannedCumulativeCharacters": 2416,
+  "directionSha256": "e3689f89f72d3eb9bef3ff00b6523f2b1c9cae23f95462769684bcdf295a8b91",
+  "historicalJournalHashes": {
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/05-wendy-4e8ef965e1ca.json": "07898a648321d063ed883640213185f29f535458b3f75cd58e2f1e4696490a71",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/06-franklyn-348f5a068dca.json": "b7499183d6e2be12cad37746611f448e1ab1504d6fa8fb227e572f6cb5e5e16e",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/07-grover-9685ecdef2dc.json": "1ba50438e093cc032965b35703083770cae637967e1d6095f17e51bbe5efb27f",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/08-franklyn-247a79152963.json": "020665ef7ed5b0b4b54d5f49db84b5a1db7d60c55320cd16e393bf3aacffade6",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/09-john-d1efd997ed29.json": "6ac8b98fc615c66d93a1f86fb0fc1548f578cfbd54555bfbb0d12f5caecc3859",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/10-wendy-dbd7411f821f.json": "21a520f03d7db1c5f16aeb384c84a926767147e516df447f45a7ed71c6023892",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/11-enfant-17a72c5c0bc0.json": "ba062e52209342da41e1c12193aaa663ad193fb59db7d1be873155dedc4e5763",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/12-franklyn-cc78bb50ae0d.json": "645207eea55cbb28c6b1ab6b0117ccd695233701c2697f739d308a870ecc96db",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/13-franklyn-3bceadb6894b.json": "0b1feba47bf2db3388144952b3e22d535304488925e1a1fa6a23a571af83d2e7",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/14-wendy-5abab19293cd.json": "ba11e7f547d4dbfdf3a0979b7de44f5954bf08586e0e3a6fab0ac33c5f19712b",
+    "art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/15-john-4d7819453540.json": "d01e3df2c4baac236ed79d124e119c77dc78306002d6eb1b52fe492a9a7dec32"
+  },
+  "actualCost": null,
+  "providerRequestIds": null,
+  "budgetApproval": "Intégrateur /root, 2026-11-05 : plafond global3000 approuvé, attendre feu vert narratif qualité avant soumission.",
+  "narrativeReview": "Agent /root/qualite, 2026-11-05 : retour propriétaire, contrats v3 et conduite relus; aucun blocage textuel. Ne vaut pas écoute des prises."
+}

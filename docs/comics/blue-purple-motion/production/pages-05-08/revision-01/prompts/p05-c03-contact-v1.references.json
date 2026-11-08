@@ -1,0 +1,12 @@
+{
+  "prompt": "p05-c03-contact-v1.txt",
+  "contract": "revision-01/CONTRACTS.json v3 p05-c03 contact",
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-01-preparation.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-01-08/references/cast-six-v1.png"
+  ],
+  "additionalInspectionBeforeSubmission": "Selected ready output must be independently reviewed and opened before this edit call.",
+  "output": "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-02-contact.png",
+  "transparentBackground": false,
+  "status": "ready-for-review-pending-predecessor-selection-and-root-approval"
+}

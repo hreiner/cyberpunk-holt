@@ -1,0 +1,13 @@
+{
+  "prompt": "p06-c03-threshold-v2-patches-only.txt",
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p06-c03-threshold/attempt-01/band-v1.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/page-06/band-03-v1.png",
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-01-08/references/cast-six-v1.png"
+  ],
+  "contract": "revision-01/CONTRACTS.json exit identities and attire continuity",
+  "diagnostic": "Observed white/gold cadet sleeve embroidery omitted in generated exit keyframes. Restore only exposed named cadet sleeve patches; preserve anatomy and both civilians.",
+  "authorization": "Root explicitly authorized two targeted correction calls after combined hand/foot review; reserve2 and3 of4.",
+  "transparentBackground": false,
+  "status": "ready-for-independent-review-before-correction"
+}

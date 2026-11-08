@@ -12,6 +12,11 @@ palette de décor). Elle ne fixe **pas le style de rendu** : les références so
 photoréalistes, les illustrations du jeu suivent la
 [bible de style](image-generation/STYLE-BIBLE.md).
 
+Pour la production comics, ouvrir les images originales utiles, pas seulement cet
+index. Leur identité, formes et éléments caractéristiques sont adaptés au rendu
+comics Edgerunners retenu, selon la [recette sujet/style](../anime/motion-comics/ART.md#références-dorigine-et-adaptation-comics-edgerunners).
+La bible de rendu du jeu n'est pas l'ancre de rendu du comics ; distinguer ces usages.
+
 | Fichier | Sujet | Sert de référence pour |
 |---|---|---|
 | [`Frankly.png`](Reference_pictures/Frankly.png) | Franklyn, portrait | portrait de Franklyn, silhouette 3D |

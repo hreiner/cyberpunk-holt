@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "version": 2,
+  "title": "HOLT — Blue Purple · page 3 · Les chiffres",
+  "image": "../../../art-masters/motion-comics/blue-purple/page-03/page-v1.png",
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.6,
+  "outroSeconds": 2,
+  "panels": [
+    {
+      "id": "p03-c01",
+      "label": "Case 1 — Le document",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 7,
+      "cues": [
+        {
+          "id": "bp-l010",
+          "globalLine": 10,
+          "speaker": "wendy",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/10-wendy-dbd7411f821f.mp3",
+          "duration": 5.04,
+          "textFr": "C'est tout ce que j'ai. Je crois que c'est notre point de départ.",
+          "textEn": "This is all I have. I think it's where we start.",
+          "ttsText": "[exhales] [uncertain, quietly] This is all I have. [short pause] [cautiously hopeful] I think it's where we start.",
+          "performance": "Prudente, puis petite impulsion vers l'action sans certitude.",
+          "ttsModel": "eleven_v4",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/10-wendy-dbd7411f821f.json"
+        }
+      ]
+    },
+    {
+      "id": "p03-c02",
+      "label": "Case 2 — Le vertige",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 3,
+      "cues": []
+    },
+    {
+      "id": "p03-c03",
+      "label": "Case 3 — La vision",
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 4,
+      "cues": []
+    },
+    {
+      "id": "p03-c04",
+      "label": "Case 4 — L'inquiétude de l'enfant",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 5,
+      "cues": [
+        {
+          "id": "bp-l011",
+          "globalLine": 11,
+          "speaker": "enfant",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/11-enfant-17a72c5c0bc0.mp3",
+          "duration": 2.88,
+          "textFr": "Franklyn ? Qu'est-ce qu'il y a ?",
+          "textEn": "Franklyn? What's wrong?",
+          "ttsText": "[softly, hesitant] Franklyn? [short pause] [worried] What's wrong?",
+          "performance": "Petit appel d'abord prudent, puis inquiétude sincère sans crier.",
+          "ttsModel": "eleven_v4",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-04/voices-v4-v1/11-enfant-17a72c5c0bc0.json"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "neon",
+      "rect": [
+        0.1357421875,
+        0.041015625,
+        0.0712890625,
+        0.035807291666666664
+      ],
+      "color": "#25eaff",
+      "strength": 0.47,
+      "frequency": 0.34,
+      "phase": 0.3
+    },
+    {
+      "type": "reflection",
+      "rect": [
+        0.6337890625,
+        0.2962239583333333,
+        0.060546875,
+        0.02734375
+      ],
+      "color": "#20dfff",
+      "strength": 0.3,
+      "frequency": 0.24,
+      "phase": 1.1
+    },
+    {
+      "type": "neon",
+      "rect": [
+        0.017578125,
+        0.5071614583333334,
+        0.04296875,
+        0.060546875
+      ],
+      "color": "#df2bff",
+      "strength": 0.46,
+      "frequency": 0.43,
+      "phase": 1.9
+    },
+    {
+      "type": "neon",
+      "rect": [
+        0.908203125,
+        0.6041666666666666,
+        0.0732421875,
+        0.042317708333333336
+      ],
+      "color": "#ed25e9",
+      "strength": 0.44,
+      "frequency": 0.38,
+      "phase": 2.5
+    },
+    {
+      "type": "neon",
+      "rect": [
+        0.8056640625,
+        0.7096354166666666,
+        0.099609375,
+        0.055338541666666664
+      ],
+      "color": "#21e6ff",
+      "strength": 0.45,
+      "frequency": 0.33,
+      "phase": 0.8
+    },
+    {
+      "type": "reflection",
+      "rect": [
+        0.537109375,
+        0.9752604166666666,
+        0.0703125,
+        0.016927083333333332
+      ],
+      "color": "#f52ccf",
+      "strength": 0.32,
+      "frequency": 0.23,
+      "phase": 2.1
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "balloon-1",
+      "rect": [
+        0.5341796875,
+        0.012369791666666666,
+        0.421875,
+        0.06640625
+      ]
+    },
+    {
+      "id": "tail-1",
+      "rect": [
+        0.369140625,
+        0.040364583333333336,
+        0.1806640625,
+        0.034505208333333336
+      ]
+    },
+    {
+      "id": "balloon-2",
+      "rect": [
+        0.0263671875,
+        0.6764322916666666,
+        0.435546875,
+        0.06640625
+      ]
+    },
+    {
+      "id": "tail-2",
+      "rect": [
+        0.1748046875,
+        0.73046875,
+        0.0361328125,
+        0.029296875
+      ]
+    },
+    {
+      "id": "c1-wendy-face",
+      "rect": [
+        0.232421875,
+        0.09765625,
+        0.10546875,
+        0.08919270833333333
+      ]
+    },
+    {
+      "id": "c1-grover-face",
+      "rect": [
+        0.4072265625,
+        0.10807291666666667,
+        0.099609375,
+        0.06770833333333333
+      ]
+    },
+    {
+      "id": "c1-john-face",
+      "rect": [
+        0.064453125,
+        0.10807291666666667,
+        0.099609375,
+        0.076171875
+      ]
+    },
+    {
+      "id": "c1-child-face",
+      "rect": [
+        0.5244140625,
+        0.17513020833333334,
+        0.0888671875,
+        0.052734375
+      ]
+    },
+    {
+      "id": "c1-abigail-face",
+      "rect": [
+        0.646484375,
+        0.13020833333333334,
+        0.09375,
+        0.07161458333333333
+      ]
+    },
+    {
+      "id": "c1-franklyn-face",
+      "rect": [
+        0.7978515625,
+        0.16015625,
+        0.115234375,
+        0.08528645833333333
+      ]
+    },
+    {
+      "id": "c1-john-badge",
+      "rect": [
+        0.021484375,
+        0.20638020833333334,
+        0.0615234375,
+        0.061848958333333336
+      ]
+    },
+    {
+      "id": "c1-grover-badge",
+      "rect": [
+        0.4697265625,
+        0.18098958333333334,
+        0.0361328125,
+        0.033203125
+      ]
+    },
+    {
+      "id": "c1-abigail-badge",
+      "rect": [
+        0.7685546875,
+        0.20182291666666666,
+        0.044921875,
+        0.038411458333333336
+      ]
+    },
+    {
+      "id": "c1-franklyn-badge",
+      "rect": [
+        0.806640625,
+        0.2584635416666667,
+        0.08203125,
+        0.06901041666666667
+      ]
+    },
+    {
+      "id": "c1-document",
+      "rect": [
+        0.29296875,
+        0.27734375,
+        0.3349609375,
+        0.052083333333333336
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.068359375,
+        0.3860677083333333,
+        0.36328125,
+        0.23372395833333334
+      ]
+    },
+    {
+      "id": "c3-remembered-silhouette",
+      "rect": [
+        0.703125,
+        0.4557291666666667,
+        0.0859375,
+        0.10416666666666667
+      ]
+    },
+    {
+      "id": "c4-child-face",
+      "rect": [
+        0.2509765625,
+        0.8157552083333334,
+        0.1259765625,
+        0.07747395833333333
+      ]
+    },
+    {
+      "id": "c4-franklyn-face",
+      "rect": [
+        0.6337890625,
+        0.7565104166666666,
+        0.1474609375,
+        0.10611979166666667
+      ]
+    },
+    {
+      "id": "c4-franklyn-left-badge",
+      "rect": [
+        0.5,
+        0.8404947916666666,
+        0.0712890625,
+        0.052083333333333336
+      ]
+    },
+    {
+      "id": "c4-franklyn-right-badge",
+      "rect": [
+        0.861328125,
+        0.8372395833333334,
+        0.041015625,
+        0.052734375
+      ]
+    },
+    {
+      "id": "c4-document",
+      "rect": [
+        0.3017578125,
+        0.970703125,
+        0.2314453125,
+        0.022135416666666668
+      ]
+    }
+  ],
+  "review": {
+    "sampleTime": 5,
+    "deltaSeconds": 0.5,
+    "minimumChangedPixels": 100,
+    "minimumLiveChangedPixels": 20
+  },
+  "source": "docs/chapters/ch3/SCENARIO.md — Les chiffres et la vision ; docs/anime/SCREENPLAY.md S01-P04",
+  "provenance": {
+    "contract": "docs/comics/blue-purple-motion/production/pages-01-04/contracts/page-03.json, v1",
+    "image": "ImageGen, bandes sans lettres ; prompts et journaux du lot. Master page-03/page-raw-v1.png, calque lettering-v1.svg.",
+    "audio": "ElevenLabs OAuth eleven_v4, prises mesurées PCM ; plafond global 1800 caractères, 1044 soumis.",
+    "effects": "docs/comics/blue-purple-motion/production/pages-01-04/effects-plans/page-03.json",
+    "review": "Contre-revue agent distincte de l’approbation humaine ; voir REVIEW.md du lot.",
+    "previousManifest": "blue-purple-page03-v1.json",
+    "revision": "Libellés narratifs courts dans le lecteur et le MP4 ; images, voix, effets et temps identiques à v1."
+  },
+  "voiceModel": "eleven_v4"
+}

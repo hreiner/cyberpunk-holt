@@ -1,0 +1,648 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "status": "locked",
+  "authority": "Root-approved final action contracts supplied by A/B/C/D. Timing revision2 fixes speech/camera; approved actions supersede inherited action proposals without moving speech.",
+  "timing": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/timing/TIMING.json",
+  "timingRevision": 2,
+  "timingSha256": "6abefd967dee6b9b1a0b3c85d54c85fbf1d5ffbe8bc12294f5fc774fbea2a091",
+  "prefixSeconds": 238.60000000000002,
+  "duration": 584.3,
+  "sourceContracts": [
+    {
+      "lot": "lot-a",
+      "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-a/ANCHORS.json",
+      "sha256": "e1719dea5ad87ee9c4e6f7b2c1f5877377d0c0143d31adadaabb2c4a4bd3a1be",
+      "status": "final-contract-supplied-by-worker"
+    },
+    {
+      "lot": "lot-b",
+      "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-b/ANCHORS.json",
+      "sha256": "4a7384935d18fe3f0d4d70d35a5e89d92c415890da998dead12d275a50b2432a",
+      "status": "root-approved-action-anchors"
+    },
+    {
+      "lot": "lot-c",
+      "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+      "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+      "status": "frozen"
+    },
+    {
+      "lot": "lot-d",
+      "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+      "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+      "status": "frozen"
+    }
+  ],
+  "anchors": [
+    {
+      "id": "terminalAcquire",
+      "page": 9,
+      "panelKey": "09-2",
+      "pageLocalSeconds": 10.991666666666667,
+      "globalSeconds": 249.5916666666667,
+      "lotSeconds": 10.991666666666674,
+      "intention": "Début du calcul, quadrilatère de vitre existante",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-a/ANCHORS.json",
+        "sha256": "e1719dea5ad87ee9c4e6f7b2c1f5877377d0c0143d31adadaabb2c4a4bd3a1be",
+        "id": "terminalAcquire"
+      }
+    },
+    {
+      "id": "terminalMapReady",
+      "page": 9,
+      "panelKey": "09-2",
+      "pageLocalSeconds": 11.991666666666667,
+      "globalSeconds": 250.5916666666667,
+      "lotSeconds": 11.991666666666674,
+      "intention": "Carte lisible, halo rose resserré ; avant parole de Franklyn",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-a/ANCHORS.json",
+        "sha256": "e1719dea5ad87ee9c4e6f7b2c1f5877377d0c0143d31adadaabb2c4a4bd3a1be",
+        "id": "terminalMapReady"
+      }
+    },
+    {
+      "id": "johnProposalReveal",
+      "page": 11,
+      "panelKey": "11-3a",
+      "pageLocalSeconds": 16.255,
+      "globalSeconds": 307.20500000000004,
+      "lotSeconds": 68.60500000000002,
+      "intention": "Case et bulle John apparaissent ensemble",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-a/ANCHORS.json",
+        "sha256": "e1719dea5ad87ee9c4e6f7b2c1f5877377d0c0143d31adadaabb2c4a4bd3a1be",
+        "id": "johnProposalReveal"
+      }
+    },
+    {
+      "id": "abigailReplyReveal",
+      "page": 11,
+      "panelKey": "11-3b",
+      "pageLocalSeconds": 22.605,
+      "globalSeconds": 313.55500000000006,
+      "lotSeconds": 74.95500000000004,
+      "intention": "Réponse révélée après proposition de John",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-a/ANCHORS.json",
+        "sha256": "e1719dea5ad87ee9c4e6f7b2c1f5877377d0c0143d31adadaabb2c4a4bd3a1be",
+        "id": "abigailReplyReveal"
+      }
+    },
+    {
+      "id": "implantPulseStart",
+      "page": 12,
+      "panelKey": "12-2",
+      "pageLocalSeconds": 12.674999999999999,
+      "globalSeconds": 336.9833333333334,
+      "lotSeconds": 98.38333333333338,
+      "intention": "Montée implant puis deux impulsions",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-a/ANCHORS.json",
+        "sha256": "e1719dea5ad87ee9c4e6f7b2c1f5877377d0c0143d31adadaabb2c4a4bd3a1be",
+        "id": "implantPulseStart"
+      }
+    },
+    {
+      "id": "implantConfirm",
+      "page": 12,
+      "panelKey": "12-2",
+      "pageLocalSeconds": 13.475,
+      "globalSeconds": 337.7833333333334,
+      "lotSeconds": 99.1833333333334,
+      "intention": "Deuxième impulsion de confirmation de réservation",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-a/ANCHORS.json",
+        "sha256": "e1719dea5ad87ee9c4e6f7b2c1f5877377d0c0143d31adadaabb2c4a4bd3a1be",
+        "id": "implantConfirm"
+      }
+    },
+    {
+      "id": "elevatorSettles",
+      "page": 12,
+      "panelKey": "12-3",
+      "pageLocalSeconds": 24.683333333333334,
+      "globalSeconds": 348.99166666666673,
+      "lotSeconds": 110.39166666666671,
+      "intention": "Arrêt des reflets avant la dernière tenue, sans ouverture physique",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-a/ANCHORS.json",
+        "sha256": "e1719dea5ad87ee9c4e6f7b2c1f5877377d0c0143d31adadaabb2c4a4bd3a1be",
+        "id": "elevatorSettles"
+      }
+    },
+    {
+      "id": "franklynNeuralHint",
+      "page": 13,
+      "panelKey": "13-1",
+      "pageLocalSeconds": 3.3000000000000003,
+      "globalSeconds": 354.49166666666673,
+      "lotSeconds": 115.89166666666671,
+      "intention": "Trouble subjectif bref dans le décor, aucune carte",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-a/ANCHORS.json",
+        "sha256": "e1719dea5ad87ee9c4e6f7b2c1f5877377d0c0143d31adadaabb2c4a4bd3a1be",
+        "id": "franklynNeuralHint"
+      }
+    },
+    {
+      "id": "repairContact",
+      "page": 15,
+      "panelKey": null,
+      "pageLocalSeconds": 15.99,
+      "globalSeconds": 421.17333333333335,
+      "lotSeconds": 182.57333333333332,
+      "intention": "after Abigail15.2 speech +.15",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-b/ANCHORS.json",
+        "sha256": "4a7384935d18fe3f0d4d70d35a5e89d92c415890da998dead12d275a50b2432a",
+        "id": "capsuleContact"
+      }
+    },
+    {
+      "id": "capsuleClosingStart",
+      "page": 15,
+      "panelKey": null,
+      "pageLocalSeconds": 21.39666666666667,
+      "globalSeconds": 426.58,
+      "lotSeconds": 187.97999999999996,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-b/ANCHORS.json",
+        "sha256": "4a7384935d18fe3f0d4d70d35a5e89d92c415890da998dead12d275a50b2432a",
+        "id": "capsuleClosingStart"
+      }
+    },
+    {
+      "id": "capsuleClosure35",
+      "page": 15,
+      "panelKey": null,
+      "pageLocalSeconds": 21.616666666666667,
+      "globalSeconds": 426.8,
+      "lotSeconds": 188.2,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-b/ANCHORS.json",
+        "sha256": "4a7384935d18fe3f0d4d70d35a5e89d92c415890da998dead12d275a50b2432a",
+        "id": "capsuleClosure35"
+      }
+    },
+    {
+      "id": "capsuleClosure75",
+      "page": 15,
+      "panelKey": null,
+      "pageLocalSeconds": 22.046666666666667,
+      "globalSeconds": 427.23,
+      "lotSeconds": 188.63,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-b/ANCHORS.json",
+        "sha256": "4a7384935d18fe3f0d4d70d35a5e89d92c415890da998dead12d275a50b2432a",
+        "id": "capsuleClosure75"
+      }
+    },
+    {
+      "id": "capsuleClosed",
+      "page": 15,
+      "panelKey": null,
+      "pageLocalSeconds": 22.49666666666667,
+      "globalSeconds": 427.68,
+      "lotSeconds": 189.07999999999998,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-b/ANCHORS.json",
+        "sha256": "4a7384935d18fe3f0d4d70d35a5e89d92c415890da998dead12d275a50b2432a",
+        "id": "capsuleClosed"
+      }
+    },
+    {
+      "id": "capsuleLatch",
+      "page": 15,
+      "panelKey": null,
+      "pageLocalSeconds": 22.576666666666668,
+      "globalSeconds": 427.76,
+      "lotSeconds": 189.15999999999997,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-b/ANCHORS.json",
+        "sha256": "4a7384935d18fe3f0d4d70d35a5e89d92c415890da998dead12d275a50b2432a",
+        "id": "capsuleLock"
+      }
+    },
+    {
+      "id": "elfLandscapeHeld",
+      "page": 16,
+      "panelKey": null,
+      "pageLocalSeconds": 2.85,
+      "globalSeconds": 434.875,
+      "lotSeconds": 196.27499999999998,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "vision"
+      }
+    },
+    {
+      "id": "digitalDisassembly",
+      "page": 16,
+      "panelKey": null,
+      "pageLocalSeconds": 3.4000000000000004,
+      "globalSeconds": 435.42499999999995,
+      "lotSeconds": 196.82499999999993,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "disassembly"
+      }
+    },
+    {
+      "id": "nightCityMapSettled",
+      "page": 16,
+      "panelKey": null,
+      "pageLocalSeconds": 5.2,
+      "globalSeconds": 437.22499999999997,
+      "lotSeconds": 198.62499999999994,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "mapStable"
+      }
+    },
+    {
+      "id": "mapPosition",
+      "page": 16,
+      "panelKey": null,
+      "pageLocalSeconds": 5.7,
+      "globalSeconds": 437.72499999999997,
+      "lotSeconds": 199.12499999999994,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "position"
+      }
+    },
+    {
+      "id": "mapUnknown",
+      "page": 16,
+      "panelKey": null,
+      "pageLocalSeconds": 6.1,
+      "globalSeconds": 438.125,
+      "lotSeconds": 199.52499999999998,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "unknown"
+      }
+    },
+    {
+      "id": "mapGreen",
+      "page": 16,
+      "panelKey": null,
+      "pageLocalSeconds": 6.5,
+      "globalSeconds": 438.525,
+      "lotSeconds": 199.92499999999995,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "green"
+      }
+    },
+    {
+      "id": "topBand",
+      "page": 17,
+      "panelKey": null,
+      "pageLocalSeconds": 7.553333333333333,
+      "globalSeconds": 467.25333333333333,
+      "lotSeconds": 228.6533333333333,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "firstBand"
+      }
+    },
+    {
+      "id": "oneShot",
+      "page": 17,
+      "panelKey": null,
+      "pageLocalSeconds": 8.153333333333332,
+      "globalSeconds": 467.8533333333333,
+      "lotSeconds": 229.25333333333327,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "oneShot"
+      }
+    },
+    {
+      "id": "metalImpact",
+      "page": 17,
+      "panelKey": null,
+      "pageLocalSeconds": 8.233333333333333,
+      "globalSeconds": 467.93333333333334,
+      "lotSeconds": 229.33333333333331,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "metalImpact"
+      }
+    },
+    {
+      "id": "impactRecovery",
+      "page": 17,
+      "panelKey": null,
+      "pageLocalSeconds": 8.433333333333334,
+      "globalSeconds": 468.1333333333333,
+      "lotSeconds": 229.5333333333333,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "impactRecovery"
+      }
+    },
+    {
+      "id": "coverBand",
+      "page": 17,
+      "panelKey": null,
+      "pageLocalSeconds": 8.583333333333334,
+      "globalSeconds": 468.2833333333333,
+      "lotSeconds": 229.68333333333328,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "coverBand"
+      }
+    },
+    {
+      "id": "wendyVoice",
+      "page": 17,
+      "panelKey": null,
+      "pageLocalSeconds": 8.613333333333333,
+      "globalSeconds": 468.31333333333333,
+      "lotSeconds": 229.7133333333333,
+      "intention": null,
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-c/ANCHORS.json",
+        "sha256": "5df9376c926b445cacf8e07e7701f7bdc74cbb6d1d6f4fceac6ed6f736d1ea7b",
+        "id": "wendy"
+      }
+    },
+    {
+      "id": "residentContact",
+      "page": 18,
+      "panelKey": "18-1",
+      "pageLocalSeconds": 9.878333333333334,
+      "globalSeconds": 487.91999999999996,
+      "lotSeconds": 249.31999999999994,
+      "intention": "Contact dessiné tenu après les deux répliques, puis coupe vers conséquence.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "residentContact"
+      }
+    },
+    {
+      "id": "residentConsequence",
+      "page": 18,
+      "panelKey": "18-after",
+      "pageLocalSeconds": 10.058333333333334,
+      "globalSeconds": 488.09999999999997,
+      "lotSeconds": 249.49999999999994,
+      "intention": "Révélation franche du dessin existant, sans chute corporelle inventée.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "residentConsequence"
+      }
+    },
+    {
+      "id": "boltStart",
+      "page": 18,
+      "panelKey": "18-2",
+      "pageLocalSeconds": 14.766666666666667,
+      "globalSeconds": 492.8083333333333,
+      "lotSeconds": 254.20833333333326,
+      "intention": "Le seul pêne libre glisse ; les doigts restent exacts.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "boltStart"
+      }
+    },
+    {
+      "id": "boltClosed",
+      "page": 18,
+      "panelKey": "18-2",
+      "pageLocalSeconds": 15.316666666666666,
+      "globalSeconds": 493.3583333333333,
+      "lotSeconds": 254.75833333333327,
+      "intention": "Pêne dans son logement, clic unique.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "boltClosed"
+      }
+    },
+    {
+      "id": "quietFloorSweep",
+      "page": 18,
+      "panelKey": "18-3",
+      "pageLocalSeconds": 24.01666666666667,
+      "globalSeconds": 502.0583333333333,
+      "lotSeconds": 263.45833333333326,
+      "intention": "Reflet unique au sol puis silence visuel.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "quietFloorSweep"
+      }
+    },
+    {
+      "id": "doorSlitLight",
+      "page": 19,
+      "panelKey": "19-1",
+      "pageLocalSeconds": 3.0500000000000003,
+      "globalSeconds": 511.9083333333333,
+      "lotSeconds": 273.3083333333333,
+      "intention": "Lumière de fente seulement, aucune ouverture supplémentaire.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "doorSlitLight"
+      }
+    },
+    {
+      "id": "elevatorReturn",
+      "page": 19,
+      "panelKey": "19-2",
+      "pageLocalSeconds": 11.2,
+      "globalSeconds": 520.0583333333333,
+      "lotSeconds": 281.45833333333326,
+      "intention": "Reflets lents puis arrêt.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "elevatorReturn"
+      }
+    },
+    {
+      "id": "greenPointPulse",
+      "page": 19,
+      "panelKey": "19-3",
+      "pageLocalSeconds": 19.8,
+      "globalSeconds": 528.6583333333333,
+      "lotSeconds": 290.0583333333333,
+      "intention": "Unique pulsation du point existant.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "greenPointPulse"
+      }
+    },
+    {
+      "id": "waterThrowRelease",
+      "page": 20,
+      "panelKey": "20-3",
+      "pageLocalSeconds": 14.899999999999999,
+      "globalSeconds": 550.3083333333333,
+      "lotSeconds": 311.70833333333326,
+      "intention": "Révélation du plan puis chute gravitaire immédiate, sans tenue flottante.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "waterThrowRelease"
+      }
+    },
+    {
+      "id": "waterSplash",
+      "page": 20,
+      "panelKey": "20-3",
+      "pageLocalSeconds": 15.419999999999998,
+      "globalSeconds": 550.8283333333333,
+      "lotSeconds": 312.22833333333324,
+      "intention": "Franchissement du plan d’eau, plouf unique, écume.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "waterSplash"
+      }
+    },
+    {
+      "id": "waterSubmerged",
+      "page": 20,
+      "panelKey": "20-3",
+      "pageLocalSeconds": 15.86,
+      "globalSeconds": 551.2683333333333,
+      "lotSeconds": 312.6683333333333,
+      "intention": "Toute la silhouette est passée sous le plan d’eau.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "waterSubmerged"
+      }
+    },
+    {
+      "id": "waterRecovery",
+      "page": 20,
+      "panelKey": "20-3",
+      "pageLocalSeconds": 16.599999999999998,
+      "globalSeconds": 552.0083333333333,
+      "lotSeconds": 313.4083333333333,
+      "intention": "Écume retombée, eau seule tenue.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "waterRecovery"
+      }
+    },
+    {
+      "id": "refugeLatchStart",
+      "page": 21,
+      "panelKey": "21-1",
+      "pageLocalSeconds": 3,
+      "globalSeconds": 560.7916666666666,
+      "lotSeconds": 322.1916666666666,
+      "intention": "Déclic avant la question d’Abigail, aucun dispositif nouveau.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "refugeLatchStart"
+      }
+    },
+    {
+      "id": "refugeDoorOpeningStart",
+      "page": 21,
+      "panelKey": "21-1",
+      "pageLocalSeconds": 3.95,
+      "globalSeconds": 561.7416666666667,
+      "lotSeconds": 323.14166666666665,
+      "intention": "Deux battants commencent leur rotation vers la pièce vide.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "refugeDoorOpeningStart"
+      }
+    },
+    {
+      "id": "refugeDoorOpen",
+      "page": 21,
+      "panelKey": "21-1",
+      "pageLocalSeconds": 5.5,
+      "globalSeconds": 563.2916666666666,
+      "lotSeconds": 324.6916666666666,
+      "intention": "Deux battants ouverts et tenus.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "refugeDoorOpen"
+      }
+    },
+    {
+      "id": "emptyRoom",
+      "page": 21,
+      "panelKey": "21-2",
+      "pageLocalSeconds": 10.7,
+      "globalSeconds": 568.4916666666667,
+      "lotSeconds": 329.89166666666665,
+      "intention": "Volume vide, poussières et goutte discrètes.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "emptyRoom"
+      }
+    },
+    {
+      "id": "finalIndicatorOff",
+      "page": 21,
+      "panelKey": "21-3",
+      "pageLocalSeconds": 22.175,
+      "globalSeconds": 579.9666666666666,
+      "lotSeconds": 341.36666666666656,
+      "intention": "Extinction pendant la dernière réplique de Grover.",
+      "source": {
+        "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-d/ANCHORS.json",
+        "sha256": "5f47009e647db7cfa92a5d9a138ff0770bcf5bdf97edf87e6c1b95e1e14c8bdf",
+        "id": "finalIndicatorOff"
+      }
+    }
+  ],
+  "metadataCorrection": {
+    "reason": "Owner removes unused HOLT map marker; no HOLT sound existed. All retained action times identical, no audio recalculation.",
+    "previous": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/sound/ACOUSTIC-ANCHORS-v1.json",
+    "previousSha256": "98fb326bb8036798a43253c72f3d2b9f3f45eda7f1b40fde3ef92e3dc23af072",
+    "removedUnusedAnchor": "mapHolt",
+    "audioTimesUnchanged": true
+  }
+}

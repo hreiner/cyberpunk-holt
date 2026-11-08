@@ -1,0 +1,22 @@
+{
+  "source": "docs/chapters/ch3/SCENARIO.md — Le Blue Purple : Wendy et Letitia ; Les chiffres et la vision",
+  "status": "animatique provisoire, les voix restent à produire",
+  "shots": [
+    {"duration": 6, "background": "public/assets/backdrops/blue-purple-rencontre.webp", "portrait": "public/assets/portraits/inconnue.webp"},
+    {"duration": 6, "background": "public/assets/backdrops/blue-purple-rencontre.webp", "portrait": "public/assets/portraits/franklyn.webp"},
+    {"duration": 6, "background": "public/assets/backdrops/blue-purple-rencontre.webp", "portrait": "public/assets/portraits/john.webp"},
+    {"duration": 6, "background": "public/assets/backdrops/blue-purple-rencontre.webp", "portrait": "public/assets/portraits/inconnue.webp"},
+    {"duration": 6, "background": "public/assets/backdrops/blue-purple-rencontre.webp", "portrait": "public/assets/portraits/franklyn.webp"}
+  ],
+  "audio": [
+    {"path": "public/assets/audio/background/music-neon.mp3", "loop": true, "volume": 0.16},
+    {"path": "public/assets/audio/background/ambience-night-city.mp3", "loop": true, "volume": 0.1}
+  ],
+  "subtitles": [
+    {"start": 0.5, "end": 5.5, "text": "Wendy : Vous êtes en grand danger. Ils vous poursuivent."},
+    {"start": 6.5, "end": 11.5, "text": "Franklyn : On ne peut pas laisser Letitia chez le charcudoc."},
+    {"start": 12.5, "end": 17.5, "text": "John : Revenir là-bas nous condamnerait tous."},
+    {"start": 18.5, "end": 23.5, "text": "Wendy montre un document couvert de chiffres."},
+    {"start": 24.5, "end": 29.5, "text": "Franklyn reconnaît d'anciennes coordonnées."}
+  ]
+}

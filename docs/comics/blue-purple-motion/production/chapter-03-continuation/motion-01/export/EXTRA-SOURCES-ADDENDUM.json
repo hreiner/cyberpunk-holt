@@ -1,0 +1,819 @@
+{
+  "checkedAt": "2026-11-07T18:05:55.944Z",
+  "listSha256": "e0cd85bff045875be70417c17dc6f9dd198590abcc241e2c55a57244aa3c0b8f",
+  "priorFiles": 585,
+  "totalFiles": 690,
+  "newUniqueFiles": 105,
+  "entries": [
+    {
+      "file": "anime/motion-comics/assets/ATTRIBUTION.md",
+      "sha256": "13e7bd08e75ba3ad3ffaafd37a71bc9195c78d68811eadcaebe6fb499825fa26",
+      "category": "font-and-license",
+      "bytes": 569
+    },
+    {
+      "file": "anime/motion-comics/assets/barlow-LICENSE.txt",
+      "sha256": "56027070a748db90a33c074bf7b9b7f0df66dd38a8a0d3e3a951f79035f9c4a0",
+      "category": "font-and-license",
+      "bytes": 6235
+    },
+    {
+      "file": "anime/motion-comics/assets/big-shoulders-LICENSE.txt",
+      "sha256": "18aabf190848725e2576eefb5c29ba06aac1029d02132252a7f312eac2e50cf3",
+      "category": "font-and-license",
+      "bytes": 4314
+    },
+    {
+      "file": "anime/motion-comics/assets/holt-display.woff2",
+      "sha256": "d2d55115d0d7047ce956d4eb8f2fbfe7915552cf4fabb294a5979705ec9687ac",
+      "category": "font-and-license",
+      "bytes": 14424
+    },
+    {
+      "file": "anime/motion-comics/assets/holt-text.woff2",
+      "sha256": "d03a7a5f6b74534c80699289d4f6495fdb09a7596774a4ede79129d2f8bb67b1",
+      "category": "font-and-license",
+      "bytes": 22300
+    },
+    {
+      "file": "public/assets/audio/ATTRIBUTION.md",
+      "sha256": "fde62119098f1fbb065fe43eee3f3ed0f8f9d0788fceb5b90290d10018e7b5bd",
+      "category": "audio-provenance",
+      "bytes": 6863
+    },
+    {
+      "file": "docs/art/audio-generation/background.json",
+      "sha256": "d9dbe52c03dbb75601d7f7cebbe9dd7aee0e1557c7929e647b649e2e86cf9471",
+      "category": "audio-provenance",
+      "bytes": 8154
+    },
+    {
+      "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01/TIMING.json",
+      "sha256": "8c756ade65eed59e686b09cd01340fdf43fd691e199fd81c7ff3c59e06d9fdc9",
+      "category": "exact-sound-input",
+      "bytes": 102649
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/sfx-prepared-v1/report.json",
+      "sha256": "5a14a2972e92d4709da07bf1c6180cb77a3695fe3a12b67972a014a774279876",
+      "category": "exact-sound-input",
+      "bytes": 444207
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/local-v1/report.json",
+      "sha256": "fd73c63ddcf819af91cf89da13e7509ed65df50bbf83c5b6fce54305fb6f9802",
+      "category": "exact-sound-input",
+      "bytes": 5021
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-measurements-v3.json",
+      "sha256": "fa26db52d2ef62b749825da4df435284b47f05686c13d5963283829947f83c7a",
+      "category": "exact-sound-input",
+      "bytes": 9639
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/foley-local-v1/report.json",
+      "sha256": "d0c0896e38dd94307eb1884736a8aed912f8a2b312e0eef2f32a53a897c795b6",
+      "category": "exact-sound-input",
+      "bytes": 2198
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/soundtrack-v1/legacy-prefix.wav",
+      "sha256": "3696b7ca3ca94c025873189342836d5ff61d424eed036424d330954afe5f3fa6",
+      "category": "exact-sound-input",
+      "bytes": 25507484
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/legacy-v2/backing-pages05-08.wav",
+      "sha256": "92e0e6f309620b7323deb24f919d6b626c1b9647cb8a56d2947a0f842dce9be3",
+      "category": "exact-sound-input",
+      "bytes": 14464844
+    },
+    {
+      "file": "public/assets/audio/background/music-neon.mp3",
+      "sha256": "ca163a37fe61f5b03e668708bfa4b80f531144e6d9d93db976791f03d29cd0e6",
+      "category": "exact-sound-input",
+      "bytes": 1095306
+    },
+    {
+      "file": "public/assets/audio/background/music-pressure.mp3",
+      "sha256": "562cd680e1dac3b71852c4561a1636f3d2115059a13bd371d8da4c3b0cc975ee",
+      "category": "exact-sound-input",
+      "bytes": 1095306
+    },
+    {
+      "file": "public/assets/audio/background/music-afterglow.mp3",
+      "sha256": "b8785999f788a2f1d276a939cfdbbec9b0bec99070a5183104d1edbb2b7c70f9",
+      "category": "exact-sound-input",
+      "bytes": 1080886
+    },
+    {
+      "file": "public/assets/audio/background/ambience-night-city.mp3",
+      "sha256": "2c6950e8615a19b1561547a929e0dc42cedd694600b2b5508a34feef806d1c6e",
+      "category": "exact-sound-input",
+      "bytes": 176630
+    },
+    {
+      "file": "public/assets/audio/background/ambience-industrial.mp3",
+      "sha256": "68fd6dcad65efb5c012263a4a376b972b6073d85d5950080ccc85ddd2fb75611",
+      "category": "exact-sound-input",
+      "bytes": 176630
+    },
+    {
+      "file": "public/assets/audio/background/ambience-vents.mp3",
+      "sha256": "b5bbb22ea7cc74b3c085509d1afe3387fa531e2303428b8d916b465270ac7418",
+      "category": "exact-sound-input",
+      "bytes": 40585
+    },
+    {
+      "file": "public/assets/audio/sewer-drips.wav",
+      "sha256": "4beccdf42064fb6302012aa82816a46f3976a5869538a961a5d0300d77a3bc40",
+      "category": "exact-sound-input",
+      "bytes": 512044
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/local-v1/terminal-confirm.wav",
+      "sha256": "18ecae68415ff32f7f79e128315b644f606c9222a525cf36cb673395e697a334",
+      "category": "exact-sound-input",
+      "bytes": 185264
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/local-v1/implant-confirm.wav",
+      "sha256": "49dc61505ad7b34cda2e474db77fdbdb2d48699767b93c7dd6ab340c6186ec8f",
+      "category": "exact-sound-input",
+      "bytes": 127052
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/sfx-prepared-v1/elevator-travel.wav",
+      "sha256": "0d24a3af39dd39709cb740e7948d591deb158669a109460d9b6212b0d2c67087",
+      "category": "exact-sound-input",
+      "bytes": 705644
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/local-v1/repair-tool.wav",
+      "sha256": "5f292360751dc52cb38b13f28033ff6795bffb9ee8a666505013cc2b4e67fbee",
+      "category": "exact-sound-input",
+      "bytes": 220544
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/local-v1/connector-seat.wav",
+      "sha256": "50473b305a96686382d7aebca5ae8e0a51871e7fdecc8e63438c37f27f51028e",
+      "category": "exact-sound-input",
+      "bytes": 134108
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/local-v1/machine-power.wav",
+      "sha256": "4f71bafc5d742d68a3e5e9af6001c1d3e16a8ec996b962bfee5a9ce787ae318e",
+      "category": "exact-sound-input",
+      "bytes": 564524
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/sfx-prepared-v1/capsule-close.wav",
+      "sha256": "ce835fe5faee994ce07fe39a5d79d913b7966bca380d8bd4b49d6212c52d9551",
+      "category": "exact-sound-input",
+      "bytes": 705644
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/local-v1/neural-unlock.wav",
+      "sha256": "8d734ab43f175e38e0fff9221ba0b4c63bc32eab80e6158c50aa1310c6cf363b",
+      "category": "exact-sound-input",
+      "bytes": 441044
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/sfx-prepared-v1/single-shot-metal.wav",
+      "sha256": "53607b80096f5169071b9b054e1b8054c7390a1c77ef22bbfe8acf5d596a60e9",
+      "category": "exact-sound-input",
+      "bytes": 529244
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/footsteps.wav",
+      "sha256": "3177a55ad662008979c0611174e56da35673985b25d24fa89b10122bbb340310",
+      "category": "exact-sound-input",
+      "bytes": 705678
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/local-v1/cloth-shift.wav",
+      "sha256": "573a4c4b0d5edfddcc8d4cec3c5b5fd8faed5a418e1709367b49b6d9e3bf1a3c",
+      "category": "exact-sound-input",
+      "bytes": 97064
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/punch-wood.wav",
+      "sha256": "34e85a20735cc72b6b5baf4260afd29e71647938f0a2c4f7d24e3eeb2d81c235",
+      "category": "exact-sound-input",
+      "bytes": 352878
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/foley-local-v1/lock-click.wav",
+      "sha256": "3dda628b72ce54e51cb1b297219481836b8f039d0c65317d6fabcc12142b4195",
+      "category": "exact-sound-input",
+      "bytes": 56492
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/sound/sfx-prepared-v1/body-water-splash.wav",
+      "sha256": "ed5e96f87e9658286b12a87181f1879df484d440713e90f05be00fead4702f9e",
+      "category": "exact-sound-input",
+      "bytes": 882044
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/rear-door.wav",
+      "sha256": "1fede818acb190e7fccf02c7725d97b5a882a87ba1dd247ac5b818d772407eb7",
+      "category": "exact-sound-input",
+      "bytes": 352878
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/038-grover-gain-+0.725db.wav",
+      "sha256": "825d75c145f53f6fe680d8e92bdc03b61a841afc9c3df472c16953e3232497f4",
+      "category": "exact-sound-input",
+      "bytes": 239982
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/039-wendy-gain-+3.005db.wav",
+      "sha256": "e7c7c64b495c234bf31500167ba417c4640092114d8a5621ee7762687783ae46",
+      "category": "exact-sound-input",
+      "bytes": 197646
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/03-franklyn-f62814afc8e0.mp3",
+      "sha256": "2e1cf1aa8ca9478ec2b908cafa4deda0a8caa2b6d6c72c9427b6de2b4131be47",
+      "category": "exact-sound-input",
+      "bytes": 43510
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/04-grover-e3253bac9496.mp3",
+      "sha256": "fdd20f105d6d150109acd57426aede35b9fbbceb6705085c4cf8c175be5d4d00",
+      "category": "exact-sound-input",
+      "bytes": 52287
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/042-enfant-gain-+5.579db.wav",
+      "sha256": "79a009f20dbf8cb1c1b1b1e83ff9d128759b234f8d2a12ce3115b5174b6c6882",
+      "category": "exact-sound-input",
+      "bytes": 232926
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/043-wendy-gain-+7.638db.wav",
+      "sha256": "8cc0d6e218ec5849ab70911a5d32a377082f25a7183b49870cca9504d48befd1",
+      "category": "exact-sound-input",
+      "bytes": 388158
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/044-grover-gain-+3.708db.wav",
+      "sha256": "a333a31476a7fc667f319cb9c3ba6eeeeb2f6994566a4534d3e1be69b5d22738",
+      "category": "exact-sound-input",
+      "bytes": 197646
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/045-wendy-gain-+2.126db.wav",
+      "sha256": "be9910ab6a6c064b2efa9b674389459ee64c24dc08f0e1b90316e6d44563f000",
+      "category": "exact-sound-input",
+      "bytes": 247038
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/046-grover-gain-+2.156db.wav",
+      "sha256": "e1a0b6945f8a843e7832a8ebf8bd8294348c3cddb3cd47d9807fbfff29122044",
+      "category": "exact-sound-input",
+      "bytes": 275262
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/10-grover-5a6b81b9b730.mp3",
+      "sha256": "4cfc984e372cc8bba1d081ed2e4125deb260b659405ed07c60ebc5f4e3d5d773",
+      "category": "exact-sound-input",
+      "bytes": 38077
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/048-wendy-gain-+0.943db.wav",
+      "sha256": "b14f4c257848252dfd6a9cd21bf6d0043330b496ac0ffdfeab840a013a9a12c3",
+      "category": "exact-sound-input",
+      "bytes": 141198
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/12-wendy-495b0813f3a3.mp3",
+      "sha256": "d28f8900cddd06a84c7b26eeb0d31eed5d6837f0f849e93c1fba3d70018f5c8f",
+      "category": "exact-sound-input",
+      "bytes": 65244
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/050-john-gain--0.256db.wav",
+      "sha256": "e5e03eba27630ba38c5a4308fea575149867eed1fc81c1ff6b489bcc8bc68dbe",
+      "category": "exact-sound-input",
+      "bytes": 275262
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/051-abigail-gain-+4.442db.wav",
+      "sha256": "50f6ae7ad040515ba8d656d137fb8d1af653efff3147070f5f4ab966dda255ba",
+      "category": "exact-sound-input",
+      "bytes": 310542
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/15-john-eba626cd163f.mp3",
+      "sha256": "ba28372358415ff15f628831d1c797b8719e6e8942ea4279a0c5f86f09ba2f8d",
+      "category": "exact-sound-input",
+      "bytes": 61065
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/053-grover-gain-+1.598db.wav",
+      "sha256": "085013119c5f4f7279950ad78d8c67b5de8bc9b7bed81d1cb7bcb494c66ad23a",
+      "category": "exact-sound-input",
+      "bytes": 331710
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/054-wendy-gain-+5.571db.wav",
+      "sha256": "8d14e3199d5f483e8f39e51dbf6f719f3b14c25c30dfe3c0c5abb207c2e0eef9",
+      "category": "exact-sound-input",
+      "bytes": 247038
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/055-wendy-gain-+3.305db.wav",
+      "sha256": "c3569569f6ffb7a67c62b9f1f7ae740d946ee07b856a85626043a2ca489de1ea",
+      "category": "exact-sound-input",
+      "bytes": 324654
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/056-enfant-gain-+8.805db.wav",
+      "sha256": "2a3372f7f6e1585931f1a727d6e45073111c43c2f259bef8dbe9704d1cbc2d6d",
+      "category": "exact-sound-input",
+      "bytes": 176478
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/057-grover-gain-+2.329db.wav",
+      "sha256": "ab308e0c1c22096057f7522fff111c22ed4ce5be48686c081ca7ffe171235c84",
+      "category": "exact-sound-input",
+      "bytes": 232926
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/21-franklyn-6d0b07e65035.mp3",
+      "sha256": "b9eaae0c17681868ba0aa1044bc0b6537cea261db629b67984e5ace0385fd3db",
+      "category": "exact-sound-input",
+      "bytes": 34315
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/059-wendy-gain-+0.947db.wav",
+      "sha256": "260de3e50109f63dd2e58c45e5415f5e50fcd35b053929f0ca09879cb3238ccf",
+      "category": "exact-sound-input",
+      "bytes": 169422
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/23-grover-588783cbf392.mp3",
+      "sha256": "f4d9e9e5b3a3a4b7b32f338b1fac127121e33bed7bf8fe6da32690f835575c40",
+      "category": "exact-sound-input",
+      "bytes": 59811
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/061-franklyn-gain-+0.564db.wav",
+      "sha256": "1ba450f527648cae035ab47e92a6b279d92e807947c13c6f762ca1606e012ce4",
+      "category": "exact-sound-input",
+      "bytes": 197646
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/062-abigail-gain-+3.880db.wav",
+      "sha256": "83960bcea6445bab17e1ab00822cf18e34a551d1687637683d1610873a36d8b8",
+      "category": "exact-sound-input",
+      "bytes": 218814
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/063-wendy-gain-+3.055db.wav",
+      "sha256": "d968ecd7d8e4ec3505f0eeb43231584bd61a2684705d0475caac748aeee3138d",
+      "category": "exact-sound-input",
+      "bytes": 409326
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/064-abigail-gain-+5.765db.wav",
+      "sha256": "6756f8ea1099254b1d7a55bb4303bb3f209dbf793109db3029a30cb981ea0a5d",
+      "category": "exact-sound-input",
+      "bytes": 211758
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/065-franklyn-gain-+0.704db.wav",
+      "sha256": "e3365e03f98d1a3d8386ea43b407a72f6194c2baace54661d195d4226a1d56aa",
+      "category": "exact-sound-input",
+      "bytes": 197646
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/29-wendy-f1a9ff8c1b10.mp3",
+      "sha256": "f177b2b3f87cdd65143a5edb1daf965146127143880b57e54fbdea1bd2c40a14",
+      "category": "exact-sound-input",
+      "bytes": 41838
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/067-vendeur-gain-+14.548db.wav",
+      "sha256": "6ff67ecb6870f4d662e5dddf5743c0f7cbae436112510ec3315ea84134e35007",
+      "category": "exact-sound-input",
+      "bytes": 183534
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/068-abigail-gain--0.464db.wav",
+      "sha256": "5669f2444b9c9a4fe60220a5ef27fb18a41f6672d189ba1381fbb7cf77ae0658",
+      "category": "exact-sound-input",
+      "bytes": 268206
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/069-franklyn-gain-+1.019db.wav",
+      "sha256": "1d99556ea23c8eed6a06e89b2d2ea494fe1b61558d6826a707e206d83cfaca36",
+      "category": "exact-sound-input",
+      "bytes": 289374
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/070-abigail-gain-+1.921db.wav",
+      "sha256": "cb3a71fefc05769106add04df853023674bf875c3da78e1317524a37f9140fea",
+      "category": "exact-sound-input",
+      "bytes": 225870
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/071-franklyn-gain-+0.193db.wav",
+      "sha256": "0615a8881f19758fd7b35d4a7f52b0a5d029b9488b8d190155490003801480b1",
+      "category": "exact-sound-input",
+      "bytes": 254094
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/072-grover-gain-+2.489db.wav",
+      "sha256": "95ac4ad85bcc4ce10714a7bb6099b1b5e0ab791d0781f2280d73c9f9ed3c1e6a",
+      "category": "exact-sound-input",
+      "bytes": 134142
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/073-franklyn-gain-+0.635db.wav",
+      "sha256": "38441551395492de03f1df4211d9a3cb3b913fdd5529a2beacd752822ce72268",
+      "category": "exact-sound-input",
+      "bytes": 183534
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/074-franklyn-gain-+0.657db.wav",
+      "sha256": "01803db487bea0185bfcc223bff115c36f0433010f3db339b0989d2e0813d1a8",
+      "category": "exact-sound-input",
+      "bytes": 345822
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/38-franklyn-8032f643c143.mp3",
+      "sha256": "e166c41403d9a6e371441c522dcaf0e09d0a5df224751fa610e30070e053b596",
+      "category": "exact-sound-input",
+      "bytes": 112474
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/076-abigail-gain-+9.969db.wav",
+      "sha256": "07824e729d0ea6eb4970ad8f71fadb904a58eb0c328de2bbd872b689d6009a0a",
+      "category": "exact-sound-input",
+      "bytes": 218814
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/40-wendy-052c3dbfbe86.mp3",
+      "sha256": "1cda6481e48c045003ae136de4898573d5f62b9cd3ce7cd708764fcd02aeb69f",
+      "category": "exact-sound-input",
+      "bytes": 17597
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/41-grover-a26b763c3798.mp3",
+      "sha256": "c8fe2b93e3c6e4cba216dfd82c96bffd4884152a5202eaf6ff789d451dd83785",
+      "category": "exact-sound-input",
+      "bytes": 35569
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/079-habitante-gain--0.415db.wav",
+      "sha256": "0f3cf6505796a1aeb19b309870ada927c18f4d47665ef373ba8a8e5537119117",
+      "category": "exact-sound-input",
+      "bytes": 134142
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/080-john-gain-+0.098db.wav",
+      "sha256": "c8954779e4da7d5205f813014b4b7b1647d10a0636ecd43f9513a099a7f4f3bc",
+      "category": "exact-sound-input",
+      "bytes": 317598
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/081-enfant-gain-+7.369db.wav",
+      "sha256": "d4fa977ca49e5a433ad21dd1488e02c79a7cab314038c63e46a390412a7834f4",
+      "category": "exact-sound-input",
+      "bytes": 141198
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/082-john-gain-+2.870db.wav",
+      "sha256": "4d27be6d70cc8edc78281c206178c806ef0f5e0185c96062d2231276c6d3bf76",
+      "category": "exact-sound-input",
+      "bytes": 303486
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/083-grover-gain-+5.885db.wav",
+      "sha256": "5de57d1d3d18c25b9759a24b8cb3852fef6f96699ab777476dbf074da1ad08fb",
+      "category": "exact-sound-input",
+      "bytes": 127086
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/084-abigail-gain-+5.569db.wav",
+      "sha256": "d96700454313b16cf4d1c4283fe2d8f7b14c638b6b6cf3b21180692bfd2ea33a",
+      "category": "exact-sound-input",
+      "bytes": 275262
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/085-grover-gain-+5.674db.wav",
+      "sha256": "7327e4c28f9814c4b65b1dcf783fd4038a5e96f5847150f89b9b72b74fb043d9",
+      "category": "exact-sound-input",
+      "bytes": 261150
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/086-wendy-gain-+3.337db.wav",
+      "sha256": "91cbfea4a78f08178301f71d7cae1e5dcd14cd9a89ad1f187d4e6f307e8350d5",
+      "category": "exact-sound-input",
+      "bytes": 218814
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/087-john-gain-+3.204db.wav",
+      "sha256": "9d1367fa52229e2a86fbc55640af17019402d5eb58f7590ebee92829edecb934",
+      "category": "exact-sound-input",
+      "bytes": 155310
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/088-wendy-gain-+6.289db.wav",
+      "sha256": "73f48e94266af21a4214dc43f2eaa3566627a4c5f1db7be35c61fb3212751468",
+      "category": "exact-sound-input",
+      "bytes": 324654
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/089-franklyn-gain-+1.123db.wav",
+      "sha256": "24dd2ad115188351fd69cb3ad9686c3a933927aa3db970d18c5c01e40c892d32",
+      "category": "exact-sound-input",
+      "bytes": 162366
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/090-enfant-gain-+8.445db.wav",
+      "sha256": "4ca1dca00ad4296208423d4cdd9a580c759a95a06205c695c2784da41969e25c",
+      "category": "exact-sound-input",
+      "bytes": 148254
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/091-grover-gain-+4.691db.wav",
+      "sha256": "fdd73f406986890040783c1b86f396922a136da68a38a3a75cb46126b7738e69",
+      "category": "exact-sound-input",
+      "bytes": 141198
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/092-john-gain-+3.146db.wav",
+      "sha256": "8f7be313807e251865e8b5920b055e0dc08fcf6928f8c0d8862c766a4864f90b",
+      "category": "exact-sound-input",
+      "bytes": 127086
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/093-john-gain--0.121db.wav",
+      "sha256": "1c9d01aa4eecd5152c9b1a6a5f0578d7e4121d832dd7eb83ca1620a0eb03125a",
+      "category": "exact-sound-input",
+      "bytes": 120030
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/094-grover-gain-+2.793db.wav",
+      "sha256": "271e91810049f41b1c35018aa48760b6b9b6b52b0a45e6f9a4e54ae35f76368f",
+      "category": "exact-sound-input",
+      "bytes": 211758
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/095-abigail-gain-+7.037db.wav",
+      "sha256": "11dd9522b3675d2643ac3fb5ef4bae412ba1f00f3e6c255162fb925928d32bb8",
+      "category": "exact-sound-input",
+      "bytes": 105918
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/096-wendy-gain-+6.781db.wav",
+      "sha256": "72d2a2ba9e2d32cb06268691eb536ca8e90cc0d8838c38665f67440dc33dca89",
+      "category": "exact-sound-input",
+      "bytes": 218814
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/097-grover-gain-+1.440db.wav",
+      "sha256": "92fbb13cc626a086ab3094061531b4b8f401f703fdeb465eadfad11e60337567",
+      "category": "exact-sound-input",
+      "bytes": 352878
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/098-wendy-gain-+4.795db.wav",
+      "sha256": "4eb1440793c24142a77939492e839a0b28d2b0d87551517f7489507fd71780e3",
+      "category": "exact-sound-input",
+      "bytes": 352878
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/099-grover-gain-+2.886db.wav",
+      "sha256": "63c59e7733d6b07c77e8039a1a419bc5fee885902f589941e1581cb58a44e249",
+      "category": "exact-sound-input",
+      "bytes": 155310
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-02/soundtrack-v1/report.json",
+      "sha256": "11ba62d55a1a0b325f7dbf3583dbe5d6ba936c1619a7ad050065d8828a9a47c7",
+      "category": "exact-sound-input",
+      "bytes": 28729
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-02/timing-r2-v1.json",
+      "sha256": "00b47b89cfa73474eda5e4f44ac84018679cd705913240018873c9d8ba969a55",
+      "category": "exact-sound-input",
+      "bytes": 38312
+    },
+    {
+      "file": "public/assets/audio/background/music-pressure.mp3",
+      "sha256": "562cd680e1dac3b71852c4561a1636f3d2115059a13bd371d8da4c3b0cc975ee",
+      "category": "exact-sound-input",
+      "bytes": 1095306
+    },
+    {
+      "file": "public/assets/audio/background/music-neon.mp3",
+      "sha256": "ca163a37fe61f5b03e668708bfa4b80f531144e6d9d93db976791f03d29cd0e6",
+      "category": "exact-sound-input",
+      "bytes": 1095306
+    },
+    {
+      "file": "public/assets/audio/background/music-afterglow.mp3",
+      "sha256": "b8785999f788a2f1d276a939cfdbbec9b0bec99070a5183104d1edbb2b7c70f9",
+      "category": "exact-sound-input",
+      "bytes": 1080886
+    },
+    {
+      "file": "public/assets/audio/background/ambience-night-city.mp3",
+      "sha256": "2c6950e8615a19b1561547a929e0dc42cedd694600b2b5508a34feef806d1c6e",
+      "category": "exact-sound-input",
+      "bytes": 176630
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/punch-wood.wav",
+      "sha256": "34e85a20735cc72b6b5baf4260afd29e71647938f0a2c4f7d24e3eeb2d81c235",
+      "category": "exact-sound-input",
+      "bytes": 352878
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/gun-glass.wav",
+      "sha256": "05dd34bdc70c4dde1b1269690d108d80106ed9701df5c4e9ba6e61d97c9a9bc3",
+      "category": "exact-sound-input",
+      "bytes": 529278
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/engine-start.wav",
+      "sha256": "f338830178b3b652b00dc297599b07b842b2f291057763bf4ae598c1142cee13",
+      "category": "exact-sound-input",
+      "bytes": 882078
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/rear-door.wav",
+      "sha256": "1fede818acb190e7fccf02c7725d97b5a882a87ba1dd247ac5b818d772407eb7",
+      "category": "exact-sound-input",
+      "bytes": 352878
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/footsteps.wav",
+      "sha256": "3177a55ad662008979c0611174e56da35673985b25d24fa89b10122bbb340310",
+      "category": "exact-sound-input",
+      "bytes": 705678
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/foley-local-v1/gate-latch.wav",
+      "sha256": "608ec950dfcd97efeae374bdd9c061cbfb928969f6112e027d7295c275fb2465",
+      "category": "exact-sound-input",
+      "bytes": 127052
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/foley-local-v1/lock-click.wav",
+      "sha256": "3dda628b72ce54e51cb1b297219481836b8f039d0c65317d6fabcc12142b4195",
+      "category": "exact-sound-input",
+      "bytes": 56492
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/foley-local-v1/car-door-close.wav",
+      "sha256": "b4109545cba9acd45eea81e933c73d8f6566ce8cb736b4f29761d6905a388817",
+      "category": "exact-sound-input",
+      "bytes": 114704
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/tire-departure.wav",
+      "sha256": "0ba925a1b91e3bc69eedf9f7924bcd98a8498b8e155dc6521a7accbcd32bd8a9",
+      "category": "exact-sound-input",
+      "bytes": 705678
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/24-john-gain-+3.2db.wav",
+      "sha256": "9425c4ec97bac745757046e7f9605caf5f10ef37f3e806780ab2654a7ff6b181",
+      "category": "exact-sound-input",
+      "bytes": 148254
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/16-wendy-cdc9a2eb5cf4.mp3",
+      "sha256": "88e6e1accd9254ffd1d8b33cb90b6247ecfa13ca302a1d43766a60779322c821",
+      "category": "exact-sound-input",
+      "bytes": 36823
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/25-john-gain--0.4db.wav",
+      "sha256": "5105deb2208a90ec83e8d3967bb9cf713fee49a1e38f98222668fe6a410946f2",
+      "category": "exact-sound-input",
+      "bytes": 120030
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/26-grover-26cbc3af691c.mp3",
+      "sha256": "362f704fdeaedfc520a13debc935e3707dc2f9103655a9ee308592d6b998aefa",
+      "category": "exact-sound-input",
+      "bytes": 28046
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/27-franklyn-65014b904364.mp3",
+      "sha256": "0e84b6615db39298c011ed24f280a516938ddb7458f3963ee4f6ec94d700d22b",
+      "category": "exact-sound-input",
+      "bytes": 28046
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/17-abigail-3d61c3f2b3fd.mp3",
+      "sha256": "dca4f22bfc949ca4ecd6425c7d9fc1c7a4d1b9ab4619307bf3edc000a919e80a",
+      "category": "exact-sound-input",
+      "bytes": 16343
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/28-john-c900ce4b8a69.mp3",
+      "sha256": "b2eb23ed08f6005910a95ffb466b54134293dba337005c91b46b8aa3dda0a1c1",
+      "category": "exact-sound-input",
+      "bytes": 24284
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/29-wendy-dbb700141231.mp3",
+      "sha256": "6295851244fe7acb65bcffa4625165b0b6a8a0d9d6d5617d9a35e64ffc2485b2",
+      "category": "exact-sound-input",
+      "bytes": 35569
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/18-wendy-39b9935a631d.mp3",
+      "sha256": "860ac26e736e362723f75c7cfa99383da170e4dac9a1aab1e93448899605ca60",
+      "category": "exact-sound-input",
+      "bytes": 67752
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/30-abigail-gain-+10.4db.wav",
+      "sha256": "ad60422921b4b2d03605fc0912e741898853cdbb5e64c3cfd6e876b39937b590",
+      "category": "exact-sound-input",
+      "bytes": 134142
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/31-grover-4b193abfb1e8.mp3",
+      "sha256": "ffe27d76229c00d7b74d770eb6d0efca62618775252c74620a260aab3ee6d816",
+      "category": "exact-sound-input",
+      "bytes": 29300
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/32-wendy-gain-+4.5db.wav",
+      "sha256": "46da3d8e68c89f0c4cff42652d8c0872949e2d2dcb3ed9cfe2591274e67288dd",
+      "category": "exact-sound-input",
+      "bytes": 169422
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/33-john-gain-+4.6db.wav",
+      "sha256": "b776a0f108996e35c1a14767851516902985f30f9f418ed3180d6c75ad116247",
+      "category": "exact-sound-input",
+      "bytes": 176478
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/19-wendy-d35d721ed22f.mp3",
+      "sha256": "e110f8e88ac25cb0127e99df9a4c0b45887cb188dc043027d356234c2e07c98d",
+      "category": "exact-sound-input",
+      "bytes": 43510
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/20-franklyn-33d59949d7fb.mp3",
+      "sha256": "0c8e5c76bd3f151a3e189f0416678473b13cdcb72dfbbbe9de0aa3d916c36a5f",
+      "category": "exact-sound-input",
+      "bytes": 25538
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/34-wendy-01cf70d183b9.mp3",
+      "sha256": "da42a74f849b37a309ea2805d93a7e9d5142f102e1bbf76c6cb668a06ee037b8",
+      "category": "exact-sound-input",
+      "bytes": 23030
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/35-franklyn-bf77cf2d9604.mp3",
+      "sha256": "95190bcff37c882c1287872db1ea831c12ea2da4f297778bced16739ed4513d1",
+      "category": "exact-sound-input",
+      "bytes": 30554
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/takes/36-franklyn-e4c20110b384.mp3",
+      "sha256": "229220a3be5f1256bffb1e67eaab28dfe9d5a90882cfb89ca0956d4dc489e7a5",
+      "category": "exact-sound-input",
+      "bytes": 34315
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/prepared/21-wendy-gain-plus-10db.wav",
+      "sha256": "b4e3c1fce7ab16501608f854927de8e7ea36e94a91f03e7eb65361d0d5e0029a",
+      "category": "exact-sound-input",
+      "bytes": 218814
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/prepared/22-enfant-gain-plus-10db.wav",
+      "sha256": "a686a8c094541f8f81d0c749a5043fea12731e5211360ce1e6f19612b80e3e67",
+      "category": "exact-sound-input",
+      "bytes": 176478
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/23-franklyn-e058958d3bb4.mp3",
+      "sha256": "0e92564591330dec7bcd457513f52b41997ceacff8198d896efd6d29d205e20f",
+      "category": "exact-sound-input",
+      "bytes": 29300
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/prepared/37-enfant-gain-+4.6db.wav",
+      "sha256": "00077584eb9b264f58a3a2d8a3cf6223ff649fd27b7840b2e9d9faaf080b0bea",
+      "category": "exact-sound-input",
+      "bytes": 211758
+    }
+  ]
+}

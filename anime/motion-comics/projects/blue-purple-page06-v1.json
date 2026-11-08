@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "HOLT — Blue Purple · page 6 · Par l'arrière",
+  "image": "../../../art-masters/motion-comics/blue-purple/page-06/page-v1.png",
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.6,
+  "outroSeconds": 2,
+  "panels": [
+    {
+      "id": "p06-c01",
+      "label": "Case 1 — Le poursuivant recule",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 4,
+      "cues": []
+    },
+    {
+      "id": "p06-c02",
+      "label": "Case 2 — Éviter les caméras",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 8,
+      "cues": [
+        {
+          "id": "bp-l018",
+          "globalLine": 18,
+          "speaker": "wendy",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/18-wendy-39b9935a631d.mp3",
+          "duration": 4.16,
+          "textFr": "Pas de foule. Les caméras nous retrouveraient. Par la ruelle.",
+          "textEn": "No crowds. The cameras will find us. Back alley.",
+          "ttsText": "[firm, controlled urgency] No crowds. [low, warning] The cameras will find us. [decisive] Back alley.",
+          "ttsModel": "eleven_v4",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-08/audio-v1/takes/18-wendy-39b9935a631d.json"
+        }
+      ]
+    },
+    {
+      "id": "p06-c03",
+      "label": "Case 3 — Par la ruelle",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 5,
+      "cues": []
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md — Le piège au bar ; Le parking et la fuite ; docs/anime/SCREENPLAY.md — S02-P01 à S02-P05, adaptation provisoire ; docs/anime/MOTION-COMICS-PAGES-05-08-ORCHESTRATOR.md ; docs/comics/blue-purple-motion/production/pages-01-04/revision-03/STORYBOARD.md",
+  "provenance": {
+    "contract": "docs\\comics\\blue-purple-motion\\production\\pages-05-08\\CONTRACTS.json",
+    "imageSha256": "4b37541744a437270eb44e4df7b88b45a865b5fa3c921a3932e7ea9cf2529363",
+    "candidateStage": "stage1",
+    "audio": "Prises Eleven v4 réellement mesurées et décodées ; voir AUDIO.md et journaux.",
+    "humanApproval": false,
+    "effects": "docs\\comics\\blue-purple-motion\\production\\pages-05-08\\effects-plans\\page-06.json",
+    "selectedFrom": "art-masters/motion-comics/blue-purple/pages-01-08/candidates-stage1-v1/page-06.json",
+    "review": "docs/comics/blue-purple-motion/production/pages-05-08/REVIEW.md",
+    "selection": "Sélection de fabrication après revue indépendante ; ne prétend pas à une écoute ou approbation humaine."
+  },
+  "effects": [
+    {
+      "type": "smoke",
+      "panelId": "p06-c01",
+      "rect": [
+        0.8125,
+        0.0078125,
+        0.166015625,
+        0.10807291666666667
+      ],
+      "count": 9,
+      "color": "#afabbc",
+      "strength": 0.64,
+      "speed": 0.75,
+      "direction": "up",
+      "phase": 1.1
+    },
+    {
+      "type": "hair",
+      "panelId": "p06-c02",
+      "rect": [
+        0.55078125,
+        0.4537760416666667,
+        0.173828125,
+        0.07096354166666667
+      ],
+      "amplitude": 8,
+      "frequency": 0.57,
+      "protect": [
+        [
+          0.6005859375,
+          0.50390625,
+          0.0947265625,
+          0.07356770833333333
+        ],
+        [
+          0.5908203125,
+          0.4166666666666667,
+          0.03515625,
+          0.044270833333333336
+        ]
+      ]
+    },
+    {
+      "type": "smoke",
+      "panelId": "p06-c03",
+      "rect": [
+        0.853515625,
+        0.671875,
+        0.130859375,
+        0.06901041666666667
+      ],
+      "count": 7,
+      "color": "#bfc1d0",
+      "strength": 0.65,
+      "speed": 1.1,
+      "direction": "right",
+      "phase": 0.8
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-pursuer",
+      "rect": [
+        0.5205078125,
+        0.0546875,
+        0.169921875,
+        0.197265625
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.130859375,
+        0.5501302083333334,
+        0.1103515625,
+        0.064453125
+      ]
+    },
+    {
+      "id": "c2-john-face",
+      "rect": [
+        0.2568359375,
+        0.5260416666666666,
+        0.0908203125,
+        0.072265625
+      ]
+    },
+    {
+      "id": "c2-john-hand",
+      "rect": [
+        0.296875,
+        0.5755208333333334,
+        0.0556640625,
+        0.04296875
+      ]
+    },
+    {
+      "id": "c2-wendy-face",
+      "rect": [
+        0.6005859375,
+        0.50390625,
+        0.0947265625,
+        0.07356770833333333
+      ]
+    },
+    {
+      "id": "c2-wendy-hand",
+      "rect": [
+        0.822265625,
+        0.5182291666666666,
+        0.08203125,
+        0.046875
+      ]
+    },
+    {
+      "id": "c2-franklyn-badge",
+      "rect": [
+        0.0322265625,
+        0.60546875,
+        0.05859375,
+        0.052083333333333336
+      ]
+    },
+    {
+      "id": "c2-john-badge",
+      "rect": [
+        0.2294921875,
+        0.6028645833333334,
+        0.041015625,
+        0.041666666666666664
+      ]
+    },
+    {
+      "id": "c3-all-six-silhouettes",
+      "rect": [
+        0.103515625,
+        0.71484375,
+        0.6611328125,
+        0.27734375
+      ]
+    },
+    {
+      "id": "balloon-wendy",
+      "rect": [
+        0.048828125,
+        0.3515625,
+        0.833984375,
+        0.078125
+      ]
+    },
+    {
+      "id": "tail-wendy",
+      "rect": [
+        0.5908203125,
+        0.4166666666666667,
+        0.03515625,
+        0.044270833333333336
+      ]
+    }
+  ],
+  "review": {
+    "sampleTime": 4.05,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 200,
+    "minimumLiveChangedPixels": 200,
+    "perPanelReview": [
+      {
+        "panelId": "p06-c01",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "sampleTime": 4.05
+      },
+      {
+        "panelId": "p06-c02",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "sampleTime": 8.899999999999999
+      },
+      {
+        "panelId": "p06-c03",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "sampleTime": 17.75
+      }
+    ]
+  }
+}

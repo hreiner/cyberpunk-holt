@@ -1,0 +1,225 @@
+{
+  "page": 3,
+  "title": "Les chiffres",
+  "source": "docs/chapters/ch3/SCENARIO.md — Les chiffres et la vision ; docs/anime/SCREENPLAY.md S01-P04 ; demande de révision du propriétaire transmise à la réalisation le 2026-11-05",
+  "panels": [
+    {
+      "id": "p03-c01",
+      "readingOrder": 1,
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "wendy",
+        "franklyn"
+      ],
+      "instant": "Wendy révèle le document pour la première fois.",
+      "setting": "Table de la salle attenante ; même lumière.",
+      "intention": "Faire passer l'attention de la dette à une piste incertaine.",
+      "expression": "Wendy doute mais propose ; Franklyn regarde le papier.",
+      "gesture": "Wendy dépose ou tient au ras de la table un document numéroté, une main entière et lisible.",
+      "gaze": "Wendy de papier vers Franklyn ; Franklyn vers document.",
+      "visibleAction": "Document révélé : groupes numériques partiels, sans carte ni coordonnée réelle complète.",
+      "framing": "Plan oblique rapproché mains-document, visage Wendy visible en bord de cadre pour attribution ; Franklyn en amorce.",
+      "lettering": "Bulle Wendy supérieure droite, papier central/bas entièrement dessiné sous le lettrage.",
+      "cues": [
+        {
+          "id": "bp-l010",
+          "globalLine": 10,
+          "speaker": "wendy",
+          "textFr": "C'est tout ce que j'ai. Je crois que c'est notre point de départ.",
+          "textEn": "This is all I have. I think it's where we start.",
+          "intention": "Prudente, puis petite impulsion vers l'action sans certitude."
+        }
+      ],
+      "minimumReadSeconds": 7,
+      "revisionAction": "Réutiliser bande01 sans nouvelle image ; aucune modification du texte."
+    },
+    {
+      "id": "p03-c02",
+      "readingOrder": 2,
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "franklyn"
+      ],
+      "instant": "Avant la vision pleinement formée : les chiffres saisissent Franklyn et le présent se fissure autour de lui.",
+      "setting": "Présent à la table traversé d'un reflet numérique abstrait.",
+      "intention": "Rendre le déclenchement perceptible par des éclairs animés autour de la tête, comme expérience intérieure.",
+      "expression": "Conserver expression et identité du visage source : regard fixe et bouche fermée déjà dessinés. Les éclairs autour de la tête traduisent le saisissement avant vision sans changer le dessin du visage.",
+      "gesture": "Mains hors cadre et posture du dessin source conservées ; aucune main ajoutée, aucun nouveau geste à la tempe avant vision.",
+      "gaze": "Fixé au-delà du document, ne répond déjà plus vraiment au présent.",
+      "visibleAction": "Courtes branches électriques cyan/blanches autour de la tête et au bord du cadre, confinées hors du visage. Elles apparaissent successivement, jamais comme électricité objective visible de tous.",
+      "framing": "Gros plan source conservé, mains hors cadre et visage intact ; exploiter le fond autour de la tête pour les éclairs locaux.",
+      "lettering": "Aucune bulle ni cartouche ; case muette.",
+      "cues": [],
+      "minimumReadSeconds": 4,
+      "animationIntention": {
+        "phase": "before-vision",
+        "requiredOperation": "Éclairs locaux à trajectoires déterministes, branches qui se dessinent/s’effacent à plusieurs instants distincts dans la case.",
+        "placement": "Fond autour du crâne, pas à travers les yeux, la bouche, les mains, les bulles ou la case voisine.",
+        "sourcePreparation": "Prévoir un fond propre autour de la tête, sans énorme éclair figé masquant le visage ; la couche animée est préparée séparément.",
+        "scope": "Nouveau traitement à implémenter et vérifier avant tout ajout de type dans un manifeste."
+      },
+      "revisionAction": "Réutiliser p03-bande02 source v1 ; éclairs autour du crâne en couche indépendante. Aucune édition image ni nouvelle dépense image pour cette case."
+    },
+    {
+      "id": "p03-c03",
+      "readingOrder": 3,
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "silhouette-elfique-anonyme"
+      ],
+      "instant": "Au cœur de la vision : le souvenir de simulation et les chiffres se recomposent en coordonnées entrevues.",
+      "setting": "Fragment de paysage elfique de la simulation traversé d’une grille spatiale, d’un réticule interrompu et de fragments numériques ; ce n’est pas le bar ni une vue actuelle de Night City.",
+      "intention": "Exprimer la reconnaissance d’un ancien système de coordonnées au moyen d’une minimap subjective incomplète, sans fournir de navigation réelle.",
+      "expression": "Pas de nouveau portrait ; silhouette elfique lointaine et anonyme sous les fragments.",
+      "gesture": "Aucun personnage n’actionne un écran ou une carte.",
+      "gaze": "Vue intérieure de Franklyn ; la minimap n’est pas partagée avec le groupe.",
+      "visibleAction": "Petit schéma de terrain/grille comme une minimap translucide qui s’assemble puis se fragmente : axes interrompus, chiffres incomplets, carrés et lambeaux numériques en couches. Rien de lisible comme une adresse ou une paire de coordonnées réelle.",
+      "framing": "Paysage original conservé comme mémoire sous-jacente ; mini-carte fragmentée en région explicite de la case, aucune bordure de carte ne déborde sur Franklyn ou les gouttières.",
+      "lettering": "Case muette sans bulle, nom de ville, destination, légende ni étiquette GPS.",
+      "cues": [],
+      "minimumReadSeconds": 6,
+      "animationIntention": {
+        "phase": "during-vision",
+        "requiredOperation": "Minimap subjective avec apparition de segments de grille, reticule discontinu et fragmentation numérique déterministe dans plusieurs sous-régions ; conserver le paysage sous-jacent identifiable.",
+        "prohibitions": [
+          "Aucun repère de position actuelle",
+          "Aucune route ni destination",
+          "Aucun plan lisible de Night City",
+          "Aucune coordonnée réelle complète",
+          "Aucune carte persistante hors de la vision"
+        ],
+        "sourcePreparation": "Garder source paysage clean, couche de grille/retiqule et fragments numériques séparables ou procéduraux ; pas de déformation incontrôlée du raster entier.",
+        "scope": "Traitement de vision local à implémenter avant utilisation ; il n’étend pas le canon."
+      },
+      "revisionAction": "Réutiliser p03-bande02 source v1 ; grille/minimap et fragmentation numérique en couches indépendantes préparées par animation, aucune nouvelle dépense image."
+    },
+    {
+      "id": "p03-c04",
+      "readingOrder": 4,
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "attire": "Identités, coiffures et tenues du master page1 ; enfant en civil sans écusson. Pas de nouvelle arme.",
+      "framed": [
+        "enfant",
+        "franklyn"
+      ],
+      "instant": "Après la vision : le décor revient, Franklyn demeure franchement sous le choc.",
+      "setting": "Table de la salle attenante clairement retrouvée ; document reste à plat.",
+      "intention": "L’enfant le ramène au présent, sans effacer les conséquences physiques et émotionnelles du flash.",
+      "expression": "Franklyn pâle dans l’éclairage, sueur fine à la tempe, yeux encore grands et mal focalisés, bouche entrouverte, sourcils tendus. Il ne retrouve pas un visage neutre. Enfant inquiet, vigilant.",
+      "gesture": "Une main de Franklyn reste contre sa tempe, l’autre cherche un appui sur la table ; buste légèrement reculé, tension du cou. L’enfant se penche sans le toucher.",
+      "gaze": "Franklyn tente de refixer l’enfant mais son regard arrive en retard ; enfant cherche ses yeux.",
+      "visibleAction": "La vision s’est éteinte, mais Franklyn est désorienté et reprend prise avec effort. L’enfant lui parle dans ce silence.",
+      "framing": "Plan à deux conservant toute la tête et le bras/main à la tempe de Franklyn ; document encore présent à plat, enfant civil distinct.",
+      "lettering": "Bulle de l’enfant au-dessus de lui, jamais au-dessus de Franklyn ; garder son visage et sa main à la tempe entièrement visibles.",
+      "cues": [
+        {
+          "id": "bp-l011",
+          "globalLine": 11,
+          "speaker": "enfant",
+          "textFr": "Franklyn ? Qu'est-ce qu'il y a ?",
+          "textEn": "Franklyn? What's wrong?",
+          "intention": "Petit appel d'abord prudent, puis inquiétude sincère sans crier."
+        }
+      ],
+      "minimumReadSeconds": 7,
+      "animationIntention": {
+        "phase": "after-vision",
+        "requiredOperation": "Aucun halo massif autour du visage ; laisser le dessin du choc porter l’après-vision. Éventuels fragments résiduels uniquement dans fond, faibles et non persistants.",
+        "scope": "Toute variante doit préserver yeux, bouche et bulle."
+      },
+      "revisionAction": "Éditer p03-bande03 entière pour choc de Franklyn ; texte enfant inchangé."
+    }
+  ],
+  "schemaVersion": 1,
+  "version": 3,
+  "status": "integrator-approved-for-production",
+  "dialogueStatus": "adaptation",
+  "pageSize": [
+    1024,
+    1536
+  ],
+  "previousContract": "docs/comics/blue-purple-motion/production/pages-01-04/contracts/page-03.json",
+  "revision": {
+    "date": "2026-11-05",
+    "reason": "Colère viscérale puis ralliement douloureux de Franklyn ; vision électrique et numérique subjective ; choc persistant après vision.",
+    "previousVersionPreserved": true,
+    "humanApprovalOfNewAssets": false
+  },
+  "productionApproval": {
+    "reviewer": "integrator",
+    "date": "2026-11-05",
+    "scope": "Storyboard et quatre contrats v3 après contre-revue indépendante et demande intégrale du propriétaire ; production de la révision autorisée.",
+    "humanApprovalOfNewAssets": false
+  }
+}

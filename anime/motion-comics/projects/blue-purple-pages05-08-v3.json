@@ -1,0 +1,39 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 3,
+  "title": "HOLT — Blue Purple · pages 5 à 8 · révision 1",
+  "pages": [
+    {
+      "id": "page-05",
+      "manifest": "blue-purple-page05-v3.json"
+    },
+    {
+      "id": "page-06",
+      "manifest": "blue-purple-page06-v3.json"
+    },
+    {
+      "id": "page-07",
+      "manifest": "blue-purple-page07-v3.json"
+    },
+    {
+      "id": "page-08",
+      "manifest": "blue-purple-page08-v3.json"
+    }
+  ],
+  "music": {
+    "audio": "../../../art-masters/motion-comics/blue-purple/pages-05-08/revision-01/soundtrack-v3/backing-pages05-08.wav",
+    "gain": 1,
+    "preMixed": true
+  },
+  "provenance": {
+    "contractSha256": "4f94e18d93cdfd6fe7b89865f81076d0b0cb5eca773be5b4da19a740826d81ac",
+    "timing": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/timing-r1-v5.json",
+    "soundtrack": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/soundtrack-v3/final-provenance.json",
+    "humanApproval": false,
+    "production": "docs/comics/blue-purple-motion/production/pages-05-08/revision-01/",
+    "retainedSelection": "blue-purple-pages01-04-v4.json",
+    "revision": "John frappe, 22 voix, bruitages et trois actions dessinées.",
+    "humanListeningApproval": false
+  }
+}

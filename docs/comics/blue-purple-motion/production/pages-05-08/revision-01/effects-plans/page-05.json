@@ -1,0 +1,393 @@
+{
+  "page": 5,
+  "version": 1,
+  "status": "revision-01-configured-awaiting-key-pose-review",
+  "sourceImage": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-05/page-v2.png",
+  "sourceSha256": "d0e5c6ac1377ac399578fcaa08abc99fa939515e8f8ca55196a3d78e097875b9",
+  "size": [
+    1024,
+    1536
+  ],
+  "effects": [
+    {
+      "type": "neon",
+      "panelId": "p05-c01",
+      "rect": [
+        0.76953125,
+        0.048177083333333336,
+        0.0927734375,
+        0.014973958333333334
+      ],
+      "color": "#d755ff",
+      "strength": 0.7,
+      "frequency": 0.85,
+      "phase": 2.38,
+      "softEdge": true
+    },
+    {
+      "type": "rain",
+      "panelId": "p05-c02",
+      "rect": [
+        0.25390625,
+        0.4134114583333333,
+        0.0751953125,
+        0.18098958333333334
+      ]
+    },
+    {
+      "type": "debris",
+      "panelId": "p05-c04",
+      "rect": [
+        0.7705078125,
+        0.74609375,
+        0.205078125,
+        0.2265625
+      ],
+      "count": 22,
+      "color": "#b7e7f7",
+      "strength": 0.7,
+      "clock": "story",
+      "startOffsetSeconds": 0.08,
+      "endOffsetSeconds": 2.2
+    },
+    {
+      "type": "rain",
+      "panelId": "p05-c04",
+      "rect": [
+        0.8056640625,
+        0.7317708333333334,
+        0.16796875,
+        0.103515625
+      ]
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-franklyn-face",
+      "rect": [
+        0.1142578125,
+        0.09440104166666667,
+        0.1416015625,
+        0.09309895833333333
+      ]
+    },
+    {
+      "id": "c1-franklyn-badge",
+      "rect": [
+        0.0263671875,
+        0.232421875,
+        0.083984375,
+        0.06901041666666667
+      ]
+    },
+    {
+      "id": "c1-wendy-face",
+      "rect": [
+        0.3212890625,
+        0.11197916666666667,
+        0.12109375,
+        0.08658854166666667
+      ]
+    },
+    {
+      "id": "c1-wendy-hand-paper",
+      "rect": [
+        0.3408203125,
+        0.224609375,
+        0.087890625,
+        0.059895833333333336
+      ]
+    },
+    {
+      "id": "c1-barman-head",
+      "rect": [
+        0.7109375,
+        0.06575520833333333,
+        0.0693359375,
+        0.057291666666666664
+      ]
+    },
+    {
+      "id": "c1-barman-hand-bat",
+      "rect": [
+        0.7880859375,
+        0.17057291666666666,
+        0.140625,
+        0.024739583333333332
+      ]
+    },
+    {
+      "id": "c2-wendy-face",
+      "rect": [
+        0.0986328125,
+        0.4680989583333333,
+        0.138671875,
+        0.09440104166666667
+      ]
+    },
+    {
+      "id": "c2-pursuer-head",
+      "rect": [
+        0.36328125,
+        0.4264322916666667,
+        0.068359375,
+        0.054036458333333336
+      ]
+    },
+    {
+      "id": "c2-pursuer-hand-weapon",
+      "rect": [
+        0.384765625,
+        0.5377604166666666,
+        0.0771484375,
+        0.039713541666666664
+      ]
+    },
+    {
+      "id": "c4-franklyn-face",
+      "rect": [
+        0.0732421875,
+        0.7486979166666666,
+        0.115234375,
+        0.07682291666666667
+      ]
+    },
+    {
+      "id": "c4-franklyn-hand",
+      "rect": [
+        0.0673828125,
+        0.8053385416666666,
+        0.0673828125,
+        0.044921875
+      ]
+    },
+    {
+      "id": "c4-child-face",
+      "rect": [
+        0.1357421875,
+        0.8470052083333334,
+        0.142578125,
+        0.07552083333333333
+      ]
+    },
+    {
+      "id": "c4-abigail-face",
+      "rect": [
+        0.3359375,
+        0.7838541666666666,
+        0.1318359375,
+        0.09765625
+      ]
+    },
+    {
+      "id": "c4-abigail-hand-child-shoulder",
+      "rect": [
+        0.2763671875,
+        0.892578125,
+        0.1083984375,
+        0.07096354166666667
+      ]
+    },
+    {
+      "id": "c4-abigail-badge",
+      "rect": [
+        0.4951171875,
+        0.8802083333333334,
+        0.0419921875,
+        0.051432291666666664
+      ]
+    },
+    {
+      "id": "balloon-1",
+      "rect": [
+        0.4716796875,
+        0.014322916666666666,
+        0.296875,
+        0.057291666666666664
+      ]
+    },
+    {
+      "id": "tail-1",
+      "rect": [
+        0.458984375,
+        0.006510416666666667,
+        0.056640625,
+        0.020182291666666668
+      ]
+    },
+    {
+      "id": "balloon-2",
+      "rect": [
+        0.02734375,
+        0.3463541666666667,
+        0.4453125,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "tail-2",
+      "rect": [
+        0.10546875,
+        0.3893229166666667,
+        0.0439453125,
+        0.024739583333333332
+      ]
+    },
+    {
+      "id": "balloon-3",
+      "rect": [
+        0.517578125,
+        0.34765625,
+        0.18359375,
+        0.044270833333333336
+      ]
+    },
+    {
+      "id": "tail-3",
+      "rect": [
+        0.66015625,
+        0.3821614583333333,
+        0.029296875,
+        0.050130208333333336
+      ]
+    },
+    {
+      "id": "balloon-4",
+      "rect": [
+        0.716796875,
+        0.34765625,
+        0.25390625,
+        0.044270833333333336
+      ]
+    },
+    {
+      "id": "tail-4",
+      "rect": [
+        0.953125,
+        0.3567708333333333,
+        0.03515625,
+        0.021484375
+      ]
+    },
+    {
+      "id": "balloon-5",
+      "rect": [
+        0.02734375,
+        0.6790364583333334,
+        0.296875,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "tail-5",
+      "rect": [
+        0.1220703125,
+        0.7213541666666666,
+        0.0302734375,
+        0.018880208333333332
+      ]
+    },
+    {
+      "id": "balloon-6",
+      "rect": [
+        0.349609375,
+        0.6809895833333334,
+        0.228515625,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "tail-6",
+      "rect": [
+        0.3984375,
+        0.7239583333333334,
+        0.03125,
+        0.037760416666666664
+      ]
+    }
+  ],
+  "review": {
+    "sampleTime": 2.2,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 250,
+    "minimumLiveChangedPixels": 200,
+    "perPanelReview": [
+      {
+        "panelId": "p05-c01",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200
+      },
+      {
+        "panelId": "p05-c02",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200
+      },
+      {
+        "panelId": "p05-c03",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "motionProofRequired": true
+      },
+      {
+        "panelId": "p05-c04",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200
+      }
+    ]
+  },
+  "eventReviews": [
+    {
+      "panelId": "p05-c04",
+      "effectType": "debris",
+      "beforeOffset": 0,
+      "duringOffset": 1.1,
+      "afterOffset": 2.5
+    }
+  ],
+  "reviewNotes": "Revision01 four selected drawn punch poses with corrected READY-v2 neon anchor; frame changes at page11.08/contact,11.20/recoil,11.52/down and KO held. Master is CONTACT/off. All old c3 dust/reflection and collective masks removed, no ambient movement required while gesture is paused. New six balloons/tails protected; c1 tube narrowed clear of new balloon24. Other drawings/media preserved.",
+  "motionBaseImage": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-05/page-raw-v2.png",
+  "letteringImage": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-05/lettering-v2.svg",
+  "lettering": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-05/lettering-v2.json",
+  "motionLayers": [
+    {
+      "id": "john-punch-four-poses",
+      "panelId": "p05-c03",
+      "mode": "frames",
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "startSeconds": 9.6,
+      "endSeconds": 15.6,
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-01-preparation-v2.png"
+        },
+        {
+          "atSeconds": 1.48,
+          "image": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-02-contact.png"
+        },
+        {
+          "atSeconds": 1.6,
+          "image": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-03-recoil.png"
+        },
+        {
+          "atSeconds": 1.92,
+          "image": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p05-c03-pose-04-down.png"
+        }
+      ],
+      "impact": {
+        "atSeconds": 1.48,
+        "durationSeconds": 0.12,
+        "amplitudePx": 4
+      }
+    }
+  ]
+}

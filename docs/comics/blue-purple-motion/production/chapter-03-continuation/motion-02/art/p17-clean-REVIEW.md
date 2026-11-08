@@ -1,0 +1,13 @@
+# Clean plate p17 — sélection pour animation
+
+GO : `art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/art/p17-clean-v2.png`, 1774×887. La sélection détaillée et son empreinte sont dans `p17-clean-SELECTION.json` ; le natif source de la bande est `comic-review-v5/assets/p17-c02.jpg` (SHA `0BE2B95EA9AAD4A73C4F5680A69928A9972194916FE48E03F9B3CFC1DB8A4F7D`).
+
+Le triptyque complet et la page17 retenue au format lecteur ont été ouverts. Retrait du flash canon et de la trajectoire dans la bande haute, du flash/éclats/fumée au poteau dans la bande médiane, puis de la fumée résiduelle dans la bande basse. La marque sombre d'impact de la bande basse est conservée conformément à la demande de motion_production ; pluie, néons et lampes permanentes restent visibles.
+
+Deux appels ImageGen built-in : un natif complet puis une correction sur crop de décor (1080,290,694,240). Le premier natif avait déplacé le petit garde-corps médian ; le premier assemblage est donc rejeté. La seconde génération reconstruit le décor local en préservant cet alignement. Pas d'appel supplémentaire ni de CLI/API de repli. Les prompts exacts, références avec empreintes, natifs et tentatives sont conservés. Coût et identifiants fournisseur inconnus.
+
+Le composite final SVG remploie les pixels de la source en dehors des zones FX. Les polygones noirs excluent les silhouettes et le garde-corps original, avec une marge autour des traits. Les petites étincelles hors du crop principal sont deux insertions locales explicitement décrites par le masque. La transformation du crop de décor natif2132×738 vers694×240 ne s'applique à aucun acteur. Le script de production final est `compose-p17-clean-v2.cjs` ; `compose-p17-clean.cjs` et `p17-clean.png` sont des essais refusés, à ne pas intégrer.
+
+Vérification Canvas : 1 033 390 pixels pleinement inclus dans les protections, zéro pixel RGB modifié dans ces zones. Le contrôle visuel porte sur l'image entière puis les agrandissements flash/trajectoire, poteau médian/main de Wendy et pied de poteau bas. Les chaînes de bras, mains et poses visibles restent celles de la source, conservées par le masque ; aucune nouvelle anatomie n'est inventée. L'image finale n'a plus le décroché de garde-corps du premier essai. Cette preuve de clean plate ne certifie pas encore l'animation déclenchée ni le mix final, à revoir dans le lecteur.
+
+Les trois détails `p17-clean-detail-{top,middle,lower}.png` servent à inspecter les zones. Le timing et les polygones de révélation sont gérés par motion_production : hautclean, flash+0,62s, impact+0,70s, bande basse+1,05s. Aucun manifeste sélectionné, aucune page retenue, aucun lettrage et aucune voix modifiés ici.

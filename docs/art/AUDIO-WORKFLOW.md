@@ -1,5 +1,13 @@
 # Produire et intégrer l'audio HOLT
 
+Pour les motion comics, les recettes ciblées sont désormais
+[voix et durées](../anime/motion-comics/VOICE.md) et
+[musique/SFX/mix](../anime/motion-comics/SOUND.md). Le contrôle du 6 novembre a montré
+qu'une crête correcte du fichier entier peut masquer un prélèvement presque silencieux :
+mesurer le segment réellement joué, son onset et son contraste dans le mix final,
+puis vérifier la chaîne effective mono/stéréo/AAC. Les normes du fond de jeu ci-dessous
+ne constituent pas des gains à recopier dans chaque film.
+
 Point d'entrée pour voix, musique, ambiances et bruitages. La direction de fond est dans
 [11-SOUND-DESIGN](../design/11-SOUND-DESIGN.md), les montages dans
 [CINEMATIC-SCENES](../process/CINEMATIC-SCENES.md). Partir du besoin sonore et de la scène ;
@@ -48,6 +56,13 @@ Les prompts alternatifs du manifeste ne sont **pas** la provenance des ambiances
 Voir [production du fond](audio-generation/README.md) et [revue](SOUND-PASS-REVIEW.md).
 Une erreur 401 appelle un diagnostic d'accès, pas une boucle de tentatives payantes.
 
+Constat du **5 novembre 2026** : la reprise motion comics pages 5–8 a effectivement
+produit six bruitages avec la CLI OAuth existante et `eleven_text_to_sound_v2`, pour
+20 secondes demandées, sans échec ni transfert de jeton. Le défaut 401 du 4 octobre
+ne s'applique donc pas à cette session. Prompts, requêtes, sorties et compteur :
+`docs/comics/blue-purple-motion/production/pages-05-08/revision-01/AUDIO.md` et
+`art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-takes/`.
+
 ## Voix : conduite, puis prise ciblée
 
 Les textes à l'écran restent français ; les VO cinématiques validées sont anglaises.
@@ -78,6 +93,17 @@ puis écouter : un tag peut être prononcé ou sonner faux. Ne pas deviner une v
 prénom : les deux George (narrateur et instructeur) ont des IDs différents.
 Conserver IDs/réglages dans les données. Une modification de texte nécessite la prise
 correspondante ; un réglage de volume/fondu ne nécessite pas de nouveau MP3.
+
+Pour les motion comics, suivre la [direction émotionnelle](../anime/MOTION-COMICS-VOICE-DIRECTION.md) :
+tags de jeu et réactions marqués, textes FR conservés et montage recalé sur les prises
+mesurées. La conduite Blue Purple sert d'exemple, avec tentatives séparées et comparaison.
+Après retour sur les quatre pages, réserver souffle, soupirs et déglutitions aux moments
+où ils servent le récit ; ne pas ajouter un bruit respiratoire automatiquement à chaque
+réplique. Garder les changements d'émotion et les temps de lecture malgré des voix plus courtes.
+Après comparaison écoutée le 5 novembre 2026, **Eleven v4 standard est retenu par défaut
+pour les nouvelles prises du studio motion comics**. Les scripts et prises v3 du jeu
+restent des références historiques distinctes. Le script `holt_anime.voice_take` accepte
+un choix explicite de modèle et transmet par défaut v4 avec stabilité 0,5 et similarité 0,8.
 
 ## Musique et ambiances
 

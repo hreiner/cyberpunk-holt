@@ -1,0 +1,346 @@
+{
+  "status": "completed",
+  "selection": {
+    "file": "anime/motion-comics/projects/blue-purple-pages01-21-v10.json",
+    "sha256": "d180993fd326d8d2640e1b11d4b4a09718a5fa96a8055efd62e4c717078301ce",
+    "duration": 584.3,
+    "entries": 22,
+    "voices": 99,
+    "timingRevision": 2
+  },
+  "checks": 68,
+  "sourceV9": {
+    "dependencies": 195,
+    "entryAlsoHashed": true,
+    "unchanged": true
+  },
+  "selectedDependencies": 317,
+  "engineFiles": 14,
+  "engineUnchanged": true,
+  "voices": {
+    "preserved": 99,
+    "prefixTakes": 37,
+    "accelerated": false
+  },
+  "prefixVisual": {
+    "duration": 238.60000000000002,
+    "samples": [
+      {
+        "id": "cover",
+        "index": 0,
+        "global": 5,
+        "local": 5,
+        "ambient": 23.456,
+        "changedPixels": 0,
+        "firstMismatch": null
+      },
+      {
+        "id": "page-01",
+        "index": 1,
+        "global": 15.95,
+        "local": 3.95,
+        "ambient": 23.826,
+        "changedPixels": 0,
+        "firstMismatch": null
+      },
+      {
+        "id": "page-02",
+        "index": 2,
+        "global": 50.35000000000001,
+        "local": 3.95,
+        "ambient": 24.195999999999998,
+        "changedPixels": 0,
+        "firstMismatch": null
+      },
+      {
+        "id": "page-03",
+        "index": 3,
+        "global": 107.05000000000001,
+        "local": 17.25,
+        "ambient": 24.566,
+        "changedPixels": 0,
+        "firstMismatch": null
+      },
+      {
+        "id": "page-04",
+        "index": 4,
+        "global": 125.15000000000002,
+        "local": 3.95,
+        "ambient": 24.936,
+        "changedPixels": 0,
+        "firstMismatch": null
+      },
+      {
+        "id": "page-05",
+        "index": 5,
+        "global": 167.90000000000003,
+        "local": 11.299999999999999,
+        "ambient": 25.306,
+        "changedPixels": 0,
+        "firstMismatch": null
+      },
+      {
+        "id": "page-06",
+        "index": 6,
+        "global": 191.20000000000002,
+        "local": 13.7,
+        "ambient": 25.676,
+        "changedPixels": 0,
+        "firstMismatch": null
+      },
+      {
+        "id": "page-07",
+        "index": 7,
+        "global": 211.3,
+        "local": 15.200000000000001,
+        "ambient": 26.046,
+        "changedPixels": 0,
+        "firstMismatch": null
+      },
+      {
+        "id": "page-08",
+        "index": 8,
+        "global": 234.40000000000003,
+        "local": 18.200000000000003,
+        "ambient": 26.416,
+        "changedPixels": 0,
+        "firstMismatch": null
+      }
+    ]
+  },
+  "boundaries": [
+    {
+      "id": "position",
+      "label": "before",
+      "global": 437.72499899999997,
+      "frame": 0,
+      "expected": 0
+    },
+    {
+      "id": "position",
+      "label": "exact",
+      "global": 437.72499999999997,
+      "frame": 1,
+      "expected": 1
+    },
+    {
+      "id": "position",
+      "label": "after",
+      "global": 437.72500099999996,
+      "frame": 1,
+      "expected": 1
+    },
+    {
+      "id": "unknown",
+      "label": "before",
+      "global": 438.124999,
+      "frame": 0,
+      "expected": 0
+    },
+    {
+      "id": "unknown",
+      "label": "exact",
+      "global": 438.125,
+      "frame": 1,
+      "expected": 1
+    },
+    {
+      "id": "unknown",
+      "label": "after",
+      "global": 438.125001,
+      "frame": 1,
+      "expected": 1
+    },
+    {
+      "id": "green",
+      "label": "before",
+      "global": 438.524999,
+      "frame": 0,
+      "expected": 0
+    },
+    {
+      "id": "green",
+      "label": "exact",
+      "global": 438.525,
+      "frame": 1,
+      "expected": 1
+    },
+    {
+      "id": "green",
+      "label": "after",
+      "global": 438.525001,
+      "frame": 1,
+      "expected": 1
+    },
+    {
+      "id": "oneShot",
+      "label": "before",
+      "global": 467.8533323333333,
+      "frame": 1,
+      "expected": 1
+    },
+    {
+      "id": "oneShot",
+      "label": "exact",
+      "global": 467.8533333333333,
+      "frame": 2,
+      "expected": 2
+    },
+    {
+      "id": "oneShot",
+      "label": "after",
+      "global": 467.8533343333333,
+      "frame": 2,
+      "expected": 2
+    },
+    {
+      "id": "metalImpact",
+      "label": "before",
+      "global": 467.93333233333334,
+      "frame": 2,
+      "expected": 2
+    },
+    {
+      "id": "metalImpact",
+      "label": "exact",
+      "global": 467.93333333333334,
+      "frame": 3,
+      "expected": 3
+    },
+    {
+      "id": "metalImpact",
+      "label": "after",
+      "global": 467.93333433333333,
+      "frame": 3,
+      "expected": 3
+    },
+    {
+      "id": "capsuleClosed",
+      "label": "before",
+      "global": 427.679999,
+      "frame": 1,
+      "expected": 1
+    },
+    {
+      "id": "capsuleClosed",
+      "label": "exact",
+      "global": 427.68,
+      "frame": 2,
+      "expected": 2
+    },
+    {
+      "id": "capsuleClosed",
+      "label": "after",
+      "global": 427.680001,
+      "frame": 2,
+      "expected": 2
+    },
+    {
+      "id": "waterSplash",
+      "label": "before",
+      "global": 550.8283323333333,
+      "frame": 5,
+      "expected": 5
+    },
+    {
+      "id": "waterSplash",
+      "label": "exact",
+      "global": 550.8283333333333,
+      "frame": 6,
+      "expected": 6
+    },
+    {
+      "id": "waterSplash",
+      "label": "after",
+      "global": 550.8283343333333,
+      "frame": 6,
+      "expected": 6
+    },
+    {
+      "id": "refugeDoorOpen",
+      "label": "before",
+      "global": 563.2916656666666,
+      "frame": 10,
+      "expected": 10
+    },
+    {
+      "id": "refugeDoorOpen",
+      "label": "exact",
+      "global": 563.2916666666666,
+      "frame": 11,
+      "expected": 11
+    },
+    {
+      "id": "refugeDoorOpen",
+      "label": "after",
+      "global": 563.2916676666666,
+      "frame": 11,
+      "expected": 11
+    },
+    {
+      "id": "residentConsequence",
+      "label": "before",
+      "global": 488.09999899999997,
+      "hiddenWrongPixels": 0
+    },
+    {
+      "id": "residentConsequence",
+      "label": "exact",
+      "global": 488.09999999999997,
+      "hiddenWrongPixels": 0
+    },
+    {
+      "id": "residentConsequence",
+      "label": "after",
+      "global": 488.10000099999996,
+      "hiddenWrongPixels": 0
+    }
+  ],
+  "lettersAndFutureCases": true,
+  "livePause": [
+    {
+      "id": "capsule",
+      "position": 427.3,
+      "ambientDelta": 0.6171000000000504,
+      "artStable": true
+    },
+    {
+      "id": "water",
+      "position": 550.55,
+      "ambientDelta": 0.5504000000005362,
+      "artStable": true
+    },
+    {
+      "id": "door",
+      "position": 562.4,
+      "ambientDelta": 0.5338000000004968,
+      "artStable": true
+    }
+  ],
+  "reports": [
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v1/REPORT.json",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v2/REPORT.json"
+  ],
+  "qaCorrection": {
+    "name": "ui-mobile-door fits viewport",
+    "reason": "The original selector included responsive display:none previous-page/next-page buttons. The original screenshot and measurements are retained. Recheck only visible controls; no viewport tolerance changed."
+  },
+  "opened": [
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v1/CONTACT-ACTIONS.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v1/ui-desktop-map.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v1/action-refugeDoorOpen-before.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v1/action-refugeDoorOpen-exact.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v1/action-waterSplash-before.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v1/action-waterSplash-exact.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v2/ui-mobile.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v2/ui-landscape.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v2/pause-water-after.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v2/pause-door-before.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/qa-global/integration-v2/pause-door-after.png"
+  ],
+  "limits": [
+    "Comparison of the prefix uses the same frozen current engine. Legacy shader compatibility is covered separately by the 43 runtime tests.",
+    "Media timing and mute/playback were checked; this QA contains no human listening approval.",
+    "No long video export was produced."
+  ]
+}

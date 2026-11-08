@@ -1,0 +1,15 @@
+{
+  "allocation": "1 correction reserve from lot-b reallocated by root",
+  "reference": {
+    "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/reference-user-night-city.jpg",
+    "sha256": "4BEAA2915D3303BA32F9BCD8891E545F49328ECEB8EF57CD5E1919ABCE069B0B"
+  },
+  "provider_id": null,
+  "provider": "image_gen built-in",
+  "initial_cap": 1,
+  "cost": null,
+  "prompt": "PROMPT-v2.txt",
+  "status": "generated; root geography review pending",
+  "output": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/map-native-v1.png",
+  "output_sha256": "A871EE6BA6FE00C0A125CA6B6790AD8272258F8367A31849B10EEDAE82D45B05"
+}

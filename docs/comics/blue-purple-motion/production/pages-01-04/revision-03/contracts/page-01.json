@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "version": 3,
+  "page": 1,
+  "title": "Wendy et les survivants",
+  "source": "docs/chapters/ch3/SCENARIO.md — Le Blue Purple : Wendy et Letitia ; manifeste sélectionné blue-purple-page01-v4-v1.json révision7",
+  "status": "integrator-approved-for-production",
+  "dialogueStatus": "existing-adaptation-lexically-preserved",
+  "pageSize": [
+    1024,
+    1536
+  ],
+  "master": "art-masters/motion-comics/blue-purple/page-01/page-v2.png",
+  "rasterLetteringException": true,
+  "revision": {
+    "date": "2026-11-05",
+    "reason": "Texte et image conservés ; nouvelle conduite vocale expressive sans respirations systématiques demandée par le propriétaire.",
+    "previousVersionPreserved": true,
+    "humanApprovalOfNewAssets": false
+  },
+  "panels": [
+    {
+      "id": "p01-c01",
+      "readingOrder": 1,
+      "rect": [
+        0.004,
+        0.004,
+        0.992,
+        0.347
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "framed": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "attire": "Master page-v2.png conservé, enfant civil.",
+      "setting": "Salle attenante du Blue Purple, même table et éclairage.",
+      "visibleAction": "Case 1 — Wendy",
+      "revisionAction": "Réutiliser master et lettrage raster inchangés ; voix reprise uniquement selon conduiteaudio validée, aucune génération image.",
+      "cues": [
+        {
+          "id": "bp-l001",
+          "globalLine": 1,
+          "speaker": "wendy",
+          "textFr": "Je m'appelle Wendy. On m'a envoyée si quelque chose tournait mal. Que s'est-il passé après HOLT ?",
+          "textEn": "I'm Wendy. I was sent in case something went wrong. Tell me what happened after HOLT.",
+          "intention": "Contact posé mais pressé, curiosité adressée ; émotions sans expiration systématique."
+        }
+      ]
+    },
+    {
+      "id": "p01-c02",
+      "readingOrder": 2,
+      "rect": [
+        0.004,
+        0.357,
+        0.448,
+        0.304
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "framed": [
+        "john"
+      ],
+      "attire": "Master page-v2.png conservé, enfant civil.",
+      "setting": "Salle attenante du Blue Purple, même table et éclairage.",
+      "visibleAction": "Case 2 — John",
+      "revisionAction": "Réutiliser master et lettrage raster inchangés ; voix reprise uniquement selon conduiteaudio validée, aucune génération image.",
+      "cues": [
+        {
+          "id": "bp-l002",
+          "globalLine": 2,
+          "speaker": "john",
+          "textFr": "On a fui. Ils ne nous ont pas lâchés.",
+          "textEn": "We ran. They kept coming.",
+          "intention": "Épuisement et souvenir amer de fuite, sans exhales/breathless plaqués."
+        }
+      ]
+    },
+    {
+      "id": "p01-c03",
+      "readingOrder": 3,
+      "rect": [
+        0.464,
+        0.357,
+        0.532,
+        0.304
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "framed": [
+        "wendy"
+      ],
+      "attire": "Master page-v2.png conservé, enfant civil.",
+      "setting": "Salle attenante du Blue Purple, même table et éclairage.",
+      "visibleAction": "Case 3 — Wendy",
+      "revisionAction": "Réutiliser master et lettrage raster inchangés ; voix reprise uniquement selon conduiteaudio validée, aucune génération image.",
+      "cues": [
+        {
+          "id": "bp-l003",
+          "globalLine": 3,
+          "speaker": "wendy",
+          "textFr": "L'Académie m'a envoyée en dernier recours. On vous traque. S'ils vous ont suivis, on n'a plus beaucoup de temps.",
+          "textEn": "The Academy sent me as a last resort. You're being hunted. If they followed you here, we don't have much time.",
+          "intention": "Urgence contenue et menace réelle, variations de voix sans respiration mécanique."
+        }
+      ]
+    },
+    {
+      "id": "p01-c04",
+      "readingOrder": 4,
+      "rect": [
+        0.004,
+        0.67,
+        0.992,
+        0.326
+      ],
+      "locationCharacters": [
+        "wendy",
+        "franklyn",
+        "john",
+        "abigail",
+        "grover",
+        "enfant"
+      ],
+      "absent": [
+        "letitia",
+        "zachary"
+      ],
+      "framed": [
+        "abigail"
+      ],
+      "attire": "Master page-v2.png conservé, enfant civil.",
+      "setting": "Salle attenante du Blue Purple, même table et éclairage.",
+      "visibleAction": "Case 4 — Abigail",
+      "revisionAction": "Réutiliser master et lettrage raster inchangés ; voix reprise uniquement selon conduiteaudio validée, aucune génération image.",
+      "cues": [
+        {
+          "id": "bp-l004",
+          "globalLine": 4,
+          "speaker": "abigail",
+          "textFr": "Letitia est chez un charcudoc. Il la retient là-bas.",
+          "textEn": "Letitia's at a ripperdoc. He's keeping her there.",
+          "intention": "Tristesse difficile puis colère contenue contre le charcudoc, émotion sans déglutition automatique."
+        }
+      ]
+    }
+  ],
+  "productionApproval": {
+    "reviewer": "integrator",
+    "date": "2026-11-05",
+    "scope": "Storyboard et quatre contrats v3 après contre-revue indépendante et demande intégrale du propriétaire ; production de la révision autorisée.",
+    "humanApprovalOfNewAssets": false
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "sourceSha256": "79f50aefd78a24cfcf2fb93a7b2cc059ad8b02e0f5696f596fc4d6a74daa3aa7",
+  "page17Duration": 10.902222222222223,
+  "anchors": [
+    {
+      "id": "elfLandscapeHeld",
+      "pageLocalSeconds": 0.93,
+      "chapterWithoutCoverSeconds": 353.57,
+      "withTwelveSecondCoverSeconds": 365.57
+    },
+    {
+      "id": "digitalDisassembly",
+      "pageLocalSeconds": 1.3800000000000001,
+      "chapterWithoutCoverSeconds": 354.02,
+      "withTwelveSecondCoverSeconds": 366.02
+    },
+    {
+      "id": "nightCityMapSettled",
+      "pageLocalSeconds": 2.43,
+      "chapterWithoutCoverSeconds": 355.07,
+      "withTwelveSecondCoverSeconds": 367.07
+    },
+    {
+      "id": "topBand",
+      "pageLocalSeconds": 4.07,
+      "chapterWithoutCoverSeconds": 372.96,
+      "withTwelveSecondCoverSeconds": 384.96
+    },
+    {
+      "id": "oneShot",
+      "pageLocalSeconds": 4.670000000000001,
+      "chapterWithoutCoverSeconds": 373.56,
+      "withTwelveSecondCoverSeconds": 385.56
+    },
+    {
+      "id": "metalImpact",
+      "pageLocalSeconds": 4.750000000000001,
+      "chapterWithoutCoverSeconds": 373.64,
+      "withTwelveSecondCoverSeconds": 385.64
+    },
+    {
+      "id": "impactAfterglow",
+      "pageLocalSeconds": 4.950000000000001,
+      "chapterWithoutCoverSeconds": 373.84,
+      "withTwelveSecondCoverSeconds": 385.84
+    },
+    {
+      "id": "coverBand",
+      "pageLocalSeconds": 5.1000000000000005,
+      "chapterWithoutCoverSeconds": 373.99,
+      "withTwelveSecondCoverSeconds": 385.99
+    },
+    {
+      "id": "wendyVoice",
+      "pageLocalSeconds": 5.130000000000001,
+      "chapterWithoutCoverSeconds": 374.02,
+      "withTwelveSecondCoverSeconds": 386.02
+    }
+  ]
+}

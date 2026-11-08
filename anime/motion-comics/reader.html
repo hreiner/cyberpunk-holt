@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#05070d" />
+    <title>HOLT · Comics en mouvement</title>
+    <link rel="preload" href="assets/holt-display.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/holt-text.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="reader.css" />
+  </head>
+  <body>
+    <main id="reader" aria-label="Lecteur de comics">
+      <canvas id="screen" width="1280" height="720" aria-label="Page de comics et case en cours"></canvas>
+      <header class="chrome masthead">
+        <div class="identity">
+          <span class="wordmark" aria-label="HOLT">HOLT<span aria-hidden="true">.</span></span>
+          <div class="story">
+            <h1 id="title">Comics en mouvement</h1>
+            <p>Voix anglaises, bulles françaises</p>
+          </div>
+        </div>
+        <button
+          id="pages-toggle"
+          class="pages-button"
+          aria-controls="pages-drawer"
+          aria-expanded="false"
+          disabled
+        >
+          <span class="button-icon" aria-hidden="true"></span><span id="page-label">Pages</span>
+        </button>
+      </header>
+      <div class="chrome transport">
+        <div class="reading-caption">
+          <span id="panel-label">Le récit vous attend</span><span id="clock">0:00 / 0:00</span>
+        </div>
+        <label class="sr-only" for="progress">Position de lecture</label
+        ><input id="progress" type="range" min="0" max="1" value="0" step="0.01" disabled />
+        <nav class="controls" aria-label="Commandes de lecture">
+          <div class="control-group navigation">
+            <button
+              id="previous-page"
+              class="icon-button"
+              aria-label="Page précédente"
+              title="Page précédente"
+              disabled
+            ></button>
+            <button
+              id="previous"
+              class="icon-button"
+              aria-label="Case précédente"
+              title="Case précédente (flèche gauche)"
+              disabled
+            ></button>
+            <button id="play" class="play-button" disabled>Lire</button>
+            <button
+              id="next"
+              class="icon-button"
+              aria-label="Case suivante"
+              title="Case suivante (flèche droite)"
+              disabled
+            ></button>
+            <button
+              id="next-page"
+              class="icon-button"
+              aria-label="Page suivante"
+              title="Page suivante"
+              disabled
+            ></button>
+          </div>
+          <div class="control-group settings">
+            <button id="overview" class="labeled-button" title="Vue page" disabled>Vue page</button>
+            <button
+              id="effects"
+              class="icon-button"
+              aria-pressed="false"
+              title="Animations"
+              disabled
+            ></button>
+            <button
+              id="mute"
+              class="icon-button"
+              aria-pressed="false"
+              title="Couper le son (M)"
+              disabled
+            ></button>
+            <button id="fullscreen" class="icon-button" title="Plein écran (F)" disabled></button>
+          </div>
+        </nav>
+        <p id="status" role="status">Chargement du récit…</p>
+      </div>
+      <p id="error" role="alert"></p>
+      <dialog id="pages-drawer" aria-labelledby="pages-heading">
+        <header class="drawer-heading">
+          <div>
+            <h2 id="pages-heading">Les pages</h2>
+            <p>Choisissez où reprendre le récit.</p>
+          </div>
+          <button
+            id="close-pages"
+            class="icon-button"
+            aria-label="Fermer les pages"
+            title="Fermer les pages"
+          ></button>
+        </header>
+        <div id="page-list" class="page-list"></div>
+      </dialog>
+    </main>
+    <script src="core.js"></script>
+    <script src="sequence.js"></script>
+    <script src="effects.js"></script>
+    <script src="layers.js"></script>
+    <script src="reader.js"></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "HOLT — Blue Purple · couverture",
+  "pages": [
+    {
+      "id": "cover",
+      "manifest": "blue-purple-cover-v1.json"
+    }
+  ],
+  "music": {
+    "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/sound/cover-v1/cover-backing.wav",
+    "gain": 1,
+    "preMixed": true
+  }
+}

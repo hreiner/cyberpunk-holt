@@ -1,0 +1,147 @@
+{
+  "status": "frozen",
+  "clock": "full chapter including 12-second cover",
+  "timingRevision": 2,
+  "timingSha256": "6abefd967dee6b9b1a0b3c85d54c85fbf1d5ffbe8bc12294f5fc774fbea2a091",
+  "helperSha256": "3be9fc416a225e9ef42fc398a735218fcc2ead1bf4c3bf5cb6ea82203ec70624",
+  "sourceSha256": "0b8684a4a97f82bf73fc0c0f2446c4f4868c4e4cec4b0fec6f515cc119269e93",
+  "duration": 584.3,
+  "anchors": [
+    {
+      "id": "residentContact",
+      "page": 18,
+      "panelKey": "18-1",
+      "localSeconds": 9.878333333333334,
+      "globalSeconds": 487.91999999999996,
+      "intention": "Contact dessiné tenu après les deux répliques, puis coupe vers conséquence."
+    },
+    {
+      "id": "residentConsequence",
+      "page": 18,
+      "panelKey": "18-after",
+      "localSeconds": 10.058333333333334,
+      "globalSeconds": 488.09999999999997,
+      "intention": "Révélation franche du dessin existant, sans chute corporelle inventée."
+    },
+    {
+      "id": "boltStart",
+      "page": 18,
+      "panelKey": "18-2",
+      "localSeconds": 14.766666666666667,
+      "globalSeconds": 492.8083333333333,
+      "intention": "Le seul pêne libre glisse ; les doigts restent exacts."
+    },
+    {
+      "id": "boltClosed",
+      "page": 18,
+      "panelKey": "18-2",
+      "localSeconds": 15.316666666666666,
+      "globalSeconds": 493.3583333333333,
+      "intention": "Pêne dans son logement, clic unique."
+    },
+    {
+      "id": "quietFloorSweep",
+      "page": 18,
+      "panelKey": "18-3",
+      "localSeconds": 24.01666666666667,
+      "globalSeconds": 502.0583333333333,
+      "intention": "Reflet unique au sol puis silence visuel."
+    },
+    {
+      "id": "doorSlitLight",
+      "page": 19,
+      "panelKey": "19-1",
+      "localSeconds": 3.0500000000000003,
+      "globalSeconds": 511.9083333333333,
+      "intention": "Lumière de fente seulement, aucune ouverture supplémentaire."
+    },
+    {
+      "id": "elevatorReturn",
+      "page": 19,
+      "panelKey": "19-2",
+      "localSeconds": 11.2,
+      "globalSeconds": 520.0583333333333,
+      "intention": "Reflets lents puis arrêt."
+    },
+    {
+      "id": "greenPointPulse",
+      "page": 19,
+      "panelKey": "19-3",
+      "localSeconds": 19.8,
+      "globalSeconds": 528.6583333333333,
+      "intention": "Unique pulsation du point existant."
+    },
+    {
+      "id": "waterThrowRelease",
+      "page": 20,
+      "panelKey": "20-3",
+      "localSeconds": 14.899999999999999,
+      "globalSeconds": 550.3083333333333,
+      "intention": "Révélation du plan puis chute gravitaire immédiate, sans tenue flottante."
+    },
+    {
+      "id": "waterSplash",
+      "page": 20,
+      "panelKey": "20-3",
+      "localSeconds": 15.419999999999998,
+      "globalSeconds": 550.8283333333333,
+      "intention": "Franchissement du plan d’eau, plouf unique, écume."
+    },
+    {
+      "id": "waterSubmerged",
+      "page": 20,
+      "panelKey": "20-3",
+      "localSeconds": 15.86,
+      "globalSeconds": 551.2683333333333,
+      "intention": "Toute la silhouette est passée sous le plan d’eau."
+    },
+    {
+      "id": "waterRecovery",
+      "page": 20,
+      "panelKey": "20-3",
+      "localSeconds": 16.599999999999998,
+      "globalSeconds": 552.0083333333333,
+      "intention": "Écume retombée, eau seule tenue."
+    },
+    {
+      "id": "refugeLatchStart",
+      "page": 21,
+      "panelKey": "21-1",
+      "localSeconds": 3.55,
+      "globalSeconds": 561.3416666666666,
+      "intention": "Déclic avant la question d’Abigail, aucun dispositif nouveau."
+    },
+    {
+      "id": "refugeDoorOpeningStart",
+      "page": 21,
+      "panelKey": "21-1",
+      "localSeconds": 3.95,
+      "globalSeconds": 561.7416666666667,
+      "intention": "Deux battants commencent leur rotation vers la pièce vide."
+    },
+    {
+      "id": "refugeDoorOpen",
+      "page": 21,
+      "panelKey": "21-1",
+      "localSeconds": 5.5,
+      "globalSeconds": 563.2916666666666,
+      "intention": "Deux battants ouverts et tenus."
+    },
+    {
+      "id": "emptyRoom",
+      "page": 21,
+      "panelKey": "21-2",
+      "localSeconds": 10.7,
+      "globalSeconds": 568.4916666666667,
+      "intention": "Volume vide, poussières et goutte discrètes."
+    },
+    {
+      "id": "finalIndicatorOff",
+      "page": 21,
+      "panelKey": "21-3",
+      "localSeconds": 22.175,
+      "globalSeconds": 579.9666666666666,
+      "intention": "Extinction pendant la dernière réplique de Grover."
+    }
+  ]
+}

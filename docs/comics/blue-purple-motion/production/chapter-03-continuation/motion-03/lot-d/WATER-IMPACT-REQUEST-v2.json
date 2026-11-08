@@ -1,0 +1,11 @@
+{
+  "status": "recorded-before-submission",
+  "id": "water-impact-v2",
+  "correction": 1,
+  "observedDefect": "The first native vector crown has straight triangles and does not match the comic water style.",
+  "prompt": "Use case: precise-object-edit. Targeted correction for a production water-impact effect. Keep this exact single wide 1774x887 cyberpunk Edgerunners-style comic frame, camera, perspective, all six people on the LEFT quay, concrete dock edge, stairs, lights, fences, rain and skyline perfectly aligned. Add ONE realistic powerful heavy-body WATER IMPACT on the water at lower right: impact center x=1380,y=760 in the 1774x887 reference, broad white/cyan curved foam crown, translucent irregular sheets of water and many fine falling droplets. Its highest spray may rise to y=610 and the overall crown spans approximately x=1190 to1640, rooted into the real dark harbor surface. Match the original comic's precise organic splash drawing and strong ink/cel shading: uneven curved water tendrils, thin white foam edges and blue translucent depths, NOT a geometric zigzag crown or large opaque white triangles. Nobody is visible in the splash or water. No homeless man, silhouette, body, limbs or new person anywhere. Existing six people on the quay stay fixed. No blood, no gore, no new event, no second splash, no letters or border. The clean background is the edit target; only one water impact is added. Return the same 2:1 wide landscape composition so the splash can be composed locally over the clean plate.",
+  "reference": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/references/water-clean-v1.jpg",
+  "referenceSha256": "96638da5722fd3057db3d7e79ea95e911288418969160588dca9e6719457561a",
+  "tool": "built-in image_gen",
+  "destination": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-d/native/water-impact-v2.png"
+}

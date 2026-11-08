@@ -1,0 +1,333 @@
+{
+  "09-1": [
+    {
+      "speaker": "Grover",
+      "text": "Je garde un œil sur la rue. Fais vite."
+    },
+    {
+      "speaker": "Wendy",
+      "text": "Les autres restent dans la voiture."
+    }
+  ],
+  "09-2": [
+    {
+      "text": " Voilà… un mégabuilding. ",
+      "speaker": "Franklyn"
+    }
+  ],
+  "09-3": [
+    {
+      "text": " On a une direction. Ça suffit pour avancer. ",
+      "speaker": "Grover"
+    }
+  ],
+  "10-1": [
+    {
+      "text": " Tout ça, c'est un seul bâtiment ? ",
+      "speaker": "Enfant"
+    }
+  ],
+  "10-2": [
+    {
+      "speaker": "Wendy",
+      "text": "Regardez ces ascenseurs : cinquante personnes par cabine."
+    },
+    {
+      "speaker": "Grover",
+      "text": "Et des caméras à chaque porte."
+    }
+  ],
+  "10-3": [
+    {
+      "speaker": "Wendy",
+      "text": "S’ils nous voient là-dedans, ils nous retrouveront."
+    },
+    {
+      "speaker": "Grover",
+      "text": "Reste avec moi. On va trouver un autre passage."
+    }
+  ],
+  "11-1": [
+    {
+      "speaker": "Grover",
+      "text": "Une entrée de service. Moins de monde."
+    },
+    {
+      "speaker": "Wendy",
+      "text": "Allons voir ce qu’ils demandent."
+    }
+  ],
+  "11-2": [
+    {
+      "speaker": "Wendy",
+      "text": "Ce tarif, c’est pour six personnes ou pour nous dépouiller ?"
+    }
+  ],
+  "12-1": [
+    {
+      "speaker": "Grover",
+      "text": "Et une chambre ? On entrerait avec les résidents."
+    },
+    {
+      "speaker": "Wendy",
+      "text": "Une chambre… Ça peut marcher."
+    }
+  ],
+  "12-2": [
+    {
+      "speaker": "Wendy",
+      "text": "Je réserve une chambre par mon implant. Ce sera plus discret."
+    }
+  ],
+  "12-3": [
+    {
+      "speaker": "Enfant",
+      "text": "On reste ensemble ?"
+    },
+    {
+      "speaker": "Grover",
+      "text": "Toujours. Reste près de moi."
+    }
+  ],
+  "13-1": [
+    {
+      "speaker": "Franklyn",
+      "text": "Ça change quand on monte."
+    },
+    {
+      "speaker": "Wendy",
+      "text": "Tu sens la direction ?"
+    }
+  ],
+  "13-2": [
+    {
+      "text": " On essaie un étage à la fois. Personne ne part seul. ",
+      "speaker": "Grover"
+    }
+  ],
+  "13-3": [
+    {
+      "speaker": "Franklyn",
+      "text": "Là. La boutique avec les lumières."
+    },
+    {
+      "speaker": "Abigail",
+      "text": "Alors c’est peut-être là-dedans."
+    }
+  ],
+  "14-1": [
+    {
+      "text": " Des danses sensorielles. On regarde, on ne touche à rien. ",
+      "speaker": "Wendy"
+    }
+  ],
+  "14-2": [
+    {
+      "speaker": "Abigail",
+      "text": "Celle-là n’est pas comme les autres."
+    },
+    {
+      "speaker": "Franklyn",
+      "text": "Je crois que je peux m’en servir."
+    }
+  ],
+  "14-3": [
+    {
+      "speaker": "Wendy",
+      "text": "On peut regarder cette vieille machine ?"
+    },
+    {
+      "speaker": "Vendeur",
+      "text": "Si vous arrivez à la faire démarrer."
+    }
+  ],
+  "15-1": [
+    {
+      "speaker": "Abigail",
+      "text": "Le contact est desserré. Franklyn, tiens le panneau."
+    }
+  ],
+  "15-2": [
+    {
+      "speaker": "Franklyn",
+      "text": "Comme ça ?"
+    },
+    {
+      "speaker": "Abigail",
+      "text": "Oui. Je rebranche le contact."
+    }
+  ],
+  "15-3": [
+    {
+      "speaker": "Franklyn",
+      "text": "Je ferme la capsule. Laissez-moi essayer."
+    },
+    {
+      "speaker": "Grover",
+      "text": "Je reste avec toi."
+    }
+  ],
+  "16-1": [
+    {
+      "speaker": "Franklyn",
+      "text": "Je reconnais cet endroit…"
+    }
+  ],
+  "16-2": [
+    {
+      "speaker": "Franklyn",
+      "text": "Ça revient… Je comprends maintenant."
+    }
+  ],
+  "16-3": [
+    {
+      "speaker": "Franklyn",
+      "text": "J’ai accès à une carte. Je vois HOLT, notre position et d’autres points. Il y en a un vert."
+    }
+  ],
+  "17-1": [
+    {
+      "text": " Wendy… à l'autre bout. ",
+      "speaker": "Abigail"
+    }
+  ],
+  "17-2": [
+    {
+      "text": " À couvert ! ",
+      "speaker": "Wendy"
+    }
+  ],
+  "17-3": [
+    {
+      "text": " Par ici ! Ne vous séparez pas ! ",
+      "speaker": "Grover"
+    }
+  ],
+  "18-1": [
+    {
+      "speaker": "Habitante",
+      "text": "Qu’est-ce que vous faites ?"
+    },
+    {
+      "speaker": "John",
+      "text": "Pardon… On n’a pas le choix."
+    }
+  ],
+  "18-2": [
+    {
+      "speaker": "Enfant",
+      "text": "Elle va se réveiller ?"
+    },
+    {
+      "speaker": "John",
+      "text": "Oui. Il fallait qu’on disparaisse."
+    },
+    {
+      "speaker": "Grover",
+      "text": "Reste près de moi."
+    }
+  ],
+  "18-3": [
+    {
+      "speaker": "Abigail",
+      "text": "Ils passent… Attendez encore."
+    }
+  ],
+  "19-1": [
+    {
+      "speaker": "Grover",
+      "text": "Le couloir est vide. Pour le moment."
+    },
+    {
+      "speaker": "Wendy",
+      "text": "On reprend l’ascenseur des résidents."
+    }
+  ],
+  "19-2": [
+    {
+      "speaker": "John",
+      "text": "Ils ont perdu notre trace ?"
+    },
+    {
+      "speaker": "Wendy",
+      "text": "Pour l’instant. Ne leur donnons pas une seconde chance."
+    }
+  ],
+  "19-3": [
+    {
+      "text": " Le point vert est par là. ",
+      "speaker": "Franklyn"
+    }
+  ],
+  "20-1": [
+    {
+      "speaker": "Enfant",
+      "text": "Ça sent quoi ?"
+    },
+    {
+      "speaker": "Grover",
+      "text": "Reste près de moi."
+    }
+  ],
+  "20-2": [
+    {
+      "speaker": "John",
+      "text": "Reculez."
+    }
+  ],
+  "20-3": [
+    {
+      "speaker": "John",
+      "text": "On avance."
+    },
+    {
+      "speaker": "Grover",
+      "text": "Ne regarde pas. Viens."
+    }
+  ],
+  "21-1": [
+    {
+      "speaker": "Abigail",
+      "text": "Vous avez entendu ?"
+    },
+    {
+      "speaker": "Wendy",
+      "text": "Attendez. La porte s’ouvre."
+    }
+  ],
+  "21-2": [
+    {
+      "speaker": "Grover",
+      "text": "C’est vide… mais on peut se mettre à l’abri."
+    }
+  ],
+  "18-after": [],
+  "10-2-detail": [],
+  "13-2-detail": [],
+  "21-3": [
+    {
+      "speaker": "Wendy",
+      "text": "On se pose ici. Juste le temps de comprendre."
+    },
+    {
+      "speaker": "Grover",
+      "text": "Je reste avec lui."
+    }
+  ],
+  "11-3a": [
+    {
+      "speaker": "John",
+      "text": "On peut les écarter. On y va en force."
+    }
+  ],
+  "11-3b": [
+    {
+      "speaker": "Abigail",
+      "text": "Ils sont plus nombreux, John. On se ferait repérer."
+    },
+    {
+      "speaker": "John",
+      "text": "… D’accord. On cherche autre chose."
+    }
+  ]
+}

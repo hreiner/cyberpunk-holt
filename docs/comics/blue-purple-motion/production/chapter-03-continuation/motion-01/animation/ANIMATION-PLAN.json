@@ -1,0 +1,1936 @@
+{
+  "schemaVersion": 1,
+  "status": "prepared-awaiting-final-timing-and-integrated-proof",
+  "coordinateSpace": "renderedPanelInteriorNormalized",
+  "sourceRevision": "revision-05 approved",
+  "clockConvention": "Root résout les ancres par rapport à holdStart = début après transition. Les effets ambient établis sont permis en vue page ; les événements story sont gated.",
+  "assembly": "Transposer rects/protect des effets/protectedRegions vers la page ; poser le lettrage approuvé par-dessus. Retirer les champs startAnchor/durationSeconds/offsetSeconds de la donnée runtime après résolution.",
+  "referenceMethods": [
+    "pages-05-08 v5 : rigidité anatomique, effets de matière locaux, lettres en dernier",
+    "prototype motion-design-v2 : anticipation/accent/récupération/tenue, aucune durée muette imposée aux voix"
+  ],
+  "availableDrawnStates": {
+    "18-1": [
+      "p18-c01.jpg",
+      "p18-c01-after.jpg"
+    ],
+    "17-2": "Trois sous-bandes déjà dessinées dans une image ; ne pas générer un tir neuf.",
+    "20-2→20-3": "Contact puis issue dans deux cases distinctes ; ellipse comics conservée.",
+    "15-3→16-1→16-2": "Capsule ouverte, vision interne, capsule fermée ; ne pas inventer un pivot 2D de coque."
+  },
+  "sourceHashes": {
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-9.png": "14548bbe3fc92a7054164d19dd4a5bbbc0e0b136b278af508dcd15e7e956265a",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-10.png": "c062d62fee2736740fe5b2c11b71a13321809e555aea174c0187d18e5277c16e",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-11.png": "2127a27a7162364332810a81e5961298454dc16257e7ec715e3df605bda570e6",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-12.png": "0da73364828de8a355686138839cca856872eac15f9c6236a8111e8de94636ee",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-13.png": "bae6dbe3298b5e4ead1fcbf7f7a7d0c068f3dad9d6c7317090d8a1b87460e3b5",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-14.png": "7cd91ae7936e7990f9516f7db0f899b1a7946165065d3e45da4b219d53132786",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-15.png": "ef153422c6a3794a1934137364e9654f8e329205844cecf2584f75ace1b988d4",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-16.png": "cb57cdfc5278ab7f7512b01600e274bc89bd527792a080220a5ac653e123344d",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-17.png": "bbfc7656ef6e385b7a0a4ebf59c96b140ee41ca4b381b30cee08ed1d1f3dc3f0",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-18.png": "85781ff815e0a379d0b7b943e197a1afb8f19bcb35a0a9c2ccf583733035ea7b",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-19.png": "dde0886287785a17abb6e9ffd0a0a8f806ff61c11cc292f373e9bc619721b3e1",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-20.png": "918191f0dfc734060558f92edbf900734d4decbbe373cacfcf0b3c8f7f27eb08",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-21.png": "ed78914f1ffa0088f4d044d9b92d177b00a38abdd5d763feeaacc79387e4c9a0"
+  },
+  "panels": [
+    {
+      "key": "09-1",
+      "page": 9,
+      "focus": "Grover surveille, Franklyn consulte la borne",
+      "intention": "Pluie visible dans la rue libre entre les personnages ; voiture fixe.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.46,
+            0.53,
+            0.25,
+            0.42
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.08,
+            0.12,
+            0.19,
+            0.84
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.28,
+            0.12,
+            0.18,
+            0.83
+          ]
+        },
+        {
+          "id": "rigid-3",
+          "rect": [
+            0.72,
+            0.02,
+            0.28,
+            0.98
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-9.png",
+        "notes": "Aucune pluie ajoutée sur mains ou bulles."
+      }
+    },
+    {
+      "key": "09-2",
+      "page": 9,
+      "focus": "La carte dans le véritable écran",
+      "intention": "Reflet cyan local sur la cible déjà dessinée ; aucune carte flottante ajoutée.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.4,
+            0.23,
+            0.15,
+            0.2
+          ],
+          "color": "#5cf4ff",
+          "strength": 0.53,
+          "frequency": 0.7,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.43,
+            0.63,
+            0.57,
+            0.37
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "id": "terminalMap",
+          "at": "holdStart",
+          "offsetSeconds": 0.45
+        }
+      ],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-9.png",
+        "notes": "Maintenir forme et perspective de l’écran, doigts intacts."
+      }
+    },
+    {
+      "key": "09-3",
+      "page": 9,
+      "focus": "Grover propose la direction",
+      "intention": "Pluie de fond dans la rue visible derrière sa main ; gestes fixes pendant la réplique.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.58,
+            0.48,
+            0.11,
+            0.13
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.08,
+            0.14,
+            0.23,
+            0.86
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.31,
+            0.1,
+            0.3,
+            0.9
+          ]
+        },
+        {
+          "id": "rigid-3",
+          "rect": [
+            0.7,
+            0.01,
+            0.3,
+            0.99
+          ]
+        },
+        {
+          "id": "rigid-4",
+          "rect": [
+            0.44,
+            0.63,
+            0.37,
+            0.32
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-9.png",
+        "notes": "Ne pas faire onduler toute la coiffure ; doigts de Grover protégés séparément."
+      }
+    },
+    {
+      "key": "10-1",
+      "page": 10,
+      "focus": "L’échelle du mégabuilding",
+      "intention": "Pluie sur les volumes supérieurs ; silhouette du véhicule et ombre restent fixes.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.32,
+            0.015,
+            0.35,
+            0.56
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.62,
+            0.55,
+            0.35,
+            0.36
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-10.png",
+        "notes": "Protéger aussi la bulle basse."
+      }
+    },
+    {
+      "key": "10-2",
+      "page": 10,
+      "focus": "Ascenseurs bondés et surveillance",
+      "intention": "Reflets humides sous les portes, respiration cyan discrète issue du hall.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.54,
+            0.74,
+            0.2,
+            0.22
+          ],
+          "color": "#46d9ff",
+          "strength": 0.4,
+          "frequency": 0.42,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.03,
+            0.33,
+            0.47,
+            0.62
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.77,
+            0.12,
+            0.23,
+            0.88
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-10.png",
+        "notes": "La foule reste un dessin, aucune translation de corps."
+      }
+    },
+    {
+      "key": "10-3",
+      "page": 10,
+      "focus": "Grover rassure l’enfant ; Wendy évalue le risque",
+      "intention": "Tenue du regard et de la main sur l’épaule, sans effet décoratif qui affaiblirait l’échange.",
+      "effects": [],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Tenue volontaire du dessin, dialogue et raccord de case portent le rythme.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-10.png",
+        "notes": "Silence visuel délibéré ; les voix contrastées portent le champ/contrechamp."
+      }
+    },
+    {
+      "key": "11-1",
+      "page": 11,
+      "focus": "L’entrée de service",
+      "intention": "Fines rides de pluie sur la grande surface de sol libre.",
+      "effects": [
+        {
+          "type": "ripple",
+          "rect": [
+            0.59,
+            0.69,
+            0.25,
+            0.19
+          ],
+          "count": 3,
+          "color": "#74c5dd",
+          "strength": 0.58,
+          "speed": 0.62,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.11,
+            0.02,
+            0.43,
+            0.97
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.67,
+            0.38,
+            0.29,
+            0.23
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-11.png",
+        "notes": "Garder les gardes, porte et voiture immobiles."
+      }
+    },
+    {
+      "key": "11-2",
+      "page": 11,
+      "focus": "Le prix demandé, Wendy refuse",
+      "intention": "Pluie dans le passage libre derrière la barrière ; mains et barre rigides.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.59,
+            0.4,
+            0.07,
+            0.14
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.1,
+            0.54,
+            0.9
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.67,
+            0,
+            0.33,
+            1
+          ]
+        },
+        {
+          "id": "rigid-3",
+          "rect": [
+            0.36,
+            0.55,
+            0.64,
+            0.14
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-11.png",
+        "notes": "Pas de fausse ouverture de barrière."
+      }
+    },
+    {
+      "key": "11-3a",
+      "page": 11,
+      "focus": "John propose la force",
+      "intention": "Tenue franche de ses deux mains et d’Abigail ; arrêt de l’ambiance pour laisser l’argument porter.",
+      "effects": [],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Tenue volontaire du dessin, dialogue et raccord de case portent le rythme.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-11.png",
+        "notes": "Dessin carré spécialement validé ; ne pas resserrer sur les bras."
+      }
+    },
+    {
+      "key": "11-3b",
+      "page": 11,
+      "focus": "Abigail raisonne John",
+      "intention": "Pluie au-dessus des épaules dans le décor libre ; gestes jamais interpolés.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.025,
+            0.025,
+            0.35,
+            0.1
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.08,
+            0.43,
+            0.86,
+            0.57
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-11.png",
+        "notes": "Réponse puis acceptation, conserver les deux bulles et leurs queues courtes."
+      }
+    },
+    {
+      "key": "12-1",
+      "page": 12,
+      "focus": "Grover trouve l’idée de la chambre",
+      "intention": "Pluie extérieure vue par les vitrages gauches, ambiance intérieure tenue.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.015,
+            0.31,
+            0.055,
+            0.27
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.08,
+            0,
+            0.66,
+            1
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-12.png",
+        "notes": "Pas de déplacement du groupe ni des portiques."
+      }
+    },
+    {
+      "key": "12-2",
+      "page": 12,
+      "focus": "Wendy réserve par son implant",
+      "intention": "Halo local très bref sur l’implant déjà lumineux, puis maintien de la lumière établie.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.58,
+            0.34,
+            0.045,
+            0.09
+          ],
+          "color": "#50fff3",
+          "strength": 0.5,
+          "frequency": 0.65,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "story",
+          "startAnchor": "implantConfirm",
+          "durationSeconds": 1.4
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.625,
+            0.3,
+            0.12,
+            0.25
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.55,
+            0.39,
+            0.048,
+            0.2
+          ]
+        },
+        {
+          "id": "rigid-3",
+          "rect": [
+            0.01,
+            0.02,
+            0.48,
+            0.98
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "id": "implantConfirm",
+          "at": "holdStart",
+          "offsetSeconds": 1
+        }
+      ],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-12.png",
+        "notes": "Le halo ne produit aucun écran flottant et ne déforme ni tempe ni index."
+      }
+    },
+    {
+      "key": "12-3",
+      "page": 12,
+      "focus": "Le groupe réuni dans l’ascenseur",
+      "intention": "Reflet de la cabine dans un pan de métal libre ; distance protectrice Grover/enfant conservée.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.015,
+            0.32,
+            0.13,
+            0.28
+          ],
+          "color": "#64d8ff",
+          "strength": 0.38,
+          "frequency": 0.32,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.19,
+            0.43,
+            0.6,
+            0.56
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-12.png",
+        "notes": "Garder le plafond calme et les six silhouettes entières."
+      }
+    },
+    {
+      "key": "13-1",
+      "page": 13,
+      "focus": "Franklyn ressent une direction",
+      "intention": "Tenue tendue, silence visuel avant le plan de décision.",
+      "effects": [],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Tenue volontaire du dessin, dialogue et raccord de case portent le rythme.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-13.png",
+        "notes": "L’implant ne déclenche pas une nouvelle carte ou des coordonnées inventées."
+      }
+    },
+    {
+      "key": "13-2",
+      "page": 13,
+      "focus": "Grover expose la recherche étage par étage",
+      "intention": "Reflet discret sur le schéma existant du comptoir, sans dessin ajouté.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.13,
+            0.79,
+            0.35,
+            0.17
+          ],
+          "color": "#6deaff",
+          "strength": 0.42,
+          "frequency": 0.48,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.48,
+            0.02,
+            0.52,
+            0.84
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-13.png",
+        "notes": "Main pointant le plan et haut du corps restent rigides ; conserver le découpage gauche."
+      }
+    },
+    {
+      "key": "13-2-detail",
+      "page": 13,
+      "focus": "Abigail réfléchit au plan",
+      "intention": "Reflet magenta au bas du comptoir, relié aux néons existants.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.43,
+            0.79,
+            0.35,
+            0.16
+          ],
+          "color": "#e750d8",
+          "strength": 0.38,
+          "frequency": 0.42,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.08,
+            0.01,
+            0.5,
+            0.69
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-13.png",
+        "notes": "Ne pas simuler un mouvement de main ou faire vibrer les traits du plan."
+      }
+    },
+    {
+      "key": "13-3",
+      "page": 13,
+      "focus": "La boutique repérée",
+      "intention": "Reflet chaleureux dans la vitrine à droite, personnages en marche gardés comme pose dessinée.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.77,
+            0.36,
+            0.18,
+            0.39
+          ],
+          "color": "#ffc58a",
+          "strength": 0.34,
+          "frequency": 0.3,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.13,
+            0.58,
+            0.87
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-13.png",
+        "notes": "Pas de glissement des six corps sur le sol."
+      }
+    },
+    {
+      "key": "14-1",
+      "page": 14,
+      "focus": "Découverte de la boutique",
+      "intention": "Une lumière magenta respire dans la vitrine basse, les objets restent reconnaissables.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.42,
+            0.58,
+            0.19,
+            0.19
+          ],
+          "color": "#e06cf6",
+          "strength": 0.43,
+          "frequency": 0.5,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.03,
+            0.08,
+            0.39,
+            0.88
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.6,
+            0.07,
+            0.28,
+            0.9
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-14.png",
+        "notes": "Le tableau des danseuses est déjà dessiné ; aucune danse corporelle simulée."
+      }
+    },
+    {
+      "key": "14-2",
+      "page": 14,
+      "focus": "La vieille capsule spécifique",
+      "intention": "Écran cyan ancien qui pulse doucement, coque et contacts d’Abigail/Franklyn conservés.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.676,
+            0.35,
+            0.07,
+            0.13
+          ],
+          "color": "#48c9ff",
+          "strength": 0.55,
+          "frequency": 0.48,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.02,
+            0.61,
+            0.98
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.53,
+            0.57,
+            0.12,
+            0.2
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-14.png",
+        "notes": "Même modèle de machine ensuite, aucune morphologie technologique inventée."
+      }
+    },
+    {
+      "key": "14-3",
+      "page": 14,
+      "focus": "Wendy négocie avec le vendeur",
+      "intention": "Échange tenu, aucun effet artificiel autour des visages ou des mains.",
+      "effects": [],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Tenue volontaire du dessin, dialogue et raccord de case portent le rythme.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-14.png",
+        "notes": "Le vendeur reste distinct des cadets, ton blasé attendu au son."
+      }
+    },
+    {
+      "key": "15-1",
+      "page": 15,
+      "focus": "Abigail et Franklyn réparent",
+      "intention": "Petite lumière chaude existante du compartiment, les deux techniciens restent en contact stable.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.872,
+            0.393,
+            0.065,
+            0.055
+          ],
+          "color": "#ffd99e",
+          "strength": 0.52,
+          "frequency": 0.45,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.03,
+            0.62,
+            0.93
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.61,
+            0.23,
+            0.26,
+            0.49
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-15.png",
+        "notes": "Pas d’étincelles de panne inventées ni d’outils déplacés."
+      }
+    },
+    {
+      "key": "15-2",
+      "page": 15,
+      "focus": "La connexion rétablie par Abigail",
+      "intention": "Voyant dans le compartiment s’allume à l’ancre de branchement ; doigts et câble inchangés.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.728,
+            0.677,
+            0.04,
+            0.035
+          ],
+          "color": "#ffce6b",
+          "strength": 0.58,
+          "frequency": 0.65,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "story",
+          "startAnchor": "connector",
+          "durationSeconds": 1.2
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.01,
+            0.7,
+            0.98
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.65,
+            0.41,
+            0.09,
+            0.25
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "id": "connector",
+          "at": "holdStart",
+          "offsetSeconds": 1
+        }
+      ],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-15.png",
+        "notes": "L’action de doigt est une ellipse du comics : aucun morphing de mains."
+      }
+    },
+    {
+      "key": "15-3",
+      "page": 15,
+      "focus": "Franklyn ferme la capsule",
+      "intention": "Écran déjà présent qui se stabilise ; fermeture suggérée par le raccord vers la vision16-1 et la coque fermée16-2.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.65,
+            0.397,
+            0.067,
+            0.115
+          ],
+          "color": "#6a8dff",
+          "strength": 0.43,
+          "frequency": 0.37,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.39,
+            0.27,
+            0.25,
+            0.66
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.02,
+            0.04,
+            0.32,
+            0.95
+          ]
+        },
+        {
+          "id": "rigid-3",
+          "rect": [
+            0.73,
+            0.05,
+            0.24,
+            0.94
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "id": "capsuleClose",
+          "at": "cueEnd",
+          "speaker": "franklyn",
+          "offsetSeconds": 0.15,
+          "fallbackHoldOffsetSeconds": 3
+        }
+      ],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-15.png",
+        "notes": "Ne pas faire pivoter la coque autour d’une charnière fictive. Aucun raster fermé parfaitement aligné n’existe dans cette case."
+      }
+    },
+    {
+      "key": "16-1",
+      "page": 16,
+      "focus": "Connaissances débloquées dans la tête de Franklyn",
+      "intention": "Vibration lumineuse localisée sur la carte interne déjà dessinée ; petits fragments dans les bords numériques.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.35,
+            0.48,
+            0.33,
+            0.29
+          ],
+          "color": "#4ceaff",
+          "strength": 0.58,
+          "frequency": 0.64,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        },
+        {
+          "type": "particles",
+          "rect": [
+            0.025,
+            0.84,
+            0.94,
+            0.12
+          ],
+          "count": 14,
+          "color": "#56dfff",
+          "strength": 0.48,
+          "speed": 0.55,
+          "clock": "story",
+          "startAnchor": "neuralUnlock",
+          "durationSeconds": 2.2
+        }
+      ],
+      "protectedRegions": [],
+      "anchors": [
+        {
+          "id": "neuralUnlock",
+          "at": "holdStart",
+          "offsetSeconds": 0.55
+        }
+      ],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-16.png",
+        "notes": "Ne pas utiliser digitalVision du moteur : il ajouterait ses anciennes coordonnées LAT/LON à tort."
+      }
+    },
+    {
+      "key": "16-2",
+      "page": 16,
+      "focus": "Même capsule maintenant fermée",
+      "intention": "Reflets magenta/cyan dans la vitre existante ; la silhouette de Franklyn reste fixe derrière.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.372,
+            0.36,
+            0.13,
+            0.13
+          ],
+          "color": "#b65be9",
+          "strength": 0.4,
+          "frequency": 0.4,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.515,
+            0.37,
+            0.12,
+            0.12
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0,
+            0,
+            0.32,
+            1
+          ]
+        },
+        {
+          "id": "rigid-3",
+          "rect": [
+            0.72,
+            0.03,
+            0.28,
+            0.97
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-16.png",
+        "notes": "Coque identique15-3, pas d’hologramme externe."
+      }
+    },
+    {
+      "key": "16-3",
+      "page": 16,
+      "focus": "Franklyn raconte l’accès à la carte",
+      "intention": "Tenue d’explication collective : aucun plan externe inventé, tous les regards restent lisibles.",
+      "effects": [],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Tenue volontaire du dessin, dialogue et raccord de case portent le rythme.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-16.png",
+        "notes": "L’information est portée par la parole validée, sans recentrer tout le chapitre sur Franklyn."
+      }
+    },
+    {
+      "key": "17-1",
+      "page": 17,
+      "focus": "Patrouille aperçue au fond",
+      "intention": "Vapeur déjà présente près de la grille à droite, renforçant l’attente avant le tir.",
+      "effects": [
+        {
+          "type": "smoke",
+          "rect": [
+            0.675,
+            0.57,
+            0.15,
+            0.24
+          ],
+          "count": 6,
+          "color": "#b9c4d0",
+          "strength": 0.42,
+          "speed": 0.65,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.01,
+            0.67,
+            0.98
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.82,
+            0.31,
+            0.16,
+            0.11
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-17.png",
+        "notes": "Patrouilleurs ne glissent pas sur la passerelle ; mains d’appui protégées."
+      }
+    },
+    {
+      "key": "17-2",
+      "page": 17,
+      "focus": "Tir unique, métal touché, groupe à couvert",
+      "intention": "Mini-bandes dessinées conservées ensemble : accent bref au contact du poteau, puis fumée résiduelle.",
+      "effects": [
+        {
+          "type": "sparks",
+          "rect": [
+            0.727,
+            0.391,
+            0.09,
+            0.16
+          ],
+          "count": 5,
+          "color": "#ffc67c",
+          "strength": 0.62,
+          "clock": "story",
+          "startAnchor": "oneShot",
+          "durationSeconds": 0.22
+        },
+        {
+          "type": "smoke",
+          "rect": [
+            0.8,
+            0.397,
+            0.18,
+            0.16
+          ],
+          "count": 5,
+          "color": "#a9b2bf",
+          "strength": 0.4,
+          "speed": 0.8,
+          "clock": "story",
+          "startAnchor": "oneShot",
+          "offsetSeconds": 0.12,
+          "durationSeconds": 1.8
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0,
+            0.67,
+            1
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.67,
+            0.65,
+            0.33,
+            0.35
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "id": "oneShot",
+          "at": "holdStart",
+          "offsetSeconds": 0.05
+        }
+      ],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-17.png",
+        "notes": "Arbitrage intégrateur après vraie revue : conserver ensemble les trois bandes intégrées ; les découpes rectangulaires révélaient la gouttière diagonale voisine et affaiblissaient le cadrage."
+      }
+    },
+    {
+      "key": "17-3",
+      "page": 17,
+      "focus": "Fuite groupée",
+      "intention": "Pluie et légère vapeur du fond, silhouettes de course rigides, appuis et enfant protégés.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.55,
+            0.01,
+            0.26,
+            0.16
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.18,
+            1,
+            0.82
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-17.png",
+        "notes": "Pas de translation des corps ni d’animation de course par déformation."
+      }
+    },
+    {
+      "key": "18-1",
+      "page": 18,
+      "focus": "Habitante surprise, John intervient",
+      "intention": "Préparation déjà dessinée tenue pendant la question et la réponse, avant le résultat dans la case suivante.",
+      "effects": [],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Tenue volontaire du dessin, dialogue et raccord de case portent le rythme.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-18.png",
+        "notes": "Le son d’impact appartient au raccord18-after, aucun fondu qui double les mains."
+      }
+    },
+    {
+      "key": "18-after",
+      "page": 18,
+      "focus": "Résultat après le geste de John",
+      "intention": "Changement franc vers le dessin après existant ; l’issue est tenue, pas de morphing entre deux anatomies.",
+      "effects": [],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "id": "residentImpact",
+          "at": "holdStart",
+          "offsetSeconds": 0.05
+        }
+      ],
+      "motion": "Tenue volontaire du dessin, dialogue et raccord de case portent le rythme.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-18.png",
+        "notes": "Le comics n’a pas de pose de contact intermédiaire. Le raccord assume son ellipse et un seul impact."
+      }
+    },
+    {
+      "key": "18-2",
+      "page": 18,
+      "focus": "Grover et l’enfant pendant que John verrouille",
+      "intention": "Pluie extérieure uniquement à travers la fenêtre à gauche ; intérieur calme.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.005,
+            0.14,
+            0.13,
+            0.27
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.31,
+            0.72,
+            0.69
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.71,
+            0.09,
+            0.29,
+            0.9
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-18.png",
+        "notes": "Aucune animation de serrure dessinée sans variante ; verrou audible au son."
+      }
+    },
+    {
+      "key": "18-3",
+      "page": 18,
+      "focus": "Attente silencieuse à l’abri",
+      "intention": "Pluie lointaine dans le petit coin de vitre, aucun mouvement de corps ou d’oreille à la porte.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.005,
+            0.07,
+            0.13,
+            0.1
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.13,
+            1,
+            0.87
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-18.png",
+        "notes": "Préserver le silence visuel autour du geste d’écoute d’Abigail."
+      }
+    },
+    {
+      "key": "19-1",
+      "page": 19,
+      "focus": "Grover regarde par l’entrebâillement depuis l’appartement",
+      "intention": "Pluie au travers de la baie vitrée à gauche ; porte, tranche et main de Grover fixes.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.005,
+            0.16,
+            0.16,
+            0.13
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.29,
+            0.75,
+            0.71
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.75,
+            0.21,
+            0.25,
+            0.79
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-19.png",
+        "notes": "Respecter l’intérieur et l’angle de porte déjà validés."
+      }
+    },
+    {
+      "key": "19-2",
+      "page": 19,
+      "focus": "Ils évaluent leur répit dans l’ascenseur",
+      "intention": "Reflet cyan discret sur un montant libre, sans vibration de la cabine entière.",
+      "effects": [
+        {
+          "type": "reflection",
+          "rect": [
+            0.014,
+            0.31,
+            0.06,
+            0.56
+          ],
+          "color": "#5dd3ed",
+          "strength": 0.32,
+          "frequency": 0.3,
+          "phase": 0.35,
+          "softEdge": true,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0.2,
+            0.42,
+            0.55,
+            0.55
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-19.png",
+        "notes": "Les proportions du groupe restent inchangées ; plafond calme."
+      }
+    },
+    {
+      "key": "19-3",
+      "page": 19,
+      "focus": "Retour à la voiture",
+      "intention": "Pluie dans la rue visible au-dessus du passage, véhicule fixe.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.2,
+            0.015,
+            0.18,
+            0.18
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.18,
+            0.62,
+            0.81
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.61,
+            0.06,
+            0.39,
+            0.94
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-19.png",
+        "notes": "Le point vert dessiné ne se transforme pas en nouvel affichage holographique."
+      }
+    },
+    {
+      "key": "20-1",
+      "page": 20,
+      "focus": "Le quai au niveau de l’eau",
+      "intention": "Rides de la surface de l’eau au bord inférieur, groupe et SDF restent rigides.",
+      "effects": [
+        {
+          "type": "ripple",
+          "rect": [
+            0.53,
+            0.9,
+            0.45,
+            0.09
+          ],
+          "count": 3,
+          "color": "#a4dfed",
+          "strength": 0.42,
+          "speed": 0.7,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.07,
+            0.62,
+            0.79
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.75,
+            0.31,
+            0.25,
+            0.48
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-20.png",
+        "notes": "Ne jamais simuler un geste de violence supplémentaire ou soulever le quai."
+      }
+    },
+    {
+      "key": "20-2",
+      "page": 20,
+      "focus": "John empoigne le SDF",
+      "intention": "Tenue du contact dessiné, pluie seulement dans le petit fond libre derrière le groupe.",
+      "effects": [
+        {
+          "type": "rain",
+          "rect": [
+            0.37,
+            0.01,
+            0.19,
+            0.08
+          ],
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.03,
+            0.49,
+            0.97
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.34,
+            0.18,
+            0.66,
+            0.82
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-20.png",
+        "notes": "Mains, bras et jambes validés intégralement immobiles."
+      }
+    },
+    {
+      "key": "20-3",
+      "page": 20,
+      "focus": "Le SDF tombe à l’eau ; Grover protège l’enfant",
+      "intention": "Rides brèves dans l’eau sous l’éclaboussure existante, résultat puis tenue.",
+      "effects": [
+        {
+          "type": "ripple",
+          "rect": [
+            0.675,
+            0.88,
+            0.31,
+            0.1
+          ],
+          "count": 4,
+          "color": "#c8f2ff",
+          "strength": 0.65,
+          "clock": "story",
+          "startAnchor": "bodySplash",
+          "durationSeconds": 1.5
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.17,
+            0.53,
+            0.7
+          ]
+        },
+        {
+          "id": "rigid-2",
+          "rect": [
+            0.63,
+            0.46,
+            0.35,
+            0.43
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "id": "bodySplash",
+          "at": "holdStart",
+          "offsetSeconds": 0.05
+        }
+      ],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-20.png",
+        "notes": "Personnage tombant et membres restent le dessin corrigé ; aucun sprite rigide jeté à l’eau."
+      }
+    },
+    {
+      "key": "21-1",
+      "page": 21,
+      "focus": "La porte de l’abri",
+      "intention": "Temps suspendu devant la porte ; poussière rare en haut, sans mouvement faux des battants.",
+      "effects": [
+        {
+          "type": "particles",
+          "rect": [
+            0.03,
+            0.03,
+            0.12,
+            0.12
+          ],
+          "color": "#cbd2d8",
+          "strength": 0.32,
+          "speed": 0.32,
+          "count": 6,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.2,
+            0.78,
+            0.78
+          ]
+        }
+      ],
+      "anchors": [
+        {
+          "id": "refugeOpen",
+          "at": "nextPanelHoldStart",
+          "nextPanel": "21-2",
+          "offsetSeconds": 0.05
+        }
+      ],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-21.png",
+        "notes": "La porte est encore fermée dans ce dessin. Ouverture sonore juste au raccord vers21-2."
+      }
+    },
+    {
+      "key": "21-2",
+      "page": 21,
+      "focus": "Le refuge vide",
+      "intention": "Poussière froide dans l’espace vacant à droite, ampleur et pauvreté du lieu conservées.",
+      "effects": [
+        {
+          "type": "particles",
+          "rect": [
+            0.73,
+            0.31,
+            0.23,
+            0.45
+          ],
+          "color": "#cbd2d8",
+          "strength": 0.32,
+          "speed": 0.32,
+          "count": 11,
+          "clock": "ambient"
+        }
+      ],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0.2,
+            0.67,
+            0.79
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Effets locaux sur matière existante ; cadrage du lecteur indépendant.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-21.png",
+        "notes": "Aucun mobilier, équipement futuriste ou occupant ajouté."
+      }
+    },
+    {
+      "key": "21-3",
+      "page": 21,
+      "focus": "Le groupe se pose enfin",
+      "intention": "Fin volontairement tenue, une respiration musicale peut se résoudre sans effet de lumière autour des visages.",
+      "effects": [],
+      "protectedRegions": [
+        {
+          "id": "rigid-1",
+          "rect": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "anchors": [],
+      "motion": "Tenue volontaire du dessin, dialogue et raccord de case portent le rythme.",
+      "anatomy": "Corps, crânes, visages, doigts et contacts restent dessinés et rigides.",
+      "lettering": "Bulles et queues approuvées recomposées en dernier, aucune lettre déplacée.",
+      "review": {
+        "sourcePageOpened": "art-masters/motion-comics/blue-purple/chapter-03-continuation/comic-review-v5/page-21.png",
+        "notes": "Silence visuel et temps de lecture final, Grover reste avec l’enfant."
+      }
+    }
+  ]
+}

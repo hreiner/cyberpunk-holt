@@ -11,6 +11,56 @@ la table donne le skill, la première lecture, les commandes et la preuve attend
 
 ## Adaptation en comics
 
+**Reprendre une session motion comics : [suivi courant, livré et prochaine étape](anime/motion-comics/PROGRESS.md).**
+
+**v10 acceptée le8novembre ; push et publication Internet autorisés.**
+[Acceptation](comics/blue-purple-motion/production/chapter-03-continuation/publish-01/ACCEPTANCE.md),
+[procédure réutilisable de publication](anime/motion-comics/PUBLISH.md),
+[leçons de motion03 intégrées aux recettes](process/reviews/2026-11-08-motion03-workflow-lessons.md).
+
+**Blue Purple chapitre3 : couverture musicale et21pages,9min44 dans le lecteur.**
+[Livraison v10, contrôles et sauvegarde](comics/blue-purple-motion/production/chapter-03-continuation/motion-03/DELIVERY.md).
+Sélection à reprendre : `blue-purple-pages01-21-v10.json`, rythme9–21 ralenti,
+carte Night City fidèle avec deux POI jaunes et un vert, sans HOLT.
+[Les46sous-cases produites](comics/blue-purple-motion/production/chapter-03-continuation/motion-03/ANIMATION-REVIEW.html)
+incluent les nouvelles actions de capsule, fusillade, chute et porte.
+Le [format9–21 aligné sur page8](comics/blue-purple-motion/production/chapter-03-continuation/format-01/DELIVERY.md)
+est conservé. Les [deux MP4v2/PDF](comics/blue-purple-motion/production/chapter-03-continuation/motion-01/DELIVERY.md)
+gardent leur versionv7 historique ; l'ancien ensemble1–8 reste la référence de ses images et poses.
+
+[Audit de tous les retours comics de la session du 7 novembre](process/reviews/2026-11-07-comics-session-lessons.md) :
+propositions de règles générales et renforts déjà intégrés. Blue Purple pages9–21 :
+[validation statique révision05](comics/blue-purple-motion/production/chapter-03-continuation/revision-05/APPROVAL.md).
+
+[Motion comics : pages, voix et zooms](anime/MOTION-COMICS-WORKFLOW.md) · [socle technique réutilisable](anime/MOTION-COMICS-TECHNICAL.md) · [méthodes reprises de Cthulhu](anime/CTHULHU-METHOD-AUDIT.md).
+
+Skill de projet : `holt-motion-comics` ; [répertoire des effets présents et à explorer](anime/MOTION-COMICS-EFFECTS.md).
+Depuis le 7 novembre : [orchestration et commandes](anime/motion-comics/ORCHESTRATION.md),
+six skills ciblés (découpage, art, voix, son, animation, livraison) et
+[retours du propriétaire intégrés aux recettes](anime/motion-comics/LESSONS.md).
+La [direction du mouvement](anime/motion-comics/MOTION-DESIGN.md) intègre
+[trois références externes évaluées pour HOLT](process/reviews/2026-11-07-motion-design-skills.md).
+Le lecteur a sa [direction plein écran](design/MOTION-COMICS-READER.md), appuyée par
+le nouveau [skill de design frontend](../.agents/skills/holt-frontend-design/SKILL.md)
+adapté du guide fourni par le propriétaire. [Livraison et contrôles du lecteur](process/reviews/2026-11-07-reader-ui.md).
+Voix v4 retenues : [direction émotionnelle, tags et comparaison Blue Purple](anime/MOTION-COMICS-VOICE-DIRECTION.md).
+Quatre premières pages reprises et livrées : [livraison, lecteur et MP4](comics/blue-purple-motion/production/pages-01-04/revision-03/DELIVERY.md),
+[orchestrateur](anime/MOTION-COMICS-ORCHESTRATOR.md) et
+[suivi et reprise](comics/blue-purple-motion/production/pages-01-04/PROGRESS.md).
+Retour du propriétaire intégré : colère, souffle parcimonieux, vision numérique et
+animation par case. [Première livraison conservée](comics/blue-purple-motion/production/pages-01-04/DELIVERY.md).
+Corrections du 6 novembre : [mèches seules, vitre intacte puis bris, voiture fixe et sons clés](comics/blue-purple-motion/production/pages-05-08/revision-02/DELIVERY.md).
+Sélection courante du 7 novembre : [v5, bras de John corrigé dans le comic complet et le prototype de référence](comics/blue-purple-motion/production/pages-05-08/revision-03/DELIVERY.md).
+Reprise précédente conservée : [rythme, coup de John, dialogues et bande sonore](comics/blue-purple-motion/production/pages-05-08/revision-01/DELIVERY.md),
+[contrats mesurés](comics/blue-purple-motion/production/pages-05-08/revision-01/STORYBOARD.md).
+Première livraison conservée : [pages, voix, lecteur de huit pages et MP4 complet](comics/blue-purple-motion/production/pages-05-08/DELIVERY.md),
+[revue détaillée](comics/blue-purple-motion/production/pages-05-08/REVIEW.md).
+Le [contrat des pages 5–8](anime/MOTION-COMICS-PAGES-05-08-ORCHESTRATOR.md) conserve
+le périmètre et les plafonds de cette production.
+
+Projet animé du deuxième scénario : [socle local et production](anime/README.md), [prompt de mise en place du studio](anime/STUDIO-PROMPT.md)
+et [profils de production](process/AGENT-WORKFLOW.md).
+
 [`comics/holt-12-pages/v2/README.md`](comics/holt-12-pages/v2/README.md) : seconde édition de l'album autonome
 **HOLT — Le S de solidarité**, scénario des chapitres 1 et 2, bible visuelle, prompts
 par case et journal de revue. Douze pages de récit avec couverture et quatrième, 60 cases
@@ -64,6 +114,7 @@ Les images et le livre assemblé restent localement dans `art-masters/comics/hol
 | [`chapters/_templates/`](chapters/_templates/)                     | gabarits `GAME-DESIGN.md` et `TECH-DESIGN.md`                                              |
 | [`chapters/ch2/SCENARIO.md`](chapters/ch2/SCENARIO.md)             | scénario livré du chapitre 2, source du récit                                              |
 | [`chapters/CH2-LEGACY.md`](chapters/CH2-LEGACY.md)                 | point de départ du chapitre 3 : groupe, dettes, mystères et dossier transmis               |
+| [`chapters/ch3/SCENARIO.md`](chapters/ch3/SCENARIO.md)             | scénario du chapitre 3 : dictée du propriétaire en cours                                  |
 | [`chapters/ch2/VOICE-DESIGN.md`](chapters/ch2/VOICE-DESIGN.md)     | casting, conduite et méthode pour poursuivre les voix du chapitre 2                        |
 | [`chapters/CH1-HALL-CINEMATIC.md`](chapters/CH1-HALL-CINEMATIC.md) | conduite, choix tactique et voix du briefing cinématique du chapitre 1                     |
 
@@ -169,3 +220,15 @@ Feuillage réemployé : [asset, prompt et provenance](art/HOLT-AAA-ASSETS.md).
 | [0041](process/adr/0041-personnages-mpfb-dans-le-jeu.md)                         | Les cadets MPFB remplacent les humanoïdes Quaternius dans le jeu                                 |
 | [0042](process/adr/0042-fond-musical-et-ambiances.md)                            | Fond musical et ambiances continus, préférence sonore commune et priorité cinématique            |
 | [0043](process/adr/0043-skills-et-profils-adosses-aux-docs.md)                   | Recettes communes dans docs, skills de projet et profils Codex/Claude générés                    |
+| [0044](process/adr/0044-socle-anime-local.md) | Studio anime local isolé du jeu |
+| [0045](process/adr/0045-motion-comics-pages-audio.md) | Pages de motion comics et caméra synchronisée |
+| [0046](process/adr/0046-sequence-motion-comics.md) | Séquence multipage et fond continu |
+| [0047](process/adr/0047-effets-narratifs-motion-comics.md) | Effets narratifs et contrôle du mouvement par case |
+| [0048](process/adr/0048-motion-comics-drawn-action-and-soundtrack.md) | Poses dessinées, calques mobiles et bande sonore synchronisée |
+| [0049](process/adr/0049-motion-comics-staged-skills.md) | Étapes ciblées et commande d'orchestration motion comics |
+| [0050](process/adr/0050-immersive-reader-and-stable-export.md) | Lecteur web immersif et cadre d'export conservé |
+| [0051](process/adr/0051-motion-comics-stereo-export.md) | Stéréo et gain vocal d'export préservés |
+| [0052](process/adr/0052-motion-comics-separated-lettering.md) | Lettrage séparé composé après les effets |
+| [0053](process/adr/0053-motion-comics-digital-reveal-and-cover.md) | Révélation numérique et couverture |
+| [0054](process/adr/0054-motion-comics-masks-and-narrative-reveals.md) | Masques locaux, enveloppes et révélations narratives |
+| [0055](process/adr/0055-static-motion-comics-publication.md) | Paquet web versionné et chargement progressif sur GitHub Pages |

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "p11-c03a",
+    "prompt": "Edit this comic panel into a SQUARE composition for a comic panel, keeping the same characters, identities, outfits, cel shading cyan magenta rainy alley and story action. John silver hair is proposing force to Abigail braided hair. Reframe as a medium two-shot of John on LEFT and Abigail on RIGHT with torso and all hand gestures in bottom 55% of square. Their head tops MUST be below y=45% of image. Upper 40% is uninterrupted detailed rainy metal wall/door/pipe background as negative space for later two speech balloons. NO BUBBLES OR TEXT. Other four group members can be small behind them at bottom edges, six protagonists total, no duplicates. Natural anatomy, upright standing, consistent faces. The upper space is actual environment continuous with the scene, never a blank border or panel. Size square."
+  },
+  {
+    "id": "p11-c03b",
+    "prompt": "Edit referenced cel shaded anime comic scene into a SQUARE medium two-shot. Abigail with braids RIGHT explains calmly, open palms, John silver hair LEFT listens hand near chin, same uniforms cyan magenta rain alley. Keep ALL heads below y=45% and bodies/hands below that, so top 40% is continuous detailed rain-dark wall and neon background EMPTY of people reserved for later dialogue. Other members partially visible in lower background only, no duplicates. Full scene must fit square without cropping heads/hands, natural slim teenage proportions. NO speech balloons, NO text, no blank borders. Preserve same style and identities. Square output."
+  },
+  {
+    "id": "p19-c02",
+    "prompt": "Edit this same elevator comic scene, preserving all SIX protagonists, faces outfits and order: silver hair John left, short dark Franklyn next, blue hair purple jacket Wendy center, braided Abigail next, black fringe Grover right with civilian bowl-cut child. Reframe camera taller with generous detailed ELEVATOR CEILING ABOVE THEM, heads start at y=45% or lower, entire group naturally fits lower55% of WIDE landscape image. Reduce apparent character size by widening camera; maintain normal proportions, no elongated limbs. Top40% is continuous metal elevator ceiling and wall containing no people, reserved for later two speech bubbles, not blank border. John's left hand can rest lower on wall. Grover protects child naturally. NO text, NO speech bubbles. Same cel shaded cyan magenta anime lineart. Wide2:1 landscape."
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "prompt": "p08-c04-cleanplate-v1.txt",
+  "contract": "revision-01/CONTRACTS.json v3 p08-c04 cleanplate",
+  "paths": [
+    "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/references/p08-c04-v1-reference.png"
+  ],
+  "output": "D:/AgenticCoding/cyberpunk-holt/art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p08-c04-cleanplate.png",
+  "transparentBackground": false,
+  "status": "ready-for-independent-review-before-submission",
+  "inspection": "Existing reference sources inspected. Any generated predecessor must be opened and selected before dependent call."
+}

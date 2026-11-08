@@ -1,0 +1,94 @@
+{
+  "status": "assembled-reviewed-geography",
+  "width": 2000,
+  "height": 1000,
+  "nativeSize": [
+    1774,
+    887
+  ],
+  "native": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/native-map-v2.png",
+  "nativeSha256": "e36f35d90892e3e69f6a73abbc8b67272f2cda6ebc00f6c15f2339c93f6e0879",
+  "reference": "REFERENCE.json",
+  "prompt": "PROMPT-v2.txt + outpaint journal",
+  "style": "ImageGen built-in, cyberpunk comic atlas",
+  "geographyReviewed": [
+    "Bay to west",
+    "Offshore runway and three triangular installations",
+    "Watson north / CityCenter / Heywood southwest / Westbrook northeast / SantoDomingo southeast",
+    "Rugged eastern Badlands",
+    "No invented river or generic wireframe city"
+  ],
+  "latestUserDirection": "Exactly two yellow document POIs and one green, at original reference positions. No HOLT marker for now.",
+  "markers": [
+    {
+      "id": "position",
+      "normalized": [
+        0.533,
+        0.214
+      ],
+      "color": "#f2e52a",
+      "role": "Premier POI jaune — Watson"
+    },
+    {
+      "id": "unknown",
+      "normalized": [
+        0.572,
+        0.632
+      ],
+      "color": "#f2e52a",
+      "role": "Second POI jaune — City Center"
+    },
+    {
+      "id": "green",
+      "normalized": [
+        0.382,
+        0.755
+      ],
+      "color": "#39de83",
+      "role": "POI vert — rive ouest de Heywood"
+    }
+  ],
+  "coordinates": "Normalized from the supplied visual reference, no real-world LAT/LON or invented address.",
+  "files": [
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/map-base.png",
+      "sha256": "89c703c5534e41146efeab3795df31dd5df2fc4a8188afd45e3cb8e2d7ad4de5"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/map-final.png",
+      "sha256": "fd9dff85064aff3fcf32edff21e20f21a59a90465beecb4ac923d3ea8f9b0559"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/marker-position.png",
+      "sha256": "190148d414516958a164cdd05f7f486b03f0da4c2de8eb6c73fe358b360f9707"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/marker-position.svg",
+      "sha256": "3b23839047a405261fd165f00ea924079474c2bfab8d26c9174853f67ca510a0"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/marker-unknown.png",
+      "sha256": "cd3369beda05306cc9591faba5bb2fa12b248383b7f06a1963769407cebb4d75"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/marker-unknown.svg",
+      "sha256": "e74794dbbbc127b5a09b927abbeb93b01a0f663df14f6d9f3b64fa9e82cf0949"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/marker-green.png",
+      "sha256": "b0ab4dfc1b58319d324c1002895afe04643d9fb67486ea653abef23c3120d987"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/marker-green.svg",
+      "sha256": "2e6d49b6aff3ed27808bf44a26bb36cdeeac24c930568f9f0e62d1f36ae2e296"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/marker-all.png",
+      "sha256": "a175483ef57fe33252a19877dc969623a7d2c2462d59dd28c648cb3546a1f682"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/marker-all.svg",
+      "sha256": "77f96a27068988f2676836779d374550be589c047cb0fc61965415a36b3658e3"
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-06",
+  "status": "levels-prepared-before-final-mix",
+  "sourceSelection": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-measurements-v3.json",
+  "sourceSelectionSha256": "fa26db52d2ef62b749825da4df435284b47f05686c13d5963283829947f83c7a",
+  "networkCalls": 0,
+  "newVoices": 0,
+  "newSfx": 0,
+  "cumulativeVoiceCharacters": 3394,
+  "cumulativeSfxRequests": 6,
+  "cumulativeSfxRequestedSeconds": 20,
+  "voicesPolicy": "37 prises sources conservées, aucune baisse globale de voix ni modification de mots/tags.",
+  "prefixPolicy": "144.6s PCM historiques inchangées, copie de legacy-prefix.wav vérifiée par hash.",
+  "oldPunch": {
+    "source": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/punch-wood.wav",
+    "sourceSha256": "34e85a20735cc72b6b5baf4260afd29e71647938f0a2c4f7d24e3eeb2d81c235",
+    "trimStart": 0,
+    "duration": 0.22,
+    "peakDb": -36.904081637711876,
+    "rmsDb": -49.74047783697978,
+    "peakSourceTime": 0.00011337868480725624,
+    "strongOnsetSourceTime": 0,
+    "strongOnsetAfterTrim": 0,
+    "strongRule": "Blocs de220frames (~4.99ms) : peak>=maxPeak-18dB ET RMS>=maxBlockRMS-20dB."
+  },
+  "accents": [
+    {
+      "id": "body-impact",
+      "sound": "punch-wood",
+      "anchor": "punchContact",
+      "trimStart": 1.132,
+      "duration": 0.34,
+      "gainDb": 6,
+      "speechMultiplier": 1,
+      "sourceAudit": {
+        "source": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/punch-wood.wav",
+        "sourceSha256": "34e85a20735cc72b6b5baf4260afd29e71647938f0a2c4f7d24e3eeb2d81c235",
+        "trimStart": 1.132,
+        "duration": 0.34,
+        "peakDb": -10.00431917426019,
+        "rmsDb": -30.427273303722195,
+        "peakSourceTime": 1.1590816326530613,
+        "strongOnsetSourceTime": 1.1419727891156464,
+        "strongOnsetAfterTrim": 0.009972789115646474,
+        "strongRule": "Blocs de220frames (~4.99ms) : peak>=maxPeak-18dB ET RMS>=maxBlockRMS-20dB."
+      },
+      "rationale": "Replacer le seul transitoire fort sur le contact ; retirer ancien faux impact quasi muet et ne pas rejouer le même transitoire comme batte.",
+      "musicWindow": {
+        "lead": 0.07,
+        "hold": 0.2,
+        "release": 0.28,
+        "floor": 0
+      }
+    },
+    {
+      "id": "gun-attack",
+      "sound": "gun-glass",
+      "anchor": "shot",
+      "trimStart": 0,
+      "duration": 0.45,
+      "gainDb": 3,
+      "speechMultiplier": 0.3,
+      "speechRampSeconds": 0.025,
+      "sourceAudit": {
+        "source": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/gun-glass.wav",
+        "sourceSha256": "05dd34bdc70c4dde1b1269690d108d80106ed9701df5c4e9ba6e61d97c9a9bc3",
+        "trimStart": 0,
+        "duration": 0.45,
+        "peakDb": -8.00411299264926,
+        "rmsDb": -14.647356824604262,
+        "peakSourceTime": 0.2036734693877551,
+        "strongOnsetSourceTime": 0,
+        "strongOnsetAfterTrim": 0,
+        "strongRule": "Blocs de220frames (~4.99ms) : peak>=maxPeak-18dB ET RMS>=maxBlockRMS-20dB."
+      },
+      "rationale": "Attaque audible au bris16.40, puis protection rapide de la réaction16.60. Un seul tir.",
+      "musicWindow": {
+        "lead": 0.05,
+        "hold": 0.18,
+        "release": 0.45,
+        "floor": 0
+      }
+    },
+    {
+      "id": "glass-tail",
+      "sound": "gun-glass",
+      "anchor": "shot",
+      "offsetSeconds": 0.45,
+      "trimStart": 0.45,
+      "duration": 2.55,
+      "gainDb": 3,
+      "speechMultiplier": 0.62,
+      "speechRampSeconds": 0.04,
+      "sourceAudit": {
+        "source": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/gun-glass.wav",
+        "sourceSha256": "05dd34bdc70c4dde1b1269690d108d80106ed9701df5c4e9ba6e61d97c9a9bc3",
+        "trimStart": 0.45,
+        "duration": 2.55,
+        "peakDb": -10.740822846733574,
+        "rmsDb": -30.575988439960717,
+        "peakSourceTime": 1.98078231292517,
+        "strongOnsetSourceTime": 0.45,
+        "strongOnsetAfterTrim": 0,
+        "strongRule": "Blocs de220frames (~4.99ms) : peak>=maxPeak-18dB ET RMS>=maxBlockRMS-20dB."
+      },
+      "rationale": "Queue disjointe du même fichier : verre plus lisible, aucun second départ."
+    },
+    {
+      "id": "engine-start",
+      "sound": "engine-start",
+      "anchor": "starter",
+      "trimStart": 0,
+      "duration": 5,
+      "gainDb": 7,
+      "speechMultiplier": 0.6,
+      "speechRampSeconds": 0.08,
+      "sourceAudit": {
+        "source": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/audio-v1/sfx-prepared-v3/engine-start.wav",
+        "sourceSha256": "f338830178b3b652b00dc297599b07b842b2f291057763bf4ae598c1142cee13",
+        "trimStart": 0,
+        "duration": 5,
+        "peakDb": -17.996309321646038,
+        "rmsDb": -32.56931757514915,
+        "peakSourceTime": 0.9215079365079365,
+        "strongOnsetSourceTime": 0,
+        "strongOnsetAfterTrim": 0,
+        "strongRule": "Blocs de220frames (~4.99ms) : peak>=maxPeak-18dB ET RMS>=maxBlockRMS-20dB."
+      },
+      "rationale": "Crantage perceptible dès ancre ; le pic naturel arrive ensuite avec le cycle du démarreur, sans silence ajouté.",
+      "musicWindow": {
+        "lead": 0.1,
+        "hold": 3.6,
+        "release": 0.55,
+        "floor": 0.12
+      }
+    }
+  ],
+  "remainingSounds": "Les autres SFX, trois foleys locaux et trois musiques HOLT sont réemployés, sans nouvelle génération.",
+  "humanListening": "not-performed",
+  "scriptSha256": "3a4c8b75f77ab0f62a0d83b2b9b941a43a6b169980bb5a8431319e34fea0d1ca"
+}

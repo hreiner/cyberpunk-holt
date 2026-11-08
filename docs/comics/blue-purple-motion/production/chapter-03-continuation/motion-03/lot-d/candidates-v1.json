@@ -1,0 +1,24 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "Blue Purple — revue de production lot D, pages 18–21",
+  "pages": [
+    {
+      "id": "page-18",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page18-motion06.json"
+    },
+    {
+      "id": "page-19",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page19-motion06.json"
+    },
+    {
+      "id": "page-20",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page20-motion06.json"
+    },
+    {
+      "id": "page-21",
+      "manifest": "../../../../../../../anime/motion-comics/projects/blue-purple-page21-motion06.json"
+    }
+  ]
+}

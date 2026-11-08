@@ -1,0 +1,14 @@
+{
+  "status": "rejected by root: panel already too low; final three-pose closure selected",
+  "provider_id": null,
+  "cost": null,
+  "allocation": "remaining lot-b correction reserve",
+  "reason": "QA: lower panel grows at last transition",
+  "prompt": "ART-CORRECTION-75-PROMPT.txt",
+  "reference": {
+    "sha256": "F3C1DF0A1AB76ED312A2CB4AB2FCCD94958793554F86AA3F08A6AA2568F6ECB2",
+    "path": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-b/closure-75-correction-reference.jpg"
+  },
+  "output": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-b/closure-75-native-v2.png",
+  "output_sha256": "9B15292555D006EEB1FD60AC1473687E168D8A355AE65822BFD782246416E372"
+}

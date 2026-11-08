@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-05",
+  "status": "verified",
+  "selectedSequence": "blue-purple-pages01-04-v2.json",
+  "conclusion": "Les quatre prises de page 1 dans la livraison précédente sont bien les prises Eleven v4 retenues.",
+  "lines": [
+    {
+      "line": 1,
+      "model": "eleven_v4",
+      "cueModel": "eleven_v4",
+      "source": "art-masters/motion-comics/blue-purple/page-01/voices-v4-v1/01-wendy-41eab77721c7.mp3",
+      "exportedCopy": "art-masters/motion-comics/blue-purple/pages-01-04/render-v2/media/001.mp3",
+      "sourceSha256": "94d3c528703e8fa257d07aa09912a50bc39ae4955b5d7b5ca65601fa8032f4fb",
+      "exportedSha256": "94d3c528703e8fa257d07aa09912a50bc39ae4955b5d7b5ca65601fa8032f4fb"
+    },
+    {
+      "line": 2,
+      "model": "eleven_v4",
+      "cueModel": "eleven_v4",
+      "source": "art-masters/motion-comics/blue-purple/page-01/voices-v4-v1/02-john-eb4ab46e5c5d.mp3",
+      "exportedCopy": "art-masters/motion-comics/blue-purple/pages-01-04/render-v2/media/002.mp3",
+      "sourceSha256": "fed97d6366d3085d8cc06a71ad159086aba1a6ad5478400cc5d4a3f25ffc4b5b",
+      "exportedSha256": "fed97d6366d3085d8cc06a71ad159086aba1a6ad5478400cc5d4a3f25ffc4b5b"
+    },
+    {
+      "line": 3,
+      "model": "eleven_v4",
+      "cueModel": "eleven_v4",
+      "source": "art-masters/motion-comics/blue-purple/page-01/voices-v4-v1/03-wendy-29f154de8a64.mp3",
+      "exportedCopy": "art-masters/motion-comics/blue-purple/pages-01-04/render-v2/media/003.mp3",
+      "sourceSha256": "fe802bb69232b3d5e36a804e2e982e342465aa73ce1ed9b90db90695763a2362",
+      "exportedSha256": "fe802bb69232b3d5e36a804e2e982e342465aa73ce1ed9b90db90695763a2362"
+    },
+    {
+      "line": 4,
+      "model": "eleven_v4",
+      "cueModel": "eleven_v4",
+      "source": "art-masters/motion-comics/blue-purple/page-01/voices-v4-v1/04-abigail-0d153274c7b0.mp3",
+      "exportedCopy": "art-masters/motion-comics/blue-purple/pages-01-04/render-v2/media/004.mp3",
+      "sourceSha256": "7f33bfde258810029b793d6caad0bfe4d625cb4f09416348906e4cba97bd3890",
+      "exportedSha256": "7f33bfde258810029b793d6caad0bfe4d625cb4f09416348906e4cba97bd3890"
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "p09-screen-acquire": {
+    "rect": [
+      12,
+      520,
+      1000,
+      496
+    ],
+    "images": [
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-00.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-01.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-02.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-03.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-04.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-05.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-06.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-07.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-08.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-09.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-screen-acquire-10.svg"
+    ]
+  },
+  "p10-camera-entry": {
+    "rect": [
+      764.7,
+      548.7,
+      21.6,
+      21.6
+    ],
+    "images": [
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-00.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-01.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-02.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-03.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-04.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-05.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-entry-06.svg"
+    ]
+  },
+  "p10-camera-warning": {
+    "rect": [
+      954,
+      1063,
+      28,
+      28
+    ],
+    "images": [
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-00.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-01.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-02.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-03.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-04.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-05.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p10-camera-warning-06.svg"
+    ]
+  },
+  "p12-gate-awake": {
+    "rect": [
+      863.4,
+      262.4,
+      27.2,
+      27.2
+    ],
+    "images": [
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-gate-awake-00.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-gate-awake-01.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-gate-awake-02.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-gate-awake-03.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-gate-awake-04.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-gate-awake-05.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-gate-awake-06.svg"
+    ]
+  },
+  "p12-implant-confirm": {
+    "rect": [
+      594,
+      699,
+      24,
+      26
+    ],
+    "images": [
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-implant-confirm-00.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-implant-confirm-01.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-implant-confirm-02.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-implant-confirm-03.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-implant-confirm-04.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-implant-confirm-05.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-implant-confirm-06.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-implant-confirm-07.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p12-implant-confirm-08.svg"
+    ]
+  },
+  "p13-neural-disturbance": {
+    "rect": [
+      419,
+      106,
+      43,
+      34
+    ],
+    "images": [
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-neural-disturbance-00.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-neural-disturbance-01.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-neural-disturbance-02.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-neural-disturbance-03.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-neural-disturbance-04.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-neural-disturbance-05.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-neural-disturbance-06.svg"
+    ]
+  },
+  "p13-plan-link-left": {
+    "rect": [
+      410,
+      969,
+      96,
+      26
+    ],
+    "images": [
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-00.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-01.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-02.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-03.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-04.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-05.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-06.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-07.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-08.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-left-09.svg"
+    ]
+  },
+  "p13-plan-link-right": {
+    "rect": [
+      518,
+      945,
+      86,
+      52
+    ],
+    "images": [
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-00.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-01.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-02.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-03.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-04.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-05.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-06.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-07.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-08.svg",
+      "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-plan-link-right-09.svg"
+    ]
+  },
+  "p09-pole-drop": {
+    "rect": [
+      84,
+      1136,
+      39,
+      155
+    ],
+    "travel": [
+      0.45,
+      0.75
+    ],
+    "image": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-pole-drop.svg",
+    "background": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p09-pole-clear.svg"
+  },
+  "p11-service-puff": {
+    "rect": [
+      721,
+      319,
+      240,
+      97
+    ],
+    "image": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p11-service-puff.svg",
+    "background": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p11-service-puff-clear.svg"
+  },
+  "p13-window-drops": {
+    "rect": [
+      892,
+      1208,
+      106,
+      173
+    ],
+    "image": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-window-drops.svg",
+    "background": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-a/native/p13-window-clear.svg"
+  }
+}

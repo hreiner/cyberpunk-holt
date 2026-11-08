@@ -1,0 +1,461 @@
+{
+  "page": 8,
+  "version": 2,
+  "status": "reviewed-effects-qa-passed",
+  "sourceImage": "art-masters/motion-comics/blue-purple/page-08/page-v2.png",
+  "sourceSha256": "b937283924f1cb4b2360435bbc9b550be33262a98a833bdb2046e2eff9235f9b",
+  "size": [
+    1024,
+    1536
+  ],
+  "effects": [
+    {
+      "type": "reflection",
+      "panelId": "p08-c01",
+      "rect": [
+        0.3369140625,
+        0.197265625,
+        0.021484375,
+        0.009765625
+      ],
+      "color": "#ffe5ae",
+      "strength": 0.7,
+      "frequency": 0.7,
+      "phase": 0.1,
+      "softEdge": true,
+      "clock": "story",
+      "startOffsetSeconds": 0.15,
+      "endOffsetSeconds": 1.65
+    },
+    {
+      "type": "rain",
+      "panelId": "p08-c01",
+      "rect": [
+        0.248046875,
+        0.012369791666666666,
+        0.1396484375,
+        0.09830729166666667
+      ]
+    },
+    {
+      "type": "neon",
+      "panelId": "p08-c02",
+      "rect": [
+        0.724609375,
+        0.2610677083333333,
+        0.0478515625,
+        0.020833333333333332
+      ],
+      "color": "#ffc13f",
+      "strength": 0.7,
+      "frequency": 0.35,
+      "phase": -1.5,
+      "softEdge": true,
+      "clock": "story",
+      "startOffsetSeconds": 0.12,
+      "endOffsetSeconds": 2.25
+    },
+    {
+      "type": "rain",
+      "panelId": "p08-c02",
+      "rect": [
+        0.6953125,
+        0.111328125,
+        0.0888671875,
+        0.041015625
+      ]
+    },
+    {
+      "type": "smoke",
+      "panelId": "p08-c03",
+      "rect": [
+        0.919921875,
+        0.5748697916666666,
+        0.0673828125,
+        0.061848958333333336
+      ],
+      "count": 9,
+      "color": "#c5c1cf",
+      "strength": 0.7,
+      "speed": 1.1,
+      "direction": "right",
+      "phase": 0.6,
+      "protect": [
+        [
+          0.91015625,
+          0.5611979166666666,
+          0.0576171875,
+          0.035807291666666664
+        ],
+        [
+          0.8857421875,
+          0.5989583333333334,
+          0.037109375,
+          0.012369791666666666
+        ]
+      ]
+    },
+    {
+      "type": "ripple",
+      "panelId": "p08-c04",
+      "rect": [
+        0.7177734375,
+        0.9537760416666666,
+        0.26171875,
+        0.03125
+      ],
+      "count": 3,
+      "color": "#83bce1",
+      "strength": 0.7,
+      "clock": "story",
+      "startOffsetSeconds": 0.1,
+      "endOffsetSeconds": 3
+    },
+    {
+      "type": "rain",
+      "panelId": "p08-c04",
+      "rect": [
+        0.185546875,
+        0.67578125,
+        0.1767578125,
+        0.12630208333333334
+      ]
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-hand",
+      "rect": [
+        0.169921875,
+        0.181640625,
+        0.140625,
+        0.07682291666666667
+      ]
+    },
+    {
+      "id": "c1-tool",
+      "rect": [
+        0.2919921875,
+        0.205078125,
+        0.056640625,
+        0.013020833333333334
+      ]
+    },
+    {
+      "id": "c2-wendy-face",
+      "rect": [
+        0.568359375,
+        0.13671875,
+        0.091796875,
+        0.06575520833333333
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.8212890625,
+        0.13346354166666666,
+        0.0888671875,
+        0.06901041666666667
+      ]
+    },
+    {
+      "id": "c2-franklyn-left-hand",
+      "rect": [
+        0.7705078125,
+        0.212890625,
+        0.0615234375,
+        0.039713541666666664
+      ]
+    },
+    {
+      "id": "c2-franklyn-right-hand",
+      "rect": [
+        0.923828125,
+        0.21354166666666666,
+        0.0634765625,
+        0.041666666666666664
+      ]
+    },
+    {
+      "id": "c2-franklyn-badge",
+      "rect": [
+        0.7421875,
+        0.189453125,
+        0.0322265625,
+        0.034505208333333336
+      ]
+    },
+    {
+      "id": "c3-franklyn-head",
+      "rect": [
+        0.318359375,
+        0.4264322916666667,
+        0.0625,
+        0.046223958333333336
+      ]
+    },
+    {
+      "id": "c3-franklyn-hand",
+      "rect": [
+        0.2744140625,
+        0.4654947916666667,
+        0.037109375,
+        0.026041666666666668
+      ]
+    },
+    {
+      "id": "c3-wendy-face",
+      "rect": [
+        0.3984375,
+        0.4420572916666667,
+        0.046875,
+        0.035807291666666664
+      ]
+    },
+    {
+      "id": "c3-john-face",
+      "rect": [
+        0.54296875,
+        0.4375,
+        0.056640625,
+        0.03515625
+      ]
+    },
+    {
+      "id": "c3-john-hand",
+      "rect": [
+        0.541015625,
+        0.484375,
+        0.033203125,
+        0.02734375
+      ]
+    },
+    {
+      "id": "c3-abigail-face",
+      "rect": [
+        0.6630859375,
+        0.435546875,
+        0.0517578125,
+        0.043619791666666664
+      ]
+    },
+    {
+      "id": "c3-abigail-hand-top-seat",
+      "rect": [
+        0.62109375,
+        0.4576822916666667,
+        0.037109375,
+        0.016276041666666668
+      ]
+    },
+    {
+      "id": "c3-abigail-right-hand",
+      "rect": [
+        0.728515625,
+        0.5514322916666666,
+        0.017578125,
+        0.027994791666666668
+      ]
+    },
+    {
+      "id": "c3-abigail-badge",
+      "rect": [
+        0.703125,
+        0.4739583333333333,
+        0.033203125,
+        0.024088541666666668
+      ]
+    },
+    {
+      "id": "c3-grover-face",
+      "rect": [
+        0.837890625,
+        0.4283854166666667,
+        0.048828125,
+        0.040364583333333336
+      ]
+    },
+    {
+      "id": "c3-grover-badge",
+      "rect": [
+        0.86328125,
+        0.470703125,
+        0.0361328125,
+        0.01953125
+      ]
+    },
+    {
+      "id": "c3-child-head",
+      "rect": [
+        0.4140625,
+        0.49609375,
+        0.0712890625,
+        0.049479166666666664
+      ]
+    },
+    {
+      "id": "c3-child-hand-door",
+      "rect": [
+        0.484375,
+        0.5266927083333334,
+        0.0244140625,
+        0.0234375
+      ]
+    },
+    {
+      "id": "c3-child-body",
+      "rect": [
+        0.3955078125,
+        0.5416666666666666,
+        0.111328125,
+        0.119140625
+      ]
+    },
+    {
+      "id": "c3-rear-bumper-upper",
+      "rect": [
+        0.91015625,
+        0.5611979166666666,
+        0.0576171875,
+        0.035807291666666664
+      ]
+    },
+    {
+      "id": "c3-tailpipe",
+      "rect": [
+        0.8857421875,
+        0.5989583333333334,
+        0.037109375,
+        0.012369791666666666
+      ]
+    },
+    {
+      "id": "c4-vehicle-all",
+      "rect": [
+        0.3740234375,
+        0.724609375,
+        0.53515625,
+        0.22200520833333334
+      ]
+    },
+    {
+      "id": "balloon-wendy",
+      "rect": [
+        0.5302734375,
+        0.017578125,
+        0.296875,
+        0.059895833333333336
+      ]
+    },
+    {
+      "id": "tail-wendy",
+      "rect": [
+        0.5751953125,
+        0.06575520833333333,
+        0.03515625,
+        0.029296875
+      ]
+    },
+    {
+      "id": "balloon-child",
+      "rect": [
+        0.525390625,
+        0.3502604166666667,
+        0.423828125,
+        0.06770833333333333
+      ]
+    },
+    {
+      "id": "tail-child",
+      "rect": [
+        0.47265625,
+        0.4055989583333333,
+        0.0888671875,
+        0.10091145833333333
+      ]
+    },
+    {
+      "id": "balloon-franklyn",
+      "rect": [
+        0.095703125,
+        0.421875,
+        0.1943359375,
+        0.0546875
+      ]
+    },
+    {
+      "id": "tail-franklyn",
+      "rect": [
+        0.2744140625,
+        0.4368489583333333,
+        0.0517578125,
+        0.022135416666666668
+      ]
+    }
+  ],
+  "review": {
+    "sampleTime": 4.05,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 180,
+    "minimumLiveChangedPixels": 180,
+    "perPanelReview": [
+      {
+        "panelId": "p08-c01",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180
+      },
+      {
+        "panelId": "p08-c02",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180
+      },
+      {
+        "panelId": "p08-c03",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180
+      },
+      {
+        "panelId": "p08-c04",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 180
+      }
+    ]
+  },
+  "eventReviews": [
+    {
+      "panelId": "p08-c01",
+      "effectType": "reflection",
+      "beforeOffset": 0,
+      "duringOffset": 0.9,
+      "afterOffset": 1.9
+    },
+    {
+      "panelId": "p08-c02",
+      "effectType": "neon",
+      "beforeOffset": 0,
+      "duringOffset": 1.1,
+      "afterOffset": 2.5
+    },
+    {
+      "panelId": "p08-c04",
+      "effectType": "ripple",
+      "beforeOffset": 0,
+      "duringOffset": 1.5,
+      "afterOffset": 3.25
+    }
+  ],
+  "reviewNotes": "Selected lettered page inspected. Lock crown glint is narrow, softly feathered and finite; hand/tool excluded. Dashboard amber light modulation is finite/story-clocked, then returns to lit master without repeated starting event. Independent rain through clear panes keeps c1/c2 gently alive in pause without moving hands. Exhaust emerges from actual right rear pipe, directed right and kept off bumper/pipe. Finite puddle wake behind wheels, with independent background rain; full car protected. No lightSweep and no character/steering warp. Version2 updated to actually inspected new lettering page-v2 (uncrossed tails), exact new source hash and balloon/tail protections. Raw drawing and effect placements unchanged.",
+  "validation": {
+    "date": "2026-11-05",
+    "independentVisualReview": "favorable",
+    "physicalEventClocks": "finite-and-paused",
+    "protectedRegions": "unchanged-from-source",
+    "livePauseStopResume": "passed",
+    "reportIndex": "docs/comics/blue-purple-motion/production/pages-05-08/ANIMATION.md"
+  }
+}

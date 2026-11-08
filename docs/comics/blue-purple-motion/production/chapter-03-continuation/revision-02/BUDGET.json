@@ -1,0 +1,33 @@
+{
+  "previous_calls": 47,
+  "historical_initial_page09": 1,
+  "new_initial_cap": 23,
+  "new_reserve_cap": 10,
+  "new_submitted": 23,
+  "planned": [
+    "p09-c02",
+    "p10-c03",
+    "p12-c02",
+    "p12-c03",
+    "p14-c02",
+    "p14-c03",
+    "p15-c01",
+    "p15-c02",
+    "p15-c03",
+    "p16-c01",
+    "p16-c02",
+    "p16-c03",
+    "p17-c03",
+    "p18-c03",
+    "p19-c02",
+    "p20-c01",
+    "p20-c02",
+    "p20-c03",
+    "p21-c01",
+    "p21-c02",
+    "p21-c03"
+  ],
+  "cost": null,
+  "provider_id": null,
+  "running": []
+}

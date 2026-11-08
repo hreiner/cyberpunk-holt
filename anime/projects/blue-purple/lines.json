@@ -1,0 +1,16 @@
+[
+ {"speaker":"wendy","en":"I'm Wendy. I was sent in case something went wrong. Tell me what happened after HOLT.","fr":"Je m'appelle Wendy. On m'a envoyée si quelque chose tournait mal. Que s'est-il passé après HOLT ?"},
+ {"speaker":"john","en":"We ran. They kept coming.","fr":"On a fui. Ils ne nous ont pas lâchés."},
+ {"speaker":"wendy","en":"The Academy sent me as a last resort. You're being hunted. If they followed you here, we don't have much time.","fr":"L'Académie m'a envoyée en dernier recours. On vous traque. S'ils vous ont suivis, on n'a plus beaucoup de temps."},
+ {"speaker":"abigail","en":"Letitia's at a ripperdoc. He's keeping her there.","fr":"Letitia est chez un charcudoc. Il la retient là-bas."},
+ {"speaker":"wendy","en":"Going back now would lead them straight to her. And to all of you.","fr":"Si vous y retournez maintenant, vous les mènerez tout droit à elle. Et à vous tous."},
+ {"speaker":"franklyn","en":"He wants two thousand by tomorrow night. We can't leave her with him.","fr":"Il veut deux mille crédits demain soir. On ne peut pas la laisser avec lui."},
+ {"speaker":"grover","en":"She'd tell us to get clear first. We won't help her if we're caught.","fr":"Elle nous dirait de nous mettre à l'abri d'abord. On ne l'aidera pas si on se fait prendre."},
+ {"speaker":"franklyn","en":"We're not forgetting her.","fr":"On ne l'oublie pas."},
+ {"speaker":"john","en":"No. We aren't.","fr":"Non. On ne l'oublie pas."},
+ {"speaker":"wendy","en":"This is all I have. I think it's where we start.","fr":"C'est tout ce que j'ai. Je crois que c'est notre point de départ."},
+ {"speaker":"enfant","en":"Franklyn? What's wrong?","fr":"Franklyn ? Qu'est-ce qu'il y a ?"},
+ {"speaker":"franklyn","en":"I know these. Latitude and longitude. I saw them in the simulation.","fr":"Je connais ces chiffres. Latitude et longitude. Je les ai vus dans la simulation."},
+ {"speaker":"franklyn","en":"They're old coordinates. We need a terminal to convert them.","fr":"Ce sont d'anciennes coordonnées. Il faut une borne pour les convertir."},
+ {"speaker":"wendy","en":"Then let's move.","fr":"Alors, on y va."}
+]

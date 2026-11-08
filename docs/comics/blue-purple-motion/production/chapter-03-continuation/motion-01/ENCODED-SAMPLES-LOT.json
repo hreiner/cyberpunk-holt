@@ -1,0 +1,182 @@
+[
+  {
+    "id": "page-09-reading",
+    "time": 1.6800000000000002
+  },
+  {
+    "id": "terminalMap-before",
+    "time": 7.118333333333335
+  },
+  {
+    "id": "terminalMap-exact",
+    "time": 7.160000000000002
+  },
+  {
+    "id": "terminalMap-after",
+    "time": 7.285000000000002
+  },
+  {
+    "id": "09-2-reflection-a",
+    "time": 7.410000000000002
+  },
+  {
+    "id": "09-2-reflection-b",
+    "time": 8.410000000000002
+  },
+  {
+    "id": "page-10-reading",
+    "time": 15.68
+  },
+  {
+    "id": "page-11-reading",
+    "time": 34.26
+  },
+  {
+    "id": "page-12-reading",
+    "time": 56.6
+  },
+  {
+    "id": "implantConfirm-before",
+    "time": 64.18833333333333
+  },
+  {
+    "id": "implantConfirm-exact",
+    "time": 64.23
+  },
+  {
+    "id": "implantConfirm-after",
+    "time": 64.355
+  },
+  {
+    "id": "page-13-reading",
+    "time": 74.86
+  },
+  {
+    "id": "page-14-reading",
+    "time": 92.52
+  },
+  {
+    "id": "page-15-reading",
+    "time": 109.82
+  },
+  {
+    "id": "connector-before",
+    "time": 113.70833333333331
+  },
+  {
+    "id": "connector-exact",
+    "time": 113.74999999999999
+  },
+  {
+    "id": "connector-after",
+    "time": 113.87499999999999
+  },
+  {
+    "id": "capsuleClose-before",
+    "time": 122.64833333333331
+  },
+  {
+    "id": "capsuleClose-exact",
+    "time": 122.68999999999998
+  },
+  {
+    "id": "capsuleClose-after",
+    "time": 122.81499999999998
+  },
+  {
+    "id": "neuralUnlock-before",
+    "time": 127.47833333333332
+  },
+  {
+    "id": "neuralUnlock-exact",
+    "time": 127.52
+  },
+  {
+    "id": "neuralUnlock-after",
+    "time": 127.645
+  },
+  {
+    "id": "page-16-reading",
+    "time": 127.72
+  },
+  {
+    "id": "page-17-reading",
+    "time": 143.97
+  },
+  {
+    "id": "oneShot-before",
+    "time": 146.34833333333333
+  },
+  {
+    "id": "oneShot-exact",
+    "time": 146.39
+  },
+  {
+    "id": "oneShot-after",
+    "time": 146.515
+  },
+  {
+    "id": "page-18-reading",
+    "time": 154.87222222222223
+  },
+  {
+    "id": "residentImpact-before",
+    "time": 160.07055555555556
+  },
+  {
+    "id": "residentImpact-exact",
+    "time": 160.11222222222221
+  },
+  {
+    "id": "residentImpact-after",
+    "time": 160.23722222222221
+  },
+  {
+    "id": "page-19-reading",
+    "time": 174.63222222222223
+  },
+  {
+    "id": "19-2-reflection-a",
+    "time": 180.8422222222222
+  },
+  {
+    "id": "19-2-reflection-b",
+    "time": 181.8422222222222
+  },
+  {
+    "id": "page-20-reading",
+    "time": 191.03222222222223
+  },
+  {
+    "id": "bodySplash-before",
+    "time": 197.17055555555558
+  },
+  {
+    "id": "bodySplash-exact",
+    "time": 197.21222222222224
+  },
+  {
+    "id": "bodySplash-after",
+    "time": 197.33722222222224
+  },
+  {
+    "id": "page-21-reading",
+    "time": 204.26222222222222
+  },
+  {
+    "id": "refugeOpen-before",
+    "time": 208.02055555555555
+  },
+  {
+    "id": "refugeOpen-exact",
+    "time": 208.0622222222222
+  },
+  {
+    "id": "refugeOpen-after",
+    "time": 208.1872222222222
+  },
+  {
+    "id": "ending",
+    "time": 219.3022222222222
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "source": "REFERENCE.json",
+  "purpose": "Smaller upload after network failure, geometry and extent unchanged",
+  "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map/reference-user-night-city.jpg",
+  "sha256": "4beaa2915d3303ba32f9bcd8891e545f49328eceb8ef57cd5e1919abce069b0b",
+  "bytes": 451459
+}

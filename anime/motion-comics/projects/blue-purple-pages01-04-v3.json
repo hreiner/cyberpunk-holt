@@ -1,0 +1,38 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 3,
+  "title": "HOLT — Blue Purple · pages 1 à 4",
+  "pages": [
+    {
+      "id": "page-01",
+      "manifest": "blue-purple-page01-v4-r3.json"
+    },
+    {
+      "id": "page-02",
+      "manifest": "blue-purple-page02-v3.json"
+    },
+    {
+      "id": "page-03",
+      "manifest": "blue-purple-page03-v3.json"
+    },
+    {
+      "id": "page-04",
+      "manifest": "blue-purple-page04-v3.json"
+    }
+  ],
+  "music": {
+    "audio": "../../../public/assets/audio/background/music-pressure.mp3",
+    "gain": 0.08,
+    "fadeSeconds": 0.5
+  },
+  "source": "docs/chapters/ch3/SCENARIO.md, Blue Purple : Wendy et Letitia ; chiffres et vision ; découverte du bar vidé.",
+  "provenance": {
+    "page01": "Master et quatre prises v4 approuvés par le propriétaire le 5 novembre 2026 ; réutilisés sans génération.",
+    "newPages": "docs/comics/blue-purple-motion/production/pages-01-04/",
+    "music": "Fond HOLT existant, public/assets/audio/background/music-pressure.mp3 ; réemploi sans génération.",
+    "review": "Voir REVIEW.md et DELIVERY.md du lot pour les versions effectivement contrôlées et les limites d'écoute.",
+    "previousManifest": "blue-purple-pages01-04-v2.json",
+    "revision": "Reprise 03 selon retour du propriétaire : colère, respiration parcimonieuse, animation 16 cases et vision numérique."
+  }
+}

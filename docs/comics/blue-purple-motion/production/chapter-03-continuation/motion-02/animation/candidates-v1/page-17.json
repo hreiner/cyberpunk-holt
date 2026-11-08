@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "version": 5,
+  "title": "HOLT — Blue Purple · page 17",
+  "image": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-17/page.png",
+  "motionBaseImage": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-17/art.png",
+  "letteringImage": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-17/lettering.svg",
+  "storyThumbnail": true,
+  "overviewSeconds": 0.65,
+  "transitionSeconds": 0.28,
+  "gapSeconds": 0.18,
+  "outroSeconds": 0.45,
+  "panels": [
+    {
+      "id": "p17-c01",
+      "panelKey": "17-1",
+      "sourcePanelKey": "17-1",
+      "label": "À l’autre bout",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 2.5,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l076",
+          "globalLine": 76,
+          "localLine": 39,
+          "panel_id": "17-1",
+          "dialogueIndex": 0,
+          "pageId": "page-17",
+          "speaker": "abigail",
+          "textFr": "Wendy… à l'autre bout.",
+          "textEn": "Wendy... at the far end.",
+          "ttsText": "[tense, hushed] Wendy... at the far end.",
+          "performance": "Abigail repère la menace et avertit discrètement.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "WtA85syCrJwasGeHGH2p",
+          "audio": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/076-abigail-gain-+9.969db.wav",
+          "sha256": "07824e729d0ea6eb4970ad8f71fadb904a58eb0c328de2bbd872b689d6009a0a",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/39-abigail-0e6710321218.mp3",
+          "sourceSha256": "fdb0d985a2d1e7c6ee69b7f6b37d194d4bdf099e79183320ab2eaa6c90b23e92",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/39-abigail-0e6710321218.json",
+          "journalSha256": "0bcc4946f260dc3f3811052faff6727d8f73f7e88a00f90003d741f30498ae17",
+          "constantGainDb": 9.969,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.48,
+            "pcmSamples": 109368,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -11.96925398594093,
+            "meanDb": -33.02102967373869,
+            "firstAboveMinus40DbSeconds": 0.23272108843537415,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 126.96000000000002,
+          "duration": 2.48,
+          "pcmSamples": 109368,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.0001827379579966,
+          "meanDb": -23.052031845597696,
+          "firstAboveMinus40DbSeconds": 0.014285714285714285,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p17-c02",
+      "panelKey": "17-2",
+      "sourcePanelKey": "17-2",
+      "label": "Le tir et la mise à couvert",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 3.4,
+      "leadInSeconds": 1.08,
+      "cues": [
+        {
+          "id": "bp-l077",
+          "globalLine": 77,
+          "localLine": 40,
+          "panel_id": "17-2",
+          "dialogueIndex": 0,
+          "pageId": "page-17",
+          "speaker": "wendy",
+          "textFr": "À couvert !",
+          "textEn": "Take cover!",
+          "ttsText": "[urgent, commanding] Take COVER!",
+          "performance": "Alerte franche de Wendy, brève et projetée.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/40-wendy-052c3dbfbe86.mp3",
+          "sha256": "1cda6481e48c045003ae136de4898573d5f62b9cd3ce7cd708764fcd02aeb69f",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/40-wendy-052c3dbfbe86.mp3",
+          "sourceSha256": "1cda6481e48c045003ae136de4898573d5f62b9cd3ce7cd708764fcd02aeb69f",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/40-wendy-052c3dbfbe86.json",
+          "journalSha256": "d38395f386d15a4df6e126707a53f7265c3a0245dd254844829fe33c71d297c4",
+          "constantGainDb": 0,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.04,
+            "pcmSamples": 45864,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -2.1047509231539214,
+            "meanDb": -17.86088548405999,
+            "firstAboveMinus40DbSeconds": 0.04789115646258504,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 129.84000000000003,
+          "duration": 1.04,
+          "pcmSamples": 45864,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.1047509231539214,
+          "meanDb": -17.86088548405999,
+          "firstAboveMinus40DbSeconds": 0.04789115646258504,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p17-c03",
+      "panelKey": "17-3",
+      "sourcePanelKey": "17-3",
+      "label": "Fuir ensemble",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 2.7222222222222223,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l078",
+          "globalLine": 78,
+          "localLine": 41,
+          "panel_id": "17-3",
+          "dialogueIndex": 0,
+          "pageId": "page-17",
+          "speaker": "grover",
+          "textFr": "Par ici ! Ne vous séparez pas !",
+          "textEn": "This way! Stay together!",
+          "ttsText": "[urgent, protective] This way! [calling firmly] Stay TOGETHER!",
+          "performance": "Grover mène la fuite en gardant l'enfant près de lui.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/41-grover-a26b763c3798.mp3",
+          "sha256": "c8fe2b93e3c6e4cba216dfd82c96bffd4884152a5202eaf6ff789d451dd83785",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/41-grover-a26b763c3798.mp3",
+          "sourceSha256": "c8fe2b93e3c6e4cba216dfd82c96bffd4884152a5202eaf6ff789d451dd83785",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/41-grover-a26b763c3798.json",
+          "journalSha256": "c2e83b306b44b9aaf3fb88142df4cbde7deaa5539e96185fa09174f818736c2f",
+          "constantGainDb": 0,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.16,
+            "pcmSamples": 95256,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -2.505680401481853,
+            "meanDb": -18.001300275525693,
+            "firstAboveMinus40DbSeconds": 0.011564625850340135,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 131.28000000000003,
+          "duration": 2.16,
+          "pcmSamples": 95256,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.505680401481853,
+          "meanDb": -18.001300275525693,
+          "firstAboveMinus40DbSeconds": 0.011564625850340135,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "smoke",
+      "rect": [
+        0.6570740392652609,
+        0.19205729166666666,
+        0.13463489079879498,
+        0.078125
+      ],
+      "count": 6,
+      "color": "#b9c4d0",
+      "strength": 0.42,
+      "speed": 0.65,
+      "clock": "ambient",
+      "panelId": "p17-c01"
+    },
+    {
+      "type": "rain",
+      "rect": [
+        0.5448782969329318,
+        0.6712239583333334,
+        0.2333671440512447,
+        0.052083333333333336
+      ],
+      "clock": "ambient",
+      "panelId": "p17-c03"
+    },
+    {
+      "type": "smoke",
+      "rect": [
+        0.7692697815975901,
+        0.46647135416666674,
+        0.16156186895855396,
+        0.052083333333333336
+      ],
+      "count": 5,
+      "color": "#a9b2bf",
+      "strength": 0.4,
+      "speed": 0.8,
+      "clock": "story",
+      "panelId": "p17-c02",
+      "startSeconds": 4.8500000000000005,
+      "endSeconds": 6.65
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "17-1-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.009765625000000023,
+        0.6013691789012845,
+        0.3190104166666667
+      ]
+    },
+    {
+      "id": "17-1-rigid-2",
+      "rect": [
+        0.7872211003707626,
+        0.10742187500000001,
+        0.14361055018538138,
+        0.035807291666666664
+      ]
+    },
+    {
+      "id": "17-2-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.3385416666666667,
+        0.6013691789012845,
+        0.3229166666666667
+      ]
+    },
+    {
+      "id": "17-2-rigid-2",
+      "rect": [
+        0.6525862095719678,
+        0.5488281250000001,
+        0.29619675975734905,
+        0.11263020833333319
+      ]
+    },
+    {
+      "id": "17-3-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.7265625,
+        0.8975659386586334,
+        0.265625
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "bbfc7656ef6e385b7a0a4ebf59c96b140ee41ca4b381b30cee08ed1d1f3dc3f0",
+    "lettering": "Exact approved raster plates after effects; original SVG retained.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false,
+    "formatCorrection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/format-01/PROGRESS.md",
+    "motion02": "../CONTRACTS.json",
+    "previousSourceSha256": "34d36cfed17e9a293486eb589f9f2eea2b3e311e9a4bea15807e777dfb8e7055"
+  },
+  "motionLayers": [
+    {
+      "id": "three-bands-one-shot",
+      "panelId": "p17-c02",
+      "mode": "frames",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "startSeconds": 4.050000000000001,
+      "endSeconds": 7.450000000000001,
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-0.png",
+          "letteringImage": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/lettering-hidden.svg"
+        },
+        {
+          "atSeconds": 0.02,
+          "image": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-1.png",
+          "letteringImage": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/lettering-hidden.svg"
+        },
+        {
+          "atSeconds": 0.62,
+          "image": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-2.png",
+          "letteringImage": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/lettering-hidden.svg"
+        },
+        {
+          "atSeconds": 0.7,
+          "image": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-3.png",
+          "letteringImage": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/lettering-hidden.svg"
+        },
+        {
+          "atSeconds": 0.9,
+          "image": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-4.png",
+          "letteringImage": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/lettering-hidden.svg"
+        },
+        {
+          "atSeconds": 1.05,
+          "image": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/animation/assets-v1/page-17/stage-5.png",
+          "letteringImage": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-17/lettering.svg"
+        }
+      ]
+    }
+  ]
+}

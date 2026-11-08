@@ -1,0 +1,453 @@
+{
+  "schemaVersion": 1,
+  "version": 3,
+  "title": "HOLT — Blue Purple · page 3 · reprise 3",
+  "image": "../../../art-masters/motion-comics/blue-purple/page-03/page-v2.png",
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.6,
+  "outroSeconds": 2,
+  "panels": [
+    {
+      "id": "p03-c01",
+      "label": "Case 1 — Le document",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 7,
+      "cues": [
+        {
+          "id": "bp-l010",
+          "globalLine": 10,
+          "speaker": "wendy",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/10-wendy-ea11d779f53b.mp3",
+          "duration": 4,
+          "textFr": "C'est tout ce que j'ai. Je crois que c'est notre point de départ.",
+          "textEn": "This is all I have. I think it's where we start.",
+          "ttsText": "[uncertain, quietly] This is all I have. [cautiously hopeful] I think it's where we start.",
+          "performance": "Prudente, puis petite impulsion vers l'action sans certitude.",
+          "ttsModel": "eleven_v4",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/10-wendy-ea11d779f53b.json"
+        }
+      ]
+    },
+    {
+      "id": "p03-c02",
+      "label": "Case 2 — La décharge",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 4,
+      "cues": []
+    },
+    {
+      "id": "p03-c03",
+      "label": "Case 3 — La vision",
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 6,
+      "cues": []
+    },
+    {
+      "id": "p03-c04",
+      "label": "Case 4 — Le contrecoup",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 7,
+      "cues": [
+        {
+          "id": "bp-l011",
+          "globalLine": 11,
+          "speaker": "enfant",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/11-enfant-0ed04d2f1418.mp3",
+          "duration": 2.64,
+          "textFr": "Franklyn ? Qu'est-ce qu'il y a ?",
+          "textEn": "Franklyn? What's wrong?",
+          "ttsText": "[softly, hesitant] Franklyn? [worried] What's wrong?",
+          "performance": "Petit appel d'abord prudent, puis inquiétude sincère sans crier.",
+          "ttsModel": "eleven_v4",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/11-enfant-0ed04d2f1418.json"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "lightSweep",
+      "panelId": "p03-c01",
+      "rect": [
+        0.6337890625,
+        0.2884114583333333,
+        0.0703125,
+        0.040364583333333336
+      ],
+      "color": "#30eaff",
+      "strength": 0.67,
+      "speed": 0.8,
+      "phase": 0,
+      "amplitude": 28
+    },
+    {
+      "type": "particles",
+      "panelId": "p03-c01",
+      "rect": [
+        0.13671875,
+        0.037109375,
+        0.0712890625,
+        0.0390625
+      ],
+      "color": "#51ebff",
+      "strength": 0.65,
+      "speed": 0.8,
+      "phase": 0.71,
+      "count": 15
+    },
+    {
+      "type": "sparks",
+      "panelId": "p03-c02",
+      "rect": [
+        0.013671875,
+        0.341796875,
+        0.478515625,
+        0.3170572916666667
+      ],
+      "color": "#5be3ff",
+      "strength": 0.69,
+      "speed": 0.8,
+      "phase": 1.42,
+      "amplitude": 32,
+      "count": 8,
+      "startSeconds": 10.7
+    },
+    {
+      "type": "digitalVision",
+      "panelId": "p03-c03",
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "color": "#68f5ff",
+      "strength": 0.68,
+      "speed": 0.75,
+      "phase": 2.13,
+      "amplitude": 16,
+      "count": 48,
+      "startSeconds": 15.549999999999999,
+      "mapRect": [
+        0.552734375,
+        0.4244791666666667,
+        0.3896484375,
+        0.16927083333333334
+      ],
+      "revealSeconds": 2.5
+    },
+    {
+      "type": "lightSweep",
+      "panelId": "p03-c04",
+      "rect": [
+        0.4150390625,
+        0.7747395833333334,
+        0.068359375,
+        0.05859375
+      ],
+      "color": "#35dcff",
+      "strength": 0.67,
+      "speed": 0.75,
+      "phase": 2.84,
+      "amplitude": 30
+    },
+    {
+      "type": "particles",
+      "panelId": "p03-c04",
+      "rect": [
+        0.4072265625,
+        0.744140625,
+        0.166015625,
+        0.029296875
+      ],
+      "color": "#77dcff",
+      "strength": 0.65,
+      "speed": 0.75,
+      "phase": 3.55,
+      "count": 18
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-wendy-face",
+      "rect": [
+        0.232421875,
+        0.09765625,
+        0.10546875,
+        0.08919270833333333
+      ]
+    },
+    {
+      "id": "c1-grover-face",
+      "rect": [
+        0.4072265625,
+        0.10807291666666667,
+        0.099609375,
+        0.06770833333333333
+      ]
+    },
+    {
+      "id": "c1-john-face",
+      "rect": [
+        0.064453125,
+        0.10807291666666667,
+        0.099609375,
+        0.076171875
+      ]
+    },
+    {
+      "id": "c1-child-face",
+      "rect": [
+        0.5244140625,
+        0.17513020833333334,
+        0.0888671875,
+        0.052734375
+      ]
+    },
+    {
+      "id": "c1-abigail-face",
+      "rect": [
+        0.646484375,
+        0.13020833333333334,
+        0.09375,
+        0.07161458333333333
+      ]
+    },
+    {
+      "id": "c1-franklyn-face",
+      "rect": [
+        0.7978515625,
+        0.16015625,
+        0.115234375,
+        0.08528645833333333
+      ]
+    },
+    {
+      "id": "c1-john-badge",
+      "rect": [
+        0.021484375,
+        0.20638020833333334,
+        0.0615234375,
+        0.061848958333333336
+      ]
+    },
+    {
+      "id": "c1-grover-badge",
+      "rect": [
+        0.4697265625,
+        0.18098958333333334,
+        0.0361328125,
+        0.033203125
+      ]
+    },
+    {
+      "id": "c1-abigail-badge",
+      "rect": [
+        0.7685546875,
+        0.20182291666666666,
+        0.044921875,
+        0.038411458333333336
+      ]
+    },
+    {
+      "id": "c1-franklyn-badge",
+      "rect": [
+        0.806640625,
+        0.2584635416666667,
+        0.08203125,
+        0.06901041666666667
+      ]
+    },
+    {
+      "id": "c1-document",
+      "rect": [
+        0.29296875,
+        0.27734375,
+        0.3349609375,
+        0.052083333333333336
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.068359375,
+        0.3860677083333333,
+        0.36328125,
+        0.23372395833333334
+      ]
+    },
+    {
+      "id": "c4-child-face",
+      "rect": [
+        0.2509765625,
+        0.8157552083333334,
+        0.1259765625,
+        0.07747395833333333
+      ]
+    },
+    {
+      "id": "c4-franklyn-face",
+      "rect": [
+        0.6640625,
+        0.7395833333333334,
+        0.1318359375,
+        0.10546875
+      ]
+    },
+    {
+      "id": "c4-franklyn-left-badge",
+      "rect": [
+        0.5361328125,
+        0.8203125,
+        0.0478515625,
+        0.050130208333333336
+      ]
+    },
+    {
+      "id": "c4-franklyn-right-badge",
+      "rect": [
+        0.8662109375,
+        0.8333333333333334,
+        0.041015625,
+        0.049479166666666664
+      ]
+    },
+    {
+      "id": "c4-document",
+      "rect": [
+        0.3017578125,
+        0.970703125,
+        0.2314453125,
+        0.022135416666666668
+      ]
+    },
+    {
+      "id": "balloon-1",
+      "rect": [
+        0.5341796875,
+        0.012369791666666666,
+        0.421875,
+        0.06640625
+      ]
+    },
+    {
+      "id": "tail-1",
+      "rect": [
+        0.369140625,
+        0.040364583333333336,
+        0.1806640625,
+        0.034505208333333336
+      ]
+    },
+    {
+      "id": "balloon-2",
+      "rect": [
+        0.0263671875,
+        0.6764322916666666,
+        0.435546875,
+        0.06640625
+      ]
+    },
+    {
+      "id": "tail-2",
+      "rect": [
+        0.1748046875,
+        0.73046875,
+        0.0361328125,
+        0.029296875
+      ]
+    },
+    {
+      "id": "c4-franklyn-temple-hand",
+      "rect": [
+        0.7626953125,
+        0.7376302083333334,
+        0.0703125,
+        0.09765625
+      ]
+    },
+    {
+      "id": "c4-franklyn-table-hand",
+      "rect": [
+        0.498046875,
+        0.9388020833333334,
+        0.1513671875,
+        0.044921875
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md — Les chiffres et la vision ; docs/anime/SCREENPLAY.md S01-P04 ; demande de révision du propriétaire transmise à la réalisation le 2026-11-05",
+  "provenance": {
+    "previousManifest": "blue-purple-page03-v2.json",
+    "contract": "docs/comics/blue-purple-motion/production/pages-01-04/revision-03/contracts/page-03.json",
+    "image": "Quatre éditions ciblées ImageGen au total, assemblages/lettrages v2 ; journaux et prompts de la reprise.",
+    "audio": "Quinze nouvelles prises Eleven v4 sans tags respiratoires automatiques, mesurées PCM ; cumul 2416/3000 caractères incluant 1044 historiques.",
+    "effects": "docs/comics/blue-purple-motion/production/pages-01-04/revision-03/effects-plans/page-03.json ; temps recalés sur les nouvelles prises.",
+    "revision": "Colère et ralliement douloureux, choc après vision, petite animation dans chaque case, éclairs et minimap subjective fragmentée.",
+    "humanApproval": false
+  },
+  "voiceModel": "eleven_v4",
+  "review": {
+    "sampleTime": 4.05,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 500,
+    "minimumLiveChangedPixels": 400,
+    "perPanelReview": [
+      {
+        "panelId": "p03-c01",
+        "sampleTime": 4.05,
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 400
+      },
+      {
+        "panelId": "p03-c02",
+        "sampleTime": 11.899999999999999,
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 400
+      },
+      {
+        "panelId": "p03-c03",
+        "sampleTime": 18.849999999999998,
+        "sampleOffsetSeconds": 3.3,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 400
+      },
+      {
+        "panelId": "p03-c04",
+        "sampleTime": 23.599999999999998,
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 400
+      }
+    ]
+  },
+  "voiceSelection": {
+    "status": "agent-selected-after-owner-feedback",
+    "date": "2026-11-05",
+    "humanApproval": false,
+    "note": "V4 était déjà utilisé page 1 ; nouvelles prises pour réduire les respirations et reprendre le jeu de Franklyn."
+  }
+}

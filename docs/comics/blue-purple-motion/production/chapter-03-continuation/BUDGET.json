@@ -1,0 +1,16 @@
+{
+  "scope": "pages 9–21, suite entière",
+  "imagegen": {
+    "initial_panels": 39,
+    "correction_reserve": 13,
+    "max_calls": 52,
+    "submitted": 47,
+    "running": []
+  },
+  "tts": "allocation à chiffrer après gel des textes",
+  "sfx": "réemploi prioritaire",
+  "historical_imagegen_pages05_08": 29,
+  "previous_page09_attempt": 1,
+  "historical_tts_characters": 3394,
+  "cost": null
+}

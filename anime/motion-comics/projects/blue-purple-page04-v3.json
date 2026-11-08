@@ -1,0 +1,617 @@
+{
+  "schemaVersion": 1,
+  "version": 3,
+  "title": "HOLT — Blue Purple · page 4 · reprise 3",
+  "image": "../../../art-masters/motion-comics/blue-purple/page-04/page-v2.png",
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.6,
+  "outroSeconds": 2,
+  "panels": [
+    {
+      "id": "p04-c01",
+      "label": "Case 1 — Des coordonnées anciennes",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 10,
+      "cues": [
+        {
+          "id": "bp-l012",
+          "globalLine": 12,
+          "speaker": "franklyn",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/12-franklyn-17cc979c2300.mp3",
+          "duration": 5.6,
+          "textFr": "Je connais ces chiffres. Latitude et longitude. Je les ai vus dans la simulation.",
+          "textEn": "I know these. Latitude and longitude. I saw them in the simulation.",
+          "ttsText": "[shaken, hesitant] I know these. [recognizing, low] Latitude and longitude. [struggling, quiet] I saw them in the simulation.",
+          "performance": "Voix encore secouée, première phrase laborieuse, puis mots latitude/longitude reconnus avec effort ; dernière phrase basse, sans assurance d’expert. Conserver le texte lexical sans ajout d’explication. Tags d’émotion plutôt que respirations automatiques.",
+          "ttsModel": "eleven_v4",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/12-franklyn-17cc979c2300.json"
+        }
+      ]
+    },
+    {
+      "id": "p04-c02",
+      "label": "Case 2 — Trouver une borne",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 7,
+      "cues": [
+        {
+          "id": "bp-l013",
+          "globalLine": 13,
+          "speaker": "franklyn",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/13-franklyn-91bf49be4f0d.mp3",
+          "duration": 3.84,
+          "textFr": "Ce sont d'anciennes coordonnées. Il faut une borne pour les convertir.",
+          "textEn": "They're old coordinates. We need a terminal to convert them.",
+          "ttsText": "[tense, focused] They're old coordinates. [trying to be steady] We need a terminal to convert them.",
+          "performance": "La voix retrouve une ligne claire après le choc, avec tension résiduelle ; donner la solution au groupe, pas faire une démonstration d’expert.",
+          "ttsModel": "eleven_v4",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/13-franklyn-91bf49be4f0d.json"
+        }
+      ]
+    },
+    {
+      "id": "p04-c03",
+      "label": "Case 3 — Partir",
+      "rect": [
+        0.505859375,
+        0.3385416666666667,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 4,
+      "cues": [
+        {
+          "id": "bp-l014",
+          "globalLine": 14,
+          "speaker": "wendy",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/14-wendy-c1650f23955d.mp3",
+          "duration": 1.36,
+          "textFr": "Alors, on y va.",
+          "textEn": "Then let's move.",
+          "ttsText": "[firm, urgent] Then let's move.",
+          "performance": "Brève impulsion autoritaire, urgence sans cri.",
+          "ttsModel": "eleven_v4",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/14-wendy-c1650f23955d.json"
+        }
+      ]
+    },
+    {
+      "id": "p04-c04",
+      "label": "Case 4 — Le bar désert",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 7,
+      "cues": [
+        {
+          "id": "bp-l015",
+          "globalLine": 15,
+          "speaker": "john",
+          "audio": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/15-john-f9e1166b42f5.mp3",
+          "duration": 2,
+          "textFr": "Ils sont tous passés où ?",
+          "textEn": "Where did everybody go?",
+          "ttsText": "[low, puzzled] Where did everybody go?",
+          "performance": "D'abord question basse, puis il entend lui-même le silence ; laisser retomber sans réponse.",
+          "ttsModel": "eleven_v4",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/pages-01-04/audio-v3/takes/15-john-f9e1166b42f5.json"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "lightSweep",
+      "panelId": "p04-c01",
+      "rect": [
+        0.564453125,
+        0.3138020833333333,
+        0.2314453125,
+        0.016927083333333332
+      ],
+      "color": "#ff4edb",
+      "strength": 0.68,
+      "speed": 0.75,
+      "phase": 0,
+      "amplitude": 34
+    },
+    {
+      "type": "particles",
+      "panelId": "p04-c01",
+      "rect": [
+        0.01953125,
+        0.022135416666666668,
+        0.1083984375,
+        0.061848958333333336
+      ],
+      "color": "#52e9ff",
+      "strength": 0.65,
+      "speed": 0.8,
+      "phase": 0.71,
+      "count": 18
+    },
+    {
+      "type": "lightSweep",
+      "panelId": "p04-c02",
+      "rect": [
+        0.263671875,
+        0.4557291666666667,
+        0.1181640625,
+        0.029296875
+      ],
+      "color": "#39e6ff",
+      "strength": 0.68,
+      "speed": 0.85,
+      "phase": 1.42,
+      "amplitude": 29
+    },
+    {
+      "type": "particles",
+      "panelId": "p04-c02",
+      "rect": [
+        0.34375,
+        0.4459635416666667,
+        0.0693359375,
+        0.043619791666666664
+      ],
+      "color": "#6cecff",
+      "strength": 0.65,
+      "speed": 0.8,
+      "phase": 2.13,
+      "count": 15
+    },
+    {
+      "type": "lightSweep",
+      "panelId": "p04-c03",
+      "rect": [
+        0.82421875,
+        0.6087239583333334,
+        0.12890625,
+        0.042317708333333336
+      ],
+      "color": "#3aebff",
+      "strength": 0.68,
+      "speed": 0.75,
+      "phase": 2.84,
+      "amplitude": 32
+    },
+    {
+      "type": "particles",
+      "panelId": "p04-c03",
+      "rect": [
+        0.8291015625,
+        0.5026041666666666,
+        0.1259765625,
+        0.039713541666666664
+      ],
+      "color": "#e36fff",
+      "strength": 0.65,
+      "speed": 0.8,
+      "phase": 3.55,
+      "count": 16
+    },
+    {
+      "type": "lightSweep",
+      "panelId": "p04-c04",
+      "rect": [
+        0.4169921875,
+        0.8020833333333334,
+        0.0595703125,
+        0.046875
+      ],
+      "color": "#f94cda",
+      "strength": 0.68,
+      "speed": 0.72,
+      "phase": 4.26,
+      "amplitude": 28
+    },
+    {
+      "type": "particles",
+      "panelId": "p04-c04",
+      "rect": [
+        0.6328125,
+        0.7044270833333334,
+        0.224609375,
+        0.054036458333333336
+      ],
+      "color": "#e58aff",
+      "strength": 0.65,
+      "speed": 0.65,
+      "phase": 4.97,
+      "count": 22
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-franklyn-face",
+      "rect": [
+        0.203125,
+        0.08984375,
+        0.1650390625,
+        0.11197916666666667
+      ]
+    },
+    {
+      "id": "c1-franklyn-badge",
+      "rect": [
+        0.05078125,
+        0.17838541666666666,
+        0.07421875,
+        0.059895833333333336
+      ]
+    },
+    {
+      "id": "c1-document",
+      "rect": [
+        0.212890625,
+        0.23763020833333334,
+        0.298828125,
+        0.0859375
+      ]
+    },
+    {
+      "id": "c2-wendy-face-fragment",
+      "rect": [
+        0.01171875,
+        0.4212239583333333,
+        0.064453125,
+        0.10286458333333333
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.091796875,
+        0.498046875,
+        0.078125,
+        0.057942708333333336
+      ]
+    },
+    {
+      "id": "c2-john-face",
+      "rect": [
+        0.1982421875,
+        0.4973958333333333,
+        0.0517578125,
+        0.044270833333333336
+      ]
+    },
+    {
+      "id": "c2-abigail-face",
+      "rect": [
+        0.2783203125,
+        0.501953125,
+        0.0625,
+        0.051432291666666664
+      ]
+    },
+    {
+      "id": "c2-child-face",
+      "rect": [
+        0.3603515625,
+        0.5319010416666666,
+        0.0673828125,
+        0.049479166666666664
+      ]
+    },
+    {
+      "id": "c2-grover-face",
+      "rect": [
+        0.435546875,
+        0.4889322916666667,
+        0.0576171875,
+        0.054036458333333336
+      ]
+    },
+    {
+      "id": "c2-franklyn-badge",
+      "rect": [
+        0.0400390625,
+        0.5514322916666666,
+        0.0322265625,
+        0.03125
+      ]
+    },
+    {
+      "id": "c2-abigail-badge",
+      "rect": [
+        0.2412109375,
+        0.5475260416666666,
+        0.0283203125,
+        0.03125
+      ]
+    },
+    {
+      "id": "c2-grover-badge",
+      "rect": [
+        0.4677734375,
+        0.548828125,
+        0.025390625,
+        0.040364583333333336
+      ]
+    },
+    {
+      "id": "c2-document",
+      "rect": [
+        0.1728515625,
+        0.6236979166666666,
+        0.16015625,
+        0.036458333333333336
+      ]
+    },
+    {
+      "id": "c3-wendy-face",
+      "rect": [
+        0.6240234375,
+        0.396484375,
+        0.0771484375,
+        0.064453125
+      ]
+    },
+    {
+      "id": "c3-document",
+      "rect": [
+        0.6064453125,
+        0.5598958333333334,
+        0.1298828125,
+        0.059244791666666664
+      ]
+    },
+    {
+      "id": "c4-john-face",
+      "rect": [
+        0.072265625,
+        0.76171875,
+        0.06640625,
+        0.06705729166666667
+      ]
+    },
+    {
+      "id": "c4-wendy-face",
+      "rect": [
+        0.228515625,
+        0.8151041666666666,
+        0.0703125,
+        0.064453125
+      ]
+    },
+    {
+      "id": "c4-franklyn-head",
+      "rect": [
+        0.2880859375,
+        0.828125,
+        0.12109375,
+        0.09765625
+      ]
+    },
+    {
+      "id": "c4-abigail-head",
+      "rect": [
+        0.462890625,
+        0.8522135416666666,
+        0.1298828125,
+        0.099609375
+      ]
+    },
+    {
+      "id": "c4-grover-head",
+      "rect": [
+        0.6318359375,
+        0.82421875,
+        0.1533203125,
+        0.123046875
+      ]
+    },
+    {
+      "id": "c4-child-head",
+      "rect": [
+        0.8447265625,
+        0.8815104166666666,
+        0.1376953125,
+        0.107421875
+      ]
+    },
+    {
+      "id": "c4-john-badge",
+      "rect": [
+        0.0380859375,
+        0.8626302083333334,
+        0.0390625,
+        0.039713541666666664
+      ]
+    },
+    {
+      "id": "c4-franklyn-badge",
+      "rect": [
+        0.3662109375,
+        0.951171875,
+        0.0244140625,
+        0.037109375
+      ]
+    },
+    {
+      "id": "c4-abigail-badge",
+      "rect": [
+        0.5615234375,
+        0.9641927083333334,
+        0.02734375,
+        0.027994791666666668
+      ]
+    },
+    {
+      "id": "c4-grover-badge",
+      "rect": [
+        0.77734375,
+        0.9557291666666666,
+        0.03515625,
+        0.036458333333333336
+      ]
+    },
+    {
+      "id": "c4-barman-face",
+      "rect": [
+        0.5517578125,
+        0.751953125,
+        0.0234375,
+        0.01953125
+      ]
+    },
+    {
+      "id": "balloon-1",
+      "rect": [
+        0.529296875,
+        0.018880208333333332,
+        0.4306640625,
+        0.06770833333333333
+      ]
+    },
+    {
+      "id": "tail-1",
+      "rect": [
+        0.4169921875,
+        0.06575520833333333,
+        0.1474609375,
+        0.07682291666666667
+      ]
+    },
+    {
+      "id": "balloon-2",
+      "rect": [
+        0.5927734375,
+        0.07747395833333333,
+        0.3671875,
+        0.06510416666666667
+      ]
+    },
+    {
+      "id": "balloon-3",
+      "rect": [
+        0.1044921875,
+        0.3483072916666667,
+        0.37890625,
+        0.08072916666666667
+      ]
+    },
+    {
+      "id": "tail-3",
+      "rect": [
+        0.1435546875,
+        0.4166666666666667,
+        0.03515625,
+        0.034505208333333336
+      ]
+    },
+    {
+      "id": "balloon-4",
+      "rect": [
+        0.7734375,
+        0.349609375,
+        0.2060546875,
+        0.061197916666666664
+      ]
+    },
+    {
+      "id": "tail-4",
+      "rect": [
+        0.7314453125,
+        0.3854166666666667,
+        0.0712890625,
+        0.050130208333333336
+      ]
+    },
+    {
+      "id": "balloon-5",
+      "rect": [
+        0.0263671875,
+        0.6764322916666666,
+        0.298828125,
+        0.059895833333333336
+      ]
+    },
+    {
+      "id": "tail-5",
+      "rect": [
+        0.0947265625,
+        0.7252604166666666,
+        0.03515625,
+        0.026692708333333332
+      ]
+    },
+    {
+      "id": "c1-franklyn-raised-hand",
+      "rect": [
+        0.0888671875,
+        0.08333333333333333,
+        0.09375,
+        0.11783854166666667
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md — Les chiffres et la vision, puis début Le piège au bar ; docs/anime/SCREENPLAY.md S01-P05 et première réplique S02-P01 ; demande de révision du propriétaire transmise à la réalisation le 2026-11-05",
+  "provenance": {
+    "previousManifest": "blue-purple-page04-v2.json",
+    "contract": "docs/comics/blue-purple-motion/production/pages-01-04/revision-03/contracts/page-04.json",
+    "image": "Quatre éditions ciblées ImageGen au total, assemblages/lettrages v2 ; journaux et prompts de la reprise.",
+    "audio": "Quinze nouvelles prises Eleven v4 sans tags respiratoires automatiques, mesurées PCM ; cumul 2416/3000 caractères incluant 1044 historiques.",
+    "effects": "docs/comics/blue-purple-motion/production/pages-01-04/revision-03/effects-plans/page-04.json ; temps recalés sur les nouvelles prises.",
+    "revision": "Colère et ralliement douloureux, choc après vision, petite animation dans chaque case, éclairs et minimap subjective fragmentée.",
+    "humanApproval": false
+  },
+  "voiceModel": "eleven_v4",
+  "review": {
+    "sampleTime": 4.05,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 500,
+    "minimumLiveChangedPixels": 400,
+    "perPanelReview": [
+      {
+        "panelId": "p04-c01",
+        "sampleTime": 4.05,
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 400
+      },
+      {
+        "panelId": "p04-c02",
+        "sampleTime": 14.899999999999999,
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 400
+      },
+      {
+        "panelId": "p04-c03",
+        "sampleTime": 22.75,
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 400
+      },
+      {
+        "panelId": "p04-c04",
+        "sampleTime": 27.6,
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 400
+      }
+    ]
+  },
+  "voiceSelection": {
+    "status": "agent-selected-after-owner-feedback",
+    "date": "2026-11-05",
+    "humanApproval": false,
+    "note": "V4 était déjà utilisé page 1 ; nouvelles prises pour réduire les respirations et reprendre le jeu de Franklyn."
+  }
+}

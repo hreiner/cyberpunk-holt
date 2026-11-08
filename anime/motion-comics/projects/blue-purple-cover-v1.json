@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "version": 1,
+  "title": "HOLT — Blue Purple · couverture",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/cover-v1.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/art-native-01.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-02/cover/lettering.png",
+  "overviewSeconds": 0,
+  "transitionSeconds": 0,
+  "gapSeconds": 0,
+  "outroSeconds": 0,
+  "panels": [
+    {
+      "id": "cover",
+      "label": "Couverture — Blue Purple",
+      "rect": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "holdSeconds": 12,
+      "cues": []
+    }
+  ],
+  "effects": [
+    {
+      "type": "rain",
+      "panelId": "cover",
+      "rect": [
+        0.015,
+        0.015,
+        0.97,
+        0.19
+      ],
+      "color": "#74b8e6",
+      "strength": 0.48,
+      "speed": 0.9,
+      "count": 48
+    },
+    {
+      "type": "reflection",
+      "panelId": "cover",
+      "rect": [
+        0.81,
+        0.76,
+        0.18,
+        0.2
+      ],
+      "color": "#ff58de",
+      "strength": 0.45,
+      "speed": 0.65,
+      "softEdge": true
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "cover-group",
+      "rect": [
+        0.035,
+        0.27,
+        0.77,
+        0.705
+      ]
+    }
+  ],
+  "provenance": {
+    "art": "ImageGen intégré — PROMPT-v3.md, candidat01, six personnages de référence",
+    "prompt": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-02/cover/PROMPT-v3.md",
+    "type": "lettering.svg éditable ; lettering.png figé pour un rejeu sans dépendance de police système",
+    "duration": "12s, musique HOLT réemployée"
+  }
+}

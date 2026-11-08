@@ -1,0 +1,302 @@
+{
+  "page": 6,
+  "version": 1,
+  "status": "revision-01-configured-awaiting-two-pose-review",
+  "sourceImage": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/page-v1.png",
+  "sourceSha256": "8e07196ae9408febc1764363b148be13d7805b3465d24ad4c71d30e4c02f0040",
+  "size": [
+    1024,
+    1536
+  ],
+  "effects": [
+    {
+      "type": "smoke",
+      "panelId": "p06-c01",
+      "rect": [
+        0.8125,
+        0.0078125,
+        0.166015625,
+        0.10807291666666667
+      ],
+      "count": 9,
+      "color": "#afabbc",
+      "strength": 0.64,
+      "speed": 0.75,
+      "direction": "up",
+      "phase": 1.1
+    },
+    {
+      "type": "hair",
+      "panelId": "p06-c02",
+      "rect": [
+        0.55078125,
+        0.4537760416666667,
+        0.173828125,
+        0.07096354166666667
+      ],
+      "amplitude": 8,
+      "frequency": 0.57,
+      "protect": [
+        [
+          0.6005859375,
+          0.50390625,
+          0.0947265625,
+          0.07356770833333333
+        ],
+        [
+          0.5908203125,
+          0.4166666666666667,
+          0.03515625,
+          0.044270833333333336
+        ]
+      ]
+    },
+    {
+      "type": "smoke",
+      "panelId": "p06-c03",
+      "rect": [
+        0.853515625,
+        0.671875,
+        0.130859375,
+        0.06901041666666667
+      ],
+      "count": 7,
+      "color": "#bfc1d0",
+      "strength": 0.65,
+      "speed": 1.1,
+      "direction": "right",
+      "phase": 0.8
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-pursuer",
+      "rect": [
+        0.5205078125,
+        0.0546875,
+        0.169921875,
+        0.197265625
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.130859375,
+        0.5501302083333334,
+        0.1103515625,
+        0.064453125
+      ]
+    },
+    {
+      "id": "c2-john-face",
+      "rect": [
+        0.2568359375,
+        0.5260416666666666,
+        0.0908203125,
+        0.072265625
+      ]
+    },
+    {
+      "id": "c2-john-hand",
+      "rect": [
+        0.296875,
+        0.5755208333333334,
+        0.0556640625,
+        0.04296875
+      ]
+    },
+    {
+      "id": "c2-wendy-face",
+      "rect": [
+        0.6005859375,
+        0.50390625,
+        0.0947265625,
+        0.07356770833333333
+      ]
+    },
+    {
+      "id": "c2-wendy-hand",
+      "rect": [
+        0.822265625,
+        0.5182291666666666,
+        0.08203125,
+        0.046875
+      ]
+    },
+    {
+      "id": "c2-franklyn-badge",
+      "rect": [
+        0.0322265625,
+        0.60546875,
+        0.05859375,
+        0.052083333333333336
+      ]
+    },
+    {
+      "id": "c2-john-badge",
+      "rect": [
+        0.2294921875,
+        0.6028645833333334,
+        0.041015625,
+        0.041666666666666664
+      ]
+    },
+    {
+      "id": "c3-all-six-swept-region",
+      "rect": [
+        0.09765625,
+        0.7291666666666666,
+        0.724609375,
+        0.2630208333333333
+      ]
+    },
+    {
+      "id": "balloon-1",
+      "rect": [
+        0.033203125,
+        0.018229166666666668,
+        0.23828125,
+        0.053385416666666664
+      ]
+    },
+    {
+      "id": "tail-1-all-poses",
+      "rect": [
+        0.009765625,
+        0.036458333333333336,
+        0.037109375,
+        0.01953125
+      ]
+    },
+    {
+      "id": "balloon-2",
+      "rect": [
+        0.048828125,
+        0.3515625,
+        0.326171875,
+        0.06380208333333333
+      ]
+    },
+    {
+      "id": "tail-2-all-poses",
+      "rect": [
+        0.357421875,
+        0.3763020833333333,
+        0.0859375,
+        0.020182291666666668
+      ]
+    },
+    {
+      "id": "balloon-3",
+      "rect": [
+        0.41796875,
+        0.3515625,
+        0.521484375,
+        0.078125
+      ]
+    },
+    {
+      "id": "tail-3-all-poses",
+      "rect": [
+        0.591796875,
+        0.4192708333333333,
+        0.03125,
+        0.040364583333333336
+      ]
+    },
+    {
+      "id": "balloon-4",
+      "rect": [
+        0.291015625,
+        0.67578125,
+        0.39453125,
+        0.029947916666666668
+      ]
+    },
+    {
+      "id": "tail-4-all-poses",
+      "rect": [
+        0.2568359375,
+        0.6953125,
+        0.1025390625,
+        0.05078125
+      ]
+    },
+    {
+      "id": "balloon-5",
+      "rect": [
+        0.025390625,
+        0.7044270833333334,
+        0.240234375,
+        0.029947916666666668
+      ]
+    },
+    {
+      "id": "tail-5-all-poses",
+      "rect": [
+        0.1875,
+        0.7239583333333334,
+        0.0615234375,
+        0.015625
+      ]
+    }
+  ],
+  "review": {
+    "sampleTime": 2.2,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 200,
+    "minimumLiveChangedPixels": 200,
+    "perPanelReview": [
+      {
+        "panelId": "p06-c01",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200
+      },
+      {
+        "panelId": "p06-c02",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200
+      },
+      {
+        "panelId": "p06-c03",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200,
+        "motionProofRequired": true
+      }
+    ]
+  },
+  "reviewNotes": "Revision01 two genuinely drawn threshold/crossing poses, both corrected-v2 cadet patches. Narrative swap at page13.6 aligned rearExit anchor; six members/door state retained, final crossing held. Two full-page SVG overrides keep bodies/text fixed but aim Abigail/Grover tails at the actual current head, before/after threshold. Current-art protection covers swept six-person region, vent plume kept far right. C1 vent plume and C2 Wendy hair preserved; all five actual balloons and union of pose-tail positions protected.",
+  "motionBaseImage": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/page-raw-v1.png",
+  "letteringImage": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/lettering-v1.svg",
+  "lettering": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/lettering-v1.json",
+  "motionLayers": [
+    {
+      "id": "rear-exit-two-poses",
+      "panelId": "p06-c03",
+      "mode": "frames",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "startSeconds": 12.6,
+      "endSeconds": 18.1,
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p06-c03-pose-01-seuil-v2.png",
+          "letteringImage": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/lettering-seuil-v1.svg"
+        },
+        {
+          "atSeconds": 1,
+          "image": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/art/p06-c03-pose-02-franchissement-v2.png",
+          "letteringImage": "art-masters/motion-comics/blue-purple/pages-05-08/revision-01/page-06/lettering-franchissement-v1.svg"
+        }
+      ]
+    }
+  ]
+}

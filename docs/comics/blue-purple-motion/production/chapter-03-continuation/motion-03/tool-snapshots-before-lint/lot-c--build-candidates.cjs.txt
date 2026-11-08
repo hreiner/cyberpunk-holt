@@ -1,0 +1,120 @@
+/* Lot C only. Timing is applied once to frozen v9 page sources. */
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const {chromium}=require('playwright');
+const root=path.resolve(__dirname,'../../../../../../..'),projects=path.join(root,'anime/motion-comics/projects');
+const core=require(path.join(root,'anime/motion-comics/core.js'));
+const {getTiming}=require('../timing/retime.cjs');
+const args=process.argv.slice(2),value=(name,fallback)=>args.includes(name)?args[args.indexOf(name)+1]:fallback;
+const pageNumber=Number(value('--page','17'));assert([16,17].includes(pageNumber));
+const assets=path.join(root,'art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c',`page-${pageNumber}`);
+fs.mkdirSync(assets,{recursive:true});
+const sourceFile=path.join(projects,`blue-purple-page${pageNumber}-motion05.json`),source=JSON.parse(fs.readFileSync(sourceFile,'utf8'));
+const timing=getTiming(source,pageNumber),data=timing.data;
+const media=file=>path.relative(projects,file).split(path.sep).join('/');
+const local=file=>path.resolve(projects,file);
+const sha=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const uri=file=>'data:image/'+(path.extname(file)==='.svg'?'svg+xml':'png')+';base64,'+fs.readFileSync(file).toString('base64');
+const rect=(x,y,w,h)=>[x/1024,y/1536,w/1024,h/1536];
+const polygon=points=>points.map(([x,y])=>[x/1024,y/1536]);
+const box=points=>{const xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);return rect(Math.min(...xs),Math.min(...ys),Math.max(...xs)-Math.min(...xs),Math.max(...ys)-Math.min(...ys));};
+const clipped=(type,panelId,points,other={})=>({type,panelId,rect:box(points),clipPolygon:polygon(points),...other});
+const hold=index=>timing.panels[index].ready,end=index=>timing.panels[index].end;
+const report={page:pageNumber,source:sourceFile,sourceSha256:sha(sourceFile),timingSha256:sha(path.join(__dirname,'../timing/TIMING.json')),duration:timing.newTimeline.duration,anchors:{},notes:[]};
+function rain(panelId,points,count,speed,strength,other={}){return clipped('rain',panelId,points,{rainFlow:true,count,speed,strength,clock:'ambient',...other});}
+async function build16(page){
+ const mapDir=path.resolve(value('--map-dir',path.join(root,'art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/map')));
+ const mapBase=path.join(mapDir,'map-base.png'),mapFinal=path.join(mapDir,'map-final.png');
+ assert(fs.existsSync(mapBase)&&fs.existsSync(mapFinal),'La carte relue est requise.');
+ const markers=['position','unknown','green'],markerOffsets={position:2.85,unknown:3.25,green:3.65};
+ const markerFiles=markers.map(id=>path.join(mapDir,`marker-${id}.png`));
+ markerFiles.forEach(file=>assert(fs.existsSync(file),`Overlay repère manquant : ${file}`));
+ const result=await page.evaluate(async input=>{
+  const load=async src=>{const image=new Image();image.src=src;await image.decode();return image;};
+  const [art,original,base,final,letters,...markers]=await Promise.all([input.art,input.master,input.base,input.final,input.letters,...input.markers].map(load));
+  const canvas=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c;};
+  const encoded=c=>c.toDataURL().split(',')[1];
+  // Keep the complete 2:1 map and identical overlay coordinates in the 1000x496 case.
+  // This 0.8% vertical adaptation preserves district labels and the outer border.
+  const fit=image=>{const c=canvas(1000,496),ctx=c.getContext('2d');ctx.drawImage(image,0,0,1000,496);return c;};
+  const city=fit(base),markerCanvases=markers.map(fit),blank=canvas(1000,496),complete=canvas(1000,496);
+  // Compose the final from the very same resized RGBA plates used by the player;
+  // resizing a pre-flattened image changes antialiasing at marker edges.
+  const completeContext=complete.getContext('2d');completeContext.drawImage(city,0,0);
+  for(const marker of markerCanvases)completeContext.drawImage(marker,0,0);
+  const out=canvas(1024,1536),o=out.getContext('2d');o.drawImage(original,0,0);o.save();o.beginPath();o.rect(12,12,1000,496);o.clip();o.drawImage(complete,12,12);o.drawImage(letters,0,0);o.restore();
+  const screen=[251,1183,76,30],states=[];
+  for(let step=0;step<=8;step++){
+   const c=canvas(screen[2],screen[3]),ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(art,...screen,0,0,screen[2],screen[3]);
+   if(step){const pixels=ctx.getImageData(0,0,c.width,c.height),p=pixels.data;
+    for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){
+     const i=(y*c.width+x)*4,r=p[i],g=p[i+1],b=p[i+2];
+     // Only warm emissive pixels inside the equipment recess; preserve paint and housing.
+     const ellipse=Math.max(0,1-((x-37)/37)**2-((y-13)/15)**2);
+     const warm=Math.max(0,Math.min(1,(g-b*1.08)/28))*Math.max(0,Math.min(1,(r-25)/55));
+     // The saturated white core belongs to the same lamp but has no warm chroma.
+     // Include its tightly feathered emitter rectangle, entirely inside the recess.
+     const emitter=Math.max(0,Math.min(1,(x-16)/3,(62-x)/3,(y-7)/2,(21-y)/3));
+     const gain=(step/8)*Math.min(1,ellipse*2.8)*Math.max(warm,emitter)*.98;
+     p[i]=Math.round(r*(1-gain)+11*gain);p[i+1]=Math.round(g*(1-gain)+12*gain);p[i+2]=Math.round(b*(1-gain)+20*gain);
+    }ctx.putImageData(pixels,0,0);
+   }states.push(encoded(c));
+  }
+  const lastScreen=await load('data:image/png;base64,'+states.at(-1));o.drawImage(lastScreen,screen[0],screen[1]);
+  return {city:encoded(city),complete:encoded(complete),markers:markerCanvases.map(encoded),blank:encoded(blank),master:encoded(out),screen,screenStates:states};
+ },{art:uri(local(data.motionBaseImage)),master:uri(local(data.image)),base:uri(mapBase),final:uri(mapFinal),letters:uri(local(data.letteringImage)),markers:markerFiles.map(uri)});
+ const png=(name,bytes)=>{const file=path.join(assets,name);fs.writeFileSync(file,Buffer.from(bytes,'base64'));return media(file);};
+ const base=png('night-city-base.png',result.city),final=png('night-city-final.png',result.complete),blank=png('transparent.png',result.blank);
+ const overlays=result.markers.map((bytes,i)=>png(`marker-${markers[i]}.png`,bytes));
+ data.image=png('page-final.png',result.master);
+ const initial=source.motionLayers.find(layer=>layer.mode==='digitalReveal').frames[0].image;
+ data.motionLayers=[{id:'elf-world-to-night-city',panelId:'p16-c01',mode:'digitalReveal',rect:[...data.panels[0].rect],startSeconds:hold(0),endSeconds:end(0),
+  frames:[{atSeconds:0,image:initial},{atSeconds:2.35,image:base}],reveal:{durationSeconds:1.8,columns:16,rows:8,amplitudePx:13,color:'#55eafa'}},
+  ...markers.map((id,i)=>({id:`map-marker-${id}`,panelId:'p16-c01',mode:'frames',rect:[...data.panels[0].rect],startSeconds:hold(0),endSeconds:end(0),frames:[{atSeconds:0,image:blank},{atSeconds:markerOffsets[id],image:overlays[i]}]}))];
+ const screenImages=result.screenStates.map((bytes,i)=>png(`screen-${i}.png`,bytes));
+ data.motionLayers.push({id:'capsule-screen-extinction',panelId:'p16-c03',mode:'frames',rect:rect(...result.screen),clipPolygon:polygon([[251,1183],[327,1183],[327,1213],[251,1213]]),startSeconds:hold(2),endSeconds:end(2),
+  frames:screenImages.map((image,i)=>({atSeconds:i===0?0:.5+i*.16,image}))});
+ data.effects=[
+  clipped('reflection','p16-c02',[[411,748],[431,706],[489,693],[515,701],[509,749]],{color:'#b65be9',strength:.52,frequency:.38,phase:.8,softEdge:true,clock:'story',startSeconds:hold(1)+.15,endSeconds:hold(1)+2.4,envelope:{attackSeconds:.35,releaseSeconds:.9}}),
+  clipped('reflection','p16-c02',[[618,706],[657,712],[644,749],[618,751]],{color:'#52dbed',strength:.38,frequency:.20,phase:.5,softEdge:true,clock:'story',startSeconds:hold(1)+.45,endSeconds:hold(1)+3.1,envelope:{attackSeconds:.5,releaseSeconds:1.2}})
+ ];
+ report.mapSources=[mapBase,mapFinal,...markerFiles].map(file=>({file,sha256:sha(file)}));
+ Object.assign(report.anchors,{vision:hold(0),disassembly:hold(0)+.55,mapStable:hold(0)+2.35,position:hold(0)+2.85,unknown:hold(0)+3.25,green:hold(0)+3.65,glassActivation:hold(1)+.15,glassStable:hold(1)+3.1,screenResidual:hold(2)+.5,screenOff:hold(2)+1.78});
+ report.notes.push('Vue subjective: paysage .55 s, désagrégation continue 1.8 s puis trois dossiers fixes successifs: deux jaunes, un vert. Aucun repère HOLT (précision utilisateur).','Vitre: deux polygones hors visage et paroi; retour au dessin stable.','Extinction réelle du petit indicateur chaud dans le renfoncement de la capsule, neuf états localisés; aucun pixel du boîtier déplacé.','OFF: nouvelle carte finale avec trois dossiers et indicateur éteint; master elfique historique conservé.');
+ return final;
+}
+function build17(){
+ const initialLayers=structuredClone(data.motionLayers);
+ const bands=initialLayers.find(layer=>layer.id==='three-bands-one-shot');assert(bands);
+ bands.startSeconds=hold(1);bands.endSeconds=end(1);[0,.02,.62,.7,.9,1.05].forEach((t,i)=>bands.frames[i].atSeconds=t);
+ data.motionLayers=initialLayers;
+ // Exact clipping replaces the old whole-bottom-case restoration, which prevented any water motion.
+ data.protectedRegions=data.protectedRegions.filter(region=>region.id!=='17-3-rigid-1');
+ data.protectedRegions.push(...[
+  ['child-head',98,1190,69,93],['grover-head',126,1130,99,85],['john-head',319,1144,62,74],
+  ['franklyn-head',437,1109,80,92],['abigail-head',609,1114,93,121],['wendy-head',805,1096,142,160]
+ ].map(([id,...r])=>({id:`17-3-${id}`,rect:rect(...r)})));
+ data.effects=[
+  rain('p17-c01',[[694,15],[1009,15],[1009,344],[759,344],[694,312]],39,.78,.53),
+  rain('p17-c01',[[704,345],[1009,345],[1009,501],[690,501],[700,399]],24,1.05,.6),
+  clipped('smoke','p17-c01',[[676,347],[756,335],[782,460],[698,490],[665,432]],{count:7,color:'#b9c4d0',strength:.47,speed:.75,clock:'ambient'}),
+  clipped('ripple','p17-c01',[[759,442],[867,442],[899,496],[741,496]],{count:3,color:'#a5d9e9',strength:.48,speed:1.05,clock:'ambient'}),
+  clipped('smoke','p17-c02',[[800,715],[918,703],[942,786],[820,799]],{count:5,color:'#b9c4d0',strength:.47,speed:.9,clock:'story',startSeconds:hold(1)+.8,endSeconds:hold(1)+2.5,envelope:{attackSeconds:.1,releaseSeconds:.9}}),
+  rain('p17-c03',[[539,1031],[809,1031],[803,1104],[752,1111],[719,1092],[649,1095],[609,1145],[553,1159],[539,1130]],32,1.2,.7),
+  clipped('wind','p17-c03',[[30,1453],[80,1427],[88,1464],[131,1491],[128,1516],[29,1516]],{count:13,color:'#c1e3ed',strength:.5,speed:1.25,amplitude:11,directionDegrees:-30,clock:'story',startSeconds:hold(2)+.15,endSeconds:end(2)-.15,envelope:{attackSeconds:.35,releaseSeconds:.55}}),
+  clipped('ripple','p17-c03',[[396,1467],[428,1458],[432,1513],[391,1517]],{count:3,color:'#b9ecf1',strength:.58,speed:1.3,clock:'story',startSeconds:hold(2)+.45,endSeconds:hold(2)+1.55,envelope:{attackSeconds:.05,releaseSeconds:.35}}),
+  clipped('ripple','p17-c03',[[48,1464],[85,1455],[106,1491],[89,1513],[32,1516]],{count:3,color:'#d8e9f4',strength:.6,speed:1.25,clock:'story',startSeconds:hold(2)+1.1,endSeconds:hold(2)+2.3,envelope:{attackSeconds:.05,releaseSeconds:.4}})
+ ];
+ Object.assign(report.anchors,{firstBand:hold(1)+.02,oneShot:hold(1)+.62,metalImpact:hold(1)+.7,impactRecovery:hold(1)+.9,coverBand:hold(1)+1.05,wendy:timing.newTimeline.tracks.find(track=>track.panel===1).start});
+ report.notes.push('Six états de triptyque v9 réemployés exactement: tir unique puis impact 80 ms après, troisième bande et bulle Wendy ensuite.','17.1: pluie en deux profondeurs dans le couloir libre; vapeur au pied du pilier et anneaux sur la flaque.','17.3: pluie derrière les têtes, air humide et deux contacts dans les seuls trous d’eau entre les appuis; corps et chaussures fixes. Aucun faux cycle de course.');
+}
+(async()=>{let browser;try{
+ if(pageNumber===16){browser=await chromium.launch({headless:true,executablePath:process.env.HOLT_BROWSER??'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'});const page=await browser.newPage();await page.setContent('<!doctype html><title>Production lot C</title>');await build16(page);}else build17();
+ data.version=6;data.title=`HOLT — Blue Purple · page ${pageNumber} · animation 3`;data.storyThumbnail=true;
+ data.provenance={...data.provenance,motion03:{lot:'C',timingRevision:2,source:media(sourceFile),sourceSha256:sha(sourceFile),notes:report.notes}};
+ const after=core.buildTimeline(data);assert.equal(after.duration,timing.newTimeline.duration);assert.deepEqual(after.tracks,timing.newTimeline.tracks);
+ for(const p of core.assetPaths(data))assert(fs.existsSync(local(p)),`Asset absent ${p}`);
+ const candidate=path.join(projects,`blue-purple-page${pageNumber}-motion06.json`);fs.writeFileSync(candidate,JSON.stringify(data,null,2)+'\n');
+ report.candidate={file:candidate,sha256:sha(candidate)};report.layers=data.motionLayers.map(layer=>({id:layer.id,frames:layer.frames.map(frame=>({atSeconds:frame.atSeconds,image:frame.image,sha256:sha(local(frame.image))}))}));
+ fs.writeFileSync(path.join(__dirname,`BUILD-${pageNumber}.json`),JSON.stringify(report,null,2)+'\n');
+ console.log(JSON.stringify({page:pageNumber,duration:after.duration,candidate,anchors:report.anchors}));
+}finally{if(browser)await browser.close();}})().catch(error=>{console.error(error);process.exitCode=1;});

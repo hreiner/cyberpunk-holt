@@ -22,3 +22,13 @@ Thumbs.db
 
 # Masters des illustrations (lourds, hors dépôt) — voir docs/art/image-generation/ORCHESTRATOR.md
 art-masters/
+
+# Cache Python du studio animé
+/anime/**/__pycache__/
+
+# Local source deck and review books; their narrative/provenance lives in docs.
+/docs/Cyber-S01-E02-Had.odp
+/output/
+
+# Versioned web media is restored from a checksum-locked GitHub Release at build.
+/public/comics/blue-purple/v*/

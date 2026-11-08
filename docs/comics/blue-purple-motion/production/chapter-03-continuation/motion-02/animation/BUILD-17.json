@@ -1,0 +1,242 @@
+{
+  "page": 17,
+  "source": "D:\\AgenticCoding\\cyberpunk-holt\\anime\\motion-comics\\projects\\blue-purple-page17-motion04.json",
+  "sourceSha256": "34d36cfed17e9a293486eb589f9f2eea2b3e311e9a4bea15807e777dfb8e7055",
+  "duration": 10.902222222222223,
+  "holdStart": 4.050000000000001,
+  "cleanSource": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\art\\p17-clean-v2.png",
+  "cleanSha256": "86b8c06d8557cfdf111f811266887d0a291a1ca345ab3313593638447d2088d6",
+  "cleanMaskFile": "D:\\AgenticCoding\\cyberpunk-holt\\docs\\comics\\blue-purple-motion\\production\\chapter-03-continuation\\motion-02\\art\\p17-clean-mask-v2.json",
+  "cleanMaskSha256": "bcf6081d7e795cec551c9b012dd3963b3b61972ecb61baf211a4da0de670be60",
+  "protectedActorAndRailPixels": 334457,
+  "seams": {
+    "first": {
+      "points": [
+        {
+          "x": 30,
+          "y": 188
+        },
+        {
+          "x": 250,
+          "y": 181
+        },
+        {
+          "x": 500,
+          "y": 172
+        },
+        {
+          "x": 750,
+          "y": 163
+        },
+        {
+          "x": 970,
+          "y": 156
+        }
+      ],
+      "left": 189.23712067748767,
+      "right": 154.76287932251236
+    },
+    "second": {
+      "points": [
+        {
+          "x": 30,
+          "y": 317
+        },
+        {
+          "x": 250,
+          "y": 310
+        },
+        {
+          "x": 500,
+          "y": 301
+        },
+        {
+          "x": 750,
+          "y": 292
+        },
+        {
+          "x": 970,
+          "y": 285
+        }
+      ],
+      "left": 318.23712067748767,
+      "right": 283.7628793225124
+    }
+  },
+  "polygons": [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1000,
+        0
+      ],
+      [
+        1000,
+        154.76287932251236
+      ],
+      [
+        0,
+        189.23712067748767
+      ]
+    ],
+    [
+      [
+        0,
+        189.23712067748767
+      ],
+      [
+        1000,
+        154.76287932251236
+      ],
+      [
+        1000,
+        283.7628793225124
+      ],
+      [
+        0,
+        318.23712067748767
+      ]
+    ],
+    [
+      [
+        0,
+        318.23712067748767
+      ],
+      [
+        1000,
+        283.7628793225124
+      ],
+      [
+        1000,
+        496
+      ],
+      [
+        0,
+        496
+      ]
+    ]
+  ],
+  "oneShot": 4.670000000000001,
+  "metalImpact": 4.750000000000001,
+  "coverBand": 5.1000000000000005,
+  "originalWendyStart": 4.430000000000001,
+  "newWendyStart": 5.130000000000001,
+  "candidate": "D:\\AgenticCoding\\cyberpunk-holt\\docs\\comics\\blue-purple-motion\\production\\chapter-03-continuation\\motion-02\\animation\\candidates-v1\\page-17.json",
+  "candidateSha256": "a1d89940b1b81a37c3da9c2ac33faed65d6d93e84d7f8e3144948406be29e9e9",
+  "files": [
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-17\\lettering-hidden.svg",
+      "sha256": "c5e0f9cbbdbe4c4aefdae26b76d3577eec5e989cb19eb5c6069b7e1557e5f57f"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-17\\stage-0.png",
+      "sha256": "fd324cebaed2f74007bd42910f930db6f4c3dc51e7e67df75cc76f119bba9663"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-17\\stage-1.png",
+      "sha256": "90600d4e177348c3fa9ae2bdd23b42fa74414d8e9c583f4ef8a8aee8cc7eec0b"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-17\\stage-2.png",
+      "sha256": "4a7a9c23f11807fadae09158d54f96a89096a9296d10e5a58488aaa25e6e3711"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-17\\stage-3.png",
+      "sha256": "b2be8db72fb16ca274c4f1825ac713d54e210b9677ae2f7ebc415d33f14e5a63"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-17\\stage-4.png",
+      "sha256": "6352523c4d63fb9e20e437e9d0b58036875f15200b74f9c997e0e9ffde349f11"
+    },
+    {
+      "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-02\\animation\\assets-v1\\page-17\\stage-5.png",
+      "sha256": "d827fe6a81fbc8deb5a1fb980346593098d4d657cd29b8d23a4d70b02b0e34a6"
+    }
+  ],
+  "timeline": {
+    "segments": [
+      {
+        "start": 0,
+        "end": 0.65,
+        "rect": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "panel": -1
+      },
+      {
+        "start": 0.65,
+        "end": 3.7700000000000005,
+        "rect": [
+          0.01171875,
+          0.0078125,
+          0.9765625,
+          0.3229166666666667
+        ],
+        "panel": 0
+      },
+      {
+        "start": 3.7700000000000005,
+        "end": 7.450000000000001,
+        "rect": [
+          0.01171875,
+          0.3385416666666667,
+          0.9765625,
+          0.3229166666666667
+        ],
+        "panel": 1
+      },
+      {
+        "start": 7.450000000000001,
+        "end": 10.452222222222224,
+        "rect": [
+          0.01171875,
+          0.6692708333333334,
+          0.9765625,
+          0.3229166666666667
+        ],
+        "panel": 2
+      },
+      {
+        "start": 10.452222222222224,
+        "end": 10.902222222222223,
+        "rect": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "panel": -1
+      }
+    ],
+    "tracks": [
+      {
+        "start": 1.11,
+        "end": 3.59,
+        "audio": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/076-abigail-gain-+9.969db.wav",
+        "speaker": "abigail",
+        "panel": 0
+      },
+      {
+        "start": 5.130000000000001,
+        "end": 6.170000000000001,
+        "audio": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/40-wendy-052c3dbfbe86.mp3",
+        "speaker": "wendy",
+        "panel": 1
+      },
+      {
+        "start": 7.910000000000001,
+        "end": 10.07,
+        "audio": "../../../../../../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/41-grover-a26b763c3798.mp3",
+        "speaker": "grover",
+        "panel": 2
+      }
+    ],
+    "duration": 10.902222222222223
+  }
+}

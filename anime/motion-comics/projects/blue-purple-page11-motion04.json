@@ -1,0 +1,482 @@
+{
+  "schemaVersion": 1,
+  "version": 4,
+  "title": "HOLT — Blue Purple · page 11",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/page-fitted.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/art.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-11/lettering-fitted.svg",
+  "storyThumbnail": true,
+  "overviewSeconds": 0.65,
+  "transitionSeconds": 0.28,
+  "gapSeconds": 0.18,
+  "outroSeconds": 0.45,
+  "panels": [
+    {
+      "id": "p11-c01",
+      "panelKey": "11-1",
+      "sourcePanelKey": "11-1",
+      "label": "L’entrée de service",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 3.833333333333333,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l047",
+          "globalLine": 47,
+          "localLine": 10,
+          "panel_id": "11-1",
+          "dialogueIndex": 0,
+          "pageId": "page-11",
+          "speaker": "grover",
+          "textFr": "Une entrée de service. Moins de monde.",
+          "textEn": "A service entrance. Fewer people.",
+          "ttsText": "[alert, cautiously hopeful] A service entrance. Fewer people.",
+          "performance": "Grover propose lui-même une piste.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/10-grover-5a6b81b9b730.mp3",
+          "sha256": "4cfc984e372cc8bba1d081ed2e4125deb260b659405ed07c60ebc5f4e3d5d773",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/10-grover-5a6b81b9b730.mp3",
+          "sourceSha256": "4cfc984e372cc8bba1d081ed2e4125deb260b659405ed07c60ebc5f4e3d5d773",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/10-grover-5a6b81b9b730.json",
+          "journalSha256": "04f81fd70372da022b3f59eeeff7f15440fbeacdfde179b6d66502347896c0d2",
+          "constantGainDb": 0,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.32,
+            "pcmSamples": 102312,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -5.142853426852751,
+            "meanDb": -21.520077821727295,
+            "firstAboveMinus40DbSeconds": 0.02927437641723356,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 29.6,
+          "duration": 2.32,
+          "pcmSamples": 102312,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -5.142853426852751,
+          "meanDb": -21.520077821727295,
+          "firstAboveMinus40DbSeconds": 0.02927437641723356,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        },
+        {
+          "id": "bp-l048",
+          "globalLine": 48,
+          "localLine": 11,
+          "panel_id": "11-1",
+          "dialogueIndex": 1,
+          "pageId": "page-11",
+          "speaker": "wendy",
+          "textFr": "Allons voir ce qu’ils demandent.",
+          "textEn": "Let's see what they want.",
+          "ttsText": "[practical, guarded] Let's see what they want.",
+          "performance": "Wendy décide d'approcher pour négocier.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/048-wendy-gain-+0.943db.wav",
+          "sha256": "b14f4c257848252dfd6a9cd21bf6d0043330b496ac0ffdfeab840a013a9a12c3",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/11-wendy-6373432b57f5.mp3",
+          "sourceSha256": "596a5b4a90f580114b72a4723b22b1b28a1a1de31fb24384460138493c251c85",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/11-wendy-6373432b57f5.json",
+          "journalSha256": "9781a794291019a148f4aab7a2436c594e6bf28160ae3e8bb6047dcbd4a6faa0",
+          "constantGainDb": 0.943,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.6,
+            "pcmSamples": 70560,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -8.421863854550852,
+            "meanDb": -22.943332487046394,
+            "firstAboveMinus40DbSeconds": 0.12156462585034014,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 32.32,
+          "duration": 1.6,
+          "pcmSamples": 70560,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -7.478749041645894,
+          "meanDb": -22.000328397540144,
+          "firstAboveMinus40DbSeconds": 0.11702947845804988,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p11-c02",
+      "panelKey": "11-2",
+      "sourcePanelKey": "11-2",
+      "label": "Le prix du passage",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 3.5555555555555554,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l049",
+          "globalLine": 49,
+          "localLine": 12,
+          "panel_id": "11-2",
+          "dialogueIndex": 0,
+          "pageId": "page-11",
+          "speaker": "wendy",
+          "textFr": "Ce tarif, c’est pour six personnes ou pour nous dépouiller ?",
+          "textEn": "Is that price for six people, or are you trying to rob us?",
+          "ttsText": "[incredulous, dry] Is that price for six people, [sharper] or are you trying to ROB us?",
+          "performance": "Wendy négocie avec mordant mais se contrôle.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "W3C2vBPukr5b5jvoXhPK",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/12-wendy-495b0813f3a3.mp3",
+          "sha256": "d28f8900cddd06a84c7b26eeb0d31eed5d6837f0f849e93c1fba3d70018f5c8f",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/12-wendy-495b0813f3a3.mp3",
+          "sourceSha256": "d28f8900cddd06a84c7b26eeb0d31eed5d6837f0f849e93c1fba3d70018f5c8f",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/12-wendy-495b0813f3a3.json",
+          "journalSha256": "7637801bc5045258f962fbc3d6cedf28067180ba6f30f0f889b044e5fed87ce3",
+          "constantGainDb": 0,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 4,
+            "pcmSamples": 176400,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -2.9242697697774362,
+            "meanDb": -19.551239217557086,
+            "firstAboveMinus40DbSeconds": 0.027755102040816326,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 34.32,
+          "duration": 4,
+          "pcmSamples": 176400,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.9242697697774362,
+          "meanDb": -19.551239217557086,
+          "firstAboveMinus40DbSeconds": 0.027755102040816326,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p11-c03a",
+      "panelKey": "11-3a",
+      "sourcePanelKey": "11-3a",
+      "label": "John propose la force",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 3,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l050",
+          "globalLine": 50,
+          "localLine": 13,
+          "panel_id": "11-3a",
+          "dialogueIndex": 0,
+          "pageId": "page-11",
+          "speaker": "john",
+          "textFr": "On peut les écarter. On y va en force.",
+          "textEn": "We can move them aside. We force our way in.",
+          "ttsText": "[impatient, forceful] We can move them aside. [hard] We FORCE our way in.",
+          "performance": "John propose la force, impulsif et frontal, sans joie de violence.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "PoqlHoqJoAfdQ0g8bLK3",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/050-john-gain--0.256db.wav",
+          "sha256": "e5e03eba27630ba38c5a4308fea575149867eed1fc81c1ff6b489bcc8bc68dbe",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/13-john-40865a28730a.mp3",
+          "sourceSha256": "c79eae317054bd26d1e3579821f341e780cf31cbfa3a33fa12f7734727b42408",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/13-john-40865a28730a.json",
+          "journalSha256": "f55d60ef9843cf5f1e66a660ef0b462a1e26da4384e7bfade096afb9da9dc4c5",
+          "constantGainDb": -0.256,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.12,
+            "pcmSamples": 137592,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -1.2442263612350053,
+            "meanDb": -17.293318800758342,
+            "firstAboveMinus40DbSeconds": 0.06229024943310658,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 38.72,
+          "duration": 3.12,
+          "pcmSamples": 137592,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.5002633770788845,
+          "meanDb": -17.54931942022655,
+          "firstAboveMinus40DbSeconds": 0.06231292517006803,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    },
+    {
+      "id": "p11-c03b",
+      "panelKey": "11-3b",
+      "sourcePanelKey": "11-3b",
+      "label": "Abigail le raisonne",
+      "rect": [
+        0.505859375,
+        0.6692708333333334,
+        0.482421875,
+        0.3229166666666667
+      ],
+      "holdSeconds": 4.666666666666667,
+      "leadInSeconds": 0.18,
+      "cues": [
+        {
+          "id": "bp-l051",
+          "globalLine": 51,
+          "localLine": 14,
+          "panel_id": "11-3b",
+          "dialogueIndex": 0,
+          "pageId": "page-11",
+          "speaker": "abigail",
+          "textFr": "Ils sont plus nombreux, John. On se ferait repérer.",
+          "textEn": "They outnumber us, John. We'd draw attention.",
+          "ttsText": "[firm, restrained] They outnumber us, John. [warning, low] We'd draw attention.",
+          "performance": "Abigail raisonne John, ferme sans le ridiculiser.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "WtA85syCrJwasGeHGH2p",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/051-abigail-gain-+4.442db.wav",
+          "sha256": "50f6ae7ad040515ba8d656d137fb8d1af653efff3147070f5f4ab966dda255ba",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/14-abigail-41b68aa6a799.mp3",
+          "sourceSha256": "8c49af880fee440abaddf04d4ed8c2844d98e147e54aa53b8d3300b3c5352292",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/14-abigail-41b68aa6a799.json",
+          "journalSha256": "392fd7e83bef75d48ab38a2c54627403a48be9be5dc7ebc3458c22288d356ce4",
+          "constantGainDb": 4.442,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.52,
+            "pcmSamples": 155232,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -7.739658406088705,
+            "meanDb": -26.441698265976946,
+            "firstAboveMinus40DbSeconds": 0.033605442176870746,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 42.24,
+          "duration": 3.52,
+          "pcmSamples": 155232,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -3.297836340360371,
+          "meanDb": -21.99969843279252,
+          "firstAboveMinus40DbSeconds": 0.029024943310657598,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        },
+        {
+          "id": "bp-l052",
+          "globalLine": 52,
+          "localLine": 15,
+          "panel_id": "11-3b",
+          "dialogueIndex": 1,
+          "pageId": "page-11",
+          "speaker": "john",
+          "textFr": "… D’accord. On cherche autre chose.",
+          "textEn": "...All right. We'll find something else.",
+          "ttsText": "[reluctant, subdued] ...All right. [gruff] We'll find something else.",
+          "performance": "John ravale son impatience et cède réellement.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "PoqlHoqJoAfdQ0g8bLK3",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/15-john-eba626cd163f.mp3",
+          "sha256": "ba28372358415ff15f628831d1c797b8719e6e8942ea4279a0c5f86f09ba2f8d",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/15-john-eba626cd163f.mp3",
+          "sourceSha256": "ba28372358415ff15f628831d1c797b8719e6e8942ea4279a0c5f86f09ba2f8d",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/15-john-eba626cd163f.json",
+          "journalSha256": "b67e9f69e9f4371dc8da4a55319e6471d3c8de2d3112bded38e378b3d4228dd3",
+          "constantGainDb": 0,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.76,
+            "pcmSamples": 165816,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -1.4593334998605492,
+            "meanDb": -22.840162520105352,
+            "firstAboveMinus40DbSeconds": 0.09417233560090703,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 46.160000000000004,
+          "duration": 3.76,
+          "pcmSamples": 165816,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -1.4593334998605492,
+          "meanDb": -22.840162520105352,
+          "firstAboveMinus40DbSeconds": 0.09417233560090703,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "type": "ripple",
+      "rect": [
+        0.5807809344792769,
+        0.23111979166666666,
+        0.2243914846646584,
+        0.061848958333333336
+      ],
+      "count": 3,
+      "color": "#74c5dd",
+      "strength": 0.58,
+      "speed": 0.62,
+      "clock": "ambient",
+      "panelId": "p11-c01"
+    },
+    {
+      "type": "rain",
+      "rect": [
+        0.5807809344792769,
+        0.4674479166666667,
+        0.06282961570610435,
+        0.045572916666666664
+      ],
+      "clock": "ambient",
+      "panelId": "p11-c02"
+    },
+    {
+      "type": "rain",
+      "rect": [
+        0.5367767127085541,
+        0.6773437499999999,
+        0.15495317879369708,
+        0.03229166666666661
+      ],
+      "clock": "ambient",
+      "panelId": "p11-c03b"
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "11-1-rigid-1",
+      "rect": [
+        0.14994928392313298,
+        0.013020833333333351,
+        0.38595335362321237,
+        0.3157552083333334
+      ]
+    },
+    {
+      "id": "11-1-rigid-2",
+      "rect": [
+        0.6525862095719678,
+        0.13020833333333337,
+        0.2602941222110037,
+        0.07486979166666667
+      ]
+    },
+    {
+      "id": "11-2-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.36979166666666674,
+        0.48468560687566203,
+        0.2916666666666666
+      ]
+    },
+    {
+      "id": "11-2-rigid-2",
+      "rect": [
+        0.6525862095719678,
+        0.3385416666666667,
+        0.29619675975734905,
+        0.3229166666666667
+      ]
+    },
+    {
+      "id": "11-2-rigid-3",
+      "rect": [
+        0.37434076858779136,
+        0.5162760416666667,
+        0.5744422007415255,
+        0.045572916666666664
+      ]
+    },
+    {
+      "id": "11-3a-rigid-1",
+      "rect": [
+        0.03156800350900426,
+        0.6692708333333334,
+        0.4427233679819915,
+        0.3229166666666667
+      ]
+    },
+    {
+      "id": "11-3b-rigid-1",
+      "rect": [
+        0.5611264979475636,
+        0.8081250000000001,
+        0.38074209646451274,
+        0.18406249999999988
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "2127a27a7162364332810a81e5961298454dc16257e7ec715e3df605bda570e6",
+    "lettering": "Exact approved raster plates after effects; original SVG retained.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false,
+    "formatCorrection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/format-01/PROGRESS.md",
+    "letteringFit": "Whole approved balloon groups translated to stay 3px inside frames; text/tails retained."
+  }
+}

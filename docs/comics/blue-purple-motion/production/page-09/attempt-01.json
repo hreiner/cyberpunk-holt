@@ -1,0 +1,14 @@
+{
+  "status": "candidate_not_approved",
+  "native_source": "C:/Users/hadri/.codex/generated_images/01a1b584-3e59-70c3-a778-0f496c5ace35/exec-45d75cc5-472f-4577-9cb8-4adb6a3a2083.png",
+  "copy": "art-masters\\motion-comics\\blue-purple\\page-09\\attempt-01\\p09-c01-native.png",
+  "sha256": "e6c1573c9f4734f42671e3750bb8b039404326889741a91136411d113ece0ca4",
+  "dimensions": [
+    1774,
+    887
+  ],
+  "prompt": "prompt-p09-c01-v1.txt",
+  "references": "references.json",
+  "provider_id": null,
+  "cost": null
+}

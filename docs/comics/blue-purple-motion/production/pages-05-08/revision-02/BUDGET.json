@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-06",
+  "authorization": "Owner requests localized hair tips, intact window then shatter, stationary car with speed particles, and clearer key SFX.",
+  "imagegen": {
+    "knownPreviousPages05To08Calls": 27,
+    "revisionCallCapIncludingFailures": 3,
+    "initialCalls": 1,
+    "targetedCorrectionReserve": 2,
+    "asset": "p05-c04 intact glass variant, preserving all actors and hands",
+    "operator": "art",
+    "cumulativeKnownMaximum": 30
+  },
+  "voice": { "newRequests": 0, "cumulativeSubmittedCharacters": 3394, "policy": "Reuse all 37 selected takes without edits or new tags." },
+  "soundEffects": { "newRequests": 0, "historicalRequests": 6, "historicalRequestedSeconds": 20, "policy": "Correct actual waveform trims, gains and ducking from existing sources; no paid retry without a newly recorded bounded allocation." },
+  "music": { "newPaidGenerations": 0 },
+  "exports": { "maximumConcurrentJobs": 2, "requiresReviewedChanges": true },
+  "actual": {
+    "imagegenRevisionCalls": 1,
+    "imagegenCorrectionCalls": 0,
+    "knownCumulativeImagegenCalls": 28,
+    "newVoiceRequests": 0,
+    "cumulativeVoiceCharacters": 3394,
+    "newSoundEffectsRequests": 0,
+    "newPaidMusicGenerations": 0,
+    "localCompositing": "Existing SVG/Canvas assembly preserves original actors and hands; generated artwork used only inside window/debris masks."
+  },
+  "monetaryCost": null,
+  "providerRequestIds": null
+}

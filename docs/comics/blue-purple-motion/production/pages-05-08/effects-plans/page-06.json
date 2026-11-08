@@ -1,0 +1,207 @@
+{
+  "page": 6,
+  "version": 1,
+  "status": "reviewed-effects-qa-passed",
+  "sourceImage": "art-masters/motion-comics/blue-purple/page-06/page-v1.png",
+  "sourceSha256": "4b37541744a437270eb44e4df7b88b45a865b5fa3c921a3932e7ea9cf2529363",
+  "size": [
+    1024,
+    1536
+  ],
+  "effects": [
+    {
+      "type": "smoke",
+      "panelId": "p06-c01",
+      "rect": [
+        0.8125,
+        0.0078125,
+        0.166015625,
+        0.10807291666666667
+      ],
+      "count": 9,
+      "color": "#afabbc",
+      "strength": 0.64,
+      "speed": 0.75,
+      "direction": "up",
+      "phase": 1.1
+    },
+    {
+      "type": "hair",
+      "panelId": "p06-c02",
+      "rect": [
+        0.55078125,
+        0.4537760416666667,
+        0.173828125,
+        0.07096354166666667
+      ],
+      "amplitude": 8,
+      "frequency": 0.57,
+      "protect": [
+        [
+          0.6005859375,
+          0.50390625,
+          0.0947265625,
+          0.07356770833333333
+        ],
+        [
+          0.5908203125,
+          0.4166666666666667,
+          0.03515625,
+          0.044270833333333336
+        ]
+      ]
+    },
+    {
+      "type": "smoke",
+      "panelId": "p06-c03",
+      "rect": [
+        0.853515625,
+        0.671875,
+        0.130859375,
+        0.06901041666666667
+      ],
+      "count": 7,
+      "color": "#bfc1d0",
+      "strength": 0.65,
+      "speed": 1.1,
+      "direction": "right",
+      "phase": 0.8
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "c1-pursuer",
+      "rect": [
+        0.5205078125,
+        0.0546875,
+        0.169921875,
+        0.197265625
+      ]
+    },
+    {
+      "id": "c2-franklyn-face",
+      "rect": [
+        0.130859375,
+        0.5501302083333334,
+        0.1103515625,
+        0.064453125
+      ]
+    },
+    {
+      "id": "c2-john-face",
+      "rect": [
+        0.2568359375,
+        0.5260416666666666,
+        0.0908203125,
+        0.072265625
+      ]
+    },
+    {
+      "id": "c2-john-hand",
+      "rect": [
+        0.296875,
+        0.5755208333333334,
+        0.0556640625,
+        0.04296875
+      ]
+    },
+    {
+      "id": "c2-wendy-face",
+      "rect": [
+        0.6005859375,
+        0.50390625,
+        0.0947265625,
+        0.07356770833333333
+      ]
+    },
+    {
+      "id": "c2-wendy-hand",
+      "rect": [
+        0.822265625,
+        0.5182291666666666,
+        0.08203125,
+        0.046875
+      ]
+    },
+    {
+      "id": "c2-franklyn-badge",
+      "rect": [
+        0.0322265625,
+        0.60546875,
+        0.05859375,
+        0.052083333333333336
+      ]
+    },
+    {
+      "id": "c2-john-badge",
+      "rect": [
+        0.2294921875,
+        0.6028645833333334,
+        0.041015625,
+        0.041666666666666664
+      ]
+    },
+    {
+      "id": "c3-all-six-silhouettes",
+      "rect": [
+        0.103515625,
+        0.71484375,
+        0.6611328125,
+        0.27734375
+      ]
+    },
+    {
+      "id": "balloon-wendy",
+      "rect": [
+        0.048828125,
+        0.3515625,
+        0.833984375,
+        0.078125
+      ]
+    },
+    {
+      "id": "tail-wendy",
+      "rect": [
+        0.5908203125,
+        0.4166666666666667,
+        0.03515625,
+        0.044270833333333336
+      ]
+    }
+  ],
+  "review": {
+    "sampleTime": 4.05,
+    "deltaSeconds": 0.65,
+    "minimumChangedPixels": 200,
+    "minimumLiveChangedPixels": 200,
+    "perPanelReview": [
+      {
+        "panelId": "p06-c01",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200
+      },
+      {
+        "panelId": "p06-c02",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200
+      },
+      {
+        "panelId": "p06-c03",
+        "sampleOffsetSeconds": 1.2,
+        "deltaSeconds": 0.65,
+        "minimumChangedPixels": 200
+      }
+    ]
+  },
+  "reviewNotes": "Lettered selected page inspected. c1 plume ascends from upper edge of visible street vent, away from pursuer. c2 motion limited to Wendy top hair mesh; face, eyes, mouth, badges, hand and balloon restored. c3 plume drifts horizontally right from visible wall vent instead of repeating the vertical family of c1. All six silhouettes intact; no global raster or gesture deformation.",
+  "validation": {
+    "date": "2026-11-05",
+    "independentVisualReview": "favorable",
+    "physicalEventClocks": "not-applicable-no-finite-events",
+    "protectedRegions": "unchanged-from-source",
+    "livePauseStopResume": "passed",
+    "reportIndex": "docs/comics/blue-purple-motion/production/pages-05-08/ANIMATION.md"
+  }
+}

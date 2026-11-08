@@ -1,0 +1,23 @@
+{
+  "originalPrompt": "PROMPT-v1.md",
+  "attempts": [
+    {
+      "reference": "reference-user-night-city.png",
+      "result": "network error: error sending request",
+      "imageReceived": false,
+      "providerCost": null
+    },
+    {
+      "reference": "reference-user-night-city.jpg",
+      "referenceReport": "REFERENCE-JPEG.json",
+      "promptUnchanged": true,
+      "result": "network error: error sending request",
+      "imageReceived": false
+    }
+  ],
+  "next": {
+    "prompt": "PROMPT-v2.txt",
+    "execution": "delegated built-in ImageGen, one reference JPEG, one attempt",
+    "reason": "Two network failures in root context; no image received. No CLI/API fallback."
+  }
+}

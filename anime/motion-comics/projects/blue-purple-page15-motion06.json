@@ -1,0 +1,684 @@
+{
+  "schemaVersion": 1,
+  "version": 6,
+  "title": "HOLT — Blue Purple · page 15 · animation 3",
+  "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-15/page.png",
+  "motionBaseImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-15/art.png",
+  "letteringImage": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-15/lettering.svg",
+  "storyThumbnail": true,
+  "overviewSeconds": 2,
+  "transitionSeconds": 0.85,
+  "gapSeconds": 0.45,
+  "outroSeconds": 1.5,
+  "panels": [
+    {
+      "id": "p15-c01",
+      "panelKey": "15-1",
+      "sourcePanelKey": "15-1",
+      "label": "Réparer le contact",
+      "rect": [
+        0.01171875,
+        0.0078125,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 5.5,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l068",
+          "globalLine": 68,
+          "localLine": 31,
+          "panel_id": "15-1",
+          "dialogueIndex": 0,
+          "pageId": "page-15",
+          "speaker": "abigail",
+          "textFr": "Le contact est desserré. Franklyn, tiens le panneau.",
+          "textEn": "The contact's loose. Franklyn, hold the panel.",
+          "ttsText": "[focused, precise] The contact's loose. [directing, brisk] Franklyn, hold the panel.",
+          "performance": "Abigail dirige la réparation, compétence concrète.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "WtA85syCrJwasGeHGH2p",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/068-abigail-gain--0.464db.wav",
+          "sha256": "5669f2444b9c9a4fe60220a5ef27fb18a41f6672d189ba1381fbb7cf77ae0658",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/31-abigail-3c86620f5a16.mp3",
+          "sourceSha256": "d545c552b3bec5bd8d3faa33430a0bffa21fdacd0e14a2bcfdf2d081c69d39ac",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/31-abigail-3c86620f5a16.json",
+          "journalSha256": "d6b1f1684e92fa856a4a9e73a69e8df4042cfb339a5902b8113c78a94fb7de62",
+          "constantGainDb": -0.464,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.04,
+            "pcmSamples": 134064,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -1.5362620262050357,
+            "meanDb": -20.632395983385358,
+            "firstAboveMinus40DbSeconds": 0.05340136054421769,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 97.52000000000001,
+          "duration": 3.04,
+          "pcmSamples": 134064,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -2.0001827379579966,
+          "meanDb": -21.096394481531824,
+          "firstAboveMinus40DbSeconds": 0.05340136054421769,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p15-c02",
+      "panelKey": "15-2",
+      "sourcePanelKey": "15-2",
+      "label": "Abigail rebranche",
+      "rect": [
+        0.01171875,
+        0.3385416666666667,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 7.916666666666667,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l069",
+          "globalLine": 69,
+          "localLine": 32,
+          "panel_id": "15-2",
+          "dialogueIndex": 0,
+          "pageId": "page-15",
+          "speaker": "franklyn",
+          "textFr": "Comme ça ?",
+          "textEn": "Like this?",
+          "ttsText": "[concentrating, questioning] Like this?",
+          "performance": "Franklyn coopère avec Abigail, vérifie son appui.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/069-franklyn-gain-+1.019db.wav",
+          "sha256": "1d99556ea23c8eed6a06e89b2d2ea494fe1b61558d6826a707e206d83cfaca36",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/32-franklyn-cf2492060f12.mp3",
+          "sourceSha256": "6ad9f7b7f0af2dd09b1237bee9015676397ec178f24c4d33288d26e9660fc220",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/32-franklyn-cf2492060f12.json",
+          "journalSha256": "ea304166d2bc72bb88fd914acb07f9f0b07aba2ba2e690f94dd4a3b2f0204d1a",
+          "constantGainDb": 1.019,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 3.28,
+            "pcmSamples": 144648,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -4.478363808981506,
+            "meanDb": -23.019484017526977,
+            "firstAboveMinus40DbSeconds": 0.2164172335600907,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 100.96000000000001,
+          "duration": 3.28,
+          "pcmSamples": 144648,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -3.459360724004031,
+          "meanDb": -22.000483949314575,
+          "firstAboveMinus40DbSeconds": 0.2164172335600907,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        },
+        {
+          "id": "bp-l070",
+          "globalLine": 70,
+          "localLine": 33,
+          "panel_id": "15-2",
+          "dialogueIndex": 1,
+          "pageId": "page-15",
+          "speaker": "abigail",
+          "textFr": "Oui. Je rebranche le contact.",
+          "textEn": "Yes. I'm reconnecting the contact.",
+          "ttsText": "[focused, reassuring] Yes. I'm reconnecting the contact.",
+          "performance": "Abigail effectue le raccord technique.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "WtA85syCrJwasGeHGH2p",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/070-abigail-gain-+1.921db.wav",
+          "sha256": "cb3a71fefc05769106add04df853023674bf875c3da78e1317524a37f9140fea",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/33-abigail-a4aba0d8dfb1.mp3",
+          "sourceSha256": "dc4f56661fa394a06ba1f4b54ca1ed15606b1c0e7898f538467881b2c1aa345a",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/33-abigail-a4aba0d8dfb1.json",
+          "journalSha256": "b349c2ad2092b791b6d400d2b804cf03aea4d9c6e88b35dae8c5a12e7fe75d35",
+          "constantGainDb": 1.921,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.56,
+            "pcmSamples": 112896,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -6.421239037352791,
+            "meanDb": -23.920952730977337,
+            "firstAboveMinus40DbSeconds": 0.03308390022675737,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 104.64000000000001,
+          "duration": 2.56,
+          "pcmSamples": 112896,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -4.500292425884415,
+          "meanDb": -21.999950971154355,
+          "firstAboveMinus40DbSeconds": 0.0318140589569161,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    },
+    {
+      "id": "p15-c03",
+      "panelKey": "15-3",
+      "sourcePanelKey": "15-3",
+      "label": "Franklyn entre dans la capsule",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "holdSeconds": 7.375,
+      "leadInSeconds": 0.35,
+      "cues": [
+        {
+          "id": "bp-l071",
+          "globalLine": 71,
+          "localLine": 34,
+          "panel_id": "15-3",
+          "dialogueIndex": 0,
+          "pageId": "page-15",
+          "speaker": "franklyn",
+          "textFr": "Je ferme la capsule. Laissez-moi essayer.",
+          "textEn": "I'm closing the capsule. Let me try.",
+          "ttsText": "[quiet, resolved] I'm closing the capsule. [determined] Let me try.",
+          "performance": "Franklyn annonce sa propre fermeture puis l'essai.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/071-franklyn-gain-+0.193db.wav",
+          "sha256": "0615a8881f19758fd7b35d4a7f52b0a5d029b9488b8d190155490003801480b1",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/34-franklyn-2a9c83564288.mp3",
+          "sourceSha256": "f72bbb6a16883c54d50e4445bb90d6b5aef54c982b9f929a8c9d78c2864aa505",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/34-franklyn-2a9c83564288.json",
+          "journalSha256": "bd7a27a41b5310f063e15d86b5f0392107363534558718a3fefcc2326e29d12f",
+          "constantGainDb": 0.193,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 2.88,
+            "pcmSamples": 127008,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -3.7218476645308085,
+            "meanDb": -22.192794257997846,
+            "firstAboveMinus40DbSeconds": 0.12342403628117914,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 107.60000000000001,
+          "duration": 2.88,
+          "pcmSamples": 127008,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -3.5287197969721906,
+          "meanDb": -21.999796324699098,
+          "firstAboveMinus40DbSeconds": 0.12342403628117914,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 1.35
+        },
+        {
+          "id": "bp-l072",
+          "globalLine": 72,
+          "localLine": 35,
+          "panel_id": "15-3",
+          "dialogueIndex": 1,
+          "pageId": "page-15",
+          "speaker": "grover",
+          "textFr": "Je reste avec toi.",
+          "textEn": "I'm staying with you.",
+          "ttsText": "[low, sincere] I'm staying with you.",
+          "performance": "Grover assure à Franklyn sa présence, sans déplacer la garde de l'enfant.",
+          "ttsModel": "eleven_v4",
+          "voiceId": "6IwYbsNENZgAB1dtBZDp",
+          "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/prepared/072-grover-gain-+2.489db.wav",
+          "sha256": "95ac4ad85bcc4ce10714a7bb6099b1b5e0ab791d0781f2280d73c9f9ed3c1e6a",
+          "sourceAudio": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/35-grover-e913dab33705.mp3",
+          "sourceSha256": "6fee20cb7b432ee893429c2c2609065b7b09a0aad73e90629894b8123b42c119",
+          "takeJournal": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-01/voice/takes/35-grover-e913dab33705.json",
+          "journalSha256": "8d30b98c2b12e37f477b2ff452bbda61bffcaa58abc80da0fdd0a376d9e5fe05",
+          "constantGainDb": 2.489,
+          "compression": false,
+          "timeStretch": false,
+          "production": "new",
+          "humanListening": "not-performed",
+          "technicalState": "decoded",
+          "rawMeasurement": {
+            "duration": 1.52,
+            "pcmSamples": 67032,
+            "sampleRate": 44100,
+            "channels": 1,
+            "peakDb": -8.084181087329883,
+            "meanDb": -24.488640649435432,
+            "firstAboveMinus40DbSeconds": 0.23541950113378685,
+            "fullDecodeExit": 0,
+            "measurementFormat": "float32-unfiltered"
+          },
+          "auditionStartSeconds": 110.88000000000001,
+          "duration": 1.52,
+          "pcmSamples": 67032,
+          "sampleRate": 44100,
+          "channels": 1,
+          "peakDb": -5.595400327900516,
+          "meanDb": -21.999641717277495,
+          "firstAboveMinus40DbSeconds": 0.23494331065759638,
+          "fullDecodeExit": 0,
+          "measurementFormat": "float32-unfiltered",
+          "gapSeconds": 0.45
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "id": "15-1-weak-compartment",
+      "panelId": "p15-c01",
+      "type": "neon",
+      "rect": [
+        0.837890625,
+        0.177734375,
+        0.025390625,
+        0.0390625
+      ],
+      "clipPolygon": [
+        [
+          0.83984375,
+          0.17838541666666666
+        ],
+        [
+          0.86328125,
+          0.177734375
+        ],
+        [
+          0.8603515625,
+          0.21614583333333334
+        ],
+        [
+          0.837890625,
+          0.216796875
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 2.95,
+      "endSeconds": 8.25,
+      "color": "#ffb45b",
+      "strength": 0.47,
+      "frequency": 1.15,
+      "phase": 0,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0.4,
+        "releaseSeconds": 0.6
+      }
+    },
+    {
+      "id": "15-2-witness-off-0",
+      "panelId": "p15-c02",
+      "type": "neon",
+      "rect": [
+        0.7080078125,
+        0.5592447916666666,
+        0.0205078125,
+        0.011067708333333334
+      ],
+      "clipPolygon": [
+        [
+          0.7080078125,
+          0.5592447916666666
+        ],
+        [
+          0.728515625,
+          0.5592447916666666
+        ],
+        [
+          0.728515625,
+          0.5703125
+        ],
+        [
+          0.7080078125,
+          0.5703125
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 8.35,
+      "endSeconds": 15.99,
+      "color": "#64d7ff",
+      "strength": 0.7,
+      "frequency": 0.000001,
+      "phase": -1.5707963267948966,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0,
+        "releaseSeconds": 0
+      }
+    },
+    {
+      "id": "15-2-witness-off-1",
+      "panelId": "p15-c02",
+      "type": "neon",
+      "rect": [
+        0.7080078125,
+        0.5592447916666666,
+        0.0205078125,
+        0.011067708333333334
+      ],
+      "clipPolygon": [
+        [
+          0.7080078125,
+          0.5592447916666666
+        ],
+        [
+          0.728515625,
+          0.5592447916666666
+        ],
+        [
+          0.728515625,
+          0.5703125
+        ],
+        [
+          0.7080078125,
+          0.5703125
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 8.35,
+      "endSeconds": 15.99,
+      "color": "#64d7ff",
+      "strength": 0.7,
+      "frequency": 0.000001,
+      "phase": -1.5707963267948966,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0,
+        "releaseSeconds": 0
+      }
+    },
+    {
+      "id": "15-2-witness-off-2",
+      "panelId": "p15-c02",
+      "type": "neon",
+      "rect": [
+        0.7080078125,
+        0.5592447916666666,
+        0.0205078125,
+        0.011067708333333334
+      ],
+      "clipPolygon": [
+        [
+          0.7080078125,
+          0.5592447916666666
+        ],
+        [
+          0.728515625,
+          0.5592447916666666
+        ],
+        [
+          0.728515625,
+          0.5703125
+        ],
+        [
+          0.7080078125,
+          0.5703125
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 8.35,
+      "endSeconds": 15.99,
+      "color": "#64d7ff",
+      "strength": 0.7,
+      "frequency": 0.000001,
+      "phase": -1.5707963267948966,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0,
+        "releaseSeconds": 0
+      }
+    },
+    {
+      "id": "15-2-witness-contact",
+      "panelId": "p15-c02",
+      "type": "reflection",
+      "rect": [
+        0.7080078125,
+        0.5592447916666666,
+        0.0205078125,
+        0.011067708333333334
+      ],
+      "clipPolygon": [
+        [
+          0.7080078125,
+          0.5592447916666666
+        ],
+        [
+          0.728515625,
+          0.5592447916666666
+        ],
+        [
+          0.728515625,
+          0.5703125
+        ],
+        [
+          0.7080078125,
+          0.5703125
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 15.99,
+      "endSeconds": 17.116666666666667,
+      "color": "#ffdf86",
+      "strength": 0.68,
+      "frequency": 0.000001,
+      "phase": 1.5707963267948966,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0.025,
+        "releaseSeconds": 0.25
+      }
+    },
+    {
+      "id": "15-3-latch-witness",
+      "panelId": "p15-c03",
+      "type": "reflection",
+      "rect": [
+        0.6435546875,
+        0.865234375,
+        0.017578125,
+        0.010416666666666666
+      ],
+      "clipPolygon": [
+        [
+          0.6435546875,
+          0.865234375
+        ],
+        [
+          0.6611328125,
+          0.865234375
+        ],
+        [
+          0.6611328125,
+          0.8756510416666666
+        ],
+        [
+          0.6435546875,
+          0.8756510416666666
+        ]
+      ],
+      "clock": "story",
+      "startSeconds": 22.576666666666668,
+      "endSeconds": 25.34166666666667,
+      "color": "#ffcb72",
+      "strength": 0.65,
+      "frequency": 0.000001,
+      "phase": 1.5707963267948966,
+      "softEdge": false,
+      "envelope": {
+        "attackSeconds": 0.05,
+        "releaseSeconds": 0.2
+      }
+    }
+  ],
+  "protectedRegions": [
+    {
+      "id": "15-1-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.016276041666666675,
+        0.5564908819683527,
+        0.302734375
+      ]
+    },
+    {
+      "id": "15-1-rigid-2",
+      "rect": [
+        0.5987322532524495,
+        0.08138020833333333,
+        0.2333671440512447,
+        0.15950520833333334
+      ]
+    },
+    {
+      "id": "15-2-rigid-1",
+      "rect": [
+        0.05121703067068332,
+        0.3404947916666667,
+        0.6282961570610435,
+        0.3190104166666667
+      ]
+    },
+    {
+      "id": "15-2-rigid-2",
+      "rect": [
+        0.634634890798795,
+        0.470703125,
+        0.08078093447927703,
+        0.08138020833333333
+      ]
+    },
+    {
+      "id": "15-3-rigid-1",
+      "rect": [
+        0.4012677467475504,
+        0.755859375,
+        0.2243914846646583,
+        0.21484375
+      ]
+    },
+    {
+      "id": "15-3-rigid-2",
+      "rect": [
+        0.06916834944385598,
+        0.6809895833333334,
+        0.28722110037076276,
+        0.3092447916666667
+      ]
+    },
+    {
+      "id": "15-3-rigid-3",
+      "rect": [
+        0.7064401658914856,
+        0.6842447916666666,
+        0.21541582527807202,
+        0.3059895833333333
+      ]
+    }
+  ],
+  "source": "docs/chapters/ch3/SCENARIO.md",
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "approvedStaticRevision": "revision-05",
+    "approvedMasterSha256": "ef153422c6a3794a1934137364e9654f8e329205844cecf2584f75ace1b988d4",
+    "lettering": "Exact approved raster plates after effects; original SVG retained.",
+    "animation": "Local matter effects and authored comic ellipses. No body morphing.",
+    "humanListeningApproval": false,
+    "formatCorrection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/format-01/PROGRESS.md",
+    "motion03": {
+      "lot": "B",
+      "timing": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/timing/TIMING.json",
+      "art": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/lot-b/ART-SELECTION.json",
+      "method": "Three real discrete drawings; firm final snap, no limb interpolation."
+    }
+  },
+  "motionLayers": [
+    {
+      "id": "15-3-physical-closure",
+      "panelId": "p15-c03",
+      "mode": "frames",
+      "rect": [
+        0.01171875,
+        0.6692708333333334,
+        0.9765625,
+        0.3229166666666667
+      ],
+      "startSeconds": 17.96666666666667,
+      "endSeconds": 25.34166666666667,
+      "frames": [
+        {
+          "atSeconds": 0,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/format-01/selected/page-15/art.png",
+          "sourceRect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ]
+        },
+        {
+          "atSeconds": 3.6499999999999986,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-b/closure-35-art.png",
+          "sourceRect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ]
+        },
+        {
+          "atSeconds": 4.530000000000001,
+          "image": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-b/closure-closed-art.png",
+          "sourceRect": [
+            0.01171875,
+            0.6692708333333334,
+            0.9765625,
+            0.3229166666666667
+          ]
+        }
+      ]
+    }
+  ]
+}

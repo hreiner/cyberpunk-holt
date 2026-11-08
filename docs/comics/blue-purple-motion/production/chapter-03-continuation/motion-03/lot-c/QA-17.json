@@ -1,0 +1,963 @@
+{
+  "status": "completed",
+  "candidate": {
+    "file": "D:\\AgenticCoding\\cyberpunk-holt\\anime\\motion-comics\\projects\\blue-purple-page17-motion06.json",
+    "sha256": "fe2f1dcf9ac545a0fc6aca362c330f4910d1e13aa7752b1b3945e291c8cba52d"
+  },
+  "source": "blue-purple-page17-motion05.json",
+  "sourceSha256": "0a8809de705a155bdecf67ae8d13719ab60295a62631d4293dec3a34d548b296",
+  "duration": 18.341666666666665,
+  "samples": 16,
+  "boundaries": [
+    {
+      "global": 7.553332333333333,
+      "local": 7.553332333333333,
+      "delta": -0.000001,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "global": 7.553333333333333,
+      "local": 7.553333333333333,
+      "delta": 0,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "global": 7.553334333333333,
+      "local": 7.553334333333333,
+      "delta": 0.000001,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "global": 8.153332333333333,
+      "local": 8.153332333333333,
+      "delta": -0.000001,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "global": 8.153333333333332,
+      "local": 8.153333333333332,
+      "delta": 0,
+      "actual": 2,
+      "expected": 2
+    },
+    {
+      "global": 8.153334333333332,
+      "local": 8.153334333333332,
+      "delta": 0.000001,
+      "actual": 2,
+      "expected": 2
+    },
+    {
+      "global": 8.233332333333333,
+      "local": 8.233332333333333,
+      "delta": -0.000001,
+      "actual": 2,
+      "expected": 2
+    },
+    {
+      "global": 8.233333333333333,
+      "local": 8.233333333333333,
+      "delta": 0,
+      "actual": 3,
+      "expected": 3
+    },
+    {
+      "global": 8.233334333333332,
+      "local": 8.233334333333332,
+      "delta": 0.000001,
+      "actual": 3,
+      "expected": 3
+    },
+    {
+      "global": 8.433332333333334,
+      "local": 8.433332333333334,
+      "delta": -0.000001,
+      "actual": 3,
+      "expected": 3
+    },
+    {
+      "global": 8.433333333333334,
+      "local": 8.433333333333334,
+      "delta": 0,
+      "actual": 4,
+      "expected": 4
+    },
+    {
+      "global": 8.433334333333333,
+      "local": 8.433334333333333,
+      "delta": 0.000001,
+      "actual": 4,
+      "expected": 4
+    },
+    {
+      "global": 8.583332333333335,
+      "local": 8.583332333333335,
+      "delta": -0.000001,
+      "actual": 4,
+      "expected": 4
+    },
+    {
+      "global": 8.583333333333334,
+      "local": 8.583333333333334,
+      "delta": 0,
+      "actual": 5,
+      "expected": 5
+    },
+    {
+      "global": 8.583334333333333,
+      "local": 8.583334333333333,
+      "delta": 0.000001,
+      "actual": 5,
+      "expected": 5
+    }
+  ],
+  "narrativePauseExact": true,
+  "seekIndependent": true,
+  "off": {
+    "changedPixels": 0
+  },
+  "engine": {
+    "core.js": "c5527e55a5c9d8149100ea9dfbc1a4079701103d514cf75915ff175afbd39ed7",
+    "effects.js": "7f63d2082f0fbb56a8bf026155741c85e74484afb17e38d30a705b52eecb1f32",
+    "layers.js": "7fa6386fb9387233f308ebe7383bfaa1f3435ed5eb15d7e6a3d7bd2dc120423a",
+    "reader.js": "a12fb03629efee3ad837bc9adee10d82c699e36878d0b459f0b80685448e49b5",
+    "package.json": "d06ce640b733273627eb69d0b46b0eee07f0ea3fdf958504ec161dba8c0e1c37"
+  },
+  "engineUnchanged": true,
+  "metrics": [
+    {
+      "time": 3.85,
+      "panel": 1,
+      "ambient": 1,
+      "paintHash": 4161096628,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 3.85,
+      "panel": 1,
+      "ambient": 2.3,
+      "paintHash": 1827690973,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 7.5533323333333335,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 555904431,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 7.553333333333333,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 1376155197,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 8.153332333333333,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 1376155197,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 8.153333333333332,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 1412843801,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 8.233332333333333,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 1412843801,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 8.233333333333333,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 891800062,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 8.433333333333334,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 1382154922,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 8.583332333333333,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 15975019,
+      "outsideMaterials": 0,
+      "opaqueLetters": 37832,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 8.583333333333334,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 3335803613,
+      "outsideMaterials": 0,
+      "opaqueLetters": 47969,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 9.533333333333333,
+      "panel": 2,
+      "ambient": 1.37,
+      "paintHash": 1910494301,
+      "outsideMaterials": 0,
+      "opaqueLetters": 47969,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 13.808333333333334,
+      "panel": 3,
+      "ambient": 1,
+      "paintHash": 2750428618,
+      "outsideMaterials": 0,
+      "opaqueLetters": 47969,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 13.808333333333334,
+      "panel": 3,
+      "ambient": 2.3,
+      "paintHash": 1548877335,
+      "outsideMaterials": 0,
+      "opaqueLetters": 47969,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 14.608333333333333,
+      "panel": 3,
+      "ambient": 1,
+      "paintHash": 2919936725,
+      "outsideMaterials": 0,
+      "opaqueLetters": 47969,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    },
+    {
+      "time": 15.708333333333332,
+      "panel": 3,
+      "ambient": 2.3,
+      "paintHash": 1466198385,
+      "outsideMaterials": 0,
+      "opaqueLetters": 47969,
+      "alteredLetters": 0,
+      "protectedRegions": [
+        {
+          "id": "17-1-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-1-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-1",
+          "changed": 0
+        },
+        {
+          "id": "17-2-rigid-2",
+          "changed": 0
+        },
+        {
+          "id": "17-3-child-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-grover-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-john-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-franklyn-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-abigail-head",
+          "changed": 0
+        },
+        {
+          "id": "17-3-wendy-head",
+          "changed": 0
+        }
+      ]
+    }
+  ],
+  "clip": {
+    "file": "D:\\AgenticCoding\\cyberpunk-holt\\art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\motion-03\\lot-c\\review17-v1\\interval.mp4",
+    "fps": 24,
+    "frames": 58,
+    "sha256": "d30f93e523a2854b051cd994f009bce2945e08e5a9981993c40c1cb9a804f45e",
+    "silent": true
+  },
+  "clipScope": "Unchanged c02 action; v2 only narrows c03 water masks.",
+  "evidenceDirectory": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/lot-c/review17-v2",
+  "opened": [
+    "CONTACT.png",
+    "proof-12.png"
+  ],
+  "previousReview": "review17-v1 retained; foot close-up led to two tighter ground polygons."
+}

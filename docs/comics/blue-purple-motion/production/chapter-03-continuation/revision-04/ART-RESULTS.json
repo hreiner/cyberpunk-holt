@@ -1,0 +1,32 @@
+[
+  {
+    "id": "p20-c03",
+    "reference_sha256": "DF8CA920CE867E14215280FBED737BA72DF1134984270B1A89A5F3C60DC5E739",
+    "master": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\revision-04\\p20-c03\\native.png",
+    "sha256": "4940D9AFC99BCF2D330FAF9F80DE0552427DFF8526840049ADE2849A4144B149",
+    "provider_id": null,
+    "cost": null,
+    "source": "C:\\Users\\hadri\\.codex\\generated_images\\01a1b584-3e59-70c3-a778-0f496c5ace35\\exec-1e5cdae9-e8bf-4e5f-a1da-1527df2efb78.png",
+    "review": "full-frame anatomy inspected; selection approved for composition"
+  },
+  {
+    "id": "p10-c02",
+    "reference_sha256": "A3519DF824F8148906A866A5950827D4E8D3D5DDDA3633DE0E819E413A898E40",
+    "master": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\revision-04\\p10-c02\\native.png",
+    "sha256": "B0D47AE0688C2D36AC35DA6BE82BF40449B16398D0F9FD89D93B4C6E3D4F9357",
+    "provider_id": null,
+    "cost": null,
+    "source": "C:\\Users\\hadri\\.codex\\generated_images\\01a1b584-3e59-70c3-a778-0f496c5ace35\\exec-24e357ef-4a6e-4609-90b2-8f5edbfab236.png",
+    "review": "full-frame anatomy inspected; selection approved for composition"
+  },
+  {
+    "id": "p10-c03",
+    "reference_sha256": "E4354B6CD2312605552071D6661C8180E3EC86DB32C03A46F38CDDCDDBA9F899",
+    "master": "art-masters\\motion-comics\\blue-purple\\chapter-03-continuation\\revision-04\\p10-c03\\native.png",
+    "sha256": "DA78FEEF3D76F2F2453D46D862424B2FC72B875438FE873BF02F91B103D9470D",
+    "provider_id": null,
+    "cost": null,
+    "source": "C:\\Users\\hadri\\.codex\\generated_images\\01a1b584-3e59-70c3-a778-0f496c5ace35\\exec-a3854e60-7912-4971-8175-4646398c3655.png",
+    "review": "full-frame anatomy inspected; selection approved for composition"
+  }
+]

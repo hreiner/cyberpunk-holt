@@ -12,6 +12,8 @@ avant génération. Le style du comics v2 diffère des assets du jeu.
 
 Inspecter et transmettre les ancres/identités/lieux à chaque appel. Revoir rythme,
 continuité, tenues, action, nombre de personnages, bulles et texte français exact.
+Ouvrir aussi les mains/doigts/poignets et contacts agrandis ; ne pas couvrir un défaut
+anatomique par une bulle. Préserver les acteurs dans une édition de décor ciblée.
 Pour v2 le lettrage fait partie de l'image ; corriger les défauts avec l'outil d'image,
 sans couvrir les pages de bulles/rectangles ajoutés en code.
 
