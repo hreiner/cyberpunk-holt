@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-17",
+  "status": "deployed-and-publicly-verified",
+  "version": 11,
+  "engineVersion": "1.4.1",
+  "sourceCommit": "15200f485ba6b0ad3e7fc8f9a22e426e246ecd90",
+  "selection": "anime/motion-comics/projects/blue-purple-pages01-21-v11.json",
+  "sourceSha256": "8f37928692257ae77a2b835ff91a043e4512590f8262d81cb444f51efbea3d92",
+  "publicationSha256": "81de45ac8f66c56a8394078324312547e6fd87cb87f55c2feaf38786a3696af3",
+  "chapterSha256": "726e28af5c6a139b946eea44fc5fe20a1d94c460c378e979293faf09bbe21151",
+  "publicUrl": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/v11/",
+  "canonicalUrl": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/",
+  "duration": 491.9,
+  "savedSeconds": 92.4,
+  "voices": 99,
+  "entries": 22,
+  "changes": ["Camera transitions 0.85 to 0.4 seconds", "Existing 0.3-second transitions retained", "Automatic entry and exit page overviews removed", "Manual overview preserves playback position", "Native voices, action durations and reading holds preserved", "Backing rebuilt from stems and retimed anchors"],
+  "ci": {"id": 44130722589, "conclusion": "success", "url": "https://github.com/hreiner/cyberpunk-holt/actions/runs/44130722589"},
+  "pages": {"id": 44130722635, "conclusion": "success", "url": "https://github.com/hreiner/cyberpunk-holt/actions/runs/44130722635"},
+  "proofs": ["qa/SUMMARY.json", "qa/ONLINE.md", "PUBLIC-HTTP.json", "GITHUB-RELEASE.json", "package/ARCHIVE.json", "BACKUP.json"],
+  "nextAction": "Targeted owner feedback; preserve the accepted drawings and current end of page21. No implicit new chapter or media generation.",
+  "limits": ["No new MP4 export", "No continuous full-duration browser viewing", "No human audio listening claimed"]
+}

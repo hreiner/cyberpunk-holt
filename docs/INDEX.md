@@ -11,7 +11,7 @@ la table donne le skill, la première lecture, les commandes et la preuve attend
 
 ## Adaptation en comics
 
-**17novembre2026 : rythmev11, environ8min12, transitions0,4s et passage direct entre
+**17novembre2026 : rythmev11 publié, environ8min12, transitions0,4s et passage direct entre
 les pages.** [Sélection et livraison de la correction](comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/DELIVERY.md).
 Les99voix, dessins et tenues sont conservés ; sons et animations recalés. La vue page
 reste accessible manuellement. Le suivi courant distingue préparation et publication.

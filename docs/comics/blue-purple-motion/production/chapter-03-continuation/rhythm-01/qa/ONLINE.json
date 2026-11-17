@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-17",
+  "status": "publicly-verified-and-visually-reviewed",
+  "canonicalURL": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/",
+  "requestedURL": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/?qa=20261117-v11",
+  "resolvedURL": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/v11/",
+  "sourceCommit": "15200f485ba6b0ad3e7fc8f9a22e426e246ecd90",
+  "sourceSha256": "8f37928692257ae77a2b835ff91a043e4512590f8262d81cb444f51efbea3d92",
+  "publicationSha256": "81de45ac8f66c56a8394078324312547e6fd87cb87f55c2feaf38786a3696af3",
+  "chapterSha256": "726e28af5c6a139b946eea44fc5fe20a1d94c460c378e979293faf09bbe21151",
+  "engineVersion": "1.4.1",
+  "report": {
+    "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/online-v1/report.json",
+    "sha256": "4e52eacd33f3e018047cbb81416d7c80fcba137cea54d7c29978dc021150ca64"
+  },
+  "tests": [
+    {
+      "name": "identité du paquet et moteur1.4.1 réellement servis",
+      "status": "passed"
+    },
+    {
+      "name": "22entrées,99voix et491.9s dans le navigateur",
+      "status": "passed"
+    },
+    {
+      "name": "21raccords et premièrecase sans zoom depuis une pleinepage",
+      "status": "passed"
+    },
+    {
+      "name": "transition caméra terminée à0.4s et5–8conservées0.3s",
+      "status": "passed"
+    },
+    {
+      "name": "enchaînement réel1→2,8→9,16→17,20→21 sans vuepage",
+      "status": "passed"
+    },
+    {
+      "name": "vuepage manuelle garde la position, Lire restitue la case, pause fige le récit",
+      "status": "passed"
+    },
+    {
+      "name": "cadrage desktop/mobile et dernièrecase conservée en fin",
+      "status": "passed"
+    },
+    {
+      "name": "seek froid suspend le récit et repart sur premièrecase",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "openedCaptures": [
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/online-v1/desktop-manual-overview-page09.png",
+      "sha256": "53e9faee9bce3ae43b3501fe0b5b27bba3f34c87e0aa23ecd8c6cce81d7c3715",
+      "visualVerdict": "favorable"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/online-v1/desktop-page09-first-case.png",
+      "sha256": "8cc0e2e41fd109707a5d794f1e9957e8c53f019e836567e53346004c1f2dc54e",
+      "visualVerdict": "favorable"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/online-v1/mobile-page09-first-case.png",
+      "sha256": "c0fcfce0f689594de6495f20889f5914ee741b4e914d6d189b0484c6c5c8647e",
+      "visualVerdict": "favorable"
+    },
+    {
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/online-v1/mobile-final-case.png",
+      "sha256": "6a7a02133550cf01d8dc1b5c2779713ca7fbe5a49aa49d450d68ca4efaf168dc",
+      "visualVerdict": "favorable"
+    }
+  ],
+  "limitations": [
+    "Aucune écoute humaine du mix.",
+    "Parcours ciblés ; pas de lecture continue de8min12."
+  ],
+  "browserClosed": true,
+  "toolsMatchFrozenSummary": true
+}

@@ -1,12 +1,14 @@
 # Suivi courant — motion comics HOLT
 
-**17novembre2026 : correction de rythmev11 préparée et vérifiée localement.**
+**17novembre2026 : correction de rythmev11 poussée et publiée sur GitHub Pages.**
 491,9s au lieu de584,3s : transitions0,85→0,4s, pages5–8 déjà0,3s conservées,
 aucune vue page automatique. La vue page reste accessible manuellement en pause.
 Les99voix, tenues, dessins et gestes gardent leur durée ; sons et animations recalés.
 [Sélection, contrôles et état de publication](../../comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/DELIVERY.md).
-La couverture12s et le point final du récit restent conservés. Publicationv11 en cours,
-les jalons datésv10 ci-dessous restent des preuves historiques.
+La couverture12s et le point final du récit restent conservés. CI et Pages réussis
+sur15200f4 ; redirection canonique, empreintes et deux plages audio vérifiées en HTTPS.
+Huit parcours distants dans un navigateur neuf confirment les21raccords et le seek froid.
+Les jalons datésv10 ci-dessous restent des preuves historiques.
 
 **8novembre2026 : v10 acceptée, poussée et déployée sur GitHub Pages.**
 [Lire le comics en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/).
@@ -108,7 +110,7 @@ existants ne sont pas réécrits pour cette consigne de carte. Letitia reste abs
 Sur le quai au niveau de l'eau, John a jeté le sans-abri ; ne pas inventer son sort.
 Source : [scénario ch3](../../chapters/ch3/SCENARIO.md).
 
-La correctionv11 est prête ; son état de publication figure en tête de ce suivi.
+La correctionv11 est publiée ; ses preuves figurent en tête de ce suivi.
 Prochaine action après livraison : retours ciblés du propriétaire ou définition
 du prochain lot à partir de la fin21, sans nouvelle production implicite. La feuille
 finale décrit les effets réalisés.
@@ -128,6 +130,9 @@ natifs et quatre images revues. Son :27contrôles,14ancres à0sample et huit pr�
 décodées sans saturation (aucune écoute humaine revendiquée). Paquet345fichiers,
 archive relue et restauration réelle sans masters/FFmpeg en cinq contrôles.59tests
 du lecteur et788tests du jeu passent ; le build réussit. Aucun appel fournisseur.
+Huit parcours du paquet progressif construit et huit parcours HTTPS passent, sans
+erreur JS/HTTP ; site, moteur et contenu réellement servis conformes. La sauvegarde
+native différentiellev11 conserve92fichiers relus par CRC/SHA sur la base de l'archivev10.
 
 Publication :788tests du jeu et58du socle réussis,8skills validés,49adaptateurs
 synchronisés. Paquet345fichiers contrôlé et restauré dans une copie neuve sansmasters

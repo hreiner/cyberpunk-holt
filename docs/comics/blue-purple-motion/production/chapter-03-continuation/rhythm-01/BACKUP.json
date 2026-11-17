@@ -1,0 +1,11 @@
+{
+  "status": "verified",
+  "archive": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/backup-v1/reader-native-v11-delta.zip",
+  "bytes": 107735651,
+  "sha256": "561ece4432a7651718ee3789f8a680a59cc3590fc69f29173d87de6552f32a9d",
+  "checkedFiles": 92,
+  "crcAndEveryMemberSha256": true,
+  "baseArchive": "art-masters/motion-comics/blue-purple/chapter-03-continuation/motion-03/reader-motion-v10.zip",
+  "baseSha256": "7a18226510ce9fb63ee6339c7fd844604efaf0328e305c6b0a01d618deb4a18b",
+  "sourceCommit": "15200f485ba6b0ad3e7fc8f9a22e426e246ecd90"
+}

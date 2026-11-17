@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "date": "2026-11-17",
+  "sourceCommit": "15200f485ba6b0ad3e7fc8f9a22e426e246ecd90",
+  "version": 11,
+  "publicationSha256": "81de45ac8f66c56a8394078324312547e6fd87cb87f55c2feaf38786a3696af3",
+  "canonical": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/",
+  "actual": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/v11/",
+  "calls": [
+    {
+      "url": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/",
+      "status": 200,
+      "bytes": 184,
+      "sha256": "73e3c153457ee92c47372ac33b61a593a1d010606213a10e253c44c10b1124c8",
+      "contentRange": null
+    },
+    {
+      "url": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/v11/PUBLICATION.json",
+      "status": 200,
+      "bytes": 238800,
+      "sha256": "81de45ac8f66c56a8394078324312547e6fd87cb87f55c2feaf38786a3696af3",
+      "contentRange": null
+    },
+    {
+      "url": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/v11/chapter.json",
+      "status": 200,
+      "bytes": 4148,
+      "sha256": "726e28af5c6a139b946eea44fc5fe20a1d94c460c378e979293faf09bbe21151",
+      "contentRange": null
+    },
+    {
+      "url": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/v11/media/9db4e91eb259659e15bd752a4c3f701ff2c493b50ba8205d9daeb9dfe83f6f6b.m4a",
+      "status": 206,
+      "bytes": 128,
+      "sha256": "efc009efd75333e523d9db9e06283575763edfe5fe73cf7624936b72d637b9fd",
+      "contentRange": "bytes 0-127/11983261"
+    },
+    {
+      "url": "https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/v11/media/9db4e91eb259659e15bd752a4c3f701ff2c493b50ba8205d9daeb9dfe83f6f6b.m4a",
+      "status": 206,
+      "bytes": 128,
+      "sha256": "a73d539477f303998f25b640e864373c4ea3847f945d543e9d54adf9c4e6cce6",
+      "contentRange": "bytes 8388282-8388409/11983261"
+    }
+  ]
+}
