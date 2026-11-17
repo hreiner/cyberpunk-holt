@@ -72,6 +72,14 @@ limité aux ressources sélectionnées et aux assets propres du lecteur.
 
 ## Vérification attendue
 
+Correction de rythme du17novembre : la nouvelle sélectionv11 désactive les vues
+page automatiques au début et à la fin de chaque page narrative. La première case
+est cadrée dès l'entrée ; aucune interpolation ne repart d'une vue page de durée
+nulle. Transitions0,85→0,4s, pages5–8 déjà0,3s conservées. Le bouton manuel «Vue
+page» et la couverture musicale restent disponibles. Préserver les tenues et la
+vitesse des voix, décaler animations et sons sur les mêmes nouvelles ancres ;
+voir le [contrat de correction](../comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/PLAN.md).
+
 Correction du8novembre : la composition importée doit suivre le format des pages
 retenues, pas seulement le viewport. Pour Blue Purple, page8 sert d'ancre : canvas
 1024×1536, marges/gouttières12px, sans titres papier ni contour blanc. La suite9–21

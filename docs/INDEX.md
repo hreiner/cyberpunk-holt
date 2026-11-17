@@ -11,6 +11,11 @@ la table donne le skill, la première lecture, les commandes et la preuve attend
 
 ## Adaptation en comics
 
+**17novembre2026 : rythmev11, environ8min12, transitions0,4s et passage direct entre
+les pages.** [Sélection et livraison de la correction](comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/DELIVERY.md).
+Les99voix, dessins et tenues sont conservés ; sons et animations recalés. La vue page
+reste accessible manuellement. Le suivi courant distingue préparation et publication.
+
 **Reprendre une session motion comics : [suivi courant, livré et prochaine étape](anime/motion-comics/PROGRESS.md).**
 
 **v10 acceptée et publiée le8novembre : [lire le comics en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/).**
@@ -19,9 +24,9 @@ la table donne le skill, la première lecture, les commandes et la preuve attend
 [procédure réutilisable de publication](anime/motion-comics/PUBLISH.md),
 [leçons de motion03 intégrées aux recettes](process/reviews/2026-11-08-motion03-workflow-lessons.md).
 
-**Blue Purple chapitre3 : couverture musicale et21pages,9min44 dans le lecteur.**
+**Production artistiquev10 conservée : couverture musicale et21pages,9min44.**
 [Livraison native v10, contrôles et sauvegarde historique](comics/blue-purple-motion/production/chapter-03-continuation/motion-03/DELIVERY.md).
-Sélection à reprendre : `blue-purple-pages01-21-v10.json`, rythme9–21 ralenti,
+La sélection courantev11 dérive de `blue-purple-pages01-21-v10.json`, rythme9–21 ralenti,
 carte Night City fidèle avec deux POI jaunes et un vert, sans HOLT.
 [Les46sous-cases produites](comics/blue-purple-motion/production/chapter-03-continuation/motion-03/ANIMATION-REVIEW.html)
 incluent les nouvelles actions de capsule, fusillade, chute et porte.

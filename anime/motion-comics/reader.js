@@ -37,6 +37,7 @@ let progressive = false,
   buffering = false,
   playIntent = false;
 let currentPageCanvas = null,
+  overviewPageIndex = null,
   currentArtCanvas = null,
   currentLetteringImage = null,
   currentLetteringPath = null;
@@ -81,6 +82,10 @@ function stateAt(t) {
     s = local[i],
     prev = local[Math.max(0, i - 1)] ?? s,
     transition = pages[page.index].data.transitionSeconds ?? core.DEFAULTS.transitionSeconds;
+  if (!manualRendering && overviewPageIndex === page.index) {
+    const overview = { start: localTime, end: page.duration, rect: [0, 0, 1, 1], panel: -1 };
+    return { page, s: overview, prev: overview, blend: 1 };
+  }
   return { page, s, prev, blend: transition === 0 ? 1 : ease((localTime - s.start) / transition) };
 }
 function pageArt(active, storyTime, ambientTime) {
@@ -299,6 +304,7 @@ function pause() {
   revealChrome();
 }
 function seek(t) {
+  overviewPageIndex = null;
   const wanted = clamp(t, 0, duration);
   if (progressive) {
     requestNavigation(wanted);
@@ -457,6 +463,7 @@ function retry() {
 }
 async function load(data, url = location.href) {
   pause();
+  overviewPageIndex = null;
   const revision = ++loadRevision;
   navigationRevision++; navigationAbort?.abort(); pendingNavigation = null; navigationPromise = null; buffering = false;
   progressive = data.kind === sequence.KIND && data.loadingMode === 'progressive';
@@ -644,6 +651,7 @@ function updateEffects() {
 }
 function play() {
   if (!ready) return;
+  overviewPageIndex = null;
   playIntent = true;
   if (progressive) {
     if (buffering) { updatePlay(); return; }
@@ -888,10 +896,7 @@ function initializeControls() {
     updateEffects();
     draw(position, effectTime);
   };
-  document.querySelector('#overview').onclick = () => {
-    pause();
-    seek(pageAt(position).start);
-  };
+  document.querySelector('#overview').onclick = showOverview;
   document.querySelector('#previous').onclick = () => jump(-1);
   document.querySelector('#next').onclick = () => jump(1);
   document.querySelector('#previous-page').onclick = () => jumpPage(-1);
@@ -982,6 +987,12 @@ function initializeControls() {
   document.fonts.ready.then(resizeScreen);
   resizeScreen();
 }
+function showOverview() {
+  if (!ready) return;
+  pause();
+  overviewPageIndex = pageAt(position).index;
+  draw(position, effectTime);
+}
 window.motionComic = {
   load,
   seek,
@@ -990,6 +1001,7 @@ window.motionComic = {
   pause,
   jump,
   jumpPage,
+  showOverview,
   whenPageReady,
   ensureAllPagesReady,
   retry,
@@ -1001,6 +1013,7 @@ window.motionComic = {
   },
   setRenderMode(value) {
     manualRendering = Boolean(value);
+    overviewPageIndex = null;
     if (manualRendering) {
       canvas.width = W;
       canvas.height = H;

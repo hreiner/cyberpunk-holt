@@ -1,5 +1,10 @@
 # Chapitre3 — livraison animée et sonore
 
+17novembre2026 — [correction de rythmev11](rhythm-01/DELIVERY.md) préparée :
+transitions0,85→0,4s, vues page automatiques supprimées,491,9s et99prises natives.
+Tenues, dessins et gestes conservés, nouveau backing recadré sur les mêmes actions.
+Le suivi de publication de cette correction remplace le jalonv10 pour la reprise.
+
 8novembre2026 — v10 acceptée, poussée et déployée :
 [lire en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/),
 [livraison et preuves](publish-01/DELIVERY.md),

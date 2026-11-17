@@ -241,7 +241,8 @@
     assertManifest(data);
     const timing = { ...DEFAULTS, ...data };
     let cursor = timing.overviewSeconds;
-    const segments = [{ start: 0, end: cursor, rect: [0, 0, 1, 1], panel: -1 }], tracks = [];
+    // A disabled overview must not remain the first panel's camera origin.
+    const segments = cursor > 0 ? [{ start: 0, end: cursor, rect: [0, 0, 1, 1], panel: -1 }] : [], tracks = [];
     data.panels.forEach((panel, index) => {
       const start = cursor;
       cursor += timing.transitionSeconds;
@@ -253,7 +254,7 @@
       cursor = Math.max(cursor, start + timing.transitionSeconds + (panel.holdSeconds ?? 1));
       segments.push({ start, end: cursor, rect: [...panel.rect], panel: index });
     });
-    segments.push({ start: cursor, end: cursor + timing.outroSeconds, rect: [0, 0, 1, 1], panel: -1 });
+    if (timing.outroSeconds > 0) segments.push({ start: cursor, end: cursor + timing.outroSeconds, rect: [0, 0, 1, 1], panel: -1 });
     const duration = cursor + timing.outroSeconds;
     if (!Number.isFinite(duration) || duration <= 0) fail('La chronologie doit avoir une durée positive finie.');
     if ((data.effects ?? []).some(fx => fx.startSeconds !== undefined && fx.startSeconds >= duration)) fail('startSeconds doit être dans la chronologie de la page.');

@@ -11,8 +11,9 @@ musique et ambiances continues. Le chapitre 3 reste à concevoir.
 
 Le motion comics **Blue Purple — chapitre3** est
 [lisible en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/) :
-couverture musicale et21pages, voix anglaises et bulles françaises,9min44.
-[Sélection et publication](docs/comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md).
+couverture musicale et21pages, voix anglaises et bulles françaises, environ8min12.
+La correctionv11 accélère les transitions à0,4s et retire les vues page automatiques.
+[Sélection et livraison](docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/DELIVERY.md).
 Cette adaptation a son propre suivi, distinct de l'implémentation du jeu.
 
 Pour travailler : [AGENTS.md](AGENTS.md), puis [guide par tâche](docs/WORKFLOWS.md).

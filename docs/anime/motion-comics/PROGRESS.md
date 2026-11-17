@@ -1,5 +1,13 @@
 # Suivi courant — motion comics HOLT
 
+**17novembre2026 : correction de rythmev11 préparée et vérifiée localement.**
+491,9s au lieu de584,3s : transitions0,85→0,4s, pages5–8 déjà0,3s conservées,
+aucune vue page automatique. La vue page reste accessible manuellement en pause.
+Les99voix, tenues, dessins et gestes gardent leur durée ; sons et animations recalés.
+[Sélection, contrôles et état de publication](../../comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/DELIVERY.md).
+La couverture12s et le point final du récit restent conservés. Publicationv11 en cours,
+les jalons datésv10 ci-dessous restent des preuves historiques.
+
 **8novembre2026 : v10 acceptée, poussée et déployée sur GitHub Pages.**
 [Lire le comics en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/).
 [Acceptation et sélection exactes](../../comics/blue-purple-motion/production/chapter-03-continuation/publish-01/ACCEPTANCE.md).
@@ -26,20 +34,22 @@ bulles françaises et dessins approuvés conservés. Pages5–8 : matières sono
 ## Sélection et livraison à reprendre
 
 - [Lecteur public complet](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/),
-  [lecture native locale](http://127.0.0.1:50589/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v10.json).
-- [Sélection v10](../../../anime/motion-comics/projects/blue-purple-pages01-21-v10.json) ;
-  couverture `blue-purple-cover-v1.json`, treize pages9–21 `motion06`,
-  lot9–21 : `anime/motion-comics/projects/blue-purple-pages09-21-motion06.json`.
-- [Publication courante et relance](../../comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md),
+  [lecture native localev11](http://127.0.0.1:50590/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v11.json).
+- [Sélection v11](../../../anime/motion-comics/projects/blue-purple-pages01-21-v11.json) ;
+  couverture `blue-purple-cover-v1.json`,21pages `rhythm01` dérivées de la sélectionv10,
+  mêmes46sous-cases et99voix.
+- [Correction courante et relance](../../comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/DELIVERY.md),
+  [publication historiquev10](../../comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md),
   [production native et sauvegarde](../../comics/blue-purple-motion/production/chapter-03-continuation/motion-03/DELIVERY.md),
   [revue globale](../../comics/blue-purple-motion/production/chapter-03-continuation/motion-03/qa-global/REVIEW.md),
   [suivi détaillé](../../comics/blue-purple-motion/production/chapter-03-continuation/motion-03/PROGRESS.md).
 - Les [deux films etPDF](../../comics/blue-purple-motion/production/chapter-03-continuation/motion-01/DELIVERY.md)
   restent la livraison historiquev7 ; aucun nouveau film complet dans cette passe.
 
-Le serveur natif utile reste sur50589 ; le lecteur public ne dépend pas de ce poste.
-Le verrou courant de publication est `anime/motion-comics/web-release.json`, moteur1.4.0,
-PUBLICATION d842e7b6…01d0a,345fichiers. Release154233721octets, SHA2c4d907a…2913ec.
+Le serveur natifv11 est sur50590 ;50589 reste historiquev10. Le lecteur public ne dépend
+pas de ce poste. Le verrou courant est `anime/motion-comics/web-release.json`, moteur1.4.1,
+PUBLICATION81de45ac…696af3,345fichiers. Release152015452octets, SHA107fee55…d4f3f.
+La sélection de correction est `rhythm-01/SELECTION.json`, contrat491,9s.
 Le gel local de production est `motion-03/SELECTION.json` (317dépendances/moteur1.3.0).
 Le gel historiquev9 reste `motion-02/SELECTION.json` (195 dépendances).
 Le gel v8 reste `format-01/SELECTION.json` (182 dépendances) ; le gel historique v7 reste
@@ -49,6 +59,12 @@ Préserver les fichiers historiques : la sélection v5 des pages1–8 reste disp
 v6/lotmotion01 et leurs premiers rendus sont des essais supplantés.
 
 ## Ce qui est conservé et ajouté
+
+Les paragraphes de production ci-dessous décriventv10. Depuis la correctionv11,
+les tenues restent identiques mais les durées de pages et départs de voix suivent
+`rhythm-01/TIMING.json`. Le backing complet a été reconstruit ; seul le préfixe de
+couverture12s est désormais promis exact en PCM. Ne pas réappliquer les238,6s de
+préfixe historique ni les vues page de l'ancien contrat à la version courante.
 
 Pages1–8 : images, poses et voix inchangées,226,60 s ; corps/recul de John corrigés,
 vitre intacte puis bris, mèches ciblées et voiture fixe avec vent conservés.
@@ -92,7 +108,8 @@ existants ne sont pas réécrits pour cette consigne de carte. Letitia reste abs
 Sur le quai au niveau de l'eau, John a jeté le sans-abri ; ne pas inventer son sort.
 Source : [scénario ch3](../../chapters/ch3/SCENARIO.md).
 
-Publication terminée. Prochaine action : retours ciblés du propriétaire ou définition
+La correctionv11 est prête ; son état de publication figure en tête de ce suivi.
+Prochaine action après livraison : retours ciblés du propriétaire ou définition
 du prochain lot à partir de la fin21, sans nouvelle production implicite. La feuille
 finale décrit les effets réalisés.
 Le propriétaire a accepté v10 ; ne pas redemander sa revue sur le même hash, ni relancer
@@ -105,6 +122,12 @@ L'[audit de session](../../process/reviews/2026-11-07-comics-session-lessons.md)
 [leçons](LESSONS.md) conservent les retours. L'ancien storyboard initial est historique.
 
 ## Vérifications et compteurs
+
+Correctionv11 :69contrôles indépendants,21raccords et99prises conformes ; six parcours
+natifs et quatre images revues. Son :27contrôles,14ancres à0sample et huit préécoutes
+décodées sans saturation (aucune écoute humaine revendiquée). Paquet345fichiers,
+archive relue et restauration réelle sans masters/FFmpeg en cinq contrôles.59tests
+du lecteur et788tests du jeu passent ; le build réussit. Aucun appel fournisseur.
 
 Publication :788tests du jeu et58du socle réussis,8skills validés,49adaptateurs
 synchronisés. Paquet345fichiers contrôlé et restauré dans une copie neuve sansmasters
@@ -168,16 +191,17 @@ Aucun commit/push ; préserver les autres travaux présents.
 
 ```text
 Lis AGENTS.md, docs/INDEX.md et ce suivi.
-Reprends la sélection Blue Purple1–21 v10 et le jalon publish01 après ACCEPTANCE.
+Reprends la sélection Blue Purple1–21 v11 et le jalon rhythm01.
 Lecteur public : https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/.
-Publication vérifiée, contenu10/moteur1.4.0 ; release verrouillée dans web-release.json.
+Contenu11/moteur1.4.1 ; état de publication en tête de ce suivi, release dans web-release.json.
 Sur checkout neuf, npm run comics:prepare restaure le paquet sans masters ni FFmpeg.
 Traite les retours du propriétaire sur le lecteur courant, sans repartir
 des essais v1/v6. Conserve les masters statiques révision05 déjà validés, le gel v2
 historique, le format1024×1536 corrigé et les46sous-cases produites de motion03.
 La couverture précède les21pages. Carte : deux POI jaunes et un vert, sans HOLT.
 La vision désignée18 est16.1 dans la pagination actuelle. Le rythme commun est
-TIMING révision2,584,3s, sans voix accélérée ; ne pas rétablir les tenues trop courtes.
+rhythm-01/TIMING.json,491,9s : pas de vue page automatique, caméra0,4s (5–8 :0,3s),
+tenues conservées et aucune voix accélérée. Ne pas rétablir les attentes de pagev10.
 Ne génère pas à nouveau les prises ou sons retenus pour un simple décalage/mix.
 Mets le suivi à jour avec les corrections et preuves réellement obtenues.
 ```

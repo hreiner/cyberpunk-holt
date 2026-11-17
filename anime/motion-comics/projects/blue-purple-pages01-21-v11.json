@@ -1,0 +1,113 @@
+{
+  "kind": "motion-comic-sequence",
+  "schemaVersion": 1,
+  "version": 11,
+  "title": "HOLT — Blue Purple · chapitre 3 · couverture et 21 pages",
+  "pages": [
+    {
+      "id": "cover",
+      "manifest": "blue-purple-cover-v1.json"
+    },
+    {
+      "id": "page-01",
+      "manifest": "blue-purple-page01-rhythm01.json"
+    },
+    {
+      "id": "page-02",
+      "manifest": "blue-purple-page02-rhythm01.json"
+    },
+    {
+      "id": "page-03",
+      "manifest": "blue-purple-page03-rhythm01.json"
+    },
+    {
+      "id": "page-04",
+      "manifest": "blue-purple-page04-rhythm01.json"
+    },
+    {
+      "id": "page-05",
+      "manifest": "blue-purple-page05-rhythm01.json"
+    },
+    {
+      "id": "page-06",
+      "manifest": "blue-purple-page06-rhythm01.json"
+    },
+    {
+      "id": "page-07",
+      "manifest": "blue-purple-page07-rhythm01.json"
+    },
+    {
+      "id": "page-08",
+      "manifest": "blue-purple-page08-rhythm01.json"
+    },
+    {
+      "id": "page-09",
+      "manifest": "blue-purple-page09-rhythm01.json"
+    },
+    {
+      "id": "page-10",
+      "manifest": "blue-purple-page10-rhythm01.json"
+    },
+    {
+      "id": "page-11",
+      "manifest": "blue-purple-page11-rhythm01.json"
+    },
+    {
+      "id": "page-12",
+      "manifest": "blue-purple-page12-rhythm01.json"
+    },
+    {
+      "id": "page-13",
+      "manifest": "blue-purple-page13-rhythm01.json"
+    },
+    {
+      "id": "page-14",
+      "manifest": "blue-purple-page14-rhythm01.json"
+    },
+    {
+      "id": "page-15",
+      "manifest": "blue-purple-page15-rhythm01.json"
+    },
+    {
+      "id": "page-16",
+      "manifest": "blue-purple-page16-rhythm01.json"
+    },
+    {
+      "id": "page-17",
+      "manifest": "blue-purple-page17-rhythm01.json"
+    },
+    {
+      "id": "page-18",
+      "manifest": "blue-purple-page18-rhythm01.json"
+    },
+    {
+      "id": "page-19",
+      "manifest": "blue-purple-page19-rhythm01.json"
+    },
+    {
+      "id": "page-20",
+      "manifest": "blue-purple-page20-rhythm01.json"
+    },
+    {
+      "id": "page-21",
+      "manifest": "blue-purple-page21-rhythm01.json"
+    }
+  ],
+  "music": {
+    "audio": "../../../art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/audio/backing-cover-and-pages01-21.wav",
+    "gain": 1,
+    "preMixed": true
+  },
+  "provenance": {
+    "production": "docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-01",
+    "sourcePages01To08": "blue-purple-pages01-08-v5.json",
+    "staticRevision09To21": "revision-05",
+    "humanListeningApproval": false,
+    "formatCorrection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/format-01/PROGRESS.md",
+    "revision": "docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01",
+    "previousSelection": "blue-purple-pages01-21-v10.json",
+    "engine": "1.4.1",
+    "timing": "docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/TIMING.json",
+    "map": "User reference; two yellow POIs and one green; no HOLT marker"
+  }
+}

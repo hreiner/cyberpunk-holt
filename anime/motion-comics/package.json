@@ -1,6 +1,6 @@
 {
   "name": "holt-motion-comics",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "type": "commonjs",
   "description": "Lecteur et export local de pages de comics sonores, isolés du jeu.",

@@ -29,6 +29,22 @@ test('une scène muette et les transitions instantanées ont une durée finie', 
   assert.throws(() => buildTimeline(instant), /durée positive/);
 });
 
+test('sans vues de page, la caméra part directement de la première case et finit sur la dernière', () => {
+  const data = { ...clone(bluePurple), overviewSeconds: 0, outroSeconds: 0, transitionSeconds: 0.4 };
+  const result = buildTimeline(data);
+  assert.equal(result.segments.length, data.panels.length);
+  assert.equal(result.segments[0].start, 0);
+  assert.equal(result.segments[0].panel, 0);
+  assert.deepEqual(result.segments[0].rect, data.panels[0].rect);
+  assert.equal(result.segments.at(-1).end, result.duration);
+  assert.equal(result.segments.at(-1).panel, data.panels.length - 1);
+  assert(result.segments.every(segment => segment.panel >= 0));
+  const legacy = buildTimeline(bluePurple);
+  assert.equal(legacy.segments[0].panel, -1);
+  assert.equal(legacy.segments.at(-1).panel, -1);
+  result.tracks.forEach((track, index) => assert(Math.abs((track.end - track.start) - (legacy.tracks[index].end - legacy.tracks[index].start)) < 1e-9));
+});
+
 test('le temps de lecture minimum et les respirations ne coupent pas les voix', () => {
   const data = clone(template);
   data.panels[0].holdSeconds = 10;

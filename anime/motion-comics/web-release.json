@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "version": 10,
-  "directory": "public/comics/blue-purple/v10",
-  "sourceManifest": "anime/motion-comics/projects/blue-purple-pages01-21-v10.json",
-  "sourceSha256": "d180993fd326d8d2640e1b11d4b4a09718a5fa96a8055efd62e4c717078301ce",
-  "publicationSha256": "d842e7b6a4543cdcac93b30b775766a74401704fb422564809a062226bf01d0a",
+  "version": 11,
+  "directory": "public/comics/blue-purple/v11",
+  "sourceManifest": "anime/motion-comics/projects/blue-purple-pages01-21-v11.json",
+  "sourceSha256": "8f37928692257ae77a2b835ff91a043e4512590f8262d81cb444f51efbea3d92",
+  "publicationSha256": "81de45ac8f66c56a8394078324312547e6fd87cb87f55c2feaf38786a3696af3",
   "release": {
-    "tag": "blue-purple-v10-web-20261108",
-    "url": "https://github.com/hreiner/cyberpunk-holt/releases/download/blue-purple-v10-web-20261108/blue-purple-v10-web.tar.gz",
-    "sha256": "2c4d907aa84afedad25b3a5ea533ada03b6f6aad486bac6f479683806b2913ec",
-    "bytes": 154233721
+    "tag": "blue-purple-v11-web-20261117",
+    "url": "https://github.com/hreiner/cyberpunk-holt/releases/download/blue-purple-v11-web-20261117/blue-purple-v11-web.tar.gz",
+    "sha256": "107fee558f4ae2c7252064ae4080468d8974bd3a597284722e3929a2ee0d4f3f",
+    "bytes": 152015452
   }
 }

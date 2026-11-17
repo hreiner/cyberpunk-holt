@@ -9,6 +9,8 @@ const PRIVATE = 'art-masters/motion-comics/blue-purple/chapter-03-continuation/p
 const REPORT = 'docs/comics/blue-purple-motion/production/chapter-03-continuation/publish-01/package';
 const DEFAULT_SOURCE = 'anime/motion-comics/projects/blue-purple-pages01-21-v10.json';
 const SELECTION = 'docs/comics/blue-purple-motion/production/chapter-03-continuation/motion-03/SELECTION.json';
+// Known releases keep their independent timing contracts; a new release is explicit.
+const RELEASES = Object.freeze({ 10: { duration: 584.3 }, 11: { duration: 491.9 } });
 const RUNTIME = ['reader.css', 'reader.js', 'core.js', 'effects.js', 'layers.js', 'sequence.js', 'assets/holt-display.woff2', 'assets/holt-text.woff2', 'assets/barlow-LICENSE.txt', 'assets/big-shoulders-LICENSE.txt', 'assets/ATTRIBUTION.md'];
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 const read = file => JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -57,7 +59,8 @@ function narrativeSignature(chapter, pages, core) {
 }
 function verify(folder) {
   folder = path.resolve(folder); const inventory = read(local(folder, 'PUBLICATION.json'));
-  if (inventory.schemaVersion !== 1 || inventory.kind !== 'holt-static-comic-publication' || inventory.version !== 10 || !Array.isArray(inventory.files)) throw Error('Inventaire de publication invalide.');
+  const release = RELEASES[inventory.version];
+  if (inventory.schemaVersion !== 1 || inventory.kind !== 'holt-static-comic-publication' || !release || !Array.isArray(inventory.files)) throw Error('Inventaire de publication invalide.');
   const listed = new Map();
   for (const item of inventory.files) {
     if (listed.has(item.path) || item.path === 'PUBLICATION.json' || !/^[a-f0-9]{64}$/.test(item.sha256)) throw Error('Entrée inventaire invalide.');
@@ -68,7 +71,7 @@ function verify(folder) {
   }
   if (JSON.stringify(walk(folder)) !== JSON.stringify([...listed.keys(), 'PUBLICATION.json'].sort())) throw Error('Fichiers manquants ou non inventoriés.');
   const { core, sequence } = publicAPIs(folder), chapter = read(local(folder, inventory.chapter)); sequence.assertSequence(chapter);
-  if (chapter.loadingMode !== 'progressive' || chapter.version !== 10 || chapter.pages.length !== 22) throw Error('Chapitre progressif v10 complet requis.');
+  if (chapter.loadingMode !== 'progressive' || chapter.version !== inventory.version || chapter.pages.length !== 22) throw Error('Chapitre progressif complet requis.');
   const referenced = new Set(['index.html', 'chapter.json', ...RUNTIME]);
   const asset = (base, rel) => { const target = local(folder, slash(path.relative(folder, path.resolve(base, rel)))), name = slash(path.relative(folder, target)); if (!listed.has(name)) throw Error('Média absent de l’inventaire.'); referenced.add(name); return target; };
   const pages = chapter.pages.map(page => {
@@ -78,7 +81,8 @@ function verify(folder) {
   });
   if (chapter.music) asset(folder, chapter.music.audio);
   const timeline = sequence.buildSequence(chapter, pages);
-  if (Math.abs(timeline.duration - 584.3) > 1e-6 || timeline.tracks.length !== 99 || timelineSignature(timeline) !== inventory.timelineSha256 || inventory.duration !== timeline.duration || inventory.voices !== 99 || inventory.pages !== 22) throw Error('Chronologie ou voix différentes.');
+  if (Math.abs(timeline.duration - release.duration) > 1e-6 || timeline.tracks.length !== 99 || timelineSignature(timeline) !== inventory.timelineSha256 || inventory.duration !== timeline.duration || inventory.voices !== 99 || inventory.pages !== 22) throw Error('Chronologie ou voix différentes.');
+  if (inventory.version === 11 && pages.slice(1).some(page => page.overviewSeconds !== 0 || page.outroSeconds !== 0 || page.transitionSeconds > 0.4 || core.buildTimeline(page).segments.some(segment => segment.panel < 0))) throw Error('Le rythme v11 ne doit pas réintroduire de vue page automatique.');
   if (narrativeSignature(chapter, pages, core) !== inventory.narrativeSha256) throw Error('Contenu narratif différent.');
   if (!Array.isArray(inventory.thumbnails) || inventory.thumbnails.length !== 22 || inventory.thumbnails.some((item, index) => item.id !== chapter.pages[index].id || item.path !== chapter.pages[index].thumbnail || item.sha256 !== listed.get(item.path)?.sha256 || !/^[a-f0-9]{64}$/.test(item.sourceSha256) || item.width !== 240 || item.height !== 360 || item.ambientSeconds !== 0 || Math.abs(item.atSeconds - timeline.pages[index].start - 0.001) > 1e-7)) throw Error('Miniatures initiales ou provenance invalides.');
   const html = fs.readFileSync(local(folder, 'index.html'), 'utf8');
@@ -101,7 +105,7 @@ function verify(folder) {
 }
 function options(args) {
   const result = {};
-  for (let i = 0; i < args.length; i++) { const key = args[i]; if (['--prepare', '--prepare-thumbnails', '--runtime-ready'].includes(key)) result[key.slice(2)] = true; else if (['--source', '--out', '--check', '--ffmpeg', '--native-url'].includes(key) && args[i + 1]) result[key.slice(2)] = args[++i]; else throw Error(`Option inconnue : ${key}`); }
+  for (let i = 0; i < args.length; i++) { const key = args[i]; if (['--prepare', '--prepare-thumbnails', '--runtime-ready'].includes(key)) result[key.slice(2)] = true; else if (['--source', '--out', '--check', '--ffmpeg', '--native-url', '--profile'].includes(key) && args[i + 1]) result[key.slice(2)] = args[++i]; else throw Error(`Option inconnue : ${key}`); }
   return result;
 }
 function safeOutput(value) {
@@ -121,12 +125,18 @@ function cleanMetadata(value) {
 }
 async function build(opts) {
   const { readDocument } = require('./sequence.cjs'), core = require('./core.js'), sequence = require('./sequence.js');
-  const project = readDocument(path.resolve(ROOT, opts.source ?? DEFAULT_SOURCE));
-  const selection = read(path.join(ROOT, SELECTION));
-  if (hash(fs.readFileSync(project.manifestFile)) !== selection.selectedSha256 || selection.files.length !== 317) throw Error('La source ne correspond pas à la sélection v10 figée.');
+  const profile = opts.profile ? read(local(ROOT, opts.profile)) : { version: 10, source: DEFAULT_SOURCE, selection: SELECTION, private: PRIVATE, report: REPORT, runtimeSelection: 'docs/comics/blue-purple-motion/production/chapter-03-continuation/publish-01/runtime/SELECTION-1.4.0.json' };
+  if (!RELEASES[profile.version]) throw Error('Profil de publication non pris en charge.');
+  const source = opts.source ?? profile.source, selectionFile = local(ROOT, profile.selection);
+  const project = readDocument(local(ROOT, source));
+  const selection = read(selectionFile);
+  if (project.data.version !== profile.version || Math.abs(project.timeline.duration - RELEASES[profile.version].duration) > 1e-6 || hash(fs.readFileSync(project.manifestFile)) !== selection.selectedSha256 || selection.files.length !== 317) throw Error('La source ne correspond pas à la sélection figée.');
   for (const item of selection.files) if (hash(fs.readFileSync(path.join(ROOT, item.file))) !== item.sha256) throw Error(`Master modifié : ${item.file}`);
-  const output = safeOutput(opts.out ?? 'public/comics/blue-purple/v10');
-  const privateDir = path.join(ROOT, PRIVATE), reportDir = path.join(ROOT, REPORT), cache = path.join(privateDir, 'cache'); fs.mkdirSync(cache, { recursive: true }); fs.mkdirSync(reportDir, { recursive: true });
+  const output = safeOutput(opts.out ?? `public/comics/blue-purple/v${profile.version}`);
+  if (path.basename(output) !== `v${profile.version}`) throw Error('Version de sortie différente du profil.');
+  const privateDir = path.resolve(ROOT, profile.private), reportDir = path.resolve(ROOT, profile.report), cache = path.resolve(ROOT, profile.cache ?? path.join(privateDir, 'cache'));
+  if (![privateDir, reportDir, cache].every(file => inside(ROOT, file))) throw Error('Dossiers de production hors dépôt.');
+  fs.mkdirSync(cache, { recursive: true }); fs.mkdirSync(reportDir, { recursive: true });
   const ffmpeg = opts.ffmpeg ?? process.env.HOLT_FFMPEG ?? path.join(ROOT, 'art-masters/tools/audio-python/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe');
   function ff(args, binary = false) { const r = spawnSync(ffmpeg, ['-nostdin', '-hide_banner', '-loglevel', 'error', ...args], { encoding: binary ? undefined : 'utf8', windowsHide: true, maxBuffer: 512 * 1024 * 1024 }); if (r.error || r.status !== 0) throw Error(r.error?.message ?? String(r.stderr)); return r.stdout; }
   function rgba(file) { return ff(['-i', file, '-map', '0:v:0', '-pix_fmt', 'rgba', '-f', 'hash', '-hash', 'sha256', '-']).trim().split('=').pop(); }
@@ -151,10 +161,8 @@ async function build(opts) {
         let fmt = 12, channels, sampleRate;
         while (fmt + 8 < source.length) { const length = source.readUInt32LE(fmt + 4); if (source.toString('ascii', fmt, fmt + 4) === 'fmt ') { channels = source.readUInt16LE(fmt + 10); sampleRate = source.readUInt32LE(fmt + 12); break; } fmt += 8 + length + (length % 2); }
         if (![1, 2].includes(channels) || !sampleRate) throw Error('Format WAV non pris en charge.');
-        const first = path.join(cache, 'backing-first.m4a');
         if (!fs.existsSync(cached)) {
-          if (file === project.musicFile && fs.existsSync(first)) fs.copyFileSync(first, cached, fs.constants.COPYFILE_EXCL);
-          else ff(['-n', '-i', file, '-map_metadata', '-1', '-vn', ...(channels === 1 ? ['-af', 'pan=stereo|c0=c0|c1=c0'] : []), '-c:a', 'aac', '-b:a', '192k', '-ac', '2', '-ar', String(sampleRate), '-movflags', '+faststart', cached]);
+          ff(['-n', '-i', file, '-map_metadata', '-1', '-vn', ...(channels === 1 ? ['-af', 'pan=stereo|c0=c0|c1=c0'] : []), '-c:a', 'aac', '-b:a', '192k', '-ac', '2', '-ar', String(sampleRate), '-movflags', '+faststart', cached]);
         }
         const before = pcm(file, channels === 1), after = pcm(cached);
         details.audio = { sourceDuration: before.samplesPerChannel / sampleRate, targetDuration: after.samplesPerChannel / sampleRate, sourceMeanDb: before.meanDb, targetMeanDb: after.meanDb, sourcePeakDb: before.peakDb, targetPeakDb: after.peakDb, sourceChannels: channels, channels: 2, sampleRate };
@@ -171,8 +179,8 @@ async function build(opts) {
   if (opts.prepare) return { status: 'media-prepared', assets: mappings.length, out: slash(path.relative(ROOT, output)) };
   if (!opts['runtime-ready'] && !opts['prepare-thumbnails']) throw Error('Médias préparés. Attendre le GO moteur puis relancer avec --runtime-ready.');
   if (opts['runtime-ready']) {
-    const frozen = read(path.join(ROOT, 'docs/comics/blue-purple-motion/production/chapter-03-continuation/publish-01/runtime/SELECTION-1.4.0.json'));
-    if (frozen.status !== 'frozen-ready-for-public-package' || frozen.engineVersion !== '1.4.0') throw Error('GO moteur figé requis.');
+    const frozen = read(local(ROOT, profile.runtimeSelection));
+    if (frozen.status !== 'frozen-ready-for-public-package' || frozen.engineVersion !== read(path.join(__dirname, 'package.json')).version) throw Error('GO moteur figé requis.');
     for (const item of frozen.engine) if (hash(fs.readFileSync(path.join(ROOT, item.file))) !== item.sha256) throw Error(`Moteur différent du GO : ${item.file}`);
   }
   const { chromium } = require('playwright');
@@ -180,7 +188,7 @@ async function build(opts) {
   const thumbnails = [], thumbnailProof = [];
   try {
     const page = await browser.newPage({ viewport: { width: 900, height: 900 } });
-    await page.goto(opts['native-url'] ?? 'http://127.0.0.1:50589/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v10.json');
+    await page.goto(opts['native-url'] ?? `http://127.0.0.1:50589/anime/motion-comics/reader.html?manifest=/${source}`);
     await page.waitForFunction(() => window.motionComic?.duration > 0, null, { timeout: 120000 });
     await page.waitForSelector('#reader[data-ready="true"]', { timeout: 120000 });
     await page.evaluate(async () => { await window.motionComic.ensureAllPagesReady(); window.motionComic.pause(); window.motionComic.setRenderMode(true); window.motionComic.setEffects(true); });
@@ -203,7 +211,7 @@ async function build(opts) {
   exact(path.join(output, 'chapter.json'), json(chapter));
   for (const rel of RUNTIME) exact(path.join(output, rel), fs.readFileSync(path.join(__dirname, rel)));
   const html = fs.readFileSync(path.join(__dirname, 'reader.html'), 'utf8').replace('<html lang="fr">', '<html lang="fr" data-manifest="chapter.json">'); exact(path.join(output, 'index.html'), html);
-  exact(path.join(path.dirname(output), 'index.html'), '<!doctype html>\n<html lang="fr"><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=./v10/"><title>HOLT — Blue Purple</title><a href="./v10/">Lire Blue Purple</a></html>\n');
+  // The tracked canonical redirect is updated explicitly after package review.
   const publicPages = chapter.pages.map(p => read(path.join(output, p.manifest))), timeline = sequence.buildSequence(chapter, publicPages);
   if (Math.abs(timeline.duration - project.timeline.duration) > 1e-8 || timeline.tracks.length !== project.timeline.tracks.length) throw Error('Chronologie de publication différente.');
   const expectedTracks = project.timeline.tracks.map(({ audioFile, ...track }) => ({ ...track, audio: `../${mapped.get(audioFile)}` }));
@@ -212,7 +220,7 @@ async function build(opts) {
   if (narrativeSha256 !== narrativeSignature(project.data, project.pages.map(page => page.data), core)) throw Error('Contenu narratif modifié pendant le packaging.');
   const files = walk(output).filter(file => file !== 'PUBLICATION.json').map(file => { const data = fs.readFileSync(path.join(output, file)); return { path: file, sha256: hash(data), bytes: data.length, kind: file.startsWith('media/') ? 'media' : file.startsWith('pages/') ? 'page' : 'reader' }; });
   const initialFrames = thumbnailProof.map((thumb, index) => ({ ...thumb, sourceSha256: hash(fs.readFileSync(path.join(cache, `thumbnail-${selection.selectedSha256}-${index}.png`))) }));
-  const inventory = { schemaVersion: 1, kind: 'holt-static-comic-publication', version: 10, chapter: 'chapter.json', duration: timeline.duration, pages: 22, voices: 99, source: { sequenceSha256: selection.selectedSha256, selectionSha256: hash(fs.readFileSync(path.join(ROOT, SELECTION))) }, engineVersion: read(path.join(__dirname, 'package.json')).version, timelineSha256: timelineSignature(timeline), narrativeSha256, thumbnails: initialFrames, files, mappings };
+  const inventory = { schemaVersion: 1, kind: 'holt-static-comic-publication', version: profile.version, chapter: 'chapter.json', duration: timeline.duration, pages: 22, voices: 99, source: { sequenceSha256: selection.selectedSha256, selectionSha256: hash(fs.readFileSync(selectionFile)) }, engineVersion: read(path.join(__dirname, 'package.json')).version, timelineSha256: timelineSignature(timeline), narrativeSha256, thumbnails: initialFrames, files, mappings };
   exact(path.join(output, 'PUBLICATION.json'), json(inventory));
   const result = verify(output); exact(path.join(reportDir, 'PACKAGE-REPORT.json'), json(result)); return result;
 }

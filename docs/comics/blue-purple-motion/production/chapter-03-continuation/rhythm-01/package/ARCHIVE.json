@@ -1,0 +1,17 @@
+{
+  "status": "archive-verified",
+  "members": 345,
+  "archive": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/package/release-v1/blue-purple-v11-web.tar.gz",
+  "schemaVersion": 1,
+  "version": 11,
+  "directory": "public/comics/blue-purple/v11",
+  "sourceManifest": "anime/motion-comics/projects/blue-purple-pages01-21-v11.json",
+  "sourceSha256": "8f37928692257ae77a2b835ff91a043e4512590f8262d81cb444f51efbea3d92",
+  "publicationSha256": "81de45ac8f66c56a8394078324312547e6fd87cb87f55c2feaf38786a3696af3",
+  "release": {
+    "tag": "blue-purple-v11-web-20261117",
+    "url": "https://github.com/hreiner/cyberpunk-holt/releases/download/blue-purple-v11-web-20261117/blue-purple-v11-web.tar.gz",
+    "sha256": "107fee558f4ae2c7252064ae4080468d8974bd3a597284722e3929a2ee0d4f3f",
+    "bytes": 152015452
+  }
+}

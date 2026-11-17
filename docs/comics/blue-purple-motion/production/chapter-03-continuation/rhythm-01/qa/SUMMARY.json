@@ -1,0 +1,443 @@
+{
+  "date": "2026-11-17",
+  "status": "go-for-publication-after-independent-local-review",
+  "sourceManifest": "anime/motion-comics/projects/blue-purple-pages01-21-v11.json",
+  "sourceSha256": "8f37928692257ae77a2b835ff91a043e4512590f8262d81cb444f51efbea3d92",
+  "engineVersion": "1.4.1",
+  "publicationSha256": "81de45ac8f66c56a8394078324312547e6fd87cb87f55c2feaf38786a3696af3",
+  "duration": 491.9,
+  "savedSeconds": 92.4,
+  "voices": 99,
+  "storyPages": 21,
+  "entries": 22,
+  "openedCaptures": [
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v2/desktop-manual-overview-page09.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v2/desktop-page09-first-case.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v2/mobile-page09-first-case.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v2/mobile-final-case.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/preview-v1/desktop-manual-overview-page09.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/preview-v1/desktop-page09-first-case.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/preview-v1/mobile-page09-first-case.png",
+    "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/preview-v1/mobile-final-case.png"
+  ],
+  "limitations": [
+    "No human audio listening.",
+    "No continuous full-duration viewing.",
+    "Internet verification will be recorded separately after Pages deployment."
+  ],
+  "tools": [
+    {
+      "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/qa/audit.cjs",
+      "sha256": "0205ea3300bfdb37cb099a445a6388703e19b06d346cd3e8262f1b2765ed14e4"
+    },
+    {
+      "file": "docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/qa/browser.cjs",
+      "sha256": "b95a3e05f64b62823d594f920121e32df89338dc64fcdaab6266b9c35719db4d"
+    }
+  ],
+  "runs": [
+    {
+      "name": "static-v1",
+      "status": "passed",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/static-v1/report.json",
+      "sha256": "b68df57a1bb65b7a0b2ff26d38f6e51eb341f6ae4282f355b9352b3f02d13adb",
+      "tests": [
+        {
+          "name": "Sélections et sources v10 intactes",
+          "status": "passed"
+        },
+        {
+          "name": "Couverture12s,21pages,99prises,491.9s",
+          "status": "passed"
+        },
+        {
+          "name": "cover: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "cover: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "cover: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-01: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-01: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-01: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-02: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-02: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-02: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-03: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-03: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-03: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-04: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-04: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-04: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-05: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-05: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-05: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-06: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-06: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-06: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-07: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-07: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-07: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-08: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-08: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-08: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-09: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-09: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-09: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-10: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-10: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-10: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-11: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-11: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-11: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-12: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-12: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-12: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-13: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-13: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-13: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-14: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-14: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-14: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-15: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-15: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-15: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-16: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-16: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-16: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-17: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-17: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-17: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-18: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-18: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-18: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-19: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-19: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-19: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-20: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-20: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-20: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "page-21: seuls les temps autorisés changent",
+          "status": "passed"
+        },
+        {
+          "name": "page-21: voix natives et temps de lecture préservés",
+          "status": "passed"
+        },
+        {
+          "name": "page-21: gestes, effets et révélations recalés",
+          "status": "passed"
+        },
+        {
+          "name": "21raccords sans trou ni pleinepage automatique",
+          "status": "passed"
+        }
+      ],
+      "captures": []
+    },
+    {
+      "name": "native-v1",
+      "status": "failed",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v1/report.json",
+      "sha256": "36579490934e1b7fc369bef558552b0691c7dcdbc6c78bec0c4a9fa456b4a826",
+      "tests": [],
+      "captures": [],
+      "error": "page.goto: net::ERR_CONNECTION_TIMED_OUT at http://127.0.0.1:50590/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v11.json\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:50590/anime/motion-comics/reader.html?manifest=/anime/motion-comics/projects/blue-purple-pages01-21-v11.json\", waiting until \"load\"\u001b[22m\n\n    at main (D:\\AgenticCoding\\cyberpunk-holt\\docs\\comics\\blue-purple-motion\\production\\chapter-03-continuation\\rhythm-01\\qa\\browser.cjs:44:16)"
+    },
+    {
+      "name": "native-v2",
+      "status": "passed",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v2/report.json",
+      "sha256": "d23065a782902c8d2f165c8a4f673ec547124282397a6aaa3d742be33dbbb2f4",
+      "tests": [
+        {
+          "name": "22entrées,99voix et491.9s dans le navigateur",
+          "status": "passed"
+        },
+        {
+          "name": "21raccords et premièrecase sans zoom depuis une pleinepage",
+          "status": "passed"
+        },
+        {
+          "name": "transition caméra terminée à0.4s et5–8conservées0.3s",
+          "status": "passed"
+        },
+        {
+          "name": "enchaînement réel1→2,8→9,16→17,20→21 sans vuepage",
+          "status": "passed"
+        },
+        {
+          "name": "vuepage manuelle garde la position, Lire restitue la case, pause fige le récit",
+          "status": "passed"
+        },
+        {
+          "name": "cadrage desktop/mobile et dernièrecase conservée en fin",
+          "status": "passed"
+        }
+      ],
+      "captures": [
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v2/desktop-manual-overview-page09.png",
+          "sha256": "4c3a910bff3bba62e2ab029aee485d73b568866b1c143e1832b2ce4f84b9a1e3"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v2/desktop-page09-first-case.png",
+          "sha256": "57e34d3679bb9867c6835540e70c306f09886435db6f2011ecab2e5f410535e7"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v2/mobile-page09-first-case.png",
+          "sha256": "0fccac66ee8bbf70e69fa9f16678208731f2e09a3baec6f7ca43d24e7bf80817"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/native-v2/mobile-final-case.png",
+          "sha256": "761ba1c449473ef8d1e4d6c7a8d3f90de7ae64e7ec4cebe21ad0f23b935db73d"
+        }
+      ]
+    },
+    {
+      "name": "preview-v1",
+      "status": "passed",
+      "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/preview-v1/report.json",
+      "sha256": "21162643fa28cf4d3fdeed0cbeda9e4ed2226fc89045e4a067c924858482435d",
+      "tests": [
+        {
+          "name": "identité du paquet et moteur1.4.1 réellement servis",
+          "status": "passed"
+        },
+        {
+          "name": "22entrées,99voix et491.9s dans le navigateur",
+          "status": "passed"
+        },
+        {
+          "name": "21raccords et premièrecase sans zoom depuis une pleinepage",
+          "status": "passed"
+        },
+        {
+          "name": "transition caméra terminée à0.4s et5–8conservées0.3s",
+          "status": "passed"
+        },
+        {
+          "name": "enchaînement réel1→2,8→9,16→17,20→21 sans vuepage",
+          "status": "passed"
+        },
+        {
+          "name": "vuepage manuelle garde la position, Lire restitue la case, pause fige le récit",
+          "status": "passed"
+        },
+        {
+          "name": "cadrage desktop/mobile et dernièrecase conservée en fin",
+          "status": "passed"
+        },
+        {
+          "name": "seek froid suspend le récit et repart sur premièrecase",
+          "status": "passed"
+        }
+      ],
+      "captures": [
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/preview-v1/desktop-manual-overview-page09.png",
+          "sha256": "e1bbcf0603a85b0c6643f78acbd6bf467149b682eae0983972c57d0433447a23"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/preview-v1/desktop-page09-first-case.png",
+          "sha256": "9f7529f3e390e4a8aa4ce699ac35d8df732e2a8bacb0d7ae33cd918084cdf22e"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/preview-v1/mobile-page09-first-case.png",
+          "sha256": "ceab64a5636d395c4217f5b53c6bd97e0f889c62b7808a9586547360adf5eb57"
+        },
+        {
+          "file": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/qa/preview-v1/mobile-final-case.png",
+          "sha256": "6a7a02133550cf01d8dc1b5c2779713ca7fbe5a49aa49d450d68ca4efaf168dc"
+        }
+      ],
+      "resolvedURL": "http://127.0.0.1:50613/cyberpunk-holt/comics/blue-purple/v11/"
+    }
+  ]
+}

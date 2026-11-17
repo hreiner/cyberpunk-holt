@@ -32,13 +32,21 @@ technique garde son attente explicite des médias.
 
 ## Stockage et construction
 
-Le packager de cette livraison et le helper GitHub de `publish-01/` sont des outils
-du jalonv10 : sélection, version et compteurs attendus y sont explicites. Pour un
+Le packager conserve les contrats connusv10 etv11 ; le profil par défaut restev10.
+La correction de rythmev11 utilise explicitement
+`docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/PUBLISH.json`
+avec `publish.cjs --profile CHEMIN --runtime-ready`. Ce profil fixe sélection,
+version, dossiers de preuves/cache et gel moteur1.4.1. La vérification autonome
+exige491,9s et aucune vue page automatique sur cette version. Les commandes de
+génération historiquesv10 demandent leur ancien moteur gelé ; ne pas les réutiliser
+implicitement avec le moteur courant. Pour un
 nouveau lot, préparer sa propre configuration ou un nouveau script de production
 depuis la nouvelle sélection, puis vérifier ses contrats. Changer seulement `--source`
 en gardant le verrouv10 ne produit pas une nouvelle publication. Les commandes de
 restauration ci-dessous reprennent volontairement la version courante ; elles ne
-lancent pas la fabrication d'un prochain chapitre.
+lancent pas la fabrication d'un prochain chapitre. La redirection canonique suivie
+dans Git se met à jour explicitement après revue du paquet ; le packager n'écrase
+plus ce fichier de sélection lors d'une simple préparation de médias.
 
 Les binaires web volumineux restent dans une GitHub Release versionnée. Le dépôt
 contient les sources, la configuration et l'empreinte du paquet, et non les masters.

@@ -28,10 +28,12 @@ Séquence courante des quatre pages : [manifeste v4](projects/blue-purple-pages0
 L'ancien manifeste d'ensemble v2 et les prises v4 de départ restent conservés.
 Code et gabarits versionnables ici ; masters, prises et exports dans `art-masters/`.
 
-Sélection courante du8novembre : [couverture et21pages v10](projects/blue-purple-pages01-21-v10.json),
-584,3s,46sous-cases produites et rythme9–21 ralenti ; moteur web1.4.0 avec chargement progressif.
+Sélection courante du17novembre : [couverture et21pages v11](projects/blue-purple-pages01-21-v11.json),
+491,9s, mêmes46sous-cases et99voix. Moteur1.4.1 : transitions0,85→0,4s, pas de vues page
+automatiques, vue page manuelle indépendante de la position de lecture. Pages5–8
+déjà0,3s conservées, tenues/voix natives et son reconstruit sur les nouvelles ancres.
 [Lire en ligne](https://hreiner.github.io/cyberpunk-holt/comics/blue-purple/) ·
-[publication et relance](../../docs/comics/blue-purple-motion/production/chapter-03-continuation/publish-01/DELIVERY.md).
+[livraison et relance](../../docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/DELIVERY.md).
 La production native au moteur1.3.0 reste dans son archive historique.
 Les exemples et sélections1–4 cités ci-dessus restent historiques.
 Node et les dépendances Playwright du dépôt suffisent ; Edge et FFmpeg sont requis pour

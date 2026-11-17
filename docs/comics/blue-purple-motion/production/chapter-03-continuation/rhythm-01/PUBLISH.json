@@ -1,0 +1,9 @@
+{
+  "version": 11,
+  "source": "anime/motion-comics/projects/blue-purple-pages01-21-v11.json",
+  "selection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/SELECTION.json",
+  "private": "art-masters/motion-comics/blue-purple/chapter-03-continuation/rhythm-01/package",
+  "report": "docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/package",
+  "cache": "art-masters/motion-comics/blue-purple/chapter-03-continuation/publish-01/package/cache",
+  "runtimeSelection": "docs/comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/ENGINE-1.4.1.json"
+}

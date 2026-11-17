@@ -49,6 +49,14 @@ Estimer d'abord le temps de lecture français, puis recalculer sur les prises me
 sans les accélérer. Retirer les attentes vides tout en gardant compréhension, action et
 réaction. Ne pas inventer de nouvelles lignes seulement pour remplir un silence utile.
 
+Une lecture continue peut supprimer les vues page automatiques d'entrée et de sortie,
+sans supprimer la commande manuelle. Dans ce cas, la caméra doit commencer directement
+sur la première case : même une vue page de durée nulle ne doit pas devenir l'origine
+d'un zoom. Décaler les horloges des actions et sons sur leur tenue conservée ; ne pas
+réduire les voix ou gestes avec le temps de déplacement de la caméra. La correction
+[Blue Purplev11](../../comics/blue-purple-motion/production/chapter-03-continuation/rhythm-01/PLAN.md)
+illustre cette distinction ; ses0,4s ne sont pas une valeur universelle.
+
 Pour un événement, définir une ancre partagée à précision d'une image : avant → impact
 → après → réaction. Exemple de méthode, pas de temps universel : laisser la vitre entière
 dans le cadre stable, déclencher tir/bris ensemble, faire démarrer la réaction ensuite.
